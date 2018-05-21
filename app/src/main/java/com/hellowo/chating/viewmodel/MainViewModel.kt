@@ -32,8 +32,9 @@ class MainViewModel : ViewModel() {
         val result = realm.where(ChatRoom::class.java)
                 .sort("timestamp", Sort.DESCENDING)
                 .findAllAsync()
-        result.addChangeListener { _,changeSet ->
-            Log.d("loadChatRoom", changeSet.isCompleteResult.toString())
+        result.addChangeListener { result ,changeSet ->
+            Log.d("result.isLoaded", result.isLoaded.toString())
+            Log.d("changeSet", changeSet.isCompleteResult.toString())
         }
         return result
     }
