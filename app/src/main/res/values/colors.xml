@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff5a5f</color>
+    <color name="colorPrimaryDark">#fc642d</color>
+    <color name="colorAccent">#fc642d</color>
+    <color name="colorPrimaryAlpha">#60ff5a5f</color>
+
+    <!--
+        <color name="colorPrimary">#0080ff</color>
+        <color name="colorPrimaryDark">#03a6ff</color>
+        <color name="colorAccent">#434957</color>
+        <color name="colorPrimaryLight">#1ec0ff</color>
+        <color name="colorText">#03a6ff</color>
+        <color name="colorPrimaryAlpha">#800080ff</color>
+        <color name="colorPrimaryLightAlpha">#800080ff</color>
+    -->
+
+    <color name="background">#ffffff</color>
+    <color name="backgroundAlpha">#EEffffff</color>
+    <color name="backgroundDark">#f2f2f2</color>
+    <color name="backgroundDeepDark">#b4b7bc</color>
+    <color name="backgroundDarkAlpha">#EEf2f2f2</color>
+    <color name="iconTint">#dcdcdc</color>
+
+    <color name="primaryText">#de000000</color>
+    <color name="secondaryText">#89000000</color>
+    <color name="disableText">#60000000</color>
+    <color name="primaryWhiteText">#FFFFFFFF</color>
+    <color name="secondaryWhiteText">#b3FFFFFF</color>
+    <color name="disableWhiteText">#80FFFFFF</color>
+
+    <color name="test">#0F7BFF</color>
+    <!--
+    <color name="primaryText">#de000000</color>
+    <color name="secondaryText">#89000000</color>
+    <color name="disableText">#60000000</color>
+    <color name="primaryWhiteText">#FFFFFFFF</color>
+    <color name="secondaryWhiteText">#b3FFFFFF</color>
+    <color name="disableWhiteText">#80FFFFFF</color>
+     -->
+    <color name="black">#000000</color>
+    <color name="blackAlpha">#60000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="whiteAlpha">#40FFFFFF</color>
+    <color name="almostWhite">#fff7f7</color>
+    <color name="grey">#434957</color>
+    <color name="greyAlpha">#60434957</color>
+    <color name="red">#EE7785</color>
+    <color name="green">#67D5B5</color>
+    <color name="yellow">#FDD692</color>
+    <color name="blue">#84B1ED</color>
+    <color name="purple">#C89EC4</color>
+    <color name="transparent">#00000000</color>
+
+
+    <color name="lol_light_3">#a3daff</color>
+    <color name="lol_light_2">#1ec0ff</color>
+    <color name="lol_primary">#0080ff</color>
+    <color name="lol_light">#03a6ff</color>
+</resources>

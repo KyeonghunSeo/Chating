@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1041390626835",
+    "firebase_url": "https://chating-13e78.firebaseio.com",
+    "project_id": "chating-13e78",
+    "storage_bucket": "chating-13e78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041390626835:android:ef5ea0befa326893",
+        "android_client_info": {
+          "package_name": "com.hellowo.chating"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041390626835-48nd0g3ghcm7fpvvrafl1hovj5uvd679.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hellowo.chating",
+            "certificate_hash": "e43e4e79f4a6b1ea85e237438adfa9950abddd10"
+          }
+        },
+        {
+          "client_id": "1041390626835-mc3iq27k38pcsl5qaeeel6spe4vll8r9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7QhGx2qJHpSG-Uc0OKgngFe9VbYRoVjA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1041390626835-mc3iq27k38pcsl5qaeeel6spe4vll8r9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

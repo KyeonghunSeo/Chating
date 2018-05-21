@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:id="@+id/rootLy"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:paddingLeft="60dp"
+        android:paddingRight="60dp"
+        android:clipChildren="false">
+
+        <TextView
+            android:id="@+id/logoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone"
+            android:text="Couple Inside"/>
+
+        <ImageView
+            android:id="@+id/logoImg"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginBottom="@dimen/normal_margin"/>
+
+        <FrameLayout
+            android:id="@+id/profileLy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginBottom="@dimen/normal_margin">
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:tint="@color/iconTint"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_gravity="bottom|center_horizontal">
+
+                <TextView
+                    android:id="@+id/maleBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:textColor="@color/disableText"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/femaleBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:textColor="@color/disableText"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/emailEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:hint="@string/enter_email"
+            android:paddingLeft="@dimen/normal_margin"
+            android:paddingRight="@dimen/normal_margin"
+            android:lines="1"
+            android:textSize="15dp"
+            android:gravity="center_vertical"
+            android:textCursorDrawable="@null"/>
+
+        <EditText
+            android:id="@+id/passwordEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:hint="@string/enter_password"
+            android:paddingLeft="@dimen/normal_margin"
+            android:paddingRight="@dimen/normal_margin"
+            android:lines="1"
+            android:textSize="15dp"
+            android:gravity="center_vertical"
+            android:textCursorDrawable="@null" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/nameEdit"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:ems="10"
+                android:hint="@string/enter_nick_name"
+                android:paddingLeft="@dimen/normal_margin"
+                android:paddingRight="@dimen/normal_margin"
+                android:maxLines="1"
+                android:textSize="15dp"
+                android:gravity="center_vertical"
+                android:textCursorDrawable="@null"
+                android:maxLength="8"
+                android:nextFocusDown="@id/ageEdit"/>
+
+            <EditText
+                android:id="@+id/ageEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="numberSigned"
+                android:ems="10"
+                android:paddingLeft="@dimen/normal_margin"
+                android:paddingRight="@dimen/normal_margin"
+                android:maxLines="1"
+                android:textSize="15dp"
+                android:gravity="center_vertical"
+                android:textCursorDrawable="@null"
+                android:maxLength="2"
+                android:layout_marginRight="3dp"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/locationLy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/locationText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/normal_margin"
+                android:paddingRight="@dimen/normal_margin"
+                android:inputType="text"
+                android:maxLines="1"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:textSize="15dp"
+                android:gravity="center_vertical"/>
+
+            <View
+                android:id="@+id/locationBtn"
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:foreground="?android:attr/selectableItemBackground" />
+
+        </FrameLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:indeterminateTint="@color/colorPrimary"
+            android:layout_marginTop="@dimen/extra_margin"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="bottom|center_horizontal"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/loginBtn"
+            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/big_margin"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="5dp">
+
+            <TextView
+                android:id="@+id/textViewCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="16sp"/>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/optionBtn"
+            android:padding="@dimen/normal_margin"
+            android:textColor="@color/disableText"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"/>
+
+    </LinearLayout>
+
+</FrameLayout>
