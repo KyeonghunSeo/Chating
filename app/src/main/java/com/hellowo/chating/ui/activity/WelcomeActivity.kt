@@ -6,9 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.hellowo.chating.AUTH_URL
 import com.hellowo.chating.R
-import io.realm.ObjectServerError
-import io.realm.SyncCredentials
-import io.realm.SyncUser
+import com.hellowo.chating.USER_URL
+import io.realm.*
 import kotlinx.android.synthetic.main.activity_welcome.*
 
 class WelcomeActivity : AppCompatActivity() {
@@ -17,10 +16,7 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
         loginBtn.setOnClickListener { login() }
-        if (SyncUser.current() != null) {
-            val mainIntent = Intent(this@WelcomeActivity, MainActivity::class.java)
-            startActivity(mainIntent)
-        }
+        SyncUser.current()?.let { startMainActivity(it) }
     }
 
     private fun login() {
@@ -30,9 +26,15 @@ class WelcomeActivity : AppCompatActivity() {
                 Log.e("Login error", error.toString())
             }
             override fun onSuccess(result: SyncUser?) {
-                val mainIntent = Intent(this@WelcomeActivity, MainActivity::class.java)
-                startActivity(mainIntent)
+                result?.let { startMainActivity(it) }
             }
         })
+    }
+
+    private fun startMainActivity(result: SyncUser) {
+        val config = SyncConfiguration.Builder(result, USER_URL).partialRealm().build()
+        Realm.setDefaultConfiguration(config)
+        val mainIntent = Intent(this@WelcomeActivity, MainActivity::class.java)
+        startActivity(mainIntent)
     }
 }

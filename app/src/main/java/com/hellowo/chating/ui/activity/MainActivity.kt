@@ -8,6 +8,7 @@ import com.hellowo.chating.R
 import com.hellowo.chating.ui.adapter.ChatRoomAdapter
 import com.hellowo.chating.viewmodel.MainViewModel
 import com.hellowo.colosseum.ui.dialog.EnterCommentDialog
+import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -23,14 +24,15 @@ class MainActivity : AppCompatActivity() {
             }.showNow(supportFragmentManager, null)
         }
 
+        titleText.setOnLongClickListener {
+            SyncUser.current()?.logOut()
+            finish()
+            return@setOnLongClickListener false
+        }
+
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = ChatRoomAdapter(this, viewModel.loadChatRoom()!!){
 
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.clear()
     }
 }

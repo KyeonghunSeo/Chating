@@ -17,9 +17,7 @@ class MainViewModel : ViewModel() {
     init {
     }
 
-    fun clear() {
-        realm.close()
-    }
+    fun clear() {}
 
     fun insert(name: String) {
         realm.executeTransactionAsync { realm ->
@@ -37,5 +35,10 @@ class MainViewModel : ViewModel() {
             Log.d("changeSet", changeSet.isCompleteResult.toString())
         }
         return result
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        realm.close()
     }
 }
