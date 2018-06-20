@@ -44,7 +44,7 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 
     //view
-    compile 'me.everything:overscroll-decor-android:1.0.4'
+    implementation "me.everything:overscroll-decor-android:1.0.4"
 
     implementation 'io.realm:android-adapters:3.0.0'
 }

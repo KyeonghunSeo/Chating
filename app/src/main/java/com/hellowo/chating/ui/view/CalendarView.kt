@@ -2,9 +2,12 @@ package com.hellowo.chating.ui.view
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -13,6 +16,7 @@ import android.widget.FrameLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import com.hellowo.chating.R
+import com.hellowo.chating.dpToPx
 import com.hellowo.chating.l
 import java.util.*
 
@@ -20,6 +24,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     companion object {
         val maxCellNum = 42
         val tempCal = Calendar.getInstance()
+
+        val dateArea = dpToPx(50)
+        val dateTextLayoutParams = FrameLayout.LayoutParams(dateArea, dateArea)
+        val dateTextSize = 20f
     }
 
     private val rootLy = FrameLayout(context)
@@ -28,19 +36,22 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private val cal = Calendar.getInstance()
 
-    private var calendarHeight = 0
     private val column = 7
     private var rows = 0
     private var startPos = 0
     private var endPos = 0
     private val cellX = FloatArray(maxCellNum, { _ -> 0f})
     private val cellY = FloatArray(maxCellNum, { _ -> 0f})
+    var onDrawed: ((Calendar) -> Unit)? = null
 
     init {
         rootLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         addView(rootLy)
         rootLy.addView(calendarLy)
-        dateTexts.forEach { calendarLy.addView(it) }
+        dateTexts.forEach {
+            setDateTextLook(it)
+            calendarLy.addView(it)
+        }
         viewTreeObserver.addOnGlobalLayoutListener(
                 object : ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
@@ -51,11 +62,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun drawCalendar() {
-        l("==========drawCalendar=========")
-        l(height.toString())
+        l("==========START drawCalendar=========")
+        l(""+ cal.get(Calendar.YEAR) + "년" + (cal.get(Calendar.MONTH) + 1) + "월" + cal.get(Calendar.DATE) + "일")
+        l("캘린더 높이 : " + height.toString())
 
-        calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, height)
         setCalendarData()
+        calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, height)
 
         val minW = width.toFloat() / column
         val minH = height.toFloat() / rows
@@ -76,6 +88,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 dateTexts[i].visibility = View.GONE
             }
         }
+
+        onDrawed?.invoke(cal)
+        l("==========END drawCalendar=========")
     }
 
     private fun setCalendarData() {
@@ -86,10 +101,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         rows = (endPos + 1) / 7 + if ((endPos + 1) % 7 > 0) 1 else 0
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        calendarHeight = MeasureSpec.getSize(heightMeasureSpec)
-        if(calendarHeight > 0) {
-        }
+    private fun setDateTextLook(textView: TextView) {
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dateTextSize)
+        //textView.setTypeface(null, Typeface.BOLD)
+        textView.gravity = Gravity.CENTER
+        textView.layoutParams = dateTextLayoutParams
+    }
+
+    fun moveMonth(offset: Int) {
+        cal.add(Calendar.MONTH, offset)
+        drawCalendar()
     }
 }

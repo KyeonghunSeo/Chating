@@ -41,7 +41,7 @@
     <color name="black">#000000</color>
     <color name="blackAlpha">#60000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="whiteAlpha">#40FFFFFF</color>
+    <color name="whiteAlpha">#CCFFFFFF</color>
     <color name="almostWhite">#fff7f7</color>
     <color name="grey">#434957</color>
     <color name="greyAlpha">#60434957</color>
