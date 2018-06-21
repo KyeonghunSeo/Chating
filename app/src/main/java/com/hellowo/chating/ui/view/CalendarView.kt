@@ -1,11 +1,7 @@
 package com.hellowo.chating.ui.view
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
-import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -15,43 +11,51 @@ import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.ScrollView
 import android.widget.TextView
-import com.hellowo.chating.R
 import com.hellowo.chating.dpToPx
 import com.hellowo.chating.l
 import java.util.*
 
-class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ScrollView(context, attrs, defStyleAttr) {
+class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
-        val maxCellNum = 42
         val tempCal = Calendar.getInstance()
-
-        val dateArea = dpToPx(50)
+        val maxCellNum = 42
+        val dateArea = dpToPx(40)
         val dateTextLayoutParams = FrameLayout.LayoutParams(dateArea, dateArea)
-        val dateTextSize = 20f
+        val dateTextSize = 18f
+        val animDur = 1000L
     }
 
+    // views
+    private val scrollView = ScrollView(context)
     private val rootLy = FrameLayout(context)
     private val calendarLy = FrameLayout(context)
     private val dateTexts = Array(maxCellNum, { _ -> TextView(context)})
-
+    // view 관련
+    // calendar 관련
     private val cal = Calendar.getInstance()
-
     private val column = 7
     private var rows = 0
     private var startPos = 0
     private var endPos = 0
+    private var cellW = 0f
+    private var cellH = 0f
     private val cellX = FloatArray(maxCellNum, { _ -> 0f})
     private val cellY = FloatArray(maxCellNum, { _ -> 0f})
     var onDrawed: ((Calendar) -> Unit)? = null
 
     init {
-        rootLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        addView(rootLy)
+        addView(scrollView)
+        scrollView.addView(rootLy)
         rootLy.addView(calendarLy)
+
+        scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        rootLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+
         dateTexts.forEach {
             setDateTextLook(it)
             calendarLy.addView(it)
         }
+
         viewTreeObserver.addOnGlobalLayoutListener(
                 object : ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
@@ -69,15 +73,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         setCalendarData()
         calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, height)
 
-        val minW = width.toFloat() / column
-        val minH = height.toFloat() / rows
+        cellW = width.toFloat() / column
+        cellH = height.toFloat() / rows
         val cellNum = column * rows
 
         tempCal.add(Calendar.DATE, -(startPos + 1))
         for (i in 0 until maxCellNum) {
             if(i < cellNum) {
-                cellX[i] = i % column * minW
-                cellY[i] = i / column * minH
+                cellX[i] = i % column * cellW
+                cellY[i] = i / column * cellH
                 tempCal.add(Calendar.DATE, 1)
 
                 dateTexts[i].visibility = View.VISIBLE
@@ -111,5 +115,28 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun moveMonth(offset: Int) {
         cal.add(Calendar.MONTH, offset)
         drawCalendar()
+
+        /*
+        val animSet = AnimatorSet()
+        if(offset < 0) {
+            animSet.playTogether(
+                    ObjectAnimator.ofFloat(scrollView, "translationY", 0 - height, 0f),
+                    ObjectAnimator.ofFloat(scrollView, "alpha", 0f, 1f))
+        }else {
+            animSet.playTogether(
+                    ObjectAnimator.ofFloat(scrollView, "translationY", height + 0, 0f),
+                    ObjectAnimator.ofFloat(scrollView, "alpha", 0f, 1f))
+        }
+        animSet.addListener(object : Animator.AnimatorListener{
+            override fun onAnimationRepeat(p0: Animator?) {}
+            override fun onAnimationEnd(p0: Animator?) {
+            }
+            override fun onAnimationCancel(p0: Animator?) {}
+            override fun onAnimationStart(p0: Animator?) {}
+        })
+        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.duration = 2500
+        animSet.start()
+        */
     }
 }

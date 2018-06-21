@@ -58,7 +58,7 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="@dimen/normal_margin"
-        app:cardBackgroundColor="@color/purple"
+        app:cardBackgroundColor="@color/white"
         app:cardElevation="5dp"
         app:cardCornerRadius="25dp">
 
