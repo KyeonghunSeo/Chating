@@ -7,6 +7,7 @@ import io.realm.SyncConfiguration
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
+        AppRes.init(this)
         Realm.init(this)
     }
 }

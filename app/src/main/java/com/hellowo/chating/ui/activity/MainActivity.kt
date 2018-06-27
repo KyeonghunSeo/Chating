@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.hellowo.chating.R
+import com.hellowo.chating.TIME
 import com.hellowo.chating.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
@@ -30,7 +31,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         insertBtn.setOnClickListener {
-            startActivity(Intent(this@MainActivity, TimeObjectActivity::class.java))
+            val intent = Intent(this@MainActivity, TimeObjectActivity::class.java)
+            intent.putExtra(TIME, calendarView.getSelectedCalendar().timeInMillis)
+            startActivity(intent)
         }
     }
 }
