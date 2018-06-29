@@ -1,10 +1,10 @@
 package com.hellowo.chating.ui.activity
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.hellowo.chating.R
 import com.hellowo.chating.TIME
 import com.hellowo.chating.viewmodel.MainViewModel

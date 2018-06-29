@@ -1,10 +1,10 @@
-package com.hellowo.colosseum.ui.dialog
+package com.hellowo.chating.ui.dialog
 
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.BottomSheetDialogFragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.View
 
 open class BottomSheetDialog : BottomSheetDialogFragment() {

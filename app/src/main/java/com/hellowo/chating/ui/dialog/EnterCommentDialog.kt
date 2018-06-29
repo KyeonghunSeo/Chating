@@ -1,11 +1,11 @@
-package com.hellowo.colosseum.ui.dialog
+package com.hellowo.chating.ui.dialog
 
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.CoordinatorLayout
-import android.support.v7.widget.CardView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.cardview.widget.CardView
 import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
