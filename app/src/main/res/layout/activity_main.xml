@@ -65,6 +65,14 @@
 
     </androidx.cardview.widget.CardView>
 
+    <com.hellowo.chating.ui.view.DailySwipeView
+        android:id="@+id/dailySwipeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:elevation="10dp">
+    </com.hellowo.chating.ui.view.DailySwipeView>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="35dp"

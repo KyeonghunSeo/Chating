@@ -37,13 +37,14 @@ dependencies {
     //GoogleSupport
     implementation "androidx.appcompat:appcompat:1.0.0-alpha3"
     implementation "com.google.android.material:material:1.0.0-alpha3"
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
     //LifeCycle
     implementation "androidx.lifecycle:lifecycle-runtime:2.0.0-alpha1"
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0-alpha1"
-    //view
-
+    //realm
     implementation 'io.realm:android-adapters:3.0.0'
+    //view
 }
 
 

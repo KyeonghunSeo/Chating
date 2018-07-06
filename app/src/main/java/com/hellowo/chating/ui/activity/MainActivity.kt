@@ -1,9 +1,11 @@
 package com.hellowo.chating.ui.activity
 
 import android.annotation.SuppressLint
+import android.app.ActivityOptions
 import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.hellowo.chating.R
 import com.hellowo.chating.TIME
@@ -26,14 +28,19 @@ class MainActivity : AppCompatActivity() {
 
         calendarView.onDrawed = { cal ->
             val date = cal.time
-            yearText.text = yearDf.format(date)
-            monthText.text = monthDf.format(date)
+            //yearText.text = yearDf.format(date)
+            //monthText.text = monthDf.format(date)
         }
+        calendarView.visibility = View.GONE
 
         insertBtn.setOnClickListener {
+            /*
             val intent = Intent(this@MainActivity, TimeObjectActivity::class.java)
             intent.putExtra(TIME, calendarView.getSelectedCalendar().timeInMillis)
             startActivity(intent)
+            */
+            dailySwipeView.show(calendarView.getSelectedCalendar(), true)
         }
+
     }
 }
