@@ -22,11 +22,13 @@ object TimeObjectManager {
                 .sort("dtStart", Sort.ASCENDING)
                 .findAllAsync()
         timeObjectList?.addChangeListener { result ,changeSet ->
+            l("==========START timeObjectdataSetChanged=========")
             l("result.isLoaded ${result.isLoaded}")
             l("changeSet ${changeSet.isCompleteResult}")
             result.forEach {
                 l(it.toString())
             }
+            l("==========END timeObjectdataSetChanged=========")
         }
     }
 }

@@ -5,33 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.hellowo.chating.ui.view.SwipeNestedScrollView
-        android:id="@+id/child_0"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <include layout="@layout/item_daily_swipe_pager" />
-
-    </com.hellowo.chating.ui.view.SwipeNestedScrollView>
-
-    <com.hellowo.chating.ui.view.SwipeNestedScrollView
-        android:id="@+id/child_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <include layout="@layout/item_daily_swipe_pager" />
-
-    </com.hellowo.chating.ui.view.SwipeNestedScrollView>
-
-    <com.hellowo.chating.ui.view.SwipeNestedScrollView
-        android:id="@+id/child_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <include layout="@layout/item_daily_swipe_pager" />
-
-    </com.hellowo.chating.ui.view.SwipeNestedScrollView>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/insertBtn"
         android:layout_width="50dp"

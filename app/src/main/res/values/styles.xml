@@ -3,8 +3,8 @@
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/red</item>
         <item name="colorAccent">@color/black</item>
 
         <!-- enable window content transitions -->
