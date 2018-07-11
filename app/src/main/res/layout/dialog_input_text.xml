@@ -6,13 +6,13 @@
     android:layout_height="wrap_content"
     android:background="@color/transparent">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="32dp"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="0dp"
         app:cardCornerRadius="16dp">
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <FrameLayout
         android:id="@+id/rootLy"
@@ -43,7 +43,7 @@
                 android:textSize="14dp"
                 android:textColor="@color/primaryText"/>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/sendBtn"
                 android:layout_height="30dp"
                 android:layout_width="50dp"
@@ -64,7 +64,7 @@
                     android:gravity="center"
                     android:textSize="14dp"/>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 

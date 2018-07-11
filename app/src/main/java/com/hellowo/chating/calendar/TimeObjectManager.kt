@@ -1,5 +1,6 @@
 package com.hellowo.chating.calendar
 
+import android.os.AsyncTask
 import android.util.Log
 import com.hellowo.chating.l
 import io.realm.Realm
@@ -14,18 +15,23 @@ object TimeObjectManager {
     }
 
     fun setTimeObjectListData(calendarView: CalendarView) {
-        val realm = Realm.getDefaultInstance()
-        timeObjectList?.removeAllChangeListeners()
-        timeObjectList = realm.where(TimeObject::class.java)
-                .greaterThanOrEqualTo("dtEnd", calendarView.calendarStartTime)
-                .lessThanOrEqualTo("dtStart", calendarView.calendarEndTime)
-                .sort("dtStart", Sort.ASCENDING)
-                .findAllAsync()
-        timeObjectList?.addChangeListener { result ,changeSet ->
-            l("result.isLoaded ${result.isLoaded}")
-            l("changeSet ${changeSet.isCompleteResult}")
-            result.forEach {
-                l(it.toString())
+        Realm.getDefaultInstance().use { realm ->
+            timeObjectList?.removeAllChangeListeners()
+            timeObjectList = realm.where(TimeObject::class.java)
+                    .greaterThanOrEqualTo("dtEnd", calendarView.calendarStartTime)
+                    .lessThanOrEqualTo("dtStart", calendarView.calendarEndTime)
+                    .sort("dtStart", Sort.ASCENDING)
+                    .findAllAsync()
+            timeObjectList?.addChangeListener { result ,changeSet ->
+                l("result.isLoaded ${result.isLoaded}")
+                l("changeSet ${changeSet.isCompleteResult}")
+                l("==========START timeObjectdataSetChanged=========")
+                val t = System.currentTimeMillis()
+                result.forEach {
+                    l(it.toString())
+                }
+                l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
+                l("==========END timeObjectdataSetChanged=========")
             }
         }
     }

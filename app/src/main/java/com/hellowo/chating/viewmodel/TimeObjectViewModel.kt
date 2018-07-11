@@ -1,11 +1,14 @@
 package com.hellowo.chating.viewmodel
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import android.annotation.SuppressLint
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import android.content.Intent
+import android.os.AsyncTask
 import com.hellowo.chating.ID
 import com.hellowo.chating.TIME
 import com.hellowo.chating.calendar.TimeObject
+import com.hellowo.chating.l
 import io.realm.Realm
 import java.util.*
 
@@ -43,13 +46,14 @@ class TimeObjectViewModel : ViewModel() {
     }
 
     fun save() {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransactionAsync { realm ->
-            editingTimeObjectLiveData.value?.let { timeObject ->
-                if(timeObject.id == null) {
-                    timeObject.id = UUID.randomUUID().toString()
-                    timeObject.dtUpdated = System.currentTimeMillis()
-                    realm.insert(timeObject)
+        Realm.getDefaultInstance().use { realm ->
+            realm.executeTransactionAsync{ realm ->
+                editingTimeObjectLiveData.value?.let { timeObject ->
+                    if(timeObject.id == null) {
+                        timeObject.id = UUID.randomUUID().toString()
+                        timeObject.dtUpdated = System.currentTimeMillis()
+                        realm.insert(timeObject)
+                    }
                 }
             }
         }

@@ -1,11 +1,11 @@
 package com.hellowo.chating.ui.activity
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.hellowo.chating.R
 import com.hellowo.chating.calendar.TimeObject
 import com.hellowo.chating.l

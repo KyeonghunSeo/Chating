@@ -3,6 +3,10 @@ package com.hellowo.chating
 import android.content.res.Resources
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.transition.Slide
+import androidx.transition.Transition
 import java.util.*
 
 fun l(s: String){
@@ -30,4 +34,13 @@ fun setCalendarTime23 (cal: Calendar) {
     cal.set(Calendar.MINUTE, 59)
     cal.set(Calendar.SECOND, 59)
     cal.set(Calendar.MILLISECOND, 999)
+}
+
+fun makeFromBottomSlideTransition() : Transition {
+    val transition = Slide()
+    transition.slideEdge = Gravity.BOTTOM
+    transition.duration = 250
+    transition.interpolator = FastOutSlowInInterpolator()
+    return transition
+
 }

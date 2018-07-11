@@ -1,11 +1,10 @@
-package com.hellowo.colosseum.ui.dialog
+package com.hellowo.chating.ui.dialog
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.BottomSheetDialogFragment
 import android.view.View
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 open class BottomSheetDialog : BottomSheetDialogFragment() {
     internal var sheetBehavior: BottomSheetBehavior<*>? = null
@@ -17,11 +16,6 @@ open class BottomSheetDialog : BottomSheetDialogFragment() {
             }
         }
         override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
     }
 
     @SuppressLint("RestrictedApi")

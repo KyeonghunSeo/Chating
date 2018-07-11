@@ -2,7 +2,7 @@ package com.hellowo.chating.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import com.hellowo.chating.AUTH_URL
 import com.hellowo.chating.R

@@ -1,10 +1,10 @@
 package com.hellowo.chating.ui.activity
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.hellowo.chating.R
 import com.hellowo.chating.TIME
 import com.hellowo.chating.viewmodel.MainViewModel
@@ -31,9 +31,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         insertBtn.setOnClickListener {
+            //timeObjectView.onClick()
+
             val intent = Intent(this@MainActivity, TimeObjectActivity::class.java)
             intent.putExtra(TIME, calendarView.getSelectedCalendar().timeInMillis)
             startActivity(intent)
         }
+
     }
 }

@@ -1,7 +1,7 @@
 package com.hellowo.chating.viewmodel
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import android.util.Log
 import com.hellowo.chating.USER_URL
 import com.hellowo.chating.model.ChatRoom

@@ -1,11 +1,11 @@
-package com.hellowo.colosseum.ui.dialog
+package com.hellowo.chating.ui.dialog
 
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.CoordinatorLayout
-import android.support.v7.widget.CardView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.cardview.widget.CardView
 import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -24,6 +24,9 @@ class EnterCommentDialog(private val dialogInterface: (String) -> Unit) : Bottom
         sheetBehavior = layoutParams.behavior as BottomSheetBehavior<*>?
         if (sheetBehavior != null) {
             sheetBehavior?.setBottomSheetCallback(mBottomSheetBehaviorCallback)
+            dialog.setOnShowListener {
+                //sheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
+            }
 
             val messageInput = contentView.findViewById<EditText>(R.id.messageInput)
             messageInput.setHint(R.string.enter_comment)
@@ -38,9 +41,7 @@ class EnterCommentDialog(private val dialogInterface: (String) -> Unit) : Bottom
 
             messageInput.postDelayed({
                 val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.showSoftInput(messageInput,
-                        InputMethodManager.SHOW_IMPLICIT)
-            }, 0)
+                imm.showSoftInput(messageInput, InputMethodManager.SHOW_IMPLICIT)}, 0)
         }
     }
 }
