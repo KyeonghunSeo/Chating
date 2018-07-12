@@ -5,6 +5,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.Transition
 import java.util.*
@@ -42,5 +43,12 @@ fun makeFromBottomSlideTransition() : Transition {
     transition.duration = 250
     transition.interpolator = FastOutSlowInInterpolator()
     return transition
+}
 
+fun makeFadeInTransition() : Transition {
+    val transition = Fade()
+    transition.mode = Fade.MODE_IN
+    transition.duration = 250
+    transition.interpolator = FastOutSlowInInterpolator()
+    return transition
 }

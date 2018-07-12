@@ -12,13 +12,12 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var color: Int = Color.BLACK,
                       var location: String? = null,
                       var description: String? = null,
+                      var allday: Boolean = false,
                       var dtStart: Long = Long.MIN_VALUE,
                       var dtEnd: Long = Long.MIN_VALUE,
                       var dtUpdated: Long = Long.MIN_VALUE,
                       var timeZone: String? = null): RealmObject() {
     override fun toString(): String {
-        return "TimeObject(id=$id, type=$type, title=$title, color=$color, location=$location, description=$description, " +
-                "dtStart=${DateFormat.getDateTimeInstance().format(dtStart)}, dtEnd=${DateFormat.getDateTimeInstance().format(dtEnd)}, " +
-                "dtUpdated=${DateFormat.getDateTimeInstance().format(dtUpdated)}, timeZone=$timeZone)"
+        return "TimeObject(id=$id, type=$type, title=$title, color=$color, location=$location, description=$description, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtUpdated=$dtUpdated, timeZone=$timeZone)"
     }
 }

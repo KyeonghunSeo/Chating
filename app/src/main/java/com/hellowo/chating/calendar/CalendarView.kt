@@ -12,10 +12,8 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewTreeObserver
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
@@ -26,51 +24,48 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     companion object {
         private val todayCal: Calendar = Calendar.getInstance()
         private val tempCal: Calendar = Calendar.getInstance()
-        private val topPadding = dpToPx(0)
+        private val topPadding = dpToPx(70)
         private val bottomPadding = dpToPx(50)
-        private val dateArea = dpToPx(40)
-        private val dateTextLayoutParams = FrameLayout.LayoutParams(dateArea, dateArea)
         const val maxCellNum = 42
         const val dateTextSize = 13f
         const val animDur = 250L
+        const val columns = 7
     }
 
     private val scrollView = ScrollView(context)
     private val rootLy = FrameLayout(context)
     private val calendarLy = FrameLayout(context)
-    private val weekLys = Array(6) { _ -> FrameLayout(context)}
+    val weekLys = Array(6) { _ -> FrameLayout(context)}
     private val dateLys = Array(maxCellNum) { _ -> FrameLayout(context)}
     private val dateTexts = Array(maxCellNum) { _ -> TextView(context)}
 
-    private val selectedCal = Calendar.getInstance()
+    val selectedCal = Calendar.getInstance()
     private var selectedCellNum = -1
     private var lastSelectAnimSet: AnimatorSet? = null
     private var lastUnSelectAnimSet: AnimatorSet? = null
 
-    private val column = 7
-    private var rows = 0
-    private var startPos = 0
-    private var endPos = 0
-    private var cellW = 0f
-    private var cellH = 0f
-    private val cellTimeMills = LongArray(maxCellNum) { _ -> Long.MIN_VALUE}
-
+    val cellTimeMills = LongArray(maxCellNum) { _ -> Long.MIN_VALUE}
     var calendarStartTime = Long.MAX_VALUE
     var calendarEndTime = Long.MAX_VALUE
     var onDrawed: ((Calendar) -> Unit)? = null
+    val dateArea = dpToPx(40)
+    var startPos = 0
+    var endPos = 0
+    var calendarHeight = 0
+    var cellW = 0f
+    var cellH = 0f
+    var rows = 0
 
     init {
         CalendarSkin.init(this)
         createViews()
         setLayout()
-
-        viewTreeObserver.addOnGlobalLayoutListener(
-                object : ViewTreeObserver.OnGlobalLayoutListener {
-                    override fun onGlobalLayout() {
-                        viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        drawCalendar()
-                    }
-                })
+        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                drawCalendar()
+            }
+        })
     }
 
     private fun createViews() {
@@ -105,8 +100,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
             calendarLy.addView(weekLy)
         }
-
-        dateTextLayoutParams.gravity = Gravity.CENTER_HORIZONTAL
     }
 
     private fun drawCalendar() {
@@ -119,11 +112,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         startPos = tempCal.get(Calendar.DAY_OF_WEEK) - 1
         endPos = startPos + tempCal.getActualMaximum(Calendar.DATE) - 1
         rows = (endPos + 1) / 7 + if ((endPos + 1) % 7 > 0) 1 else 0
-        cellW = width.toFloat() / column
-        cellH = height.toFloat() / rows
+        calendarHeight = height - topPadding
+        cellW = width.toFloat() / columns
+        cellH = calendarHeight.toFloat() / rows
 
-        calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, height)
-
+        calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, calendarHeight)
         tempCal.add(Calendar.DATE, -(startPos + 1))
         for(i in 0..5) {
             val weekLy = weekLys[i]
@@ -134,10 +127,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     tempCal.add(Calendar.DATE, 1)
                     val cellNum = i*7 + j
                     cellTimeMills[cellNum] = tempCal.timeInMillis
-                    weekLy.translationY = cellNum / column * cellH
+                    weekLy.translationY = cellNum / columns * cellH
                     val dateLy = dateLys[cellNum]
                     dateLy.layoutParams = FrameLayout.LayoutParams(cellW.toInt(), MATCH_PARENT)
-                    dateLy.translationX = cellNum % column * cellW
+                    dateLy.translationX = cellNum % columns * cellW
                     dateLy.setOnClickListener { onDateClick(cellNum) }
                     dateTexts[cellNum].text = tempCal.get(Calendar.DATE).toString()
 
@@ -145,7 +138,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
                     if(cellNum == 0) {
                         calendarStartTime = tempCal.timeInMillis
-                    }else if(cellNum == rows * column - 1) {
+                    }else if(cellNum == rows * columns - 1) {
                         setCalendarTime23(tempCal)
                         calendarEndTime = tempCal.timeInMillis
                     }
@@ -155,7 +148,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         }
 
-        TimeObjectManager.setTimeObjectListData(this)
+        TimeObjectManager.setTimeObjectListAdapter(this)
         onDrawed?.invoke(selectedCal)
 
         l(""+ selectedCal.get(Calendar.YEAR) + "년" + (selectedCal.get(Calendar.MONTH) + 1) + "월" + selectedCal.get(Calendar.DATE) + "일")
@@ -238,7 +231,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.setTextColor(CalendarSkin.selectedDateColor)
         }else {
             dateText.setTypeface(null, Typeface.NORMAL)
-            if(cellNum % column == 0) {
+            if(cellNum % columns == 0) {
                 dateText.setTextColor(CalendarSkin.holiDateColor)
             }else {
                 dateText.setTextColor(CalendarSkin.dateColor)
@@ -277,9 +270,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun getSelectedCalendar() = selectedCal
 
     fun setDefaultDateTextSkin(textView: TextView) {
+        val dateTextLayoutParams = FrameLayout.LayoutParams(dateArea, dateArea)
+        dateTextLayoutParams.gravity = Gravity.CENTER_HORIZONTAL
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, CalendarView.dateTextSize)
         textView.setTypeface(null, Typeface.BOLD)
         textView.gravity = Gravity.CENTER
-        textView.layoutParams = CalendarView.dateTextLayoutParams
+        textView.layoutParams = dateTextLayoutParams
     }
 }

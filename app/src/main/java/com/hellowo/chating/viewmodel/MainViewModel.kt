@@ -19,26 +19,6 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun clear() {}
-
-    fun insert(name: String) {
-        realm.executeTransactionAsync { realm ->
-            val chatRoom = ChatRoom(UUID.randomUUID().toString(), name, Date(), null)
-            realm.insert(chatRoom)
-        }
-    }
-
-    fun loadChatRoom(): RealmResults<ChatRoom>? {
-        val result = realm.where(ChatRoom::class.java)
-                .sort("timestamp", Sort.DESCENDING)
-                .findAllAsync()
-        result.addChangeListener { result ,changeSet ->
-            Log.d("result.isLoaded", result.isLoaded.toString())
-            Log.d("changeSet", changeSet.isCompleteResult.toString())
-        }
-        return result
-    }
-
     override fun onCleared() {
         super.onCleared()
         realm.close()

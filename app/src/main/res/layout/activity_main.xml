@@ -9,18 +9,17 @@
 
     <com.hellowo.chating.calendar.CalendarView
         android:id="@+id/calendarView"
-        android:layout_marginTop="70dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </com.hellowo.chating.calendar.CalendarView>
 
-    <com.hellowo.chating.calendar.TimeObjectView
+    <com.hellowo.chating.calendar.TimeObjectEditorView
         android:id="@+id/timeObjectView"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible">
-    </com.hellowo.chating.calendar.TimeObjectView>
+    </com.hellowo.chating.calendar.TimeObjectEditorView>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -41,10 +40,90 @@
             android:id="@+id/monthText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/secondaryText"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/grey"
             android:textStyle="bold"
-            android:textSize="25dp"/>
+            android:textSize="23dp"/>
+
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="11dp"
+                android:gravity="center"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:text="@string/sun"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="11dp"
+                android:gravity="center"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:text="@string/mon"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="11dp"
+                android:gravity="center"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:text="@string/tue"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="11dp"
+                android:gravity="center"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:text="@string/thu"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="11dp"
+                android:gravity="center"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:text="@string/wed"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="11dp"
+                android:gravity="center"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:text="@string/fri"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="11dp"
+                android:gravity="center"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:text="@string/sat"/>
+
+        </LinearLayout>
 
     </FrameLayout>
 
@@ -52,9 +131,9 @@
         android:background="?android:attr/selectableItemBackground"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginRight="8dp"
         android:layout_gravity="right"
-        android:padding="7dp"
-        android:layout_margin="10dp"
+        android:padding="10dp"
         android:src="@drawable/ic_outline_account_circle"
         android:tint="@color/grey"/>
 
@@ -62,7 +141,7 @@
         android:id="@+id/keepBtn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="8dp"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="0dp"
         app:cardCornerRadius="15dp">
@@ -71,7 +150,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="7dp"
+            android:padding="10dp"
             android:src="@drawable/ic_outline_all_inbox"
             android:tint="@color/grey"/>
 

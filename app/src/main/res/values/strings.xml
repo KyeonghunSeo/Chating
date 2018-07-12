@@ -36,4 +36,13 @@
     <string name="next">다음</string>
     <string name="join_chat">채팅방 입장하기</string>
     <string name="title">제목</string>
+    <string name="untitle">제목없음</string>
+
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="sun">Sun</string>
 </resources>
