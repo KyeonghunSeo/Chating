@@ -13,6 +13,13 @@ import com.hellowo.chating.dpToPx
 
 @SuppressLint("ViewConstructor")
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val Length: Int) : TextView(context) {
+    companion object {
+        val leftMargin = dpToPx(8)
+        val eventTypeSize = dpToPx(16)
+        val todoTypeSize = dpToPx(16)
+        val memoTypeSize = dpToPx(16)
+    }
+
     var mTextSize = 10f
     var mLeft = 0
     var mTop = 0
@@ -28,6 +35,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
         when(timeObject.type) {
             0 -> {
+                setPadding(leftMargin, 0, 0, 0)
                 setLines(1)
             }
             else -> {}
@@ -37,18 +45,24 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas?.let {
-            val paint = paint
-            paint.style = Paint.Style.FILL
-            paint.color = timeObject.color
-            paint.isAntiAlias = true
+            when(timeObject.type) {
+                0 -> {
+                    val paint = paint
+                    paint.style = Paint.Style.FILL
+                    paint.color = timeObject.color
+                    paint.isAntiAlias = true
+                    it.drawCircle((leftMargin / 2).toFloat(), (height / 2).toFloat(), (leftMargin / 5).toFloat(), paint)
+                }
+                else -> {}
+            }
         }
     }
 
     fun getTypeHeight(): Int = when(timeObject.type) {
-        0 -> dpToPx(16)
-        1 -> dpToPx(20)
-        2 -> dpToPx(20)
-        else -> dpToPx(20)
+        0 -> eventTypeSize
+        1 -> todoTypeSize
+        2 -> memoTypeSize
+        else -> eventTypeSize
     }
 
     fun setLayout() {
@@ -60,6 +74,5 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     override fun toString(): String {
         return "TimeObjectView(timeObject=$timeObject, cellNum=$cellNum, Length=$Length, mTextSize=$mTextSize, mLeft=$mLeft, mTop=$mTop, mRight=$mRight, mBottom=$mBottom, mLine=$mLine, mOrder=$mOrder)"
     }
-
 
 }

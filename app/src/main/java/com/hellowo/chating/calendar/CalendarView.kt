@@ -34,10 +34,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private val scrollView = ScrollView(context)
     private val rootLy = FrameLayout(context)
-    private val calendarLy = FrameLayout(context)
+    val calendarLy = LinearLayout(context)
     val weekLys = Array(6) { _ -> FrameLayout(context)}
-    private val dateLys = Array(maxCellNum) { _ -> FrameLayout(context)}
-    private val dateTexts = Array(maxCellNum) { _ -> TextView(context)}
+    val dateLys = Array(maxCellNum) { _ -> FrameLayout(context)}
+    val dateTexts = Array(maxCellNum) { _ -> TextView(context)}
 
     val selectedCal = Calendar.getInstance()
     private var selectedCellNum = -1
@@ -51,9 +51,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     val dateArea = dpToPx(40)
     var startPos = 0
     var endPos = 0
-    var calendarHeight = 0
-    var cellW = 0f
-    var cellH = 0f
+    var minCalendarHeight = 0
+    var minWidth = 0f
+    var minHeight = 0f
+    var weekLyBottomPadding = dpToPx(10)
     var rows = 0
 
     init {
@@ -80,6 +81,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         rootLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         rootLy.setPadding(0, topPadding, 0 ,bottomPadding)
+        calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
 
         for(i in 0..5) {
@@ -112,25 +114,24 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         startPos = tempCal.get(Calendar.DAY_OF_WEEK) - 1
         endPos = startPos + tempCal.getActualMaximum(Calendar.DATE) - 1
         rows = (endPos + 1) / 7 + if ((endPos + 1) % 7 > 0) 1 else 0
-        calendarHeight = height - topPadding
-        cellW = width.toFloat() / columns
-        cellH = calendarHeight.toFloat() / rows
+        minCalendarHeight = height - topPadding
+        minWidth = width.toFloat() / columns
+        minHeight = minCalendarHeight.toFloat() / rows
 
-        calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, calendarHeight)
+        calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, minCalendarHeight)
         tempCal.add(Calendar.DATE, -(startPos + 1))
         for(i in 0..5) {
             val weekLy = weekLys[i]
-            weekLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, cellH.toInt())
+            weekLy.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, minHeight.toInt())
             if(i < rows) {
                 weekLy.visibility = View.VISIBLE
                 for (j in 0..6){
                     tempCal.add(Calendar.DATE, 1)
                     val cellNum = i*7 + j
                     cellTimeMills[cellNum] = tempCal.timeInMillis
-                    weekLy.translationY = cellNum / columns * cellH
                     val dateLy = dateLys[cellNum]
-                    dateLy.layoutParams = FrameLayout.LayoutParams(cellW.toInt(), MATCH_PARENT)
-                    dateLy.translationX = cellNum % columns * cellW
+                    dateLy.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), MATCH_PARENT)
+                    dateLy.translationX = cellNum % columns * minWidth
                     dateLy.setOnClickListener { onDateClick(cellNum) }
                     dateTexts[cellNum].text = tempCal.get(Calendar.DATE).toString()
 

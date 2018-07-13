@@ -24,8 +24,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/alphaWhite"
-        android:elevation="0px">
+        android:background="@color/white"
+        android:elevation="1dp">
 
         <TextView
             android:id="@+id/yearText"

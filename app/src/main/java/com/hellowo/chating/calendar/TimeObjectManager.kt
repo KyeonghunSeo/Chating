@@ -11,6 +11,8 @@ object TimeObjectManager {
     @SuppressLint("StaticFieldLeak")
     lateinit var realm: Realm
     private var timeObjectList: RealmResults<TimeObject>? = null
+    @SuppressLint("StaticFieldLeak")
+    private var timeObjectAdapter: TimeObjectAdapter? = null
 
     fun init() {
         realm = Realm.getDefaultInstance()
@@ -23,12 +25,14 @@ object TimeObjectManager {
                 .lessThanOrEqualTo("dtStart", calendarView.calendarEndTime)
                 .sort("dtStart", Sort.ASCENDING)
                 .findAllAsync()
-        timeObjectList?.addChangeListener { result ,changeSet ->
+        timeObjectList?.addChangeListener { result, changeSet ->
             l("result.isLoaded ${result.isLoaded}")
             l("changeSet ${changeSet.isCompleteResult}")
             l("==========START timeObjectdataSetChanged=========")
             val t = System.currentTimeMillis()
-            TimeObjectAdapter(result, calendarView).draw()
+
+            timeObjectAdapter?.refresh() ?: TimeObjectAdapter(result, calendarView).let { timeObjectAdapter = it.apply { draw() } }
+
             l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
             l("==========END timeObjectdataSetChanged=========")
         }
@@ -49,6 +53,7 @@ object TimeObjectManager {
     fun clear() {
         timeObjectList?.removeAllChangeListeners()
         timeObjectList = null
+        timeObjectAdapter = null
         realm.close()
     }
 

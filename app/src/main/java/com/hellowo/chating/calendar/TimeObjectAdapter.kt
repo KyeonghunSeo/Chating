@@ -1,10 +1,10 @@
 package com.hellowo.chating.calendar
 
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.transition.TransitionManager
-import com.hellowo.chating.DAY_MILL
-import com.hellowo.chating.l
-import com.hellowo.chating.makeFadeInTransition
-import com.hellowo.chating.makeFromBottomSlideTransition
+import com.hellowo.chating.*
 import io.realm.RealmResults
 import java.util.*
 import kotlin.collections.HashMap
@@ -18,11 +18,19 @@ class TimeObjectAdapter(private val items : RealmResults<TimeObject>, private va
     private val columns = CalendarView.columns
     private val maxCellNum = rows * columns
     private val calStartTime = calendarView.calendarStartTime
+    private var withAnimtion = false
 
     fun draw() {
         computePosition()
         setTimeObjectViews()
         refreshCalendarView()
+    }
+
+    fun refresh() {
+        withAnimtion = true
+        viewHolderList.clear()
+        viewPositionStatusMap.clear()
+        draw()
     }
 
     private fun computePosition() {
@@ -62,23 +70,39 @@ class TimeObjectAdapter(private val items : RealmResults<TimeObject>, private va
                 val status = viewPositionStatusMap[it.timeObject.type]!!
                 it.timeObjectViewList?.forEach {
                     it.mOrder = computeOrder(it, status)
-                    it.mLeft = (calendarView.cellW * (it.cellNum % columns)).toInt()
-                    it.mRight = it.mLeft + (calendarView.cellW * it.Length).toInt() - 1 /* 마진 */
+                    it.mLeft = (calendarView.minWidth * (it.cellNum % columns)).toInt()
+                    it.mRight = it.mLeft + (calendarView.minWidth * it.Length).toInt() - 1 /* 마진 */
                     it.mTop = calendarView.dateArea + it.mOrder * it.getTypeHeight() + it.mOrder
                     it.mBottom = it.mTop + it.getTypeHeight()
                     it.setLayout()
+                    status.maxHeight[it.cellNum / columns] = Math.max(status.maxHeight[it.cellNum / columns], it.mBottom)
                 }
             }catch (e: Exception){ e.printStackTrace() }
         }
     }
 
     private fun refreshCalendarView() {
-        calendarView.weekLys.forEach {
-            //TransitionManager.beginDelayedTransition(it, makeFromBottomSlideTransition())
-            if(it.childCount > columns) {
-                it.removeViews(columns, it.childCount - columns)
+        if(withAnimtion) {
+            TransitionManager.beginDelayedTransition(calendarView.calendarLy, makeChangeBounceTransition())
+            withAnimtion = false
+        }
+        var calendarHeight = 0
+        val minHeight = calendarView.minHeight.toInt()
+        val bottomPadding = calendarView.weekLyBottomPadding
+        calendarView.weekLys.forEachIndexed { index, ly ->
+            if(ly.childCount > columns) {
+                ly.removeViews(columns, ly.childCount - columns)
+            }
+            if(index < rows) {
+                val newHeight = viewPositionStatusMap.values.sumBy { it.maxHeight[index] } + bottomPadding
+                val finalHeight = Math.max(minHeight, newHeight)
+                calendarHeight += finalHeight
+                ly.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, finalHeight)
             }
         }
+
+        calendarView.calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, calendarHeight)
+
         viewHolderList.forEach {
             try{
                 it.timeObjectViewList?.forEach {
@@ -108,7 +132,6 @@ class TimeObjectAdapter(private val items : RealmResults<TimeObject>, private va
                 }
             }
         }
-        if(order > status.maxOrder) status.maxOrder = order
         return order
     }
 
@@ -122,7 +145,7 @@ class TimeObjectAdapter(private val items : RealmResults<TimeObject>, private va
     }
 
     inner class ViewPositionStatus {
-        var maxOrder = 0
+        var maxHeight = Array(rows){ _ -> 0 }
         var status = Array(maxCellNum){ _ -> "0" }
     }
 }

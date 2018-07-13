@@ -52,3 +52,10 @@ fun makeFadeInTransition() : Transition {
     transition.interpolator = FastOutSlowInInterpolator()
     return transition
 }
+
+fun makeChangeBounceTransition() : Transition {
+    val transition = androidx.transition.ChangeBounds()
+    transition.duration = 250
+    transition.interpolator = FastOutSlowInInterpolator()
+    return transition
+}
