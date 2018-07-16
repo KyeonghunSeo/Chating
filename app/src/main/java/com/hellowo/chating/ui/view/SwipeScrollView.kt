@@ -32,20 +32,20 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
                         if(Math.abs(firstX - it.x) > swipeThreshold) {
                             (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(50)
                             swipeMode = if(firstX < it.x) 2 else 3
+                            onSwipeStateChanged?.invoke(swipeMode)
                         }
-                        onSwipeStateChanged?.invoke(swipeMode)
-                    }else if((swipeMode == 2 || swipeMode == 3) && Math.abs(firstX - it.x) < swipeThreshold){
+                    }else if((swipeMode == 2 || swipeMode == 3) && Math.abs(firstX - it.x) < swipeThreshold) {
                         (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(50)
                         swipeMode = 1
                         onSwipeStateChanged?.invoke(swipeMode)
-                    }else {}
+                    }
                 }
                 ACTION_UP -> {
                     swipeMode = 0
                     onSwipeStateChanged?.invoke(swipeMode)
                 }
-                else -> {}
             }
+            return@let
         }
         return super.dispatchTouchEvent(ev)
     }
