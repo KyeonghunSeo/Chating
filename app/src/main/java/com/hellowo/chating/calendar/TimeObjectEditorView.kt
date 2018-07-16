@@ -27,6 +27,7 @@ class TimeObjectEditorView @JvmOverloads constructor(context: Context, attrs: At
         private val tempCal: Calendar = Calendar.getInstance()
     }
 
+    var viewMode = 0
     private var calendarView: CalendarView? = null
 
     init {
@@ -42,15 +43,7 @@ class TimeObjectEditorView @JvmOverloads constructor(context: Context, attrs: At
 
     fun setCalendarView(view: CalendarView) { calendarView = view }
 
-    fun onClick() {
-        if(visibility == View.VISIBLE) {
-            confirm()
-        }else{
-            show()
-        }
-    }
-
-    private fun confirm() {
+    fun confirm() {
         val time = calendarView?.selectedCal?.timeInMillis ?: System.currentTimeMillis()
         TimeObjectManager.save(TimeObject().apply {
             title = titleInput.text.toString()
@@ -61,7 +54,7 @@ class TimeObjectEditorView @JvmOverloads constructor(context: Context, attrs: At
         hide()
     }
 
-    private fun show() {
+    fun show() {
         //TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
         visibility = View.VISIBLE
         val animSet = AnimatorSet()
@@ -74,7 +67,7 @@ class TimeObjectEditorView @JvmOverloads constructor(context: Context, attrs: At
                 .showSoftInput(titleInput, 0) }, 50)*/
     }
 
-    private fun hide() {
+    fun hide() {
         //TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(this, "translationY", 0f, height.toFloat()).setDuration(ANIM_DUR))

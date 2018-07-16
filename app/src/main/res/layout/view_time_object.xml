@@ -12,7 +12,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="15dp"
         app:cardBackgroundColor="@color/white"
-        app:cardElevation="10dp"
+        app:cardElevation="20dp"
         app:cardCornerRadius="25dp">
     </androidx.cardview.widget.CardView>
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:background="@color/white"
-        android:elevation="10dp">
+        android:elevation="20dp">
 
         <EditText
             android:id="@+id/titleInput"

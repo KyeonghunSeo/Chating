@@ -18,6 +18,7 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.chating.*
+import com.hellowo.chating.ui.view.SwipeScrollView
 import java.util.*
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
@@ -32,7 +33,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val columns = 7
     }
 
-    private val scrollView = ScrollView(context)
+    private val scrollView = SwipeScrollView(context)
     private val rootLy = FrameLayout(context)
     val calendarLy = LinearLayout(context)
     val weekLys = Array(6) { _ -> FrameLayout(context)}
@@ -101,6 +102,24 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 weekLy.addView(dateLy)
             }
             calendarLy.addView(weekLy)
+        }
+
+        scrollView.onSwipeStateChanged = { state ->
+            val animSet = AnimatorSet()
+            animSet.interpolator = FastOutSlowInInterpolator()
+            animSet.duration = 250
+            when(state) {
+                0, 1 -> {
+                    animSet.playTogether(ObjectAnimator.ofFloat(scrollView, "translationX", scrollView.translationX, 0f))
+                }
+                2 -> {
+                    animSet.playTogether(ObjectAnimator.ofFloat(scrollView, "translationX", scrollView.translationX, dpToPx(30).toFloat()))
+                }
+                3 -> {
+                    animSet.playTogether(ObjectAnimator.ofFloat(scrollView, "translationX", scrollView.translationX, -dpToPx(30).toFloat()))
+                }
+            }
+            animSet.start()
         }
     }
 
@@ -277,5 +296,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         textView.setTypeface(null, Typeface.BOLD)
         textView.gravity = Gravity.CENTER
         textView.layoutParams = dateTextLayoutParams
+    }
+
+    fun startEditMode() {
+
     }
 }
