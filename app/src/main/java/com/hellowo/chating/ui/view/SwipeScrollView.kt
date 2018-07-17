@@ -13,7 +13,7 @@ import android.view.MotionEvent.*
 
 class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : ScrollView(context, attrs, defStyleAttr) {
-    val swipeThreshold = dpToPx(100)
+    val swipeThreshold = dpToPx(20)
     var firstX = 0f
     var firstY = 0f
     var swipeMode = 0
@@ -30,19 +30,21 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
                 ACTION_MOVE -> {
                     if(swipeMode == 1) {
                         if(Math.abs(firstX - it.x) > swipeThreshold) {
-                            (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(50)
-                            swipeMode = if(firstX < it.x) 2 else 3
-                            onSwipeStateChanged?.invoke(swipeMode)
+                            swipeMode = 4
+                        }else if(Math.abs(firstY - it.y) > swipeThreshold) {
+                            swipeMode = 0
                         }
-                    }else if((swipeMode == 2 || swipeMode == 3) && Math.abs(firstX - it.x) < swipeThreshold) {
-                        (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(50)
-                        swipeMode = 1
-                        onSwipeStateChanged?.invoke(swipeMode)
+                    }else if(swipeMode == 4) {
+                        if(Math.abs(firstX - it.x) > swipeThreshold * 3) {
+                            (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(20)
+                            onSwipeStateChanged?.invoke(if(firstX < it.x) 2 else 3)
+                            swipeMode = 0
+                            return true
+                        }
                     }
                 }
                 ACTION_UP -> {
                     swipeMode = 0
-                    onSwipeStateChanged?.invoke(swipeMode)
                 }
             }
             return@let

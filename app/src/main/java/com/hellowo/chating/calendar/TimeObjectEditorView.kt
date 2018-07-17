@@ -56,6 +56,7 @@ class TimeObjectEditorView @JvmOverloads constructor(context: Context, attrs: At
 
     fun show() {
         //TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
+        viewMode = 1
         visibility = View.VISIBLE
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(this, "translationY", height.toFloat(), 0f).setDuration(ANIM_DUR))
@@ -69,6 +70,7 @@ class TimeObjectEditorView @JvmOverloads constructor(context: Context, attrs: At
 
     fun hide() {
         //TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
+        viewMode = 0
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(this, "translationY", 0f, height.toFloat()).setDuration(ANIM_DUR))
         animSet.interpolator = FastOutSlowInInterpolator()

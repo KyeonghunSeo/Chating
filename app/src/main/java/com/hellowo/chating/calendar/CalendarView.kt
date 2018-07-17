@@ -12,14 +12,17 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewTreeObserver
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.TextView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.chating.*
 import com.hellowo.chating.ui.view.SwipeScrollView
 import java.util.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.opengl.ETC1.getHeight
+import android.opengl.ETC1.getWidth
+import android.widget.*
+import androidx.transition.TransitionManager
+
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
@@ -39,6 +42,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     val weekLys = Array(6) { _ -> FrameLayout(context)}
     val dateLys = Array(maxCellNum) { _ -> FrameLayout(context)}
     val dateTexts = Array(maxCellNum) { _ -> TextView(context)}
+    val fakeAnimationImageView = ImageView(context)
 
     val selectedCal = Calendar.getInstance()
     private var selectedCellNum = -1
@@ -74,6 +78,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         addView(scrollView)
         scrollView.addView(rootLy)
         rootLy.addView(calendarLy)
+        rootLy.addView(fakeAnimationImageView)
     }
 
     private fun setLayout() {
@@ -105,22 +110,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         scrollView.onSwipeStateChanged = { state ->
-            val animSet = AnimatorSet()
-            animSet.interpolator = FastOutSlowInInterpolator()
-            animSet.duration = 250
             when(state) {
-                0, 1 -> {
-                    animSet.playTogether(ObjectAnimator.ofFloat(scrollView, "translationX", scrollView.translationX, 0f))
-                }
-                2 -> {
-                    animSet.playTogether(ObjectAnimator.ofFloat(scrollView, "translationX", scrollView.translationX, dpToPx(30).toFloat()))
-                }
-                3 -> {
-                    animSet.playTogether(ObjectAnimator.ofFloat(scrollView, "translationX", scrollView.translationX, -dpToPx(30).toFloat()))
-                }
+                2 -> moveMonth(-1)
+                3 -> moveMonth(1)
             }
-            animSet.start()
         }
+
+        fakeAnimationImageView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        fakeAnimationImageView.visibility = View.GONE
     }
 
     private fun drawCalendar() {
@@ -171,8 +168,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         TimeObjectManager.setTimeObjectListAdapter(this)
         onDrawed?.invoke(selectedCal)
 
-        l(""+ selectedCal.get(Calendar.YEAR) + "년" + (selectedCal.get(Calendar.MONTH) + 1) + "월" + selectedCal.get(Calendar.DATE) + "일")
-        l("캘린더 높이 : " + height.toString())
+        l("${selectedCal.get(Calendar.YEAR)}년 ${(selectedCal.get(Calendar.MONTH) + 1)}월 ${selectedCal.get(Calendar.DATE)}일")
+        l("캘린더 높이 : $minCalendarHeight")
         l("행 : $rows")
         l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
         l("==========END drawCalendar=========")
@@ -262,29 +259,25 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun moveMonth(offset: Int) {
         selectedCal.add(Calendar.MONTH, offset)
         drawCalendar()
-
-        /*
-        val animSet = AnimatorSet()selectedCal
+/*
+        val animSet = AnimatorSet()
         if(offset < 0) {
             animSet.playTogether(
-                    ObjectAnimator.ofFloat(scrollView, "translationY", 0 - height, 0f),
-                    ObjectAnimator.ofFloat(scrollView, "alpha", 0f, 1f))
+                    ObjectAnimator.ofFloat(scrollView, "translationX", -dpToPx(30).toFloat(), 0f))
         }else {
             animSet.playTogether(
-                    ObjectAnimator.ofFloat(scrollView, "translationY", height + 0, 0f),
-                    ObjectAnimator.ofFloat(scrollView, "alpha", 0f, 1f))
+                    ObjectAnimator.ofFloat(scrollView, "translationX", dpToPx(30).toFloat(), 0f))
         }
         animSet.addListener(object : Animator.AnimatorListener{
             override fun onAnimationRepeat(p0: Animator?) {}
-            override fun onAnimationEnd(p0: Animator?) {
-            }
+            override fun onAnimationEnd(p0: Animator?) {}
             override fun onAnimationCancel(p0: Animator?) {}
             override fun onAnimationStart(p0: Animator?) {}
         })
         animSet.interpolator = FastOutSlowInInterpolator()
-        animSet.duration = 2500
+        animSet.duration = 250
         animSet.start()
-        */
+*/
     }
 
     fun getSelectedCalendar() = selectedCal

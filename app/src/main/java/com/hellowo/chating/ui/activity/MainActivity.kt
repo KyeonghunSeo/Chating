@@ -24,6 +24,13 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SimpleDateFormat")
     private val yearDf = SimpleDateFormat("yyyy")
     private val monthDf = SimpleDateFormat("MMMM", Locale.US)
+    private val dateTextHandler = @SuppressLint("HandlerLeak")
+    object : Handler() {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            yearText.visibility = View.GONE
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
-        calendarView.onDrawed = { cal ->
-            val date = cal.time
-            yearText.text = yearDf.format(date)
-            monthText.text = monthDf.format(date)
-            yearText.visibility = View.VISIBLE
-            dateLy.postDelayed({ yearText.visibility = View.GONE }, 2000)
-        }
+        calendarView.onDrawed = { cal -> setDateText(cal.time) }
         timeObjectView.setCalendarView(calendarView)
 
         insertBtn.setOnClickListener {
@@ -50,6 +51,14 @@ class MainActivity : AppCompatActivity() {
                 timeObjectView.confirm()
             }
         }
+    }
+
+    fun setDateText(date: Date) {
+        yearText.visibility = View.VISIBLE
+        yearText.text = yearDf.format(date)
+        monthText.text = monthDf.format(date)
+        dateTextHandler.removeMessages(0)
+        dateTextHandler.sendEmptyMessageDelayed(0, 3000)
     }
 
     override fun onDestroy() {

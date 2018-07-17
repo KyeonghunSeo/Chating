@@ -26,13 +26,13 @@ object TimeObjectManager {
                 .sort("dtStart", Sort.ASCENDING)
                 .findAllAsync()
         timeObjectList?.addChangeListener { result, changeSet ->
+            l("==========START timeObjectdataSetChanged=========")
             l("result.isLoaded ${result.isLoaded}")
             l("changeSet ${changeSet.isCompleteResult}")
-            l("==========START timeObjectdataSetChanged=========")
+            l("데이터 : ${result.size} 개")
+            result.forEach { l(it.toString()) }
             val t = System.currentTimeMillis()
-
-            timeObjectAdapter?.refresh() ?: TimeObjectAdapter(result, calendarView).let { timeObjectAdapter = it.apply { draw() } }
-
+            timeObjectAdapter?.refresh(result) ?: TimeObjectAdapter(result, calendarView).let { timeObjectAdapter = it.apply { draw() } }
             l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
             l("==========END timeObjectdataSetChanged=========")
         }

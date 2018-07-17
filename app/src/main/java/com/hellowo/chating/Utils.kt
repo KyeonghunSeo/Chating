@@ -1,9 +1,12 @@
 package com.hellowo.chating
 
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.View
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Fade
 import androidx.transition.Slide
@@ -58,4 +61,11 @@ fun makeChangeBounceTransition() : Transition {
     transition.duration = 250
     transition.interpolator = FastOutSlowInInterpolator()
     return transition
+}
+
+fun makeViewToBitmap(view: View) : Bitmap {
+    val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    view.draw(canvas)
+    return bitmap
 }

@@ -10,31 +10,31 @@ import java.util.*
 import kotlin.collections.HashMap
 
 
-class TimeObjectAdapter(private val items : RealmResults<TimeObject>, private val calendarView: CalendarView) {
+class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private val calendarView: CalendarView) {
     private val viewHolderList = ArrayList<TimeObjectViewHolder>()
     private val viewPositionStatusMap = HashMap<Int, ViewPositionStatus>()
     private val context = calendarView.context
-    private val rows = calendarView.rows
     private val columns = CalendarView.columns
-    private val maxCellNum = rows * columns
-    private val calStartTime = calendarView.calendarStartTime
+    private var rows = 0
+    private var maxCellNum = 0
+    private var calStartTime = 0L
     private var withAnimtion = false
 
     fun draw() {
+        setCalendarData()
         computePosition()
         setTimeObjectViews()
         refreshCalendarView()
     }
 
-    fun refresh() {
-        withAnimtion = true
-        viewHolderList.clear()
-        viewPositionStatusMap.clear()
-        draw()
+    private fun setCalendarData() {
+        rows = calendarView.rows
+        maxCellNum = rows * columns
+        calStartTime = calendarView.calendarStartTime
     }
 
     private fun computePosition() {
-        items.forEach {
+        items.forEach{
             try{
                 if(!viewPositionStatusMap.containsKey(it.type)) {
                     viewPositionStatusMap[it.type] = ViewPositionStatus()
@@ -100,9 +100,7 @@ class TimeObjectAdapter(private val items : RealmResults<TimeObject>, private va
                 ly.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, finalHeight)
             }
         }
-
         calendarView.calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, calendarHeight)
-
         viewHolderList.forEach {
             try{
                 it.timeObjectViewList?.forEach {
@@ -133,6 +131,14 @@ class TimeObjectAdapter(private val items : RealmResults<TimeObject>, private va
             }
         }
         return order
+    }
+
+    fun refresh(result: RealmResults<TimeObject>) {
+        items = result
+        withAnimtion = true
+        viewHolderList.clear()
+        viewPositionStatusMap.clear()
+        draw()
     }
 
     inner class TimeObjectViewHolder(val timeObject: TimeObject) {
