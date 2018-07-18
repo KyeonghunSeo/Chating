@@ -19,6 +19,7 @@ import androidx.transition.TransitionManager
 import com.hellowo.chating.*
 import com.hellowo.chating.calendar.CalendarSkin
 import com.hellowo.chating.calendar.TimeObjectManager
+import com.hellowo.chating.calendar.ViewMode
 import com.hellowo.chating.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_day_of_week.*
@@ -55,31 +56,19 @@ class MainActivity : AppCompatActivity() {
                         .setBackgroundColor(if(i == col) CalendarSkin.selectedDateColor else CalendarSkin.dateColor)
             }
         }
-        timeObjectView.setCalendarView(calendarView)
+        editorView.setCalendarView(calendarView)
 
         insertBtn.setOnClickListener {
-            if(timeObjectView.viewMode == 0) {
-                timeObjectView.show()
+            if(editorView.viewMode == ViewMode.CLOSED) {
+                editorView.show()
                 calendarView.startEditMode()
             }else {
-                timeObjectView.confirm()
+                editorView.confirm()
             }
         }
 
-        keepBtn.setOnClickListener {
-            /*
-            val animSet = AnimatorSet()
-            animSet.playTogether(ObjectAnimator.ofFloat(keepBtn, "translationZ", 0f, dpToPx(15).toFloat()).setDuration(ANIM_DUR),
-                    ObjectAnimator.ofFloat(keepBtn, "radius", dpToPx(15).toFloat(), dpToPx(25).toFloat()).setDuration(ANIM_DUR))
-            animSet.interpolator = FastOutSlowInInterpolator()
-            animSet.start()*/
-
-            TransitionManager.beginDelayedTransition(rootLy, makeChangeBounceTransition())
-            keepBtn.layoutParams = FrameLayout.LayoutParams(dpToPx(200), dpToPx(200)).apply {
-                gravity = Gravity.BOTTOM
-                setMargins(dpToPx(20), 0, 0, dpToPx(20))
-            }
-            keepBtn.elevation = dpToPx(15).toFloat()
+        keepView.setOnClickListener {
+            keepView.show()
         }
     }
 
@@ -89,6 +78,14 @@ class MainActivity : AppCompatActivity() {
         monthText.text = monthDf.format(date)
         dateTextHandler.removeMessages(0)
         dateTextHandler.sendEmptyMessageDelayed(0, 2000)
+    }
+
+    override fun onBackPressed() {
+        when{
+            editorView.viewMode == ViewMode.OPENED -> editorView.hide()
+            keepView.viewMode == ViewMode.OPENED -> keepView.hide()
+            else -> super.onBackPressed()
+        }
     }
 
     override fun onDestroy() {

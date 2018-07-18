@@ -55,8 +55,8 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/keepBtn"
+    <com.hellowo.chating.calendar.TimeObjectKeepView
+        android:id="@+id/keepView"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
@@ -73,7 +73,7 @@
             android:src="@drawable/ic_outline_all_inbox"
             android:tint="@color/grey"/>
 
-    </androidx.cardview.widget.CardView>
+    </com.hellowo.chating.calendar.TimeObjectKeepView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/insertBtn"
@@ -146,7 +146,7 @@
     </FrameLayout>
 
     <com.hellowo.chating.calendar.TimeObjectEditorView
-        android:id="@+id/timeObjectView"
+        android:id="@+id/editorView"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

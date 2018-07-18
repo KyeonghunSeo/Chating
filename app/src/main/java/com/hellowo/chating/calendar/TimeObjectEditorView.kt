@@ -27,7 +27,7 @@ class TimeObjectEditorView @JvmOverloads constructor(context: Context, attrs: At
         private val tempCal: Calendar = Calendar.getInstance()
     }
 
-    var viewMode = 0
+    var viewMode = ViewMode.CLOSED
     private var calendarView: CalendarView? = null
 
     init {
@@ -56,11 +56,19 @@ class TimeObjectEditorView @JvmOverloads constructor(context: Context, attrs: At
 
     fun show() {
         //TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
-        viewMode = 1
+        viewMode = ViewMode.ANIMATING
         visibility = View.VISIBLE
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(this, "translationY", height.toFloat(), 0f).setDuration(ANIM_DUR))
         animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.addListener(object : Animator.AnimatorListener{
+            override fun onAnimationRepeat(p0: Animator?) {}
+            override fun onAnimationEnd(p0: Animator?) {
+                viewMode = ViewMode.OPENED
+            }
+            override fun onAnimationCancel(p0: Animator?) {}
+            override fun onAnimationStart(p0: Animator?) {}
+        })
         animSet.start()
         /*
         titleInput.requestFocus()
@@ -70,7 +78,7 @@ class TimeObjectEditorView @JvmOverloads constructor(context: Context, attrs: At
 
     fun hide() {
         //TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
-        viewMode = 0
+        viewMode = ViewMode.ANIMATING
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(this, "translationY", 0f, height.toFloat()).setDuration(ANIM_DUR))
         animSet.interpolator = FastOutSlowInInterpolator()
@@ -78,6 +86,7 @@ class TimeObjectEditorView @JvmOverloads constructor(context: Context, attrs: At
             override fun onAnimationRepeat(p0: Animator?) {}
             override fun onAnimationEnd(p0: Animator?) {
                 visibility = View.INVISIBLE
+                viewMode = ViewMode.CLOSED
             }
             override fun onAnimationCancel(p0: Animator?) {}
             override fun onAnimationStart(p0: Animator?) {}
