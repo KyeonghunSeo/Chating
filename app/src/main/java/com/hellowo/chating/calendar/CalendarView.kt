@@ -16,20 +16,13 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.chating.*
 import com.hellowo.chating.ui.view.SwipeScrollView
 import java.util.*
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.opengl.ETC1.getHeight
-import android.opengl.ETC1.getWidth
 import android.widget.*
-import androidx.transition.TransitionManager
 
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
         private val todayCal: Calendar = Calendar.getInstance()
         private val tempCal: Calendar = Calendar.getInstance()
-        private val topPadding = dpToPx(70)
-        private val bottomPadding = dpToPx(50)
         const val maxCellNum = 42
         const val dateTextSize = 13f
         const val animDur = 250L
@@ -53,9 +46,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var calendarStartTime = Long.MAX_VALUE
     var calendarEndTime = Long.MAX_VALUE
     var onDrawed: ((Calendar) -> Unit)? = null
+    var onSelected: ((Long, Int) -> Unit)? = null
     val dateArea = dpToPx(40)
-    var startPos = 0
-    var endPos = 0
+    var startCellNum = 0
+    var endCellNum = 0
     var minCalendarHeight = 0
     var minWidth = 0f
     var minHeight = 0f
@@ -86,7 +80,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         rootLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        rootLy.setPadding(0, topPadding, 0 ,bottomPadding)
+        rootLy.setPadding(0, 0, 0 , 0)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
 
@@ -127,15 +121,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         tempCal.timeInMillis = selectedCal.timeInMillis
         tempCal.set(Calendar.DATE, 1)
         setCalendarTime0(tempCal)
-        startPos = tempCal.get(Calendar.DAY_OF_WEEK) - 1
-        endPos = startPos + tempCal.getActualMaximum(Calendar.DATE) - 1
-        rows = (endPos + 1) / 7 + if ((endPos + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height - topPadding
+        startCellNum = tempCal.get(Calendar.DAY_OF_WEEK) - 1
+        endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
+        rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
+        minCalendarHeight = height
         minWidth = width.toFloat() / columns
         minHeight = minCalendarHeight.toFloat() / rows
 
         calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, minCalendarHeight)
-        tempCal.add(Calendar.DATE, -(startPos + 1))
+        tempCal.add(Calendar.DATE, -(startCellNum + 1))
         for(i in 0..5) {
             val weekLy = weekLys[i]
             weekLy.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, minHeight.toInt())
@@ -149,7 +143,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     dateLy.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), MATCH_PARENT)
                     dateLy.translationX = cellNum % columns * minWidth
                     dateLy.setOnClickListener { onDateClick(cellNum) }
-                    dateTexts[cellNum].text = tempCal.get(Calendar.DATE).toString()
+                    val dateText = dateTexts[cellNum]
+                    dateText.text = tempCal.get(Calendar.DATE).toString()
+                    dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.3f
 
                     if(isSameDay(tempCal, selectedCal)) { selectDate(cellNum, false) }
 
@@ -167,6 +163,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         TimeObjectManager.setTimeObjectListAdapter(this)
         onDrawed?.invoke(selectedCal)
+        onSelected?.invoke(cellTimeMills[selectedCellNum], selectedCellNum)
 
         l("${selectedCal.get(Calendar.YEAR)}년 ${(selectedCal.get(Calendar.MONTH) + 1)}월 ${selectedCal.get(Calendar.DATE)}일")
         l("캘린더 높이 : $minCalendarHeight")
@@ -207,6 +204,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.scaleX = 2f
             dateText.scaleY = 2f
         }
+
+        onSelected?.invoke(cellTimeMills[selectedCellNum], selectedCellNum)
     }
 
     private fun unselectDate(cellNum: Int, anim: Boolean) {
