@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             val col = cellNum % 7
             for (i in 0..6) {
                 (dayOfWeekLy.getChildAt(i) as LinearLayout).getChildAt(1)
-                        .setBackgroundColor(if(i == col) CalendarSkin.selectedDateColor else CalendarSkin.dateColor)
+                        .setBackgroundColor(if(i == col) CalendarSkin.selectedDateColor else CalendarSkin.greyColor)
             }
         }
         editorView.setCalendarView(calendarView)

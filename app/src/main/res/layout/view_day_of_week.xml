@@ -100,7 +100,7 @@
             android:textColor="@color/grey"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="@string/thu" />
+            android:text="@string/wed" />
 
         <View
             android:id="@+id/dowBar3"
@@ -126,7 +126,7 @@
             android:textColor="@color/grey"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="@string/wed" />
+            android:text="@string/thu" />
 
         <View
             android:id="@+id/dowBar4"
