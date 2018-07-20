@@ -9,8 +9,9 @@ import java.util.*
 
 open class TimeObject(@PrimaryKey var id: String? = null,
                       var type: Int = 0,
+                      var shape: Int = -1,
                       var title: String? = null,
-                      var color: Int = Color.BLACK,
+                      var color: Int = Color.TRANSPARENT,
                       var location: String? = null,
                       var description: String? = null,
                       var allday: Boolean = false,

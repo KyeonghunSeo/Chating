@@ -7,6 +7,7 @@ import androidx.transition.TransitionManager
 import com.hellowo.chating.*
 import io.realm.RealmResults
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
@@ -61,7 +62,7 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
                 viewHolderList.add(info)
             }catch (e: Exception){ e.printStackTrace() }
         }
-        viewHolderList.sortWith(TimeObjectCalendarComparator())
+        viewHolderList.sortWith(CalendarComparator())
     }
 
     private fun setTimeObjectViews() {
@@ -139,6 +140,14 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
         viewHolderList.clear()
         viewPositionStatusMap.clear()
         draw()
+    }
+
+    fun getViews(cellNum: Int) : List<TimeObjectView> {
+        val result = ArrayList<TimeObjectView>()
+        viewHolderList.filter { it.startCellNum == cellNum }.forEach {
+            it.timeObjectViewList?.let { result.addAll(it) }
+        }
+        return result
     }
 
     inner class TimeObjectViewHolder(val timeObject: TimeObject) {

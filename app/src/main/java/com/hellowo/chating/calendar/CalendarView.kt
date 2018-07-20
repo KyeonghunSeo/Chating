@@ -5,6 +5,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Typeface
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
@@ -205,7 +206,22 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.scaleY = 2f
         }
 
+        startViewEffect(cellNum)
+
         onSelected?.invoke(cellTimeMills[selectedCellNum], selectedCellNum)
+    }
+
+    private fun startViewEffect(cellNum: Int) {
+        TimeObjectManager.timeObjectAdapter?.getViews(cellNum)?.let {
+            l("현재 셀에서 시작하는 뷰 수 : ${it.size}")
+            it.forEach { view ->
+                view.ellipsize = TextUtils.TruncateAt.MARQUEE
+                view.marqueeRepeatLimit = -1
+                view.postDelayed({
+                    view.isSelected = true
+                }, 500)
+            }
+        }
     }
 
     private fun unselectDate(cellNum: Int, anim: Boolean) {

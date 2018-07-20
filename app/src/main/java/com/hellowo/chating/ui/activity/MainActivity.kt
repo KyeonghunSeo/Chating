@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.view_day_of_week.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     @SuppressLint("SimpleDateFormat")
@@ -67,8 +66,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        keepView.mainActivity = this
         keepView.setOnClickListener {
             keepView.show()
+        }
+
+        briefingView.setOnClickListener {
+            briefingView.show()
         }
     }
 
@@ -84,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         when{
             editorView.viewMode == ViewMode.OPENED -> editorView.hide()
             keepView.viewMode == ViewMode.OPENED -> keepView.hide()
+            briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
             else -> super.onBackPressed()
         }
     }

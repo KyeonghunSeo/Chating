@@ -36,7 +36,7 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
                         }
                     }else if(swipeMode == 4) {
                         if(Math.abs(firstX - it.x) > swipeThreshold * 3) {
-                            (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(20)
+                            (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(10)
                             onSwipeStateChanged?.invoke(if(firstX < it.x) 2 else 3)
                             swipeMode = 0
                             return true

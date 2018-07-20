@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_time_object.view.*
 import java.util.*
 
-class TimeObjectKeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {
+class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {
     companion object {
     }
 
@@ -37,7 +37,7 @@ class TimeObjectKeepView @JvmOverloads constructor(context: Context, attrs: Attr
     fun show() {
         viewMode = ViewMode.ANIMATING
         val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(this@TimeObjectKeepView,
+        animSet.playTogether(ObjectAnimator.ofFloat(this@BriefingView,
                 "elevation", 0f, dpToPx(15).toFloat()).setDuration(ANIM_DUR))
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.addListener(object : Animator.AnimatorListener{
@@ -53,10 +53,10 @@ class TimeObjectKeepView @JvmOverloads constructor(context: Context, attrs: Attr
                     override fun onTransitionCancel(transition: Transition) {}
                     override fun onTransitionStart(transition: Transition) {}
                 })
-                TransitionManager.beginDelayedTransition(this@TimeObjectKeepView, transiion)
+                TransitionManager.beginDelayedTransition(this@BriefingView, transiion)
                 layoutParams = FrameLayout.LayoutParams(dpToPx(300), dpToPx(500)).apply {
-                    gravity = Gravity.BOTTOM
-                    setMargins(dpToPx(20), 0, 0, dpToPx(20))
+                    gravity = Gravity.BOTTOM or Gravity.RIGHT
+                    setMargins(0, 0, dpToPx(20), dpToPx(20))
                 }
             }
             override fun onAnimationCancel(p0: Animator?) {}
@@ -71,7 +71,7 @@ class TimeObjectKeepView @JvmOverloads constructor(context: Context, attrs: Attr
         transiion.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(this@TimeObjectKeepView,
+                animSet.playTogether(ObjectAnimator.ofFloat(this@BriefingView,
                         "elevation", dpToPx(15).toFloat(), 0f).setDuration(ANIM_DUR))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.addListener(object : Animator.AnimatorListener{
@@ -91,8 +91,8 @@ class TimeObjectKeepView @JvmOverloads constructor(context: Context, attrs: Attr
         })
         TransitionManager.beginDelayedTransition(this, transiion)
         layoutParams = FrameLayout.LayoutParams(dpToPx(50), dpToPx(50)).apply {
-            gravity = Gravity.BOTTOM
-            setMargins(dpToPx(8), 0, 0, 0)
+            gravity = Gravity.BOTTOM or Gravity.RIGHT
+            setMargins(0, 0, dpToPx(8), 0)
         }
     }
 }

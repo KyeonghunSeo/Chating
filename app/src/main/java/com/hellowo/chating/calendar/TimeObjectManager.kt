@@ -12,7 +12,7 @@ object TimeObjectManager {
     lateinit var realm: Realm
     private var timeObjectList: RealmResults<TimeObject>? = null
     @SuppressLint("StaticFieldLeak")
-    private var timeObjectAdapter: TimeObjectAdapter? = null
+    var timeObjectAdapter: TimeObjectAdapter? = null
 
     fun init() {
         realm = Realm.getDefaultInstance()

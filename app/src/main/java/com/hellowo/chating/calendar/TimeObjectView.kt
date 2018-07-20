@@ -7,17 +7,20 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.TextView
-import com.hellowo.chating.R
-import com.hellowo.chating.dpToPx
+import com.hellowo.chating.*
+import java.util.*
 
 
 @SuppressLint("ViewConstructor")
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val Length: Int) : TextView(context) {
     companion object {
-        val leftMargin = dpToPx(8)
+        val strokeWidth = dpToPx(1).toFloat()
+        val circleRadius = dpToPx(5).toFloat()
+        val leftMargin = dpToPx(16)
         val eventTypeSize = dpToPx(16)
         val todoTypeSize = dpToPx(16)
         val memoTypeSize = dpToPx(16)
+        val tempCal = Calendar.getInstance()
     }
 
     var mTextSize = 10f
@@ -27,6 +30,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     var mBottom = 0
     var mLine = 0
     var mOrder = 0
+    var color = CalendarSkin.dateColor
 
     init {
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize)
@@ -36,7 +40,13 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         when(timeObject.type) {
             0 -> {
                 setPadding(leftMargin, 0, 0, 0)
-                setLines(1)
+                setSingleLine(true)
+                setHorizontallyScrolling(true)
+            }
+            1 -> {
+                setPadding(leftMargin, 0, 0, 0)
+                setSingleLine(true)
+                setHorizontallyScrolling(true)
             }
             else -> {}
         }
@@ -49,9 +59,26 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 0 -> {
                     val paint = paint
                     paint.style = Paint.Style.FILL
-                    paint.color = timeObject.color
+                    paint.color = color
                     paint.isAntiAlias = true
-                    it.drawCircle((leftMargin / 2).toFloat(), (height / 2).toFloat(), (leftMargin / 5).toFloat(), paint)
+                    it.drawCircle(leftMargin / 2f, height / 2f, leftMargin / 8f, paint)
+                }
+                1 -> {
+                    val paint = paint
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = strokeWidth
+                    paint.color = color
+                    paint.isAntiAlias = true
+                    tempCal.timeInMillis = System.currentTimeMillis()
+                    //tempCal.timeInMillis = timeObject.dtStart
+                    val degreeH = tempCal.get(Calendar.HOUR_OF_DAY) % 12 * 360 / 12 + 270
+                    val sX = leftMargin / 2f
+                    val sY = height / 2f
+                    val hX = Math.cos(Math.toRadians(degreeH.toDouble())) * (circleRadius - strokeWidth)
+                    val hY = Math.sin(Math.toRadians(degreeH.toDouble())) * (circleRadius - strokeWidth)
+
+                    it.drawCircle(sX, sY, circleRadius, paint)
+                    it.drawLine(sX, sY, (sX + hX).toFloat(), (sY + hY).toFloat(), paint)
                 }
                 else -> {}
             }

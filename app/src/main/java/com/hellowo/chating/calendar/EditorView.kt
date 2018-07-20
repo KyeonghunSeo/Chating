@@ -22,7 +22,7 @@ import com.hellowo.chating.makeFromBottomSlideTransition
 import kotlinx.android.synthetic.main.view_time_object.view.*
 import java.util.*
 
-class TimeObjectEditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
+class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
         private val tempCal: Calendar = Calendar.getInstance()
     }
@@ -47,6 +47,7 @@ class TimeObjectEditorView @JvmOverloads constructor(context: Context, attrs: At
         val time = calendarView?.selectedCal?.timeInMillis ?: System.currentTimeMillis()
         TimeObjectManager.save(TimeObject().apply {
             title = titleInput.text.toString()
+            type = 1
             dtStart = time
             dtEnd = time
             timeZone = TimeZone.getDefault().id
