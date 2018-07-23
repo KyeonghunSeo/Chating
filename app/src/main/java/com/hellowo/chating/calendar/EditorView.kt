@@ -17,6 +17,7 @@ import android.widget.FrameLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
 import com.hellowo.chating.ANIM_DUR
+import com.hellowo.chating.DAY_MILL
 import com.hellowo.chating.R
 import com.hellowo.chating.makeFromBottomSlideTransition
 import kotlinx.android.synthetic.main.view_time_object.view.*
@@ -28,6 +29,8 @@ class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     var viewMode = ViewMode.CLOSED
+    var shapeType = 0
+    var testEnd = 0
     private var calendarView: CalendarView? = null
 
     init {
@@ -39,6 +42,10 @@ class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             }
             return@setOnEditorActionListener false
         }
+
+        type1btn.setOnClickListener { shapeType = 1 }
+        type2btn.setOnClickListener { shapeType = 2 }
+        type3btn.setOnClickListener { testEnd++ }
     }
 
     fun setCalendarView(view: CalendarView) { calendarView = view }
@@ -47,9 +54,9 @@ class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         val time = calendarView?.selectedCal?.timeInMillis ?: System.currentTimeMillis()
         TimeObjectManager.save(TimeObject().apply {
             title = titleInput.text.toString()
-            type = 1
+            type = shapeType
             dtStart = time
-            dtEnd = time
+            dtEnd = time + DAY_MILL * (testEnd % 7)
             timeZone = TimeZone.getDefault().id
         })
         hide()

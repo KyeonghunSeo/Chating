@@ -206,26 +206,35 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.scaleY = 2f
         }
 
-        startViewEffect(cellNum)
+        onViewEffect(cellNum)
 
         onSelected?.invoke(cellTimeMills[selectedCellNum], selectedCellNum)
     }
 
-    private fun startViewEffect(cellNum: Int) {
+    private fun onViewEffect(cellNum: Int) {
         TimeObjectManager.timeObjectAdapter?.getViews(cellNum)?.let {
-            l("현재 셀에서 시작하는 뷰 수 : ${it.size}")
             it.forEach { view ->
                 view.ellipsize = TextUtils.TruncateAt.MARQUEE
                 view.marqueeRepeatLimit = -1
                 view.postDelayed({
                     view.isSelected = true
-                }, 500)
+                }, 100)
+            }
+        }
+    }
+
+    private fun offViewEffect(cellNum: Int) {
+        TimeObjectManager.timeObjectAdapter?.getViews(cellNum)?.let {
+            it.forEach { view ->
+                view.ellipsize = null
+                view.isSelected = false
             }
         }
     }
 
     private fun unselectDate(cellNum: Int, anim: Boolean) {
         selectedCellNum = -1
+        offViewEffect(cellNum)
         val dateText = dateTexts[cellNum]
         setDateTextColor(cellNum)
 
@@ -274,14 +283,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun moveMonth(offset: Int) {
         selectedCal.add(Calendar.MONTH, offset)
         drawCalendar()
-/*
+
         val animSet = AnimatorSet()
         if(offset < 0) {
             animSet.playTogether(
-                    ObjectAnimator.ofFloat(scrollView, "translationX", -dpToPx(30).toFloat(), 0f))
+                    ObjectAnimator.ofFloat(scrollView, "translationX", -width.toFloat(), 0f))
         }else {
             animSet.playTogether(
-                    ObjectAnimator.ofFloat(scrollView, "translationX", dpToPx(30).toFloat(), 0f))
+                    ObjectAnimator.ofFloat(scrollView, "translationX", width.toFloat(), 0f))
         }
         animSet.addListener(object : Animator.AnimatorListener{
             override fun onAnimationRepeat(p0: Animator?) {}
@@ -292,7 +301,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.duration = 250
         animSet.start()
-*/
+
     }
 
     fun getSelectedCalendar() = selectedCal

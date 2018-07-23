@@ -24,33 +24,51 @@
         android:background="@color/white"
         android:elevation="20dp">
 
-        <EditText
-            android:id="@+id/titleInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <LinearLayout
-            android:animateLayoutChanges="true"
-            android:layout_gravity="bottom"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:padding="7dp"
-                android:src="@drawable/ic_outline_account_circle"
-                android:tint="@color/grey"/>
+            <EditText
+                android:id="@+id/titleInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-            <ImageView
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:padding="7dp"
-                android:src="@drawable/ic_outline_account_circle"
-                android:tint="@color/grey"/>
+            <LinearLayout
+                android:animateLayoutChanges="true"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/type1btn"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="7dp"
+                    android:src="@drawable/ic_outline_account_circle"
+                    android:tint="@color/grey"/>
+
+                <ImageView
+                    android:id="@+id/type2btn"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="7dp"
+                    android:src="@drawable/ic_outline_account_circle"
+                    android:tint="@color/grey"/>
+
+                <ImageView
+                    android:id="@+id/type3btn"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="7dp"
+                    android:src="@drawable/ic_outline_account_circle"
+                    android:tint="@color/grey"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

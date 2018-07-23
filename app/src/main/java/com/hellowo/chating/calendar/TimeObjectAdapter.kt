@@ -20,12 +20,24 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
     private var maxCellNum = 0
     private var calStartTime = 0L
     private var withAnimtion = false
+    private val cellBottomArray = Array(42){ _ -> 0}
+    private val rowHeightArray = Array(6){ _ -> 0}
 
     fun draw() {
         setCalendarData()
         computePosition()
         setTimeObjectViews()
         refreshCalendarView()
+    }
+
+    fun refresh(result: RealmResults<TimeObject>) {
+        items = result
+        withAnimtion = true
+        viewHolderList.clear()
+        viewPositionStatusMap.clear()
+        cellBottomArray.fill(0)
+        rowHeightArray.fill(0)
+        draw()
     }
 
     private fun setCalendarData() {
@@ -49,7 +61,7 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
                 if(info.endCellNum >= maxCellNum) info.endCellNum = maxCellNum - 1
 
                 var currentCell = info.startCellNum
-                var length = info.startCellNum - info.startCellNum + 1
+                var length = info.endCellNum - info.startCellNum + 1
                 var margin = columns - currentCell % columns
 
                 info.timeObjectViewList = Array(1 + (info.endCellNum / columns - info.startCellNum / columns)) { _ ->
@@ -66,17 +78,26 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
     }
 
     private fun setTimeObjectViews() {
+        val levelMargin = dpToPx(3)
+        var startTopPos = 0
+        var currentType = 0
         viewHolderList.forEach {
             try{
                 val status = viewPositionStatusMap[it.timeObject.type]!!
+                if(it.timeObject.type != currentType) {
+                    currentType = it.timeObject.type
+                    (0..5).forEach{ index ->
+                        rowHeightArray[index] = cellBottomArray.sliceArray(index*7..index*7+6).max() ?: 0 + levelMargin
+                    }
+                }
                 it.timeObjectViewList?.forEach {
                     it.mOrder = computeOrder(it, status)
                     it.mLeft = (calendarView.minWidth * (it.cellNum % columns)).toInt()
-                    it.mRight = it.mLeft + (calendarView.minWidth * it.Length).toInt() - 1 /* 마진 */
-                    it.mTop = calendarView.dateArea + it.mOrder * it.getTypeHeight() + it.mOrder
+                    it.mRight = it.mLeft + (calendarView.minWidth * it.Length).toInt()
+                    it.mTop = calendarView.dateArea + it.mOrder * it.getTypeHeight() + it.mOrder + rowHeightArray[it.cellNum / columns]
                     it.mBottom = it.mTop + it.getTypeHeight()
                     it.setLayout()
-                    status.maxHeight[it.cellNum / columns] = Math.max(status.maxHeight[it.cellNum / columns], it.mBottom)
+                    cellBottomArray[it.cellNum] = Math.max(cellBottomArray[it.cellNum], it.mBottom)
                 }
             }catch (e: Exception){ e.printStackTrace() }
         }
@@ -95,7 +116,7 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
                 ly.removeViews(columns, ly.childCount - columns)
             }
             if(index < rows) {
-                val newHeight = viewPositionStatusMap.values.sumBy { it.maxHeight[index] } + bottomPadding
+                val newHeight = cellBottomArray.sliceArray(index*7..index*7+6).max() ?: 0 + bottomPadding
                 val finalHeight = Math.max(minHeight, newHeight)
                 calendarHeight += finalHeight
                 ly.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, finalHeight)
@@ -134,14 +155,6 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
         return order
     }
 
-    fun refresh(result: RealmResults<TimeObject>) {
-        items = result
-        withAnimtion = true
-        viewHolderList.clear()
-        viewPositionStatusMap.clear()
-        draw()
-    }
-
     fun getViews(cellNum: Int) : List<TimeObjectView> {
         val result = ArrayList<TimeObjectView>()
         viewHolderList.filter { it.startCellNum == cellNum }.forEach {
@@ -160,7 +173,6 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
     }
 
     inner class ViewPositionStatus {
-        var maxHeight = Array(rows){ _ -> 0 }
         var status = Array(maxCellNum){ _ -> "0" }
     }
 }
