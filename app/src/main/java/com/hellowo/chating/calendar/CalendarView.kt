@@ -286,11 +286,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         val animSet = AnimatorSet()
         if(offset < 0) {
-            animSet.playTogether(
-                    ObjectAnimator.ofFloat(scrollView, "translationX", -width.toFloat(), 0f))
+            animSet.playTogether(ObjectAnimator.ofFloat(scrollView, "translationX", -width.toFloat(), 0f))
         }else {
-            animSet.playTogether(
-                    ObjectAnimator.ofFloat(scrollView, "translationX", width.toFloat(), 0f))
+            animSet.playTogether(ObjectAnimator.ofFloat(scrollView, "translationX", width.toFloat(), 0f))
         }
         animSet.addListener(object : Animator.AnimatorListener{
             override fun onAnimationRepeat(p0: Animator?) {}
