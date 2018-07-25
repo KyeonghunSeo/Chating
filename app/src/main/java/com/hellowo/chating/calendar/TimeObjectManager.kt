@@ -13,12 +13,15 @@ object TimeObjectManager {
     private var timeObjectList: RealmResults<TimeObject>? = null
     @SuppressLint("StaticFieldLeak")
     var timeObjectAdapter: TimeObjectAdapter? = null
+    private var postSelectDate = -1
+    private var withAnim = false
 
     fun init() {
         realm = Realm.getDefaultInstance()
     }
 
     fun setTimeObjectListAdapter(calendarView: CalendarView) {
+        withAnim = false
         timeObjectList?.removeAllChangeListeners()
         timeObjectList = realm.where(TimeObject::class.java)
                 .greaterThanOrEqualTo("dtEnd", calendarView.calendarStartTime)
@@ -32,7 +35,12 @@ object TimeObjectManager {
             l("데이터 : ${result.size} 개")
             result.forEach { l(it.toString()) }
             val t = System.currentTimeMillis()
-            timeObjectAdapter?.refresh(result) ?: TimeObjectAdapter(result, calendarView).let { timeObjectAdapter = it.apply { draw() } }
+            timeObjectAdapter?.refresh(result, withAnim) ?: TimeObjectAdapter(result, calendarView).let { timeObjectAdapter = it.apply { draw() } }
+            if(postSelectDate >= 0) {
+                calendarView.selectDate(postSelectDate, true)
+                postSelectDate = -1
+            }
+            withAnim = true
             l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
             l("==========END timeObjectdataSetChanged=========")
         }
@@ -55,6 +63,10 @@ object TimeObjectManager {
         timeObjectList = null
         timeObjectAdapter = null
         realm.close()
+    }
+
+    fun postSelectDate(cellNum: Int) {
+        postSelectDate = cellNum
     }
 
 }

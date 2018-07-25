@@ -25,8 +25,7 @@ import kotlinx.android.synthetic.main.view_time_object.view.*
 import java.util.*
 
 class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {
-    companion object {
-    }
+    companion object
 
     var viewMode = ViewMode.CLOSED
 
@@ -44,6 +43,8 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             override fun onAnimationRepeat(p0: Animator?) {}
             override fun onAnimationEnd(p0: Animator?) {
                 val transiion = makeChangeBounceTransition()
+                transiion.interpolator = FastOutSlowInInterpolator()
+                transiion.duration = ANIM_DUR
                 transiion.addListener(object : Transition.TransitionListener{
                     override fun onTransitionEnd(transition: Transition) {
                         viewMode = ViewMode.OPENED
@@ -68,6 +69,8 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun hide() {
         viewMode = ViewMode.ANIMATING
         val transiion = makeChangeBounceTransition()
+        transiion.interpolator = FastOutSlowInInterpolator()
+        transiion.duration = ANIM_DUR
         transiion.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
                 val animSet = AnimatorSet()

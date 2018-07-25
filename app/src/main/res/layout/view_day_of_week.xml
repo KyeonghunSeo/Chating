@@ -19,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="11dp"
-            android:textColor="@color/grey"
-            android:textStyle="bold"
+            android:textColor="@color/primaryText"
+
             android:gravity="center"
             android:text="@string/sun" />
 
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="1dp"
-            android:background="@color/grey"/>
+            android:background="@color/primaryText"/>
 
     </LinearLayout>
 
@@ -45,8 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="11dp"
-            android:textColor="@color/grey"
-            android:textStyle="bold"
+            android:textColor="@color/primaryText"
+
             android:gravity="center"
             android:text="@string/mon" />
 
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="1dp"
-            android:background="@color/grey"/>
+            android:background="@color/primaryText"/>
 
     </LinearLayout>
 
@@ -71,8 +71,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="11dp"
-            android:textColor="@color/grey"
-            android:textStyle="bold"
+            android:textColor="@color/primaryText"
+
             android:gravity="center"
             android:text="@string/tue" />
 
@@ -81,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="1dp"
-            android:background="@color/grey"/>
+            android:background="@color/primaryText"/>
 
     </LinearLayout>
 
@@ -97,8 +97,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="11dp"
-            android:textColor="@color/grey"
-            android:textStyle="bold"
+            android:textColor="@color/primaryText"
+
             android:gravity="center"
             android:text="@string/wed" />
 
@@ -107,7 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="1dp"
-            android:background="@color/grey"/>
+            android:background="@color/primaryText"/>
 
     </LinearLayout>
 
@@ -123,8 +123,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="11dp"
-            android:textColor="@color/grey"
-            android:textStyle="bold"
+            android:textColor="@color/primaryText"
+
             android:gravity="center"
             android:text="@string/thu" />
 
@@ -133,7 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="1dp"
-            android:background="@color/grey"/>
+            android:background="@color/primaryText"/>
 
     </LinearLayout>
 
@@ -149,8 +149,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="11dp"
-            android:textColor="@color/grey"
-            android:textStyle="bold"
+            android:textColor="@color/primaryText"
+
             android:gravity="center"
             android:text="@string/fri" />
 
@@ -159,7 +159,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="1dp"
-            android:background="@color/grey"/>
+            android:background="@color/primaryText"/>
 
     </LinearLayout>
 
@@ -175,8 +175,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="11dp"
-            android:textColor="@color/grey"
-            android:textStyle="bold"
+            android:textColor="@color/primaryText"
+
             android:gravity="center"
             android:text="@string/sat" />
 
@@ -185,7 +185,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="1dp"
-            android:background="@color/grey"/>
+            android:background="@color/primaryText"/>
 
     </LinearLayout>
 

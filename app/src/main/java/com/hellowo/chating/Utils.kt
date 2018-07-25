@@ -1,5 +1,6 @@
 package com.hellowo.chating
 
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -68,4 +69,8 @@ fun makeViewToBitmap(view: View) : Bitmap {
     val canvas = Canvas(bitmap)
     view.draw(canvas)
     return bitmap
+}
+
+fun vibrate(context: Context) {
+
 }

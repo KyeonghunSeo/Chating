@@ -31,7 +31,7 @@
             android:layout_height="50dp"
             android:padding="10dp"
             android:src="@drawable/ic_outline_account_circle"
-            android:tint="@color/grey"/>
+            android:tint="@color/iconTint"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -51,7 +51,7 @@
             android:layout_height="50dp"
             android:padding="11dp"
             android:src="@drawable/ic_outline_calendar_today"
-            android:tint="@color/grey"/>
+            android:tint="@color/iconTint"/>
 
     </com.hellowo.chating.calendar.BriefingView>
 
@@ -71,7 +71,7 @@
             android:layout_height="50dp"
             android:padding="10dp"
             android:src="@drawable/ic_outline_all_inbox"
-            android:tint="@color/grey"/>
+            android:tint="@color/iconTint"/>
 
     </com.hellowo.chating.calendar.KeepView>
 
@@ -80,8 +80,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="8dp"
-        app:cardBackgroundColor="@color/grey"
+        android:layout_marginBottom="5dp"
+        app:cardBackgroundColor="@color/iconTint"
         app:cardElevation="3dp"
         app:cardCornerRadius="20dp">
 
@@ -89,7 +89,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:padding="12dp"
+            android:padding="11dp"
             android:src="@drawable/ic_outline_create"
             android:tint="@color/white"/>
 
@@ -119,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:textColor="@color/disableText"
+                    android:textColor="@color/primaryText"
                     android:textStyle="bold"
                     android:textSize="18dp"
                     android:visibility="gone"/>
@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:textColor="@color/grey"
+                    android:textColor="@color/primaryText"
                     android:textStyle="bold"
                     android:textSize="18dp"/>
 

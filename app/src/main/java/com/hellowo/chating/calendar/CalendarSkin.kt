@@ -14,7 +14,7 @@ object CalendarSkin {
         backgroundColor = resource.getColor(R.color.white)
         dateColor = resource.getColor(R.color.secondaryText)
         holiDateColor = resource.getColor(R.color.red)
-        selectedDateColor = resource.getColor(R.color.green)
+        selectedDateColor = resource.getColor(R.color.primaryText)
         greyColor = resource.getColor(R.color.grey)
     }
 

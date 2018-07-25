@@ -5,6 +5,7 @@ import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -12,6 +13,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProviders
@@ -49,11 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         calendarView.onDrawed = { cal -> setDateText(cal.time) }
         calendarView.onSelected = { time, cellNum ->
-            val col = cellNum % 7
-            for (i in 0..6) {
-                (dayOfWeekLy.getChildAt(i) as LinearLayout).getChildAt(1)
-                        .setBackgroundColor(if(i == col) CalendarSkin.selectedDateColor else CalendarSkin.greyColor)
-            }
+            setDayOfWeekLy(cellNum)
         }
         editorView.setCalendarView(calendarView)
 
@@ -73,6 +71,25 @@ class MainActivity : AppCompatActivity() {
 
         briefingView.setOnClickListener {
             briefingView.show()
+        }
+    }
+
+    private fun setDayOfWeekLy(cellNum: Int) {
+        val col = cellNum % 7
+        for (i in 0..6) {
+            val textView = ((dayOfWeekLy.getChildAt(i) as LinearLayout).getChildAt(0) as TextView)
+            val bar = (dayOfWeekLy.getChildAt(i) as LinearLayout).getChildAt(1)
+            if(i == col) {
+                textView.setTextColor(CalendarSkin.selectedDateColor)
+                textView.setTypeface(null, Typeface.BOLD)
+                bar.setBackgroundColor(CalendarSkin.selectedDateColor)
+                bar.scaleY = 2f
+            }else {
+                textView.setTextColor(CalendarSkin.dateColor)
+                textView.setTypeface(null, Typeface.NORMAL)
+                bar.setBackgroundColor(CalendarSkin.dateColor)
+                bar.scaleY = 1f
+            }
         }
     }
 

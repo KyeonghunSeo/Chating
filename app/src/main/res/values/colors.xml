@@ -20,7 +20,7 @@
     <color name="backgroundDark">#f2f2f2</color>
     <color name="backgroundDeepDark">#b4b7bc</color>
     <color name="backgroundDarkAlpha">#EEf2f2f2</color>
-    <color name="iconTint">#dcdcdc</color>
+    <color name="iconTint">#757575</color>
 
     <color name="primaryText">#de000000</color>
     <color name="secondaryText">#89000000</color>

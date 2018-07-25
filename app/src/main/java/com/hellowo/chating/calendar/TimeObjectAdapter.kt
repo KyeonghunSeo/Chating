@@ -30,9 +30,9 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
         refreshCalendarView()
     }
 
-    fun refresh(result: RealmResults<TimeObject>) {
+    fun refresh(result: RealmResults<TimeObject>, anim: Boolean) {
         items = result
-        withAnimtion = true
+        withAnimtion = anim
         viewHolderList.clear()
         viewPositionStatusMap.clear()
         cellBottomArray.fill(0)
@@ -57,18 +57,42 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
                 info.startCellNum = ((it.dtStart - calStartTime) / DAY_MILL).toInt()
                 info.endCellNum = ((it.dtEnd - calStartTime) / DAY_MILL).toInt()
 
-                if(info.startCellNum < 0) info.startCellNum = 0
-                if(info.endCellNum >= maxCellNum) info.endCellNum = maxCellNum - 1
+                var lOpen = false
+                var rOpen = false
+
+                if(info.startCellNum < 0) {
+                    info.startCellNum = 0
+                    lOpen = true
+                }
+                if(info.endCellNum >= maxCellNum) {
+                    info.endCellNum = maxCellNum - 1
+                    rOpen = true
+                }
 
                 var currentCell = info.startCellNum
                 var length = info.endCellNum - info.startCellNum + 1
                 var margin = columns - currentCell % columns
+                val size = 1 + (info.endCellNum / columns - info.startCellNum / columns)
 
-                info.timeObjectViewList = Array(1 + (info.endCellNum / columns - info.startCellNum / columns)) { _ ->
+                info.timeObjectViewList = Array(size) { index ->
                     TimeObjectView(context, it, currentCell, if(length <= margin) length else margin).apply {
                         currentCell += margin
                         length -= margin
                         margin = 7
+                        when(index) {
+                            0 -> {
+                                leftOpen = lOpen
+                                rightOpen = size > 1
+                            }
+                            size - 2 -> {
+                                leftOpen = true
+                                rightOpen = true
+                            }
+                            else -> {
+                                leftOpen = size > 1
+                                rightOpen = rOpen
+                            }
+                        }
                     }
                 }
                 viewHolderList.add(info)
