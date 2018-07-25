@@ -22,8 +22,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val radius = dpToPx(1).toFloat()
         val circleRadius = dpToPx(5).toFloat()
         val defaulMargin = dpToPx(1)
-        val defaultPadding = dpToPx(3)
-        val eventTypeSize = dpToPx(16)
+        val defaultPadding = dpToPx(4)
+        val eventTypeSize = dpToPx(17)
         val todoTypeSize = dpToPx(13)
         val memoTypeSize = dpToPx(13)
         val tempCal = Calendar.getInstance()
@@ -118,7 +118,10 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     paint.style = Paint.Style.FILL
                     paint.color = color
                     paint.isAntiAlias = true
-                    val center = eventTypeSize / 2f
+                    paint.alpha = 30
+                    it.drawRoundRect(RectF(0f, 0f, width.toFloat(), height.toFloat()), radius, radius, paint)
+                    paint.alpha = 255
+                    it.drawRect(RectF(0f, 0f, strokeWidth * 2f, height.toFloat()), paint)
                 }
                 2 -> {
                     val paint = Paint()

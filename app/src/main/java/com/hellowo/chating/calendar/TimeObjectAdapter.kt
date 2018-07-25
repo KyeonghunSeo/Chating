@@ -1,8 +1,12 @@
 package com.hellowo.chating.calendar
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
 import com.hellowo.chating.*
 import io.realm.RealmResults
@@ -151,9 +155,22 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
             try{
                 it.timeObjectViewList?.forEach {
                     calendarView.weekLys[it.cellNum / columns].addView(it)
+                    if(TimeObjectManager.lastUpdatedItem == it.timeObject) {
+                        showInsertAnimation(it)
+                    }
                 }
             }catch (e: Exception){ e.printStackTrace() }
         }
+    }
+
+    private fun showInsertAnimation(view: TimeObjectView) {
+        TimeObjectManager.lastUpdatedItem = null
+        val animSet = AnimatorSet()
+        animSet.playTogether(ObjectAnimator.ofFloat(view, "scaleX", 2f, 1f).setDuration(ANIM_DUR),
+                ObjectAnimator.ofFloat(view, "scaleY", 2f, 1f).setDuration(ANIM_DUR),
+                ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).setDuration(ANIM_DUR))
+        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.start()
     }
 
     private fun computeOrder(view: TimeObjectView, status: ViewPositionStatus): Int {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.os.Vibrator
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
@@ -72,5 +73,5 @@ fun makeViewToBitmap(view: View) : Bitmap {
 }
 
 fun vibrate(context: Context) {
-
+    (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(10)
 }

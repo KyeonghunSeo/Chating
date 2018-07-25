@@ -6,6 +6,9 @@ import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
 import java.util.*
+import io.realm.OrderedCollectionChangeSet
+
+
 
 object TimeObjectManager {
     @SuppressLint("StaticFieldLeak")
@@ -13,6 +16,7 @@ object TimeObjectManager {
     private var timeObjectList: RealmResults<TimeObject>? = null
     @SuppressLint("StaticFieldLeak")
     var timeObjectAdapter: TimeObjectAdapter? = null
+    var lastUpdatedItem: TimeObject? = null
     private var postSelectDate = -1
     private var withAnim = false
 
@@ -33,8 +37,13 @@ object TimeObjectManager {
             l("result.isLoaded ${result.isLoaded}")
             l("changeSet ${changeSet.isCompleteResult}")
             l("데이터 : ${result.size} 개")
-            result.forEach { l(it.toString()) }
             val t = System.currentTimeMillis()
+
+            changeSet.insertionRanges.firstOrNull()?.let {
+                lastUpdatedItem = result[it.startIndex]
+                l("추가된 데이터 : ${lastUpdatedItem.toString()}")
+            }
+
             timeObjectAdapter?.refresh(result, withAnim) ?: TimeObjectAdapter(result, calendarView).let { timeObjectAdapter = it.apply { draw() } }
             if(postSelectDate >= 0) {
                 calendarView.selectDate(postSelectDate, true)
