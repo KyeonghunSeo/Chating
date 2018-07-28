@@ -13,7 +13,7 @@ import android.view.MotionEvent.*
 
 class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : ScrollView(context, attrs, defStyleAttr) {
-    val swipeThreshold = dpToPx(20)
+    val swipeThreshold = dpToPx(10)
     var firstX = 0f
     var firstY = 0f
     var swipeMode = 0
@@ -28,14 +28,14 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
                     onSwipeStateChanged?.invoke(swipeMode)
                 }
                 ACTION_MOVE -> {
-                    if(swipeMode == 1) {
+                    if(swipeMode != 0 && Math.abs(firstY - it.y) > swipeThreshold * 2) {
+                        swipeMode = 0
+                    }else if(swipeMode == 1) {
                         if(Math.abs(firstX - it.x) > swipeThreshold) {
                             swipeMode = 4
-                        }else if(Math.abs(firstY - it.y) > swipeThreshold) {
-                            swipeMode = 0
                         }
                     }else if(swipeMode == 4) {
-                        if(Math.abs(firstX - it.x) > swipeThreshold * 3) {
+                        if(Math.abs(firstX - it.x) > swipeThreshold * 7) {
                             onSwipeStateChanged?.invoke(if(firstX < it.x) 2 else 3)
                             swipeMode = 0
                             return true

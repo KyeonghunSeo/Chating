@@ -2,27 +2,18 @@ package com.hellowo.chating.calendar
 
 import android.animation.Animator
 import android.animation.AnimatorSet
-import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.animation.AnticipateInterpolator
-import android.view.animation.AnticipateOvershootInterpolator
-import android.view.animation.OvershootInterpolator
-import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
-import com.hellowo.chating.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.view_time_object.view.*
-import java.util.*
+import com.hellowo.chating.ANIM_DUR
+import com.hellowo.chating.dpToPx
+import com.hellowo.chating.makeChangeBounceTransition
 
 class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {
     companion object

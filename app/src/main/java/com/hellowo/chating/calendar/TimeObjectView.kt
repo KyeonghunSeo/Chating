@@ -9,11 +9,9 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.hellowo.chating.*
 import java.util.*
-import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.BitmapFactory
-import android.graphics.Bitmap
 
 @SuppressLint("ViewConstructor")
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val Length: Int) : TextView(context) {
@@ -26,6 +24,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val eventTypeSize = dpToPx(17)
         val todoTypeSize = dpToPx(13)
         val memoTypeSize = dpToPx(13)
+        val levelMargin = dpToPx(5)
         val tempCal = Calendar.getInstance()
     }
 
@@ -35,7 +34,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     var mRight = 0
     var mBottom = 0
     var mLine = 0
-    var mOrder = 0
     var color = CalendarSkin.dateColor
     var leftOpen = false
     var rightOpen = false
@@ -47,16 +45,11 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
         when(timeObject.type) {
             0 -> {
-                setPadding(defaultPadding, 0, defaultPadding, 0)
-                setSingleLine(true)
-                setHorizontallyScrolling(true)
-                setTextColor(Color.WHITE)
             }
             1 -> {
                 setPadding(defaultPadding, 0, defaultPadding, 0)
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
-                setTextColor(color)
             }
             2 -> {
                 setPadding(todoTypeSize, 0, defaultPadding, 0)
@@ -78,52 +71,73 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
         canvas?.let {
-            when(timeObject.type) {
-                0 -> {
-                    val paint = Paint()
-                    paint.style = Paint.Style.FILL
-                    paint.color = color
-                    paint.isAntiAlias = true
-                    var left = 0f
-                    var right = width.toFloat()
-                    if(leftOpen) {
-                        left = defaultPadding.toFloat()
-                        val path = Path()
-                        path.moveTo(defaultPadding + radius, 0f)
-                        path.lineTo(defaultPadding.toFloat(), 0f)
-                        path.lineTo(0f, height * 0.5f)
-                        path.lineTo(defaultPadding.toFloat(), height.toFloat())
-                        path.lineTo(defaultPadding.toFloat() + radius, height.toFloat())
-                        path.lineTo(defaultPadding + radius, 0f)
-                        path.close()
-                        it.drawPath(path, paint)
+            when(TimeObject.Type.values()[timeObject.type]) {
+                TimeObject.Type.EVENT -> {
+                    when(TimeObject.Style.values()[timeObject.style]){
+                        TimeObject.Style.SHORT -> {
+                            setTextColor(color)
+                            setPadding(defaultPadding, 0, defaultPadding, 0)
+                            setSingleLine(true)
+                            setHorizontallyScrolling(true)
+
+                            val paint = Paint()
+                            paint.style = Paint.Style.FILL
+                            paint.color = color
+                            paint.isAntiAlias = true
+                            paint.alpha = 30
+                            it.drawRoundRect(RectF(0f, 0f, width.toFloat(), height.toFloat()), radius, radius, paint)
+                            paint.alpha = 255
+                            it.drawRect(RectF(0f, 0f, strokeWidth * 2f, height.toFloat()), paint)
+                        }
+                        else -> {
+                            setTextColor(Color.WHITE)
+                            setPadding(defaultPadding, 0, defaultPadding, 0)
+                            setSingleLine(true)
+                            setHorizontallyScrolling(true)
+
+                            val paint = Paint()
+                            paint.style = Paint.Style.FILL
+                            paint.color = color
+                            paint.isAntiAlias = true
+                            var left = 0f
+                            var right = width.toFloat()
+                            if(leftOpen) {
+                                left = defaultPadding.toFloat()
+                                val path = Path()
+                                path.moveTo(defaultPadding + radius, 0f)
+                                path.lineTo(defaultPadding.toFloat(), 0f)
+                                path.lineTo(0f, height * 0.5f)
+                                path.lineTo(defaultPadding.toFloat(), height.toFloat())
+                                path.lineTo(defaultPadding.toFloat() + radius, height.toFloat())
+                                path.lineTo(defaultPadding + radius, 0f)
+                                path.close()
+                                it.drawPath(path, paint)
+                            }
+                            if(rightOpen) {
+                                right = width.toFloat() - defaultPadding
+                                val path = Path()
+                                path.moveTo(right - radius, 0f)
+                                path.lineTo(right, 0f)
+                                path.lineTo(right + defaultPadding, height * 0.5f)
+                                path.lineTo(right, height.toFloat())
+                                path.lineTo(right - radius, height.toFloat())
+                                path.lineTo(right - radius, 0f)
+                                path.close()
+                                it.drawPath(path, paint)
+                            }
+                            val rect = RectF(left, 0f, right, height.toFloat())
+                            it.drawRoundRect(rect, radius, radius, paint)
+                        }
                     }
-                    if(rightOpen) {
-                        right = width.toFloat() - defaultPadding
-                        val path = Path()
-                        path.moveTo(right - radius, 0f)
-                        path.lineTo(right, 0f)
-                        path.lineTo(right + defaultPadding, height * 0.5f)
-                        path.lineTo(right, height.toFloat())
-                        path.lineTo(right - radius, height.toFloat())
-                        path.lineTo(right - radius, 0f)
-                        path.close()
-                        it.drawPath(path, paint)
-                    }
-                    val rect = RectF(left, 0f, right, height.toFloat())
-                    it.drawRoundRect(rect, radius, radius, paint)
+
                 }
-                1 -> {
-                    val paint = Paint()
-                    paint.style = Paint.Style.FILL
-                    paint.color = color
-                    paint.isAntiAlias = true
-                    paint.alpha = 30
-                    it.drawRoundRect(RectF(0f, 0f, width.toFloat(), height.toFloat()), radius, radius, paint)
-                    paint.alpha = 255
-                    it.drawRect(RectF(0f, 0f, strokeWidth * 2f, height.toFloat()), paint)
-                }
-                2 -> {
+                TimeObject.Type.TODO -> {
+                    setTextColor(color)
+                    setPadding(todoTypeSize, 0, defaultPadding, 0)
+                    setSingleLine(true)
+                    setHorizontallyScrolling(true)
+                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
                     val paint = Paint()
                     paint.style = Paint.Style.FILL
                     paint.strokeWidth = strokeWidth.toFloat()
@@ -139,6 +153,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                             center + circleRadius * 0.75f, center - circleRadius * 0.5f, paint)
 
                 }
+                /*
                 3 -> {
                     val paint = Paint()
                     paint.style = Paint.Style.STROKE
@@ -173,13 +188,14 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     bitmapDrawable.setTargetDensity(it)
                     it.drawBitmap(bitmapDrawable.bitmap, 0f, 0f, Paint())
                 }
+                */
                 else -> {}
             }
         }
         super.onDraw(canvas)
     }
 
-    fun getTypeHeight(): Int = when(timeObject.type) {
+    fun getViewHeight(): Int = when(timeObject.type) {
         0 -> eventTypeSize
         1 -> todoTypeSize
         2 -> memoTypeSize
@@ -193,7 +209,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     }
 
     override fun toString(): String {
-        return "TimeObjectView(timeObject=$timeObject, cellNum=$cellNum, Length=$Length, mTextSize=$mTextSize, mLeft=$mLeft, mTop=$mTop, mRight=$mRight, mBottom=$mBottom, mLine=$mLine, mOrder=$mOrder)"
+        return "TimeObjectView(timeObject=$timeObject, cellNum=$cellNum, Length=$Length, mTextSize=$mTextSize, mLeft=$mLeft, mTop=$mTop, mRight=$mRight, mBottom=$mBottom, mLine=$mLine)"
     }
 
 }

@@ -2,7 +2,6 @@ package com.hellowo.chating.calendar
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -17,15 +16,15 @@ import kotlin.collections.HashMap
 
 class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private val calendarView: CalendarView) {
     private val viewHolderList = ArrayList<TimeObjectViewHolder>()
-    private val viewPositionStatusMap = HashMap<Int, ViewPositionStatus>()
+    private val viewLevelStatusMap = HashMap<Int, ViewLevelStatus>()
     private val context = calendarView.context
     private val columns = CalendarView.columns
     private var rows = 0
     private var maxCellNum = 0
     private var calStartTime = 0L
     private var withAnimtion = false
-    private val cellBottomArray = Array(42){ _ -> 0}
-    private val rowHeightArray = Array(6){ _ -> 0}
+    private val cellBottomArray = Array(42){ _ -> CalendarView.dateArea}
+    private val rowHeightArray = Array(6){ _ -> CalendarView.dateArea}
 
     fun draw() {
         setCalendarData()
@@ -38,9 +37,9 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
         items = result
         withAnimtion = anim
         viewHolderList.clear()
-        viewPositionStatusMap.clear()
-        cellBottomArray.fill(0)
-        rowHeightArray.fill(0)
+        viewLevelStatusMap.clear()
+        cellBottomArray.fill(CalendarView.dateArea)
+        rowHeightArray.fill(CalendarView.dateArea)
         draw()
     }
 
@@ -53,10 +52,6 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
     private fun computePosition() {
         items.forEach{
             try{
-                if(!viewPositionStatusMap.containsKey(it.type)) {
-                    viewPositionStatusMap[it.type] = ViewPositionStatus()
-                }
-
                 val info = TimeObjectViewHolder(it)
                 info.startCellNum = ((it.dtStart - calStartTime) / DAY_MILL).toInt()
                 info.endCellNum = ((it.dtEnd - calStartTime) / DAY_MILL).toInt()
@@ -106,28 +101,48 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
     }
 
     private fun setTimeObjectViews() {
-        val levelMargin = dpToPx(3)
-        var startTopPos = 0
-        var currentType = 0
+        var currentViewLevel = -1
         viewHolderList.forEach {
             try{
-                val status = viewPositionStatusMap[it.timeObject.type]!!
-                if(it.timeObject.type != currentType) {
-                    currentType = it.timeObject.type
-                    (0..5).forEach{ index ->
-                        rowHeightArray[index] = cellBottomArray.sliceArray(index*7..index*7+6).max() ?: 0 + levelMargin
-                    }
+                val timeObject = it.timeObject
+                val viewLevel = timeObject.getViewLevelPriority()
+                val formula = timeObject.getFormula()
+                val status = viewLevelStatusMap[viewLevel]?: ViewLevelStatus().apply { viewLevelStatusMap[viewLevel] = this }
+
+                if(currentViewLevel == -1) { currentViewLevel = viewLevel }
+
+                if(viewLevel != currentViewLevel) {
+                    currentViewLevel = viewLevel
+                    computeRowHeight()
                 }
                 it.timeObjectViewList?.forEach {
-                    it.mOrder = computeOrder(it, status)
                     it.mLeft = (calendarView.minWidth * (it.cellNum % columns)).toInt()
                     it.mRight = it.mLeft + (calendarView.minWidth * it.Length).toInt()
-                    it.mTop = calendarView.dateArea + it.mOrder * it.getTypeHeight() + it.mOrder + rowHeightArray[it.cellNum / columns]
-                    it.mBottom = it.mTop + it.getTypeHeight()
+                    when(formula) {
+                        TimeObject.Formula.FILL -> {
+                            it.mTop = computeOrder(it, status) * it.getViewHeight() /*블럭수에 따른 높이*/ + rowHeightArray[it.cellNum / columns] /* + 기본 높이*/
+                        }
+                        TimeObject.Formula.BOTTOM -> {
+                            //l("viewLevel : ${viewLevel}, ${it.cellNum} : ${cellBottomArray[it.cellNum]}")
+                            it.mTop = cellBottomArray[it.cellNum]
+                        }
+                        else -> {}
+                    }
+                    it.mBottom = it.mTop + it.getViewHeight()
                     it.setLayout()
-                    cellBottomArray[it.cellNum] = Math.max(cellBottomArray[it.cellNum], it.mBottom)
+                    (it.cellNum until it.cellNum + it.Length).forEach{ index ->
+                        l("${it.cellNum} : ${index}")
+                        cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom)
+                    }
                 }
             }catch (e: Exception){ e.printStackTrace() }
+        }
+        computeRowHeight()
+    }
+
+    private fun computeRowHeight() {
+        (0..5).forEach{ index ->
+            rowHeightArray[index] = cellBottomArray.sliceArray(index*7..index*7+6).max() ?: 0 + TimeObjectView.levelMargin
         }
     }
 
@@ -138,13 +153,13 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
         }
         var calendarHeight = 0
         val minHeight = calendarView.minHeight.toInt()
-        val bottomPadding = calendarView.weekLyBottomPadding
+        val bottomPadding = CalendarView.weekLyBottomPadding
         calendarView.weekLys.forEachIndexed { index, ly ->
             if(ly.childCount > columns) {
                 ly.removeViews(columns, ly.childCount - columns)
             }
             if(index < rows) {
-                val newHeight = cellBottomArray.sliceArray(index*7..index*7+6).max() ?: 0 + bottomPadding
+                val newHeight = rowHeightArray[index] + bottomPadding
                 val finalHeight = Math.max(minHeight, newHeight)
                 calendarHeight += finalHeight
                 ly.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, finalHeight)
@@ -173,7 +188,7 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
         animSet.start()
     }
 
-    private fun computeOrder(view: TimeObjectView, status: ViewPositionStatus): Int {
+    private fun computeOrder(view: TimeObjectView, status: ViewLevelStatus): Int {
         var order = 0
         for (i in view.cellNum until view.cellNum + view.Length) {
             val s = StringBuilder(status.status[i])
@@ -182,16 +197,10 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
                 if(order == -1) order = s.length
             }
 
-            if(order < s.length) {
-                status.status[i] = s.replace(order, order, "1").toString()
-            }else {
-                if(order == s.length) {
-                    status.status[i] = s.append(s.length, "1").toString()
-                }else {
-                    s.append("0", s.length, order - 1)
-                    status.status[i] = s.append(s.length, "1").toString()
-                }
+            if(order >= s.length) {
+                s.append(CharArray(order - s.length + 1, { _-> '0'}))
             }
+            status.status[i] = s.replaceRange(order, order + 1, "1").toString()
         }
         return order
     }
@@ -213,7 +222,7 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
         }
     }
 
-    inner class ViewPositionStatus {
+    inner class ViewLevelStatus {
         var status = Array(maxCellNum){ _ -> "0" }
     }
 }

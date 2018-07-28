@@ -22,15 +22,14 @@ import java.util.*
 import android.widget.*
 import android.text.method.Touch.scrollTo
 
-
-
-
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
         const val maxCellNum = 42
         const val dateTextSize = 12f
         const val animDur = 250L
         const val columns = 7
+        val dateArea = dpToPx(40)
+        val weekLyBottomPadding = dpToPx(10)
     }
 
     private val scrollView = SwipeScrollView(context)
@@ -54,13 +53,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var calendarEndTime = Long.MAX_VALUE
     var onDrawed: ((Calendar) -> Unit)? = null
     var onSelected: ((Long, Int) -> Unit)? = null
-    val dateArea = dpToPx(40)
     var startCellNum = 0
     var endCellNum = 0
     var minCalendarHeight = 0
     var minWidth = 0f
     var minHeight = 0f
-    var weekLyBottomPadding = dpToPx(10)
     var rows = 0
 
     init {

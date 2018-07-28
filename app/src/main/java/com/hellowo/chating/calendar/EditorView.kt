@@ -8,18 +8,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.animation.AnticipateInterpolator
-import android.view.animation.AnticipateOvershootInterpolator
-import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.transition.TransitionManager
 import com.hellowo.chating.ANIM_DUR
 import com.hellowo.chating.DAY_MILL
 import com.hellowo.chating.R
-import com.hellowo.chating.makeFromBottomSlideTransition
 import kotlinx.android.synthetic.main.view_time_object.view.*
 import java.util.*
 
@@ -29,7 +24,8 @@ class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     var viewMode = ViewMode.CLOSED
-    var shapeType = 0
+    var mType: TimeObject.Type = TimeObject.Type.EVENT
+    var mStyle: TimeObject.Style = TimeObject.Style.DEFAULT
     var testEnd = 0
     private var calendarView: CalendarView? = null
 
@@ -43,9 +39,18 @@ class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             return@setOnEditorActionListener false
         }
 
-        type1btn.setOnClickListener { shapeType = 1 }
-        type2btn.setOnClickListener { shapeType = 2 }
-        type3btn.setOnClickListener { testEnd++ }
+        type1btn.setOnClickListener {
+            mType = TimeObject.Type.EVENT
+            mStyle = TimeObject.Style.DEFAULT
+        }
+        type2btn.setOnClickListener {
+            mType = TimeObject.Type.EVENT
+            mStyle = TimeObject.Style.SHORT
+        }
+        type3btn.setOnClickListener {
+            mType = TimeObject.Type.TODO
+            mStyle = TimeObject.Style.DEFAULT
+        }
     }
 
     fun setCalendarView(view: CalendarView) { calendarView = view }
@@ -54,9 +59,10 @@ class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         val time = calendarView?.selectedCal?.timeInMillis ?: System.currentTimeMillis()
         TimeObjectManager.save(TimeObject().apply {
             title = titleInput.text.toString()
-            type = shapeType
+            type = mType.ordinal
+            style = mStyle.ordinal
             dtStart = time
-            dtEnd = time + DAY_MILL * (testEnd % 7)
+            dtEnd = time + DAY_MILL * (title?.length ?: 0 + 1)
             timeZone = TimeZone.getDefault().id
         })
         hide()
