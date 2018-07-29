@@ -15,7 +15,7 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.chating.ANIM_DUR
 import com.hellowo.chating.DAY_MILL
 import com.hellowo.chating.R
-import kotlinx.android.synthetic.main.view_time_object.view.*
+import kotlinx.android.synthetic.main.view_editor.view.*
 import java.util.*
 
 class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
@@ -23,14 +23,14 @@ class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         private val tempCal: Calendar = Calendar.getInstance()
     }
 
+    private var calendarView: CalendarView? = null
     var viewMode = ViewMode.CLOSED
     var mType: TimeObject.Type = TimeObject.Type.EVENT
     var mStyle: TimeObject.Style = TimeObject.Style.DEFAULT
     var testEnd = 0
-    private var calendarView: CalendarView? = null
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_time_object, this, true)
+        LayoutInflater.from(context).inflate(R.layout.view_editor, this, true)
         rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         titleInput.setOnEditorActionListener { _, actionId, _ ->
@@ -51,6 +51,10 @@ class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             mType = TimeObject.Type.TODO
             mStyle = TimeObject.Style.DEFAULT
         }
+        type4btn.setOnClickListener {
+            mType = TimeObject.Type.MEMO
+            mStyle = TimeObject.Style.DEFAULT
+        }
     }
 
     fun setCalendarView(view: CalendarView) { calendarView = view }
@@ -62,7 +66,8 @@ class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             type = mType.ordinal
             style = mStyle.ordinal
             dtStart = time
-            dtEnd = time + DAY_MILL * (title?.length ?: 0 + 1)
+            if(mType == TimeObject.Type.MEMO) dtEnd = time
+            else dtEnd = time + DAY_MILL * (title?.length ?: 0 + 1)
             timeZone = TimeZone.getDefault().id
         })
         hide()

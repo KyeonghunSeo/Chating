@@ -7,6 +7,7 @@ object CalendarSkin {
     var dateColor: Int = 0
     var holiDateColor: Int = 0
     var selectedDateColor: Int = 0
+    var selectedBackgroundColor: Int = 0
     var greyColor: Int = 0
 
     fun init(calendarView: CalendarView) {
@@ -15,6 +16,7 @@ object CalendarSkin {
         dateColor = resource.getColor(R.color.secondaryText)
         holiDateColor = resource.getColor(R.color.red)
         selectedDateColor = resource.getColor(R.color.primaryText)
+        selectedBackgroundColor = resource.getColor(R.color.grey)
         greyColor = resource.getColor(R.color.grey)
     }
 

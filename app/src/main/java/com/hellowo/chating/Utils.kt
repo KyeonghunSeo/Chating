@@ -20,8 +20,7 @@ fun l(s: String){
 }
 
 fun dpToPx(dps: Int): Int {
-    return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, dps.toFloat(), Resources.getSystem().displayMetrics).toInt()
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dps.toFloat(), Resources.getSystem().displayMetrics).toInt()
 }
 
 fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {

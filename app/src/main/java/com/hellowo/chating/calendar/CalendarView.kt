@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -13,14 +14,14 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewTreeObserver
-import android.view.animation.AnticipateOvershootInterpolator
 import android.view.animation.OvershootInterpolator
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.chating.*
 import com.hellowo.chating.ui.view.SwipeScrollView
 import java.util.*
 import android.widget.*
-import android.text.method.Touch.scrollTo
+import androidx.transition.Fade
+import androidx.transition.TransitionSet
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
@@ -38,7 +39,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     val weekLys = Array(6) { _ -> FrameLayout(context)}
     val dateLys = Array(maxCellNum) { _ -> FrameLayout(context)}
     val dateTexts = Array(maxCellNum) { _ -> TextView(context)}
-    val fakeAnimationImageView = ImageView(context)
 
     private val todayCal: Calendar = Calendar.getInstance()
     private val tempCal: Calendar = Calendar.getInstance()
@@ -52,7 +52,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var calendarStartTime = Long.MAX_VALUE
     var calendarEndTime = Long.MAX_VALUE
     var onDrawed: ((Calendar) -> Unit)? = null
-    var onSelected: ((Long, Int) -> Unit)? = null
+    var onSelected: ((Long, Int, Boolean) -> Unit)? = null
     var startCellNum = 0
     var endCellNum = 0
     var minCalendarHeight = 0
@@ -76,7 +76,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         addView(scrollView)
         scrollView.addView(rootLy)
         rootLy.addView(calendarLy)
-        rootLy.addView(fakeAnimationImageView)
     }
 
     private fun setLayout() {
@@ -113,9 +112,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 3 -> moveMonth(1)
             }
         }
-
-        fakeAnimationImageView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        fakeAnimationImageView.visibility = View.GONE
     }
 
     private fun drawCalendar(time: Long) {
@@ -133,9 +129,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         minCalendarHeight = height
         minWidth = width.toFloat() / columns
         minHeight = minCalendarHeight.toFloat() / rows
-
         calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, minCalendarHeight)
         tempCal.add(Calendar.DATE, -startCellNum)
+
         for(i in 0..5) {
             val weekLy = weekLys[i]
             weekLy.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, minHeight.toInt())
@@ -180,40 +176,38 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun onDateClick(cellNum: Int) {
         l("날짜 : " + android.text.format.DateFormat.getDateFormat(context).format(cellTimeMills[cellNum]))
         tempCal.timeInMillis = cellTimeMills[cellNum]
-        if(isSameDay(tempCal, selectedCal)) {
-
-        }else {
-            selectDate(cellNum,true)
-        }
+        selectDate(cellNum,true, isSameDay(tempCal, selectedCal))
     }
 
-    fun selectDate(cellNum: Int, anim: Boolean) {
-        if(selectedCellNum >= 0) { unselectDate(selectedCellNum, anim) }
+    fun selectDate(cellNum: Int, anim: Boolean, showDayView: Boolean) {
+        if(!showDayView) {
+            if(selectedCellNum >= 0) { unselectDate(selectedCellNum, anim) }
 
-        selectedCellNum = cellNum
-        selectedCal.timeInMillis = cellTimeMills[cellNum]
-        val dateText = dateTexts[selectedCellNum]
-        setDateTextColor(cellNum)
-        if(anim) {
-            lastSelectAnimSet?.cancel()
-            lastSelectAnimSet = AnimatorSet()
-            lastSelectAnimSet?.let {
-                it.playTogether(
-                        ObjectAnimator.ofFloat(dateText, "scaleX", 1f, 2f),
-                        ObjectAnimator.ofFloat(dateText, "scaleY", 1f, 2f))
-                it.interpolator = OvershootInterpolator(5f)
-                it.duration = animDur
-                it.start()
+            selectedCellNum = cellNum
+            selectedCal.timeInMillis = cellTimeMills[cellNum]
+            val dateText = dateTexts[selectedCellNum]
+            setDateTextColor(cellNum)
+
+            if(anim) {
+                lastSelectAnimSet?.cancel()
+                lastSelectAnimSet = AnimatorSet()
+                lastSelectAnimSet?.let {
+                    it.playTogether(
+                            ObjectAnimator.ofFloat(dateText, "scaleX", 1f, 2f),
+                            ObjectAnimator.ofFloat(dateText, "scaleY", 1f, 2f))
+                    it.interpolator = OvershootInterpolator(5f)
+                    it.duration = animDur
+                    it.start()
+                }
+            }else {
+                dateText.scaleX = 2f
+                dateText.scaleY = 2f
             }
-        }else {
-            dateText.scaleX = 2f
-            dateText.scaleY = 2f
+
+            scrollView.post{ scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top) }
+            onViewEffect(cellNum)
         }
-
-        scrollView.post{ scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top) }
-        onViewEffect(cellNum)
-
-        onSelected?.invoke(cellTimeMills[selectedCellNum], selectedCellNum)
+        onSelected?.invoke(cellTimeMills[selectedCellNum], selectedCellNum, showDayView)
     }
 
     private fun onViewEffect(cellNum: Int) {
@@ -325,4 +319,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun startEditMode() {
 
     }
+
+    fun getSelectedView(): View = dateLys[selectedCellNum]
 }

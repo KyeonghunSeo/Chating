@@ -102,6 +102,7 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
 
     private fun setTimeObjectViews() {
         var currentViewLevel = -1
+        var currentType = -1
         viewHolderList.forEach {
             try{
                 val timeObject = it.timeObject
@@ -110,11 +111,18 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
                 val status = viewLevelStatusMap[viewLevel]?: ViewLevelStatus().apply { viewLevelStatusMap[viewLevel] = this }
 
                 if(currentViewLevel == -1) { currentViewLevel = viewLevel }
+                if(currentType == -1) { currentType = it.timeObject.type }
 
                 if(viewLevel != currentViewLevel) {
                     currentViewLevel = viewLevel
                     computeRowHeight()
                 }
+
+                if(currentType != it.timeObject.type) {
+                    currentType = it.timeObject.type
+                    setTypeMargin()
+                }
+
                 it.timeObjectViewList?.forEach {
                     it.mLeft = (calendarView.minWidth * (it.cellNum % columns)).toInt()
                     it.mRight = it.mLeft + (calendarView.minWidth * it.Length).toInt()
@@ -131,7 +139,6 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
                     it.mBottom = it.mTop + it.getViewHeight()
                     it.setLayout()
                     (it.cellNum until it.cellNum + it.Length).forEach{ index ->
-                        l("${it.cellNum} : ${index}")
                         cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom)
                     }
                 }
@@ -144,6 +151,11 @@ class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private va
         (0..5).forEach{ index ->
             rowHeightArray[index] = cellBottomArray.sliceArray(index*7..index*7+6).max() ?: 0 + TimeObjectView.levelMargin
         }
+    }
+
+    private fun setTypeMargin() {
+        val typeMargin = dpToPx(3)
+        cellBottomArray.forEachIndexed { index, i -> cellBottomArray[index] += typeMargin }
     }
 
     private fun refreshCalendarView() {

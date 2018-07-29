@@ -50,10 +50,15 @@ class MainActivity : AppCompatActivity() {
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         calendarView.onDrawed = { cal -> setDateText(cal.time) }
-        calendarView.onSelected = { time, cellNum ->
-            setDayOfWeekLy(cellNum)
+        calendarView.onSelected = { time, cellNum, showDayView ->
+            if(showDayView && dayView.viewMode == ViewMode.CLOSED) {
+                dayView.show(calendarView.selectedCal, calendarView.dateLys[cellNum])
+            }else {
+                setDayOfWeekLy(cellNum)
+            }
         }
         editorView.setCalendarView(calendarView)
+        dayView.setCalendarView(calendarView)
 
         insertBtn.setOnClickListener {
             if(editorView.viewMode == ViewMode.CLOSED) {
@@ -106,6 +111,7 @@ class MainActivity : AppCompatActivity() {
             editorView.viewMode == ViewMode.OPENED -> editorView.hide()
             keepView.viewMode == ViewMode.OPENED -> keepView.hide()
             briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
+            dayView.viewMode == ViewMode.OPENED -> dayView.hide()
             else -> super.onBackPressed()
         }
     }

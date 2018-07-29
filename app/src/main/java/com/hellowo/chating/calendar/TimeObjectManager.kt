@@ -46,7 +46,7 @@ object TimeObjectManager {
 
             timeObjectAdapter?.refresh(result, withAnim) ?: TimeObjectAdapter(result, calendarView).let { timeObjectAdapter = it.apply { draw() } }
             if(postSelectDate >= 0) {
-                calendarView.selectDate(postSelectDate, true)
+                calendarView.selectDate(postSelectDate, true, false)
                 postSelectDate = -1
             }
             withAnim = true
