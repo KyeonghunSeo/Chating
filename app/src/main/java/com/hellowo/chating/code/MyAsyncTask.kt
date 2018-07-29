@@ -1,9 +1,6 @@
 package com.hellowo.chating.code
 
 import android.os.AsyncTask
-import com.hellowo.chating.calendar.CalendarView
-import com.hellowo.chating.calendar.TimeObject
-import io.realm.RealmResults
 
 
 class MyAsyncTask() : AsyncTask<String, String, String?>() {

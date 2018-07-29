@@ -11,16 +11,18 @@ import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.list_item_normal_check.view.*
 
-class ChatRoomAdapter(val context: Context,
-                      val items: OrderedRealmCollection<ChatRoom>,
-                      val adapterInterface: (chatRoom: ChatRoom) -> Unit) : RealmRecyclerViewAdapter<ChatRoom, ChatRoomAdapter.ViewHolder>(items, true) {
+class TimeObjectAdapter(val context: Context,
+                        val items: OrderedRealmCollection<ChatRoom>,
+                        val adapterInterface: (chatRoom: ChatRoom) -> Unit) : RecyclerView.Adapter<TimeObjectAdapter.ViewHolder>() {
+
+    override fun getItemCount(): Int = items.size
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container)
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_normal_check, parent, false))
 
-    override fun onBindViewHolder(holder: ChatRoomAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TimeObjectAdapter.ViewHolder, position: Int) {
         val chatRoom = items[position]
         val v = holder.itemView
 
