@@ -80,7 +80,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun setLayout() {
         setBackgroundColor(CalendarSkin.backgroundColor)
-
         scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         rootLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         rootLy.setPadding(0, 0, 0 , 0)
@@ -140,10 +139,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 for (j in 0..6){
                     val cellNum = i*7 + j
                     cellTimeMills[cellNum] = tempCal.timeInMillis
+
                     val dateLy = dateLys[cellNum]
                     dateLy.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), MATCH_PARENT)
                     dateLy.translationX = cellNum % columns * minWidth
                     dateLy.setOnClickListener { onDateClick(cellNum) }
+
                     val dateText = dateTexts[cellNum]
                     dateText.text = tempCal.get(Calendar.DATE).toString()
                     dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.3f
@@ -156,6 +157,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         setCalendarTime23(tempCal)
                         calendarEndTime = tempCal.timeInMillis
                     }
+
                     tempCal.add(Calendar.DATE, 1)
                 }
             }else {

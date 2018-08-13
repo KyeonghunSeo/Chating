@@ -30,8 +30,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         setCardBackgroundColor(Color.WHITE)
         elevation = 0f
-
-
     }
 
     fun setCalendarView(view: CalendarView) { calendarView = view }
@@ -71,7 +69,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                         val animSet = AnimatorSet()
                         animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
                                 "elevation", dpToPx(15).toFloat(), 0f).setDuration(ANIM_DUR),
-                                ObjectAnimator.ofFloat(dateText, "alpha", 1f, 0f).setDuration(ANIM_DUR))
+                                ObjectAnimator.ofFloat(dateText, "alpha", 1f, 1f).setDuration(ANIM_DUR))
                         animSet.interpolator = FastOutSlowInInterpolator()
                         animSet.start()
                     }
@@ -101,7 +99,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     val animSet = AnimatorSet()
                     animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
                             "elevation", dpToPx(15).toFloat(), 0f).setDuration(ANIM_DUR),
-                            ObjectAnimator.ofFloat(dateText, "alpha", 0f, 1f).setDuration(ANIM_DUR))
+                            ObjectAnimator.ofFloat(dateText, "alpha", 1f, 1f).setDuration(ANIM_DUR))
                     animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.addListener(object : Animator.AnimatorListener{
                         override fun onAnimationRepeat(p0: Animator?) {}

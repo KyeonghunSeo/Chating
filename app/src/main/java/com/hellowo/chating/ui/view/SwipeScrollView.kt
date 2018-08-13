@@ -35,7 +35,7 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
                             swipeMode = 4
                         }
                     }else if(swipeMode == 4) {
-                        if(Math.abs(firstX - it.x) > swipeThreshold * 7) {
+                        if(Math.abs(firstX - it.x) > swipeThreshold * 6) {
                             onSwipeStateChanged?.invoke(if(firstX < it.x) 2 else 3)
                             swipeMode = 0
                             return true
