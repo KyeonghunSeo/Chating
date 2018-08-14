@@ -30,9 +30,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         setCardBackgroundColor(Color.WHITE)
         elevation = 0f
+
     }
 
     fun setCalendarView(view: CalendarView) { calendarView = view }
+
+    private fun setData() {
+
+    }
 
     fun confirm() {}
 
@@ -61,6 +66,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 transiion.addListener(object : Transition.TransitionListener{
                     override fun onTransitionEnd(transition: Transition) {
                         viewMode = ViewMode.OPENED
+                        setData()
                     }
                     override fun onTransitionResume(transition: Transition) {}
                     override fun onTransitionPause(transition: Transition) {}

@@ -102,7 +102,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 dateLy.addView(dateText)
                 weekLy.addView(dateLy)
             }
-                calendarLy.addView(weekLy)
+            calendarLy.addView(weekLy)
         }
 
         scrollView.onSwipeStateChanged = { state ->
