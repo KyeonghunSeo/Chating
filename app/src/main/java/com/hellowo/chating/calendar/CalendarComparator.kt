@@ -1,7 +1,7 @@
 package com.hellowo.chating.calendar
 
-class CalendarComparator : Comparator<TimeObjectAdapter.TimeObjectViewHolder> {
-    override fun compare(l: TimeObjectAdapter.TimeObjectViewHolder, r: TimeObjectAdapter.TimeObjectViewHolder): Int {
+class CalendarComparator : Comparator<TimeObjectCalendarAdapter.TimeObjectViewHolder> {
+    override fun compare(l: TimeObjectCalendarAdapter.TimeObjectViewHolder, r: TimeObjectCalendarAdapter.TimeObjectViewHolder): Int {
         return when{
             l.timeObject.getViewLevelPriority() < r.timeObject.getViewLevelPriority() -> -1
             l.timeObject.getViewLevelPriority() > r.timeObject.getViewLevelPriority() -> 1

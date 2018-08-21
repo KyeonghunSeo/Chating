@@ -15,6 +15,8 @@ import androidx.transition.Slide
 import androidx.transition.Transition
 import java.util.*
 
+private val tempCal = Calendar.getInstance()
+
 fun l(s: String){
     Log.d("aaa", s)
 }
@@ -39,6 +41,24 @@ fun setCalendarTime23 (cal: Calendar) {
     cal.set(Calendar.MINUTE, 59)
     cal.set(Calendar.SECOND, 59)
     cal.set(Calendar.MILLISECOND, 999)
+}
+
+fun getCalendarTime0 (cal: Calendar) : Long {
+    tempCal.timeInMillis = cal.timeInMillis
+    tempCal.set(Calendar.HOUR_OF_DAY, 0)
+    tempCal.set(Calendar.MINUTE, 0)
+    tempCal.set(Calendar.SECOND, 0)
+    tempCal.set(Calendar.MILLISECOND, 0)
+    return tempCal.timeInMillis
+}
+
+fun getCalendarTime23 (cal: Calendar) : Long  {
+    tempCal.timeInMillis = cal.timeInMillis
+    tempCal.set(Calendar.HOUR_OF_DAY, 23)
+    tempCal.set(Calendar.MINUTE, 59)
+    tempCal.set(Calendar.SECOND, 59)
+    tempCal.set(Calendar.MILLISECOND, 999)
+    return tempCal.timeInMillis
 }
 
 fun makeFromBottomSlideTransition() : Transition {

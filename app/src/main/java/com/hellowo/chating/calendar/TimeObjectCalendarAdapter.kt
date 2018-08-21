@@ -14,7 +14,7 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
-class TimeObjectAdapter(private var items : RealmResults<TimeObject>, private val calendarView: CalendarView) {
+class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, private val calendarView: CalendarView) {
     private val viewHolderList = ArrayList<TimeObjectViewHolder>()
     private val viewLevelStatusMap = HashMap<Int, ViewLevelStatus>()
     private val context = calendarView.context

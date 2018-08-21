@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         calendarView.onDrawed = { cal -> setDateText(cal.time) }
         calendarView.onSelected = { time, cellNum, showDayView ->
             if(showDayView && dayView.viewMode == ViewMode.CLOSED) {
-                dayView.show(calendarView.selectedCal, calendarView.dateLys[cellNum])
+                dayView.show()
             }else {
                 setDayOfWeekLy(cellNum)
             }

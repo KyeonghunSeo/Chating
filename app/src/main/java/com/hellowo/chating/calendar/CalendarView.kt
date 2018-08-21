@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Typeface
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -20,8 +19,6 @@ import com.hellowo.chating.*
 import com.hellowo.chating.ui.view.SwipeScrollView
 import java.util.*
 import android.widget.*
-import androidx.transition.Fade
-import androidx.transition.TransitionSet
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
@@ -40,14 +37,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     val dateLys = Array(maxCellNum) { _ -> FrameLayout(context)}
     val dateTexts = Array(maxCellNum) { _ -> TextView(context)}
 
-    private val todayCal: Calendar = Calendar.getInstance()
-    private val tempCal: Calendar = Calendar.getInstance()
-    private val monthCal: Calendar = Calendar.getInstance()
-    val selectedCal = Calendar.getInstance()
-    private var selectedCellNum = -1
     private var lastSelectAnimSet: AnimatorSet? = null
     private var lastUnSelectAnimSet: AnimatorSet? = null
 
+    private val todayCal: Calendar = Calendar.getInstance()
+    private val tempCal: Calendar = Calendar.getInstance()
+    private val monthCal: Calendar = Calendar.getInstance()
+
+    val selectedCal = Calendar.getInstance()
+    var selectedCellNum = -1
     val cellTimeMills = LongArray(maxCellNum) { _ -> Long.MIN_VALUE}
     var calendarStartTime = Long.MAX_VALUE
     var calendarEndTime = Long.MAX_VALUE
@@ -165,7 +163,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         }
 
-        TimeObjectManager.setTimeObjectListAdapter(this)
+        TimeObjectManager.setTimeObjectCalendarAdapter(this)
         onDrawed?.invoke(selectedCal)
 
         l("${selectedCal.get(Calendar.YEAR)}년 ${(selectedCal.get(Calendar.MONTH) + 1)}월 ${selectedCal.get(Calendar.DATE)}일")
@@ -213,7 +211,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun onViewEffect(cellNum: Int) {
-        TimeObjectManager.timeObjectAdapter?.getViews(cellNum)?.let {
+        TimeObjectManager.timeObjectCalendarAdapter?.getViews(cellNum)?.let {
             it.forEach { view ->
                 view.ellipsize = TextUtils.TruncateAt.MARQUEE
                 view.marqueeRepeatLimit = -1
@@ -225,7 +223,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun offViewEffect(cellNum: Int) {
-        TimeObjectManager.timeObjectAdapter?.getViews(cellNum)?.let {
+        TimeObjectManager.timeObjectCalendarAdapter?.getViews(cellNum)?.let {
             it.forEach { view ->
                 view.ellipsize = null
                 view.isSelected = false

@@ -1,4 +1,4 @@
-package com.hellowo.chating.ui.adapter
+package com.hellowo.chating.calendar
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
@@ -11,8 +11,9 @@ import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.list_item_normal_check.view.*
 
-class TimeObjectAdapter(val context: Context, val items: List<ChatRoom>, val adapterInterface: (chatRoom: ChatRoom) -> Unit)
-    : RecyclerView.Adapter<TimeObjectAdapter.ViewHolder>() {
+class TimeObjectDayViewAdapter(val context: Context,
+                               val items: List<TimeObject>,
+                               val adapterInterface: (chatRoom: TimeObject) -> Unit) : RecyclerView.Adapter<TimeObjectDayViewAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = items.size
 
@@ -21,12 +22,12 @@ class TimeObjectAdapter(val context: Context, val items: List<ChatRoom>, val ada
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_normal_check, parent, false))
 
-    override fun onBindViewHolder(holder: TimeObjectAdapter.ViewHolder, position: Int) {
-        val chatRoom = items[position]
+    override fun onBindViewHolder(holder: TimeObjectDayViewAdapter.ViewHolder, position: Int) {
+        val timeObject = items[position]
         val v = holder.itemView
 
-        v.titleText.text = chatRoom.name
+        v.titleText.text = timeObject.title
 
-        v.setOnClickListener { adapterInterface.invoke(chatRoom) }
+        v.setOnClickListener { adapterInterface.invoke(timeObject) }
     }
 }
