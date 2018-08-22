@@ -1,5 +1,9 @@
 package com.hellowo.chating
 
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -13,9 +17,15 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.Transition
+import com.hellowo.chating.calendar.view.CalendarView
+import java.text.SimpleDateFormat
 import java.util.*
 
 private val tempCal = Calendar.getInstance()
+
+@SuppressLint("SimpleDateFormat")
+val yearDf = SimpleDateFormat("yyyy")
+val monthDf = SimpleDateFormat("MMMM", Locale.US)
 
 fun l(s: String){
     Log.d("aaa", s)
@@ -93,4 +103,18 @@ fun makeViewToBitmap(view: View) : Bitmap {
 
 fun vibrate(context: Context) {
     (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(10)
+}
+
+fun startPagingEffectAnimation(direction: Int, view: View, listener: Animator.AnimatorListener?) {
+    val animSet = AnimatorSet()
+    if(direction < 0) {
+        animSet.playTogether(ObjectAnimator.ofFloat(view, "translationX", -dpToPx(50).toFloat(), 0f))
+    }else {
+        animSet.playTogether(ObjectAnimator.ofFloat(view, "translationX", dpToPx(50).toFloat(), 0f))
+    }
+    animSet.playTogether(ObjectAnimator.ofFloat(view, "alpha", 0f, 1f))
+    listener?.let { animSet.addListener(it) }
+    animSet.interpolator = FastOutSlowInInterpolator()
+    animSet.duration = CalendarView.animDur
+    animSet.start()
 }

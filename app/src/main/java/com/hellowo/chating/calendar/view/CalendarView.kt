@@ -1,10 +1,9 @@
-package com.hellowo.chating.calendar
+package com.hellowo.chating.calendar.view
 
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.graphics.Typeface
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -19,6 +18,8 @@ import com.hellowo.chating.*
 import com.hellowo.chating.ui.view.SwipeScrollView
 import java.util.*
 import android.widget.*
+import com.hellowo.chating.calendar.model.CalendarSkin
+import com.hellowo.chating.calendar.TimeObjectManager
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
@@ -92,6 +93,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 val dateLy = dateLys[cellNum]
                 dateLy.clipChildren = false
                 dateLy.setBackgroundResource(AppRes.selectableItemBackground)
+                dateLy.setOnClickListener { onDateClick(cellNum) }
 
                 val dateText = dateTexts[cellNum]
                 setDefaultDateTextSkin(dateText)
@@ -101,13 +103,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 weekLy.addView(dateLy)
             }
             calendarLy.addView(weekLy)
-        }
-
-        scrollView.onSwipeStateChanged = { state ->
-            when(state) {
-                2 -> moveMonth(-1)
-                3 -> moveMonth(1)
-            }
         }
     }
 
@@ -141,13 +136,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val dateLy = dateLys[cellNum]
                     dateLy.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), MATCH_PARENT)
                     dateLy.translationX = cellNum % columns * minWidth
-                    dateLy.setOnClickListener { onDateClick(cellNum) }
 
                     val dateText = dateTexts[cellNum]
                     dateText.text = tempCal.get(Calendar.DATE).toString()
                     dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.3f
 
-                    if(isSameDay(tempCal, selectedCal)) { TimeObjectManager.postSelectDate(cellNum) }
+                    if(isSameDay(tempCal, selectedCal)) {
+                        TimeObjectManager.postSelectDate(cellNum)
+                    }
 
                     if(cellNum == 0) {
                         calendarStartTime = tempCal.timeInMillis
@@ -174,7 +170,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun onDateClick(cellNum: Int) {
-        l("날짜 : " + android.text.format.DateFormat.getDateFormat(context).format(cellTimeMills[cellNum]))
+        l("선택한 날짜 : " + android.text.format.DateFormat.getDateFormat(context).format(cellTimeMills[cellNum]))
         tempCal.timeInMillis = cellTimeMills[cellNum]
         selectDate(cellNum,true, isSameDay(tempCal, selectedCal))
     }
@@ -206,6 +202,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             scrollView.post{ scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top) }
             onViewEffect(cellNum)
+        }else {
+
         }
         onSelected?.invoke(cellTimeMills[selectedCellNum], selectedCellNum, showDayView)
     }
@@ -267,16 +265,23 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun setDateTextColor(cellNum: Int) {
         val dateText = dateTexts[cellNum]
         if(cellNum == selectedCellNum) {
-            dateText.setTypeface(null, Typeface.BOLD)
             dateText.setTextColor(CalendarSkin.selectedDateColor)
         }else {
-            dateText.setTypeface(null, Typeface.NORMAL)
             if(cellNum % columns == 0) {
                 dateText.setTextColor(CalendarSkin.holiDateColor)
             }else {
                 dateText.setTextColor(CalendarSkin.dateColor)
             }
         }
+    }
+
+    fun setOnSwiped(onSwiped: ((Int) -> Unit)) {
+        scrollView.onSwipeStateChanged = onSwiped
+    }
+
+    fun moveDate(offset: Int) {
+        selectedCal.add(Calendar.DATE, offset)
+        drawCalendar(selectedCal.timeInMillis)
     }
 
     fun moveDate(time: Long) {
@@ -289,35 +294,16 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val time = monthCal.timeInMillis
         selectedCal.timeInMillis = time
         drawCalendar(time)
-        val animSet = AnimatorSet()
-        if(offset < 0) {
-            animSet.playTogether(ObjectAnimator.ofFloat(scrollView, "translationX", -minWidth, 0f))
-        }else {
-            animSet.playTogether(ObjectAnimator.ofFloat(scrollView, "translationX", minWidth, 0f))
-        }
-        animSet.playTogether(ObjectAnimator.ofFloat(scrollView, "alpha", 0f, 1f))
-        animSet.addListener(object : Animator.AnimatorListener{
-            override fun onAnimationRepeat(p0: Animator?) {}
-            override fun onAnimationEnd(p0: Animator?) {}
-            override fun onAnimationCancel(p0: Animator?) {}
-            override fun onAnimationStart(p0: Animator?) {}
-        })
-        animSet.interpolator = FastOutSlowInInterpolator()
-        animSet.duration = animDur
-        animSet.start()
+        startPagingEffectAnimation(offset, scrollView, null)
     }
 
-    fun setDefaultDateTextSkin(textView: TextView) {
+    private fun setDefaultDateTextSkin(textView: TextView) {
         val dateTextLayoutParams = FrameLayout.LayoutParams(dateArea, dateArea)
         dateTextLayoutParams.gravity = Gravity.CENTER_HORIZONTAL
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, CalendarView.dateTextSize)
-        //textView.setTypeface(null, Typeface.BOLD)
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dateTextSize)
+        textView.typeface = CalendarSkin.dateFont
         textView.gravity = Gravity.CENTER
         textView.layoutParams = dateTextLayoutParams
-    }
-
-    fun startEditMode() {
-
     }
 
     fun getSelectedView(): View = dateLys[selectedCellNum]

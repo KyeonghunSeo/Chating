@@ -1,4 +1,4 @@
-package com.hellowo.chating.calendar
+package com.hellowo.chating.calendar.model
 
 import android.graphics.Color
 import io.realm.RealmObject

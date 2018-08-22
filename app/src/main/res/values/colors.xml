@@ -42,7 +42,7 @@
     <color name="blackAlpha">#60000000</color>
     <color name="white">#FFFFFF</color>
     <color name="alphaWhite">#D9FFFFFF</color>
-    <color name="almostWhite">#fff7f7</color>
+    <color name="almostWhite">#F0F0F0</color>
     <color name="grey">#c9d6de</color>
     <color name="greyAlpha">#60434957</color>
     <color name="red">#EE7785</color>
@@ -52,6 +52,8 @@
     <color name="purple">#C89EC4</color>
     <color name="transparent">#00000000</color>
 
+    <color name="calendarBackground">#F8ECC2</color>
+    <color name="holiday">#FF3366</color>
 
     <color name="lol_light_3">#a3daff</color>
     <color name="lol_light_2">#1ec0ff</color>

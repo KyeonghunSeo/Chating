@@ -7,13 +7,13 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <com.hellowo.chating.calendar.CalendarView
+    <com.hellowo.chating.calendar.view.CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="70dp"
         android:layout_marginBottom="50dp">
-    </com.hellowo.chating.calendar.CalendarView>
+    </com.hellowo.chating.calendar.view.CalendarView>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -83,14 +83,14 @@
 
     </FrameLayout>
 
-    <com.hellowo.chating.calendar.DayView
+    <com.hellowo.chating.calendar.view.DayView
         android:id="@+id/dayView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone">
-    </com.hellowo.chating.calendar.DayView>
+    </com.hellowo.chating.calendar.view.DayView>
 
-    <com.hellowo.chating.calendar.BriefingView
+    <com.hellowo.chating.calendar.view.BriefingView
         android:id="@+id/briefingView"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -99,18 +99,9 @@
         app:cardBackgroundColor="@color/white"
         app:cardElevation="0dp"
         app:cardCornerRadius="15dp">
+    </com.hellowo.chating.calendar.view.BriefingView>
 
-        <ImageView
-            android:background="?android:attr/selectableItemBackground"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="11dp"
-            android:src="@drawable/ic_outline_calendar_today"
-            android:tint="@color/iconTint"/>
-
-    </com.hellowo.chating.calendar.BriefingView>
-
-    <com.hellowo.chating.calendar.KeepView
+    <com.hellowo.chating.calendar.view.KeepView
         android:id="@+id/keepView"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -128,7 +119,7 @@
             android:src="@drawable/ic_outline_all_inbox"
             android:tint="@color/iconTint"/>
 
-    </com.hellowo.chating.calendar.KeepView>
+    </com.hellowo.chating.calendar.view.KeepView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/insertBtn"
@@ -150,13 +141,13 @@
 
     </androidx.cardview.widget.CardView>
 
-    <com.hellowo.chating.calendar.EditorView
-        android:id="@+id/editorView"
+    <com.hellowo.chating.calendar.view.TimeObjectDetailView
+        android:id="@+id/detailView"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible">
-    </com.hellowo.chating.calendar.EditorView>
+    </com.hellowo.chating.calendar.view.TimeObjectDetailView>
 
     <ProgressBar
         android:id="@+id/progressBar"

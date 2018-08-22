@@ -1,4 +1,4 @@
-package com.hellowo.chating.calendar
+package com.hellowo.chating.calendar.view
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.hellowo.chating.*
+import com.hellowo.chating.calendar.model.TimeObject
 import java.util.*
 
 @SuppressLint("ViewConstructor")

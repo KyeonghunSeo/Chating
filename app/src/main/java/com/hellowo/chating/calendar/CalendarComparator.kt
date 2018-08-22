@@ -1,5 +1,7 @@
 package com.hellowo.chating.calendar
 
+import com.hellowo.chating.calendar.adapter.TimeObjectCalendarAdapter
+
 class CalendarComparator : Comparator<TimeObjectCalendarAdapter.TimeObjectViewHolder> {
     override fun compare(l: TimeObjectCalendarAdapter.TimeObjectViewHolder, r: TimeObjectCalendarAdapter.TimeObjectViewHolder): Int {
         return when{

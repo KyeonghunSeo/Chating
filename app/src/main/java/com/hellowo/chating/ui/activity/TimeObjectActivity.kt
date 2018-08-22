@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.hellowo.chating.R
-import com.hellowo.chating.calendar.TimeObject
+import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.l
 import com.hellowo.chating.viewmodel.TimeObjectViewModel
 import kotlinx.android.synthetic.main.activity_time_object.*

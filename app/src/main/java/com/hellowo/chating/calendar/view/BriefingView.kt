@@ -1,26 +1,34 @@
-package com.hellowo.chating.calendar
+package com.hellowo.chating.calendar.view
 
 import android.animation.Animator
 import android.animation.AnimatorSet
+import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.hellowo.chating.ANIM_DUR
+import com.hellowo.chating.R
+import com.hellowo.chating.calendar.ViewMode
 import com.hellowo.chating.dpToPx
 import com.hellowo.chating.makeChangeBounceTransition
+import kotlinx.android.synthetic.main.view_briefing.view.*
 
 class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {
     companion object
 
     var viewMode = ViewMode.CLOSED
 
-    init {}
+    init {
+        LayoutInflater.from(context).inflate(R.layout.view_briefing, this, true)
+        rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+    }
 
     fun confirm() {}
 

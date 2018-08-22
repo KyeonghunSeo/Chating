@@ -13,14 +13,14 @@
         android:layout_marginTop="15dp"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="20dp"
-        app:cardCornerRadius="25dp">
+        app:cardCornerRadius="15dp">
     </androidx.cardview.widget.CardView>
 
     <FrameLayout
         android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="15dp"
         android:background="@color/white"
         android:elevation="20dp">
 
@@ -32,7 +32,11 @@
             <EditText
                 android:id="@+id/titleInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/big_margin"
+                android:background="@color/transparent"
+                android:textSize="25dp"
+                android:hint="@string/title"/>
 
             <LinearLayout
                 android:animateLayoutChanges="true"
@@ -80,6 +84,15 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/deleteBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="10dp"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_outline_delete"/>
 
     </FrameLayout>
 

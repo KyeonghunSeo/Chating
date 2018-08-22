@@ -1,4 +1,4 @@
-package com.hellowo.chating.calendar
+package com.hellowo.chating.calendar.view
 
 import android.animation.Animator
 import android.animation.AnimatorSet
@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -18,8 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.hellowo.chating.*
-import com.hellowo.chating.model.ChatRoom
-import com.hellowo.chating.ui.adapter.TimeObjectAdapter
+import com.hellowo.chating.calendar.model.TimeObject
+import com.hellowo.chating.calendar.adapter.TimeObjectDayViewAdapter
+import com.hellowo.chating.calendar.TimeObjectManager
+import com.hellowo.chating.calendar.ViewMode
+import com.hellowo.chating.ui.activity.MainActivity
 import io.realm.RealmResults
 import io.realm.Sort
 import kotlinx.android.synthetic.main.view_day.view.*
@@ -28,11 +30,10 @@ import kotlin.collections.ArrayList
 
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {
     companion object{}
-    private val currentCal = Calendar.getInstance()
     private var calendarView: CalendarView? = null
     private val items = ArrayList<TimeObject>()
     private var timeObjectList: RealmResults<TimeObject>? = null
-    private val timeObjectDayViewAdapter = TimeObjectDayViewAdapter(context, items){ onItemClicked(it) }
+    private val timeObjectDayViewAdapter = TimeObjectDayViewAdapter(context, items) { onItemClicked(it) }
 
     var viewMode = ViewMode.CLOSED
 
@@ -51,7 +52,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         recyclerView.adapter = timeObjectDayViewAdapter
     }
 
-    private fun setData() {
+    fun notifyDateChanged(offset: Int) {
+        setDateText()
         calendarView?.selectedCal?.let { cal ->
             timeObjectList?.removeAllChangeListeners()
             timeObjectList = TimeObjectManager.realm.where(TimeObject::class.java)
@@ -68,6 +70,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 timeObjectDayViewAdapter.notifyDataSetChanged()
             }
         }
+        if(offset != 0) {
+            startPagingEffectAnimation(offset, rootLy, null)
+        }
     }
 
     private fun clearData() {
@@ -76,6 +81,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     private fun onItemClicked(timeObject: TimeObject) {
+        MainActivity.instance?.viewModel?.targetTimeObject?.value = timeObject
     }
 
     private fun setDateText() {
@@ -85,15 +91,16 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private fun confirm() {}
 
     fun show() {
-        visibility = View.VISIBLE
         viewMode = ViewMode.ANIMATING
+        visibility = View.VISIBLE
+        alpha = 0.85f
         setDateText()
 
         calendarView?.getSelectedView()?.let { dateLy ->
             val location = IntArray(2)
             dateLy.getLocationInWindow(location)
             layoutParams = FrameLayout.LayoutParams(dateLy.width, dateLy.height).apply {
-                setMargins(location[0], location[1] - AppRes.statusBarHeight, 0, 0)
+                setMargins(location[0], location[1] - statusBarHeight - dpToPx(2), 0, 0)
             }
 
             val animSet = AnimatorSet()
@@ -109,7 +116,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     transiion.addListener(object : Transition.TransitionListener{
                         override fun onTransitionEnd(transition: Transition) {
                             viewMode = ViewMode.OPENED
-                            setData()
+                            notifyDateChanged(0)
                         }
                         override fun onTransitionResume(transition: Transition) {}
                         override fun onTransitionPause(transition: Transition) {}
@@ -118,14 +125,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                             val animSet = AnimatorSet()
                             animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
                                     "elevation", dpToPx(15).toFloat(), 0f).setDuration(ANIM_DUR),
-                                    ObjectAnimator.ofFloat(dateText, "alpha", 1f, 1f).setDuration(ANIM_DUR))
+                                    ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f).setDuration(ANIM_DUR))
                             animSet.interpolator = FastOutSlowInInterpolator()
                             animSet.start()
                         }
                     })
                     TransitionManager.beginDelayedTransition(this@DayView, transiion)
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, AppRes.bottomBarHeight, 0, AppRes.bottomBarHeight)
+                        setMargins(0, bottomBarHeight, 0, bottomBarHeight)
                     }
                 }
                 override fun onAnimationCancel(p0: Animator?) {}
@@ -149,7 +156,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     val animSet = AnimatorSet()
                     animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
                             "elevation", dpToPx(15).toFloat(), 0f).setDuration(ANIM_DUR),
-                            ObjectAnimator.ofFloat(dateText, "alpha", 1f, 1f).setDuration(ANIM_DUR))
+                            ObjectAnimator.ofFloat(this@DayView, "alpha", 1f, 0.85f).setDuration(ANIM_DUR))
                     animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.addListener(object : Animator.AnimatorListener{
                         override fun onAnimationRepeat(p0: Animator?) {}
@@ -170,7 +177,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             })
             TransitionManager.beginDelayedTransition(this, transiion)
             layoutParams = FrameLayout.LayoutParams(dateLy.width, dateLy.height).apply {
-                setMargins(location[0], location[1] - AppRes.statusBarHeight, 0, 0)
+                setMargins(location[0], location[1] - statusBarHeight - dpToPx(2), 0, 0)
             }
         }
     }

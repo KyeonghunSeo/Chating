@@ -1,38 +1,33 @@
 package com.hellowo.chating.ui.activity
 
-import android.animation.AnimatorSet
 import android.animation.LayoutTransition
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.view.Gravity
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProviders
-import androidx.transition.TransitionManager
 import com.hellowo.chating.*
-import com.hellowo.chating.calendar.CalendarSkin
+import com.hellowo.chating.calendar.model.CalendarSkin
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
+import com.hellowo.chating.ui.view.SwipeScrollView.Companion.SWIPE_LEFT
+import com.hellowo.chating.ui.view.SwipeScrollView.Companion.SWIPE_RIGHT
 import com.hellowo.chating.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_day_of_week.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var viewModel: MainViewModel
-    @SuppressLint("SimpleDateFormat")
-    private val yearDf = SimpleDateFormat("yyyy")
-    private val monthDf = SimpleDateFormat("MMMM", Locale.US)
+    companion object {
+        var instance: MainActivity? = null
+    }
+
+    lateinit var viewModel: MainViewModel
     private val dateTextHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message?) {
@@ -45,10 +40,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         TimeObjectManager.init()
+        instance = this
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
-        dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        initLayout()
+        initCalendarView()
+        initDayView()
+        initKeepView()
+        initBriefingView()
+        initBtns()
+        initObserver()
+    }
 
+    private fun initLayout() {
+        dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+    }
+
+    private fun initCalendarView() {
         calendarView.onDrawed = { cal -> setDateText(cal.time) }
         calendarView.onSelected = { time, cellNum, showDayView ->
             if(showDayView && dayView.viewMode == ViewMode.CLOSED) {
@@ -57,26 +65,63 @@ class MainActivity : AppCompatActivity() {
                 setDayOfWeekLy(cellNum)
             }
         }
-        editorView.setCalendarView(calendarView)
-        dayView.setCalendarView(calendarView)
-
-        insertBtn.setOnClickListener {
-            if(editorView.viewMode == ViewMode.CLOSED) {
-                editorView.show()
-                calendarView.startEditMode()
+        calendarView.setOnSwiped { state ->
+            if(dayView.viewMode == ViewMode.OPENED) {
+                when(state) {
+                    SWIPE_LEFT -> {
+                        calendarView.moveDate(-1)
+                        dayView.notifyDateChanged(-1)
+                    }
+                    SWIPE_RIGHT -> {
+                        calendarView.moveDate(1)
+                        dayView.notifyDateChanged(1)
+                    }
+                }
             }else {
-                editorView.confirm()
+                when(state) {
+                    SWIPE_LEFT -> calendarView.moveMonth(-1)
+                    SWIPE_RIGHT -> calendarView.moveMonth(1)
+                }
             }
         }
+        detailView.setCalendarView(calendarView)
 
+    }
+
+    private fun initDayView() {
+        dayView.setCalendarView(calendarView)
+    }
+
+    private fun initKeepView() {
         keepView.mainActivity = this
         keepView.setOnClickListener {
-            keepView.show()
+            if(keepView.viewMode == ViewMode.CLOSED) { keepView.show() }
         }
+    }
 
+    private fun initBriefingView() {
         briefingView.setOnClickListener {
-            briefingView.show()
+            if(briefingView.viewMode == ViewMode.CLOSED) { briefingView.show() }
         }
+    }
+
+    private fun initBtns() {
+        insertBtn.setOnClickListener {
+            if(detailView.viewMode == ViewMode.CLOSED) {
+                viewModel.targetTimeObject.value = TimeObjectManager.makeNewTimeObject(
+                        getCalendarTime0(calendarView.selectedCal), getCalendarTime23(calendarView.selectedCal))
+            }else {
+                detailView.confirm()
+            }
+        }
+    }
+
+    private fun initObserver() {
+        viewModel.targetTimeObject.observe(this, androidx.lifecycle.Observer { timeObject ->
+            if(detailView.viewMode == ViewMode.CLOSED && timeObject != null) {
+                detailView.show(timeObject)
+            }
+        })
     }
 
     private fun setDayOfWeekLy(cellNum: Int) {
@@ -108,7 +153,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         when{
-            editorView.viewMode == ViewMode.OPENED -> editorView.hide()
+            detailView.viewMode == ViewMode.OPENED -> detailView.hide()
             keepView.viewMode == ViewMode.OPENED -> keepView.hide()
             briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
             dayView.viewMode == ViewMode.OPENED -> dayView.hide()

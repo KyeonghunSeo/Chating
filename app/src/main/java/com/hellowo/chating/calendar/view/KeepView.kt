@@ -1,4 +1,4 @@
-package com.hellowo.chating.calendar
+package com.hellowo.chating.calendar.view
 
 import android.animation.Animator
 import android.animation.AnimatorSet
@@ -13,6 +13,7 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.hellowo.chating.*
+import com.hellowo.chating.calendar.ViewMode
 import com.hellowo.chating.ui.activity.MainActivity
 
 class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {

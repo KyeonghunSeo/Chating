@@ -1,4 +1,4 @@
-package com.hellowo.chating.calendar
+package com.hellowo.chating.calendar.adapter
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -8,6 +8,11 @@ import android.widget.LinearLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
 import com.hellowo.chating.*
+import com.hellowo.chating.calendar.CalendarComparator
+import com.hellowo.chating.calendar.model.TimeObject
+import com.hellowo.chating.calendar.TimeObjectManager
+import com.hellowo.chating.calendar.view.CalendarView
+import com.hellowo.chating.calendar.view.TimeObjectView
 import io.realm.RealmResults
 import java.util.*
 import kotlin.collections.ArrayList
@@ -74,7 +79,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 val size = 1 + (info.endCellNum / columns - info.startCellNum / columns)
 
                 info.timeObjectViewList = Array(size) { index ->
-                    TimeObjectView(context, it, currentCell, if(length <= margin) length else margin).apply {
+                    TimeObjectView(context, it, currentCell, if (length <= margin) length else margin).apply {
                         currentCell += margin
                         length -= margin
                         margin = 7

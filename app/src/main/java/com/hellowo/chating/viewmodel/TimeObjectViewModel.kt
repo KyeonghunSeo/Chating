@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import android.content.Intent
 import com.hellowo.chating.ID
 import com.hellowo.chating.TIME
-import com.hellowo.chating.calendar.TimeObject
+import com.hellowo.chating.calendar.model.TimeObject
 import io.realm.Realm
 import java.util.*
 

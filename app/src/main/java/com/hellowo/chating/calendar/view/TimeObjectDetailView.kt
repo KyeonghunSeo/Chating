@@ -1,4 +1,4 @@
-package com.hellowo.chating.calendar
+package com.hellowo.chating.calendar.view
 
 import android.animation.Animator
 import android.animation.AnimatorSet
@@ -15,10 +15,14 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.chating.ANIM_DUR
 import com.hellowo.chating.DAY_MILL
 import com.hellowo.chating.R
-import kotlinx.android.synthetic.main.view_editor.view.*
+import com.hellowo.chating.calendar.model.TimeObject
+import com.hellowo.chating.calendar.TimeObjectManager
+import com.hellowo.chating.calendar.ViewMode
+import com.hellowo.chating.ui.activity.MainActivity
+import kotlinx.android.synthetic.main.view_timeobject_detail.view.*
 import java.util.*
 
-class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
+class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
         private val tempCal: Calendar = Calendar.getInstance()
     }
@@ -28,9 +32,10 @@ class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     var mType: TimeObject.Type = TimeObject.Type.EVENT
     var mStyle: TimeObject.Style = TimeObject.Style.DEFAULT
     var testEnd = 0
+    var timeObject: TimeObject? = null
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_editor, this, true)
+        LayoutInflater.from(context).inflate(R.layout.view_timeobject_detail, this, true)
         rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         titleInput.setOnEditorActionListener { _, actionId, _ ->
@@ -55,26 +60,45 @@ class EditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             mType = TimeObject.Type.MEMO
             mStyle = TimeObject.Style.DEFAULT
         }
+        deleteBtn.setOnClickListener {
+            timeObject?.let { TimeObjectManager.delete(it) }
+            MainActivity.instance?.viewModel?.targetTimeObject?.value = null
+            hide()
+        }
     }
 
     fun setCalendarView(view: CalendarView) { calendarView = view }
 
+    fun setData(timeObject: TimeObject) {
+        this.timeObject = timeObject
+        updateUI()
+    }
+
+    private fun updateUI() {
+        timeObject?.let {
+            titleInput.setText(it.title)
+        }
+    }
+
     fun confirm() {
         val time = calendarView?.selectedCal?.timeInMillis ?: System.currentTimeMillis()
-        TimeObjectManager.save(TimeObject().apply {
-            title = titleInput.text.toString()
-            type = mType.ordinal
-            style = mStyle.ordinal
-            dtStart = time
-            if(mType == TimeObject.Type.MEMO) dtEnd = time
-            else dtEnd = time + DAY_MILL * (title?.length ?: 0 + 1)
-            timeZone = TimeZone.getDefault().id
-        })
+        timeObject?.let {
+            TimeObjectManager.save(it.apply {
+                title = titleInput.text.toString()
+                type = mType.ordinal
+                style = mStyle.ordinal
+                dtStart = time
+                if (mType == TimeObject.Type.MEMO) dtEnd = time
+                else dtEnd = time + DAY_MILL * (title?.length ?: 0+1)
+                timeZone = TimeZone.getDefault().id
+            })
+        }
         hide()
     }
 
-    fun show() {
+    fun show(timeObject: TimeObject) {
         //TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
+        setData(timeObject)
         viewMode = ViewMode.ANIMATING
         visibility = View.VISIBLE
         val animSet = AnimatorSet()

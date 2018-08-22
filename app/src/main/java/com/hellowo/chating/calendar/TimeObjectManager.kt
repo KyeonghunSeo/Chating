@@ -1,6 +1,9 @@
 package com.hellowo.chating.calendar
 
 import android.annotation.SuppressLint
+import com.hellowo.chating.calendar.adapter.TimeObjectCalendarAdapter
+import com.hellowo.chating.calendar.model.TimeObject
+import com.hellowo.chating.calendar.view.CalendarView
 import com.hellowo.chating.l
 import io.realm.Realm
 import io.realm.RealmResults
@@ -69,6 +72,17 @@ object TimeObjectManager {
         }
     }
 
+    fun delete(timeObject: TimeObject) {
+        if(timeObject.isValid) {
+            val id = timeObject.id
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync{ realm ->
+                    realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.deleteFromRealm()
+                }
+            }
+        }
+    }
+
     fun clear() {
         timeObjectList?.removeAllChangeListeners()
         timeObjectList = null
@@ -78,6 +92,16 @@ object TimeObjectManager {
 
     fun postSelectDate(cellNum: Int) {
         postSelectDate = cellNum
+    }
+
+    fun makeNewTimeObject(start: Long, end: Long): TimeObject {
+        return TimeObject().apply {
+            type = TimeObject.Type.EVENT.ordinal
+            style = TimeObject.Style.DEFAULT.ordinal
+            dtStart = start
+            dtEnd = end
+            timeZone = TimeZone.getDefault().id
+        }
     }
 
 }

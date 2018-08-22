@@ -15,3 +15,7 @@ const val ANIM_DUR = 200L
 
 const val ID = "id"
 const val TIME = "time"
+
+val statusBarHeight = dpToPx(25)
+var topBarHeight = dpToPx(70)
+var bottomBarHeight = dpToPx(50)

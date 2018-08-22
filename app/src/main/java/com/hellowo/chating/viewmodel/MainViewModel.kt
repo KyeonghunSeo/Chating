@@ -2,15 +2,14 @@ package com.hellowo.chating.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.util.Log
 import com.hellowo.chating.USER_URL
-import com.hellowo.chating.model.ChatRoom
+import com.hellowo.chating.calendar.model.TimeObject
 import io.realm.*
-import java.util.*
 
 class MainViewModel : ViewModel() {
     val realm = Realm.getDefaultInstance()
-    var loading = MutableLiveData<Boolean>()
+    val loading = MutableLiveData<Boolean>()
+    val targetTimeObject = MutableLiveData<TimeObject?>()
 
     init {
         SyncUser.current()?.let {
