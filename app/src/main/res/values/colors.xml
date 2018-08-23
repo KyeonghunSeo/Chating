@@ -20,7 +20,7 @@
     <color name="backgroundDark">#f2f2f2</color>
     <color name="backgroundDeepDark">#b4b7bc</color>
     <color name="backgroundDarkAlpha">#EEf2f2f2</color>
-    <color name="iconTint">#757575</color>
+    <color name="iconTint">#000000</color>
 
     <color name="primaryText">#de000000</color>
     <color name="secondaryText">#89000000</color>
@@ -52,7 +52,7 @@
     <color name="purple">#C89EC4</color>
     <color name="transparent">#00000000</color>
 
-    <color name="calendarBackground">#F8ECC2</color>
+    <color name="calendarBackground">#ffffff</color>
     <color name="holiday">#FF3366</color>
 
     <color name="lol_light_3">#a3daff</color>

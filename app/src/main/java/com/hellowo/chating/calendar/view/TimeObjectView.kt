@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.hellowo.chating.*
+import com.hellowo.chating.calendar.model.CalendarSkin
 import com.hellowo.chating.calendar.model.TimeObject
 import java.util.*
 
@@ -35,13 +36,14 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     var mRight = 0
     var mBottom = 0
     var mLine = 0
-    var color = Color.parseColor("#757575")
+    var color = CalendarSkin.dateColor
     var leftOpen = false
     var rightOpen = false
 
     init {
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize)
         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
+        typeface = CalendarSkin.dateFont
     }
 
     @SuppressLint("DrawAllocation")
@@ -67,7 +69,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                             it.drawRect(RectF(centerX - strokeWidth * 0.5f , 0f, centerX + strokeWidth * 0.5f, smallTypeSize.toFloat()), paint)
                             it.drawCircle(centerX, centerY, strokeWidth * 2.5f, paint)
                         }
-                        else -> {
+                        TimeObject.Style.LONG -> {
                             setPadding(defaultPadding, 0, defaultPadding, 0)
                             setTextColor(Color.WHITE)
                             var left = 0f
@@ -98,6 +100,10 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                             }
                             val rect = RectF(left, 0f, right, height.toFloat())
                             it.drawRoundRect(rect, radius, radius, paint)
+                        }
+                        else -> {
+                            setPadding(defaultPadding, 0, defaultPadding, 0)
+                            setTextColor(color)
                         }
                     }
 
@@ -190,7 +196,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     val rect = RectF(center - circleRadius, center - circleRadius, center + circleRadius, center + circleRadius)
                     it.drawRoundRect(rect, radius, radius, paint)
                 }
-                4 -> {
+                4 -> { // 시계
                     val paint = Paint()
                     paint.style = Paint.Style.FILL
                     paint.strokeWidth = strokeWidth.toFloat()

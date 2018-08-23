@@ -1,25 +1,39 @@
 package com.hellowo.chating.ui.activity
 
+import android.Manifest
 import android.animation.LayoutTransition
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.provider.MediaStore
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.hellowo.chating.*
 import com.hellowo.chating.calendar.model.CalendarSkin
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
+import com.hellowo.chating.model.AppUser
 import com.hellowo.chating.ui.view.SwipeScrollView.Companion.SWIPE_LEFT
 import com.hellowo.chating.ui.view.SwipeScrollView.Companion.SWIPE_RIGHT
 import com.hellowo.chating.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.view_day_of_week.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -28,11 +42,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     lateinit var viewModel: MainViewModel
-    private val dateTextHandler = @SuppressLint("HandlerLeak")
+    private val insertBtnHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
-            yearText.visibility = View.GONE
+            insertBtn.visibility = View.GONE
         }
     }
 
@@ -61,8 +75,6 @@ class MainActivity : AppCompatActivity() {
         calendarView.onSelected = { time, cellNum, showDayView ->
             if(showDayView && dayView.viewMode == ViewMode.CLOSED) {
                 dayView.show()
-            }else {
-                setDayOfWeekLy(cellNum)
             }
         }
         calendarView.setOnSwiped { state ->
@@ -83,6 +95,12 @@ class MainActivity : AppCompatActivity() {
                     SWIPE_RIGHT -> calendarView.moveMonth(1)
                 }
             }
+        }
+        detailView.setOnTouchListener { view, motionEvent ->
+            insertBtn.visibility = View.VISIBLE
+            insertBtnHandler.removeMessages(0)
+            insertBtnHandler.sendEmptyMessageDelayed(0, 3000)
+            return@setOnTouchListener false
         }
         detailView.setCalendarView(calendarView)
 
@@ -114,6 +132,10 @@ class MainActivity : AppCompatActivity() {
                 detailView.confirm()
             }
         }
+
+        menuBtn.setOnClickListener {
+            checkExternalStoragePermission()
+        }
     }
 
     private fun initObserver() {
@@ -122,33 +144,50 @@ class MainActivity : AppCompatActivity() {
                 detailView.show(timeObject)
             }
         })
+
+        viewModel.appUser.observe(this, androidx.lifecycle.Observer { it?.let { updateUserUI(it) } })
     }
 
-    private fun setDayOfWeekLy(cellNum: Int) {
-        val col = cellNum % 7
-        for (i in 0..6) {
-            val textView = ((dayOfWeekLy.getChildAt(i) as LinearLayout).getChildAt(0) as TextView)
-            val bar = (dayOfWeekLy.getChildAt(i) as LinearLayout).getChildAt(1)
-            if(i == col) {
-                textView.setTextColor(CalendarSkin.selectedDateColor)
-                textView.setTypeface(null, Typeface.BOLD)
-                bar.setBackgroundColor(CalendarSkin.selectedDateColor)
-                bar.scaleY = 2f
-            }else {
-                textView.setTextColor(CalendarSkin.dateColor)
-                textView.setTypeface(null, Typeface.NORMAL)
-                bar.setBackgroundColor(CalendarSkin.dateColor)
-                bar.scaleY = 1f
+    private fun updateUserUI(appUser: AppUser) {
+        if(appUser.profileImg?.isNotEmpty() == true) {
+            Glide.with(this).load(appUser.profileImg)
+                    .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
+                    .into(profileImage)
+        }
+    }
+
+    private fun setDateText(date: Date) {
+        yearText.visibility = View.VISIBLE
+        yearText.text = yearDf.format(date)
+        monthText.text = monthDf.format(date)
+    }
+
+    private fun checkExternalStoragePermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), RC_PERMISSIONS)
+        } else {
+            showPhotoPicker()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            RC_PERMISSIONS -> {
+                permissions.indices
+                        .filter { permissions[it] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[it] == PackageManager.PERMISSION_GRANTED }
+                        .forEach { showPhotoPicker() }
+                return
             }
         }
     }
 
-    fun setDateText(date: Date) {
-        yearText.visibility = View.VISIBLE
-        yearText.text = yearDf.format(date)
-        monthText.text = monthDf.format(date)
-        dateTextHandler.removeMessages(0)
-        dateTextHandler.sendEmptyMessageDelayed(0, 2000)
+    private fun showPhotoPicker() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        try {
+            startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), RC_FILEPICKER)
+        } catch (ex: android.content.ActivityNotFoundException) { ex.printStackTrace() }
     }
 
     override fun onBackPressed() {
@@ -158,6 +197,24 @@ class MainActivity : AppCompatActivity() {
             briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
             dayView.viewMode == ViewMode.OPENED -> dayView.hide()
             else -> super.onBackPressed()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_FILEPICKER && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                val uri = data.data
+                try{
+                    Glide.with(this).asBitmap().load(uri)
+                            .into(object : SimpleTarget<Bitmap>(){
+                                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                                    l("사진 크기 : ${resource.rowBytes} 바이트")
+                                    viewModel.saveProfileImage(resource)
+                                }
+                            })
+                }catch (e: Exception){}
+            }
         }
     }
 

@@ -11,8 +11,9 @@
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
-        android:layout_marginBottom="50dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="50dp">
     </com.hellowo.chating.calendar.view.CalendarView>
 
     <FrameLayout
@@ -30,7 +31,7 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical">
 
                 <androidx.cardview.widget.CardView
@@ -42,25 +43,14 @@
                     app:cardCornerRadius="15dp">
 
                     <ImageView
+                        android:id="@+id/profileImage"
                         android:background="?android:attr/selectableItemBackground"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:padding="10dp"
-                        android:src="@drawable/ic_outline_account_circle"
-                        android:tint="@color/iconTint"/>
+                        android:src="@drawable/ic_outline_account_circle"/>
 
                 </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:id="@+id/yearText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:textColor="@color/primaryText"
-                    android:textStyle="bold"
-                    android:textSize="18dp"
-                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/monthText"
@@ -69,15 +59,21 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:textColor="@color/primaryText"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/nanum_mj"
                     android:textSize="18dp"/>
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/yearText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/primaryText"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/nanum_mj"
+                    android:visibility="gone"/>
 
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                layout="@layout/view_day_of_week" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -96,6 +92,7 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom|right"
         android:layout_marginRight="8dp"
+        android:visibility="gone"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="0dp"
         app:cardCornerRadius="15dp">
@@ -105,7 +102,7 @@
         android:id="@+id/keepView"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_gravity="bottom"
+        android:layout_gravity="right"
         android:layout_marginLeft="8dp"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="0dp"
@@ -115,7 +112,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="10dp"
+            android:padding="12dp"
             android:src="@drawable/ic_outline_all_inbox"
             android:tint="@color/iconTint"/>
 
@@ -123,19 +120,19 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/insertBtn"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="5dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="@dimen/big_margin"
         app:cardBackgroundColor="@color/iconTint"
         app:cardElevation="3dp"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="25dp">
 
         <ImageView
             android:background="?android:attr/selectableItemBackground"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="11dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="15dp"
             android:src="@drawable/ic_outline_create"
             android:tint="@color/white"/>
 
@@ -143,10 +140,8 @@
 
     <com.hellowo.chating.calendar.view.TimeObjectDetailView
         android:id="@+id/detailView"
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible">
+        android:layout_height="match_parent">
     </com.hellowo.chating.calendar.view.TimeObjectDetailView>
 
     <ProgressBar

@@ -16,14 +16,14 @@ object CalendarSkin {
 
     fun init(calendarView: CalendarView) {
         val resource = calendarView.context.resources
-        backgroundColor = resource.getColor(R.color.white)
+        backgroundColor = resource.getColor(R.color.calendarBackground)
         dateColor = resource.getColor(R.color.primaryText)
         holiDateColor = resource.getColor(R.color.red)
         selectedDateColor = resource.getColor(R.color.primaryText)
         selectedBackgroundColor = resource.getColor(R.color.grey)
         greyColor = resource.getColor(R.color.grey)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //dateFont = resource.getFont(R.font.spoqa_sans_t)
+            dateFont = resource.getFont(R.font.nanum_mj)
         }
     }
 

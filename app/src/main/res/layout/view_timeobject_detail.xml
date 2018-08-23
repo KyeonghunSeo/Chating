@@ -3,97 +3,107 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
-    android:animateLayoutChanges="true"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/backgroundDim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:background="@color/blackAlpha"/>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/contentLy"
+        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="15dp"
+        android:layout_height="300dp"
+        android:layout_gravity="bottom"
+        android:visibility="invisible"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="20dp"
         app:cardCornerRadius="15dp">
-    </androidx.cardview.widget.CardView>
 
-    <FrameLayout
-        android:animateLayoutChanges="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@color/white"
-        android:elevation="20dp">
-
-        <LinearLayout
-            android:orientation="vertical"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/titleInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/big_margin"
-                android:background="@color/transparent"
-                android:textSize="25dp"
-                android:hint="@string/title"/>
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
             <LinearLayout
-                android:animateLayoutChanges="true"
-                android:layout_gravity="bottom"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/type1btn"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="7dp"
-                    android:src="@drawable/ic_outline_calendar_today"
-                    android:tint="@color/grey"/>
-
-                <ImageView
-                    android:id="@+id/type2btn"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="7dp"
-                    android:src="@drawable/ic_outline_done_outline"
-                    android:tint="@color/grey"/>
-
-                <ImageView
-                    android:id="@+id/type3btn"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="7dp"
-                    android:src="@drawable/ic_outline_account_circle"
-                    android:tint="@color/grey"/>
-
-                <ImageView
-                    android:id="@+id/type4btn"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="7dp"
-                    android:src="@drawable/ic_outline_class"
-                    android:tint="@color/grey"/>
+                <EditText
+                    android:id="@+id/titleInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/big_margin"
+                    android:background="@color/transparent"
+                    android:textSize="25dp"
+                    android:hint="@string/title"/>
 
             </LinearLayout>
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/deleteBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="10dp"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_outline_delete"/>
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/bottomOptionBar"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:elevation="21dp"
+        android:visibility="invisible">
 
         <ImageView
-            android:id="@+id/deleteBtn"
+            android:id="@+id/type1btn"
+            android:background="?android:attr/selectableItemBackground"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:padding="10dp"
-            android:layout_gravity="right"
-            android:src="@drawable/ic_outline_delete"/>
+            android:padding="15dp"
+            android:src="@drawable/ic_outline_calendar_today"
+            android:tint="@color/grey"/>
 
-    </FrameLayout>
+        <ImageView
+            android:id="@+id/type2btn"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="15dp"
+            android:src="@drawable/ic_outline_done_outline"
+            android:tint="@color/grey"/>
+
+        <ImageView
+            android:id="@+id/type3btn"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="15dp"
+            android:src="@drawable/ic_outline_account_circle"
+            android:tint="@color/grey"/>
+
+        <ImageView
+            android:id="@+id/type4btn"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="15dp"
+            android:src="@drawable/ic_outline_class"
+            android:tint="@color/grey"/>
+
+    </LinearLayout>
 
 </FrameLayout>

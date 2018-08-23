@@ -7,17 +7,22 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.os.IBinder
 import android.os.Vibrator
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.Transition
 import com.hellowo.chating.calendar.view.CalendarView
+import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -117,4 +122,21 @@ fun startPagingEffectAnimation(direction: Int, view: View, listener: Animator.An
     animSet.interpolator = FastOutSlowInInterpolator()
     animSet.duration = CalendarView.animDur
     animSet.start()
+}
+
+fun bitmapToByteArray(bitmap: Bitmap) : ByteArray {
+    val stream = ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+    return stream.toByteArray()
+}
+
+fun byteArrayToBitmap(bytes: ByteArray) : Bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+
+fun showKeyPad(input: EditText) {
+    input.requestFocus()
+    input.post { (input.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(input, 0) }
+}
+
+fun hideKeyPad(windowToken: IBinder, input: EditText) {
+    input.post{ (input.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(windowToken, 0) }
 }

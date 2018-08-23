@@ -139,7 +139,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
                     val dateText = dateTexts[cellNum]
                     dateText.text = tempCal.get(Calendar.DATE).toString()
-                    dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.3f
+                    dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.0f
 
                     if(isSameDay(tempCal, selectedCal)) {
                         TimeObjectManager.postSelectDate(cellNum)
@@ -191,7 +191,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     it.playTogether(
                             ObjectAnimator.ofFloat(dateText, "scaleX", 1f, 2f),
                             ObjectAnimator.ofFloat(dateText, "scaleY", 1f, 2f))
-                    it.interpolator = OvershootInterpolator(5f)
+                    it.interpolator = FastOutSlowInInterpolator()
                     it.duration = animDur
                     it.start()
                 }
@@ -299,9 +299,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun setDefaultDateTextSkin(textView: TextView) {
         val dateTextLayoutParams = FrameLayout.LayoutParams(dateArea, dateArea)
-        dateTextLayoutParams.gravity = Gravity.CENTER_HORIZONTAL
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dateTextSize)
-        textView.typeface = CalendarSkin.dateFont
+        //textView.typeface = CalendarSkin.dateFont
         textView.gravity = Gravity.CENTER
         textView.layoutParams = dateTextLayoutParams
     }

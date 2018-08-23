@@ -23,7 +23,7 @@
         android:layout_margin="50dp"
         android:textColor="@color/primaryText"
         android:textSize="30dp"
-        android:fontFamily="@font/spoqa_sans_t"
+        android:fontFamily="@font/nanum_mj"
         android:text="@string/briefing"/>
 
 </FrameLayout>
