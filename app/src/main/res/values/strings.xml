@@ -38,12 +38,38 @@
     <string name="title">제목</string>
     <string name="untitle">제목없음</string>
 
-    <string name="mon">MON</string>
-    <string name="tue">TUE</string>
-    <string name="wed">WED</string>
-    <string name="thu">THU</string>
-    <string name="fri">FRI</string>
-    <string name="sat">SAT</string>
-    <string name="sun">SUN</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="sun">Sun</string>
     <string name="briefing">TODAY BRIEFING</string>
+
+    <string-array name="day_of_weeks">
+        <item>@string/sun</item>
+        <item>@string/mon</item>
+        <item>@string/tue</item>
+        <item>@string/wed</item>
+        <item>@string/thu</item>
+        <item>@string/fri</item>
+        <item>@string/sat</item>
+    </string-array>
+
+    <string-array name="colors">
+        <item>#e95e72</item>
+        <item>#ff5f56</item>
+        <item>#f9926e</item>
+        <item>#00a388</item>
+        <item>#79bd8f</item>
+        <item>#f7d17c</item>
+        <item>#08b795</item>
+        <item>#25afd6</item>
+        <item>#1d5ba7</item>
+        <item>#979c9c</item>
+        <item>#ff8598</item>
+        <item>#a17cdd</item>
+    </string-array>
+
 </resources>

@@ -11,7 +11,7 @@ const val DAY_MILL = HOUR_MILL * 24
 const val WEEK_MILL = DAY_MILL * 7
 const val YEAR_MILL = WEEK_MILL * 365
 
-const val ANIM_DUR = 200L
+const val ANIM_DUR = 250L
 
 const val ID = "id"
 const val TIME = "time"
@@ -20,5 +20,4 @@ const val RC_PERMISSIONS = 0
 const val RC_FILEPICKER = 9090
 
 val statusBarHeight = dpToPx(25)
-var topBarHeight = dpToPx(70)
-var bottomBarHeight = dpToPx(50)
+var topBarHeight = dpToPx(50)

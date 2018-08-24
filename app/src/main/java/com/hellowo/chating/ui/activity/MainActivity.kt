@@ -19,6 +19,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProviders
+import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     object : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
+            TransitionManager.beginDelayedTransition(rootLy, makeFromBottomSlideTransition())
             insertBtn.visibility = View.GONE
         }
     }
@@ -96,11 +98,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        detailView.setOnTouchListener { view, motionEvent ->
-            insertBtn.visibility = View.VISIBLE
-            insertBtnHandler.removeMessages(0)
-            insertBtnHandler.sendEmptyMessageDelayed(0, 3000)
-            return@setOnTouchListener false
+        calendarView.setOnTop { isTop ->
+            if(!isTop) topBar.elevation = dpToPx(2).toFloat()
+            else topBar.elevation = 0f
         }
         detailView.setCalendarView(calendarView)
 
@@ -150,9 +150,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateUserUI(appUser: AppUser) {
         if(appUser.profileImg?.isNotEmpty() == true) {
+            profileImage.colorFilter = null
             Glide.with(this).load(appUser.profileImg)
                     .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
                     .into(profileImage)
+        }else {
+            profileImage.setColorFilter(resources.getColor(R.color.iconTint))
         }
     }
 

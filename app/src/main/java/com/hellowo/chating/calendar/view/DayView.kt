@@ -116,12 +116,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     transiion.addListener(object : Transition.TransitionListener{
                         override fun onTransitionEnd(transition: Transition) {
                             viewMode = ViewMode.OPENED
-                            notifyDateChanged(0)
                         }
                         override fun onTransitionResume(transition: Transition) {}
                         override fun onTransitionPause(transition: Transition) {}
                         override fun onTransitionCancel(transition: Transition) {}
                         override fun onTransitionStart(transition: Transition) {
+                            notifyDateChanged(0)
                             val animSet = AnimatorSet()
                             animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
                                     "elevation", dpToPx(15).toFloat(), 0f).setDuration(ANIM_DUR),
@@ -132,7 +132,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     })
                     TransitionManager.beginDelayedTransition(this@DayView, transiion)
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, bottomBarHeight, 0, bottomBarHeight)
+                        setMargins(0, topBarHeight, 0, 0)
                     }
                 }
                 override fun onAnimationCancel(p0: Animator?) {}
@@ -147,6 +147,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             val location = IntArray(2)
             dateLy.getLocationInWindow(location)
 
+            elevation = dpToPx(15).toFloat()
             viewMode = ViewMode.ANIMATING
             val transiion = makeChangeBounceTransition()
             transiion.interpolator = FastOutSlowInInterpolator()

@@ -30,20 +30,19 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val tempCal = Calendar.getInstance()
     }
 
-    var mTextSize = 9f
+    var mTextSize = 10f
     var mLeft = 0
     var mTop = 0
     var mRight = 0
     var mBottom = 0
     var mLine = 0
-    var color = CalendarSkin.dateColor
+    var color = timeObject.color
     var leftOpen = false
     var rightOpen = false
 
     init {
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize)
         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-        typeface = CalendarSkin.dateFont
     }
 
     @SuppressLint("DrawAllocation")
@@ -70,6 +69,10 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                             it.drawCircle(centerX, centerY, strokeWidth * 2.5f, paint)
                         }
                         TimeObject.Style.LONG -> {
+                            setPadding(defaultPadding, 0, defaultPadding, 0)
+                            setTextColor(color)
+                        }
+                        else -> {
                             setPadding(defaultPadding, 0, defaultPadding, 0)
                             setTextColor(Color.WHITE)
                             var left = 0f
@@ -100,10 +103,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                             }
                             val rect = RectF(left, 0f, right, height.toFloat())
                             it.drawRoundRect(rect, radius, radius, paint)
-                        }
-                        else -> {
-                            setPadding(defaultPadding, 0, defaultPadding, 0)
-                            setTextColor(color)
                         }
                     }
 

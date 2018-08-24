@@ -9,6 +9,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Color
 import android.os.IBinder
 import android.os.Vibrator
 import android.util.Log
@@ -140,3 +141,19 @@ fun showKeyPad(input: EditText) {
 fun hideKeyPad(windowToken: IBinder, input: EditText) {
     input.post{ (input.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(windowToken, 0) }
 }
+
+fun loadBitmapFromView(v: View): Bitmap {
+    val specWidth = View.MeasureSpec.makeMeasureSpec(900 /* any */, View.MeasureSpec.EXACTLY)
+    v.measure(specWidth, specWidth)
+    val questionWidth = v.measuredWidth
+
+    val b = Bitmap.createBitmap(questionWidth, questionWidth, Bitmap.Config.ARGB_8888)
+    val c = Canvas(b)
+    c.drawColor(Color.WHITE)
+    v.layout(v.left, v.top, v.right, v.bottom)
+    v.draw(c)
+    return b
+}
+
+fun ClosedRange<Int>.random() =
+        Random().nextInt((endInclusive + 1) - start) +  start

@@ -5,6 +5,7 @@ import android.animation.AnimatorSet
 import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -25,7 +26,7 @@ import java.util.*
 
 class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
-        private val bottomOffset = dpToPx(15).toFloat()
+        private val bottomOffset = dpToPx(5).toFloat()
     }
 
     private var calendarView: CalendarView? = null
@@ -34,13 +35,17 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     var mStyle: TimeObject.Style = TimeObject.Style.DEFAULT
     var testEnd = 0
     var timeObject: TimeObject? = null
+    val colors = context.resources.getStringArray(R.array.colors)
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_timeobject_detail, this, true)
         //contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         //bottomOptionBar.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        backgroundDim.setOnClickListener { hide() }
+        backgroundDim.setOnClickListener { if(viewMode == ViewMode.OPENED) { hide() } }
+        backgroundDim.visibility = View.INVISIBLE
+        backgroundDim.alpha = 0f
         contentLy.setOnClickListener {  }
+        contentLy.visibility = View.INVISIBLE
 
         titleInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == IME_ACTION_DONE) {
@@ -69,6 +74,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             MainActivity.instance?.viewModel?.targetTimeObject?.value = null
             hide()
         }
+        confirmBtn.setOnClickListener {
+            confirm()
+        }
     }
 
     fun setCalendarView(view: CalendarView) { calendarView = view }
@@ -92,6 +100,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 type = mType.ordinal
                 style = mStyle.ordinal
                 dtStart = time
+                color = Color.parseColor(colors[(0 until colors.size).random()])
                 if (mType == TimeObject.Type.MEMO) dtEnd = time
                 else dtEnd = time + DAY_MILL * (title?.length ?: 0+1)
                 timeZone = TimeZone.getDefault().id
@@ -101,12 +110,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     fun show(timeObject: TimeObject) {
-        //TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
-        setData(timeObject)
         viewMode = ViewMode.ANIMATING
         contentLy.visibility = View.VISIBLE
         bottomOptionBar.visibility = View.VISIBLE
         backgroundDim.visibility = View.VISIBLE
+        setData(timeObject)
         val animSet = AnimatorSet()
         if(timeObject.isManaged) {
             contentLy.radius = 0f
@@ -118,7 +126,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             contentLy.requestLayout()
         }
         animSet.playTogether(ObjectAnimator.ofFloat(contentLy, "translationY", height.toFloat(), bottomOffset).setDuration(ANIM_DUR),
-                ObjectAnimator.ofFloat(bottomOptionBar, "translationY", height.toFloat(), 0f).setDuration(ANIM_DUR))
+                ObjectAnimator.ofFloat(bottomOptionBar, "translationY", height.toFloat(), 0f).setDuration(ANIM_DUR),
+                ObjectAnimator.ofFloat(backgroundDim, "alpha", 0f, 1f).setDuration(ANIM_DUR))
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.addListener(object : Animator.AnimatorListener{
             override fun onAnimationRepeat(p0: Animator?) {}
@@ -140,11 +149,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     fun hide() {
-        //TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
         viewMode = ViewMode.ANIMATING
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(contentLy, "translationY", bottomOffset, height.toFloat()).setDuration(ANIM_DUR),
-                ObjectAnimator.ofFloat(bottomOptionBar, "translationY", 0f, height.toFloat()).setDuration(ANIM_DUR))
+                ObjectAnimator.ofFloat(bottomOptionBar, "translationY", 0f, height.toFloat()).setDuration(ANIM_DUR),
+                ObjectAnimator.ofFloat(backgroundDim, "alpha", 1f, 0f).setDuration(ANIM_DUR))
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.addListener(object : Animator.AnimatorListener{
             override fun onAnimationRepeat(p0: Animator?) {}

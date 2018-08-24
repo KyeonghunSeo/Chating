@@ -1,8 +1,10 @@
 package com.hellowo.chating.viewmodel
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.hellowo.chating.AUTH_URL
 import com.hellowo.chating.USER_URL
 import com.hellowo.chating.bitmapToByteArray
 import com.hellowo.chating.calendar.model.TimeObject
@@ -18,9 +20,17 @@ class MainViewModel : ViewModel() {
     val appUser = MutableLiveData<AppUser?>()
 
     init {
-        SyncUser.current()?.let {
-            val config = SyncConfiguration.Builder(it, USER_URL).partialRealm().build()
-            Realm.setDefaultConfiguration(config)
+        if(SyncUser.current() == null) {
+            val credentials = SyncCredentials.nickname("hellowo", false)
+            SyncUser.logInAsync(credentials, AUTH_URL, object: SyncUser.Callback<SyncUser> {
+                override fun onError(error: ObjectServerError?) {
+                    Log.e("Login error", error.toString())
+                }
+                override fun onSuccess(result: SyncUser?) {
+                    val config = SyncConfiguration.Builder(result, USER_URL).partialRealm().build()
+                    Realm.setDefaultConfiguration(config)
+                }
+            })
         }
         loadAppUser()
     }

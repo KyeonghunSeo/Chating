@@ -28,8 +28,9 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
     private var maxCellNum = 0
     private var calStartTime = 0L
     private var withAnimtion = false
-    private val cellBottomArray = Array(42){ _ -> CalendarView.dateArea}
-    private val rowHeightArray = Array(6){ _ -> CalendarView.dateArea}
+    private val drawStartYOffset = CalendarView.dateArea + dpToPx(5)
+    private val cellBottomArray = Array(42){ _ -> drawStartYOffset}
+    private val rowHeightArray = Array(6){ _ -> drawStartYOffset}
 
     fun draw() {
         setCalendarData()
@@ -43,8 +44,8 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         withAnimtion = anim
         viewHolderList.clear()
         viewLevelStatusMap.clear()
-        cellBottomArray.fill(CalendarView.dateArea)
-        rowHeightArray.fill(CalendarView.dateArea)
+        cellBottomArray.fill(drawStartYOffset)
+        rowHeightArray.fill(drawStartYOffset)
         draw()
     }
 

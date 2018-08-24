@@ -22,7 +22,10 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
     var firstX = 0f
     var firstY = 0f
     var swipeMode = 0
+    var isTop = true
     var onSwipeStateChanged: ((Int) -> Unit)? = null
+    var onTop: ((Boolean) -> Unit)? = null
+
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         ev?.let {
             when(ev.action) {
@@ -54,5 +57,16 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
             return@let
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
+        super.onScrollChanged(l, t, oldl, oldt)
+        if(isTop && t > 0) {
+            isTop = false
+            onTop?.invoke(false)
+        }else if(!isTop && t == 0) {
+            isTop = true
+            onTop?.invoke(true)
+        }
     }
 }
