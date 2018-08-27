@@ -135,13 +135,6 @@
         android:layout_height="match_parent">
     </FrameLayout>
 
-    <com.hellowo.chating.calendar.view.TimeObjectDetailView
-        android:id="@+id/detailView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="10dp">
-    </com.hellowo.chating.calendar.view.TimeObjectDetailView>
-
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="35dp"

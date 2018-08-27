@@ -1,6 +1,7 @@
 package com.hellowo.chating.calendar.model
 
 import android.graphics.Color
+import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import java.text.DateFormat
@@ -13,11 +14,19 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var color: Int = Color.TRANSPARENT,
                       var location: String? = null,
                       var description: String? = null,
+                      var repeatId: String? = null,
+                      var repeat: String? = null,
+                      var count: Int = 0,
+                      var dtUntil: Long = Long.MIN_VALUE,
                       var allday: Boolean = false,
                       var dtStart: Long = Long.MIN_VALUE,
                       var dtEnd: Long = Long.MIN_VALUE,
+                      var dtCreated: Long = Long.MIN_VALUE,
                       var dtUpdated: Long = Long.MIN_VALUE,
-                      var timeZone: String? = null): RealmObject() {
+                      var timeZone: String? = null,
+                      var tags: RealmList<Tag>? = null,
+                      var alarms: RealmList<Alarm>? = null,
+                      var links: RealmList<Link>? = null): RealmObject() {
 
     enum class Type {
         EVENT, TODO, MEMO, STAMP, IMAGE, EFFACT

@@ -7,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.hellowo.chating.R
 import com.hellowo.chating.model.ChatRoom
-import io.realm.OrderedRealmCollection
-import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.list_item_normal_check.view.*
 
-class TimeObjectAdapter(val context: Context, val items: List<ChatRoom>, val adapterInterface: (chatRoom: ChatRoom) -> Unit)
-    : RecyclerView.Adapter<TimeObjectAdapter.ViewHolder>() {
+class BasicAdapter(val context: Context, val items: List<ChatRoom>, val adapterInterface: (chatRoom: ChatRoom) -> Unit)
+    : RecyclerView.Adapter<BasicAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = items.size
 
@@ -21,7 +19,7 @@ class TimeObjectAdapter(val context: Context, val items: List<ChatRoom>, val ada
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_normal_check, parent, false))
 
-    override fun onBindViewHolder(holder: TimeObjectAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BasicAdapter.ViewHolder, position: Int) {
         val chatRoom = items[position]
         val v = holder.itemView
 

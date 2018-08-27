@@ -199,9 +199,9 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
     private fun showInsertAnimation(view: TimeObjectView) {
         TimeObjectManager.lastUpdatedItem = null
         val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(view, "scaleX", 2f, 1f).setDuration(ANIM_DUR),
-                ObjectAnimator.ofFloat(view, "scaleY", 2f, 1f).setDuration(ANIM_DUR),
-                ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).setDuration(ANIM_DUR))
+        animSet.playTogether(ObjectAnimator.ofFloat(view, "scaleX", 2f, 1f).setDuration(1000),
+                ObjectAnimator.ofFloat(view, "scaleY", 2f, 1f).setDuration(1000),
+                ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).setDuration(1000))
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
     }

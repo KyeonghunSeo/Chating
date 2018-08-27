@@ -30,6 +30,7 @@ import com.hellowo.chating.*
 import com.hellowo.chating.calendar.model.CalendarSkin
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
+import com.hellowo.chating.calendar.fragment.TimeObjectDetailFragment
 import com.hellowo.chating.model.AppUser
 import com.hellowo.chating.ui.view.SwipeScrollView.Companion.SWIPE_LEFT
 import com.hellowo.chating.ui.view.SwipeScrollView.Companion.SWIPE_RIGHT
@@ -102,7 +103,6 @@ class MainActivity : AppCompatActivity() {
             if(!isTop) topBar.elevation = dpToPx(2).toFloat()
             else topBar.elevation = 0f
         }
-        detailView.setCalendarView(calendarView)
 
     }
 
@@ -125,11 +125,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBtns() {
         insertBtn.setOnClickListener {
-            if(detailView.viewMode == ViewMode.CLOSED) {
+            if(supportFragmentManager.findFragmentByTag("detail") == null) {
                 viewModel.targetTimeObject.value = TimeObjectManager.makeNewTimeObject(
                         getCalendarTime0(calendarView.selectedCal), getCalendarTime23(calendarView.selectedCal))
             }else {
-                detailView.confirm()
+
             }
         }
 
@@ -140,8 +140,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initObserver() {
         viewModel.targetTimeObject.observe(this, androidx.lifecycle.Observer { timeObject ->
-            if(detailView.viewMode == ViewMode.CLOSED && timeObject != null) {
-                detailView.show(timeObject)
+            if(timeObject != null) {
+                supportFragmentManager.beginTransaction().replace(R.id.container, TimeObjectDetailFragment(), "detail").commit()
             }
         })
 
@@ -195,7 +195,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         when{
-            detailView.viewMode == ViewMode.OPENED -> detailView.hide()
+            supportFragmentManager.findFragmentByTag("detail") != null -> {
+                supportFragmentManager.findFragmentByTag("detail")?.let {
+                    supportFragmentManager.beginTransaction().remove(it).commit()
+                }
+            }
             keepView.viewMode == ViewMode.OPENED -> keepView.hide()
             briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
             dayView.viewMode == ViewMode.OPENED -> dayView.hide()
