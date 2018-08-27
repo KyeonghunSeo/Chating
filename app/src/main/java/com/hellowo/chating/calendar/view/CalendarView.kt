@@ -29,8 +29,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val dateTextSize = 13f
         const val animDur = 250L
         const val columns = 7
+        val seletedBarSize = dpToPx(25)
         val dateSize = dpToPx(20)
-        val dateArea = dpToPx(30)
+        val dateArea = dpToPx(45)
         val weekLyBottomPadding = dpToPx(20)
     }
 
@@ -91,9 +92,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         rootLy.setPadding(0, 0, 0 , dpToPx(40))
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
-        selectedBar.layoutParams = FrameLayout.LayoutParams(dateArea, weekLyBottomPadding).apply {
+        selectedBar.layoutParams = FrameLayout.LayoutParams(seletedBarSize, weekLyBottomPadding).apply {
             gravity = Gravity.CENTER_HORIZONTAL
-            topMargin = -weekLyBottomPadding
         }
 
         for(i in 0..5) {
@@ -156,7 +156,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val dateText = dateTexts[cellNum]
                     if(isInit) { setDefaultDateTextSkin(dateText) }
                     dateText.text = tempCal.get(Calendar.DATE).toString()
-                    dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.0f
+                    dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.2f
                     dateText.setTextColor(getDateTextColor(cellNum))
 
                     if(cellNum == 0) {
@@ -170,6 +170,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
             }else {
                 weekLy.visibility = View.GONE
+                if(isInit) {
+                    for (j in 0..6){
+                        setDefaultDateTextSkin(dateTexts[i*7 + j])
+                    }
+                }
             }
         }
 
@@ -330,10 +335,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun setDefaultDateTextSkin(textView: TextView) {
-        val lp = FrameLayout.LayoutParams(dateSize, dateSize)
-        lp.topMargin = (dateArea - dateSize) / 2
-        lp.leftMargin = (minWidth / 2 - dateSize / 2).toInt()
-        textView.layoutParams = lp
+        textView.layoutParams = FrameLayout.LayoutParams(dateSize, dateSize).apply {
+            topMargin = (dateArea - weekLyBottomPadding)
+            leftMargin = (minWidth / 2 - dateSize / 2).toInt()
+        }
         textView.gravity = Gravity.CENTER
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dateTextSize)
         //textView.typeface = CalendarSkin.dateFont
