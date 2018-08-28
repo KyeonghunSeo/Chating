@@ -4,20 +4,24 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
+import android.os.Build
 import android.os.IBinder
 import android.os.Vibrator
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Fade
 import androidx.transition.Slide
@@ -157,3 +161,32 @@ fun loadBitmapFromView(v: View): Bitmap {
 
 fun ClosedRange<Int>.random() =
         Random().nextInt((endInclusive + 1) - start) +  start
+
+fun statusBarWhite(activity: Activity) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val window = activity.window
+        var flags = window.peekDecorView().systemUiVisibility
+        flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        window.peekDecorView().systemUiVisibility = flags
+        window.statusBarColor = ContextCompat.getColor(activity, R.color.white)
+    }
+}
+
+fun statusBarBlackAlpah(activity: Activity) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val window = activity.window
+        var flags = window.peekDecorView().systemUiVisibility
+        flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+        window.peekDecorView().systemUiVisibility = flags
+        window.statusBarColor = ContextCompat.getColor(activity, R.color.blackAlpha)
+    }
+}
+
+fun callAfterViewDrawed(view: View, callback: Runnable) {
+    view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            callback.run()
+        }
+    })
+}

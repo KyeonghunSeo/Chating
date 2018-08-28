@@ -71,12 +71,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         CalendarSkin.init(this)
         createViews()
         setLayout()
-        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                viewTreeObserver.removeOnGlobalLayoutListener(this)
-                drawCalendar(System.currentTimeMillis(), true)
-            }
-        })
+        callAfterViewDrawed(this, Runnable { drawCalendar(System.currentTimeMillis(), true) })
     }
 
     private fun createViews() {

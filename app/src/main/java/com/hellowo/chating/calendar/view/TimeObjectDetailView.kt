@@ -41,9 +41,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         LayoutInflater.from(context).inflate(R.layout.view_timeobject_detail, this, true)
         //contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         //bottomOptionBar.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        backgroundDim.setOnClickListener { if(viewMode == ViewMode.OPENED) { hide() } }
-        backgroundDim.visibility = View.INVISIBLE
-        backgroundDim.alpha = 0f
         contentLy.setOnClickListener {  }
         contentLy.visibility = View.INVISIBLE
 
@@ -113,7 +110,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         viewMode = ViewMode.ANIMATING
         contentLy.visibility = View.VISIBLE
         bottomOptionBar.visibility = View.VISIBLE
-        backgroundDim.visibility = View.VISIBLE
         setData(timeObject)
         val animSet = AnimatorSet()
         if(timeObject.isManaged) {
@@ -126,8 +122,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             contentLy.requestLayout()
         }
         animSet.playTogether(ObjectAnimator.ofFloat(contentLy, "translationY", height.toFloat(), bottomOffset).setDuration(ANIM_DUR),
-                ObjectAnimator.ofFloat(bottomOptionBar, "translationY", height.toFloat(), 0f).setDuration(ANIM_DUR),
-                ObjectAnimator.ofFloat(backgroundDim, "alpha", 0f, 1f).setDuration(ANIM_DUR))
+                ObjectAnimator.ofFloat(bottomOptionBar, "translationY", height.toFloat(), 0f).setDuration(ANIM_DUR))
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.addListener(object : Animator.AnimatorListener{
             override fun onAnimationRepeat(p0: Animator?) {}
@@ -152,15 +147,13 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         viewMode = ViewMode.ANIMATING
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(contentLy, "translationY", bottomOffset, height.toFloat()).setDuration(ANIM_DUR),
-                ObjectAnimator.ofFloat(bottomOptionBar, "translationY", 0f, height.toFloat()).setDuration(ANIM_DUR),
-                ObjectAnimator.ofFloat(backgroundDim, "alpha", 1f, 0f).setDuration(ANIM_DUR))
+                ObjectAnimator.ofFloat(bottomOptionBar, "translationY", 0f, height.toFloat()).setDuration(ANIM_DUR))
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.addListener(object : Animator.AnimatorListener{
             override fun onAnimationRepeat(p0: Animator?) {}
             override fun onAnimationEnd(p0: Animator?) {
                 contentLy.visibility = View.INVISIBLE
                 bottomOptionBar.visibility = View.INVISIBLE
-                backgroundDim.visibility = View.INVISIBLE
                 viewMode = ViewMode.CLOSED
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

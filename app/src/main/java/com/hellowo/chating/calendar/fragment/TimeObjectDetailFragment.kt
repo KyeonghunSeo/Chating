@@ -8,14 +8,19 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.inputmethod.EditorInfo
+import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProviders
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.hellowo.chating.*
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
@@ -34,7 +39,6 @@ class TimeObjectDetailFragment : Fragment() {
     }
 
     lateinit var viewModel: MainViewModel
-    var viewMode = ViewMode.CLOSED
     var mType: TimeObject.Type = TimeObject.Type.EVENT
     var mStyle: TimeObject.Style = TimeObject.Style.DEFAULT
     var testEnd = 0
@@ -54,11 +58,8 @@ class TimeObjectDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         //bottomOptionBar.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        backgroundDim.setOnClickListener { if(viewMode == ViewMode.OPENED) { hide() } }
-        backgroundDim.visibility = View.INVISIBLE
-        backgroundDim.alpha = 0f
+        backgroundDim.setOnClickListener { hide() }
         contentLy.setOnClickListener {  }
-        contentLy.visibility = View.INVISIBLE
 
         titleInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -90,11 +91,30 @@ class TimeObjectDetailFragment : Fragment() {
         confirmBtn.setOnClickListener {
             confirm()
         }
-        show()
-    }
 
-    fun setData() {
-        viewModel.targetTimeObject.value?.let { updateUI() }
+        updateUI()
+
+        bottomOptionBar.visibility = View.GONE
+
+        viewModel.targetView.value?.let { view ->
+            val location = IntArray(2)
+            view.getLocationOnScreen(location)
+            (contentLy.layoutParams as FrameLayout.LayoutParams).let {
+                it.gravity = Gravity.NO_GRAVITY
+                it.width = view.width
+                it.height = view.height
+                it.topMargin = location[1] - statusBarHeight
+                it.leftMargin = location[0]
+            }
+            contentLy.requestLayout()
+            backgroundDim.visibility = View.GONE
+            contentLy.visibility = View.VISIBLE
+            callAfterViewDrawed(rootLy, Runnable {  expand() })
+            return
+        }
+
+        contentLy.visibility = View.GONE
+        callAfterViewDrawed(rootLy, Runnable {  show() })
     }
 
     private fun updateUI() {
@@ -122,30 +142,43 @@ class TimeObjectDetailFragment : Fragment() {
     }
 
     fun show() {
-        viewMode = ViewMode.ANIMATING
+        val animSet = AnimatorSet()
+        animSet.playTogether(ObjectAnimator.ofFloat(backgroundDim, "alpha", 0f, 1f).setDuration(ANIM_DUR))
+        animSet.start()
+        TransitionManager.beginDelayedTransition(rootLy, makeFromBottomSlideTransition())
         contentLy.visibility = View.VISIBLE
         bottomOptionBar.visibility = View.VISIBLE
-        backgroundDim.visibility = View.VISIBLE
-        setData()
+        statusBarBlackAlpah(activity!!)
+    }
+
+    fun expand() {
+        contentLy.radius = 0f
         val animSet = AnimatorSet()
-        if(timeObject!!.isManaged) {
-            contentLy.radius = 0f
-            contentLy.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-            contentLy.requestLayout()
-        }else {
-            contentLy.radius = bottomOffset
-            contentLy.layoutParams.height = dpToPx(300)
-            contentLy.requestLayout()
-        }
-        animSet.playTogether(ObjectAnimator.ofFloat(contentLy, "translationY", rootLy.height.toFloat(), bottomOffset).setDuration(ANIM_DUR),
-                ObjectAnimator.ofFloat(bottomOptionBar, "translationY", rootLy.height.toFloat(), 0f).setDuration(ANIM_DUR),
-                ObjectAnimator.ofFloat(backgroundDim, "alpha", 0f, 1f).setDuration(ANIM_DUR))
+        animSet.playTogether(ObjectAnimator.ofFloat(contentLy, "elevation", 0f, dpToPx(10).toFloat()).setDuration(ANIM_DUR))
         animSet.interpolator = FastOutSlowInInterpolator()
-        animSet.addListener(object : Animator.AnimatorListener{
+        animSet.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(p0: Animator?) {}
             override fun onAnimationEnd(p0: Animator?) {
-                viewMode = ViewMode.OPENED
+                val transiion = makeChangeBounceTransition()
+                transiion.interpolator = FastOutSlowInInterpolator()
+                transiion.duration = ANIM_DUR
+                transiion.addListener(object : Transition.TransitionListener {
+                    override fun onTransitionEnd(transition: Transition) {}
+                    override fun onTransitionResume(transition: Transition) {}
+                    override fun onTransitionPause(transition: Transition) {}
+                    override fun onTransitionCancel(transition: Transition) {}
+                    override fun onTransitionStart(transition: Transition) {}
+                })
+                TransitionManager.beginDelayedTransition(contentLy, transiion)
+                (contentLy.layoutParams as FrameLayout.LayoutParams).let {
+                    it.width = MATCH_PARENT
+                    it.height = MATCH_PARENT
+                    it.topMargin = 0
+                    it.leftMargin = 0
+                }
+                contentLy.requestLayout()
             }
+
             override fun onAnimationCancel(p0: Animator?) {}
             override fun onAnimationStart(p0: Animator?) {}
         })
@@ -153,7 +186,34 @@ class TimeObjectDetailFragment : Fragment() {
     }
 
     fun hide() {
-        viewMode = ViewMode.ANIMATING
+        viewModel.targetView.value?.let { view ->
+            val location = IntArray(2)
+            view.getLocationOnScreen(location)
+            val transiion = makeChangeBounceTransition()
+            transiion.interpolator = FastOutSlowInInterpolator()
+            transiion.duration = ANIM_DUR
+            transiion.addListener(object : Transition.TransitionListener {
+                override fun onTransitionEnd(transition: Transition) {
+
+                }
+                override fun onTransitionResume(transition: Transition) {}
+                override fun onTransitionPause(transition: Transition) {}
+                override fun onTransitionCancel(transition: Transition) {}
+                override fun onTransitionStart(transition: Transition) {}
+            })
+            TransitionManager.beginDelayedTransition(contentLy, transiion)
+            (contentLy.layoutParams as FrameLayout.LayoutParams).let {
+                it.gravity = Gravity.NO_GRAVITY
+                it.width = view.width
+                it.height = view.height
+                it.topMargin = location[1] - statusBarHeight
+                it.leftMargin = location[0]
+            }
+            contentLy.requestLayout()
+            return
+        }
+
+
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(contentLy, "translationY", bottomOffset, rootLy.height.toFloat()).setDuration(ANIM_DUR),
                 ObjectAnimator.ofFloat(bottomOptionBar, "translationY", 0f, rootLy.height.toFloat()).setDuration(ANIM_DUR),
@@ -162,17 +222,15 @@ class TimeObjectDetailFragment : Fragment() {
         animSet.addListener(object : Animator.AnimatorListener{
             override fun onAnimationRepeat(p0: Animator?) {}
             override fun onAnimationEnd(p0: Animator?) {
-                contentLy.visibility = View.INVISIBLE
-                bottomOptionBar.visibility = View.INVISIBLE
-                backgroundDim.visibility = View.INVISIBLE
-                viewMode = ViewMode.CLOSED
+                viewModel.targetTimeObject.value = null
+                viewModel.targetView.value = null
                 activity?.supportFragmentManager?.beginTransaction()?.remove(this@TimeObjectDetailFragment)?.commit()
             }
             override fun onAnimationCancel(p0: Animator?) {}
             override fun onAnimationStart(p0: Animator?) {}
         })
         animSet.start()
-
+        statusBarWhite(activity!!)
         hideKeyPad(titleInput.windowToken, titleInput)
     }
 }

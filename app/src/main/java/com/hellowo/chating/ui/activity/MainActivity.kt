@@ -48,8 +48,6 @@ class MainActivity : AppCompatActivity() {
     object : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
-            TransitionManager.beginDelayedTransition(rootLy, makeFromBottomSlideTransition())
-            insertBtn.visibility = View.GONE
         }
     }
 
@@ -125,7 +123,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBtns() {
         insertBtn.setOnClickListener {
-            if(supportFragmentManager.findFragmentByTag("detail") == null) {
+            if(timeObjectDetailView.viewMode == ViewMode.CLOSED) {
                 viewModel.targetTimeObject.value = TimeObjectManager.makeNewTimeObject(
                         getCalendarTime0(calendarView.selectedCal), getCalendarTime23(calendarView.selectedCal))
             }else {
@@ -141,10 +139,9 @@ class MainActivity : AppCompatActivity() {
     private fun initObserver() {
         viewModel.targetTimeObject.observe(this, androidx.lifecycle.Observer { timeObject ->
             if(timeObject != null) {
-                supportFragmentManager.beginTransaction().replace(R.id.container, TimeObjectDetailFragment(), "detail").commit()
+                timeObjectDetailView.show(timeObject)
             }
         })
-
         viewModel.appUser.observe(this, androidx.lifecycle.Observer { it?.let { updateUserUI(it) } })
     }
 
@@ -195,11 +192,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         when{
-            supportFragmentManager.findFragmentByTag("detail") != null -> {
-                supportFragmentManager.findFragmentByTag("detail")?.let {
-                    supportFragmentManager.beginTransaction().remove(it).commit()
-                }
-            }
+            timeObjectDetailView.viewMode == ViewMode.OPENED -> timeObjectDetailView.hide()
             keepView.viewMode == ViewMode.OPENED -> keepView.hide()
             briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
             dayView.viewMode == ViewMode.OPENED -> dayView.hide()

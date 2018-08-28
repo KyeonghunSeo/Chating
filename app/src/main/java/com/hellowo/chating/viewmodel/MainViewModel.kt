@@ -2,6 +2,7 @@ package com.hellowo.chating.viewmodel
 
 import android.graphics.Bitmap
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hellowo.chating.AUTH_URL
@@ -17,6 +18,7 @@ class MainViewModel : ViewModel() {
     val realm = Realm.getDefaultInstance()
     val loading = MutableLiveData<Boolean>()
     val targetTimeObject = MutableLiveData<TimeObject?>()
+    val targetView = MutableLiveData<View?>()
     val appUser = MutableLiveData<AppUser?>()
 
     init {

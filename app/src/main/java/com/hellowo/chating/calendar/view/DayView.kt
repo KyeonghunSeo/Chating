@@ -33,7 +33,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private var calendarView: CalendarView? = null
     private val items = ArrayList<TimeObject>()
     private var timeObjectList: RealmResults<TimeObject>? = null
-    private val timeObjectDayViewAdapter = TimeObjectDayViewAdapter(context, items) { onItemClicked(it) }
+    private val timeObjectDayViewAdapter = TimeObjectDayViewAdapter(context, items) { view, timeObject ->
+        MainActivity.instance?.viewModel?.targetTimeObject?.value = timeObject
+        MainActivity.instance?.viewModel?.targetView?.value = view
+    }
 
     var viewMode = ViewMode.CLOSED
 
@@ -78,10 +81,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private fun clearData() {
         items.clear()
         timeObjectDayViewAdapter.notifyDataSetChanged()
-    }
-
-    private fun onItemClicked(timeObject: TimeObject) {
-        MainActivity.instance?.viewModel?.targetTimeObject?.value = timeObject
     }
 
     private fun setDateText() {

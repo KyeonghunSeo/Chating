@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.list_item_normal_check.view.*
 
 class TimeObjectDayViewAdapter(val context: Context,
                                val items: List<TimeObject>,
-                               val adapterInterface: (chatRoom: TimeObject) -> Unit) : RecyclerView.Adapter<TimeObjectDayViewAdapter.ViewHolder>() {
+                               val adapterInterface: (view: View, timeObject: TimeObject) -> Unit) : RecyclerView.Adapter<TimeObjectDayViewAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = items.size
 
@@ -26,6 +26,6 @@ class TimeObjectDayViewAdapter(val context: Context,
 
         v.titleText.text = timeObject.title
 
-        v.setOnClickListener { adapterInterface.invoke(timeObject) }
+        v.setOnClickListener { adapterInterface.invoke(it, timeObject) }
     }
 }
