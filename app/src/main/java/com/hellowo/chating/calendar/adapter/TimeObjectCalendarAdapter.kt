@@ -3,6 +3,7 @@ package com.hellowo.chating.calendar.adapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
@@ -28,7 +29,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
     private var maxCellNum = 0
     private var calStartTime = 0L
     private var withAnimtion = false
-    private val drawStartYOffset = CalendarView.dateArea + dpToPx(5)
+    private val drawStartYOffset = CalendarView.dateArea + dpToPx(7)
     private val cellBottomArray = Array(42){ _ -> drawStartYOffset}
     private val rowHeightArray = Array(6){ _ -> drawStartYOffset}
 
@@ -199,10 +200,9 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
     private fun showInsertAnimation(view: TimeObjectView) {
         TimeObjectManager.lastUpdatedItem = null
         val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(view, "scaleX", 2f, 1f).setDuration(1000),
-                ObjectAnimator.ofFloat(view, "scaleY", 2f, 1f).setDuration(1000),
-                ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).setDuration(1000))
-        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.playTogether(ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f).setDuration(500),
+                ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f).setDuration(500))
+        animSet.interpolator = OvershootInterpolator()
         animSet.start()
     }
 

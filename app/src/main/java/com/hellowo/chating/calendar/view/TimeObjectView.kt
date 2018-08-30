@@ -23,8 +23,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val defaulMargin = dpToPx(1)
         val defaultPadding = dpToPx(4)
         val normalTypeSize = dpToPx(17)
-        val smallTypeSize = dpToPx(13)
-        val bigTypeSize = dpToPx(27)
+        val smallTypeSize = dpToPx(15)
+        val bigTypeSize = dpToPx(30)
         val memoTypeSize = dpToPx(70)
         val levelMargin = dpToPx(5)
         val tempCal = Calendar.getInstance()
@@ -43,6 +43,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     init {
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize)
         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
+        typeface = CalendarSkin.dateFont
     }
 
     @SuppressLint("DrawAllocation")

@@ -6,6 +6,7 @@ import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -16,6 +17,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.hellowo.chating.*
 import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.calendar.TimeObjectManager
@@ -26,14 +30,13 @@ import java.util.*
 
 class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
-        private val bottomOffset = dpToPx(5).toFloat()
     }
 
     private var calendarView: CalendarView? = null
+    private var behavior: BottomSheetBehavior<View>? = null
     var viewMode = ViewMode.CLOSED
     var mType: TimeObject.Type = TimeObject.Type.EVENT
     var mStyle: TimeObject.Style = TimeObject.Style.DEFAULT
-    var testEnd = 0
     var timeObject: TimeObject? = null
     val colors = context.resources.getStringArray(R.array.colors)
 
@@ -42,41 +45,46 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         //contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         //bottomOptionBar.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         contentLy.setOnClickListener {  }
-        contentLy.visibility = View.INVISIBLE
 
         titleInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == IME_ACTION_DONE) {
             }
             return@setOnEditorActionListener false
         }
+        titleInput.isFocusable = false
+        titleInput.isFocusableInTouchMode = false
+        titleInput.clearFocus()
+        titleInput.setOnClickListener {
+            titleInput.isFocusable = true
+            titleInput.isFocusableInTouchMode = true
+            if (titleInput.requestFocus()) {
+                (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(titleInput, 0)
+            }
+        }
 
-        type1btn.setOnClickListener {
-            mType = TimeObject.Type.EVENT
-            mStyle = TimeObject.Style.DEFAULT
-        }
-        type2btn.setOnClickListener {
-            mType = TimeObject.Type.EVENT
-            mStyle = TimeObject.Style.SHORT
-        }
-        type3btn.setOnClickListener {
-            mType = TimeObject.Type.TODO
-            mStyle = TimeObject.Style.DEFAULT
-        }
-        type4btn.setOnClickListener {
-            mType = TimeObject.Type.MEMO
-            mStyle = TimeObject.Style.DEFAULT
-        }
         deleteBtn.setOnClickListener {
             timeObject?.let { TimeObjectManager.delete(it) }
             MainActivity.instance?.viewModel?.targetTimeObject?.value = null
-            hide()
-        }
-        confirmBtn.setOnClickListener {
-            confirm()
         }
     }
 
-    fun setCalendarView(view: CalendarView) { calendarView = view }
+    fun initBehavior() {
+        behavior = BottomSheetBehavior.from(this)
+        behavior?.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if(newState == STATE_EXPANDED) {
+                }else if(newState == STATE_COLLAPSED) {
+                }else if(newState == STATE_HIDDEN) {
+                    viewMode = ViewMode.CLOSED
+                    MainActivity.instance?.offDimDark(true, true)
+                    hideKeyPad(windowToken, titleInput)
+                }
+            }
+        })
+        behavior?.state = STATE_HIDDEN
+        //behavior.peekHeight = bottomSheetPeekHeight
+    }
 
     fun setData(timeObject: TimeObject) {
         this.timeObject = timeObject
@@ -107,68 +115,13 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     fun show(timeObject: TimeObject) {
-        viewMode = ViewMode.ANIMATING
-        contentLy.visibility = View.VISIBLE
-        bottomOptionBar.visibility = View.VISIBLE
+        viewMode = ViewMode.OPENED
+        MainActivity.instance?.onDimDark(true, true)
         setData(timeObject)
-        val animSet = AnimatorSet()
-        if(timeObject.isManaged) {
-            contentLy.radius = 0f
-            contentLy.layoutParams.height = MATCH_PARENT
-            contentLy.requestLayout()
-        }else {
-            contentLy.radius = bottomOffset
-            contentLy.layoutParams.height = dpToPx(300)
-            contentLy.requestLayout()
-        }
-        animSet.playTogether(ObjectAnimator.ofFloat(contentLy, "translationY", height.toFloat(), bottomOffset).setDuration(ANIM_DUR),
-                ObjectAnimator.ofFloat(bottomOptionBar, "translationY", height.toFloat(), 0f).setDuration(ANIM_DUR))
-        animSet.interpolator = FastOutSlowInInterpolator()
-        animSet.addListener(object : Animator.AnimatorListener{
-            override fun onAnimationRepeat(p0: Animator?) {}
-            override fun onAnimationEnd(p0: Animator?) {
-                viewMode = ViewMode.OPENED
-            }
-            override fun onAnimationCancel(p0: Animator?) {}
-            override fun onAnimationStart(p0: Animator?) {}
-        })
-        animSet.start()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val window = MainActivity.instance?.window!!
-            var flags = window.peekDecorView().systemUiVisibility
-            flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-            window.peekDecorView().systemUiVisibility = flags
-            window.statusBarColor = ContextCompat.getColor(context, R.color.blackAlpha)
-        }
+        behavior?.state = STATE_COLLAPSED
     }
 
     fun hide() {
-        viewMode = ViewMode.ANIMATING
-        val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(contentLy, "translationY", bottomOffset, height.toFloat()).setDuration(ANIM_DUR),
-                ObjectAnimator.ofFloat(bottomOptionBar, "translationY", 0f, height.toFloat()).setDuration(ANIM_DUR))
-        animSet.interpolator = FastOutSlowInInterpolator()
-        animSet.addListener(object : Animator.AnimatorListener{
-            override fun onAnimationRepeat(p0: Animator?) {}
-            override fun onAnimationEnd(p0: Animator?) {
-                contentLy.visibility = View.INVISIBLE
-                bottomOptionBar.visibility = View.INVISIBLE
-                viewMode = ViewMode.CLOSED
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    val window = MainActivity.instance?.window!!
-                    var flags = window.peekDecorView().systemUiVisibility
-                    flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                    window.peekDecorView().systemUiVisibility = flags
-                    window.statusBarColor = ContextCompat.getColor(context, R.color.white)
-                }
-            }
-            override fun onAnimationCancel(p0: Animator?) {}
-            override fun onAnimationStart(p0: Animator?) {}
-        })
-        animSet.start()
-
-        hideKeyPad(windowToken, titleInput)
+        behavior?.state = STATE_HIDDEN
     }
 }

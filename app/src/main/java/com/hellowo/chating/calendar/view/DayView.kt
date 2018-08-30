@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Transition
@@ -98,7 +99,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         calendarView?.getSelectedView()?.let { dateLy ->
             val location = IntArray(2)
             dateLy.getLocationInWindow(location)
-            layoutParams = FrameLayout.LayoutParams(dateLy.width, dateLy.height).apply {
+            layoutParams = CoordinatorLayout.LayoutParams(dateLy.width, dateLy.height).apply {
                 setMargins(location[0], location[1] - statusBarHeight - dpToPx(2), 0, 0)
             }
 
@@ -130,7 +131,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                         }
                     })
                     TransitionManager.beginDelayedTransition(this@DayView, transiion)
-                    layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
+                    layoutParams = CoordinatorLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
                         setMargins(0, topBarHeight, 0, 0)
                     }
                 }
@@ -176,7 +177,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 override fun onTransitionStart(transition: Transition) {}
             })
             TransitionManager.beginDelayedTransition(this, transiion)
-            layoutParams = FrameLayout.LayoutParams(dateLy.width, dateLy.height).apply {
+            layoutParams = CoordinatorLayout.LayoutParams(dateLy.width, dateLy.height).apply {
                 setMargins(location[0], location[1] - statusBarHeight - dpToPx(2), 0, 0)
             }
         }

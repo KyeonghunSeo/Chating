@@ -25,7 +25,7 @@ object CalendarSkin {
         selectedBackgroundColor = resource.getColor(R.color.grey)
         greyColor = resource.getColor(R.color.grey)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            dateFont = resource.getFont(R.font.bold)
         }
     }
-
 }

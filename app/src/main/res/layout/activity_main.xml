@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <com.hellowo.chating.calendar.view.CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="50dp">
-    </com.hellowo.chating.calendar.view.CalendarView>
-
     <FrameLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
-        android:elevation="3dp">
+        android:background="@color/background">
 
         <LinearLayout
             android:id="@+id/dateLy"
@@ -55,6 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primaryText"
+                android:fontFamily="@font/bold"
                 android:textSize="18dp"/>
 
             <TextView
@@ -63,12 +53,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:textColor="@color/primaryText"
+                android:fontFamily="@font/bold"
                 android:textSize="18dp"
                 android:visibility="gone"/>
 
         </LinearLayout>
 
     </FrameLayout>
+
+    <com.hellowo.chating.calendar.view.CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="50dp">
+    </com.hellowo.chating.calendar.view.CalendarView>
 
     <com.hellowo.chating.calendar.view.DayView
         android:id="@+id/dayView"
@@ -116,7 +116,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/big_margin"
         app:cardBackgroundColor="@color/white"
-        app:cardElevation="10dp"
+        app:cardElevation="5dp"
         app:cardCornerRadius="25dp">
 
         <ImageView
@@ -129,17 +129,23 @@
 
     </androidx.cardview.widget.CardView>
 
+    <View
+        android:id="@+id/dimView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:elevation="5dp"
+        android:background="@color/transitionDim">
+    </View>
+
     <com.hellowo.chating.calendar.view.TimeObjectDetailView
         android:id="@+id/timeObjectDetailView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:elevation="5dp"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="300dp"
+        app:layout_behavior="@string/bottom_sheet_behavior">
     </com.hellowo.chating.calendar.view.TimeObjectDetailView>
 
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="10dp">
-    </FrameLayout>
-
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

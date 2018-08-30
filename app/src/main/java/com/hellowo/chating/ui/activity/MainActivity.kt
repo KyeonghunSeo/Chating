@@ -2,6 +2,7 @@ package com.hellowo.chating.ui.activity
 
 import android.Manifest
 import android.animation.LayoutTransition
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initLayout() {
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        timeObjectDetailView.initBehavior()
     }
 
     private fun initCalendarView() {
@@ -98,8 +100,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
         calendarView.setOnTop { isTop ->
-            if(!isTop) topBar.elevation = dpToPx(2).toFloat()
-            else topBar.elevation = 0f
+            //if(!isTop) topBar.elevation = dpToPx(2).toFloat()
+            //else topBar.elevation = 0f
         }
 
     }
@@ -140,6 +142,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.targetTimeObject.observe(this, androidx.lifecycle.Observer { timeObject ->
             if(timeObject != null) {
                 timeObjectDetailView.show(timeObject)
+            }else {
+                timeObjectDetailView.hide()
             }
         })
         viewModel.appUser.observe(this, androidx.lifecycle.Observer { it?.let { updateUserUI(it) } })
@@ -160,6 +164,28 @@ class MainActivity : AppCompatActivity() {
         yearText.visibility = View.VISIBLE
         yearText.text = yearDf.format(date)
         monthText.text = monthDf.format(date)
+    }
+
+    fun onDimDark(animation: Boolean, dark: Boolean) {
+        dimView.setOnClickListener { onBackPressed() }
+        dimView.isClickable = true
+        if (animation) {
+            ObjectAnimator.ofFloat(dimView, "alpha", 0f, 1f).setDuration(50).start()
+        } else {
+            dimView.alpha = 1f
+        }
+        statusBarBlackAlpah(this)
+    }
+
+    fun offDimDark(animation: Boolean, dark: Boolean) {
+        dimView.setOnClickListener(null)
+        dimView.isClickable = false
+        if (animation) {
+            ObjectAnimator.ofFloat(dimView, "alpha", 1f, 0f).setDuration(50).start()
+        } else {
+            dimView.alpha = 0f
+        }
+        statusBarWhite(this)
     }
 
     private fun checkExternalStoragePermission() {

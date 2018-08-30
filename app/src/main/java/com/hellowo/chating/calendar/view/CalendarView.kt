@@ -84,10 +84,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         setBackgroundColor(CalendarSkin.backgroundColor)
         scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         rootLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        rootLy.setPadding(0, 0, 0 , dpToPx(40))
+        rootLy.setPadding(0, 0, 0 , dpToPx(50))
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
         selectedBar.layoutParams = FrameLayout.LayoutParams(seletedBarSize, weekLyBottomPadding).apply {
+            topMargin = dpToPx(5)
             gravity = Gravity.CENTER_HORIZONTAL
         }
 
@@ -336,7 +337,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
         textView.gravity = Gravity.CENTER
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dateTextSize)
-        //textView.typeface = CalendarSkin.dateFont
+        textView.typeface = CalendarSkin.dateFont
         textView.includeFontPadding = false
     }
 

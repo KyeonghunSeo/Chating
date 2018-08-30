@@ -38,7 +38,7 @@ val yearDf = SimpleDateFormat("yyyy")
 val monthDf = SimpleDateFormat("MMMM", Locale.US)
 
 fun l(s: String){
-    Log.d("aaa", s)
+    Log.e("aaa", s)
 }
 
 fun dpToPx(dps: Int): Int {
@@ -178,7 +178,7 @@ fun statusBarBlackAlpah(activity: Activity) {
         var flags = window.peekDecorView().systemUiVisibility
         flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
         window.peekDecorView().systemUiVisibility = flags
-        window.statusBarColor = ContextCompat.getColor(activity, R.color.blackAlpha)
+        window.statusBarColor = ContextCompat.getColor(activity, R.color.transitionDim)
     }
 }
 
