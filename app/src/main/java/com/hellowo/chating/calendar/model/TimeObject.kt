@@ -1,6 +1,7 @@
 package com.hellowo.chating.calendar.model
 
 import android.graphics.Color
+import com.hellowo.chating.R
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -28,8 +29,13 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var alarms: RealmList<Alarm>? = null,
                       var links: RealmList<Link>? = null): RealmObject() {
 
-    enum class Type {
-        EVENT, TODO, MEMO, STAMP, IMAGE, EFFACT
+    enum class Type(val titleId: Int, val iconId: Int) {
+        NOTE(R.string.note, R.drawable.ic_outline_chrome_reader_mode),
+        EVENT(R.string.note, R.drawable.ic_outline_chrome_reader_mode),
+        TASK(R.string.note, R.drawable.ic_outline_chrome_reader_mode),
+        STAMP(R.string.note, R.drawable.ic_outline_chrome_reader_mode),
+        DECORATION(R.string.note, R.drawable.ic_outline_chrome_reader_mode),
+        MONEY(R.string.note, R.drawable.ic_outline_chrome_reader_mode)
     }
 
     enum class Style {
@@ -44,6 +50,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         IMPORTANT(0), NORMAL(1), PROJECT(2), STAMP(3), JOURNAL(4), ROUGH(5), BACKGROUND(-1)
     }
 
+
     fun getViewLevelPriority(): Int = when(Type.values()[type]) {
         Type.EVENT -> {
             when(Style.values()[style]) {
@@ -51,13 +58,13 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                 else -> ViewLevel.NORMAL.priority
             }
         }
-        Type.TODO -> {
+        Type.TASK -> {
             when(Style.values()[style]) {
                 Style.LONG -> ViewLevel.PROJECT.priority
                 else -> ViewLevel.NORMAL.priority
             }
         }
-        Type.MEMO -> {
+        Type.MONEY -> {
             when(Style.values()[style]) {
                 Style.SHORT -> ViewLevel.JOURNAL.priority
                 Style.LONG -> ViewLevel.JOURNAL.priority
@@ -65,7 +72,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
             }
         }
         Type.STAMP -> ViewLevel.STAMP.priority
-        Type.IMAGE -> ViewLevel.JOURNAL.priority
+        Type.DECORATION -> ViewLevel.JOURNAL.priority
         else -> ViewLevel.NORMAL.priority
     }
 
@@ -76,13 +83,13 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                 else -> Formula.FILL
             }
         }
-        Type.TODO -> {
+        Type.TASK -> {
             when(Style.values()[style]) {
                 Style.LONG -> Formula.FILL
                 else -> Formula.BOTTOM
             }
         }
-        Type.MEMO -> {
+        Type.MONEY -> {
             when(Style.values()[style]) {
                 Style.SHORT -> Formula.FILL
                 Style.LONG -> Formula.FILL
@@ -90,7 +97,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
             }
         }
         Type.STAMP -> Formula.FILL
-        Type.IMAGE -> Formula.FILL
+        Type.DECORATION -> Formula.FILL
         else -> Formula.FILL
     }
 

@@ -8,19 +8,13 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.provider.MediaStore
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProviders
-import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -28,10 +22,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.hellowo.chating.*
-import com.hellowo.chating.calendar.model.CalendarSkin
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
-import com.hellowo.chating.calendar.fragment.TimeObjectDetailFragment
 import com.hellowo.chating.model.AppUser
 import com.hellowo.chating.ui.view.SwipeScrollView.Companion.SWIPE_LEFT
 import com.hellowo.chating.ui.view.SwipeScrollView.Companion.SWIPE_RIGHT
@@ -58,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         TimeObjectManager.init()
         instance = this
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-
         initLayout()
         initCalendarView()
         initDayView()

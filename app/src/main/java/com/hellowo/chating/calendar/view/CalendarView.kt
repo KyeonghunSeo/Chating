@@ -33,6 +33,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateSize = dpToPx(20)
         val dateArea = dpToPx(45)
         val weekLyBottomPadding = dpToPx(20)
+        val dateLeftMargin = dpToPx(7)
     }
 
     private val scrollView = SwipeScrollView(context)
@@ -87,10 +88,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         rootLy.setPadding(0, 0, 0 , dpToPx(50))
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
-        selectedBar.layoutParams = FrameLayout.LayoutParams(seletedBarSize, weekLyBottomPadding).apply {
-            topMargin = dpToPx(5)
-            gravity = Gravity.CENTER_HORIZONTAL
-        }
+        selectedBar.pivotX = 0f
 
         for(i in 0..5) {
             val weekLy = weekLys[i]
@@ -117,7 +115,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         todayCal.timeInMillis = System.currentTimeMillis()
         tempCal.timeInMillis = time
         tempCal.set(Calendar.DATE, 1)
-        monthCal.set(tempCal.get(Calendar.YEAR), tempCal.get(Calendar.MONTH), todayCal.get(Calendar.DATE))
+        monthCal.set(tempCal.get(Calendar.YEAR), tempCal.get(Calendar.MONTH), tempCal.get(Calendar.DATE))
         setCalendarTime0(tempCal)
 
         startCellNum = tempCal.get(Calendar.DAY_OF_WEEK) - 1
@@ -130,8 +128,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         calendarLy.layoutParams.height = minCalendarHeight
         calendarLy.requestLayout()
-
         tempCal.add(Calendar.DATE, -startCellNum)
+
+        if(isInit) {
+            selectedBar.layoutParams = FrameLayout.LayoutParams(minWidth.toInt() - dateLeftMargin, weekLyBottomPadding).apply {
+                topMargin = dpToPx(5)
+                leftMargin = dateLeftMargin
+                //gravity = Gravity.CENTER_HORIZONTAL
+            }
+        }
 
         for(i in 0..5) {
             val weekLy = weekLys[i]
@@ -254,8 +259,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     it.playTogether(
                             ObjectAnimator.ofFloat(dateText, "scaleX", 1f, 1.5f),
                             ObjectAnimator.ofFloat(dateText, "scaleY", 1f, 1.5f),
-                            ObjectAnimator.ofFloat(selectedBar.findViewById<TextView>(R.id.dowBar), "scaleX", 0f, 1f),
-                            ObjectAnimator.ofFloat(selectedBar.findViewById<TextView>(R.id.dowText), "scaleY", 0f, 1f))
+                            ObjectAnimator.ofFloat(selectedBar, "scaleX", 0f, 1f))
                     it.interpolator = FastOutSlowInInterpolator()
                     it.duration = animDur
                     it.start()
@@ -333,7 +337,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun setDefaultDateTextSkin(textView: TextView) {
         textView.layoutParams = FrameLayout.LayoutParams(dateSize, dateSize).apply {
             topMargin = (dateArea - weekLyBottomPadding)
-            leftMargin = (minWidth / 2 - dateSize / 2).toInt()
+            leftMargin = dateLeftMargin
+            //leftMargin = (minWidth / 2 - dateSize / 2).toInt()
         }
         textView.gravity = Gravity.CENTER
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dateTextSize)

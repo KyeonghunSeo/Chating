@@ -202,7 +202,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f).setDuration(500),
                 ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f).setDuration(500))
-        animSet.interpolator = OvershootInterpolator()
+        animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
     }
 

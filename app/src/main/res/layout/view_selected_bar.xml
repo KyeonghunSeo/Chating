@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:textSize="11dp"
         android:textColor="@color/primaryText"
-        android:gravity="center"
         android:fontFamily="@font/bold"
         android:text="@string/sun" />
 

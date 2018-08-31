@@ -108,7 +108,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     }
 
                 }
-                TimeObject.Type.TODO -> {
+                TimeObject.Type.TASK -> {
                     setPadding(smallTypeSize, 0, defaultPadding, 0)
                     setTextColor(color)
                     setSingleLine(true)
@@ -137,7 +137,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         it.drawRoundRect(rect, radius, radius, paint)
                     }
                 }
-                TimeObject.Type.MEMO -> {
+                TimeObject.Type.DECORATION -> {
                     setPadding(defaultPadding * 2, defaultPadding * 2, defaultPadding * 2, defaultPadding * 2)
                     setSingleLine(false)
                     maxLines = 4
@@ -235,8 +235,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 else -> normalTypeSize
             }
         }
-        TimeObject.Type.TODO -> smallTypeSize
-        TimeObject.Type.MEMO -> memoTypeSize
+        TimeObject.Type.TASK -> smallTypeSize
+        TimeObject.Type.DECORATION -> memoTypeSize
         else -> normalTypeSize
     }
 

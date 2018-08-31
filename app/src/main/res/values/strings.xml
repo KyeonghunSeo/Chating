@@ -46,6 +46,12 @@
     <string name="sat">Sat</string>
     <string name="sun">Sun</string>
     <string name="briefing">TODAY BRIEFING</string>
+    <string name="new_note">새 노트</string>
+    <string name="note">노트</string>
+    <string name="type">유형</string>
+    <string name="style">스타일</string>
+    <string name="color">색상</string>
+    <string name="visible">표시</string>
 
     <string-array name="day_of_weeks">
         <item>@string/sun</item>
@@ -58,18 +64,18 @@
     </string-array>
 
     <string-array name="colors">
-        <item>#e95e72</item>
-        <item>#ff5f56</item>
-        <item>#f9926e</item>
-        <item>#00a388</item>
-        <item>#79bd8f</item>
-        <item>#f7d17c</item>
-        <item>#08b795</item>
-        <item>#25afd6</item>
-        <item>#1d5ba7</item>
-        <item>#979c9c</item>
-        <item>#ff8598</item>
-        <item>#a17cdd</item>
+        <item>#d1e2e1</item>
+        <item>#bfcac9</item>
+        <item>#95a3a2</item>
+        <item>#7d8384</item>
+        <item>#5e6767</item>
+        <item>#293434</item>
+        <item>#fbece2</item>
+        <item>#e1d1c8</item>
+        <item>#b5a29d</item>
+        <item>#836b65</item>
+        <item>#5a3531</item>
+        <item>#31220c</item>
     </string-array>
 
 </resources>

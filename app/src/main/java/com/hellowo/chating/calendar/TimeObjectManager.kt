@@ -61,24 +61,20 @@ object TimeObjectManager {
     }
 
     fun save(timeObject: TimeObject) {
-        Realm.getDefaultInstance().use {
-            it.executeTransactionAsync{ realm ->
-                if(timeObject.id == null) {
-                    timeObject.id = UUID.randomUUID().toString()
-                    timeObject.dtUpdated = System.currentTimeMillis()
-                    realm.insert(timeObject)
-                }
+        realm.executeTransactionAsync{ realm ->
+            if(timeObject.id == null) {
+                timeObject.id = UUID.randomUUID().toString()
+                timeObject.dtUpdated = System.currentTimeMillis()
             }
+            realm.insertOrUpdate(timeObject)
         }
     }
 
     fun delete(timeObject: TimeObject) {
         if(timeObject.isValid) {
             val id = timeObject.id
-            Realm.getDefaultInstance().use {
-                it.executeTransactionAsync{ realm ->
-                    realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.deleteFromRealm()
-                }
+            realm.executeTransactionAsync{ realm ->
+                realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.deleteFromRealm()
             }
         }
     }
@@ -103,5 +99,7 @@ object TimeObjectManager {
             timeZone = TimeZone.getDefault().id
         }
     }
+
+    fun getCopiedData(originalData: TimeObject): TimeObject = realm.copyFromRealm(originalData)
 
 }
