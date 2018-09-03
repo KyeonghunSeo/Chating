@@ -13,12 +13,16 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.hellowo.chating.R
+import com.hellowo.chating.calendar.model.TimeObject
+import com.hellowo.chating.calendar.view.ColorPickerView
+import com.hellowo.chating.calendar.view.StylePickerView
+import com.hellowo.chating.calendar.view.TypePickerView
 import com.hellowo.chating.ui.dialog.BottomSheetDialog
 
 
 
 @SuppressLint("ValidFragment")
-class TypePickerDialog(private val dialogInterface: (String) -> Unit) : BottomSheetDialog() {
+class TypePickerDialog(private val timeObject: TimeObject, private val dialogInterface: (String) -> Unit) : BottomSheetDialog() {
 
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
@@ -33,7 +37,15 @@ class TypePickerDialog(private val dialogInterface: (String) -> Unit) : BottomSh
                 sheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
             }
             (contentView.parent as View).setBackgroundColor(Color.TRANSPARENT)
-            //val messageInput = contentView.findViewById<EditText>(R.id.messageInput)
+            val typePicker = contentView.findViewById<TypePickerView>(R.id.typePicker)
+            val stylePicker = contentView.findViewById<StylePickerView>(R.id.stylePicker)
+            val colorPicker = contentView.findViewById<ColorPickerView>(R.id.colorPicker)
+            typePicker.setTypeObject(timeObject)
+            typePicker.onSelected = {
+                stylePicker.refresh()
+            }
+            stylePicker.setTypeObject(timeObject)
+            colorPicker.setTypeObject(timeObject)
         }
     }
 }

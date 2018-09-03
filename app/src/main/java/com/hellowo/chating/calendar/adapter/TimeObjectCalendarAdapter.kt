@@ -132,7 +132,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
 
                 it.timeObjectViewList?.forEach {
                     it.mLeft = (calendarView.minWidth * (it.cellNum % columns)).toInt()
-                    it.mRight = it.mLeft + (calendarView.minWidth * it.Length).toInt()
+                    it.mRight = it.mLeft + (calendarView.minWidth * it.length).toInt()
                     when(formula) {
                         TimeObject.Formula.FILL -> {
                             it.mTop = computeOrder(it, status) * it.getViewHeight() /*블럭수에 따른 높이*/ + rowHeightArray[it.cellNum / columns] /* + 기본 높이*/
@@ -145,7 +145,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                     }
                     it.mBottom = it.mTop + it.getViewHeight()
                     it.setLayout()
-                    (it.cellNum until it.cellNum + it.Length).forEach{ index ->
+                    (it.cellNum until it.cellNum + it.length).forEach{ index ->
                         cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom)
                     }
                 }
@@ -188,6 +188,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         viewHolderList.forEach {
             try{
                 it.timeObjectViewList?.forEach {
+                    //it.alpha = if(it.cellNum + it.length - 1 in calendarView.startCellNum..calendarView.endCellNum) 1f else 0.2f
                     calendarView.weekLys[it.cellNum / columns].addView(it)
                     if(TimeObjectManager.lastUpdatedItem == it.timeObject) {
                         showInsertAnimation(it)
@@ -208,7 +209,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
 
     private fun computeOrder(view: TimeObjectView, status: ViewLevelStatus): Int {
         var order = 0
-        for (i in view.cellNum until view.cellNum + view.Length) {
+        for (i in view.cellNum until view.cellNum + view.length) {
             val s = StringBuilder(status.status[i])
             if(i == view.cellNum) {
                 order = s.indexOf("0")

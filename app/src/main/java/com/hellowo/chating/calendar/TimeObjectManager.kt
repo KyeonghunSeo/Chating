@@ -2,6 +2,7 @@ package com.hellowo.chating.calendar
 
 import android.annotation.SuppressLint
 import com.hellowo.chating.calendar.adapter.TimeObjectCalendarAdapter
+import com.hellowo.chating.calendar.model.CalendarSkin
 import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.calendar.view.CalendarView
 import com.hellowo.chating.l
@@ -92,8 +93,9 @@ object TimeObjectManager {
 
     fun makeNewTimeObject(start: Long, end: Long): TimeObject {
         return TimeObject().apply {
-            type = TimeObject.Type.EVENT.ordinal
+            type = TimeObject.Type.NOTE.ordinal
             style = TimeObject.Style.DEFAULT.ordinal
+            color = CalendarSkin.dateColor
             dtStart = start
             dtEnd = end
             timeZone = TimeZone.getDefault().id

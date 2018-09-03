@@ -1,6 +1,7 @@
 package com.hellowo.chating.ui.activity
 
 import android.Manifest
+import android.animation.AnimatorSet
 import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
@@ -12,9 +13,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProviders
+import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -122,6 +128,10 @@ class MainActivity : AppCompatActivity() {
             }else {
 
             }
+        }
+
+        insertBtn.setOnLongClickListener {
+            return@setOnLongClickListener false
         }
 
         menuBtn.setOnClickListener {

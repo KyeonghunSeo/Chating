@@ -47,9 +47,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         contentLy.setOnClickListener {}
         expandBtn.setOnClickListener { behavior?.state = STATE_EXPANDED }
-        typeBtn.setOnClickListener { TypePickerDialog{
+        typeBtn.setOnClickListener{ timeObject?.let { TypePickerDialog(it){
 
-        }.show(MainActivity.instance?.supportFragmentManager, null) }
+        }.show(MainActivity.instance?.supportFragmentManager, null) } }
 
         titleInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == IME_ACTION_DONE) {
@@ -82,7 +82,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 }else if(newState == STATE_HIDDEN) {
                     viewMode = ViewMode.CLOSED
                     confirm()
-                    MainActivity.instance?.offDimDark(true, true)
+                    MainActivity.instance?.let {
+                        it.offDimDark(true, true)
+                    }
                     hideKeyPad(windowToken, titleInput)
                 }
             }
@@ -122,7 +124,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         setData(timeObject)
         updateUI()
         viewMode = ViewMode.OPENED
-        MainActivity.instance?.onDimDark(true, true)
+        MainActivity.instance?.let {
+            it.onDimDark(true, true)
+        }
         behavior?.state = STATE_COLLAPSED
     }
 

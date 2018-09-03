@@ -52,6 +52,11 @@
     <string name="style">스타일</string>
     <string name="color">색상</string>
     <string name="visible">표시</string>
+    <string name="event">일정</string>
+    <string name="task">할일</string>
+    <string name="stamp">스탬프</string>
+    <string name="decoration">꾸미기</string>
+    <string name="money">가계</string>
 
     <string-array name="day_of_weeks">
         <item>@string/sun</item>

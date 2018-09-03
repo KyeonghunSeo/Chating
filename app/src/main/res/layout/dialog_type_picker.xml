@@ -33,8 +33,8 @@
             android:id="@+id/typePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/extra_margin"
-            android:paddingRight="@dimen/extra_margin"
+            android:paddingLeft="@dimen/normal_margin"
+            android:paddingRight="@dimen/normal_margin"
             android:clipToPadding="false">
         </com.hellowo.chating.calendar.view.TypePickerView>
 
@@ -47,6 +47,15 @@
             android:text="@string/style"
             android:textSize="18dp"/>
 
+        <com.hellowo.chating.calendar.view.StylePickerView
+            android:id="@+id/stylePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/normal_margin"
+            android:paddingRight="@dimen/normal_margin"
+            android:clipToPadding="false">
+        </com.hellowo.chating.calendar.view.StylePickerView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,6 +64,15 @@
             android:fontFamily="@font/bold"
             android:text="@string/color"
             android:textSize="18dp"/>
+
+        <com.hellowo.chating.calendar.view.ColorPickerView
+            android:id="@+id/colorPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/normal_margin"
+            android:paddingRight="@dimen/normal_margin"
+            android:clipToPadding="false">
+        </com.hellowo.chating.calendar.view.ColorPickerView>
 
     </LinearLayout>
 </FrameLayout>

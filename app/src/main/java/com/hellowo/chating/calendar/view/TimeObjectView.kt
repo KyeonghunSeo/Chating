@@ -14,7 +14,7 @@ import com.hellowo.chating.calendar.model.TimeObject
 import java.util.*
 
 @SuppressLint("ViewConstructor")
-class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val Length: Int) : TextView(context) {
+class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
     companion object {
         val strokeWidth = dpToPx(1)
         val radius = dpToPx(1).toFloat()
@@ -30,6 +30,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val tempCal = Calendar.getInstance()
     }
 
+    val paint = Paint()
     var mTextSize = 10f
     var mLeft = 0
     var mTop = 0
@@ -49,7 +50,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
         canvas?.let {
-            val paint = Paint()
             paint.isAntiAlias = true
             when(TimeObject.Type.values()[timeObject.type]) {
                 TimeObject.Type.EVENT -> {
@@ -247,7 +247,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     }
 
     override fun toString(): String {
-        return "TimeObjectView(timeObject=$timeObject, cellNum=$cellNum, Length=$Length, mTextSize=$mTextSize, mLeft=$mLeft, mTop=$mTop, mRight=$mRight, mBottom=$mBottom, mLine=$mLine)"
+        return "TimeObjectView(timeObject=$timeObject, cellNum=$cellNum, length=$length, mTextSize=$mTextSize, mLeft=$mLeft, mTop=$mTop, mRight=$mRight, mBottom=$mBottom, mLine=$mLine)"
     }
 
 }

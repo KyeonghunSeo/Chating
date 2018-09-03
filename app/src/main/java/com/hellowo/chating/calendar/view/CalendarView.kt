@@ -29,11 +29,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val dateTextSize = 13f
         const val animDur = 250L
         const val columns = 7
-        val seletedBarSize = dpToPx(25)
         val dateSize = dpToPx(20)
-        val dateArea = dpToPx(45)
+        val dateArea = dpToPx(40)
         val weekLyBottomPadding = dpToPx(20)
-        val dateLeftMargin = dpToPx(7)
+        val dateMargin = dpToPx(3)
     }
 
     private val scrollView = SwipeScrollView(context)
@@ -88,7 +87,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         rootLy.setPadding(0, 0, 0 , dpToPx(50))
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
-        selectedBar.pivotX = 0f
 
         for(i in 0..5) {
             val weekLy = weekLys[i]
@@ -131,10 +129,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         tempCal.add(Calendar.DATE, -startCellNum)
 
         if(isInit) {
-            selectedBar.layoutParams = FrameLayout.LayoutParams(minWidth.toInt() - dateLeftMargin, weekLyBottomPadding).apply {
-                topMargin = dpToPx(5)
-                leftMargin = dateLeftMargin
-                //gravity = Gravity.CENTER_HORIZONTAL
+            selectedBar.layoutParams = FrameLayout.LayoutParams(minWidth.toInt() - dateMargin * 2, dateSize).apply {
+                gravity = Gravity.CENTER_HORIZONTAL
             }
         }
 
@@ -284,7 +280,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             it.text = dow[cellNum % columns]
             it.setTextColor(color)
         }
-        selectedBar.findViewById<View>(R.id.dowBar).setBackgroundColor(color)
+        selectedBar.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.2f
     }
 
     private fun onViewEffect(cellNum: Int) {
@@ -336,9 +332,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun setDefaultDateTextSkin(textView: TextView) {
         textView.layoutParams = FrameLayout.LayoutParams(dateSize, dateSize).apply {
-            topMargin = (dateArea - weekLyBottomPadding)
-            leftMargin = dateLeftMargin
-            //leftMargin = (minWidth / 2 - dateSize / 2).toInt()
+            topMargin = dateArea - dateSize - dateMargin
+            leftMargin = (minWidth / 2 - dateSize / 2).toInt()
         }
         textView.gravity = Gravity.CENTER
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dateTextSize)

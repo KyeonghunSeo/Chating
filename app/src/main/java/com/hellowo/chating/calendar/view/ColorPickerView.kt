@@ -15,10 +15,9 @@ import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.calendar.model.TimeObject.Type
 import kotlinx.android.synthetic.main.list_item_type_picker.view.*
 
-class TypePickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RecyclerView(context, attrs, defStyleAttr) {
+class ColorPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RecyclerView(context, attrs, defStyleAttr) {
     var timeObject: TimeObject? = null
     var selectedPos = -1
-    var onSelected : ((Type) -> Unit)? = null
 
     init {
         layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -65,7 +64,6 @@ class TypePickerView @JvmOverloads constructor(context: Context, attrs: Attribut
                 }
                 notifyItemChanged(position)
                 selectedPos = position
-                onSelected?.invoke(type)
             }
         }
     }
