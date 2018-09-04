@@ -14,6 +14,7 @@ object CalendarSkin {
     var selectedBackgroundColor: Int = 0
     var greyColor: Int = 0
     var dateFont: Typeface = Typeface.DEFAULT
+    var noteFont: Typeface = Typeface.DEFAULT
 
     fun init(calendarView: CalendarView) {
         val resource = calendarView.context.resources
@@ -26,6 +27,7 @@ object CalendarSkin {
         greyColor = resource.getColor(R.color.grey)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dateFont = resource.getFont(R.font.bold)
+            noteFont = resource.getFont(R.font.regular)
         }
     }
 }

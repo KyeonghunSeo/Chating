@@ -112,8 +112,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         timeObject?.let {
             TimeObjectManager.save(it.apply {
                 title = titleInput.text.toString()
-                type = mType.ordinal
-                style = mStyle.ordinal
                 color = Color.parseColor(colors[(0 until colors.size).random()])
             })
         }

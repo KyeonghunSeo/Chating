@@ -22,16 +22,20 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val checkBoxSize = dpToPx(7).toFloat()
         val defaulMargin = dpToPx(1)
         val defaultPadding = dpToPx(4)
-        val normalTypeSize = dpToPx(17)
+        val normalTypeSize = dpToPx(20)
         val smallTypeSize = dpToPx(15)
         val bigTypeSize = dpToPx(30)
         val memoTypeSize = dpToPx(70)
         val levelMargin = dpToPx(5)
+
+        val leftPadding = dpToPx(9)
+        val rightPadding = dpToPx(0)
+        val topBottomPadding = dpToPx(5)
+        val iconSize = dpToPx(8)
         val tempCal = Calendar.getInstance()
     }
 
-    val paint = Paint()
-    var mTextSize = 10f
+    var mTextSize = 9f
     var mLeft = 0
     var mTop = 0
     var mRight = 0
@@ -40,6 +44,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     var color = timeObject.color
     var leftOpen = false
     var rightOpen = false
+    var line = 0
 
     init {
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize)
@@ -52,6 +57,30 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         canvas?.let {
             paint.isAntiAlias = true
             when(TimeObject.Type.values()[timeObject.type]) {
+                TimeObject.Type.NOTE -> {
+                    setPadding(leftPadding, topBottomPadding, rightPadding, 0)
+                    setTextColor(CalendarSkin.dateColor)
+                    setSingleLine(false)
+                    maxLines = line
+                    gravity = Gravity.TOP
+                    ellipsize = TextUtils.TruncateAt.END
+                    paint.color = CalendarSkin.dateColor
+
+                    when(TimeObject.Style.values()[timeObject.style]){
+                        TimeObject.Style.DEFAULT -> {
+                            val centerY = normalTypeSize / 2f
+                            AppRes.starDrawable?.setBounds(0, (centerY - iconSize / 2).toInt(), iconSize, (centerY + iconSize / 2).toInt())
+                            AppRes.starDrawable?.draw(canvas)
+                            val centerX = leftPadding / 2f
+                            //it.drawCircle(centerX, centerY, iconSize * 0.2f, paint)
+
+                            //val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
+                            //paint.color = timeObject.color
+                            //paint.alpha = 255
+                            //it.drawRoundRect(rect, radius, radius, paint)
+                        }
+                    }
+                }
                 TimeObject.Type.EVENT -> {
                     setSingleLine(true)
                     gravity = Gravity.CENTER_VERTICAL
@@ -198,7 +227,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 }
                 4 -> { // 시계
                     val paint = Paint()
-                    paint.style = Paint.Style.FILL
+                    paint.style = Paint.Style.TOPSTACK
                     paint.strokeWidth = strokeWidth.toFloat()
                     paint.color = color
                     paint.isAntiAlias = true
@@ -228,6 +257,13 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     }
 
     fun getViewHeight(): Int = when(TimeObject.Type.values()[timeObject.type]) {
+        TimeObject.Type.NOTE -> {
+            val width =  mRight - mLeft - defaulMargin
+            val height = normalTypeSize - defaulMargin
+            line = (paint.measureText(text.toString()) / (width - leftPadding)).toInt() + 1
+            l(text.toString() + " : $line")
+            height * line - (defaulMargin * line - 1)
+        }
         TimeObject.Type.EVENT -> {
             when (TimeObject.Style.values()[timeObject.style]) {
                 TimeObject.Style.SHORT -> smallTypeSize

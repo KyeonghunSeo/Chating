@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hellowo.chating.R
+import com.hellowo.chating.calendar.model.CalendarSkin
 import com.hellowo.chating.calendar.model.TimeObject
 import kotlinx.android.synthetic.main.list_item_normal_check.view.*
 
@@ -15,7 +16,11 @@ class TimeObjectDayViewAdapter(val context: Context,
 
     override fun getItemCount(): Int = items.size
 
-    inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container)
+    inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
+        init {
+            itemView.titleText.typeface = CalendarSkin.noteFont
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_normal_check, parent, false))

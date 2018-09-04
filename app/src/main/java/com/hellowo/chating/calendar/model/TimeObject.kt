@@ -43,7 +43,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     enum class Formula {
-        BACKGROUND, FILL, BOTTOM, OVERLAY
+        BACKGROUND, TOPSTACK, LINEAR, BOTTOMSTACK, OVERLAY
     }
 
     enum class ViewLevel(val priority: Int) {
@@ -77,28 +77,29 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     fun getFormula(): Formula = when(Type.values()[type]) {
+        Type.NOTE -> Formula.LINEAR
         Type.EVENT -> {
             when(Style.values()[style]) {
-                Style.SHORT -> Formula.BOTTOM
-                else -> Formula.FILL
+                Style.SHORT -> Formula.LINEAR
+                else -> Formula.TOPSTACK
             }
         }
         Type.TASK -> {
             when(Style.values()[style]) {
-                Style.LONG -> Formula.FILL
-                else -> Formula.BOTTOM
+                Style.LONG -> Formula.TOPSTACK
+                else -> Formula.LINEAR
             }
         }
         Type.MONEY -> {
             when(Style.values()[style]) {
-                Style.SHORT -> Formula.FILL
-                Style.LONG -> Formula.FILL
-                else -> Formula.BOTTOM
+                Style.SHORT -> Formula.TOPSTACK
+                Style.LONG -> Formula.TOPSTACK
+                else -> Formula.LINEAR
             }
         }
-        Type.STAMP -> Formula.FILL
-        Type.DECORATION -> Formula.FILL
-        else -> Formula.FILL
+        Type.STAMP -> Formula.TOPSTACK
+        Type.DECORATION -> Formula.TOPSTACK
+        else -> Formula.TOPSTACK
     }
 
     override fun toString(): String {

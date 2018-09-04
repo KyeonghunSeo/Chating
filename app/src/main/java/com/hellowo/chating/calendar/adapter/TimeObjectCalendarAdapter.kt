@@ -2,10 +2,6 @@ package com.hellowo.chating.calendar.adapter
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.animation.OvershootInterpolator
-import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
 import com.hellowo.chating.*
@@ -134,10 +130,10 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                     it.mLeft = (calendarView.minWidth * (it.cellNum % columns)).toInt()
                     it.mRight = it.mLeft + (calendarView.minWidth * it.length).toInt()
                     when(formula) {
-                        TimeObject.Formula.FILL -> {
+                        TimeObject.Formula.TOPSTACK -> {
                             it.mTop = computeOrder(it, status) * it.getViewHeight() /*블럭수에 따른 높이*/ + rowHeightArray[it.cellNum / columns] /* + 기본 높이*/
                         }
-                        TimeObject.Formula.BOTTOM -> {
+                        TimeObject.Formula.LINEAR -> {
                             //l("viewLevel : ${viewLevel}, ${it.cellNum} : ${cellBottomArray[it.cellNum]}")
                             it.mTop = cellBottomArray[it.cellNum]
                         }
@@ -181,10 +177,11 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 val newHeight = rowHeightArray[index] + bottomPadding
                 val finalHeight = Math.max(minHeight, newHeight)
                 calendarHeight += finalHeight
-                ly.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, finalHeight)
+                ly.layoutParams.height = finalHeight
             }
         }
-        calendarView.calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, calendarHeight)
+        calendarView.calendarLy.layoutParams.height = calendarHeight
+        calendarView.calendarLy.requestLayout()
         viewHolderList.forEach {
             try{
                 it.timeObjectViewList?.forEach {

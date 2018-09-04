@@ -18,10 +18,4 @@
        android:textSize="@dimen/normal_text_size"
        android:textColor="@color/secondaryText"/>
 
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/extra_margin"/>
-
 </LinearLayout>
