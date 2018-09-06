@@ -8,64 +8,103 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:translationY="10dp"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="20dp"
         app:cardCornerRadius="5dp">
 
+        <FrameLayout
+            android:id="@+id/expandBtn"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center"
+                android:src="@drawable/grey_rect_fill_radius"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            android:paddingLeft="@dimen/normal_margin"
+            android:paddingRight="@dimen/normal_margin">
+
+            <LinearLayout
+                android:id="@+id/deleteBtn"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_gravity="center_vertical|right"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_outline_delete"
+                    android:tint="@color/red"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:text="@string/delete"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="74dp"
+            android:paddingBottom="50dp">
 
             <LinearLayout
                 android:id="@+id/contentLy"
                 android:animateLayoutChanges="true"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/expandBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="4dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/grey_rect_fill_radius"/>
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/extra_margin"
+                android:paddingRight="@dimen/extra_margin">
 
                 <LinearLayout
                     android:id="@+id/typeBtn"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:background="?android:attr/selectableItemBackground"
+                    android:layout_gravity="center_vertical"
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_outline_create"/>
+                        android:id="@+id/typeImg"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_outline_create"
+                        android:tint="@color/iconTint"/>
 
                     <TextView
+                        android:id="@+id/typeTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/primaryText"
                         android:text="@string/note"/>
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/deleteBtn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:padding="10dp"
-                    android:layout_gravity="right"
-                    android:src="@drawable/ic_outline_delete"/>
-
                 <EditText
                     android:id="@+id/titleInput"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_margin="@dimen/big_margin"
+                    android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:hint="@string/untitle"/>
 

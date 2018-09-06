@@ -57,6 +57,7 @@
     <string name="stamp">스탬프</string>
     <string name="decoration">꾸미기</string>
     <string name="money">가계</string>
+    <string name="delete">삭제</string>
 
     <string-array name="day_of_weeks">
         <item>@string/sun</item>
@@ -69,18 +70,18 @@
     </string-array>
 
     <string-array name="colors">
-        <item>#d1e2e1</item>
-        <item>#bfcac9</item>
-        <item>#95a3a2</item>
-        <item>#7d8384</item>
-        <item>#5e6767</item>
-        <item>#293434</item>
-        <item>#fbece2</item>
-        <item>#e1d1c8</item>
-        <item>#b5a29d</item>
-        <item>#836b65</item>
-        <item>#5a3531</item>
-        <item>#31220c</item>
+        <item>#3fa9f5</item>
+        <item>#7ea0c4</item>
+        <item>#bb80d1</item>
+        <item>#ff4c00</item>
+        <item>#00b392</item>
+        <item>#69c9ba</item>
+        <item>#fd92a3</item>
+        <item>#f7323f</item>
+        <item>#72d54a</item>
+        <item>#d5d755</item>
+        <item>#ffd235</item>
+        <item>#ff5f56</item>
     </string-array>
 
 </resources>

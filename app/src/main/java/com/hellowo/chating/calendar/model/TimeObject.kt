@@ -30,7 +30,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var links: RealmList<Link>? = null): RealmObject() {
 
     enum class Type(val titleId: Int, val iconId: Int) {
-        NOTE(R.string.note, R.drawable.ic_outline_note),
+        NOTE(R.string.note, R.drawable.ic_outline_description),
         EVENT(R.string.event, R.drawable.ic_outline_event),
         TASK(R.string.task, R.drawable.ic_outline_done_outline),
         STAMP(R.string.stamp, R.drawable.ic_outline_class),
@@ -105,4 +105,6 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     override fun toString(): String {
         return "TimeObject(title=$title,type=$type, style=$style, color=$color, location=$location, description=$description, allday=$allday, dtStart=${DateFormat.getDateTimeInstance().format(Date(dtStart))}, dtEnd=${DateFormat.getDateTimeInstance().format(Date(dtEnd))}, dtUpdated=$dtUpdated, timeZone=$timeZone)"
     }
+
+    
 }

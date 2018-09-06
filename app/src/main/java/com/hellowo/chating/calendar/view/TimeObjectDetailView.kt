@@ -27,6 +27,7 @@ import com.hellowo.chating.calendar.ViewMode
 import com.hellowo.chating.calendar.dialog.TypePickerDialog
 import com.hellowo.chating.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.view_timeobject_detail.view.*
+import java.lang.reflect.Type
 import java.util.*
 
 class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
@@ -35,22 +36,35 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     private var calendarView: CalendarView? = null
     private var behavior: BottomSheetBehavior<View>? = null
+    private var originalData: TimeObject? = null
+    private var timeObject: TimeObject? = null
+    private val colors = context.resources.getStringArray(R.array.colors)
+    private val bottomSheetPeekHeight = dpToPx(250)
     var viewMode = ViewMode.CLOSED
-    var mType: TimeObject.Type = TimeObject.Type.EVENT
-    var mStyle: TimeObject.Style = TimeObject.Style.DEFAULT
-    var originalData: TimeObject? = null
-    var timeObject: TimeObject? = null
-    val colors = context.resources.getStringArray(R.array.colors)
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_timeobject_detail, this, true)
         contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         contentLy.setOnClickListener {}
         expandBtn.setOnClickListener { behavior?.state = STATE_EXPANDED }
+
+        deleteBtn.setOnClickListener {
+            timeObject?.let { TimeObjectManager.delete(it) }
+            timeObject = null
+            MainActivity.instance?.viewModel?.targetTimeObject?.value = null
+        }
+
+        initType()
+        initTitle()
+    }
+
+    private fun initType() {
         typeBtn.setOnClickListener{ timeObject?.let { TypePickerDialog(it){
-
+            updateUI()
         }.show(MainActivity.instance?.supportFragmentManager, null) } }
+    }
 
+    private fun initTitle() {
         titleInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == IME_ACTION_DONE) {
             }
@@ -64,36 +78,30 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(titleInput, 0)
             }
         }
-
-        deleteBtn.setOnClickListener {
-            timeObject?.let { TimeObjectManager.delete(it) }
-            timeObject = null
-            MainActivity.instance?.viewModel?.targetTimeObject?.value = null
-        }
     }
 
     fun initBehavior() {
         behavior = BottomSheetBehavior.from(this)
-        behavior?.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if(newState == STATE_EXPANDED) {
-                }else if(newState == STATE_COLLAPSED) {
-                }else if(newState == STATE_HIDDEN) {
-                    viewMode = ViewMode.CLOSED
-                    confirm()
-                    MainActivity.instance?.let {
-                        it.offDimDark(true, true)
+        behavior?.let {
+            it.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    if(newState == STATE_EXPANDED) {
+                    }else if(newState == STATE_COLLAPSED) {
+                    }else if(newState == STATE_HIDDEN) {
+                        if(viewMode != ViewMode.CLOSED){
+                            hide()
+                        }
+                        confirm()
                     }
-                    hideKeyPad(windowToken, titleInput)
                 }
-            }
-        })
-        behavior?.state = STATE_HIDDEN
-        //behavior.peekHeight = bottomSheetPeekHeight
+            })
+            it.isHideable = true
+            it.state = STATE_HIDDEN
+        }
     }
 
-    fun setData(data: TimeObject) {
+    private fun setData(data: TimeObject) {
         originalData = data
         timeObject = if(data.isManaged) {
             TimeObjectManager.getCopiedData(data)
@@ -104,7 +112,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     private fun updateUI() {
         timeObject?.let {
+            l("updateUI")
             titleInput.setText(it.title)
+
+            typeImg.setImageResource(TimeObject.Type.values()[it.type].iconId)
+            typeTitle.text = context.getString(TimeObject.Type.values()[it.type].titleId)
         }
     }
 
@@ -125,10 +137,18 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         MainActivity.instance?.let {
             it.onDimDark(true, true)
         }
-        behavior?.state = STATE_COLLAPSED
+        behavior?.let {
+            it.state = STATE_COLLAPSED
+        }
     }
 
     fun hide() {
+        l("=======HIDE DetailView=======")
+        viewMode = ViewMode.CLOSED
+        MainActivity.instance?.let {
+            it.offDimDark(true, true)
+        }
         behavior?.state = STATE_HIDDEN
+        hideKeyPad(windowToken, titleInput)
     }
 }

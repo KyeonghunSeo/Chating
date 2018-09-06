@@ -81,18 +81,26 @@ class MainActivity : AppCompatActivity() {
             if(dayView.viewMode == ViewMode.OPENED) {
                 when(state) {
                     SWIPE_LEFT -> {
+                        vibrate(this)
                         calendarView.moveDate(-1)
                         dayView.notifyDateChanged(-1)
                     }
                     SWIPE_RIGHT -> {
+                        vibrate(this)
                         calendarView.moveDate(1)
                         dayView.notifyDateChanged(1)
                     }
                 }
             }else {
                 when(state) {
-                    SWIPE_LEFT -> calendarView.moveMonth(-1)
-                    SWIPE_RIGHT -> calendarView.moveMonth(1)
+                    SWIPE_LEFT -> {
+                        vibrate(this)
+                        calendarView.moveMonth(-1)
+                    }
+                    SWIPE_RIGHT -> {
+                        vibrate(this)
+                        calendarView.moveMonth(1)
+                    }
                 }
             }
         }

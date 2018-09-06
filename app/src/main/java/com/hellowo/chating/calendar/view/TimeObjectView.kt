@@ -6,6 +6,7 @@ import android.graphics.*
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.hellowo.chating.*
@@ -30,9 +31,12 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
         val leftPadding = dpToPx(9)
         val rightPadding = dpToPx(0)
-        val topBottomPadding = dpToPx(5)
+        val topBottomPadding = dpToPx(2)
+        val icon = dpToPx(8)
         val iconSize = dpToPx(8)
-        val tempCal = Calendar.getInstance()
+        val iconTopYCenter = dpToPx(8).toFloat()
+
+        val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
     }
 
     var mTextSize = 9f
@@ -58,26 +62,24 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             paint.isAntiAlias = true
             when(TimeObject.Type.values()[timeObject.type]) {
                 TimeObject.Type.NOTE -> {
-                    setPadding(leftPadding, topBottomPadding, rightPadding, 0)
                     setTextColor(CalendarSkin.dateColor)
-                    setSingleLine(false)
-                    maxLines = line
-                    gravity = Gravity.TOP
-                    ellipsize = TextUtils.TruncateAt.END
                     paint.color = CalendarSkin.dateColor
 
                     when(TimeObject.Style.values()[timeObject.style]){
                         TimeObject.Style.DEFAULT -> {
-                            val centerY = normalTypeSize / 2f
+                            val centerX = leftPadding / 2f
+                            /*
                             AppRes.starDrawable?.setBounds(0, (centerY - iconSize / 2).toInt(), iconSize, (centerY + iconSize / 2).toInt())
                             AppRes.starDrawable?.draw(canvas)
-                            val centerX = leftPadding / 2f
-                            //it.drawCircle(centerX, centerY, iconSize * 0.2f, paint)
-
-                            //val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
-                            //paint.color = timeObject.color
-                            //paint.alpha = 255
-                            //it.drawRoundRect(rect, radius, radius, paint)
+                            */
+/*
+                            val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
+                            paint.color = timeObject.color
+                            paint.alpha = 255
+                            it.drawRoundRect(rect, radius, radius, paint)
+*/
+                            paint.color = CalendarSkin.dateColor
+                            it.drawCircle(centerX, iconTopYCenter, iconSize * 0.2f, paint)
                         }
                     }
                 }
@@ -258,11 +260,15 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
     fun getViewHeight(): Int = when(TimeObject.Type.values()[timeObject.type]) {
         TimeObject.Type.NOTE -> {
+            setSingleLine(false)
+            maxLines = 5
+            gravity = Gravity.TOP
+            ellipsize = TextUtils.TruncateAt.END
+            setPadding(leftPadding, topBottomPadding, rightPadding, topBottomPadding * 2)
             val width =  mRight - mLeft - defaulMargin
-            val height = normalTypeSize - defaulMargin
+            measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), heightMeasureSpec)
             line = (paint.measureText(text.toString()) / (width - leftPadding)).toInt() + 1
-            l(text.toString() + " : $line")
-            height * line - (defaulMargin * line - 1)
+            measuredHeight
         }
         TimeObject.Type.EVENT -> {
             when (TimeObject.Style.values()[timeObject.style]) {

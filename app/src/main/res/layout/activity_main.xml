@@ -123,7 +123,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="15dp"
-            android:src="@drawable/ic_outline_create"
+            android:src="@drawable/ic_outline_add"
             android:tint="@color/iconTint"/>
 
         <TextView
@@ -151,7 +151,6 @@
         android:layout_height="match_parent"
         android:elevation="5dp"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="300dp"
         app:layout_behavior="@string/bottom_sheet_behavior">
     </com.hellowo.chating.calendar.view.TimeObjectDetailView>
 

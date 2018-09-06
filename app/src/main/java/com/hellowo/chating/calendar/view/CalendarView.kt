@@ -26,7 +26,7 @@ import com.hellowo.chating.calendar.TimeObjectManager
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
         const val maxCellNum = 42
-        const val dateTextSize = 13f
+        const val dateTextSize = 12f
         const val animDur = 250L
         const val columns = 7
         val dateSize = dpToPx(20)

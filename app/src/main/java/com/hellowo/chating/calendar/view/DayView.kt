@@ -7,6 +7,8 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -22,6 +24,7 @@ import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.calendar.adapter.TimeObjectDayViewAdapter
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
+import com.hellowo.chating.calendar.model.CalendarSkin
 import com.hellowo.chating.ui.activity.MainActivity
 import io.realm.RealmResults
 import io.realm.Sort
@@ -47,6 +50,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         setCardBackgroundColor(Color.WHITE)
         elevation = 0f
         initRecyclerView()
+        contentLy.visibility = View.INVISIBLE
     }
 
     fun setCalendarView(view: CalendarView) { calendarView = view }
@@ -94,6 +98,18 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         viewMode = ViewMode.ANIMATING
         visibility = View.VISIBLE
         alpha = 0.85f
+
+        dateText.layoutParams = FrameLayout.LayoutParams(CalendarView.dateSize, CalendarView.dateSize).apply {
+            topMargin = CalendarView.dateArea - CalendarView.dateSize - CalendarView.dateMargin
+            leftMargin = (calendarView!!.minWidth / 2 - CalendarView.dateSize / 2).toInt()
+        }
+        dateText.gravity = Gravity.CENTER
+        dateText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, CalendarView.dateTextSize)
+        dateText.typeface = CalendarSkin.dateFont
+        dateText.includeFontPadding = false
+        dateText.scaleY = 1.5f
+        dateText.scaleX = 1.5f
+
         setDateText()
 
         calendarView?.getSelectedView()?.let { dateLy ->
@@ -116,6 +132,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     transiion.addListener(object : Transition.TransitionListener{
                         override fun onTransitionEnd(transition: Transition) {
                             viewMode = ViewMode.OPENED
+                            contentLy.visibility = View.VISIBLE
                         }
                         override fun onTransitionResume(transition: Transition) {}
                         override fun onTransitionPause(transition: Transition) {}
@@ -125,7 +142,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                             val animSet = AnimatorSet()
                             animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
                                     "elevation", dpToPx(15).toFloat(), 0f).setDuration(ANIM_DUR),
-                                    ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f).setDuration(ANIM_DUR))
+                                    ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f).setDuration(ANIM_DUR),
+                                    ObjectAnimator.ofFloat(dateText, "scaleX", 1.5f, 4f),
+                                    ObjectAnimator.ofFloat(dateText, "scaleY", 1.5f, 4f))
                             animSet.interpolator = FastOutSlowInInterpolator()
                             animSet.start()
                         }
@@ -174,7 +193,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 override fun onTransitionResume(transition: Transition) {}
                 override fun onTransitionPause(transition: Transition) {}
                 override fun onTransitionCancel(transition: Transition) {}
-                override fun onTransitionStart(transition: Transition) {}
+                override fun onTransitionStart(transition: Transition) {
+                    val animSet = AnimatorSet()
+                    animSet.playTogether(ObjectAnimator.ofFloat(dateText, "scaleX", 4f, 1.5f),
+                            ObjectAnimator.ofFloat(dateText, "scaleY", 4f, 1.5f))
+                    animSet.interpolator = FastOutSlowInInterpolator()
+                    animSet.start()
+                    contentLy.visibility = View.INVISIBLE
+                }
             })
             TransitionManager.beginDelayedTransition(this, transiion)
             layoutParams = CoordinatorLayout.LayoutParams(dateLy.width, dateLy.height).apply {
