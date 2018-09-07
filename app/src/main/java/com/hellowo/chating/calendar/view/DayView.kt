@@ -42,6 +42,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         MainActivity.instance?.viewModel?.targetView?.value = view
     }
 
+    private var isInit = true
     var viewMode = ViewMode.CLOSED
 
     init {
@@ -62,6 +63,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun notifyDateChanged(offset: Int) {
         setDateText()
+
+        dowText.translationX = getDowX()
+
         calendarView?.selectedCal?.let { cal ->
             timeObjectList?.removeAllChangeListeners()
             timeObjectList = TimeObjectManager.realm.where(TimeObject::class.java)
@@ -89,7 +93,18 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     private fun setDateText() {
-        dateText.text = calendarView?.selectedCal?.get(Calendar.DATE).toString()
+        calendarView?.let {
+            dateText.text = it.selectedCal.get(Calendar.DATE).toString()
+            dowText.text = fullDowDf.format(it.selectedCal.time)
+            val color = it.getDateTextColor(it.postSelectedNum)
+            dateText.setTextColor(color)
+            dowText.setTextColor(color)
+        }
+    }
+
+    private fun getDowX() : Float {
+        return if(dateText.text.length == 1) dpToPx(60).toFloat()
+        else dpToPx(85).toFloat()
     }
 
     private fun confirm() {}
@@ -99,16 +114,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         visibility = View.VISIBLE
         alpha = 0.85f
 
-        dateText.layoutParams = FrameLayout.LayoutParams(CalendarView.dateSize, CalendarView.dateSize).apply {
-            topMargin = CalendarView.dateArea - CalendarView.dateSize - CalendarView.dateMargin
-            leftMargin = (calendarView!!.minWidth / 2 - CalendarView.dateSize / 2).toInt()
+        if(isInit) {
+            isInit = false
+            calendarView?.setDefaultDateTextSkin(dateText)
+            dateText.scaleY = 1.5f
+            dateText.scaleX = 1.5f
         }
-        dateText.gravity = Gravity.CENTER
-        dateText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, CalendarView.dateTextSize)
-        dateText.typeface = CalendarSkin.dateFont
-        dateText.includeFontPadding = false
-        dateText.scaleY = 1.5f
-        dateText.scaleX = 1.5f
 
         setDateText()
 
@@ -144,7 +155,13 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                                     "elevation", dpToPx(15).toFloat(), 0f).setDuration(ANIM_DUR),
                                     ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f).setDuration(ANIM_DUR),
                                     ObjectAnimator.ofFloat(dateText, "scaleX", 1.5f, 4f),
-                                    ObjectAnimator.ofFloat(dateText, "scaleY", 1.5f, 4f))
+                                    ObjectAnimator.ofFloat(dateText, "scaleY", 1.5f, 4f),
+                                    ObjectAnimator.ofFloat(dateText, "translationX", 0f, dpToPx(15).toFloat()),
+                                    ObjectAnimator.ofFloat(dateText, "translationY", 0f, dpToPx(30).toFloat()),
+                                    ObjectAnimator.ofFloat(dowText, "scaleX", 1f, 1.5f),
+                                    ObjectAnimator.ofFloat(dowText, "scaleY", 1f, 1.5f),
+                                    ObjectAnimator.ofFloat(dowText, "translationX", 0f, getDowX()),
+                                    ObjectAnimator.ofFloat(dowText, "translationY", 0f, dpToPx(20).toFloat()))
                             animSet.interpolator = FastOutSlowInInterpolator()
                             animSet.start()
                         }
@@ -196,7 +213,13 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 override fun onTransitionStart(transition: Transition) {
                     val animSet = AnimatorSet()
                     animSet.playTogether(ObjectAnimator.ofFloat(dateText, "scaleX", 4f, 1.5f),
-                            ObjectAnimator.ofFloat(dateText, "scaleY", 4f, 1.5f))
+                            ObjectAnimator.ofFloat(dateText, "scaleY", 4f, 1.5f),
+                            ObjectAnimator.ofFloat(dateText, "translationX",  dpToPx(15).toFloat(), 0f),
+                            ObjectAnimator.ofFloat(dateText, "translationY",  dpToPx(30).toFloat(), 0f),
+                            ObjectAnimator.ofFloat(dowText, "scaleX", 1.5f, 1f),
+                            ObjectAnimator.ofFloat(dowText, "scaleY", 1.5f, 1f),
+                            ObjectAnimator.ofFloat(dowText, "translationX", getDowX(), 0f),
+                            ObjectAnimator.ofFloat(dowText, "translationY", dpToPx(20).toFloat(), 0f))
                     animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.start()
                     contentLy.visibility = View.INVISIBLE

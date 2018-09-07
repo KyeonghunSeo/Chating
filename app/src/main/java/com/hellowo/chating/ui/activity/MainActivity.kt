@@ -9,6 +9,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.icu.text.DateFormat
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -170,9 +171,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setDateText(date: Date) {
-        yearText.visibility = View.VISIBLE
-        yearText.text = yearDf.format(date)
-        monthText.text = monthDf.format(date)
+        monthText.text = simpleYMDf.format(date)
     }
 
     fun onDimDark(animation: Boolean, dark: Boolean) {

@@ -25,7 +25,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
     private var maxCellNum = 0
     private var calStartTime = 0L
     private var withAnimtion = false
-    private val drawStartYOffset = CalendarView.dateArea + dpToPx(7)
+    private val drawStartYOffset = CalendarView.dateArea + /*날짜와 블록 마진*/dpToPx(2)
     private val cellBottomArray = Array(42){ _ -> drawStartYOffset}
     private val rowHeightArray = Array(6){ _ -> drawStartYOffset}
 
@@ -127,11 +127,11 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 }
 
                 it.timeObjectViewList?.forEach {
-                    it.mLeft = (calendarView.minWidth * (it.cellNum % columns)).toInt()
+                    it.mLeft = (calendarView.minWidth * (it.cellNum % columns)).toInt() + CalendarView.leftMargin
                     it.mRight = it.mLeft + (calendarView.minWidth * it.length).toInt()
                     when(formula) {
                         TimeObject.Formula.TOPSTACK -> {
-                            it.mTop = computeOrder(it, status) * it.getViewHeight() /*블럭수에 따른 높이*/ + rowHeightArray[it.cellNum / columns] /* + 기본 높이*/
+                            it.mTop = computeOrder(it, status) * it.getViewHeight() /*블럭수에 따른 높이*/ + rowHeightArray[it.cellNum / columns]
                         }
                         TimeObject.Formula.LINEAR -> {
                             //l("viewLevel : ${viewLevel}, ${it.cellNum} : ${cellBottomArray[it.cellNum]}")

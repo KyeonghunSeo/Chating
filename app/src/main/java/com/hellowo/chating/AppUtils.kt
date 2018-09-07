@@ -35,10 +35,12 @@ private val tempCal = Calendar.getInstance()
 
 @SuppressLint("SimpleDateFormat")
 val yearDf = SimpleDateFormat("yyyy")
-val monthDf = SimpleDateFormat("MMMM", Locale.US)
+val monthDf = SimpleDateFormat("MMMM")
+val fullDowDf = SimpleDateFormat("EEEE")
+val simpleYMDf = SimpleDateFormat("M. YYYY")
 
 fun l(s: String){
-    Log.e("aaa", s)
+    Log.d("aaa", s)
 }
 
 fun dpToPx(dps: Int): Int {

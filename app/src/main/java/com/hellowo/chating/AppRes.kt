@@ -1,9 +1,10 @@
 package com.hellowo.chating
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.TypedValue
 import android.graphics.drawable.Drawable
-
+import java.text.SimpleDateFormat
 
 
 object AppRes {

@@ -1,34 +1,23 @@
 package com.hellowo.chating.calendar.view
 
-import android.animation.Animator
-import android.animation.AnimatorSet
 import android.animation.LayoutTransition
-import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Rect
-import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.hellowo.chating.*
-import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
 import com.hellowo.chating.calendar.dialog.TypePickerDialog
+import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.view_timeobject_detail.view.*
-import java.lang.reflect.Type
-import java.util.*
 
 class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
@@ -98,6 +87,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             })
             it.isHideable = true
             it.state = STATE_HIDDEN
+            it.peekHeight = bottomSheetPeekHeight
         }
     }
 
@@ -114,6 +104,14 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         timeObject?.let {
             l("updateUI")
             titleInput.setText(it.title)
+            when(it.type) {
+                TimeObject.Type.EVENT.ordinal -> {
+
+                }
+                else -> {
+
+                }
+            }
 
             typeImg.setImageResource(TimeObject.Type.values()[it.type].iconId)
             typeTitle.text = context.getString(TimeObject.Type.values()[it.type].titleId)
@@ -138,7 +136,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             it.onDimDark(true, true)
         }
         behavior?.let {
-            it.state = STATE_COLLAPSED
+            if(timeObject.isManaged) {
+                it.state = STATE_EXPANDED
+            }else {
+                it.state = STATE_COLLAPSED
+            }
         }
     }
 

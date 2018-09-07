@@ -22,6 +22,7 @@ import java.util.*
 import android.widget.*
 import com.hellowo.chating.calendar.model.CalendarSkin
 import com.hellowo.chating.calendar.TimeObjectManager
+import com.hellowo.chating.calendar.model.TimeObject
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
@@ -33,6 +34,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateArea = dpToPx(40)
         val weekLyBottomPadding = dpToPx(20)
         val dateMargin = dpToPx(3)
+        val leftMargin = dpToPx(20)
     }
 
     private val scrollView = SwipeScrollView(context)
@@ -53,6 +55,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val dow = context.resources.getStringArray(R.array.day_of_weeks)
 
     val selectedCal = Calendar.getInstance()
+    var postSelectedNum = -1
     var selectedCellNum = -1
     var todayCellNum = -1
     val cellTimeMills = LongArray(maxCellNum) { _ -> Long.MIN_VALUE}
@@ -121,7 +124,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         todayCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
         minCalendarHeight = height
-        minWidth = width.toFloat() / columns
+        minWidth = (width.toFloat() - leftMargin) / columns
         minHeight = minCalendarHeight.toFloat() / rows
 
         calendarLy.layoutParams.height = minCalendarHeight
@@ -129,9 +132,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         tempCal.add(Calendar.DATE, -startCellNum)
 
         if(isInit) {
-            selectedBar.layoutParams = FrameLayout.LayoutParams(minWidth.toInt() - dateMargin * 2, dateSize).apply {
-                gravity = Gravity.CENTER_HORIZONTAL
-            }
+            selectedBar.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), dateSize)
+            selectedBar.pivotY = dateSize.toFloat()
         }
 
         for(i in 0..5) {
@@ -143,12 +145,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val cellNum = i*7 + j
                     cellTimeMills[cellNum] = tempCal.timeInMillis
 
-                    if(isSameDay(tempCal, selectedCal)) { TimeObjectManager.postSelectDate(cellNum) }
+                    if(isSameDay(tempCal, selectedCal)) {
+                        postSelectedNum = cellNum
+                        TimeObjectManager.postSelectDate(cellNum)
+                    }
                     if(isSameDay(tempCal, todayCal)) { todayCellNum = cellNum }
 
                     val dateLy = dateLys[cellNum]
                     dateLy.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), MATCH_PARENT)
-                    dateLy.translationX = cellNum % columns * minWidth
+                    dateLy.translationX = cellNum % columns * minWidth + leftMargin
 
                     val dateText = dateTexts[cellNum]
                     if(isInit) { setDefaultDateTextSkin(dateText) }
@@ -185,7 +190,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         l("==========END drawCalendar=========")
     }
 
-    private fun getDateTextColor(cellNum: Int) : Int {
+    fun getDateTextColor(cellNum: Int) : Int {
         return if(cellNum == todayCellNum) {
             if(cellNum % columns == 0) {
                 CalendarSkin.holiDateColor
@@ -209,7 +214,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun unselectDate(cellNum: Int, anim: Boolean) {
         selectedCellNum = -1
-        offViewEffect(cellNum)
+        //offViewEffect(cellNum)
         val dateText = dateTexts[cellNum]
         selectedBar.parent?.let { (it as FrameLayout).removeView(selectedBar) }
 
@@ -244,6 +249,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if(!showDayView) {
             if(selectedCellNum >= 0) { unselectDate(selectedCellNum, anim) }
             selectedCellNum = cellNum
+            postSelectedNum = cellNum
             selectedCal.timeInMillis = cellTimeMills[cellNum]
             val dateText = dateTexts[selectedCellNum]
             setSelectedBar(cellNum)
@@ -255,7 +261,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     it.playTogether(
                             ObjectAnimator.ofFloat(dateText, "scaleX", 1f, 1.5f),
                             ObjectAnimator.ofFloat(dateText, "scaleY", 1f, 1.5f),
-                            ObjectAnimator.ofFloat(selectedBar, "scaleX", 0f, 1f))
+                            ObjectAnimator.ofFloat(selectedBar, "scaleY", 0f, 1f))
                     it.interpolator = FastOutSlowInInterpolator()
                     it.duration = animDur
                     it.start()
@@ -266,7 +272,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
 
             scrollView.post{ scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top) }
-            onViewEffect(cellNum)
+            //onViewEffect(cellNum)
         }else {
 
         }
@@ -286,11 +292,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun onViewEffect(cellNum: Int) {
         TimeObjectManager.timeObjectCalendarAdapter?.getViews(cellNum)?.let {
             it.forEach { view ->
-                view.ellipsize = TextUtils.TruncateAt.MARQUEE
-                view.marqueeRepeatLimit = -1
-                view.postDelayed({
-                    view.isSelected = true
-                }, 100)
+                if(view.timeObject.type == TimeObject.Type.EVENT.ordinal || view.timeObject.type == TimeObject.Type.TASK.ordinal) {
+                    view.ellipsize = TextUtils.TruncateAt.MARQUEE
+                    view.marqueeRepeatLimit = -1
+                    view.isFocusable = true
+                    view.postDelayed({
+                        view.isSelected = true
+                    }, 1000)
+                }
             }
         }
     }
@@ -298,8 +307,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun offViewEffect(cellNum: Int) {
         TimeObjectManager.timeObjectCalendarAdapter?.getViews(cellNum)?.let {
             it.forEach { view ->
-                view.ellipsize = null
-                view.isSelected = false
+                if(view.timeObject.type == TimeObject.Type.EVENT.ordinal || view.timeObject.type == TimeObject.Type.TASK.ordinal) {
+                    view.ellipsize = null
+                    view.isSelected = false
+                }
             }
         }
     }
@@ -330,15 +341,21 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         startPagingEffectAnimation(offset, scrollView, null)
     }
 
-    private fun setDefaultDateTextSkin(textView: TextView) {
+    fun setDefaultDateTextSkin(textView: TextView) {
         textView.layoutParams = FrameLayout.LayoutParams(dateSize, dateSize).apply {
             topMargin = dateArea - dateSize - dateMargin
-            leftMargin = (minWidth / 2 - dateSize / 2).toInt()
+            leftMargin = dateMargin
         }
-        textView.gravity = Gravity.CENTER
+        textView.gravity = Gravity.LEFT or Gravity.BOTTOM
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dateTextSize)
         textView.typeface = CalendarSkin.dateFont
         textView.includeFontPadding = false
+        textView.pivotX = 0f
+        textView.pivotY = dateSize.toFloat()
+    }
+
+    fun setDefaultSelectedBarSkin() {
+
     }
 
     fun getSelectedView(): View = dateLys[selectedCellNum]

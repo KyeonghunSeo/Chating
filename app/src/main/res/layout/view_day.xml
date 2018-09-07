@@ -16,22 +16,20 @@
         android:text="12"
         android:gravity="center"/>
 
+    <TextView
+        android:id="@+id/dowText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="9dp"
+        android:padding="3dp"
+        android:textColor="@color/primaryText"
+        android:fontFamily="@font/regular"
+        android:text="@string/sun" />
+
     <FrameLayout
         android:id="@+id/contentLy"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/dowText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="72dp"
-            android:textSize="20dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:textColor="@color/primaryText"
-            android:fontFamily="@font/bold"
-            android:text="@string/sun" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

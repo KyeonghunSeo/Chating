@@ -53,7 +53,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     init {
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize)
         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-        typeface = CalendarSkin.dateFont
+        typeface = CalendarSkin.noteFont
     }
 
     @SuppressLint("DrawAllocation")
@@ -84,8 +84,9 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     }
                 }
                 TimeObject.Type.EVENT -> {
-                    setSingleLine(true)
                     gravity = Gravity.CENTER_VERTICAL
+                    maxLines = 1
+                    setSingleLine(true)
                     setHorizontallyScrolling(true)
 
                     paint.color = color
@@ -142,8 +143,9 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 TimeObject.Type.TASK -> {
                     setPadding(smallTypeSize, 0, defaultPadding, 0)
                     setTextColor(color)
-                    setSingleLine(true)
                     gravity = Gravity.CENTER_VERTICAL
+                    maxLines = 1
+                    setSingleLine(true)
                     setHorizontallyScrolling(true)
 
                     paint.strokeWidth = strokeWidth.toFloat()
