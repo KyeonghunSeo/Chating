@@ -103,8 +103,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     private fun getDowX() : Float {
-        return if(dateText.text.length == 1) dpToPx(60).toFloat()
-        else dpToPx(85).toFloat()
+        return if(dateText.text.length == 1) dpToPx(55).toFloat()
+        else dpToPx(80).toFloat()
     }
 
     private fun confirm() {}
@@ -117,6 +117,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         if(isInit) {
             isInit = false
             calendarView?.setDefaultDateTextSkin(dateText)
+            dateText.typeface = CalendarSkin.selectFont
             dateText.scaleY = 1.5f
             dateText.scaleX = 1.5f
         }
@@ -161,7 +162,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                                     ObjectAnimator.ofFloat(dowText, "scaleX", 1f, 1.5f),
                                     ObjectAnimator.ofFloat(dowText, "scaleY", 1f, 1.5f),
                                     ObjectAnimator.ofFloat(dowText, "translationX", 0f, getDowX()),
-                                    ObjectAnimator.ofFloat(dowText, "translationY", 0f, dpToPx(20).toFloat()))
+                                    ObjectAnimator.ofFloat(dowText, "translationY", 0f, dpToPx(15).toFloat()))
                             animSet.interpolator = FastOutSlowInInterpolator()
                             animSet.start()
                         }
@@ -219,7 +220,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                             ObjectAnimator.ofFloat(dowText, "scaleX", 1.5f, 1f),
                             ObjectAnimator.ofFloat(dowText, "scaleY", 1.5f, 1f),
                             ObjectAnimator.ofFloat(dowText, "translationX", getDowX(), 0f),
-                            ObjectAnimator.ofFloat(dowText, "translationY", dpToPx(20).toFloat(), 0f))
+                            ObjectAnimator.ofFloat(dowText, "translationY", dpToPx(15).toFloat(), 0f))
                     animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.start()
                     contentLy.visibility = View.INVISIBLE

@@ -69,6 +69,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var minWidth = 0f
     var minHeight = 0f
     var rows = 0
+    var todayStatus = 0
 
     init {
         CalendarSkin.init(this)
@@ -119,6 +120,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         monthCal.set(tempCal.get(Calendar.YEAR), tempCal.get(Calendar.MONTH), tempCal.get(Calendar.DATE))
         setCalendarTime0(tempCal)
 
+        todayStatus = (monthCal.get(Calendar.YEAR) + monthCal.get(Calendar.MONTH)) - (todayCal.get(Calendar.YEAR) + todayCal.get(Calendar.MONTH))
+
         startCellNum = tempCal.get(Calendar.DAY_OF_WEEK) - 1
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
         todayCellNum = -1
@@ -145,15 +148,18 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val cellNum = i*7 + j
                     cellTimeMills[cellNum] = tempCal.timeInMillis
 
+                    val dateLy = dateLys[cellNum]
+                    dateLy.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), MATCH_PARENT)
+                    dateLy.translationX = cellNum % columns * minWidth + leftMargin
+
                     if(isSameDay(tempCal, selectedCal)) {
                         postSelectedNum = cellNum
                         TimeObjectManager.postSelectDate(cellNum)
                     }
-                    if(isSameDay(tempCal, todayCal)) { todayCellNum = cellNum }
-
-                    val dateLy = dateLys[cellNum]
-                    dateLy.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), MATCH_PARENT)
-                    dateLy.translationX = cellNum % columns * minWidth + leftMargin
+                    if(isSameDay(tempCal, todayCal)) {
+                        todayCellNum = cellNum
+                        //dateLy.setBackgroundResource(R.drawable.grey_rect_fill_radius)
+                    }
 
                     val dateText = dateTexts[cellNum]
                     if(isInit) { setDefaultDateTextSkin(dateText) }
@@ -180,6 +186,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         }
 
+        if(todayStatus == 0) {
+            todayStatus = getDiffToday(selectedCal)
+        }
+
         TimeObjectManager.setTimeObjectCalendarAdapter(this)
         onDrawed?.invoke(monthCal)
 
@@ -195,7 +205,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             if(cellNum % columns == 0) {
                 CalendarSkin.holiDateColor
             }else {
-                CalendarSkin.dateColor
+                CalendarSkin.selectedDateColor
             }
         }else {
             if(cellNum % columns == 0) {
@@ -216,6 +226,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         selectedCellNum = -1
         //offViewEffect(cellNum)
         val dateText = dateTexts[cellNum]
+        dateText.typeface = CalendarSkin.dateFont
         selectedBar.parent?.let { (it as FrameLayout).removeView(selectedBar) }
 
         if(anim) {
@@ -252,6 +263,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             postSelectedNum = cellNum
             selectedCal.timeInMillis = cellTimeMills[cellNum]
             val dateText = dateTexts[selectedCellNum]
+            dateText.typeface = CalendarSkin.selectFont
             setSelectedBar(cellNum)
 
             if(anim) {
@@ -276,6 +288,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }else {
 
         }
+        todayStatus = getDiffToday(selectedCal)
         onSelected?.invoke(cellTimeMills[selectedCellNum], selectedCellNum, showDayView)
     }
 

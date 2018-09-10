@@ -51,6 +51,11 @@ fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
     return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
 }
 
+fun isToday(cal: Calendar): Boolean {
+    tempCal.timeInMillis = System.currentTimeMillis()
+    return isSameDay(cal, tempCal)
+}
+
 fun setCalendarTime0 (cal: Calendar) {
     cal.set(Calendar.HOUR_OF_DAY, 0)
     cal.set(Calendar.MINUTE, 0)
@@ -81,6 +86,19 @@ fun getCalendarTime23 (cal: Calendar) : Long  {
     tempCal.set(Calendar.SECOND, 59)
     tempCal.set(Calendar.MILLISECOND, 999)
     return tempCal.timeInMillis
+}
+
+fun getDiffToday(cal: Calendar): Int {
+    tempCal.timeInMillis = System.currentTimeMillis()
+    return getDiffDate(tempCal, cal)
+}
+
+fun getDiffDate(c1: Calendar, c2: Calendar): Int {
+    return if (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)) {
+        c2.get(Calendar.DAY_OF_YEAR) - c1.get(Calendar.DAY_OF_YEAR)
+    } else {
+        (c2.get(Calendar.YEAR) - c1.get(Calendar.YEAR)) * 365 + (c2.get(Calendar.DAY_OF_YEAR) - c1.get(Calendar.DAY_OF_YEAR))
+    }
 }
 
 fun makeFromBottomSlideTransition() : Transition {

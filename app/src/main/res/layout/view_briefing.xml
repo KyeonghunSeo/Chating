@@ -7,13 +7,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <FrameLayout
         android:background="?android:attr/selectableItemBackground"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:padding="11dp"
-        android:src="@drawable/ic_outline_calendar_today"
-        android:tint="@color/iconTint"/>
+        android:layout_width="45dp"
+        android:layout_height="45dp">
+
+        <ImageView
+            android:id="@+id/todayImg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/ic_outline_calendar_today"
+            android:tint="@color/iconTint"
+            android:alpha="0.5"/>
+
+        <TextView
+            android:id="@+id/todayText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="7dp"
+            android:textSize="10dp"
+            android:gravity="center"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/regular"
+            android:text="31"/>
+
+    </FrameLayout>
 
 
     <TextView

@@ -68,15 +68,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun initLayout() {
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        timeObjectDetailView.initBehavior()
     }
 
     private fun initCalendarView() {
-        calendarView.onDrawed = { cal -> setDateText(cal.time) }
+        calendarView.onDrawed = { cal ->
+            setDateText(cal.time)
+            briefingView.refreshTodayView(calendarView.todayStatus)
+        }
         calendarView.onSelected = { time, cellNum, showDayView ->
             if(showDayView && dayView.viewMode == ViewMode.CLOSED) {
                 dayView.show()
             }
+            briefingView.refreshTodayView(calendarView.todayStatus)
         }
         calendarView.setOnSwiped { state ->
             if(dayView.viewMode == ViewMode.OPENED) {
@@ -125,6 +128,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBriefingView() {
         briefingView.setOnClickListener {
+
             if(briefingView.viewMode == ViewMode.CLOSED) { briefingView.show() }
         }
     }

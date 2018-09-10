@@ -10,6 +10,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -18,6 +19,7 @@ import com.hellowo.chating.R
 import com.hellowo.chating.calendar.ViewMode
 import com.hellowo.chating.dpToPx
 import com.hellowo.chating.makeChangeBounceTransition
+import com.hellowo.chating.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.view_briefing.view.*
 
 class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {
@@ -54,7 +56,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     override fun onTransitionStart(transition: Transition) {}
                 })
                 TransitionManager.beginDelayedTransition(this@BriefingView, transiion)
-                layoutParams = FrameLayout.LayoutParams(dpToPx(300), dpToPx(500)).apply {
+                layoutParams = CoordinatorLayout.LayoutParams(dpToPx(300), dpToPx(500)).apply {
                     gravity = Gravity.BOTTOM or Gravity.RIGHT
                     setMargins(0, 0, dpToPx(20), dpToPx(20))
                 }
@@ -92,9 +94,33 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             override fun onTransitionStart(transition: Transition) {}
         })
         TransitionManager.beginDelayedTransition(this, transiion)
-        layoutParams = FrameLayout.LayoutParams(dpToPx(50), dpToPx(50)).apply {
+        layoutParams = CoordinatorLayout.LayoutParams(dpToPx(50), dpToPx(50)).apply {
             gravity = Gravity.BOTTOM or Gravity.RIGHT
             setMargins(0, 0, dpToPx(8), 0)
         }
+    }
+
+    fun refreshTodayView(todayOffset: Int) {
+        val animSet = AnimatorSet()
+        when {
+            todayOffset > 0 -> {
+                animSet.playTogether(ObjectAnimator.ofFloat(todayImg, "rotation", 0f, 10f),
+                        ObjectAnimator.ofFloat(todayText, "rotation",0f, 10f),
+                        ObjectAnimator.ofFloat(todayText, "alpha",0f, 0.5f))
+            }
+            todayOffset < 0 -> {
+                animSet.playTogether(ObjectAnimator.ofFloat(todayImg, "rotation", 0f, -10f),
+                        ObjectAnimator.ofFloat(todayText, "rotation",0f, -10f),
+                        ObjectAnimator.ofFloat(todayText, "alpha",0f, 0.5f))
+            }
+            else -> {
+                animSet.playTogether(ObjectAnimator.ofFloat(todayImg, "rotation", 0f, 0f),
+                        ObjectAnimator.ofFloat(todayText, "rotation",0f, 0f),
+                        ObjectAnimator.ofFloat(todayText, "alpha",0f, 1f))
+            }
+        }
+        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.duration = CalendarView.animDur
+        animSet.start()
     }
 }
