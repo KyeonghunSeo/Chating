@@ -8,9 +8,9 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:background="?android:attr/selectableItemBackground"
-        android:layout_width="45dp"
-        android:layout_height="45dp">
+        android:background="@color/iconTint"
+        android:layout_width="46dp"
+        android:layout_height="46dp">
 
         <ImageView
             android:id="@+id/todayImg"
@@ -18,18 +18,17 @@
             android:layout_height="match_parent"
             android:padding="10dp"
             android:src="@drawable/ic_outline_calendar_today"
-            android:tint="@color/iconTint"
-            android:alpha="0.5"/>
+            android:tint="@color/white"/>
 
         <TextView
             android:id="@+id/todayText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="7dp"
+            android:paddingTop="7dp"
             android:textSize="10dp"
             android:gravity="center"
-            android:textColor="@color/primaryText"
-            android:fontFamily="@font/regular"
+            android:textColor="@color/white"
+            android:fontFamily="@font/bold"
             android:text="31"/>
 
     </FrameLayout>

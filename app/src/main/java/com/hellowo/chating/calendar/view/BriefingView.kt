@@ -21,6 +21,7 @@ import com.hellowo.chating.dpToPx
 import com.hellowo.chating.makeChangeBounceTransition
 import com.hellowo.chating.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.view_briefing.view.*
+import java.util.*
 
 class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {
     companion object
@@ -38,7 +39,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
         viewMode = ViewMode.ANIMATING
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(this@BriefingView,
-                "elevation", 0f, dpToPx(15).toFloat()).setDuration(ANIM_DUR))
+                "elevation", elevation, dpToPx(15).toFloat()).setDuration(ANIM_DUR))
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.addListener(object : Animator.AnimatorListener{
             override fun onAnimationRepeat(p0: Animator?) {}
@@ -76,7 +77,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             override fun onTransitionEnd(transition: Transition) {
                 val animSet = AnimatorSet()
                 animSet.playTogether(ObjectAnimator.ofFloat(this@BriefingView,
-                        "elevation", dpToPx(15).toFloat(), 0f).setDuration(ANIM_DUR))
+                        "elevation", elevation, dpToPx(5).toFloat()).setDuration(ANIM_DUR))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.addListener(object : Animator.AnimatorListener{
                     override fun onAnimationRepeat(p0: Animator?) {}
@@ -94,29 +95,27 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             override fun onTransitionStart(transition: Transition) {}
         })
         TransitionManager.beginDelayedTransition(this, transiion)
-        layoutParams = CoordinatorLayout.LayoutParams(dpToPx(50), dpToPx(50)).apply {
-            gravity = Gravity.BOTTOM or Gravity.RIGHT
-            setMargins(0, 0, dpToPx(8), 0)
+        layoutParams = CoordinatorLayout.LayoutParams(dpToPx(46), dpToPx(46)).apply {
+            gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+            setMargins(dpToPx(200), 0, 0, dpToPx(12))
         }
     }
 
     fun refreshTodayView(todayOffset: Int) {
+        todayText.text = CalendarView.todayCal.get(Calendar.DATE).toString()
         val animSet = AnimatorSet()
         when {
             todayOffset > 0 -> {
-                animSet.playTogether(ObjectAnimator.ofFloat(todayImg, "rotation", 0f, 10f),
-                        ObjectAnimator.ofFloat(todayText, "rotation",0f, 10f),
-                        ObjectAnimator.ofFloat(todayText, "alpha",0f, 0.5f))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayImg, "rotation", todayImg.rotation, 15f),
+                        ObjectAnimator.ofFloat(todayText, "rotation",todayText.rotation, 15f))
             }
             todayOffset < 0 -> {
-                animSet.playTogether(ObjectAnimator.ofFloat(todayImg, "rotation", 0f, -10f),
-                        ObjectAnimator.ofFloat(todayText, "rotation",0f, -10f),
-                        ObjectAnimator.ofFloat(todayText, "alpha",0f, 0.5f))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayImg, "rotation", todayImg.rotation, -15f),
+                        ObjectAnimator.ofFloat(todayText, "rotation",todayText.rotation, -15f))
             }
             else -> {
-                animSet.playTogether(ObjectAnimator.ofFloat(todayImg, "rotation", 0f, 0f),
-                        ObjectAnimator.ofFloat(todayText, "rotation",0f, 0f),
-                        ObjectAnimator.ofFloat(todayText, "alpha",0f, 1f))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayImg, "rotation", todayImg.rotation, 0f),
+                        ObjectAnimator.ofFloat(todayText, "rotation",todayText.rotation, 0f))
             }
         }
         animSet.interpolator = FastOutSlowInInterpolator()

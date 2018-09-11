@@ -30,6 +30,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val dateTextSize = 12f
         const val animDur = 250L
         const val columns = 7
+        val todayCal: Calendar = Calendar.getInstance()
         val dateSize = dpToPx(20)
         val dateArea = dpToPx(40)
         val weekLyBottomPadding = dpToPx(20)
@@ -40,16 +41,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val scrollView = SwipeScrollView(context)
     private val rootLy = FrameLayout(context)
     val calendarLy = LinearLayout(context)
-    val monthBottomLy = FrameLayout(context)
     val weekLys = Array(6) { _ -> FrameLayout(context)}
     val dateLys = Array(maxCellNum) { _ -> FrameLayout(context)}
     val dateTexts = Array(maxCellNum) { _ -> TextView(context)}
     val selectedBar = LayoutInflater.from(context).inflate(R.layout.view_selected_bar, null, false)
+    val weekLySideView = LayoutInflater.from(context).inflate(R.layout.view_weekly_side, null, false)
 
     private var lastSelectAnimSet: AnimatorSet? = null
     private var lastUnSelectAnimSet: AnimatorSet? = null
 
-    private val todayCal: Calendar = Calendar.getInstance()
     private val tempCal: Calendar = Calendar.getInstance()
     private val monthCal: Calendar = Calendar.getInstance()
     private val dow = context.resources.getStringArray(R.array.day_of_weeks)
@@ -120,11 +120,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         monthCal.set(tempCal.get(Calendar.YEAR), tempCal.get(Calendar.MONTH), tempCal.get(Calendar.DATE))
         setCalendarTime0(tempCal)
 
-        todayStatus = (monthCal.get(Calendar.YEAR) + monthCal.get(Calendar.MONTH)) - (todayCal.get(Calendar.YEAR) + todayCal.get(Calendar.MONTH))
+        todayStatus = (monthCal.get(Calendar.YEAR)*10 + monthCal.get(Calendar.MONTH)) - (todayCal.get(Calendar.YEAR)*10 + todayCal.get(Calendar.MONTH))
 
         startCellNum = tempCal.get(Calendar.DAY_OF_WEEK) - 1
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
         todayCellNum = -1
+        postSelectedNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
         minCalendarHeight = height
         minWidth = (width.toFloat() - leftMargin) / columns
@@ -137,6 +138,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if(isInit) {
             selectedBar.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), dateSize)
             selectedBar.pivotY = dateSize.toFloat()
+            weekLySideView.layoutParams = FrameLayout.LayoutParams(WRAP_CONTENT, dpToPx(50))
         }
 
         for(i in 0..5) {
@@ -148,10 +150,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val cellNum = i*7 + j
                     cellTimeMills[cellNum] = tempCal.timeInMillis
 
-                    val dateLy = dateLys[cellNum]
-                    dateLy.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), MATCH_PARENT)
-                    dateLy.translationX = cellNum % columns * minWidth + leftMargin
-
                     if(isSameDay(tempCal, selectedCal)) {
                         postSelectedNum = cellNum
                         TimeObjectManager.postSelectDate(cellNum)
@@ -162,7 +160,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     }
 
                     val dateText = dateTexts[cellNum]
-                    if(isInit) { setDefaultDateTextSkin(dateText) }
+                    if(isInit) {
+                        val dateLy = dateLys[cellNum]
+                        dateLy.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), MATCH_PARENT)
+                        dateLy.translationX = cellNum % columns * minWidth + leftMargin
+                        setDefaultDateTextSkin(dateText)
+                    }
                     dateText.text = tempCal.get(Calendar.DATE).toString()
                     dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.2f
                     dateText.setTextColor(getDateTextColor(cellNum))
@@ -188,6 +191,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         if(todayStatus == 0) {
             todayStatus = getDiffToday(selectedCal)
+        }
+
+        if(postSelectedNum == -1) {
+            weekLySideView.translationX = -leftMargin.toFloat()
         }
 
         TimeObjectManager.setTimeObjectCalendarAdapter(this)
@@ -217,17 +224,18 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun onDateClick(cellNum: Int) {
-        l("선택한 날짜 : " + android.text.format.DateFormat.getDateFormat(context).format(cellTimeMills[cellNum]))
         tempCal.timeInMillis = cellTimeMills[cellNum]
         selectDate(cellNum,true, isSameDay(tempCal, selectedCal))
     }
 
     private fun unselectDate(cellNum: Int, anim: Boolean) {
-        selectedCellNum = -1
-        //offViewEffect(cellNum)
+        l("선택 해제 : " + android.text.format.DateFormat.getDateFormat(context).format(cellTimeMills[cellNum]))
         val dateText = dateTexts[cellNum]
         dateText.typeface = CalendarSkin.dateFont
         selectedBar.parent?.let { (it as FrameLayout).removeView(selectedBar) }
+
+        selectedCellNum = -1
+        //offViewEffect(cellNum)
 
         if(anim) {
             lastUnSelectAnimSet?.cancel()
@@ -239,7 +247,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     override fun onAnimationCancel(p0: Animator?) {
                         dateText.scaleX = 1f
                         dateText.scaleY = 1f
-                        dateText.translationY = 0f
                     }
                     override fun onAnimationStart(p0: Animator?) {}
                 })
@@ -258,22 +265,51 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun selectDate(cellNum: Int, anim: Boolean, showDayView: Boolean) {
         if(!showDayView) {
+            l("선택한 날짜 : " + android.text.format.DateFormat.getDateFormat(context).format(cellTimeMills[cellNum]))
+            if(cellNum / columns != selectedCellNum / columns) {
+                weekLySideView.parent?.let {
+                    (it as FrameLayout).removeView(weekLySideView)
+                    weekLySideView.translationX = -leftMargin.toFloat()
+                }
+                weekLys[cellNum / columns].addView(weekLySideView)
+                weekLySideView.findViewById<TextView>(R.id.weekNumText).text = selectedCal.get(Calendar.WEEK_OF_YEAR).toString()
+            }
+
             if(selectedCellNum >= 0) { unselectDate(selectedCellNum, anim) }
+
             selectedCellNum = cellNum
             postSelectedNum = cellNum
             selectedCal.timeInMillis = cellTimeMills[cellNum]
             val dateText = dateTexts[selectedCellNum]
             dateText.typeface = CalendarSkin.selectFont
-            setSelectedBar(cellNum)
+
+            val color = getDateTextColor(cellNum)
+            dateLys[cellNum].addView(selectedBar)
+            selectedBar.findViewById<TextView>(R.id.dowText).let {
+                it.text = dow[cellNum % columns]
+                it.setTextColor(color)
+            }
+            selectedBar.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.2f
 
             if(anim) {
                 lastSelectAnimSet?.cancel()
                 lastSelectAnimSet = AnimatorSet()
                 lastSelectAnimSet?.let {
+                    it.addListener(object : Animator.AnimatorListener{
+                        override fun onAnimationRepeat(p0: Animator?) {}
+                        override fun onAnimationEnd(p0: Animator?) {}
+                        override fun onAnimationCancel(p0: Animator?) {
+                            dateText.scaleX = 1f
+                            dateText.scaleY = 1f
+                        }
+                        override fun onAnimationStart(p0: Animator?) {}
+                    })
                     it.playTogether(
                             ObjectAnimator.ofFloat(dateText, "scaleX", 1f, 1.5f),
                             ObjectAnimator.ofFloat(dateText, "scaleY", 1f, 1.5f),
-                            ObjectAnimator.ofFloat(selectedBar, "scaleY", 0f, 1f))
+                            ObjectAnimator.ofFloat(selectedBar, "scaleY", 0f, 1f),
+                            ObjectAnimator.ofFloat(weekLySideView, "translationX",
+                                    weekLySideView.translationX, 0f))
                     it.interpolator = FastOutSlowInInterpolator()
                     it.duration = animDur
                     it.start()
@@ -290,16 +326,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
         todayStatus = getDiffToday(selectedCal)
         onSelected?.invoke(cellTimeMills[selectedCellNum], selectedCellNum, showDayView)
-    }
-
-    private fun setSelectedBar(cellNum: Int){
-        val color = getDateTextColor(cellNum)
-        dateLys[cellNum].addView(selectedBar)
-        selectedBar.findViewById<TextView>(R.id.dowText).let {
-            it.text = dow[cellNum % columns]
-            it.setTextColor(color)
-        }
-        selectedBar.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.2f
     }
 
     private fun onViewEffect(cellNum: Int) {
@@ -348,7 +374,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun moveMonth(offset: Int) {
         monthCal.add(Calendar.MONTH, offset)
-        if(selectedCellNum >= 0) { unselectDate(selectedCellNum, false) }
+        if(selectedCellNum >= 0) {
+            lastSelectAnimSet?.cancel()
+            unselectDate(selectedCellNum, false)
+        }
         scrollView.scrollTo(0, 0)
         drawCalendar(monthCal.timeInMillis, false)
         startPagingEffectAnimation(offset, scrollView, null)

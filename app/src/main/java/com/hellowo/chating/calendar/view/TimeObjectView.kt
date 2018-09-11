@@ -141,7 +141,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
                 }
                 TimeObject.Type.TASK -> {
-                    setPadding(smallTypeSize, 0, defaultPadding, 0)
+                    setPadding(leftPadding, 0, rightPadding, 0)
                     setTextColor(color)
                     gravity = Gravity.CENTER_VERTICAL
                     maxLines = 1
@@ -152,10 +152,9 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     paint.color = color
                     paint.style = Paint.Style.FILL
 
-                    val center = smallTypeSize / 2f
-                    val checkRadius = checkBoxSize / 2
-                    val rect = RectF(center - checkRadius, center - checkRadius,
-                            center + checkRadius, center + checkRadius)
+                    val center = leftPadding / 2f
+                    val checkRadius = leftPadding / 2
+                    val rect = RectF(center - checkRadius, iconTopYCenter - checkRadius, center + checkRadius, iconTopYCenter + checkRadius)
                     if(true) {
                         //alpha = 0.5f
                         //paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG

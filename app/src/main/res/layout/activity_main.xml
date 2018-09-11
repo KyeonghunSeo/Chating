@@ -68,19 +68,41 @@
 
     <com.hellowo.chating.calendar.view.BriefingView
         android:id="@+id/briefingView"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_gravity="bottom|right"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginLeft="200dp"
+        android:layout_marginBottom="12dp"
         android:visibility="visible"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="5dp"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="23dp">
     </com.hellowo.chating.calendar.view.BriefingView>
 
     <com.hellowo.chating.calendar.view.KeepView
         android:id="@+id/keepView"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginRight="200dp"
+        android:layout_marginBottom="12dp"
+        android:visibility="visible"
+        app:cardBackgroundColor="@color/iconTint"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="23dp">
+
+        <ImageView
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_outline_all_inbox"
+            android:tint="@color/white"/>
+
+    </com.hellowo.chating.calendar.view.KeepView>
+
+    <com.hellowo.chating.calendar.view.KeepView
+        android:id="@+id/searchView"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="right"
@@ -94,7 +116,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="12dp"
-            android:src="@drawable/ic_outline_all_inbox"
+            android:src="@drawable/ic_outline_search"
             android:tint="@color/iconTint"/>
 
     </com.hellowo.chating.calendar.view.KeepView>

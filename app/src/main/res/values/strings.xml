@@ -58,6 +58,8 @@
     <string name="decoration">꾸미기</string>
     <string name="money">가계</string>
     <string name="delete">삭제</string>
+    <string name="start">시작</string>
+    <string name="end">종료</string>
 
     <string-array name="day_of_weeks">
         <item>@string/sun</item>

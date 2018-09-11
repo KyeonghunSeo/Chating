@@ -95,7 +95,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private fun setDateText() {
         calendarView?.let {
             dateText.text = it.selectedCal.get(Calendar.DATE).toString()
-            dowText.text = fullDowDf.format(it.selectedCal.time)
+            dowText.text = AppRes.dow.format(it.selectedCal.time)
             val color = it.getDateTextColor(it.postSelectedNum)
             dateText.setTextColor(color)
             dowText.setTextColor(color)

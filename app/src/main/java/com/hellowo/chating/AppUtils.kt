@@ -5,20 +5,21 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.IBinder
 import android.os.Vibrator
 import android.util.Log
 import android.util.TypedValue
-import android.view.Gravity
-import android.view.View
-import android.view.ViewTreeObserver
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.content.ContextCompat
@@ -32,12 +33,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private val tempCal = Calendar.getInstance()
-
-@SuppressLint("SimpleDateFormat")
-val yearDf = SimpleDateFormat("yyyy")
-val monthDf = SimpleDateFormat("MMMM")
-val fullDowDf = SimpleDateFormat("EEEE")
-val simpleYMDf = SimpleDateFormat("M. YYYY")
 
 fun l(s: String){
     Log.d("aaa", s)
@@ -101,6 +96,25 @@ fun getDiffDate(c1: Calendar, c2: Calendar): Int {
     }
 }
 
+fun copyYearMonthDate(toCal: Calendar, fromCal: Calendar) {
+    toCal.set(
+            fromCal.get(Calendar.YEAR),
+            fromCal.get(Calendar.MONTH),
+            fromCal.get(Calendar.DATE)
+    )
+    //UPDATE BY CALLING getTimeInMillis() or any of the previously mentioned functions
+    toCal.timeInMillis
+}
+
+fun copyHourMinSecMill(toCal: Calendar, fromCal: Calendar) {
+    toCal.set(Calendar.HOUR_OF_DAY, fromCal.get(Calendar.HOUR_OF_DAY))
+    toCal.set(Calendar.MINUTE, fromCal.get(Calendar.MINUTE))
+    toCal.set(Calendar.SECOND, fromCal.get(Calendar.SECOND))
+    toCal.set(Calendar.MILLISECOND, fromCal.get(Calendar.MILLISECOND))
+    //UPDATE BY CALLING getTimeInMillis() or any of the previously mentioned functions
+    toCal.timeInMillis
+}
+
 fun makeFromBottomSlideTransition() : Transition {
     val transition = Slide()
     transition.slideEdge = Gravity.BOTTOM
@@ -144,6 +158,16 @@ fun startPagingEffectAnimation(direction: Int, view: View, listener: Animator.An
     }
     animSet.playTogether(ObjectAnimator.ofFloat(view, "alpha", 0f, 1f))
     listener?.let { animSet.addListener(it) }
+    animSet.interpolator = FastOutSlowInInterpolator()
+    animSet.start()
+}
+
+fun startFromBottomSlideAppearAnimation(view: View, offset: Float) {
+    val animSet = AnimatorSet()
+    animSet.playTogether(
+            ObjectAnimator.ofFloat(view, "translationY", offset, 0f),
+            ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
+    )
     animSet.interpolator = FastOutSlowInInterpolator()
     animSet.duration = CalendarView.animDur
     animSet.start()
@@ -209,4 +233,36 @@ fun callAfterViewDrawed(view: View, callback: Runnable) {
             callback.run()
         }
     })
+}
+
+/**
+ * 다이얼로그 보여주기
+ * @param dialog 다이어로그
+ * @param is_cancelable 백키로 종료하기
+ * @param is_dim 배경 어둡게 하지 않기
+ * @param is_backgroun_transparent 배경 투명하게 하기
+ * @param is_touchable_outside 외부 터치 가능하게 하기
+ */
+fun showDialog(dialog: Dialog, is_cancelable: Boolean, is_dim: Boolean, is_backgroun_transparent: Boolean, is_touchable_outside: Boolean) {
+    try {
+        dialog.setCancelable(is_cancelable) // 백키로 종료하기
+        dialog.setOnKeyListener { dialogInterface, i, keyEvent ->
+            !is_cancelable && keyEvent.action == KeyEvent.KEYCODE_BACK
+        }
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // 타이틀 숨기기
+        if (!is_dim) { // 배경 어둡게 하지 않기
+            dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        }
+        if (is_backgroun_transparent) { // 배경 투명하게 하기
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        if (is_touchable_outside) { // 외부 터치 가능하게 하기
+            dialog.window!!.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL)
+        }
+        dialog.show()
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
 }

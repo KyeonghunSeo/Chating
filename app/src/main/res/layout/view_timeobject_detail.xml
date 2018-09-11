@@ -22,6 +22,29 @@
             android:paddingRight="@dimen/normal_margin">
 
             <LinearLayout
+                android:id="@+id/confirmBtn"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_outline_done_outline"
+                    android:tint="@color/blue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/blue"
+                    android:text="@string/save"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/deleteBtn"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
@@ -31,10 +54,10 @@
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:layout_width="20dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_outline_delete"
-                    android:tint="@color/red"/>
+                    android:tint="@color/red" />
 
                 <TextView
                     android:layout_width="wrap_content"

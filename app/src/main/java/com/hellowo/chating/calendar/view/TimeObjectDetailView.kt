@@ -13,6 +13,7 @@ import androidx.transition.TransitionManager
 import com.hellowo.chating.*
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
+import com.hellowo.chating.calendar.dialog.DateTimePickerDialog
 import com.hellowo.chating.calendar.dialog.TypePickerDialog
 import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.ui.activity.MainActivity
@@ -35,6 +36,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         LayoutInflater.from(context).inflate(R.layout.view_timeobject_detail, this, true)
         //contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         contentLy.setOnClickListener {}
+
+        confirmBtn.setOnClickListener {
+            confirm()
+            MainActivity.instance?.viewModel?.targetTimeObject?.value = null
+        }
 
         deleteBtn.setOnClickListener {
             timeObject?.let { TimeObjectManager.delete(it) }
@@ -65,7 +71,15 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun initDateTime() {
-
+        timeLy.setOnClickListener {
+            val dialog = DateTimePickerDialog(MainActivity.instance!!, 0) { sCal, eCal, allday ->
+                timeObject?.let {
+                    it.dtStart = sCal.timeInMillis
+                    it.dtEnd = eCal.timeInMillis
+                }
+            }
+            showDialog(dialog, true, true, true, false)
+        }
     }
 
     private fun showTitleKeyPad() {
