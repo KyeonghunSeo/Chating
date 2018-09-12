@@ -125,7 +125,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             val location = IntArray(2)
             dateLy.getLocationInWindow(location)
             layoutParams = CoordinatorLayout.LayoutParams(dateLy.width, dateLy.height).apply {
-                setMargins(location[0], location[1] - statusBarHeight - dpToPx(2), 0, 0)
+                setMargins(location[0], location[1] - AppRes.statusBarHeight, 0, 0)
             }
 
             val animSet = AnimatorSet()
@@ -225,7 +225,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             })
             TransitionManager.beginDelayedTransition(this, transiion)
             layoutParams = CoordinatorLayout.LayoutParams(dateLy.width, dateLy.height).apply {
-                setMargins(location[0], location[1] - statusBarHeight - dpToPx(2), 0, 0)
+                setMargins(location[0], location[1] - AppRes.statusBarHeight, 0, 0)
             }
         }
     }

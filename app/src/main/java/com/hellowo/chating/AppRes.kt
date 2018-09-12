@@ -36,8 +36,9 @@ object AppRes {
     var unselectedColor = 0
     var primaryColor = 0
 
-    var starDrawable: Drawable? = null
+    var statusBarHeight = 0
 
+    var starDrawable: Drawable? = null
 
     fun init(context: Context) {
         val typedValue = TypedValue()

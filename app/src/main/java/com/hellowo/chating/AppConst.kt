@@ -19,5 +19,4 @@ const val TIME = "time"
 const val RC_PERMISSIONS = 0
 const val RC_FILEPICKER = 9090
 
-val statusBarHeight = dpToPx(25)
 var mainBarHeight = dpToPx(50)

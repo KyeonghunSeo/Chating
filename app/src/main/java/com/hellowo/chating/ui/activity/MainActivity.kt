@@ -74,6 +74,11 @@ class MainActivity : AppCompatActivity() {
     private fun initLayout() {
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dimView.setOnDragListener(MainDragAndDropListener)
+        callAfterViewDrawed(rootLy, Runnable{
+            val location = IntArray(2)
+            rootLy.getLocationInWindow(location)
+            AppRes.statusBarHeight = location[1]
+        })
     }
 
     private fun initCalendarView() {
