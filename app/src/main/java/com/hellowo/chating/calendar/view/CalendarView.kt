@@ -53,7 +53,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private val tempCal: Calendar = Calendar.getInstance()
     private val monthCal: Calendar = Calendar.getInstance()
-    private val dow = context.resources.getStringArray(R.array.day_of_weeks)
+    private val dow = AppRes.dowString
 
     val selectedCal = Calendar.getInstance()
     var postSelectedNum = -1

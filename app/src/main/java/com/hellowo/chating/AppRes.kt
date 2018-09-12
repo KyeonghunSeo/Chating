@@ -156,11 +156,10 @@ object AppRes {
 
             if (language == "en") {
                 mDate = SimpleDateFormat("MMM")
-                dowString = arrayOf("S", "M", "T", "W", "T", "F", "S")
             } else {
                 mDate = SimpleDateFormat("M")
-                dowString = context.resources.getStringArray(R.array.day_of_weeks)
             }
+            dowString = context.resources.getStringArray(R.array.day_of_weeks)
 
             dow = if (language == "ko") {
                 SimpleDateFormat("E요일")
