@@ -1,15 +1,19 @@
 package com.hellowo.chating.calendar.view
 
+import android.animation.LayoutTransition
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import com.hellowo.chating.*
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
@@ -25,7 +29,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     companion object {
     }
 
-    private var calendarView: CalendarView? = null
     private var originalData: TimeObject? = null
     private var timeObject: TimeObject? = null
     private val colors = context.resources.getStringArray(R.array.colors)
@@ -34,23 +37,32 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_timeobject_detail, this, true)
-        //contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        styleEditLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         contentLy.setOnClickListener {}
 
         confirmBtn.setOnClickListener {
             confirm()
-            MainActivity.instance?.viewModel?.targetTimeObject?.value = null
+            MainActivity.instance?.viewModel?.clearTargetTimeObject()
         }
 
         deleteBtn.setOnClickListener {
             timeObject?.let { TimeObjectManager.delete(it) }
-            timeObject = null
-            MainActivity.instance?.viewModel?.targetTimeObject?.value = null
+            MainActivity.instance?.viewModel?.clearTargetTimeObject()
         }
 
+        initControllBtn()
         initType()
         initTitle()
         initDateTime()
+    }
+
+    private fun initControllBtn() {
+        controllPanel.setOnClickListener {
+            if(viewMode == ViewMode.CLOSED) {
+                MainActivity.instance?.viewModel?.makeNewTimeObject()
+            }
+        }
     }
 
     private fun initType() {
@@ -133,22 +145,40 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
         //layoutParams.height = insertModeHeight
         //requestLayout()
+        setData(timeObject)
+        updateUI()
 
-        val transition = makeFromBottomSlideTransition()
-        transition.addListener(object : Transition.TransitionListener{
+        val t1 = makeFromBottomSlideTransition()
+        t1.addTarget(contentPanel)
+
+        val t2 = makeChangeBounceTransition()
+        t2.addTarget(controllPanel)
+
+        val transitionSet = TransitionSet()
+        transitionSet.addTransition(t1)
+        transitionSet.addTransition(t2)
+        transitionSet.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
-                setData(timeObject)
-                updateUI()
-                contentLy.visibility = View.VISIBLE
+                controllPanel.radius = 0f
+                insertLy.visibility = View.INVISIBLE
+                styleEditLy.visibility = View.VISIBLE
+                if(!timeObject.isManaged) {
+                    showTitleKeyPad()
+                }
             }
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {}
         })
-        TransitionManager.beginDelayedTransition(this, transition)
-        visibility = View.VISIBLE
-        showTitleKeyPad()
+        TransitionManager.beginDelayedTransition(this, transitionSet)
+
+        contentPanel.visibility = View.VISIBLE
+        controllPanel.layoutParams.let {
+            it.width = MATCH_PARENT
+            (it as FrameLayout.LayoutParams).bottomMargin = 0
+        }
+        controllPanel.requestLayout()
     }
 
     fun hide() {
@@ -157,18 +187,34 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         MainActivity.instance?.let {
             it.offDimDark(true, true)
         }
-        val transition = makeFromBottomSlideTransition()
-        transition.addListener(object : Transition.TransitionListener{
+        val t1 = makeFromBottomSlideTransition()
+        t1.addTarget(contentPanel)
+
+        val t2 = makeChangeBounceTransition()
+        t2.addTarget(controllPanel)
+
+        val transitionSet = TransitionSet()
+        transitionSet.addTransition(t1)
+        transitionSet.addTransition(t2)
+        transitionSet.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
-                contentLy.visibility = View.INVISIBLE
+                insertLy.visibility = View.VISIBLE
+                styleEditLy.visibility = View.GONE
+                hideKeyPad(windowToken, titleInput)
             }
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {}
         })
-        TransitionManager.beginDelayedTransition(this, transition)
-        visibility = View.INVISIBLE
-        hideKeyPad(windowToken, titleInput)
+        TransitionManager.beginDelayedTransition(this, transitionSet)
+
+        contentPanel.visibility = View.INVISIBLE
+        controllPanel.layoutParams.let {
+            it.width = WRAP_CONTENT
+            (it as FrameLayout.LayoutParams).bottomMargin = dpToPx(25)
+        }
+        controllPanel.radius = dpToPx(25).toFloat()
+        controllPanel.requestLayout()
     }
 }

@@ -5,12 +5,11 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hellowo.chating.AUTH_URL
-import com.hellowo.chating.USER_URL
-import com.hellowo.chating.bitmapToByteArray
+import com.hellowo.chating.*
+import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.model.TimeObject
-import com.hellowo.chating.makeViewToBitmap
 import com.hellowo.chating.model.AppUser
+import com.hellowo.chating.ui.activity.MainActivity
 import io.realm.*
 import java.util.*
 
@@ -57,6 +56,17 @@ class MainViewModel : ViewModel() {
         realm.executeTransaction {
             appUser.value?.profileImg = bitmapToByteArray(resource)
             appUser.value = appUser.value
+        }
+    }
+
+    fun clearTargetTimeObject() {
+        targetTimeObject.value = null
+    }
+
+    fun makeNewTimeObject() {
+        MainActivity.instance?.getCalendarView()?.let {
+            targetTimeObject.value = TimeObjectManager.makeNewTimeObject(
+                    getCalendarTime0(it.selectedCal), getCalendarTime23(it.selectedCal))
         }
     }
 }

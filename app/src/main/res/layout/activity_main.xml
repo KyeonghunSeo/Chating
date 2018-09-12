@@ -45,6 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primaryText"
+                android:layout_marginLeft="10dp"
                 android:fontFamily="@font/bold"
                 android:textSize="18dp"/>
 
@@ -56,6 +57,7 @@
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
         android:layout_marginTop="50dp">
     </com.hellowo.chating.calendar.view.CalendarView>
 
@@ -66,42 +68,54 @@
         android:visibility="gone">
     </com.hellowo.chating.calendar.view.DayView>
 
-    <com.hellowo.chating.calendar.view.BriefingView
-        android:id="@+id/briefingView"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginLeft="200dp"
-        android:layout_marginBottom="12dp"
-        android:visibility="visible"
-        app:cardBackgroundColor="@color/white"
-        app:cardElevation="5dp"
-        app:cardCornerRadius="23dp">
-    </com.hellowo.chating.calendar.view.BriefingView>
-
     <com.hellowo.chating.calendar.view.KeepView
         android:id="@+id/keepView"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginRight="200dp"
-        android:layout_marginBottom="12dp"
-        android:visibility="visible"
-        app:cardBackgroundColor="@color/iconTint"
-        app:cardElevation="5dp"
-        app:cardCornerRadius="23dp">
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="10dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="15dp">
 
         <ImageView
             android:background="?android:attr/selectableItemBackground"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="12dp"
             android:src="@drawable/ic_outline_all_inbox"
-            android:tint="@color/white"/>
+            android:tint="@color/iconTint"/>
 
     </com.hellowo.chating.calendar.view.KeepView>
 
-    <com.hellowo.chating.calendar.view.KeepView
+    <View
+        android:id="@+id/bottomDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_marginBottom="50dp"
+        android:layout_gravity="bottom"/>
+
+    <View
+        android:id="@+id/dimView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="@color/transitionDim">
+    </View>
+
+    <com.hellowo.chating.calendar.view.BriefingView
+        android:id="@+id/briefingView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="10dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="15dp">
+    </com.hellowo.chating.calendar.view.BriefingView>
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/searchView"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -118,53 +132,13 @@
             android:padding="12dp"
             android:src="@drawable/ic_outline_search"
             android:tint="@color/iconTint"/>
-
-    </com.hellowo.chating.calendar.view.KeepView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/insertBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="10dp"
-        app:cardBackgroundColor="@color/iconTint"
-        app:cardElevation="5dp"
-        app:cardCornerRadius="25dp">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="15dp"
-            android:src="@drawable/ic_outline_add"
-            android:tint="@color/white"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="15dp"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/white"
-            android:text="@string/new_note"/>
-
     </androidx.cardview.widget.CardView>
-
-    <View
-        android:id="@+id/dimView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0"
-        android:elevation="5dp"
-        android:background="@color/transitionDim">
-    </View>
 
     <com.hellowo.chating.calendar.view.TimeObjectDetailView
         android:id="@+id/timeObjectDetailView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:visibility="invisible"
-        android:elevation="5dp">
+        android:layout_height="match_parent"
+        android:elevation="15dp">
     </com.hellowo.chating.calendar.view.TimeObjectDetailView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -23,6 +23,7 @@ import android.widget.*
 import com.hellowo.chating.calendar.model.CalendarSkin
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.model.TimeObject
+import com.hellowo.chating.ui.listener.MainDragAndDropListener
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
@@ -101,6 +102,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 dateLy.clipChildren = false
                 dateLy.setBackgroundResource(AppRes.selectableItemBackground)
                 dateLy.setOnClickListener { onDateClick(cellNum) }
+                dateLy.setOnLongClickListener {
+                    MainDragAndDropListener.start(it)
+                    return@setOnLongClickListener true
+                }
 
                 val dateText = dateTexts[cellNum]
 

@@ -16,6 +16,7 @@ import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.hellowo.chating.ANIM_DUR
 import com.hellowo.chating.R
+import com.hellowo.chating.alarm.AlarmManager
 import com.hellowo.chating.calendar.ViewMode
 import com.hellowo.chating.dpToPx
 import com.hellowo.chating.makeChangeBounceTransition
@@ -31,41 +32,49 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
     init {
         LayoutInflater.from(context).inflate(R.layout.view_briefing, this, true)
         rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+
+        alarmSwitch.setOnCheckedChangeListener { compoundButton, check ->
+            if(check) {
+                AlarmManager.unRegistBrifingAlarm()
+            }
+        }
     }
 
     fun confirm() {}
 
     fun show() {
-        viewMode = ViewMode.ANIMATING
-        val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(this@BriefingView,
-                "elevation", elevation, dpToPx(15).toFloat()).setDuration(ANIM_DUR))
-        animSet.interpolator = FastOutSlowInInterpolator()
-        animSet.addListener(object : Animator.AnimatorListener{
-            override fun onAnimationRepeat(p0: Animator?) {}
-            override fun onAnimationEnd(p0: Animator?) {
-                val transiion = makeChangeBounceTransition()
-                transiion.interpolator = FastOutSlowInInterpolator()
-                transiion.duration = ANIM_DUR
-                transiion.addListener(object : Transition.TransitionListener{
-                    override fun onTransitionEnd(transition: Transition) {
-                        viewMode = ViewMode.OPENED
+        if(viewMode == ViewMode.CLOSED) {
+            viewMode = ViewMode.ANIMATING
+            val animSet = AnimatorSet()
+            animSet.playTogether(ObjectAnimator.ofFloat(this@BriefingView,
+                    "elevation", elevation, dpToPx(15).toFloat()).setDuration(ANIM_DUR))
+            animSet.interpolator = FastOutSlowInInterpolator()
+            animSet.addListener(object : Animator.AnimatorListener{
+                override fun onAnimationRepeat(p0: Animator?) {}
+                override fun onAnimationEnd(p0: Animator?) {
+                    val transiion = makeChangeBounceTransition()
+                    transiion.interpolator = FastOutSlowInInterpolator()
+                    transiion.duration = ANIM_DUR
+                    transiion.addListener(object : Transition.TransitionListener{
+                        override fun onTransitionEnd(transition: Transition) {
+                            viewMode = ViewMode.OPENED
+                        }
+                        override fun onTransitionResume(transition: Transition) {}
+                        override fun onTransitionPause(transition: Transition) {}
+                        override fun onTransitionCancel(transition: Transition) {}
+                        override fun onTransitionStart(transition: Transition) {}
+                    })
+                    TransitionManager.beginDelayedTransition(this@BriefingView, transiion)
+                    layoutParams = CoordinatorLayout.LayoutParams(dpToPx(300), dpToPx(500)).apply {
+                        gravity = Gravity.BOTTOM or Gravity.RIGHT
+                        setMargins(0, 0, dpToPx(20), dpToPx(20))
                     }
-                    override fun onTransitionResume(transition: Transition) {}
-                    override fun onTransitionPause(transition: Transition) {}
-                    override fun onTransitionCancel(transition: Transition) {}
-                    override fun onTransitionStart(transition: Transition) {}
-                })
-                TransitionManager.beginDelayedTransition(this@BriefingView, transiion)
-                layoutParams = CoordinatorLayout.LayoutParams(dpToPx(300), dpToPx(500)).apply {
-                    gravity = Gravity.BOTTOM or Gravity.RIGHT
-                    setMargins(0, 0, dpToPx(20), dpToPx(20))
                 }
-            }
-            override fun onAnimationCancel(p0: Animator?) {}
-            override fun onAnimationStart(p0: Animator?) {}
-        })
-        animSet.start()
+                override fun onAnimationCancel(p0: Animator?) {}
+                override fun onAnimationStart(p0: Animator?) {}
+            })
+            animSet.start()
+        }
     }
 
     fun hide() {
@@ -77,7 +86,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             override fun onTransitionEnd(transition: Transition) {
                 val animSet = AnimatorSet()
                 animSet.playTogether(ObjectAnimator.ofFloat(this@BriefingView,
-                        "elevation", elevation, dpToPx(5).toFloat()).setDuration(ANIM_DUR))
+                        "elevation", elevation, 0f).setDuration(ANIM_DUR))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.addListener(object : Animator.AnimatorListener{
                     override fun onAnimationRepeat(p0: Animator?) {}
@@ -95,9 +104,9 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             override fun onTransitionStart(transition: Transition) {}
         })
         TransitionManager.beginDelayedTransition(this, transiion)
-        layoutParams = CoordinatorLayout.LayoutParams(dpToPx(46), dpToPx(46)).apply {
-            gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
-            setMargins(dpToPx(200), 0, 0, dpToPx(12))
+        layoutParams = CoordinatorLayout.LayoutParams(dpToPx(50), dpToPx(50)).apply {
+            gravity = Gravity.BOTTOM or Gravity.RIGHT
+            setMargins(0, 0, dpToPx(10), 0)
         }
     }
 

@@ -3,14 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/contentPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:translationY="10dp"
+        android:layout_gravity="bottom"
+        android:visibility="invisible"
         app:cardBackgroundColor="@color/white"
-        app:cardElevation="20dp"
+        app:cardElevation="5dp"
         app:cardCornerRadius="8dp">
 
         <FrameLayout
@@ -20,29 +22,6 @@
             android:layout_marginTop="24dp"
             android:paddingLeft="@dimen/normal_margin"
             android:paddingRight="@dimen/normal_margin">
-
-            <LinearLayout
-                android:id="@+id/confirmBtn"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_outline_done_outline"
-                    android:tint="@color/blue" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/blue"
-                    android:text="@string/save"/>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/deleteBtn"
@@ -156,4 +135,66 @@
         </androidx.core.widget.NestedScrollView>
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/controllPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="25dp"
+        app:cardBackgroundColor="@color/iconTint"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="25dp">
+
+        <FrameLayout
+            android:id="@+id/insertLy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="15dp"
+                android:src="@drawable/ic_outline_add"
+                android:tint="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="15dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/white"
+                android:text="@string/new_note"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/styleEditLy"
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/confirmBtn"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_gravity="right"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="@string/save"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
 </FrameLayout>

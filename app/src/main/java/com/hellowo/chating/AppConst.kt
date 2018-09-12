@@ -20,4 +20,4 @@ const val RC_PERMISSIONS = 0
 const val RC_FILEPICKER = 9090
 
 val statusBarHeight = dpToPx(25)
-var topBarHeight = dpToPx(50)
+var mainBarHeight = dpToPx(50)

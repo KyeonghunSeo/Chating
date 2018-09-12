@@ -266,3 +266,18 @@ fun showDialog(dialog: Dialog, is_cancelable: Boolean, is_dim: Boolean, is_backg
     }
 
 }
+
+/* 코드
+class MyAsyncTask() : AsyncTask<String, String, String?>() {
+    override fun doInBackground(vararg args: String): String? {
+        return null
+    }
+
+    override fun onProgressUpdate(vararg text: String) {
+    }
+
+    override fun onPostExecute(result: String?) {
+    }
+}
+
+ */

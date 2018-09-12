@@ -11,7 +11,6 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.widget.CalendarView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProviders
@@ -25,6 +24,7 @@ import com.hellowo.chating.*
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
 import com.hellowo.chating.model.AppUser
+import com.hellowo.chating.ui.listener.MainDragAndDropListener
 import com.hellowo.chating.ui.view.SwipeScrollView.Companion.SWIPE_LEFT
 import com.hellowo.chating.ui.view.SwipeScrollView.Companion.SWIPE_RIGHT
 import com.hellowo.chating.viewmodel.MainViewModel
@@ -34,6 +34,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     companion object {
         var instance: MainActivity? = null
+        var isShowing = false
     }
 
     lateinit var viewModel: MainViewModel
@@ -59,8 +60,20 @@ class MainActivity : AppCompatActivity() {
         initObserver()
     }
 
+    private fun playIntentAction() {
+        playAction(intent.getIntExtra("action", 0))
+        intent.removeExtra("action")
+    }
+
+    fun playAction(action: Int) {
+        when(action) {
+            1 -> briefingView.show()
+        }
+    }
+
     private fun initLayout() {
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        dimView.setOnDragListener(MainDragAndDropListener)
     }
 
     private fun initCalendarView() {
@@ -105,8 +118,9 @@ class MainActivity : AppCompatActivity() {
             //if(!isTop) topBar.elevation = dpToPx(2).toFloat()
             //else topBar.elevation = 0f
         }
-
     }
+
+    fun getCalendarView() = calendarView
 
     private fun initDayView() {
         dayView.setCalendarView(calendarView)
@@ -123,25 +137,12 @@ class MainActivity : AppCompatActivity() {
             if(calendarView.todayStatus != 0) {
                 calendarView.moveDate(System.currentTimeMillis())
             }else {
-                if(briefingView.viewMode == ViewMode.CLOSED) { briefingView.show() }
+                briefingView.show()
             }
         }
     }
 
     private fun initBtns() {
-        insertBtn.setOnClickListener {
-            if(timeObjectDetailView.viewMode == ViewMode.CLOSED) {
-                viewModel.targetTimeObject.value = TimeObjectManager.makeNewTimeObject(
-                        getCalendarTime0(calendarView.selectedCal), getCalendarTime23(calendarView.selectedCal))
-            }else {
-
-            }
-        }
-
-        insertBtn.setOnLongClickListener {
-            return@setOnLongClickListener false
-        }
-
         menuBtn.setOnClickListener {
             checkExternalStoragePermission()
         }
@@ -249,6 +250,17 @@ class MainActivity : AppCompatActivity() {
                 }catch (e: Exception){}
             }
         }
+    }
+
+    override fun onResume() {
+        isShowing = true
+        playIntentAction()
+        super.onResume()
+    }
+
+    override fun onStop() {
+        isShowing = false
+        super.onStop()
     }
 
     override fun onDestroy() {

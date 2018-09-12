@@ -29,19 +29,23 @@ object AppRes {
     var ymdkey: DateFormat = SimpleDateFormat("yyyyMMdd")
     var ymdthmszkey: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
 
-    val locale = Locale.getDefault().country
+    @SuppressLint("ConstantLocale")
     val language = Locale.getDefault().language
+
     var selectableItemBackground = 0
     var unselectedColor = 0
+    var primaryColor = 0
+
     var starDrawable: Drawable? = null
+
 
     fun init(context: Context) {
         val typedValue = TypedValue()
         context.theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)
         selectableItemBackground = typedValue.resourceId
         unselectedColor = context.resources.getColor(R.color.grey)
+        primaryColor = context.resources.getColor(R.color.colorPrimary)
         starDrawable = context.resources.getDrawable(R.drawable.ic_outline_star_border)
-
 
         val mDateFormat = android.text.format.DateFormat.getDateFormat(context)
         val mTimeFormat = android.text.format.DateFormat.getTimeFormat(context)
@@ -158,10 +162,10 @@ object AppRes {
                 dowString = context.resources.getStringArray(R.array.day_of_weeks)
             }
 
-            if (language == "ko") {
-                dow = SimpleDateFormat("E요일")
+            dow = if (language == "ko") {
+                SimpleDateFormat("E요일")
             } else {
-                dow = SimpleDateFormat("EEEE")
+                SimpleDateFormat("EEEE")
             }
 
             ymdthmszkey.timeZone = TimeZone.getTimeZone("GMT")
@@ -169,7 +173,7 @@ object AppRes {
             if (time_str.length > 5) {
                 hourMode = HourMode.Hour12
                 time = SimpleDateFormat("a hh:mm")
-                if (locale.equals("KR")) {
+                if (language == "ko") {
                     dateTime = SimpleDateFormat("d일 a h:mm")
                     hour = SimpleDateFormat("a h시")
                 } else {
@@ -179,7 +183,7 @@ object AppRes {
             } else {
                 hourMode = HourMode.Hour24
                 time = SimpleDateFormat("HH:mm")
-                if (locale.equals("KR")) {
+                if (language == "ko") {
                     dateTime = SimpleDateFormat("d일 H:mm")
                     hour = SimpleDateFormat("H시")
                 } else {

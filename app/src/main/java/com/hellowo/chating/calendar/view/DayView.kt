@@ -7,12 +7,9 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.util.TypedValue
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
@@ -169,7 +166,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     })
                     TransitionManager.beginDelayedTransition(this@DayView, transiion)
                     layoutParams = CoordinatorLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, topBarHeight, 0, 0)
+                        setMargins(0, mainBarHeight, 0, mainBarHeight)
                     }
                 }
                 override fun onAnimationCancel(p0: Animator?) {}
