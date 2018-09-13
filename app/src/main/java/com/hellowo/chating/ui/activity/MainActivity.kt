@@ -11,6 +11,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProviders
@@ -119,9 +120,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        topShadow.visibility = View.GONE
         calendarView.setOnTop { isTop ->
-            //if(!isTop) topBar.elevation = dpToPx(2).toFloat()
-            //else topBar.elevation = 0f
+            if(!isTop) topShadow.visibility = View.VISIBLE
+            else topShadow.visibility = View.GONE
         }
     }
 
@@ -129,6 +131,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initDayView() {
         dayView.setCalendarView(calendarView)
+        dayView.onVisibility = { show ->
+        }
     }
 
     private fun initKeepView() {

@@ -137,37 +137,21 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/controllPanel"
+        android:id="@+id/controlPanel"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="25dp"
+        android:minWidth="100dp"
         app:cardBackgroundColor="@color/iconTint"
         app:cardElevation="3dp"
         app:cardCornerRadius="25dp">
 
-        <FrameLayout
-            android:id="@+id/insertLy"
-            android:layout_width="match_parent"
+        <com.hellowo.chating.calendar.view.InsertControlPager
+            android:id="@+id/insertPager"
+            android:layout_width="120dp"
             android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:padding="15dp"
-                android:src="@drawable/ic_outline_add"
-                android:tint="@color/white"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="45dp"
-                android:layout_marginRight="15dp"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/white"
-                android:text="@string/new_note"/>
-
-        </FrameLayout>
+        </com.hellowo.chating.calendar.view.InsertControlPager>
 
         <FrameLayout
             android:id="@+id/styleEditLy"

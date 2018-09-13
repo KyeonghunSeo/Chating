@@ -169,15 +169,15 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         var calendarHeight = 0
         val minHeight = calendarView.minHeight.toInt()
         val bottomPadding = CalendarView.weekLyBottomPadding
-        calendarView.weekLys.forEachIndexed { index, ly ->
-            if(ly.childCount > columns) {
-                ly.removeViews(columns, ly.childCount - columns)
+        calendarView.weekLys.forEachIndexed { index, weekLy ->
+            if(weekLy.childCount > columns) {
+                weekLy.removeViews(columns, weekLy.childCount - columns)
             }
             if(index < rows) {
                 val newHeight = rowHeightArray[index] + bottomPadding
                 val finalHeight = Math.max(minHeight, newHeight)
                 calendarHeight += finalHeight
-                ly.layoutParams.height = finalHeight
+                weekLy.layoutParams.height = finalHeight
             }
         }
         calendarView.calendarLy.layoutParams.height = calendarHeight

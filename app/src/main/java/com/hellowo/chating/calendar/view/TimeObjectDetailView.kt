@@ -1,11 +1,14 @@
 package com.hellowo.chating.calendar.view
 
 import android.animation.LayoutTransition
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
@@ -14,6 +17,8 @@ import android.widget.FrameLayout
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.hellowo.chating.*
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
@@ -58,7 +63,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun initControllBtn() {
-        controllPanel.setOnClickListener {
+        controlPanel.setOnClickListener {
             if(viewMode == ViewMode.CLOSED) {
                 MainActivity.instance?.viewModel?.makeNewTimeObject()
             }
@@ -152,15 +157,15 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         t1.addTarget(contentPanel)
 
         val t2 = makeChangeBounceTransition()
-        t2.addTarget(controllPanel)
+        t2.addTarget(controlPanel)
 
         val transitionSet = TransitionSet()
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         transitionSet.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
-                controllPanel.radius = 0f
-                insertLy.visibility = View.INVISIBLE
+                controlPanel.radius = 0f
+                insertPager.visibility = View.INVISIBLE
                 styleEditLy.visibility = View.VISIBLE
                 if(!timeObject.isManaged) {
                     showTitleKeyPad()
@@ -174,11 +179,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
         contentPanel.visibility = View.VISIBLE
-        controllPanel.layoutParams.let {
+        controlPanel.layoutParams.let {
             it.width = MATCH_PARENT
             (it as FrameLayout.LayoutParams).bottomMargin = 0
         }
-        controllPanel.requestLayout()
+        controlPanel.requestLayout()
     }
 
     fun hide() {
@@ -191,14 +196,14 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         t1.addTarget(contentPanel)
 
         val t2 = makeChangeBounceTransition()
-        t2.addTarget(controllPanel)
+        t2.addTarget(controlPanel)
 
         val transitionSet = TransitionSet()
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         transitionSet.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
-                insertLy.visibility = View.VISIBLE
+                insertPager.visibility = View.VISIBLE
                 styleEditLy.visibility = View.GONE
                 hideKeyPad(windowToken, titleInput)
             }
@@ -210,11 +215,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
         contentPanel.visibility = View.INVISIBLE
-        controllPanel.layoutParams.let {
+        controlPanel.layoutParams.let {
             it.width = WRAP_CONTENT
             (it as FrameLayout.LayoutParams).bottomMargin = dpToPx(25)
         }
-        controllPanel.radius = dpToPx(25).toFloat()
-        controllPanel.requestLayout()
+        controlPanel.radius = dpToPx(25).toFloat()
+        controlPanel.requestLayout()
     }
 }

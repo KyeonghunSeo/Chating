@@ -143,7 +143,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if(isInit) {
             selectedBar.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), dateSize)
             selectedBar.pivotY = dateSize.toFloat()
-            weekLySideView.layoutParams = FrameLayout.LayoutParams(WRAP_CONTENT, dpToPx(50))
+            weekLySideView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, dpToPx(50))
         }
 
         for(i in 0..5) {
@@ -271,20 +271,21 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun selectDate(cellNum: Int, anim: Boolean, showDayView: Boolean) {
         if(!showDayView) {
             l("선택한 날짜 : " + android.text.format.DateFormat.getDateFormat(context).format(cellTimeMills[cellNum]))
+            selectedCal.timeInMillis = cellTimeMills[cellNum]
             if(cellNum / columns != selectedCellNum / columns) {
                 weekLySideView.parent?.let {
                     (it as FrameLayout).removeView(weekLySideView)
                     weekLySideView.translationX = -leftMargin.toFloat()
                 }
                 weekLys[cellNum / columns].addView(weekLySideView)
-                weekLySideView.findViewById<TextView>(R.id.weekNumText).text = selectedCal.get(Calendar.WEEK_OF_YEAR).toString()
+                weekLySideView.findViewById<TextView>(R.id.weekNumText).text =
+                        String.format(context.getString(R.string.weekNum), selectedCal.get(Calendar.WEEK_OF_YEAR).toString())
             }
 
             if(selectedCellNum >= 0) { unselectDate(selectedCellNum, anim) }
 
             selectedCellNum = cellNum
             postSelectedNum = cellNum
-            selectedCal.timeInMillis = cellTimeMills[cellNum]
             val dateText = dateTexts[selectedCellNum]
             dateText.typeface = CalendarSkin.selectFont
 
@@ -313,8 +314,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                             ObjectAnimator.ofFloat(dateText, "scaleX", 1f, 1.5f),
                             ObjectAnimator.ofFloat(dateText, "scaleY", 1f, 1.5f),
                             ObjectAnimator.ofFloat(selectedBar, "scaleY", 0f, 1f),
-                            ObjectAnimator.ofFloat(weekLySideView, "translationX",
-                                    weekLySideView.translationX, 0f))
+                            ObjectAnimator.ofFloat(weekLySideView, "translationX", weekLySideView.translationX, 0f))
                     it.interpolator = FastOutSlowInInterpolator()
                     it.duration = animDur
                     it.start()

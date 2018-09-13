@@ -41,6 +41,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private var isInit = true
     var viewMode = ViewMode.CLOSED
+    var onVisibility: ((Boolean) -> Unit)? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_day, this, true)
@@ -173,6 +174,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 override fun onAnimationStart(p0: Animator?) {}
             })
             animSet.start()
+            onVisibility?.invoke(true)
         }
     }
 
@@ -227,6 +229,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             layoutParams = CoordinatorLayout.LayoutParams(dateLy.width, dateLy.height).apply {
                 setMargins(location[0], location[1] - AppRes.statusBarHeight, 0, 0)
             }
+            onVisibility?.invoke(false)
         }
     }
 }
