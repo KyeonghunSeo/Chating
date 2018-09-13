@@ -28,9 +28,10 @@ import com.hellowo.chating.ui.listener.MainDragAndDropListener
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
         const val maxCellNum = 42
-        const val dateTextSize = 12f
+        const val dateTextSize = 11f
         const val animDur = 250L
         const val columns = 7
+        const val selectedDateScale = 1.7f
         val todayCal: Calendar = Calendar.getInstance()
         val dateSize = dpToPx(20)
         val dateArea = dpToPx(40)
@@ -256,8 +257,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     override fun onAnimationStart(p0: Animator?) {}
                 })
                 it.playTogether(
-                        ObjectAnimator.ofFloat(dateText, "scaleX", 1.5f, 1f),
-                        ObjectAnimator.ofFloat(dateText, "scaleY", 1.5f, 1f))
+                        ObjectAnimator.ofFloat(dateText, "scaleX", selectedDateScale, 1f),
+                        ObjectAnimator.ofFloat(dateText, "scaleY", selectedDateScale, 1f))
                 it.interpolator = FastOutSlowInInterpolator()
                 it.duration = animDur
                 it.start()
@@ -311,8 +312,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         override fun onAnimationStart(p0: Animator?) {}
                     })
                     it.playTogether(
-                            ObjectAnimator.ofFloat(dateText, "scaleX", 1f, 1.5f),
-                            ObjectAnimator.ofFloat(dateText, "scaleY", 1f, 1.5f),
+                            ObjectAnimator.ofFloat(dateText, "scaleX", 1f, selectedDateScale),
+                            ObjectAnimator.ofFloat(dateText, "scaleY", 1f, selectedDateScale),
                             ObjectAnimator.ofFloat(selectedBar, "scaleY", 0f, 1f),
                             ObjectAnimator.ofFloat(weekLySideView, "translationX", weekLySideView.translationX, 0f))
                     it.interpolator = FastOutSlowInInterpolator()
@@ -393,7 +394,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             topMargin = dateArea - dateSize - dateMargin
             leftMargin = dateMargin
         }
-        textView.gravity = Gravity.LEFT or Gravity.BOTTOM
+        textView.gravity = Gravity.BOTTOM
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dateTextSize)
         textView.typeface = CalendarSkin.dateFont
         textView.includeFontPadding = false

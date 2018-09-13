@@ -116,8 +116,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             isInit = false
             calendarView?.setDefaultDateTextSkin(dateText)
             dateText.typeface = CalendarSkin.selectFont
-            dateText.scaleY = 1.5f
-            dateText.scaleX = 1.5f
+            dateText.scaleY = CalendarView.selectedDateScale
+            dateText.scaleX = CalendarView.selectedDateScale
         }
 
         setDateText()
@@ -153,8 +153,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                             animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
                                     "elevation", dpToPx(15).toFloat(), 0f).setDuration(ANIM_DUR),
                                     ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f).setDuration(ANIM_DUR),
-                                    ObjectAnimator.ofFloat(dateText, "scaleX", 1.5f, 4f),
-                                    ObjectAnimator.ofFloat(dateText, "scaleY", 1.5f, 4f),
+                                    ObjectAnimator.ofFloat(dateText, "scaleX", CalendarView.selectedDateScale, 4f),
+                                    ObjectAnimator.ofFloat(dateText, "scaleY", CalendarView.selectedDateScale, 4f),
                                     ObjectAnimator.ofFloat(dateText, "translationX", 0f, dpToPx(15).toFloat()),
                                     ObjectAnimator.ofFloat(dateText, "translationY", 0f, dpToPx(30).toFloat()),
                                     ObjectAnimator.ofFloat(dowText, "scaleX", 1f, 1.5f),
@@ -212,8 +212,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 override fun onTransitionCancel(transition: Transition) {}
                 override fun onTransitionStart(transition: Transition) {
                     val animSet = AnimatorSet()
-                    animSet.playTogether(ObjectAnimator.ofFloat(dateText, "scaleX", 4f, 1.5f),
-                            ObjectAnimator.ofFloat(dateText, "scaleY", 4f, 1.5f),
+                    animSet.playTogether(ObjectAnimator.ofFloat(dateText, "scaleX", 4f, CalendarView.selectedDateScale),
+                            ObjectAnimator.ofFloat(dateText, "scaleY", 4f, CalendarView.selectedDateScale),
                             ObjectAnimator.ofFloat(dateText, "translationX",  dpToPx(15).toFloat(), 0f),
                             ObjectAnimator.ofFloat(dateText, "translationY",  dpToPx(30).toFloat(), 0f),
                             ObjectAnimator.ofFloat(dowText, "scaleX", 1.5f, 1f),
