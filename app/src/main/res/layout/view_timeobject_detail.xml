@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipChildren="false">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/contentPanel"
@@ -143,15 +144,15 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="25dp"
         android:minWidth="100dp"
-        app:cardBackgroundColor="@color/iconTint"
+        app:cardBackgroundColor="@color/white"
         app:cardElevation="3dp"
         app:cardCornerRadius="25dp">
 
-        <com.hellowo.chating.calendar.view.InsertControlPager
-            android:id="@+id/insertPager"
+        <com.hellowo.chating.calendar.view.TemplateControlPager
+            android:id="@+id/templateControlPager"
             android:layout_width="120dp"
             android:layout_height="match_parent">
-        </com.hellowo.chating.calendar.view.InsertControlPager>
+        </com.hellowo.chating.calendar.view.TemplateControlPager>
 
         <FrameLayout
             android:id="@+id/styleEditLy"
@@ -180,5 +181,14 @@
         </FrameLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <com.hellowo.chating.calendar.view.TemplateControlPagerIndicator
+        android:id="@+id/templateControlPagerIndi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="5dp">
+    </com.hellowo.chating.calendar.view.TemplateControlPagerIndicator>
 
 </FrameLayout>

@@ -166,6 +166,9 @@ class MainActivity : AppCompatActivity() {
             }
         })
         viewModel.appUser.observe(this, androidx.lifecycle.Observer { it?.let { updateUserUI(it) } })
+        viewModel.templateList.observe(this, androidx.lifecycle.Observer {
+            it?.let { timeObjectDetailView.setTemplateContontrolView(it) }
+        })
     }
 
     private fun updateUserUI(appUser: AppUser) {

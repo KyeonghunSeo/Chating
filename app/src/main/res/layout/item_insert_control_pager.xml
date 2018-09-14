@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:padding="15dp"
-        android:src="@drawable/ic_outline_add"
-        android:tint="@color/white"/>
-
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="45dp"
-        android:layout_marginRight="15dp"
-        android:layout_gravity="center_vertical"
-        android:textColor="@color/white"
-        android:text="@string/new_note"/>
+        android:layout_marginRight="10dp">
+
+        <ImageView
+            android:id="@+id/iconImg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="15dp"
+            android:tint="@color/white"/>
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:text="@string/new_note"/>
+
+    </LinearLayout>
 
 </FrameLayout>

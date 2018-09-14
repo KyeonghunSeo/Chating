@@ -1,12 +1,15 @@
 package com.hellowo.chating.viewmodel
 
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hellowo.chating.*
+import com.hellowo.chating.R
 import com.hellowo.chating.calendar.TimeObjectManager
+import com.hellowo.chating.calendar.model.Template
 import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.model.AppUser
 import com.hellowo.chating.ui.activity.MainActivity
@@ -19,6 +22,7 @@ class MainViewModel : ViewModel() {
     val targetTimeObject = MutableLiveData<TimeObject?>()
     val targetView = MutableLiveData<View?>()
     val appUser = MutableLiveData<AppUser?>()
+    val templateList = MutableLiveData<List<Template>>()
 
     init {
         if(SyncUser.current() == null) {
@@ -34,6 +38,7 @@ class MainViewModel : ViewModel() {
             })
         }
         loadAppUser()
+        loadTemplate()
     }
 
     private fun loadAppUser() {
@@ -44,6 +49,34 @@ class MainViewModel : ViewModel() {
             }
         }else {
             appUser.value = user
+        }
+    }
+
+    private fun loadTemplate() {
+        val templates = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
+        if(templates.isEmpty()) {
+            realm.executeTransaction {
+                val note = realm.createObject(Template::class.java, 0)
+                note.title = App.context.getString(R.string.note)
+                note.type = TimeObject.Type.NOTE.ordinal
+                note.color = Color.parseColor("#60434957")
+                note.order = 0
+
+                val event = realm.createObject(Template::class.java, 1)
+                event.title = App.context.getString(R.string.event)
+                event.type = TimeObject.Type.EVENT.ordinal
+                event.color = Color.parseColor("#3fa9f5")
+                event.order = 1
+
+                val task = realm.createObject(Template::class.java, 2)
+                task.title = App.context.getString(R.string.task)
+                task.type = TimeObject.Type.TASK.ordinal
+                task.color = Color.parseColor("#7ea0c4")
+                task.order = 2
+            }
+            templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
+        }else {
+            templateList.value = templates
         }
     }
 
@@ -63,10 +96,13 @@ class MainViewModel : ViewModel() {
         targetTimeObject.value = null
     }
 
-    fun makeNewTimeObject() {
+    fun makeNewTimeObject(item: Template) {
         MainActivity.instance?.getCalendarView()?.let {
             targetTimeObject.value = TimeObjectManager.makeNewTimeObject(
-                    getCalendarTime0(it.selectedCal), getCalendarTime23(it.selectedCal))
+                    getCalendarTime0(it.selectedCal), getCalendarTime23(it.selectedCal)).apply {
+                type = item.type
+                color = item.color
+            }
         }
     }
 }

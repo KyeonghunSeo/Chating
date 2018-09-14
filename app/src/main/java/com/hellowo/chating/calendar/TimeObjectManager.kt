@@ -102,6 +102,10 @@ object TimeObjectManager {
         }
     }
 
+    fun copy(originalData: TimeObject): TimeObject {
+        return TimeObject()
+    }
+
     fun getCopiedData(originalData: TimeObject): TimeObject = realm.copyFromRealm(originalData)
 
 }

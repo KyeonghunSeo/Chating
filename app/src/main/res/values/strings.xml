@@ -63,6 +63,7 @@
     <string name="start">시작</string>
     <string name="end">종료</string>
     <string name="weekNum">%1$s주차</string>
+    <string name="setting">설정</string>
 
     <string-array name="day_of_weeks">
         <item>@string/sun</item>
@@ -72,21 +73,6 @@
         <item>@string/thu</item>
         <item>@string/fri</item>
         <item>@string/sat</item>
-    </string-array>
-
-    <string-array name="colors">
-        <item>#3fa9f5</item>
-        <item>#7ea0c4</item>
-        <item>#bb80d1</item>
-        <item>#ff4c00</item>
-        <item>#00b392</item>
-        <item>#69c9ba</item>
-        <item>#fd92a3</item>
-        <item>#f7323f</item>
-        <item>#72d54a</item>
-        <item>#d5d755</item>
-        <item>#ffd235</item>
-        <item>#ff5f56</item>
     </string-array>
 
 </resources>

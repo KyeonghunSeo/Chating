@@ -24,6 +24,7 @@ import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
 import com.hellowo.chating.calendar.dialog.DateTimePickerDialog
 import com.hellowo.chating.calendar.dialog.TypePickerDialog
+import com.hellowo.chating.calendar.model.Template
 import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.view_timeobject_detail.view.*
@@ -63,11 +64,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun initControllBtn() {
-        controlPanel.setOnClickListener {
-            if(viewMode == ViewMode.CLOSED) {
-                MainActivity.instance?.viewModel?.makeNewTimeObject()
-            }
-        }
+        templateControlPager.indicator = templateControlPagerIndi
     }
 
     private fun initType() {
@@ -108,16 +105,17 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     private fun setData(data: TimeObject) {
         originalData = data
-        timeObject = if(data.isManaged) {
-            TimeObjectManager.getCopiedData(data)
+        if(data.isManaged) {
+            timeObject = TimeObjectManager.getCopiedData(data)
         }else {
-            TimeObjectManager.makeNewTimeObject(data.dtStart, data.dtEnd)
+            timeObject = TimeObjectManager.makeNewTimeObject(data.dtStart, data.dtEnd)
+            timeObject?.type = data.type
+            timeObject?.color = data.color
         }
     }
 
     private fun updateUI() {
         timeObject?.let {
-            l("updateUI")
             titleInput.setText(it.title)
             when(it.type) {
                 TimeObject.Type.EVENT.ordinal -> {
@@ -133,11 +131,15 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
+    fun setTemplateContontrolView(it: List<Template>) {
+        templateControlPager.notify(it)
+        templateControlPagerIndi.notify(it)
+    }
+
     fun confirm() {
         timeObject?.let {
             TimeObjectManager.save(it.apply {
                 title = titleInput.text.toString()
-                color = Color.parseColor(colors[(0 until colors.size).random()])
             })
         }
     }
@@ -165,7 +167,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         transitionSet.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
                 controlPanel.radius = 0f
-                insertPager.visibility = View.INVISIBLE
+                templateControlPager.visibility = View.INVISIBLE
                 styleEditLy.visibility = View.VISIBLE
                 if(!timeObject.isManaged) {
                     showTitleKeyPad()
@@ -203,14 +205,15 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         transitionSet.addTransition(t2)
         transitionSet.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
-                insertPager.visibility = View.VISIBLE
-                styleEditLy.visibility = View.GONE
                 hideKeyPad(windowToken, titleInput)
             }
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
-            override fun onTransitionStart(transition: Transition) {}
+            override fun onTransitionStart(transition: Transition) {
+                templateControlPager.visibility = View.VISIBLE
+                styleEditLy.visibility = View.GONE
+            }
         })
         TransitionManager.beginDelayedTransition(this, transitionSet)
 

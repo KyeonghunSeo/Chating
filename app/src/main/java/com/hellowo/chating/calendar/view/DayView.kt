@@ -22,6 +22,7 @@ import com.hellowo.chating.calendar.adapter.TimeObjectDayViewAdapter
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
 import com.hellowo.chating.calendar.model.CalendarSkin
+import com.hellowo.chating.calendar.model.Template
 import com.hellowo.chating.ui.activity.MainActivity
 import io.realm.RealmResults
 import io.realm.Sort
