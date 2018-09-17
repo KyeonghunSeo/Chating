@@ -22,6 +22,7 @@ import androidx.viewpager.widget.ViewPager
 import com.hellowo.chating.*
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.ViewMode
+import com.hellowo.chating.calendar.dialog.ColorPickerDialog
 import com.hellowo.chating.calendar.dialog.DateTimePickerDialog
 import com.hellowo.chating.calendar.dialog.TypePickerDialog
 import com.hellowo.chating.calendar.model.Template
@@ -45,6 +46,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         LayoutInflater.from(context).inflate(R.layout.view_timeobject_detail, this, true)
         contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         styleEditLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        contentPanel.visibility = View.INVISIBLE
         contentLy.setOnClickListener {}
 
         confirmBtn.setOnClickListener {
@@ -65,12 +67,17 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     private fun initControllBtn() {
         templateControlPager.indicator = templateControlPagerIndi
+        colorBtn.setOnClickListener {
+            val dialog = ColorPickerDialog(MainActivity.instance!!, 0) { color ->
+                timeObject?.color = color
+                updateUI()
+            }
+            showDialog(dialog, true, true, true, false)
+        }
     }
 
     private fun initType() {
-        typeBtn.setOnClickListener{ timeObject?.let { TypePickerDialog(it){
-            updateUI()
-        }.show(MainActivity.instance?.supportFragmentManager, null) } }
+
     }
 
     private fun initTitle() {
@@ -91,6 +98,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                     it.dtStart = sCal.timeInMillis
                     it.dtEnd = eCal.timeInMillis
                 }
+                updateUI()
             }
             showDialog(dialog, true, true, true, false)
         }
@@ -107,10 +115,12 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         originalData = data
         if(data.isManaged) {
             timeObject = TimeObjectManager.getCopiedData(data)
+            deleteBtn.visibility = View.VISIBLE
         }else {
             timeObject = TimeObjectManager.makeNewTimeObject(data.dtStart, data.dtEnd)
             timeObject?.type = data.type
             timeObject?.color = data.color
+            deleteBtn.visibility = View.GONE
         }
     }
 
@@ -126,8 +136,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 }
             }
 
-            typeImg.setImageResource(TimeObject.Type.values()[it.type].iconId)
-            typeTitle.text = context.getString(TimeObject.Type.values()[it.type].titleId)
+            controlPanel.setCardBackgroundColor(it.color)
         }
     }
 
@@ -167,8 +176,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         transitionSet.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
                 controlPanel.radius = 0f
-                templateControlPager.visibility = View.INVISIBLE
-                styleEditLy.visibility = View.VISIBLE
                 if(!timeObject.isManaged) {
                     showTitleKeyPad()
                 }
@@ -176,7 +183,10 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
-            override fun onTransitionStart(transition: Transition) {}
+            override fun onTransitionStart(transition: Transition) {
+                styleEditLy.visibility = View.VISIBLE
+                templateControlPager.visibility = View.INVISIBLE
+            }
         })
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
@@ -219,7 +229,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
         contentPanel.visibility = View.INVISIBLE
         controlPanel.layoutParams.let {
-            it.width = WRAP_CONTENT
+            it.width = dpToPx(120)
             (it as FrameLayout.LayoutParams).bottomMargin = dpToPx(25)
         }
         controlPanel.radius = dpToPx(25).toFloat()

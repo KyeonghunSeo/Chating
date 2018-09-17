@@ -2,8 +2,12 @@ package com.hellowo.chating
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Typeface
 import android.util.TypedValue
 import android.graphics.drawable.Drawable
+import android.os.Build
+import androidx.core.content.res.ResourcesCompat
+import com.hellowo.chating.calendar.model.CalendarSkin
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,6 +33,10 @@ object AppRes {
     var ymdkey: DateFormat = SimpleDateFormat("yyyyMMdd")
     var ymdthmszkey: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
 
+    var thinFont: Typeface = Typeface.DEFAULT
+    var regularFont: Typeface = Typeface.DEFAULT
+    var boldFont: Typeface = Typeface.DEFAULT
+
     @SuppressLint("ConstantLocale")
     val language = Locale.getDefault().language
 
@@ -47,6 +55,12 @@ object AppRes {
         unselectedColor = context.resources.getColor(R.color.grey)
         primaryColor = context.resources.getColor(R.color.colorPrimary)
         starDrawable = context.resources.getDrawable(R.drawable.ic_outline_star_border)
+
+        thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
+        regularFont = ResourcesCompat.getFont(context, R.font.regular)!!
+        boldFont = ResourcesCompat.getFont(context, R.font.bold)!!
+
+        //////////////////////////////////////////////////////////////////////////날짜 포맷
 
         val mDateFormat = android.text.format.DateFormat.getDateFormat(context)
         val mTimeFormat = android.text.format.DateFormat.getTimeFormat(context)

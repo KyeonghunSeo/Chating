@@ -17,6 +17,7 @@ import com.hellowo.chating.calendar.model.Template
 import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.callAfterViewDrawed
 import com.hellowo.chating.ui.activity.MainActivity
+import com.pixplicity.easyprefs.library.Prefs
 
 class TemplateControlPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewPager(context, attrs) {
     val items = ArrayList<Template>()
@@ -46,6 +47,7 @@ class TemplateControlPager @JvmOverloads constructor(context: Context, attrs: At
                         jumpPosition = 1
                     else -> { }
                 }
+                Prefs.putInt("TemplateControlPager_last_index", position)
                 /*
                 findViewWithTag<FrameLayout>("view$position")?.let {
                     it.findViewById<TextView>(R.id.titleText).let {
@@ -56,7 +58,7 @@ class TemplateControlPager @JvmOverloads constructor(context: Context, attrs: At
         })
 
         callAfterViewDrawed(this, Runnable{
-            setCurrentItem(1, false)
+            setCurrentItem(Prefs.getInt("TemplateControlPager_last_index", 1), false)
         })
     }
 
@@ -116,4 +118,5 @@ class TemplateControlPager @JvmOverloads constructor(context: Context, attrs: At
         override fun restoreState(arg0: Parcelable?, arg1: ClassLoader?) {}
         override fun saveState(): Parcelable? = null
     }
+
 }

@@ -7,62 +7,67 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.hellowo.chating.App
 import com.hellowo.chating.AppRes
 import com.hellowo.chating.R
+import com.hellowo.chating.calendar.model.CalendarSkin
+import com.hellowo.chating.calendar.model.ColorTag
+import com.hellowo.chating.calendar.model.Template
 import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.calendar.model.TimeObject.Type
-import kotlinx.android.synthetic.main.list_item_type_picker.view.*
+import io.realm.Realm
+import io.realm.Sort
+import kotlinx.android.synthetic.main.list_item_color_picker.view.*
 
 class ColorPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RecyclerView(context, attrs, defStyleAttr) {
-    var timeObject: TimeObject? = null
+    var items: List<ColorTag>
     var selectedPos = -1
 
     init {
-        layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        layoutManager =  GridLayoutManager(context, 4)
+
+        val realm = Realm.getDefaultInstance()
+        items = realm.where(ColorTag::class.java).sort("order", Sort.ASCENDING).findAll()
+        if(items.isEmpty()) {
+            realm.executeTransaction {
+                var id = 0
+                context.resources.getStringArray(R.array.colors).forEach {
+                    val note = realm.createObject(ColorTag::class.java, id)
+                    note.title = "_"
+                    note.color = Color.parseColor(it)
+                    note.order = id
+                    id++
+                }
+            }
+            items = realm.where(ColorTag::class.java).sort("order", Sort.ASCENDING).findAll()
+        }
+        realm.close()
+
         adapter = PickerAdapter()
     }
 
-    fun setTypeObject(timeObject: TimeObject) {
-        this.timeObject = timeObject
-        selectedPos = timeObject.type
-        adapter?.notifyDataSetChanged()
-    }
-
     inner class PickerAdapter : RecyclerView.Adapter<ViewHolder>() {
-        override fun getItemCount(): Int = Type.values().size
+        override fun getItemCount(): Int = items.size
 
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {
-                itemView.titleText.setTextColor(Color.WHITE)
-                itemView.iconImg.setColorFilter(Color.WHITE)
+                itemView.titleText.typeface = CalendarSkin.dateFont
             }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_type_picker, parent, false))
+                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_color_picker, parent, false))
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            val type = Type.values()[position]
+            val item = items[position]
             val v = holder.itemView
-            v.titleText.text = context.getString(type.titleId)
-            v.iconImg.setImageResource(type.iconId)
-
-            timeObject?.let {
-                if(type.ordinal == it.type) {
-                    v.insertBtn.setCardBackgroundColor(it.color)
-                }else {
-                    v.insertBtn.setCardBackgroundColor(AppRes.unselectedColor)
-                }
-            }
+            v.titleText.text = item.title
+            v.setBackgroundColor(item.color)
 
             v.setOnClickListener {
-                timeObject?.type = type.ordinal
-                if(selectedPos >= 0) {
-                    notifyItemChanged(selectedPos)
-                }
-                notifyItemChanged(position)
                 selectedPos = position
             }
         }

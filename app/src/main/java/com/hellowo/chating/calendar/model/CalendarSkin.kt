@@ -2,6 +2,7 @@ package com.hellowo.chating.calendar.model
 
 import android.graphics.Typeface
 import android.os.Build
+import com.hellowo.chating.AppRes
 import com.hellowo.chating.R
 import com.hellowo.chating.calendar.view.CalendarView
 
@@ -13,9 +14,9 @@ object CalendarSkin {
     var selectedDateColor: Int = 0
     var selectedBackgroundColor: Int = 0
     var greyColor: Int = 0
-    var dateFont: Typeface = Typeface.DEFAULT
-    var noteFont: Typeface = Typeface.DEFAULT
-    var selectFont: Typeface = Typeface.DEFAULT
+    var dateFont = AppRes.regularFont
+    var noteFont = AppRes.regularFont
+    var selectFont = AppRes.boldFont
 
     fun init(calendarView: CalendarView) {
         val resource = calendarView.context.resources
@@ -26,10 +27,5 @@ object CalendarSkin {
         selectedDateColor = resource.getColor(R.color.primaryText)
         selectedBackgroundColor = resource.getColor(R.color.grey)
         greyColor = resource.getColor(R.color.grey)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            dateFont = resource.getFont(R.font.regular)
-            noteFont = resource.getFont(R.font.regular)
-            selectFont = resource.getFont(R.font.bold)
-        }
     }
 }

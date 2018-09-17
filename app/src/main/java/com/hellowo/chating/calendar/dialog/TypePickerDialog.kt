@@ -50,7 +50,6 @@ class TypePickerDialog(private val timeObject: TimeObject, private val onResult:
                 stylePicker.refresh()
             }
             stylePicker.setTypeObject(timeObject)
-            colorPicker.setTypeObject(timeObject)
         }
     }
 

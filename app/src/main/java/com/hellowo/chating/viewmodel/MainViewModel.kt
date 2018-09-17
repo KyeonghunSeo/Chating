@@ -59,7 +59,7 @@ class MainViewModel : ViewModel() {
                 val note = realm.createObject(Template::class.java, 0)
                 note.title = App.context.getString(R.string.note)
                 note.type = TimeObject.Type.NOTE.ordinal
-                note.color = Color.parseColor("#60434957")
+                note.color = Color.parseColor("#434957")
                 note.order = 0
 
                 val event = realm.createObject(Template::class.java, 1)

@@ -30,12 +30,12 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var links: RealmList<Link>? = null): RealmObject() {
 
     enum class Type(val titleId: Int, val iconId: Int) {
-        NOTE(R.string.note, R.drawable.ic_outline_description),
-        EVENT(R.string.event, R.drawable.ic_outline_event),
-        TASK(R.string.task, R.drawable.ic_outline_done_outline),
+        NOTE(R.string.note, R.drawable.ic_baseline_description_24px),
+        EVENT(R.string.event, R.drawable.ic_baseline_calendar_today_24px),
+        TASK(R.string.task, R.drawable.ic_baseline_done_24px),
         STAMP(R.string.stamp, R.drawable.ic_outline_class),
         MONEY(R.string.money, R.drawable.ic_outline_monetization_on),
-        DECORATION(R.string.decoration, R.drawable.ic_outline_star_border)
+        DECORATION(R.string.decoration, R.drawable.ic_baseline_favorite_24px)
     }
 
     enum class Style {

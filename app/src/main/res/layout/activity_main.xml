@@ -118,7 +118,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="12dp"
-            android:src="@drawable/ic_outline_all_inbox"
+            android:src="@drawable/ic_baseline_all_inbox_24px"
             android:tint="@color/iconTint"/>
 
     </com.hellowo.chating.calendar.view.KeepView>
