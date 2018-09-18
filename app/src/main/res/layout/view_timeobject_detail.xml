@@ -19,8 +19,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="30dp"
-            android:paddingBottom="70dp">
+            android:layout_marginBottom="50dp">
 
             <LinearLayout
                 android:id="@+id/contentLy"
@@ -28,6 +27,8 @@
                 android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
                 android:paddingLeft="@dimen/extra_margin"
                 android:paddingRight="@dimen/extra_margin">
 
@@ -105,6 +106,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/controlPanel"
+        android:animateLayoutChanges="true"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_gravity="bottom|center_horizontal"
@@ -120,45 +122,57 @@
             android:layout_height="match_parent">
         </com.hellowo.chating.calendar.view.TemplateControlPager>
 
+    </androidx.cardview.widget.CardView>
+
+    <com.hellowo.chating.calendar.view.ColorPickerView
+        android:id="@+id/colorPicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="50dp"
+        android:visibility="gone">
+    </com.hellowo.chating.calendar.view.ColorPickerView>
+
+    <LinearLayout
+        android:id="@+id/styleEditLy"
+        android:orientation="horizontal"
+        android:animateLayoutChanges="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="@color/background"
+        android:elevation="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/colorBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_baseline_color_lens_24px"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="12dp"
+            android:tint="@color/white"/>
+
         <LinearLayout
-            android:id="@+id/styleEditLy"
+            android:id="@+id/confirmBtn"
             android:orientation="horizontal"
-            android:animateLayoutChanges="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:visibility="gone">
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="right"
+            android:gravity="center_vertical">
 
-            <ImageView
-                android:id="@+id/colorBtn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_baseline_color_lens_24px"
-                android:background="?android:attr/selectableItemBackground"
-                android:padding="12dp"
-                android:tint="@color/white"/>
-
-            <LinearLayout
-                android:id="@+id/confirmBtn"
-                android:orientation="horizontal"
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_gravity="right"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:text="@string/save"/>
-
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="@string/save"/>
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
     <com.hellowo.chating.calendar.view.TemplateControlPagerIndicator
         android:id="@+id/templateControlPagerIndi"

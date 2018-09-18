@@ -4,11 +4,13 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.Log
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hellowo.chating.*
 import com.hellowo.chating.R
 import com.hellowo.chating.calendar.TimeObjectManager
+import com.hellowo.chating.calendar.model.ColorTag
 import com.hellowo.chating.calendar.model.Template
 import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.model.AppUser
@@ -23,6 +25,7 @@ class MainViewModel : ViewModel() {
     val targetView = MutableLiveData<View?>()
     val appUser = MutableLiveData<AppUser?>()
     val templateList = MutableLiveData<List<Template>>()
+    val colorTagList = MutableLiveData<List<ColorTag>>()
 
     init {
         if(SyncUser.current() == null) {
@@ -39,6 +42,7 @@ class MainViewModel : ViewModel() {
         }
         loadAppUser()
         loadTemplate()
+        loadColors()
     }
 
     private fun loadAppUser() {
@@ -77,6 +81,25 @@ class MainViewModel : ViewModel() {
             templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
         }else {
             templateList.value = templates
+        }
+    }
+
+    private fun loadColors() {
+        val colors = realm.where(ColorTag::class.java).sort("order", Sort.ASCENDING).findAll()
+        if(colors.isEmpty()) {
+            realm.executeTransaction {
+                var id = 0
+                AppRes.resources.getStringArray(R.array.colors).forEach {
+                    val note = realm.createObject(ColorTag::class.java, id)
+                    note.title = "_"
+                    note.color = Color.parseColor(it)
+                    note.order = id
+                    id++
+                }
+            }
+            colorTagList.value = realm.where(ColorTag::class.java).sort("order", Sort.ASCENDING).findAll()
+        }else {
+            colorTagList.value = colors
         }
     }
 

@@ -68,11 +68,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     private fun initControllBtn() {
         templateControlPager.indicator = templateControlPagerIndi
         colorBtn.setOnClickListener {
-            val dialog = ColorPickerDialog(MainActivity.instance!!, 0) { color ->
-                timeObject?.color = color
-                updateUI()
-            }
-            showDialog(dialog, true, true, true, false)
+            TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
+            colorPicker.show()
         }
     }
 

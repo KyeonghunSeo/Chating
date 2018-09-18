@@ -18,35 +18,27 @@ import com.hellowo.chating.calendar.model.ColorTag
 import com.hellowo.chating.calendar.model.Template
 import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.calendar.model.TimeObject.Type
+import com.hellowo.chating.ui.activity.MainActivity
 import io.realm.Realm
 import io.realm.Sort
 import kotlinx.android.synthetic.main.list_item_color_picker.view.*
 
 class ColorPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RecyclerView(context, attrs, defStyleAttr) {
-    var items: List<ColorTag>
+    var items = ArrayList<ColorTag>()
     var selectedPos = -1
 
     init {
-        layoutManager =  GridLayoutManager(context, 4)
-
-        val realm = Realm.getDefaultInstance()
-        items = realm.where(ColorTag::class.java).sort("order", Sort.ASCENDING).findAll()
-        if(items.isEmpty()) {
-            realm.executeTransaction {
-                var id = 0
-                context.resources.getStringArray(R.array.colors).forEach {
-                    val note = realm.createObject(ColorTag::class.java, id)
-                    note.title = "_"
-                    note.color = Color.parseColor(it)
-                    note.order = id
-                    id++
-                }
-            }
-            items = realm.where(ColorTag::class.java).sort("order", Sort.ASCENDING).findAll()
-        }
-        realm.close()
-
+        layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         adapter = PickerAdapter()
+    }
+
+    fun show() {
+        MainActivity.instance?.viewModel?.colorTagList?.value?.let {
+            items.clear()
+            items.addAll(it)
+            adapter?.notifyDataSetChanged()
+            visibility = View.VISIBLE
+        }
     }
 
     inner class PickerAdapter : RecyclerView.Adapter<ViewHolder>() {

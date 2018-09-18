@@ -5,31 +5,25 @@
     android:layout_height="70dp"
     android:background="@color/black">
 
-    <LinearLayout
-        android:id="@+id/editBtn"
-        android:orientation="horizontal"
-        android:layout_gravity="bottom|right"
+    <TextView
+        android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground">
+        android:layout_margin="10dp"
+        android:layout_gravity="center_vertical"
+        android:textSize="10dp"
+        android:textColor="@color/white"/>
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:padding="9dp"
-            android:src="@drawable/ic_outline_create"
-            android:tint="@color/white"/>
 
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="center_vertical"
-            android:text="@string/new_note"
-            android:textSize="10dp"
-            android:textColor="@color/white"/>
-
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/editBtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="8dp"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/ic_baseline_edit_24px"
+        android:alpha="0.8"
+        android:tint="@color/white"
+        android:background="?android:attr/selectableItemBackground"/>
 
 </FrameLayout>

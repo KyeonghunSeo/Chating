@@ -2,6 +2,7 @@ package com.hellowo.chating
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Typeface
 import android.util.TypedValue
 import android.graphics.drawable.Drawable
@@ -48,13 +49,16 @@ object AppRes {
 
     var starDrawable: Drawable? = null
 
+    lateinit var resources: Resources
+
     fun init(context: Context) {
+        resources = context.resources
         val typedValue = TypedValue()
         context.theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)
         selectableItemBackground = typedValue.resourceId
-        unselectedColor = context.resources.getColor(R.color.grey)
-        primaryColor = context.resources.getColor(R.color.colorPrimary)
-        starDrawable = context.resources.getDrawable(R.drawable.ic_outline_star_border)
+        unselectedColor = resources.getColor(R.color.grey)
+        primaryColor = resources.getColor(R.color.colorPrimary)
+        starDrawable = resources.getDrawable(R.drawable.ic_outline_star_border)
 
         thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
         regularFont = ResourcesCompat.getFont(context, R.font.regular)!!
@@ -174,7 +178,7 @@ object AppRes {
             } else {
                 mDate = SimpleDateFormat("M")
             }
-            dowString = context.resources.getStringArray(R.array.day_of_weeks)
+            dowString = resources.getStringArray(R.array.day_of_weeks)
 
             dow = if (language == "ko") {
                 SimpleDateFormat("E요일")

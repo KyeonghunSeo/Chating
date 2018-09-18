@@ -54,6 +54,21 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize)
         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
         typeface = CalendarSkin.noteFont
+
+        when(TimeObject.Type.values()[timeObject.type]) {
+            TimeObject.Type.NOTE -> {
+
+            }
+            TimeObject.Type.EVENT -> {
+                setPadding(defaultPadding, 0, defaultPadding, 0)
+            }
+            TimeObject.Type.TASK -> {
+                setPadding(leftPadding, 0, rightPadding, 0)
+            }
+            else -> {
+                setPadding(defaultPadding, 0, defaultPadding, 0)
+            }
+        }
     }
 
     @SuppressLint("DrawAllocation")
@@ -102,11 +117,9 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                             it.drawCircle(centerX, centerY, strokeWidth * 2.5f, paint)
                         }
                         TimeObject.Style.LONG -> {
-                            setPadding(defaultPadding, 0, defaultPadding, 0)
                             setTextColor(color)
                         }
                         else -> {
-                            setPadding(defaultPadding, 0, defaultPadding, 0)
                             setTextColor(Color.WHITE)
                             var left = 0f
                             var right = width.toFloat()
@@ -141,7 +154,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
                 }
                 TimeObject.Type.TASK -> {
-                    setPadding(leftPadding, 0, rightPadding, 0)
                     setTextColor(color)
                     gravity = Gravity.CENTER_VERTICAL
                     maxLines = 1
