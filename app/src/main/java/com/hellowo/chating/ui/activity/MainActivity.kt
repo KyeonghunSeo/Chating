@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         initDayView()
         initKeepView()
         initBriefingView()
+        initTemplateView()
         initBtns()
         initObserver()
     }
@@ -151,6 +152,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun initTemplateView() {
+        templateControlPager.indicator = templateControlPagerIndi
+    }
+
     private fun initBtns() {
         menuBtn.setOnClickListener {
             checkExternalStoragePermission()
@@ -167,7 +172,10 @@ class MainActivity : AppCompatActivity() {
         })
         viewModel.appUser.observe(this, androidx.lifecycle.Observer { it?.let { updateUserUI(it) } })
         viewModel.templateList.observe(this, androidx.lifecycle.Observer {
-            it?.let { timeObjectDetailView.setTemplateContontrolView(it) }
+            it?.let {
+                templateControlPager.notify(it)
+                templateControlPagerIndi.notify(it)
+            }
         })
     }
 

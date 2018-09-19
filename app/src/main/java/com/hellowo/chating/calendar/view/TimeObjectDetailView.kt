@@ -66,7 +66,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun initControllBtn() {
-        templateControlPager.indicator = templateControlPagerIndi
         colorBtn.setOnClickListener {
             TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
             colorPicker.show()
@@ -133,13 +132,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 }
             }
 
-            controlPanel.setCardBackgroundColor(it.color)
+            //controlPanel.setCardBackgroundColor(it.color)
         }
-    }
-
-    fun setTemplateContontrolView(it: List<Template>) {
-        templateControlPager.notify(it)
-        templateControlPagerIndi.notify(it)
     }
 
     fun confirm() {
@@ -164,35 +158,23 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         val t1 = makeFromBottomSlideTransition()
         t1.addTarget(contentPanel)
 
-        val t2 = makeChangeBounceTransition()
-        t2.addTarget(controlPanel)
-
         val transitionSet = TransitionSet()
         transitionSet.addTransition(t1)
-        transitionSet.addTransition(t2)
         transitionSet.addListener(object : Transition.TransitionListener{
-            override fun onTransitionEnd(transition: Transition) {
-                controlPanel.radius = 0f
-                if(!timeObject.isManaged) {
-                    showTitleKeyPad()
-                }
-            }
+            override fun onTransitionEnd(transition: Transition) {}
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {
                 styleEditLy.visibility = View.VISIBLE
-                templateControlPager.visibility = View.INVISIBLE
+                if(!timeObject.isManaged) {
+                    showTitleKeyPad()
+                }
             }
         })
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
         contentPanel.visibility = View.VISIBLE
-        controlPanel.layoutParams.let {
-            it.width = MATCH_PARENT
-            (it as FrameLayout.LayoutParams).bottomMargin = 0
-        }
-        controlPanel.requestLayout()
     }
 
     fun hide() {
@@ -204,12 +186,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         val t1 = makeFromBottomSlideTransition()
         t1.addTarget(contentPanel)
 
-        val t2 = makeChangeBounceTransition()
-        t2.addTarget(controlPanel)
-
         val transitionSet = TransitionSet()
         transitionSet.addTransition(t1)
-        transitionSet.addTransition(t2)
         transitionSet.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
                 hideKeyPad(windowToken, titleInput)
@@ -218,18 +196,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {
-                templateControlPager.visibility = View.VISIBLE
                 styleEditLy.visibility = View.GONE
             }
         })
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
         contentPanel.visibility = View.INVISIBLE
-        controlPanel.layoutParams.let {
-            it.width = dpToPx(120)
-            (it as FrameLayout.LayoutParams).bottomMargin = dpToPx(25)
-        }
-        controlPanel.radius = dpToPx(25).toFloat()
-        controlPanel.requestLayout()
     }
 }

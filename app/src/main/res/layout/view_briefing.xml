@@ -23,7 +23,7 @@
             android:id="@+id/todayText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="7.5dp"
+            android:paddingTop="6.5dp"
             android:textSize="10dp"
             android:gravity="center"
             android:textColor="@color/iconTint"
