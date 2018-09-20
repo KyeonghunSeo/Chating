@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ff5a5f</color>
-    <color name="colorPrimaryDark">#fc642d</color>
-    <color name="colorAccent">#fc642d</color>
-    <color name="colorPrimaryAlpha">#60ff5a5f</color>
+    <color name="colorPrimary">#3cc47c</color>
+    <color name="colorPrimaryDark">#1e392a</color>
+    <color name="colorAccent">#e9c893</color>
+    <color name="colorPrimaryAlpha">#603cc47c</color>
 
     <!--
         <color name="colorPrimary">#0080ff</color>
@@ -20,7 +20,7 @@
     <color name="backgroundDark">#f2f2f2</color>
     <color name="backgroundDeepDark">#b4b7bc</color>
     <color name="backgroundDarkAlpha">#EEf2f2f2</color>
-    <color name="iconTint">#444444</color>
+    <color name="iconTint">#6b7a8f</color>
 
     <color name="primaryText">#de000000</color>
     <color name="secondaryText">#89000000</color>
@@ -61,18 +61,76 @@
     <color name="lol_primary">#0080ff</color>
     <color name="lol_light">#03a6ff</color>
 
+    <string-array name="color_pack_title">
+        <item>유쾌한 전문가</item>
+        <item>미술관에서</item>
+        <item>은은한 음색</item>
+        <item>현대적인 깔끔함</item>
+    </string-array>
+
     <string-array name="colors">
-        <item>#3fa9f5</item>
-        <item>#7ea0c4</item>
-        <item>#bb80d1</item>
-        <item>#ff4c00</item>
-        <item>#00b392</item>
-        <item>#69c9ba</item>
-        <item>#fd92a3</item>
-        <item>#f7323f</item>
-        <item>#72d54a</item>
-        <item>#d5d755</item>
-        <item>#ffd235</item>
-        <item>#ff5f56</item>
+        <item>#4abdac</item>
+        <item>#fc4a1a</item>
+        <item>#f7b733</item>
+        <item>#dfdce3</item>
+
+        <item>#ffce00</item>
+        <item>#0375b4</item>
+        <item>#007849</item>
+        <item>#262228</item>
+
+        <item>#c0b283</item>
+        <item>#dcd0c0</item>
+        <item>#f4f4f4</item>
+        <item>#373737</item>
+
+        <item>#e37222</item>
+        <item>#07889b</item>
+        <item>#66b9bf</item>
+        <item>#eeaa7b</item>
+    </string-array>
+
+    <string-array name="font_colors">
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+        <item>#60000000</item>
+
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+
+        <item>#FFFFFFFF</item>
+        <item>#60000000</item>
+        <item>#60000000</item>
+        <item>#FFFFFFFF</item>
+
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+    </string-array>
+
+    <string-array name="color_title">
+        <item>신선한</item>
+        <item>주홍</item>
+        <item>햇살</item>
+        <item>깨끗한</item>
+
+        <item>해바라기</item>
+        <item>별이 빛나는 밤</item>
+        <item>홍채</item>
+        <item>저녁</item>
+
+        <item>금빛</item>
+        <item>비단</item>
+        <item>종이</item>
+        <item>숯</item>
+
+        <item>귤</item>
+        <item>청록</item>
+        <item>파우더</item>
+        <item>그을음</item>
     </string-array>
 </resources>

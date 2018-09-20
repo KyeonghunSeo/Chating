@@ -61,6 +61,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             }
             TimeObject.Type.EVENT -> {
                 setPadding(defaultPadding, 0, defaultPadding, 0)
+                setTextColor(timeObject.fontColor)
             }
             TimeObject.Type.TASK -> {
                 setPadding(leftPadding, 0, rightPadding, 0)
@@ -110,17 +111,14 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     when(TimeObject.Style.values()[timeObject.style]){
                         TimeObject.Style.SHORT -> {
                             setPadding(smallTypeSize, 0, defaultPadding, 0)
-                            setTextColor(color)
                             val centerX = smallTypeSize / 2f
                             val centerY = smallTypeSize / 2f
                             it.drawRect(RectF(centerX - strokeWidth * 0.5f , 0f, centerX + strokeWidth * 0.5f, smallTypeSize.toFloat()), paint)
                             it.drawCircle(centerX, centerY, strokeWidth * 2.5f, paint)
                         }
                         TimeObject.Style.LONG -> {
-                            setTextColor(color)
                         }
                         else -> {
-                            setTextColor(Color.WHITE)
                             var left = 0f
                             var right = width.toFloat()
                             if(leftOpen) {

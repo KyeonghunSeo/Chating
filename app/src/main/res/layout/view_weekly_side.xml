@@ -15,7 +15,7 @@
         android:textSize="30dp"
         android:layout_marginLeft="5dp"
         android:textColor="@color/grey"
-        android:fontFamily="@font/digit_2"
+        android:fontFamily="@font/bold"
         android:text="W02" />
 
 </androidx.cardview.widget.CardView>

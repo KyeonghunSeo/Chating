@@ -67,8 +67,13 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     private fun initControllBtn() {
         colorBtn.setOnClickListener {
-            TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
-            colorPicker.show()
+            showDialog(ColorPickerDialog(MainActivity.instance!!, timeObject!!.color) { color, fontColor ->
+                timeObject?.let {
+                    it.color = color
+                    it.fontColor = fontColor
+                }
+                updateUI()
+            }, true, true, true, false)
         }
     }
 
@@ -132,7 +137,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 }
             }
 
-            //controlPanel.setCardBackgroundColor(it.color)
+            colorBtn.setCardBackgroundColor(it.color)
+            fontColorText.setColorFilter(it.fontColor)
         }
     }
 
@@ -161,16 +167,15 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         val transitionSet = TransitionSet()
         transitionSet.addTransition(t1)
         transitionSet.addListener(object : Transition.TransitionListener{
-            override fun onTransitionEnd(transition: Transition) {}
-            override fun onTransitionResume(transition: Transition) {}
-            override fun onTransitionPause(transition: Transition) {}
-            override fun onTransitionCancel(transition: Transition) {}
-            override fun onTransitionStart(transition: Transition) {
-                styleEditLy.visibility = View.VISIBLE
+            override fun onTransitionEnd(transition: Transition) {
                 if(!timeObject.isManaged) {
                     showTitleKeyPad()
                 }
             }
+            override fun onTransitionResume(transition: Transition) {}
+            override fun onTransitionPause(transition: Transition) {}
+            override fun onTransitionCancel(transition: Transition) {}
+            override fun onTransitionStart(transition: Transition) {}
         })
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
@@ -189,14 +194,12 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         val transitionSet = TransitionSet()
         transitionSet.addTransition(t1)
         transitionSet.addListener(object : Transition.TransitionListener{
-            override fun onTransitionEnd(transition: Transition) {
-                hideKeyPad(windowToken, titleInput)
-            }
+            override fun onTransitionEnd(transition: Transition) {}
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {
-                styleEditLy.visibility = View.GONE
+                hideKeyPad(windowToken, titleInput)
             }
         })
         TransitionManager.beginDelayedTransition(this, transitionSet)

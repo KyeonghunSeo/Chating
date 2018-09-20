@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.dialog_color_picker.*
 
 
 class ColorPickerDialog(private val activity: Activity, private val color: Int,
-                        private val onConfirmed: (Int) -> Unit) : Dialog(activity) {
+                        private val onConfirmed: (Int, Int) -> Unit) : Dialog(activity) {
 
     init {}
 
@@ -28,6 +28,8 @@ class ColorPickerDialog(private val activity: Activity, private val color: Int,
     private fun setLayout() {
         rootLy.layoutParams.width = WRAP_CONTENT
         rootLy.requestLayout()
+        colorPicker.onSelceted = onConfirmed
+        colorPicker.setDialog = this
     }
 
 }

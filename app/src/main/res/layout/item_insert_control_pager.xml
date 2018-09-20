@@ -8,14 +8,13 @@
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iconImg"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="15dp"
+            android:padding="13dp"
             android:tint="@color/white"/>
 
         <TextView
@@ -24,7 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textColor="@color/white"
-            android:text="@string/new_note"/>
+            android:text="@string/new_note"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

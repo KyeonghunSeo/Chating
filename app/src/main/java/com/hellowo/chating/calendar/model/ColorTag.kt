@@ -9,4 +9,5 @@ import java.util.*
 open class ColorTag(@PrimaryKey var id: Int = -1,
                     var title: String? = null,
                     var color: Int = Color.BLACK,
+                    var fontColor: Int = Color.WHITE,
                     var order: Int = 0): RealmObject()

@@ -28,7 +28,7 @@ import com.hellowo.chating.ui.listener.MainDragAndDropListener
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
         const val maxCellNum = 42
-        const val dateTextSize = 11f
+        const val dateTextSize = 12f
         const val animDur = 250L
         const val columns = 7
         const val selectedDateScale = 1.7f

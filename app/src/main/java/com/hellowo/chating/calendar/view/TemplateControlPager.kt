@@ -104,7 +104,7 @@ class TemplateControlPager @JvmOverloads constructor(context: Context, attrs: At
             }else {
                 v.setBackgroundColor(Color.GRAY)
                 v.findViewById<TextView>(R.id.titleText).text = context.getString(R.string.setting)
-                v.findViewById<ImageView>(R.id.iconImg).setImageResource(R.drawable.ic_baseline_build_24px)
+                v.findViewById<ImageView>(R.id.iconImg).setImageResource(R.drawable.ic_baseline_settings_20px)
             }
             v.tag = "view$position"
             (container as ViewPager).addView(v, 0)

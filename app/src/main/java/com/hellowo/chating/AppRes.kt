@@ -31,12 +31,15 @@ object AppRes {
     lateinit var date: DateFormat
     lateinit var hour: DateFormat
     lateinit var year: DateFormat
+    var ymSimpleDate = SimpleDateFormat("yyyy. M")
     var ymdkey: DateFormat = SimpleDateFormat("yyyyMMdd")
     var ymdthmszkey: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
 
     var thinFont: Typeface = Typeface.DEFAULT
     var regularFont: Typeface = Typeface.DEFAULT
     var boldFont: Typeface = Typeface.DEFAULT
+    var digitFont: Typeface = Typeface.DEFAULT
+    var digitBoldFont: Typeface = Typeface.DEFAULT
 
     @SuppressLint("ConstantLocale")
     val language = Locale.getDefault().language
@@ -63,6 +66,8 @@ object AppRes {
         thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
         regularFont = ResourcesCompat.getFont(context, R.font.regular)!!
         boldFont = ResourcesCompat.getFont(context, R.font.bold)!!
+        digitFont = ResourcesCompat.getFont(context, R.font.futura_light)!!
+        digitBoldFont = ResourcesCompat.getFont(context, R.font.futura_light)!!
 
         //////////////////////////////////////////////////////////////////////////날짜 포맷
 

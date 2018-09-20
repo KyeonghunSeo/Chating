@@ -191,7 +191,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setDateText(date: Date) {
-        monthText.text = AppRes.ymDate.format(date)
+        monthText.text = AppRes.ymSimpleDate.format(date)
     }
 
     fun onDimDark(animation: Boolean, dark: Boolean) {

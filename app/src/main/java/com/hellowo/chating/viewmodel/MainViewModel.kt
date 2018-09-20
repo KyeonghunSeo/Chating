@@ -88,13 +88,16 @@ class MainViewModel : ViewModel() {
         val colors = realm.where(ColorTag::class.java).sort("order", Sort.ASCENDING).findAll()
         if(colors.isEmpty()) {
             realm.executeTransaction {
-                var id = 0
-                AppRes.resources.getStringArray(R.array.colors).forEach {
-                    val note = realm.createObject(ColorTag::class.java, id)
-                    note.title = "_"
-                    note.color = Color.parseColor(it)
-                    note.order = id
-                    id++
+                val colorPack = AppRes.resources.getStringArray(R.array.color_pack_title)
+                val fontColor = AppRes.resources.getStringArray(R.array.font_colors)
+                val colorTitle = AppRes.resources.getStringArray(R.array.color_title)
+                val colors = AppRes.resources.getStringArray(R.array.colors)
+                (0 until colors.size).forEach {
+                    val note = realm.createObject(ColorTag::class.java, it)
+                    note.title = colorTitle[it]
+                    note.color = Color.parseColor(colors[it])
+                    note.fontColor = Color.parseColor(fontColor[it])
+                    note.order = it
                 }
             }
             colorTagList.value = realm.where(ColorTag::class.java).sort("order", Sort.ASCENDING).findAll()

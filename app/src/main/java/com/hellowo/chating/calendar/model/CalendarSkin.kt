@@ -14,9 +14,9 @@ object CalendarSkin {
     var selectedDateColor: Int = 0
     var selectedBackgroundColor: Int = 0
     var greyColor: Int = 0
-    var dateFont = AppRes.regularFont
+    var dateFont = AppRes.digitFont
     var noteFont = AppRes.regularFont
-    var selectFont = AppRes.boldFont
+    var selectFont = AppRes.digitBoldFont
 
     fun init(calendarView: CalendarView) {
         val resource = calendarView.context.resources
