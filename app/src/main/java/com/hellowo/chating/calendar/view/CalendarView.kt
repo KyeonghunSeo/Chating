@@ -4,22 +4,18 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.graphics.Color
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.view.ViewTreeObserver
-import android.view.animation.OvershootInterpolator
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.chating.*
 import com.hellowo.chating.ui.view.SwipeScrollView
 import java.util.*
 import android.widget.*
+import android.widget.LinearLayout.HORIZONTAL
 import com.hellowo.chating.calendar.model.CalendarSkin
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.model.TimeObject
@@ -37,14 +33,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateArea = dpToPx(40)
         val weekLyBottomPadding = dpToPx(20)
         val dateMargin = dpToPx(3)
-        val leftMargin = dpToPx(20)
+        val weekLeftMargin = dpToPx(20)
     }
 
     private val scrollView = SwipeScrollView(context)
     private val rootLy = FrameLayout(context)
     val calendarLy = LinearLayout(context)
     val weekLys = Array(6) { _ -> FrameLayout(context)}
-    val dateLys = Array(maxCellNum) { _ -> FrameLayout(context)}
+    val dateLys = Array(6) { _ -> LinearLayout(context)}
+    val dateCells = Array(maxCellNum) { _ -> FrameLayout(context)}
     val dateTexts = Array(maxCellNum) { _ -> TextView(context)}
     val selectedBar = LayoutInflater.from(context).inflate(R.layout.view_selected_bar, null, false)
     val weekLySideView = LayoutInflater.from(context).inflate(R.layout.view_weekly_side, null, false)
@@ -97,21 +94,32 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         for(i in 0..5) {
             val weekLy = weekLys[i]
             weekLy.clipChildren = false
+
+            val dateLy = dateLys[i]
+            dateLy.clipChildren = false
+            dateLy.orientation = HORIZONTAL
+            dateLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
+                leftMargin = weekLeftMargin
+            }
+            weekLy.addView(dateLy)
+
             for (j in 0..6){
                 val cellNum = i*7 + j
-                val dateLy = dateLys[cellNum]
-                dateLy.clipChildren = false
-                dateLy.setBackgroundResource(AppRes.selectableItemBackground)
-                dateLy.setOnClickListener { onDateClick(cellNum) }
-                dateLy.setOnLongClickListener {
-                    MainDragAndDropListener.start(it)
+                val dateCell = dateCells[cellNum]
+                dateCell.clipChildren = false
+                dateCell.setBackgroundResource(AppRes.selectableItemBackground)
+                dateCell.setOnClickListener { onDateClick(cellNum) }
+                dateCell.setOnLongClickListener {
+                    MainDragAndDropListener.start(it, DragMode.INSERT)
                     return@setOnLongClickListener true
                 }
+                dateCell.layoutParams = LinearLayout.LayoutParams(0, MATCH_PARENT, 1f)
 
                 val dateText = dateTexts[cellNum]
+                setDefaultDateTextSkin(dateText)
 
-                dateLy.addView(dateText)
-                weekLy.addView(dateLy)
+                dateCell.addView(dateText)
+                dateLy.addView(dateCell)
             }
             calendarLy.addView(weekLy)
         }
@@ -134,7 +142,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         postSelectedNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
         minCalendarHeight = height
-        minWidth = (width.toFloat() - leftMargin) / columns
+        minWidth = (width.toFloat() - weekLeftMargin) / columns
         minHeight = minCalendarHeight.toFloat() / rows
 
         calendarLy.layoutParams.height = minCalendarHeight
@@ -144,12 +152,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if(isInit) {
             selectedBar.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), dateSize)
             selectedBar.pivotY = dateSize.toFloat()
-            weekLySideView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, dpToPx(50))
+            weekLySideView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, dpToPx(50)).apply {
+                gravity = Gravity.BOTTOM
+            }
         }
 
         for(i in 0..5) {
             val weekLy = weekLys[i]
-            weekLy.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, minHeight.toInt())
+            weekLy.layoutParams.height = minHeight.toInt()
             if(i < rows) {
                 weekLy.visibility = View.VISIBLE
                 for (j in 0..6){
@@ -166,12 +176,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     }
 
                     val dateText = dateTexts[cellNum]
-                    if(isInit) {
-                        val dateLy = dateLys[cellNum]
-                        dateLy.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), MATCH_PARENT)
-                        dateLy.translationX = cellNum % columns * minWidth + leftMargin
-                        setDefaultDateTextSkin(dateText)
-                    }
                     dateText.text = tempCal.get(Calendar.DATE).toString()
                     dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.2f
                     dateText.setTextColor(getDateTextColor(cellNum))
@@ -195,12 +199,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         }
 
+        //requestLayout()
+
         if(todayStatus == 0) {
             todayStatus = getDiffToday(selectedCal)
         }
 
         if(postSelectedNum == -1) {
-            weekLySideView.translationX = -leftMargin.toFloat()
+            weekLySideView.translationX = -weekLeftMargin.toFloat()
         }
 
         TimeObjectManager.setTimeObjectCalendarAdapter(this)
@@ -276,9 +282,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             if(cellNum / columns != selectedCellNum / columns) {
                 weekLySideView.parent?.let {
                     (it as FrameLayout).removeView(weekLySideView)
-                    weekLySideView.translationX = -leftMargin.toFloat()
+                    weekLySideView.translationX = -weekLeftMargin.toFloat()
                 }
-                weekLys[cellNum / columns].addView(weekLySideView)
+                weekLys[cellNum / columns].addView(weekLySideView, 0)
                 weekLySideView.findViewById<TextView>(R.id.weekNumText).text =
                         String.format(context.getString(R.string.weekNum), selectedCal.get(Calendar.WEEK_OF_YEAR).toString())
             }
@@ -291,7 +297,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.typeface = CalendarSkin.selectFont
 
             val color = getDateTextColor(cellNum)
-            dateLys[cellNum].addView(selectedBar)
+            dateCells[cellNum].addView(selectedBar)
             selectedBar.findViewById<TextView>(R.id.dowText).let {
                 it.text = dow[cellNum % columns]
                 it.setTextColor(color)
@@ -406,5 +412,65 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     }
 
-    fun getSelectedView(): View = dateLys[selectedCellNum]
+    fun getSelectedView(): View = dateCells[selectedCellNum]
+
+    fun highlightCells(start: Int, end: Int) {
+        val s = if(start < end) start else end
+        val e = if(start < end) end else start
+        dateCells.forEachIndexed { index, view ->
+            if(index in s..e) {
+                view.foreground = AppRes.hightlightCover
+            }else {
+
+            }
+        }
+    }
+
+    private fun clearHighlight() {
+        dateCells.forEach {
+
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////드래그 처리 부분/////////////////////////////////////////////////
+
+    var startDragCell = -1
+    var currentDragCell = -1
+
+    fun onDrag(event: DragEvent) {
+        var cellX = ((event.x - weekLeftMargin) / minWidth).toInt()
+        if(cellX < 0) cellX = 0
+        val yPos = (event.y - top - AppRes.statusBarHeight + scrollView.scaleY)
+        var cellY = 0
+        weekLys.forEachIndexed { index, view ->
+            if(yPos > view.top && yPos < view.bottom) {
+                cellY = index
+                return@forEachIndexed
+            }
+        }
+
+        currentDragCell = cellY * columns + cellX
+
+        when(event.action) {
+            DragEvent.ACTION_DRAG_STARTED -> {
+                startDragCell = currentDragCell
+                highlightCells(startDragCell, currentDragCell)
+            }
+            DragEvent.ACTION_DRAG_LOCATION -> {
+                highlightCells(startDragCell, currentDragCell)
+            }
+            DragEvent.ACTION_DROP -> {
+            }
+            DragEvent.ACTION_DRAG_ENDED -> {
+                clearHighlight()
+            }
+        }
+
+        l("" + cellX +"/"+cellY)
+
+    }
+    /////////////////////////////////드래그 처리 부분/////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 }

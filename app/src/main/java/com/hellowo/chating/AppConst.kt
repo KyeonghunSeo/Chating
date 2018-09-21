@@ -20,3 +20,11 @@ const val RC_PERMISSIONS = 0
 const val RC_FILEPICKER = 9090
 
 var mainBarHeight = dpToPx(50)
+
+enum class ViewMode {
+    CLOSED, OPENED, ANIMATING
+}
+
+enum class DragMode {
+    NONE, INSERT, MOVE
+}

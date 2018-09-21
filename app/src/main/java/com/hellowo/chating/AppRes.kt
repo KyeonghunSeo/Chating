@@ -15,6 +15,8 @@ import java.util.*
 
 @SuppressLint("SimpleDateFormat")
 object AppRes {
+    lateinit var resources: Resources
+
     enum class HourMode { Hour24, Hour12 }
     lateinit var dowString: Array<String>
     lateinit var hourMode: HourMode
@@ -50,9 +52,8 @@ object AppRes {
 
     var statusBarHeight = 0
 
-    var starDrawable: Drawable? = null
-
-    lateinit var resources: Resources
+    lateinit var starDrawable: Drawable
+    lateinit var hightlightCover: Drawable
 
     fun init(context: Context) {
         resources = context.resources
@@ -62,12 +63,13 @@ object AppRes {
         unselectedColor = resources.getColor(R.color.grey)
         primaryColor = resources.getColor(R.color.colorPrimary)
         starDrawable = resources.getDrawable(R.drawable.ic_outline_star_border)
+        hightlightCover = resources.getDrawable(R.drawable.highlightcover)
 
         thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
         regularFont = ResourcesCompat.getFont(context, R.font.regular)!!
         boldFont = ResourcesCompat.getFont(context, R.font.bold)!!
-        digitFont = ResourcesCompat.getFont(context, R.font.futura_light)!!
-        digitBoldFont = ResourcesCompat.getFont(context, R.font.futura_light)!!
+        digitFont = ResourcesCompat.getFont(context, R.font.futura_regular)!!
+        digitBoldFont = ResourcesCompat.getFont(context, R.font.futura_regular)!!
 
         //////////////////////////////////////////////////////////////////////////날짜 포맷
 

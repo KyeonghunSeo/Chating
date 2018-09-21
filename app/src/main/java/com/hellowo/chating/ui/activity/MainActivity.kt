@@ -11,6 +11,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.view.DragEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -23,7 +24,6 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.hellowo.chating.*
 import com.hellowo.chating.calendar.TimeObjectManager
-import com.hellowo.chating.calendar.ViewMode
 import com.hellowo.chating.model.AppUser
 import com.hellowo.chating.ui.listener.MainDragAndDropListener
 import com.hellowo.chating.ui.view.SwipeScrollView.Companion.SWIPE_LEFT
@@ -193,6 +193,33 @@ class MainActivity : AppCompatActivity() {
     private fun setDateText(date: Date) {
         monthText.text = AppRes.ymSimpleDate.format(date)
     }
+
+    fun onDrag(event: DragEvent) {
+        deliveryDragEvent(event)
+        when(event.action) {
+            DragEvent.ACTION_DRAG_STARTED -> {
+            }
+            DragEvent.ACTION_DRAG_LOCATION -> {
+            }
+            DragEvent.ACTION_DROP -> {
+            }
+            DragEvent.ACTION_DRAG_ENDED -> {
+                MainDragAndDropListener.end()
+            }
+        }
+    }
+
+    fun deliveryDragEvent(event: DragEvent) {
+        if(event.y > calendarView.top && event.y < calendarView.bottom) {
+            calendarView.onDrag(event)
+        }else {
+
+        }
+    }
+
+
+
+
 
     fun onDimDark(animation: Boolean, dark: Boolean) {
         dimView.setOnClickListener { onBackPressed() }

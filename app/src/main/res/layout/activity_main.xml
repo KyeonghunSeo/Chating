@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primaryText"
-                android:fontFamily="@font/futura_light"
+                android:fontFamily="@font/futura_regular"
                 android:textSize="25dp"/>
 
         </LinearLayout>

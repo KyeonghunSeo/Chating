@@ -127,7 +127,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 }
 
                 it.timeObjectViewList?.forEach {
-                    it.mLeft = (calendarView.minWidth * (it.cellNum % columns)).toInt() + CalendarView.leftMargin
+                    it.mLeft = (calendarView.minWidth * (it.cellNum % columns)).toInt() + CalendarView.weekLeftMargin
                     it.mRight = it.mLeft + (calendarView.minWidth * it.length).toInt()
                     when(formula) {
                         TimeObject.Formula.TOPSTACK -> {
@@ -169,10 +169,12 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         var calendarHeight = 0
         val minHeight = calendarView.minHeight.toInt()
         val bottomPadding = CalendarView.weekLyBottomPadding
+
+        calendarView.dateCells.forEach {
+            it.removeViews(0, it.childCount - 1)
+        }
+
         calendarView.weekLys.forEachIndexed { index, weekLy ->
-            if(weekLy.childCount > columns) {
-                weekLy.removeViews(columns, weekLy.childCount - columns)
-            }
             if(index < rows) {
                 val newHeight = rowHeightArray[index] + bottomPadding
                 val finalHeight = Math.max(minHeight, newHeight)
@@ -180,19 +182,21 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 weekLy.layoutParams.height = finalHeight
             }
         }
-        calendarView.calendarLy.layoutParams.height = calendarHeight
-        calendarView.calendarLy.requestLayout()
+
         viewHolderList.forEach {
             try{
                 it.timeObjectViewList?.forEach {
                     //it.alpha = if(it.cellNum + it.length - 1 in calendarView.startCellNum..calendarView.endCellNum) 1f else 0.2f
-                    calendarView.weekLys[it.cellNum / columns].addView(it)
+                    calendarView.dateCells[it.cellNum].addView(it, 0)
                     if(TimeObjectManager.lastUpdatedItem == it.timeObject) {
                         showInsertAnimation(it)
                     }
                 }
             }catch (e: Exception){ e.printStackTrace() }
         }
+
+        calendarView.calendarLy.layoutParams.height = calendarHeight
+        calendarView.calendarLy.requestLayout()
     }
 
     private fun showInsertAnimation(view: TimeObjectView) {

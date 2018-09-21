@@ -18,7 +18,7 @@ import java.util.*
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
     companion object {
         val strokeWidth = dpToPx(1)
-        val radius = dpToPx(1).toFloat()
+        val rectRadius = dpToPx(3).toFloat()
         val circleRadius = dpToPx(5).toFloat()
         val checkBoxSize = dpToPx(7).toFloat()
         val defaulMargin = dpToPx(1)
@@ -124,29 +124,29 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                             if(leftOpen) {
                                 left = defaultPadding.toFloat()
                                 val path = Path()
-                                path.moveTo(defaultPadding + radius, 0f)
+                                path.moveTo(defaultPadding + rectRadius, 0f)
                                 path.lineTo(defaultPadding.toFloat(), 0f)
                                 path.lineTo(0f, height * 0.5f)
                                 path.lineTo(defaultPadding.toFloat(), height.toFloat())
-                                path.lineTo(defaultPadding.toFloat() + radius, height.toFloat())
-                                path.lineTo(defaultPadding + radius, 0f)
+                                path.lineTo(defaultPadding.toFloat() + rectRadius, height.toFloat())
+                                path.lineTo(defaultPadding + rectRadius, 0f)
                                 path.close()
                                 it.drawPath(path, paint)
                             }
                             if(rightOpen) {
                                 right = width.toFloat() - defaultPadding
                                 val path = Path()
-                                path.moveTo(right - radius, 0f)
+                                path.moveTo(right - rectRadius, 0f)
                                 path.lineTo(right, 0f)
                                 path.lineTo(right + defaultPadding, height * 0.5f)
                                 path.lineTo(right, height.toFloat())
-                                path.lineTo(right - radius, height.toFloat())
-                                path.lineTo(right - radius, 0f)
+                                path.lineTo(right - rectRadius, height.toFloat())
+                                path.lineTo(right - rectRadius, 0f)
                                 path.close()
                                 it.drawPath(path, paint)
                             }
                             val rect = RectF(left, 0f, right, height.toFloat())
-                            it.drawRoundRect(rect, radius, radius, paint)
+                            it.drawRoundRect(rect, rectRadius, rectRadius, paint)
                         }
                     }
 
@@ -176,7 +176,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                                 center + checkRadius * 0.75f, center - checkRadius * 0.5f, paint)
                     }else {
                         paint.style = Paint.Style.STROKE
-                        it.drawRoundRect(rect, radius, radius, paint)
+                        it.drawRoundRect(rect, rectRadius, rectRadius, paint)
                     }
                 }
                 TimeObject.Type.DECORATION -> {
@@ -295,7 +295,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
     fun setLayout() {
         val lp = FrameLayout.LayoutParams(mRight - mLeft - defaulMargin, mBottom - mTop - defaulMargin)
-        lp.setMargins(mLeft, mTop, 0, 0)
+        lp.setMargins(0, mTop, 0, 0)
         layoutParams = lp
     }
 

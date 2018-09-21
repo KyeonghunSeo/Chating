@@ -21,7 +21,6 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.hellowo.chating.*
 import com.hellowo.chating.calendar.TimeObjectManager
-import com.hellowo.chating.calendar.ViewMode
 import com.hellowo.chating.calendar.dialog.ColorPickerDialog
 import com.hellowo.chating.calendar.dialog.DateTimePickerDialog
 import com.hellowo.chating.calendar.dialog.TypePickerDialog

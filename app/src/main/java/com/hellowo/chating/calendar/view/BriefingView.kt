@@ -14,12 +14,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
-import com.hellowo.chating.ANIM_DUR
-import com.hellowo.chating.R
+import com.hellowo.chating.*
 import com.hellowo.chating.alarm.AlarmManager
-import com.hellowo.chating.calendar.ViewMode
-import com.hellowo.chating.dpToPx
-import com.hellowo.chating.makeChangeBounceTransition
 import com.hellowo.chating.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.view_briefing.view.*
 import java.util.*
