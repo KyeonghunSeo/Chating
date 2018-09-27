@@ -2,6 +2,7 @@ package com.hellowo.chating.calendar.adapter
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.widget.FrameLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
 import com.hellowo.chating.*
@@ -39,6 +40,9 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
     fun refresh(result: RealmResults<TimeObject>, anim: Boolean) {
         items = result
         withAnimtion = anim
+        viewHolderList.forEach {
+            it.timeObjectViewList?.forEach { (it.parent as FrameLayout).removeView(it) }
+        }
         viewHolderList.clear()
         viewLevelStatusMap.clear()
         cellBottomArray.fill(drawStartYOffset)
@@ -169,10 +173,6 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         var calendarHeight = 0
         val minHeight = calendarView.minHeight.toInt()
         val bottomPadding = CalendarView.weekLyBottomPadding
-
-        calendarView.dateCells.forEach {
-            it.removeViews(0, it.childCount - 1)
-        }
 
         calendarView.weekLys.forEachIndexed { index, weekLy ->
             if(index < rows) {

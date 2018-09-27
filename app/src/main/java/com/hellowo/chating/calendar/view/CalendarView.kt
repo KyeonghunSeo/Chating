@@ -106,8 +106,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             for (j in 0..6){
                 val cellNum = i*7 + j
                 val dateCell = dateCells[cellNum]
-                dateCell.clipChildren = false
-                dateCell.setBackgroundResource(AppRes.selectableItemBackground)
+                //dateCell.setBackgroundResource(AppRes.selectableItemBackground)
                 dateCell.setOnClickListener { onDateClick(cellNum) }
                 dateCell.setOnLongClickListener {
                     MainDragAndDropListener.start(it, DragMode.INSERT)
