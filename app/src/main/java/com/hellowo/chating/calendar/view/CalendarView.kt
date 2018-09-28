@@ -19,7 +19,9 @@ import android.widget.LinearLayout.HORIZONTAL
 import com.hellowo.chating.calendar.model.CalendarSkin
 import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.model.TimeObject
+import com.hellowo.chating.ui.activity.MainActivity
 import com.hellowo.chating.ui.listener.MainDragAndDropListener
+import kotlin.collections.ArrayList
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
@@ -419,19 +421,34 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun highlightCells(start: Int, end: Int) {
         val s = if(start < end) start else end
         val e = if(start < end) end else start
-        dateCells.forEachIndexed { index, view ->
+        val animSet = AnimatorSet()
+        val anims = ArrayList<Animator>()
+        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.duration = animDur
+        dateTexts.forEachIndexed { index, view ->
             if(index in s..e) {
-                view.foreground = AppRes.hightlightCover
+                anims.add(ObjectAnimator.ofFloat(view, "scaleX", view.scaleX, selectedDateScale))
+                anims.add(ObjectAnimator.ofFloat(view, "scaleY", view.scaleY, selectedDateScale))
             }else {
-
+                anims.add(ObjectAnimator.ofFloat(view, "scaleX", view.scaleX, 1f))
+                anims.add(ObjectAnimator.ofFloat(view, "scaleY", view.scaleY, 1f))
             }
         }
+        animSet.playTogether(anims)
+        animSet.start()
     }
 
     private fun clearHighlight() {
-        dateCells.forEach {
-
+        val animSet = AnimatorSet()
+        val anims = ArrayList<Animator>()
+        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.duration = animDur
+        dateTexts.forEachIndexed { index, view ->
+            anims.add(ObjectAnimator.ofFloat(view, "scaleX", view.scaleX, 1f))
+            anims.add(ObjectAnimator.ofFloat(view, "scaleY", view.scaleY, 1f))
         }
+        animSet.playTogether(anims)
+        animSet.start()
     }
 
 
@@ -444,7 +461,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun onDrag(event: DragEvent) {
         var cellX = ((event.x - weekLeftMargin) / minWidth).toInt()
         if(cellX < 0) cellX = 0
-        val yPos = (event.y - top - AppRes.statusBarHeight + scrollView.scaleY)
+        val yPos = (event.y - top - AppRes.statusBarHeight + scrollView.scrollY)
         var cellY = 0
         weekLys.forEachIndexed { index, view ->
             if(yPos > view.top && yPos < view.bottom) {
@@ -464,14 +481,20 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 highlightCells(startDragCell, currentDragCell)
             }
             DragEvent.ACTION_DROP -> {
-            }
-            DragEvent.ACTION_DRAG_ENDED -> {
-                clearHighlight()
+                if(MainDragAndDropListener.dragMode == DragMode.INSERT) {
+                    //MainActivity.instance?.viewModel?.makeNewTimeObject()
+                }
             }
         }
 
+        scrollView.smoothScrollTo(0, weekLys[currentDragCell / columns].top)
+
         l("" + cellX +"/"+cellY)
 
+    }
+
+    fun endDrag() {
+        clearHighlight()
     }
     /////////////////////////////////드래그 처리 부분/////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////

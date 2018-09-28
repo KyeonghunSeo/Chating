@@ -195,15 +195,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onDrag(event: DragEvent) {
-        deliveryDragEvent(event)
         when(event.action) {
             DragEvent.ACTION_DRAG_STARTED -> {
+                deliveryDragEvent(event)
             }
             DragEvent.ACTION_DRAG_LOCATION -> {
+                deliveryDragEvent(event)
             }
             DragEvent.ACTION_DROP -> {
+                deliveryDragEvent(event)
             }
             DragEvent.ACTION_DRAG_ENDED -> {
+                calendarView.endDrag()
                 MainDragAndDropListener.end()
             }
         }
