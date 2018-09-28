@@ -33,7 +33,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateArea = dpToPx(40)
         val weekLyBottomPadding = dpToPx(20)
         val dateMargin = dpToPx(3)
-        val weekLeftMargin = dpToPx(20)
+        val weekLeftMargin = dpToPx(25)
     }
 
     private val scrollView = SwipeScrollView(context)
@@ -151,8 +151,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if(isInit) {
             selectedBar.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), dateSize)
             selectedBar.pivotY = dateSize.toFloat()
-            weekLySideView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, dpToPx(50)).apply {
-                gravity = Gravity.BOTTOM
+            weekLySideView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, dpToPx(100)).apply {
+
+                //gravity = Gravity.BOTTOM
             }
         }
 
@@ -176,7 +177,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
                     val dateText = dateTexts[cellNum]
                     dateText.text = tempCal.get(Calendar.DATE).toString()
-                    dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.2f
+                    dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.1f
                     dateText.setTextColor(getDateTextColor(cellNum))
 
                     if(cellNum == 0) {
@@ -197,8 +198,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
             }
         }
-
-        //requestLayout()
 
         if(todayStatus == 0) {
             todayStatus = getDiffToday(selectedCal)
@@ -236,7 +235,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun onDateClick(cellNum: Int) {
         tempCal.timeInMillis = cellTimeMills[cellNum]
-        selectDate(cellNum,true, isSameDay(tempCal, selectedCal))
+        if(cellNum in startCellNum..endCellNum){
+            selectDate(cellNum,true, isSameDay(tempCal, selectedCal))
+        }else {
+            moveDate(tempCal.timeInMillis)
+        }
     }
 
     private fun unselectDate(cellNum: Int, anim: Boolean) {
@@ -301,7 +304,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 it.text = dow[cellNum % columns]
                 it.setTextColor(color)
             }
-            selectedBar.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.2f
+            selectedBar.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.1f
 
             if(anim) {
                 lastSelectAnimSet?.cancel()

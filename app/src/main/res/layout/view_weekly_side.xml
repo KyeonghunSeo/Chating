@@ -8,10 +8,17 @@
     app:cardCornerRadius="3dp"
     app:cardElevation="0dp">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="10dp"
+        android:background="@color/primaryText"/>
+
     <TextView
         android:id="@+id/weekNumText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:textSize="30dp"
         android:layout_marginLeft="5dp"
         android:textColor="@color/grey"

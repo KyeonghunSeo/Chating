@@ -13,6 +13,7 @@
         android:padding="3dp"
         android:textColor="@color/primaryText"
         android:fontFamily="@font/regular"
+        android:background="@color/background"
         android:text="@string/sun" />
 
 </FrameLayout>

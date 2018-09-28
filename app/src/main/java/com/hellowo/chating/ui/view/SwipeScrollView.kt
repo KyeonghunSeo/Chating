@@ -9,6 +9,7 @@ import com.hellowo.chating.l
 import androidx.core.content.ContextCompat.getSystemService
 import android.os.Vibrator
 import android.view.MotionEvent.*
+import android.view.View
 
 
 class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -25,6 +26,10 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
     var isTop = true
     var onSwipeStateChanged: ((Int) -> Unit)? = null
     var onTop: ((Boolean) -> Unit)? = null
+
+    init {
+        overScrollMode = View.OVER_SCROLL_ALWAYS
+    }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         ev?.let {
