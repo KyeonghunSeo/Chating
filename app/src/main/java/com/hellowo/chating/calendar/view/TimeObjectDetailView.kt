@@ -166,11 +166,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         val transitionSet = TransitionSet()
         transitionSet.addTransition(t1)
         transitionSet.addListener(object : Transition.TransitionListener{
-            override fun onTransitionEnd(transition: Transition) {
-                if(!timeObject.isManaged) {
-                    showTitleKeyPad()
-                }
-            }
+            override fun onTransitionEnd(transition: Transition) {}
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
@@ -179,6 +175,10 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
         contentPanel.visibility = View.VISIBLE
+
+        if(!timeObject.isManaged) {
+            showTitleKeyPad()
+        }
     }
 
     fun hide() {
