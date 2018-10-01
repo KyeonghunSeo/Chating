@@ -220,10 +220,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
-
-
     fun onDimDark(animation: Boolean, dark: Boolean) {
         dimView.setOnClickListener { onBackPressed() }
         dimView.isClickable = true

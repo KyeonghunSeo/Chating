@@ -3,7 +3,11 @@ package com.hellowo.chating.calendar.view
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
+import android.os.Handler
+import android.os.Message
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -36,6 +40,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val weekLyBottomPadding = dpToPx(20)
         val dateMargin = dpToPx(3)
         val weekLeftMargin = dpToPx(25)
+        val autoPagingThreshold = dpToPx(30)
+        val autoScrollThreshold = dpToPx(70)
+        val autoScrollOffset = dpToPx(5)
     }
 
     private val scrollView = SwipeScrollView(context)
@@ -89,7 +96,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         setBackgroundColor(CalendarSkin.backgroundColor)
         scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         rootLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        rootLy.setPadding(0, 0, 0 , dpToPx(50))
+        rootLy.setPadding(0, 0, 0 , 0)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
 
@@ -237,11 +244,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun onDateClick(cellNum: Int) {
         tempCal.timeInMillis = cellTimeMills[cellNum]
-        if(cellNum in startCellNum..endCellNum){
-            selectDate(cellNum,true, isSameDay(tempCal, selectedCal))
-        }else {
-            moveDate(tempCal.timeInMillis)
-        }
+        selectDate(cellNum,true, isSameDay(tempCal, selectedCal))
     }
 
     private fun unselectDate(cellNum: Int, anim: Boolean) {
@@ -418,37 +421,22 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun getSelectedView(): View = dateCells[selectedCellNum]
 
-    fun highlightCells(start: Int, end: Int) {
+    private fun highlightCells(start: Int, end: Int) {
         val s = if(start < end) start else end
         val e = if(start < end) end else start
-        val animSet = AnimatorSet()
-        val anims = ArrayList<Animator>()
-        animSet.interpolator = FastOutSlowInInterpolator()
-        animSet.duration = animDur
-        dateTexts.forEachIndexed { index, view ->
-            if(index in s..e) {
-                anims.add(ObjectAnimator.ofFloat(view, "scaleX", view.scaleX, selectedDateScale))
-                anims.add(ObjectAnimator.ofFloat(view, "scaleY", view.scaleY, selectedDateScale))
-            }else {
-                anims.add(ObjectAnimator.ofFloat(view, "scaleX", view.scaleX, 1f))
-                anims.add(ObjectAnimator.ofFloat(view, "scaleY", view.scaleY, 1f))
-            }
+        dateCells.forEachIndexed { index, view ->
+           if(index in s..e) {
+               view.foreground = AppRes.hightlightCover
+           }else {
+               view.foreground = AppRes.blankDrawable
+           }
         }
-        animSet.playTogether(anims)
-        animSet.start()
     }
 
     private fun clearHighlight() {
-        val animSet = AnimatorSet()
-        val anims = ArrayList<Animator>()
-        animSet.interpolator = FastOutSlowInInterpolator()
-        animSet.duration = animDur
-        dateTexts.forEachIndexed { index, view ->
-            anims.add(ObjectAnimator.ofFloat(view, "scaleX", view.scaleX, 1f))
-            anims.add(ObjectAnimator.ofFloat(view, "scaleY", view.scaleY, 1f))
+        dateCells.forEachIndexed { index, view ->
+            view.foreground = AppRes.blankDrawable
         }
-        animSet.playTogether(anims)
-        animSet.start()
     }
 
 
@@ -456,45 +444,128 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     /////////////////////////////////드래그 처리 부분/////////////////////////////////////////////////
 
     var startDragCell = -1
+    var startDragTime = Long.MIN_VALUE
     var currentDragCell = -1
+    var endDragTime = Long.MIN_VALUE
+    var autoPagingFlag = 0
+    var autoScrollFlag = 0
+
+    private val autoScrollHandler = @SuppressLint("HandlerLeak")
+    object : Handler() {
+        override fun handleMessage(msg: Message) {
+            if (autoScrollFlag != 0) {
+                if (autoScrollFlag == -1) {
+                    scrollView.scrollBy(0, -autoScrollOffset)
+                } else if (autoScrollFlag == 1) {
+                    scrollView.scrollBy(0, autoScrollOffset)
+                }
+                this.sendEmptyMessageDelayed(0, 1)
+            }
+        }
+    }
+
+    private val autoPaginglHandler = @SuppressLint("HandlerLeak")
+    object : Handler() {
+        override fun handleMessage(msg: Message) {
+            if (autoPagingFlag != 0) {
+                if (autoPagingFlag == -1) {
+                    moveMonth(-1)
+                } else if (autoPagingFlag == 1) {
+                    moveMonth(1)
+                }
+                this.sendEmptyMessageDelayed(0, 1000)
+            }
+        }
+    }
 
     fun onDrag(event: DragEvent) {
         var cellX = ((event.x - weekLeftMargin) / minWidth).toInt()
         if(cellX < 0) cellX = 0
-        val yPos = (event.y - top - AppRes.statusBarHeight + scrollView.scrollY)
-        var cellY = 0
+        val yPos = event.y - top - AppRes.statusBarHeight
+        val yCalPos = yPos + scrollView.scrollY
+        var cellY = -1
+
         weekLys.forEachIndexed { index, view ->
-            if(yPos > view.top && yPos < view.bottom) {
+            if(index < rows && yCalPos > view.top && yCalPos < view.bottom) {
                 cellY = index
                 return@forEachIndexed
             }
         }
 
-        currentDragCell = cellY * columns + cellX
-
-        when(event.action) {
-            DragEvent.ACTION_DRAG_STARTED -> {
-                startDragCell = currentDragCell
-                highlightCells(startDragCell, currentDragCell)
+        when {
+            yPos < autoScrollThreshold -> {
+                if(autoScrollFlag != -1) {
+                    autoScrollFlag = -1
+                    autoScrollHandler.sendEmptyMessage(0)
+                }
             }
-            DragEvent.ACTION_DRAG_LOCATION -> {
-                highlightCells(startDragCell, currentDragCell)
+            yPos > height - autoScrollThreshold -> {
+                if(autoScrollFlag != 1) {
+                    autoScrollFlag = 1
+                    autoScrollHandler.sendEmptyMessage(0)
+                }
             }
-            DragEvent.ACTION_DROP -> {
-                if(MainDragAndDropListener.dragMode == DragMode.INSERT) {
-                    //MainActivity.instance?.viewModel?.makeNewTimeObject()
+            else -> {
+                if(autoScrollFlag != 0) {
+                    autoScrollFlag = 0
+                    autoScrollHandler.removeMessages(0)
                 }
             }
         }
 
-        scrollView.smoothScrollTo(0, weekLys[currentDragCell / columns].top)
+        when {
+            event.x < autoPagingThreshold -> {
+                if(autoPagingFlag != -1) {
+                    autoPagingFlag = -1
+                    autoPaginglHandler.sendEmptyMessageDelayed(0, 1000)
+                }
+            }
+            event.x > width - autoPagingThreshold -> {
+                if(autoPagingFlag != 1) {
+                    autoPagingFlag = 1
+                    autoPaginglHandler.sendEmptyMessageDelayed(0, 1000)
+                }
+            }
+            else -> {
+                if(autoPagingFlag != 0){
+                    autoPagingFlag = 0
+                    autoPaginglHandler.removeMessages(0)
+                }
+            }
+        }
 
-        l("" + cellX +"/"+cellY)
+        if(cellY >= 0) {
+            currentDragCell = cellY * columns + cellX
+            endDragTime = cellTimeMills[currentDragCell]
 
+            when(event.action) {
+                DragEvent.ACTION_DRAG_STARTED -> {
+                    startDragCell = currentDragCell
+                    startDragTime = cellTimeMills[startDragCell]
+                    highlightCells(startDragCell, currentDragCell)
+                }
+                DragEvent.ACTION_DRAG_LOCATION -> {
+                    highlightCells(startDragCell, currentDragCell)
+                }
+                DragEvent.ACTION_DROP -> {
+                    if(MainDragAndDropListener.dragMode == DragMode.INSERT) {
+                        MainActivity.instance?.viewModel?.makeNewTimeObject(startDragTime, endDragTime)
+                    }
+                }
+            }
+        }
     }
 
     fun endDrag() {
         clearHighlight()
+        startDragCell = -1
+        startDragTime = Long.MIN_VALUE
+        currentDragCell = -1
+        endDragTime = Long.MIN_VALUE
+        autoScrollFlag = 0
+        autoScrollHandler.removeMessages(0)
+        autoPagingFlag = 0
+        autoPaginglHandler.removeMessages(0)
     }
     /////////////////////////////////드래그 처리 부분/////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////

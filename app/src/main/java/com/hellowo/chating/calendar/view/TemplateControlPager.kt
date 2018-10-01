@@ -18,6 +18,7 @@ import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.callAfterViewDrawed
 import com.hellowo.chating.ui.activity.MainActivity
 import com.pixplicity.easyprefs.library.Prefs
+import java.lang.Exception
 
 class TemplateControlPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewPager(context, attrs) {
     val items = ArrayList<Template>()
@@ -45,7 +46,9 @@ class TemplateControlPager @JvmOverloads constructor(context: Context, attrs: At
                         jumpPosition = getRealCount()
                     getRealCount() + 1 -> //prepare to jump to the first page
                         jumpPosition = 1
-                    else -> { }
+                    else -> {
+                        MainActivity.instance?.viewModel?.targetTemplate?.value = items[realPos]
+                    }
                 }
                 Prefs.putInt("TemplateControlPager_last_index", position)
                 /*
@@ -58,12 +61,14 @@ class TemplateControlPager @JvmOverloads constructor(context: Context, attrs: At
         })
 
         callAfterViewDrawed(this, Runnable{
-            setCurrentItem(Prefs.getInt("TemplateControlPager_last_index", 1), false)
+            val position = Prefs.getInt("TemplateControlPager_last_index", 1)
+            setCurrentItem(position, false)
+            MainActivity.instance?.viewModel?.targetTemplate?.value = items[mapPagerPositionToModelPosition(position)]
         })
     }
 
     private fun getRealCount(): Int {
-        return items.size + 1
+        return items.size
     }
 
     private fun mapPagerPositionToModelPosition(pagerPosition: Int): Int {
@@ -86,28 +91,18 @@ class TemplateControlPager @JvmOverloads constructor(context: Context, attrs: At
     private inner class InsertPageAdapter : PagerAdapter() {
         private val mInflater: LayoutInflater = LayoutInflater.from(context)
 
-        override fun getCount(): Int = items.size + 3
+        override fun getCount(): Int = items.size + 2
 
         @SuppressLint("InflateParams")
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             val v = mInflater.inflate(R.layout.item_insert_control_pager, null)
             val realPos = mapPagerPositionToModelPosition(position)
-
-            if(realPos < items.size) {
-                val item = items[realPos]
-                //v.setBackgroundColor(item.color)
-                v.findViewById<TextView>(R.id.titleText).text = item.title
-                v.findViewById<ImageView>(R.id.iconImg).setImageResource(TimeObject.Type.values()[item.type].iconId)
-                v.findViewById<ImageView>(R.id.iconImg).setColorFilter(item.color)
-                v.setOnClickListener {
-                    MainActivity.instance?.viewModel?.makeNewTimeObject(item)
-                }
-            }else {
-                //v.setBackgroundColor(Color.GRAY)
-                v.findViewById<TextView>(R.id.titleText).text = context.getString(R.string.setting)
-                v.findViewById<ImageView>(R.id.iconImg).setImageResource(R.drawable.ic_baseline_settings_20px)
-                v.findViewById<ImageView>(R.id.iconImg).setColorFilter(Color.GRAY)
-            }
+            val item = items[realPos]
+            //v.setBackgroundColor(item.color)
+            v.findViewById<TextView>(R.id.titleText).text = item.title
+            v.findViewById<ImageView>(R.id.iconImg).setImageResource(TimeObject.Type.values()[item.type].iconId)
+            v.findViewById<ImageView>(R.id.iconImg).setColorFilter(item.color)
+            v.setOnClickListener { MainActivity.instance?.viewModel?.makeNewTimeObject() }
             v.tag = "view$position"
             (container as ViewPager).addView(v, 0)
             return v

@@ -24,6 +24,7 @@ class MainViewModel : ViewModel() {
     val targetTimeObject = MutableLiveData<TimeObject?>()
     val targetView = MutableLiveData<View?>()
     val appUser = MutableLiveData<AppUser?>()
+    val targetTemplate = MutableLiveData<Template>()
     val templateList = MutableLiveData<List<Template>>()
     val colorTagList = MutableLiveData<List<ColorTag>>()
 
@@ -122,12 +123,19 @@ class MainViewModel : ViewModel() {
         targetTimeObject.value = null
     }
 
-    fun makeNewTimeObject(item: Template) {
+    fun makeNewTimeObject() {
         MainActivity.instance?.getCalendarView()?.let {
-            targetTimeObject.value = TimeObjectManager.makeNewTimeObject(
-                    getCalendarTime0(it.selectedCal), getCalendarTime23(it.selectedCal)).apply {
-                type = item.type
-                color = item.color
+            makeNewTimeObject(getCalendarTime0(it.selectedCal), getCalendarTime23(it.selectedCal))
+        }
+    }
+
+    fun makeNewTimeObject(startTime: Long, endTime: Long) {
+        MainActivity.instance?.getCalendarView()?.let {
+            targetTimeObject.value = TimeObjectManager.makeNewTimeObject(startTime, endTime).apply {
+                targetTemplate.value?.let {
+                    type = it.type
+                    color = it.color
+                }
             }
         }
     }

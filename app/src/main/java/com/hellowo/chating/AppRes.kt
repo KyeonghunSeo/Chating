@@ -54,6 +54,7 @@ object AppRes {
 
     lateinit var starDrawable: Drawable
     lateinit var hightlightCover: Drawable
+    lateinit var blankDrawable: Drawable
 
     fun init(context: Context) {
         resources = context.resources
@@ -64,6 +65,7 @@ object AppRes {
         primaryColor = resources.getColor(R.color.colorPrimary)
         starDrawable = resources.getDrawable(R.drawable.ic_outline_star_border)
         hightlightCover = resources.getDrawable(R.drawable.highlightcover)
+        blankDrawable = resources.getDrawable(R.drawable.blank)
 
         thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
         regularFont = ResourcesCompat.getFont(context, R.font.regular)!!

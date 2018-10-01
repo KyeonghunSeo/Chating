@@ -50,18 +50,6 @@ class TemplateControlPagerIndicator @JvmOverloads constructor(context: Context, 
             addView(v)
             views.add(v)
         }
-        val v = LayoutInflater.from(context).inflate(R.layout.item_view_template_indi, null, false) as CardView
-        v.layoutParams = LinearLayout.LayoutParams(indiSize, indiSize).apply {
-            marginStart = margin
-            marginEnd = margin
-        }
-        v.radius = (indiSize / 2).toFloat()
-        v.setCardBackgroundColor(Color.TRANSPARENT)
-        v.findViewById<ImageView>(R.id.iconImg).setImageResource(R.drawable.ic_baseline_settings_20px)
-        v.findViewById<ImageView>(R.id.iconImg).setColorFilter(Color.GRAY)
-        v.findViewById<ImageView>(R.id.iconImg).setPadding(0, 0, 0, 0)
-        addView(v)
-        views.add(v)
     }
 
     fun focus(realPos: Int) {
