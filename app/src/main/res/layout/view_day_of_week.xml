@@ -26,13 +26,6 @@
             android:gravity="center"
             android:text="@string/sun" />
 
-        <View
-            android:id="@+id/dowBar0"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="1dp"
-            android:background="@color/primaryText"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -51,13 +44,6 @@
 
             android:gravity="center"
             android:text="@string/mon" />
-
-        <View
-            android:id="@+id/dowBar1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="1dp"
-            android:background="@color/primaryText"/>
 
     </LinearLayout>
 
@@ -78,13 +64,6 @@
             android:gravity="center"
             android:text="@string/tue" />
 
-        <View
-            android:id="@+id/dowBar2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="1dp"
-            android:background="@color/primaryText"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -103,13 +82,6 @@
 
             android:gravity="center"
             android:text="@string/wed" />
-
-        <View
-            android:id="@+id/dowBar3"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="1dp"
-            android:background="@color/primaryText"/>
 
     </LinearLayout>
 
@@ -130,13 +102,6 @@
             android:gravity="center"
             android:text="@string/thu" />
 
-        <View
-            android:id="@+id/dowBar4"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="1dp"
-            android:background="@color/primaryText"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -156,13 +121,6 @@
             android:gravity="center"
             android:text="@string/fri" />
 
-        <View
-            android:id="@+id/dowBar5"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="1dp"
-            android:background="@color/primaryText"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -181,13 +139,6 @@
 
             android:gravity="center"
             android:text="@string/sat" />
-
-        <View
-            android:id="@+id/dowBar6"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="1dp"
-            android:background="@color/primaryText"/>
 
     </LinearLayout>
 

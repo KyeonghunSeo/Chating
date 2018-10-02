@@ -30,10 +30,11 @@ object AppRes {
     lateinit var time: DateFormat
     lateinit var dateTime: DateFormat
     lateinit var dow: DateFormat
+    lateinit var simpleDow: DateFormat
     lateinit var date: DateFormat
     lateinit var hour: DateFormat
     lateinit var year: DateFormat
-    var ymSimpleDate = SimpleDateFormat("yyyy. M")
+    var ymSimpleDate = SimpleDateFormat("yyyy.M")
     var ymdkey: DateFormat = SimpleDateFormat("yyyyMMdd")
     var ymdthmszkey: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
 
@@ -182,12 +183,14 @@ object AppRes {
             }
             year = SimpleDateFormat("yyyy")
 
-            if (language == "en") {
-                mDate = SimpleDateFormat("MMM")
+            mDate = if (language == "en") {
+                SimpleDateFormat("MMM")
             } else {
-                mDate = SimpleDateFormat("M")
+                SimpleDateFormat("M")
             }
+
             dowString = resources.getStringArray(R.array.day_of_weeks)
+            simpleDow = SimpleDateFormat("E")
 
             dow = if (language == "ko") {
                 SimpleDateFormat("E요일")

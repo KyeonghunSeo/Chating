@@ -12,8 +12,9 @@
         android:textSize="9dp"
         android:padding="3dp"
         android:textColor="@color/primaryText"
-        android:fontFamily="@font/regular"
+        android:fontFamily="@font/bold"
         android:background="@color/background"
+        android:layout_gravity="right"
         android:text="@string/sun" />
 
 </FrameLayout>

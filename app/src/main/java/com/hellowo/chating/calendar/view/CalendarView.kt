@@ -30,16 +30,16 @@ import kotlin.collections.ArrayList
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
         const val maxCellNum = 42
-        const val dateTextSize = 12f
+        const val dateTextSize = 13f
         const val animDur = 250L
         const val columns = 7
-        const val selectedDateScale = 1.7f
+        const val selectedDateScale = 1.6f
         val todayCal: Calendar = Calendar.getInstance()
         val dateSize = dpToPx(20)
-        val dateArea = dpToPx(40)
+        val dateArea = dpToPx(30)
         val weekLyBottomPadding = dpToPx(20)
         val dateMargin = dpToPx(3)
-        val weekLeftMargin = dpToPx(25)
+        val weekLeftMargin = dpToPx(0)
         val autoPagingThreshold = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
@@ -122,11 +122,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     return@setOnLongClickListener true
                 }
                 dateCell.layoutParams = LinearLayout.LayoutParams(0, MATCH_PARENT, 1f)
-
-                val dateText = dateTexts[cellNum]
-                setDefaultDateTextSkin(dateText)
-
-                dateCell.addView(dateText)
+                dateCell.addView(dateTexts[cellNum])
                 dateLy.addView(dateCell)
             }
             calendarLy.addView(weekLy)
@@ -159,9 +155,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         if(isInit) {
             selectedBar.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), dateSize)
-            selectedBar.pivotY = dateSize.toFloat()
+            //selectedBar.pivotY = dateSize.toFloat()
             weekLySideView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, dpToPx(100)).apply {
-
                 //gravity = Gravity.BOTTOM
             }
         }
@@ -185,6 +180,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     }
 
                     val dateText = dateTexts[cellNum]
+                    if(isInit){ setDefaultDateTextSkin(dateText) }
                     dateText.text = tempCal.get(Calendar.DATE).toString()
                     dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.1f
                     dateText.setTextColor(getDateTextColor(cellNum))
@@ -244,13 +240,16 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun onDateClick(cellNum: Int) {
         tempCal.timeInMillis = cellTimeMills[cellNum]
-        selectDate(cellNum,true, isSameDay(tempCal, selectedCal))
+        if(cellNum in startCellNum..endCellNum) {
+            selectDate(cellNum,true, isSameDay(tempCal, selectedCal))
+        }
     }
 
     private fun unselectDate(cellNum: Int, anim: Boolean) {
         l("선택 해제 : " + android.text.format.DateFormat.getDateFormat(context).format(cellTimeMills[cellNum]))
         val dateText = dateTexts[cellNum]
         dateText.typeface = CalendarSkin.dateFont
+        dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.1f
         selectedBar.parent?.let { (it as FrameLayout).removeView(selectedBar) }
 
         selectedCellNum = -1
@@ -302,6 +301,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             postSelectedNum = cellNum
             val dateText = dateTexts[selectedCellNum]
             dateText.typeface = CalendarSkin.selectFont
+            dateText.alpha = 1f
 
             val color = getDateTextColor(cellNum)
             dateCells[cellNum].addView(selectedBar)
@@ -309,7 +309,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 it.text = dow[cellNum % columns]
                 it.setTextColor(color)
             }
-            selectedBar.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.1f
 
             if(anim) {
                 lastSelectAnimSet?.cancel()
@@ -404,15 +403,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun setDefaultDateTextSkin(textView: TextView) {
         textView.layoutParams = FrameLayout.LayoutParams(dateSize, dateSize).apply {
-            topMargin = dateArea - dateSize - dateMargin
-            leftMargin = dateMargin
+            topMargin = dateArea / 2 - dateSize / 2
+            leftMargin = (minWidth / 2 - dateSize / 2).toInt()
         }
-        textView.gravity = Gravity.BOTTOM
+        textView.gravity = Gravity.CENTER
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dateTextSize)
         textView.typeface = CalendarSkin.dateFont
         textView.includeFontPadding = false
-        textView.pivotX = 0f
-        textView.pivotY = dateSize.toFloat()
     }
 
     fun setDefaultSelectedBarSkin() {

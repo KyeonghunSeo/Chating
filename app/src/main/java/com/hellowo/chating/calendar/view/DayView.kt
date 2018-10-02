@@ -93,7 +93,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private fun setDateText() {
         calendarView?.let {
             dateText.text = it.selectedCal.get(Calendar.DATE).toString()
-            dowText.text = AppRes.dow.format(it.selectedCal.time)
+            dowText.text = AppRes.simpleDow.format(it.selectedCal.time)
             val color = it.getDateTextColor(it.postSelectedNum)
             dateText.setTextColor(color)
             dowText.setTextColor(color)
@@ -104,8 +104,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         return if(dateText.text.length == 1) dpToPx(55).toFloat()
         else dpToPx(80).toFloat()
     }
-
-    private fun confirm() {}
 
     fun show() {
         viewMode = ViewMode.ANIMATING
@@ -155,8 +153,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                                     ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f).setDuration(ANIM_DUR),
                                     ObjectAnimator.ofFloat(dateText, "scaleX", CalendarView.selectedDateScale, 4f),
                                     ObjectAnimator.ofFloat(dateText, "scaleY", CalendarView.selectedDateScale, 4f),
-                                    ObjectAnimator.ofFloat(dateText, "translationX", 0f, dpToPx(15).toFloat()),
-                                    ObjectAnimator.ofFloat(dateText, "translationY", 0f, dpToPx(30).toFloat()),
                                     ObjectAnimator.ofFloat(dowText, "scaleX", 1f, 1.5f),
                                     ObjectAnimator.ofFloat(dowText, "scaleY", 1f, 1.5f),
                                     ObjectAnimator.ofFloat(dowText, "translationX", 0f, getDowX()),
@@ -214,8 +210,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     val animSet = AnimatorSet()
                     animSet.playTogether(ObjectAnimator.ofFloat(dateText, "scaleX", 4f, CalendarView.selectedDateScale),
                             ObjectAnimator.ofFloat(dateText, "scaleY", 4f, CalendarView.selectedDateScale),
-                            ObjectAnimator.ofFloat(dateText, "translationX",  dpToPx(15).toFloat(), 0f),
-                            ObjectAnimator.ofFloat(dateText, "translationY",  dpToPx(30).toFloat(), 0f),
                             ObjectAnimator.ofFloat(dowText, "scaleX", 1.5f, 1f),
                             ObjectAnimator.ofFloat(dowText, "scaleY", 1.5f, 1f),
                             ObjectAnimator.ofFloat(dowText, "translationX", getDowX(), 0f),

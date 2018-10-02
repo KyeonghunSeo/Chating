@@ -13,8 +13,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/primaryText"
         android:textSize="24dp"
-        android:text="12"
-        android:gravity="center"/>
+        android:text="12"/>
 
     <TextView
         android:id="@+id/dowText"

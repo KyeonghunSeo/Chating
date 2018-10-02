@@ -27,7 +27,7 @@
             android:textSize="10dp"
             android:gravity="center"
             android:textColor="@color/iconTint"
-            android:fontFamily="@font/bold"
+            android:fontFamily="@font/futura_medium"
             android:text="31"/>
 
     </FrameLayout>
