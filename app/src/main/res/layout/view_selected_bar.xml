@@ -5,16 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/primaryText"/>
+
     <TextView
         android:id="@+id/dowText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="9dp"
+        android:textSize="10dp"
         android:padding="3dp"
         android:textColor="@color/primaryText"
         android:fontFamily="@font/bold"
-        android:background="@color/background"
-        android:layout_gravity="right"
         android:text="@string/sun" />
 
 </FrameLayout>

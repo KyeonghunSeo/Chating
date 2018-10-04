@@ -6,10 +6,13 @@ import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
@@ -30,7 +33,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {
-    companion object{}
+    companion object;
     private var calendarView: CalendarView? = null
     private val items = ArrayList<TimeObject>()
     private var timeObjectList: RealmResults<TimeObject>? = null
@@ -45,7 +48,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_day, this, true)
-        rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        //rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         setCardBackgroundColor(Color.WHITE)
         elevation = 0f
         initRecyclerView()
@@ -127,6 +130,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 setMargins(location[0], location[1] - AppRes.statusBarHeight, 0, 0)
             }
 
+            val bounds = Rect()
+            dateText.paint.getTextBounds(dateText.text.toString(), 0, dateText.text.length, bounds)
+            dowText.translationX = calendarView!!.minWidth / 2 + bounds.width() / 2 * CalendarView.selectedDateScale + CalendarView.dateMargin
+            dowText.translationY = CalendarView.dateMargin.toFloat()
+
             val animSet = AnimatorSet()
             animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
                     "elevation", 0f, dpToPx(15).toFloat()).setDuration(ANIM_DUR))
@@ -147,16 +155,18 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                         override fun onTransitionCancel(transition: Transition) {}
                         override fun onTransitionStart(transition: Transition) {
                             notifyDateChanged(0)
+
                             val animSet = AnimatorSet()
                             animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
                                     "elevation", dpToPx(15).toFloat(), 0f).setDuration(ANIM_DUR),
                                     ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f).setDuration(ANIM_DUR),
                                     ObjectAnimator.ofFloat(dateText, "scaleX", CalendarView.selectedDateScale, 4f),
                                     ObjectAnimator.ofFloat(dateText, "scaleY", CalendarView.selectedDateScale, 4f),
-                                    ObjectAnimator.ofFloat(dowText, "scaleX", 1f, 1.5f),
-                                    ObjectAnimator.ofFloat(dowText, "scaleY", 1f, 1.5f),
-                                    ObjectAnimator.ofFloat(dowText, "translationX", 0f, getDowX()),
-                                    ObjectAnimator.ofFloat(dowText, "translationY", 0f, dpToPx(15).toFloat()))
+                                    ObjectAnimator.ofFloat(dateText, "translationY", 0f, dpToPx(15).toFloat()),
+                                    ObjectAnimator.ofFloat(dowText, "scaleX", 1f, 3f),
+                                    ObjectAnimator.ofFloat(dowText, "scaleY", 1f, 3f),
+                                    ObjectAnimator.ofFloat(dowText, "translationX", dowText.translationX, getDowX()),
+                                    ObjectAnimator.ofFloat(dowText, "translationY", dowText.translationY, dpToPx(15).toFloat()))
                             animSet.interpolator = FastOutSlowInInterpolator()
                             animSet.start()
                         }
@@ -207,16 +217,20 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 override fun onTransitionPause(transition: Transition) {}
                 override fun onTransitionCancel(transition: Transition) {}
                 override fun onTransitionStart(transition: Transition) {
+                    contentLy.visibility = View.INVISIBLE
+                    val bounds = Rect()
+                    dateText.paint.getTextBounds(dateText.text.toString(), 0, dateText.text.length, bounds)
                     val animSet = AnimatorSet()
                     animSet.playTogether(ObjectAnimator.ofFloat(dateText, "scaleX", 4f, CalendarView.selectedDateScale),
                             ObjectAnimator.ofFloat(dateText, "scaleY", 4f, CalendarView.selectedDateScale),
-                            ObjectAnimator.ofFloat(dowText, "scaleX", 1.5f, 1f),
-                            ObjectAnimator.ofFloat(dowText, "scaleY", 1.5f, 1f),
-                            ObjectAnimator.ofFloat(dowText, "translationX", getDowX(), 0f),
-                            ObjectAnimator.ofFloat(dowText, "translationY", dpToPx(15).toFloat(), 0f))
+                            ObjectAnimator.ofFloat(dateText, "translationY", dpToPx(15).toFloat(), 0f),
+                            ObjectAnimator.ofFloat(dowText, "scaleX", 3f, 1f),
+                            ObjectAnimator.ofFloat(dowText, "scaleY", 3f, 1f),
+                            ObjectAnimator.ofFloat(dowText, "translationX", getDowX(),
+                                    calendarView!!.minWidth / 2 + bounds.width() / 2 * CalendarView.selectedDateScale + CalendarView.dateMargin),
+                            ObjectAnimator.ofFloat(dowText, "translationY", dpToPx(15).toFloat(), CalendarView.dateMargin.toFloat()))
                     animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.start()
-                    contentLy.visibility = View.INVISIBLE
                 }
             })
             TransitionManager.beginDelayedTransition(this, transiion)

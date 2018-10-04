@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Handler
 import android.os.Message
 import android.text.TextUtils
@@ -25,6 +26,7 @@ import com.hellowo.chating.calendar.TimeObjectManager
 import com.hellowo.chating.calendar.model.TimeObject
 import com.hellowo.chating.ui.activity.MainActivity
 import com.hellowo.chating.ui.listener.MainDragAndDropListener
+import kotlinx.android.synthetic.main.view_day.view.*
 import kotlin.collections.ArrayList
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
@@ -38,7 +40,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateSize = dpToPx(20)
         val dateArea = dpToPx(30)
         val weekLyBottomPadding = dpToPx(20)
-        val dateMargin = dpToPx(3)
+        val dateMargin = dpToPx(1)
         val weekLeftMargin = dpToPx(0)
         val autoPagingThreshold = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
@@ -154,8 +156,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         tempCal.add(Calendar.DATE, -startCellNum)
 
         if(isInit) {
-            selectedBar.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), dateSize)
-            //selectedBar.pivotY = dateSize.toFloat()
+            selectedBar.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), dateArea)
             weekLySideView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, dpToPx(100)).apply {
                 //gravity = Gravity.BOTTOM
             }
@@ -304,10 +305,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.alpha = 1f
 
             val color = getDateTextColor(cellNum)
+            val bounds = Rect()
+            dateText.paint.getTextBounds(dateText.text.toString(), 0, dateText.text.length, bounds)
             dateCells[cellNum].addView(selectedBar)
             selectedBar.findViewById<TextView>(R.id.dowText).let {
                 it.text = dow[cellNum % columns]
                 it.setTextColor(color)
+                it.translationX = minWidth / 2 + bounds.width() / 2 * selectedDateScale + dateMargin
+                it.translationY = CalendarView.dateMargin.toFloat()
             }
 
             if(anim) {
