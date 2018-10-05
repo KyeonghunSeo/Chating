@@ -207,7 +207,7 @@
             layout="@layout/view_day_of_week">
         </include>
 
-        <com.hellowo.chating.ui.view.TouchControllFrameLayout
+        <com.hellowo.journey.ui.view.TouchControllFrameLayout
             android:id="@+id/containter"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
@@ -215,7 +215,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp">
-        </com.hellowo.chating.ui.view.TouchControllFrameLayout>
+        </com.hellowo.journey.ui.view.TouchControllFrameLayout>
 
         <LinearLayout
             android:id="@+id/timeLy"

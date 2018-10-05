@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <com.hellowo.chating.calendar.view.CalendarView
+    <com.hellowo.journey.calendar.view.CalendarView
         android:id="@+id/calendarView"
         android:layout_marginTop="70dp"
         android:layout_marginBottom="50dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.hellowo.chating.calendar.view.CalendarView>
+    </com.hellowo.journey.calendar.view.CalendarView>
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -74,13 +74,13 @@
 
     </FrameLayout>
 
-    <com.hellowo.chating.calendar.view.CalendarView
+    <com.hellowo.journey.calendar.view.CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp"
         android:layout_marginTop="50dp">
-    </com.hellowo.chating.calendar.view.CalendarView>
+    </com.hellowo.journey.calendar.view.CalendarView>
 
     <View
         android:id="@+id/topShadow"
@@ -90,12 +90,12 @@
         android:layout_marginTop="50dp">
     </View>
 
-    <com.hellowo.chating.calendar.view.DayView
+    <com.hellowo.journey.calendar.view.DayView
         android:id="@+id/dayView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone">
-    </com.hellowo.chating.calendar.view.DayView>
+    </com.hellowo.journey.calendar.view.DayView>
 
     <View
         android:background="@drawable/bottom_shadow"
@@ -105,7 +105,7 @@
         android:layout_marginBottom="50dp">
     </View>
 
-    <com.hellowo.chating.calendar.view.KeepView
+    <com.hellowo.journey.calendar.view.KeepView
         android:id="@+id/keepView"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -123,9 +123,9 @@
             android:src="@drawable/ic_baseline_all_inbox_24px"
             android:tint="@color/iconTint"/>
 
-    </com.hellowo.chating.calendar.view.KeepView>
+    </com.hellowo.journey.calendar.view.KeepView>
 
-    <com.hellowo.chating.calendar.view.BriefingView
+    <com.hellowo.journey.calendar.view.BriefingView
         android:id="@+id/briefingView"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -134,7 +134,7 @@
         app:cardBackgroundColor="@color/white"
         app:cardElevation="0dp"
         app:cardCornerRadius="15dp">
-    </com.hellowo.chating.calendar.view.BriefingView>
+    </com.hellowo.journey.calendar.view.BriefingView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/controlPanel"
@@ -147,22 +147,22 @@
         app:cardElevation="0dp"
         app:cardCornerRadius="15dp">
 
-        <com.hellowo.chating.calendar.view.TemplateControlPager
+        <com.hellowo.journey.calendar.view.TemplateControlPager
             android:id="@+id/templateControlPager"
             android:layout_width="100dp"
             android:layout_height="match_parent">
-        </com.hellowo.chating.calendar.view.TemplateControlPager>
+        </com.hellowo.journey.calendar.view.TemplateControlPager>
 
     </androidx.cardview.widget.CardView>
 
-    <com.hellowo.chating.calendar.view.TemplateControlPagerIndicator
+    <com.hellowo.journey.calendar.view.TemplateControlPagerIndicator
         android:id="@+id/templateControlPagerIndi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clipChildren="false"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="2dp">
-    </com.hellowo.chating.calendar.view.TemplateControlPagerIndicator>
+    </com.hellowo.journey.calendar.view.TemplateControlPagerIndicator>
 
     <View
         android:id="@+id/dimView"
@@ -172,11 +172,11 @@
         android:background="@color/transitionDim">
     </View>
 
-    <com.hellowo.chating.calendar.view.TimeObjectDetailView
+    <com.hellowo.journey.calendar.view.TimeObjectDetailView
         android:id="@+id/timeObjectDetailView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="15dp">
-    </com.hellowo.chating.calendar.view.TimeObjectDetailView>
+    </com.hellowo.journey.calendar.view.TimeObjectDetailView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
