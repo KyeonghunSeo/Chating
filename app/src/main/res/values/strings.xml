@@ -64,6 +64,7 @@
     <string name="end">종료</string>
     <string name="weekNum">%1$s주차</string>
     <string name="setting">설정</string>
+    <string name="add_option">다른 정보 추가</string>
 
     <string-array name="day_of_weeks">
         <item>@string/sun</item>

@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.view.DragEvent
+import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -22,6 +23,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.MapFragment
+import com.google.android.gms.maps.SupportMapFragment
 import com.hellowo.journey.*
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.model.AppUser
@@ -55,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         initLayout()
         initCalendarView()
         initDayView()
+        initDetailView()
         initKeepView()
         initBriefingView()
         initTemplateView()
@@ -134,6 +139,10 @@ class MainActivity : AppCompatActivity() {
         dayView.setCalendarView(calendarView)
         dayView.onVisibility = { show ->
         }
+    }
+
+    private fun initDetailView() {
+        timeObjectDetailView.initMap()
     }
 
     private fun initKeepView() {
@@ -282,7 +291,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_FILEPICKER && resultCode == Activity.RESULT_OK) {
+        timeObjectDetailView.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_FILEPICKER && resultCode == RESULT_OK) {
             if (data != null) {
                 val uri = data.data
                 try{

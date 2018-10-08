@@ -28,7 +28,9 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var timeZone: String? = null,
                       var tags: RealmList<Tag>? = null,
                       var alarms: RealmList<Alarm>? = null,
-                      var links: RealmList<Link>? = null): RealmObject() {
+                      var links: RealmList<Link>? = null,
+                      var latitude: Double = Double.MIN_VALUE,
+                      var longitude: Double = Double.MIN_VALUE): RealmObject() {
 
     enum class Type(val titleId: Int, val iconId: Int) {
         NOTE(R.string.note, R.drawable.ic_baseline_description_24px),

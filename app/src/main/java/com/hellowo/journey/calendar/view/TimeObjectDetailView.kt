@@ -1,9 +1,12 @@
 package com.hellowo.journey.calendar.view
 
 import android.animation.LayoutTransition
+import android.app.Activity.RESULT_OK
 import android.content.Context
+import android.content.Intent
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.view.inputmethod.InputMethodManager
@@ -11,8 +14,15 @@ import android.widget.FrameLayout
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
+import com.google.android.gms.location.places.ui.PlacePicker
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.hellowo.journey.*
 import com.hellowo.journey.calendar.TimeObjectManager
+import com.hellowo.journey.calendar.dialog.AddMoreOptionDialog
 import com.hellowo.journey.calendar.dialog.ColorPickerDialog
 import com.hellowo.journey.calendar.dialog.DateTimePickerDialog
 import com.hellowo.journey.calendar.model.TimeObject
@@ -25,15 +35,12 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private var originalData: TimeObject? = null
-    private var timeObject: TimeObject? = null
-    private val colors = context.resources.getStringArray(R.array.colors)
-    private val insertModeHeight = dpToPx(250)
+    private var timeObject: TimeObject = TimeObject()
+    private var googleMap: GoogleMap? = null
     var viewMode = ViewMode.CLOSED
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_timeobject_detail, this, true)
-        contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        styleEditLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         contentPanel.visibility = View.INVISIBLE
         contentLy.setOnClickListener {}
 
@@ -43,8 +50,12 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
 
         deleteBtn.setOnClickListener {
-            timeObject?.let { TimeObjectManager.delete(it) }
+            originalData?.let { TimeObjectManager.delete(it) }
             MainActivity.instance?.viewModel?.clearTargetTimeObject()
+        }
+
+        addOptionBtn.setOnClickListener {
+            AddMoreOptionDialog{}.show(MainActivity.instance?.supportFragmentManager, null)
         }
 
         initControllBtn()
@@ -93,6 +104,14 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
+    fun initMap() {
+        (MainActivity.instance?.supportFragmentManager?.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync { map ->
+            googleMap = map
+            mapTouchView.setOnTouchListener { v, event -> event.action == MotionEvent.ACTION_MOVE }
+            map.moveCamera(CameraUpdateFactory.zoomTo(16f))
+        }
+    }
+
     private fun showTitleKeyPad() {
         titleInput.isFocusableInTouchMode = true
         if (titleInput.requestFocus()) {
@@ -107,26 +126,42 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             deleteBtn.visibility = View.VISIBLE
         }else {
             timeObject = TimeObjectManager.makeNewTimeObject(data.dtStart, data.dtEnd)
-            timeObject?.type = data.type
-            timeObject?.color = data.color
+            timeObject.type = data.type
+            timeObject.color = data.color
             deleteBtn.visibility = View.GONE
         }
     }
 
     private fun updateUI() {
-        timeObject?.let {
-            titleInput.setText(it.title)
-            when(it.type) {
-                TimeObject.Type.EVENT.ordinal -> {
+        titleInput.setText(timeObject.title)
+        when(timeObject.type) {
+            TimeObject.Type.EVENT.ordinal -> {
 
-                }
-                else -> {
-
-                }
             }
+            else -> {
 
-            colorBtn.setCardBackgroundColor(it.color)
-            fontColorText.setColorFilter(it.fontColor)
+            }
+        }
+
+        colorBtn.setCardBackgroundColor(timeObject.color)
+        fontColorText.setColorFilter(timeObject.fontColor)
+
+        updateLocationUI()
+    }
+
+    private fun updateLocationUI() {
+        if(timeObject.location.isNullOrBlank()) {
+            locationLy.visibility = View.GONE
+        }else {
+            locationLy.visibility = View.VISIBLE
+            locationText.text = timeObject.location
+
+            val latLng = LatLng(timeObject.latitude, timeObject.longitude)
+            googleMap?.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+            googleMap?.addMarker(MarkerOptions().position(latLng))
+
+            mapTouchView.setOnClickListener{
+            }
         }
     }
 
@@ -155,7 +190,10 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         val transitionSet = TransitionSet()
         transitionSet.addTransition(t1)
         transitionSet.addListener(object : Transition.TransitionListener{
-            override fun onTransitionEnd(transition: Transition) {}
+            override fun onTransitionEnd(transition: Transition) {
+                contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+                styleEditLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+            }
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
@@ -187,11 +225,23 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {
+                contentLy.layoutTransition.disableTransitionType(LayoutTransition.CHANGING)
+                styleEditLy.layoutTransition.disableTransitionType(LayoutTransition.CHANGING)
                 hideKeyPad(windowToken, titleInput)
             }
         })
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
         contentPanel.visibility = View.INVISIBLE
+    }
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == RC_LOCATION && resultCode == RESULT_OK) {
+            val place = PlacePicker.getPlace(data, context)
+            timeObject.location = "${place.name}\n${place.address}"
+            timeObject.latitude = place.latLng.latitude
+            timeObject.longitude = place.latLng.longitude
+            updateLocationUI()
+        }
     }
 }

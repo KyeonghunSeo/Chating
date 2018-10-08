@@ -77,18 +77,76 @@
 
                     </LinearLayout>
 
-                    <FrameLayout
+                    <LinearLayout
                         android:id="@+id/locationLy"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp">
+                        android:layout_height="wrap_content">
 
-                        <fragment
-                            android:id="@+id/map"
-                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                        <TextView
+                            android:id="@+id/locationText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/add_option"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="@font/bold" />
+
+                        <FrameLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="200dp">
 
-                    </FrameLayout>
+                            <fragment
+                                android:id="@+id/map"
+                                android:name="com.google.android.gms.maps.SupportMapFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <View
+                                android:id="@+id/mapTouchView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/addOptionBtn"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:layout_marginBottom="@dimen/normal_margin">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_margin="10dp"
+                            android:visibility="visible"
+                            app:cardElevation="2dp"
+                            app:cardCornerRadius="13dp"
+                            app:cardBackgroundColor="@color/colorPrimary">
+
+                            <ImageView
+                                app:srcCompat="@drawable/ic_outline_add"
+                                android:padding="5dp"
+                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                android:tint="@color/white"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:text="@string/add_option"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="@font/bold" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/deleteBtn"
