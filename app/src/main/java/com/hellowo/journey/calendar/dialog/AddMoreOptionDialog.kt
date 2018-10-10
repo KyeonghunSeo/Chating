@@ -4,21 +4,15 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.Color
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import android.view.View
 import androidx.cardview.widget.CardView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.gms.location.places.ui.PlacePicker
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.hellowo.journey.R
-import com.hellowo.journey.RC_FILEPICKER
 import com.hellowo.journey.RC_LOCATION
-import com.hellowo.journey.calendar.model.TimeObject
-import com.hellowo.journey.calendar.view.ColorPickerView
-import com.hellowo.journey.calendar.view.StylePickerView
-import com.hellowo.journey.calendar.view.TypePickerView
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.dialog.BottomSheetDialog
-
 
 
 @SuppressLint("ValidFragment")
@@ -42,6 +36,7 @@ class AddMoreOptionDialog(private val onResult: (Boolean) -> Unit) : BottomSheet
             locationBtn.setOnClickListener {
                 val builder = PlacePicker.IntentBuilder()
                 MainActivity.instance?.startActivityForResult(builder.build(MainActivity.instance), RC_LOCATION)
+                dismiss()
             }
         }
     }

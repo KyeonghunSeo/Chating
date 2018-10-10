@@ -67,6 +67,12 @@ object TimeObjectManager {
                 timeObject.id = UUID.randomUUID().toString()
                 timeObject.dtUpdated = System.currentTimeMillis()
             }
+
+            if(timeObject.dtStart > timeObject.dtEnd) {
+                val t = timeObject.dtStart
+                timeObject.dtStart = timeObject.dtEnd
+                timeObject.dtEnd = t
+            }
             realm.insertOrUpdate(timeObject)
         }
     }

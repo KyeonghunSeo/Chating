@@ -24,7 +24,7 @@
 
     <color name="primaryText">#de000000</color>
     <color name="secondaryText">#89000000</color>
-    <color name="disableText">#60000000</color>
+    <color name="disableText">#cccccc</color>
     <color name="primaryWhiteText">#FFFFFFFF</color>
     <color name="secondaryWhiteText">#b3FFFFFF</color>
     <color name="disableWhiteText">#80FFFFFF</color>
@@ -42,7 +42,7 @@
     <color name="blackAlpha">#60000000</color>
     <color name="white">#FFFFFF</color>
     <color name="alphaWhite">#D9FFFFFF</color>
-    <color name="almostWhite">#F0F0F0</color>
+    <color name="almostWhite">#F4F4F4</color>
     <color name="grey">#EFEFF4</color>
     <color name="greyAlpha">#60434957</color>
     <color name="red">#EE7785</color>

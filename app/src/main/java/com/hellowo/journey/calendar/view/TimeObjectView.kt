@@ -20,7 +20,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val rectRadius = dpToPx(3).toFloat()
         val circleRadius = dpToPx(5).toFloat()
         val checkBoxSize = dpToPx(7).toFloat()
-        val defaulMargin = dpToPx(1)
+        val defaulMargin = dpToPx(2)
         val defaultPadding = dpToPx(4)
         val normalTypeSize = dpToPx(20)
         val smallTypeSize = dpToPx(15)

@@ -143,7 +143,7 @@ fun makeViewToBitmap(view: View) : Bitmap {
 }
 
 fun vibrate(context: Context) {
-    (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(30)
+    (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(15)
 }
 
 fun startPagingEffectAnimation(direction: Int, view: View, listener: Animator.AnimatorListener?) {

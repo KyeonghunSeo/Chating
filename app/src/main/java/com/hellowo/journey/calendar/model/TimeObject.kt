@@ -2,11 +2,13 @@ package com.hellowo.journey.calendar.model
 
 import android.graphics.Color
 import com.hellowo.journey.R
+import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import java.text.DateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 open class TimeObject(@PrimaryKey var id: String? = null,
                       var type: Int = 0,
@@ -26,9 +28,9 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var dtCreated: Long = Long.MIN_VALUE,
                       var dtUpdated: Long = Long.MIN_VALUE,
                       var timeZone: String? = null,
-                      var tags: RealmList<Tag>? = null,
-                      var alarms: RealmList<Alarm>? = null,
-                      var links: RealmList<Link>? = null,
+                      var tags: RealmList<Tag> = RealmList(),
+                      var alarms: RealmList<Alarm> = RealmList(),
+                      var links: RealmList<Link> = RealmList(),
                       var latitude: Double = Double.MIN_VALUE,
                       var longitude: Double = Double.MIN_VALUE): RealmObject() {
 
@@ -109,5 +111,40 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         return "TimeObject(title=$title,type=$type, style=$style, color=$color, location=$location, description=$description, allday=$allday, dtStart=${DateFormat.getDateTimeInstance().format(Date(dtStart))}, dtEnd=${DateFormat.getDateTimeInstance().format(Date(dtEnd))}, dtUpdated=$dtUpdated, timeZone=$timeZone)"
     }
 
-    
+    fun copy(data: TimeObject) {
+        id = data.id
+        type = data.type
+        style = data.style
+        title = data.title
+        color = data.color
+        fontColor = data.fontColor
+        location = data.location
+        description = data.description
+        repeatId = data.repeatId
+        repeat = data.repeat
+        count = data.count
+        dtUntil = data.dtUntil
+        allday = data.allday
+        dtStart = data.dtStart
+        dtEnd = data.dtEnd
+        dtCreated = data.dtCreated
+        dtUpdated = data.dtUpdated
+        timeZone = data.timeZone
+
+        tags.clear()
+        data.tags.forEach {
+
+        }
+        alarms.clear()
+        data.alarms.forEach {
+
+        }
+        links.clear()
+        data.links.forEach {
+
+        }
+        latitude = data.latitude
+        longitude = data.latitude
+    }
+
 }

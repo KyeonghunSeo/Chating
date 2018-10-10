@@ -4,7 +4,10 @@ import android.animation.LayoutTransition
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -32,10 +35,11 @@ import kotlinx.android.synthetic.main.view_timeobject_detail.view.*
 
 class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
+
     }
 
     private var originalData: TimeObject? = null
-    private var timeObject: TimeObject = TimeObject()
+    private val timeObject: TimeObject = TimeObject()
     private var googleMap: GoogleMap? = null
     var viewMode = ViewMode.CLOSED
 
@@ -66,11 +70,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     private fun initControllBtn() {
         colorBtn.setOnClickListener {
-            showDialog(ColorPickerDialog(MainActivity.instance!!, timeObject!!.color) { color, fontColor ->
-                timeObject?.let {
-                    it.color = color
-                    it.fontColor = fontColor
-                }
+            showDialog(ColorPickerDialog(MainActivity.instance!!, timeObject.color) { color, fontColor ->
+                timeObject.color = color
+                timeObject.fontColor = fontColor
                 updateUI()
             }, true, true, true, false)
         }
@@ -86,18 +88,25 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             }
             return@setOnEditorActionListener false
         }
+        titleInput.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                timeObject.title = titleInput.text.toString()
+            }
+            override fun afterTextChanged(p0: Editable?) {}
+        })
         titleInput.isFocusableInTouchMode = false
         titleInput.clearFocus()
         titleInput.setOnClickListener { showTitleKeyPad() }
+
+
     }
 
     private fun initDateTime() {
         timeLy.setOnClickListener {
             val dialog = DateTimePickerDialog(MainActivity.instance!!, 0) { sCal, eCal, allday ->
-                timeObject?.let {
-                    it.dtStart = sCal.timeInMillis
-                    it.dtEnd = eCal.timeInMillis
-                }
+                timeObject.dtStart = sCal.timeInMillis
+                timeObject.dtEnd = eCal.timeInMillis
                 updateUI()
             }
             showDialog(dialog, true, true, true, false)
@@ -121,32 +130,37 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     private fun setData(data: TimeObject) {
         originalData = data
+        timeObject.copy(data)
         if(data.isManaged) {
-            timeObject = TimeObjectManager.getCopiedData(data)
             deleteBtn.visibility = View.VISIBLE
         }else {
-            timeObject = TimeObjectManager.makeNewTimeObject(data.dtStart, data.dtEnd)
-            timeObject.type = data.type
-            timeObject.color = data.color
             deleteBtn.visibility = View.GONE
         }
     }
 
     private fun updateUI() {
-        titleInput.setText(timeObject.title)
-        when(timeObject.type) {
-            TimeObject.Type.EVENT.ordinal -> {
-
-            }
-            else -> {
-
-            }
-        }
 
         colorBtn.setCardBackgroundColor(timeObject.color)
         fontColorText.setColorFilter(timeObject.fontColor)
 
+        updateTitleUI()
         updateLocationUI()
+    }
+
+    private fun updateTitleUI() {
+        when(timeObject.type) {
+            TimeObject.Type.NOTE.ordinal -> {
+                titleInput.hint = context.getString(R.string.what_do_you_think)
+                titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
+                titleInput.typeface = AppRes.regularFont
+            }
+            else -> {
+                titleInput.hint = context.getString(R.string.title)
+                titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 32f)
+                titleInput.typeface = AppRes.boldFont
+            }
+        }
+        titleInput.setText(timeObject.title)
     }
 
     private fun updateLocationUI() {
@@ -166,11 +180,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     fun confirm() {
-        timeObject?.let {
-            TimeObjectManager.save(it.apply {
-                title = titleInput.text.toString()
-            })
-        }
+        TimeObjectManager.save(timeObject)
     }
 
     fun show(timeObject: TimeObject) {
@@ -191,8 +201,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         transitionSet.addTransition(t1)
         transitionSet.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
-                contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-                styleEditLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+                //contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
             }
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}
@@ -204,7 +213,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         contentPanel.visibility = View.VISIBLE
 
         if(!timeObject.isManaged) {
-            showTitleKeyPad()
+            //showTitleKeyPad()
         }
     }
 
@@ -225,13 +234,12 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {
-                contentLy.layoutTransition.disableTransitionType(LayoutTransition.CHANGING)
-                styleEditLy.layoutTransition.disableTransitionType(LayoutTransition.CHANGING)
                 hideKeyPad(windowToken, titleInput)
             }
         })
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
+        //contentLy.layoutTransition.disableTransitionType(LayoutTransition.CHANGING)
         contentPanel.visibility = View.INVISIBLE
     }
 

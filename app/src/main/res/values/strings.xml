@@ -65,6 +65,13 @@
     <string name="weekNum">%1$s주차</string>
     <string name="setting">설정</string>
     <string name="add_option">다른 정보 추가</string>
+    <string name="what_do_you_think">무슨 생각을 하고계신가요?</string>
+    <string name="detail_info">세부정보</string>
+    <string name="memo">메모</string>
+    <string name="location">위치</string>
+    <string name="alert">알림</string>
+    <string name="detail">자세히</string>
+    <string name="simple">간략히</string>
 
     <string-array name="day_of_weeks">
         <item>@string/sun</item>

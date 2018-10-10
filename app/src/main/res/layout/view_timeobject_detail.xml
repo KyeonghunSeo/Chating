@@ -17,22 +17,21 @@
             android:layout_height="wrap_content"
             android:visibility="visible"
             app:cardBackgroundColor="@color/white"
-            app:cardElevation="15dp"
-            app:cardCornerRadius="8dp">
+            app:cardElevation="0dp"
+            app:cardCornerRadius="@dimen/extra_margin">
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="50dp">
+                android:layout_marginBottom="50dp">
 
                 <LinearLayout
                     android:id="@+id/contentLy"
                     android:orientation="vertical"
-                    android:animateLayoutChanges="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="30dp"
-                    android:paddingBottom="30dp"
+                    android:paddingTop="35dp"
+                    android:paddingBottom="35dp"
                     android:paddingLeft="@dimen/extra_margin"
                     android:paddingRight="@dimen/extra_margin">
 
@@ -40,8 +39,8 @@
                         android:id="@+id/titleInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        android:hint="@string/untitle"/>
+                        android:textColorHint="@color/disableText"
+                        android:background="@color/transparent"/>
 
                     <LinearLayout
                         android:id="@+id/timeLy"
@@ -122,11 +121,12 @@
                         <androidx.cardview.widget.CardView
                             android:layout_width="26dp"
                             android:layout_height="26dp"
-                            android:layout_margin="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
                             android:visibility="visible"
-                            app:cardElevation="2dp"
+                            app:cardElevation="0dp"
                             app:cardCornerRadius="13dp"
-                            app:cardBackgroundColor="@color/colorPrimary">
+                            app:cardBackgroundColor="@color/iconTint">
 
                             <ImageView
                                 app:srcCompat="@drawable/ic_outline_add"
@@ -141,6 +141,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:text="@string/add_option"
                             android:textColor="@color/primaryText"
@@ -182,18 +183,16 @@
         <LinearLayout
             android:id="@+id/styleEditLy"
             android:orientation="horizontal"
-            android:animateLayoutChanges="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:background="@color/background"
-            android:elevation="15dp">
+            android:background="@color/white"
+            android:elevation="0dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/colorBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_margin="20dp"
                 app:cardBackgroundColor="@color/black"
                 app:cardElevation="0dp"
                 app:cardCornerRadius="8dp">
@@ -223,7 +222,7 @@
                     android:layout_gravity="right|center_vertical"
                     android:textColor="@color/colorPrimary"
                     android:textSize="16dp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/bold"
                     android:text="@string/confirm"/>
 
             </FrameLayout>
