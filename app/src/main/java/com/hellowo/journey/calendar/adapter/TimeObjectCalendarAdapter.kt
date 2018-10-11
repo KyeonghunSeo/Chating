@@ -187,7 +187,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
             try{
                 it.timeObjectViewList?.forEach {
                     //it.alpha = if(it.cellNum + it.length - 1 in calendarView.startCellNum..calendarView.endCellNum) 1f else 0.2f
-                    calendarView.dateCells[it.cellNum].addView(it, 0)
+                    calendarView.dateCells[it.cellNum].addView(it)
                     if(TimeObjectManager.lastUpdatedItem == it.timeObject) {
                         showInsertAnimation(it)
                     }

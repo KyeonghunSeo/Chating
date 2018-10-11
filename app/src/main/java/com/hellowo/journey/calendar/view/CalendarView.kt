@@ -153,7 +153,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         tempCal.add(Calendar.DATE, -startCellNum)
 
         if(isInit) {
-            selectedBar.layoutParams = FrameLayout.LayoutParams(minWidth.toInt(), dateArea)
+            selectedBar.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, dateArea)
             weekLySideView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, dpToPx(100)).apply {
                 //gravity = Gravity.BOTTOM
             }
@@ -304,7 +304,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val color = getDateTextColor(cellNum)
             val bounds = Rect()
             dateText.paint.getTextBounds(dateText.text.toString(), 0, dateText.text.length, bounds)
-            dateCells[cellNum].addView(selectedBar)
+            dateCells[cellNum].addView(selectedBar, 0)
             selectedBar.findViewById<TextView>(R.id.dowText).let {
                 it.text = dow[cellNum % columns]
                 it.setTextColor(color)
@@ -328,7 +328,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     it.playTogether(
                             ObjectAnimator.ofFloat(dateText, "scaleX", 1f, selectedDateScale),
                             ObjectAnimator.ofFloat(dateText, "scaleY", 1f, selectedDateScale),
-                            ObjectAnimator.ofFloat(selectedBar, "scaleY", 0f, 1f),
+                            ObjectAnimator.ofFloat(selectedBar, "alpha", 0f, 1f),
                             ObjectAnimator.ofFloat(weekLySideView, "translationX", weekLySideView.translationX, 0f))
                     it.interpolator = FastOutSlowInInterpolator()
                     it.duration = animDur

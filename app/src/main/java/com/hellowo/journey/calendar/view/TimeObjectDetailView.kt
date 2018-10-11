@@ -30,6 +30,7 @@ import com.hellowo.journey.calendar.dialog.ColorPickerDialog
 import com.hellowo.journey.calendar.dialog.DateTimePickerDialog
 import com.hellowo.journey.calendar.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
+import com.hellowo.journey.ui.activity.MapActivity
 import kotlinx.android.synthetic.main.view_timeobject_detail.view.*
 
 
@@ -59,7 +60,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
 
         addOptionBtn.setOnClickListener {
-            AddMoreOptionDialog{}.show(MainActivity.instance?.supportFragmentManager, null)
+            AddMoreOptionDialog(this@TimeObjectDetailView).show(MainActivity.instance?.supportFragmentManager, null)
         }
 
         initControllBtn()
@@ -117,7 +118,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         (MainActivity.instance?.supportFragmentManager?.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync { map ->
             googleMap = map
             mapTouchView.setOnTouchListener { v, event -> event.action == MotionEvent.ACTION_MOVE }
-            map.moveCamera(CameraUpdateFactory.zoomTo(16f))
         }
     }
 
@@ -139,7 +139,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun updateUI() {
-
         colorBtn.setCardBackgroundColor(timeObject.color)
         fontColorText.setColorFilter(timeObject.fontColor)
 
@@ -171,11 +170,12 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             locationText.text = timeObject.location
 
             val latLng = LatLng(timeObject.latitude, timeObject.longitude)
-            googleMap?.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+            googleMap?.clear()
+            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
             googleMap?.addMarker(MarkerOptions().position(latLng))
 
-            mapTouchView.setOnClickListener{
-            }
+            locationText.setOnClickListener { openPlacePicker() }
+            mapTouchView.setOnClickListener{ openMapActivity() }
         }
     }
 
@@ -250,6 +250,21 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             timeObject.latitude = place.latLng.latitude
             timeObject.longitude = place.latLng.longitude
             updateLocationUI()
+        }
+    }
+
+    fun openPlacePicker() {
+        val builder = PlacePicker.IntentBuilder()
+        MainActivity.instance?.startActivityForResult(builder.build(MainActivity.instance), RC_LOCATION)
+    }
+
+    private fun openMapActivity() {
+        MainActivity.instance?.let {
+            val intent = Intent(it, MapActivity::class.java)
+            intent.putExtra("location", timeObject.location)
+            intent.putExtra("lat", timeObject.latitude)
+            intent.putExtra("lng", timeObject.longitude)
+            it.startActivity(intent)
         }
     }
 }

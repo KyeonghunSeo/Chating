@@ -11,12 +11,13 @@ import com.google.android.gms.location.places.ui.PlacePicker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.hellowo.journey.R
 import com.hellowo.journey.RC_LOCATION
+import com.hellowo.journey.calendar.view.TimeObjectDetailView
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.dialog.BottomSheetDialog
 
 
 @SuppressLint("ValidFragment")
-class AddMoreOptionDialog(private val onResult: (Boolean) -> Unit) : BottomSheetDialog() {
+class AddMoreOptionDialog(private val timeObjectDetailView: TimeObjectDetailView) : BottomSheetDialog() {
 
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
@@ -34,15 +35,9 @@ class AddMoreOptionDialog(private val onResult: (Boolean) -> Unit) : BottomSheet
 
             val locationBtn = contentView.findViewById<CardView>(R.id.locationBtn)
             locationBtn.setOnClickListener {
-                val builder = PlacePicker.IntentBuilder()
-                MainActivity.instance?.startActivityForResult(builder.build(MainActivity.instance), RC_LOCATION)
+                timeObjectDetailView.openPlacePicker()
                 dismiss()
             }
         }
-    }
-
-    override fun onDismiss(dialog: DialogInterface?) {
-        super.onDismiss(dialog)
-        onResult.invoke(true)
     }
 }

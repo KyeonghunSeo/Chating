@@ -128,8 +128,8 @@ class MainActivity : AppCompatActivity() {
         }
         topShadow.visibility = View.GONE
         calendarView.setOnTop { isTop ->
-            //if(!isTop) topShadow.visibility = View.VISIBLE
-            //else topShadow.visibility = View.GONE
+            if(!isTop) topShadow.visibility = View.VISIBLE
+            else topShadow.visibility = View.GONE
         }
     }
 

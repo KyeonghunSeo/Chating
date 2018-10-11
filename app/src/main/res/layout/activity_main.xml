@@ -84,9 +84,9 @@
 
     <View
         android:id="@+id/topShadow"
-        android:background="@drawable/top_shadow"
+        android:background="@color/grey"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="50dp">
     </View>
 
@@ -98,10 +98,10 @@
     </com.hellowo.journey.calendar.view.DayView>
 
     <View
-        android:background="@drawable/bottom_shadow"
+        android:background="@color/grey"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="0.5dp"
         android:layout_marginBottom="50dp">
     </View>
 
@@ -142,7 +142,6 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="13dp"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="0dp"
         app:cardCornerRadius="15dp">

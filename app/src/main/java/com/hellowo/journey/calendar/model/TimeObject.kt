@@ -144,7 +144,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
 
         }
         latitude = data.latitude
-        longitude = data.latitude
+        longitude = data.longitude
     }
 
 }
