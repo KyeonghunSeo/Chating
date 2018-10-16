@@ -3,24 +3,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="25dp">
+    </androidx.cardview.widget.CardView>
+
     <LinearLayout
-        android:id="@+id/contentLy"
-        android:animateLayoutChanges="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/popup_dialog_background"
-        android:elevation="10dp"
         android:orientation="vertical"
-        android:layout_gravity="center"
-        android:layout_margin="25dp">
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:background="@color/white"
+        android:clipChildren="false">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/startTab"
@@ -46,48 +54,15 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorPrimary"
                         android:text="@string/start"
-                        android:textSize="12dp" />
-
-                    <LinearLayout
-                        android:id="@+id/startDateTextLy"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/startDateDText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorPrimary"
-                            android:text="30"
-                            android:textSize="25dp" />
-
-                        <TextView
-                            android:id="@+id/startDateYMDText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:textColor="@color/colorPrimary"
-                            android:text="2018"
-                            android:textSize="12dp" />
-
-                    </LinearLayout>
+                        android:textSize="15dp" />
 
                     <LinearLayout
                         android:id="@+id/startTimeTextLy"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/startTimeTText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorPrimary"
-                            android:text="AM 3:00"
-                            android:textSize="20dp" />
 
                         <TextView
                             android:id="@+id/startTimeYMDText"
@@ -96,6 +71,14 @@
                             android:textColor="@color/colorPrimary"
                             android:text="2018"
                             android:textSize="12dp" />
+
+                        <TextView
+                            android:id="@+id/startTimeTText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimary"
+                            android:text="AM 3:00"
+                            android:textSize="20dp" />
 
                     </LinearLayout>
 
@@ -127,48 +110,15 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/primaryText"
                         android:text="@string/end"
-                        android:textSize="13dp" />
-
-                    <LinearLayout
-                        android:id="@+id/endDateTextLy"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/endDateDText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorPrimary"
-                            android:text="30"
-                            android:textSize="25dp" />
-
-                        <TextView
-                            android:id="@+id/endDateYMDText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:textColor="@color/colorPrimary"
-                            android:text="2018"
-                            android:textSize="12dp" />
-
-                    </LinearLayout>
+                        android:textSize="15dp" />
 
                     <LinearLayout
                         android:id="@+id/endTimeTextLy"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/endTimeTText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorPrimary"
-                            android:text="AM 3:00"
-                            android:textSize="20dp" />
 
                         <TextView
                             android:id="@+id/endTimeYMDText"
@@ -177,6 +127,14 @@
                             android:textColor="@color/colorPrimary"
                             android:text="2018"
                             android:textSize="12dp" />
+
+                        <TextView
+                            android:id="@+id/endTimeTText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimary"
+                            android:text="AM 3:00"
+                            android:textSize="20dp" />
 
                     </LinearLayout>
 
@@ -189,19 +147,20 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_size"
             android:background="@color/grey"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"/>
 
         <TextView
             android:id="@+id/calendarText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:textColor="@color/colorPrimary"
+            android:layout_marginBottom="12dp"
+            android:textColor="@color/primaryText"
             android:layout_gravity="center"
             android:text="date"
             android:textSize="16dp" />
-        
+
         <include
             android:id="@+id/dayOfWeekView"
             layout="@layout/view_day_of_week">
@@ -209,7 +168,7 @@
 
         <com.hellowo.journey.ui.view.TouchControllFrameLayout
             android:id="@+id/containter"
-            android:layout_width="320dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:layout_marginLeft="15dp"
@@ -224,14 +183,6 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal">
 
-            <NumberPicker
-                android:id="@+id/dateWheel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_gravity="center_vertical">
-            </NumberPicker>
-
             <TimePicker
                 android:id="@+id/timeWheel"
                 android:layout_width="wrap_content"
@@ -241,37 +192,44 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="right">
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
-            <TextView
-                android:id="@+id/cancelBtn"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:padding="16dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:text="@string/cancel"/>
+                android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/confirmBtn"
+                <ImageView
+                    android:id="@+id/calBtn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_outline_calendar_today"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:padding="12dp"/>
+
+                <ImageView
+                    android:id="@+id/timeBtn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_outline_calendar_today"
+                    android:padding="12dp"/>
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/timeSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:padding="16dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:text="@string/confirm"/>
+                android:layout_gravity="right|center_vertical"
+                android:text="@string/set_time"/>
 
-        </LinearLayout>
+        </FrameLayout>
 
     </LinearLayout>
 

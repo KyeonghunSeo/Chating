@@ -105,12 +105,12 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     private fun initDateTime() {
         timeLy.setOnClickListener {
-            val dialog = DateTimePickerDialog(MainActivity.instance!!, 0) { sCal, eCal, allday ->
+            DateTimePickerDialog(MainActivity.instance!!, timeObject) { sCal, eCal, allday ->
                 timeObject.dtStart = sCal.timeInMillis
                 timeObject.dtEnd = eCal.timeInMillis
+                timeObject.allday = allday
                 updateUI()
-            }
-            showDialog(dialog, true, true, true, false)
+            }.show(MainActivity.instance?.supportFragmentManager, null)
         }
     }
 

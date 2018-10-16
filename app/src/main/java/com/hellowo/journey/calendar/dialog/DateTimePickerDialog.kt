@@ -3,42 +3,46 @@ package com.hellowo.journey.calendar.dialog
 import android.animation.AnimatorSet
 import android.animation.LayoutTransition.CHANGING
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.GestureDetector
-import android.view.Gravity
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hellowo.journey.*
 import com.hellowo.journey.calendar.model.CalendarSkin
+import com.hellowo.journey.calendar.model.TimeObject
 import kotlinx.android.synthetic.main.dialog_date_time_picker.*
 import java.util.*
 
-
-class DateTimePickerDialog(private val activity: Activity, private val startMode: Int,
-                           private val onConfirmed: (Calendar, Calendar, Boolean) -> Unit) : Dialog(activity) {
+@SuppressLint("ValidFragment")
+class DateTimePickerDialog(private val activity: Activity, private val timeObject: TimeObject,
+                           private val onConfirmed: (Calendar, Calendar, Boolean) -> Unit) : BottomSheetDialogFragment() {
 
     val maxCellNum = 42
     val dateTextSize = 16f
     val columns = 7
-    val calendarLy = LinearLayout(context)
-    val weekLys = Array(6) { _ -> FrameLayout(context) }
-    val dateLys = Array(maxCellNum) { _ -> FrameLayout(context) }
-    val dateTexts = Array(maxCellNum) { _ -> DateTextView(context) }
+    val calendarLy = LinearLayout(activity)
+    val weekLys = Array(6) { _ -> FrameLayout(activity) }
+    val dateLys = Array(maxCellNum) { _ -> FrameLayout(activity) }
+    val dateTexts = Array(maxCellNum) { _ -> DateTextView(activity) }
 
     private val todayCal: Calendar = Calendar.getInstance()
     private val tempCal: Calendar = Calendar.getInstance()
@@ -53,60 +57,70 @@ class DateTimePickerDialog(private val activity: Activity, private val startMode
     var startCellNum = 0
     var endCellNum = 0
     val calendarHeight = dpToPx(250)
-    val calendarWidth = dpToPx(320)
     var minWidth = 0f
     var minHeight = 0f
     var rows = 0
 
     var startEndMode = 0
-    var timeMode = startMode
+    var timeMode = if(timeObject.allday) 0 else 1
 
-    init {}
+    init {
+        startCal.timeInMillis = timeObject.dtStart
+        endCal.timeInMillis = timeObject.dtEnd
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_date_time_picker)
-        setLayout()
-        setOnShowListener {
-            startFromBottomSlideAppearAnimation(contentLy, dpToPx(10).toFloat())
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+            = View.inflate(context, R.layout.dialog_date_time_picker, null)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        dialog.setOnShowListener {
+            (rootLy.parent as View).setBackgroundColor(Color.TRANSPARENT)
+            val behavior = ((rootLy.parent as View).layoutParams as CoordinatorLayout.LayoutParams).behavior as BottomSheetBehavior<*>?
+            behavior?.let {
+                it.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+            setLayout()
         }
     }
 
+    override fun onCancel(dialog: DialogInterface?) {
+        super.onCancel(dialog)
+        onConfirmed.invoke(startCal, endCal, !timeSwitch.isChecked)
+    }
+
     private fun setLayout() {
-        rootLy.layoutParams.width = WRAP_CONTENT
-        rootLy.requestLayout()
-        contentLy.layoutTransition.enableTransitionType(CHANGING)
         makeCalendar()
 
         startTab.setOnClickListener {
             startEndMode = 0
-            setTimeView()
-            setDateText()
+            setModeLy()
         }
 
         endTab.setOnClickListener {
             startEndMode = 1
-            setTimeView()
-            setDateText()
+            setModeLy()
         }
 
-        confirmBtn.setOnClickListener {
-            onConfirmed.invoke(startCal, endCal, true)
-            dismiss()
+        calBtn.setOnClickListener {
+            timeMode = 0
+            setModeLy()
         }
 
-        cancelBtn.setOnClickListener {
-            dismiss()
+        timeBtn.setOnClickListener {
+            timeMode = 1
+            setModeLy()
         }
 
-        rootLy.setOnClickListener {
-            dismiss()
-        }
+        rootLy.setOnClickListener {}
 
-        contentLy.setOnClickListener {  }
+        timeSwitch.isChecked = !timeObject.allday
+        timeSwitch.setOnCheckedChangeListener { compoundButton, checked ->
+            timeMode = if(checked) 1 else 0
+            setModeLy()
+        }
 
         setModeLy()
-        drawCalendar(startCal.timeInMillis)
     }
 
     private fun makeCalendar() {
@@ -138,40 +152,10 @@ class DateTimePickerDialog(private val activity: Activity, private val startMode
         }
     }
 
-    private val dateWheelCal = Calendar.getInstance()
-    private val dateWheelTime = LongArray(200)
-
-    private fun initTimeView() {
-        /*
-        timeView.initBlockLyWidth(calendarWidth)
-        timeView.setTimeEditMode(timeBlock) { scal, ecal ->
-            CalendarUtil.copyHourMinSecMill(startCal, scal)
-            CalendarUtil.copyHourMinSecMill(endCal, ecal)
-            setDateText()
-        }
-        */
-        dateWheel.minValue = 0
-        dateWheel.maxValue = 199
-        dateWheel.wrapSelectorWheel = false
-
-        setTimeView()
-
-        dateWheel.setOnValueChangedListener { numberPicker, old, new ->
-            dateWheelCal.timeInMillis = dateWheelTime[new]
-            if(startEndMode == 0) {
-                copyYearMonthDate(startCal, dateWheelCal)
-                if(startCal > endCal) {
-                    endCal.timeInMillis = startCal.timeInMillis
-                }
-            }else {
-                copyYearMonthDate(endCal, dateWheelCal)
-                if(startCal > endCal) {
-                    startCal.timeInMillis = endCal.timeInMillis
-                }
-            }
-            setDateText()
-        }
-
+    private fun setTimeView(cal: Calendar) {
+        timeWheel.setOnTimeChangedListener(null)
+        timeWheel.currentHour = cal.get(Calendar.HOUR_OF_DAY)
+        timeWheel.currentMinute = cal.get(Calendar.MINUTE)
         timeWheel.setOnTimeChangedListener { timePicker, h, m ->
             if(startEndMode == 0) {
                 startCal.set(Calendar.HOUR_OF_DAY, h)
@@ -190,101 +174,74 @@ class DateTimePickerDialog(private val activity: Activity, private val startMode
         }
     }
 
-    private fun setTimeView() {
-        /*
-        if(startEndMode == 0) {
-            timeWheel.hour = startCal.get(Calendar.HOUR_OF_DAY)
-            timeWheel.minute = startCal.get(Calendar.MINUTE)
-
-            dateWheelCal.timeInMillis = startCal.timeInMillis
-            dateWheelCal.add(Calendar.DATE, -101)
-            val dates = Array<String>(200) {
-                dateWheelCal.add(Calendar.DATE, 1)
-                dateWheelTime[it] = dateWheelCal.timeInMillis
-                AppRes.mdDate.format(dateWheelCal.time)
-            }
-            dateWheel.displayedValues = dates
-        }else {
-            timeWheel.hour = endCal.get(Calendar.HOUR_OF_DAY)
-            timeWheel.minute = endCal.get(Calendar.MINUTE)
-
-            dateWheelCal.timeInMillis = endCal.timeInMillis
-            dateWheelCal.add(Calendar.DATE, -101)
-            val dates = Array<String>(200) {
-                dateWheelCal.add(Calendar.DATE, 1)
-                dateWheelTime[it] = dateWheelCal.timeInMillis
-                AppRes.mdDate.format(dateWheelCal.time)
-            }
-            dateWheel.displayedValues = dates
-        }
-        dateWheel.value = 100*/
-    }
-
     private fun setDateText() {
         val dtStart = startCal.timeInMillis
         val dtEnd = endCal.timeInMillis
-        if(startMode == 0) {
-            startDateDText.text = "${startCal.get(Calendar.DATE)}"
-            startDateYMDText.text =  "${AppRes.ymDate.format(dtStart)}\n${AppRes.dow.format(dtStart)}"
-            endDateDText.text = "${endCal.get(Calendar.DATE)}"
-            endDateYMDText.text =  "${AppRes.ymDate.format(dtEnd)}\n${AppRes.dow.format(dtEnd)}"
+        if(!timeSwitch.isChecked) {
+            startTimeTText.text = "${AppRes.date.format(dtStart)} ${AppRes.dow.format(dtStart)}"
+            startTimeYMDText.text =  "${AppRes.ymDate.format(dtStart)}"
+            endTimeTText.text = "${AppRes.date.format(dtEnd)} ${AppRes.dow.format(dtEnd)}"
+            endTimeYMDText.text =  "${AppRes.ymDate.format(dtEnd)}"
         }else {
             startTimeTText.text = AppRes.time.format(dtStart)
             startTimeYMDText.text = AppRes.ymdDate.format(dtStart)
             endTimeTText.text = AppRes.time.format(dtEnd)
             endTimeYMDText.text = AppRes.ymdDate.format(dtEnd)
-            /*
-            val dtStart = startCal.timeInMillis
-            val dtEnd = endCal.timeInMillis
-            if(isSameDay(startCal, endCal)) {
-                startTimeText.text = "${AppRes.ymdeDate.format(dtStart)}\n" +
-                        "${AppRes.time.format(dtStart)} ~ ${AppRes.time.format(dtEnd)}"
-            }else {
-                startTimeText.text = String.format(context.getString(R.string.long_date_format),
-                        "${AppRes.ymdeDate.format(dtStart)} ${AppRes.time.format(dtStart)}",
-                        "${AppRes.ymdeDate.format(dtEnd)} ${AppRes.time.format(dtEnd)}")
-            }*/
         }
 
         if(startEndMode == 0) {
             startText.setTextColor(CalendarSkin.selectedDateColor)
-            startDateDText.setTextColor(CalendarSkin.selectedDateColor)
-            startDateYMDText.setTextColor(CalendarSkin.selectedDateColor)
             startTimeTText.setTextColor(CalendarSkin.selectedDateColor)
             startTimeYMDText.setTextColor(CalendarSkin.selectedDateColor)
 
             endText.setTextColor(CalendarSkin.selectedBackgroundColor)
-            endDateDText.setTextColor(CalendarSkin.selectedBackgroundColor)
-            endDateYMDText.setTextColor(CalendarSkin.selectedBackgroundColor)
             endTimeTText.setTextColor(CalendarSkin.selectedBackgroundColor)
             endTimeYMDText.setTextColor(CalendarSkin.selectedBackgroundColor)
         }else {
             startText.setTextColor(CalendarSkin.selectedBackgroundColor)
-            startDateDText.setTextColor(CalendarSkin.selectedBackgroundColor)
-            startDateYMDText.setTextColor(CalendarSkin.selectedBackgroundColor)
             startTimeTText.setTextColor(CalendarSkin.selectedBackgroundColor)
             startTimeYMDText.setTextColor(CalendarSkin.selectedBackgroundColor)
 
             endText.setTextColor(CalendarSkin.selectedDateColor)
-            endDateDText.setTextColor(CalendarSkin.selectedDateColor)
-            endDateYMDText.setTextColor(CalendarSkin.selectedDateColor)
             endTimeTText.setTextColor(CalendarSkin.selectedDateColor)
             endTimeYMDText.setTextColor(CalendarSkin.selectedDateColor)
         }
     }
 
     private fun setModeLy() {
+        if(timeSwitch.isChecked) {
+            timeBtn.visibility = View.VISIBLE
+        }else {
+            timeBtn.visibility = View.GONE
+        }
+
         if(timeMode == 0) {
             timeLy.visibility = View.GONE
             containter.visibility = View.VISIBLE
             dayOfWeekView.visibility = View.VISIBLE
             calendarText.visibility = View.VISIBLE
+            calBtn.alpha = 1f
+            timeBtn.alpha = 0.3f
+            if(startEndMode == 0) {
+                drawCalendar(startCal.timeInMillis)
+            }else {
+                drawCalendar(endCal.timeInMillis)
+            }
         }else {
             timeLy.visibility = View.VISIBLE
             containter.visibility = View.GONE
             dayOfWeekView.visibility = View.GONE
             calendarText.visibility = View.GONE
+            calBtn.alpha = 0.3f
+            timeBtn.alpha = 1f
+            if(startEndMode == 0) {
+                setTimeView(startCal)
+            }else {
+                setTimeView(endCal)
+            }
         }
+
+        setDateText()
     }
 
     var startTextCellnum = -1
@@ -300,7 +257,7 @@ class DateTimePickerDialog(private val activity: Activity, private val startMode
         startCellNum = tempCal.get(Calendar.DAY_OF_WEEK) - 1
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minWidth = calendarWidth / columns.toFloat()
+        minWidth = containter.width / columns.toFloat()
         minHeight = calendarHeight.toFloat() / rows
         calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, calendarHeight)
         tempCal.add(Calendar.DATE, -startCellNum)
@@ -449,12 +406,12 @@ class DateTimePickerDialog(private val activity: Activity, private val startMode
         }
     }
 
-    inner class DateTextView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    inner class DateTextView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
         : TextView(context, attrs, defStyleAttr) {
-        val size = dpToPx(30)
+        val size = dpToPx(40)
         var mode = 0
-        val color = CalendarSkin.selectedDateColor
-        val lightColor = CalendarSkin.selectedBackgroundColor
+        val color = timeObject.color
+        val lightColor = timeObject.color
 
         override fun onDraw(canvas: Canvas?) {
             val paint = paint

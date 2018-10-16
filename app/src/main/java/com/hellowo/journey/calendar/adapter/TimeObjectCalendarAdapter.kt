@@ -131,7 +131,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 }
 
                 it.timeObjectViewList?.forEach {
-                    it.mLeft = (calendarView.minWidth * (it.cellNum % columns)).toInt() + CalendarView.weekLeftMargin
+                    it.mLeft = (calendarView.minWidth * (it.cellNum % columns)).toInt() + CalendarView.weekSideMargin
                     it.mRight = it.mLeft + (calendarView.minWidth * it.length).toInt()
                     when(formula) {
                         TimeObject.Formula.TOPSTACK -> {

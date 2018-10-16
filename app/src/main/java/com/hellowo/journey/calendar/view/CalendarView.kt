@@ -38,7 +38,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateArea = dpToPx(30)
         val weekLyBottomPadding = dpToPx(20)
         val dateMargin = dpToPx(1)
-        val weekLeftMargin = dpToPx(0)
+        val weekSideMargin = dpToPx(16)
         val autoPagingThreshold = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
@@ -107,7 +107,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateLy.clipChildren = false
             dateLy.orientation = HORIZONTAL
             dateLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                leftMargin = weekLeftMargin
+                leftMargin = weekSideMargin
+                rightMargin = weekSideMargin
             }
             weekLy.addView(dateLy)
 
@@ -145,7 +146,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         postSelectedNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
         minCalendarHeight = height
-        minWidth = (width.toFloat() - weekLeftMargin) / columns
+        minWidth = (width.toFloat() - weekSideMargin * 2) / columns
         minHeight = minCalendarHeight.toFloat() / rows
 
         calendarLy.layoutParams.height = minCalendarHeight
@@ -207,7 +208,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         if(postSelectedNum == -1) {
-            weekLySideView.translationX = -weekLeftMargin.toFloat()
         }
 
         TimeObjectManager.setTimeObjectCalendarAdapter(this)
@@ -286,7 +286,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             if(cellNum / columns != selectedCellNum / columns) {
                 weekLySideView.parent?.let {
                     (it as FrameLayout).removeView(weekLySideView)
-                    weekLySideView.translationX = -weekLeftMargin.toFloat()
+                    weekLySideView.translationX = -weekSideMargin.toFloat()
                 }
                 weekLys[cellNum / columns].addView(weekLySideView, 0)
                 weekLySideView.findViewById<TextView>(R.id.weekNumText).text =
@@ -478,7 +478,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun onDrag(event: DragEvent) {
-        var cellX = ((event.x - weekLeftMargin) / minWidth).toInt()
+        var cellX = ((event.x - weekSideMargin) / minWidth).toInt()
         if(cellX < 0) cellX = 0
         val yPos = event.y - top - AppRes.statusBarHeight
         val yCalPos = yPos + scrollView.scrollY
