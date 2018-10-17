@@ -1,6 +1,7 @@
 package com.hellowo.journey.calendar
 
 import android.annotation.SuppressLint
+import com.hellowo.journey.alarm.AlarmManager
 import com.hellowo.journey.calendar.adapter.TimeObjectCalendarAdapter
 import com.hellowo.journey.calendar.model.CalendarSkin
 import com.hellowo.journey.calendar.model.TimeObject
@@ -73,6 +74,10 @@ object TimeObjectManager {
                 timeObject.dtStart = timeObject.dtEnd
                 timeObject.dtEnd = t
             }
+
+            if(timeObject.alarms.isNotEmpty()) {
+                AlarmManager.registTimeObjectAlarm(timeObject)
+            }
             realm.insertOrUpdate(timeObject)
         }
     }
@@ -106,6 +111,12 @@ object TimeObjectManager {
             dtEnd = end
             timeZone = TimeZone.getDefault().id
         }
+    }
+
+    fun getTimeObjectById(id: String): TimeObject? {
+        return realm.where(TimeObject::class.java)
+                .equalTo("id", id)
+                .findFirst()
     }
 
     fun copy(originalData: TimeObject): TimeObject {

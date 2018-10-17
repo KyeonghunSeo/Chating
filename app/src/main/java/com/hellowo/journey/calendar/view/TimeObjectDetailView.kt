@@ -28,10 +28,12 @@ import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.calendar.dialog.AddMoreOptionDialog
 import com.hellowo.journey.calendar.dialog.ColorPickerDialog
 import com.hellowo.journey.calendar.dialog.DateTimePickerDialog
+import com.hellowo.journey.calendar.model.Alarm
 import com.hellowo.journey.calendar.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.MapActivity
 import kotlinx.android.synthetic.main.view_timeobject_detail.view.*
+import java.util.*
 
 
 class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
@@ -143,6 +145,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         fontColorText.setColorFilter(timeObject.fontColor)
 
         updateTitleUI()
+        updateDateUI()
         updateLocationUI()
     }
 
@@ -160,6 +163,67 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             }
         }
         titleInput.setText(timeObject.title)
+    }
+
+    val startCal = Calendar.getInstance()
+    val endCal = Calendar.getInstance()
+
+    private fun updateDateUI() {
+        startCal.timeInMillis = timeObject.dtStart
+        endCal.timeInMillis = timeObject.dtEnd
+
+        if(timeObject.allday) {
+            if(isSameDay(startCal, endCal)) {
+                durationLy.visibility = View.GONE
+                timeDivider.visibility = View.GONE
+                timeEndLy.visibility = View.GONE
+                startSmallTimeText.visibility = View.GONE
+
+                startBigTimeText.text = "${AppRes.ymdDate.format(startCal.time)} ${AppRes.dow.format(startCal.time)}"
+            }else {
+                durationLy.visibility = View.VISIBLE
+                startSmallTimeText.visibility = View.VISIBLE
+                durationText.text = (getDiffDate(startCal, endCal) + 1).toString()
+
+                if(startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)
+                        && startCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)) {
+                    timeDivider.visibility = View.GONE
+                    timeEndLy.visibility = View.GONE
+
+                    startSmallTimeText.text = AppRes.ymDate.format(startCal.time)
+                    startBigTimeText.text = "${AppRes.date.format(startCal.time)} - ${AppRes.date.format(endCal.time)}"
+                }else {
+                    timeDivider.visibility = View.VISIBLE
+                    timeEndLy.visibility = View.VISIBLE
+
+                    startSmallTimeText.text = AppRes.ymDate.format(startCal.time)
+                    startBigTimeText.text = "${AppRes.date.format(startCal.time)}"
+                    endSmallTimeText.text = AppRes.ymDate.format(endCal.time)
+                    endBigTimeText.text = "${AppRes.date.format(endCal.time)}"
+                }
+            }
+        }else {
+            if(isSameDay(startCal, endCal)) {
+                durationLy.visibility = View.GONE
+                timeDivider.visibility = View.GONE
+                timeEndLy.visibility = View.GONE
+                startSmallTimeText.visibility = View.VISIBLE
+
+                startSmallTimeText.text = AppRes.ymdeDate.format(startCal.time)
+                startBigTimeText.text = "${AppRes.time.format(startCal.time)} - ${AppRes.time.format(endCal.time)}"
+            }else {
+                durationLy.visibility = View.VISIBLE
+                startSmallTimeText.visibility = View.VISIBLE
+                timeDivider.visibility = View.VISIBLE
+                timeEndLy.visibility = View.VISIBLE
+                durationText.text = (getDiffDate(startCal, endCal) + 1).toString()
+
+                startSmallTimeText.text = AppRes.ymdDate.format(startCal.time)
+                startBigTimeText.text = "${AppRes.time.format(startCal.time)}"
+                endSmallTimeText.text = AppRes.ymdDate.format(endCal.time)
+                endBigTimeText.text = "${AppRes.time.format(endCal.time)}"
+            }
+        }
     }
 
     private fun updateLocationUI() {
@@ -180,6 +244,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     fun confirm() {
+        timeObject.alarms.clear()
+        timeObject.alarms.add(Alarm(UUID.randomUUID().toString(), System.currentTimeMillis() + 5000, 0))
+        timeObject.alarms.add(Alarm(UUID.randomUUID().toString(), System.currentTimeMillis() + 10000, 0))
         TimeObjectManager.save(timeObject)
     }
 

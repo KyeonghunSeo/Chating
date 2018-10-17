@@ -73,6 +73,7 @@
     <string name="detail">자세히</string>
     <string name="simple">간략히</string>
     <string name="set_time">시간설정</string>
+    <string name="date_duration">일간</string>
 
     <string-array name="day_of_weeks">
         <item>@string/sun</item>

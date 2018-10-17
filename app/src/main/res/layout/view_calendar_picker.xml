@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/calendarText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="12dp"
+        android:textColor="@color/primaryText"
+        android:layout_gravity="center"
+        android:text="date"
+        android:textSize="16dp" />
+
+    <include
+        android:id="@+id/dayOfWeekView"
+        layout="@layout/view_day_of_week">
+    </include>
+
+    <com.hellowo.journey.ui.view.TouchControllFrameLayout
+        android:id="@+id/containter"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </com.hellowo.journey.ui.view.TouchControllFrameLayout>
+
+</LinearLayout>

@@ -66,10 +66,24 @@ object AlarmManager {
         }
     }
 
-    fun registAlarm(timeObject: TimeObject) {
-        val alarmIntent = Intent(App.context, TimeObjectAlarmReceiver::class.java)
-        alarmIntent.putExtra("timeObjectId", timeObject.id)
-        val pendingIntent = PendingIntent.getBroadcast(App.context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+    fun registTimeObjectAlarm(timeObject: TimeObject) {
+        val intent = Intent(App.context, TimeObjectAlarmReceiver::class.java)
+        intent.putExtra("timeObjectId", timeObject.id)
+        intent.putExtra("requestCode", timeObject.id?.toInt())
+        timeObject.alarms.sortBy { it.dtAlarm }
+        timeObject.alarms.asSequence().filter { it.dtAlarm >= System.currentTimeMillis() }.sortedBy { it.dtAlarm }.first()?.let {
+            val pIntent = PendingIntent.getBroadcast(App.context, timeObject.id?.toInt() ?: 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            registAlarm(it, pIntent)
+        }
+    }
+
+    fun unRegistTimeObjectAlarm(requestCode: Int) {
+        val intent = Intent(App.context, TimeObjectAlarmReceiver::class.java)
+        val sender = PendingIntent.getBroadcast(App.context, requestCode, intent, PendingIntent.FLAG_NO_CREATE)
+        if(sender != null) {
+            manager.cancel(sender)
+            sender.cancel()
+        }
     }
 
     private fun registAlarm(alarm: Alarm, pendingIntent: PendingIntent) {

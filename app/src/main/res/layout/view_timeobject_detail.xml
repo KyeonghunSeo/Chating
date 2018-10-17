@@ -59,17 +59,87 @@
                                 android:id="@+id/startSmallTimeText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="10dp"
+                                android:textSize="12dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
                                 android:text="2018년 9월"/>
 
                             <TextView
                                 android:id="@+id/startBigTimeText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="18dp"
+                                android:textSize="16dp"
+                                android:textColor="@color/primaryText"
                                 android:includeFontPadding="false"
                                 android:fontFamily="@font/bold"
                                 android:text="6일"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/timeDivider"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:textSize="16dp"
+                            android:textColor="@color/primaryText"
+                            android:text="···"/>
+
+                        <LinearLayout
+                            android:id="@+id/timeEndLy"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/endSmallTimeText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/regular"
+                                android:textSize="12dp"
+                                android:textColor="@color/primaryText"
+                                android:text="2018년 9월"/>
+
+                            <TextView
+                                android:id="@+id/endBigTimeText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16dp"
+                                android:textColor="@color/primaryText"
+                                android:includeFontPadding="false"
+                                android:fontFamily="@font/bold"
+                                android:text="6일"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/durationLy"
+                            android:orientation="horizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="bottom|right"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/durationText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="35dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/futura_medium"
+                                android:text="3"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:textSize="15dp"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/date_duration"/>
 
                         </LinearLayout>
 
@@ -78,6 +148,7 @@
                     <LinearLayout
                         android:id="@+id/locationLy"
                         android:orientation="vertical"
+                        android:layout_marginTop="20dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -87,8 +158,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="@string/add_option"
+                            android:text="@string/location"
                             android:textColor="@color/primaryText"
+                            android:textSize="16dp"
                             android:fontFamily="@font/bold" />
 
                         <androidx.cardview.widget.CardView
