@@ -51,9 +51,9 @@ class TypePickerView @JvmOverloads constructor(context: Context, attrs: Attribut
 
             timeObject?.let {
                 if(type.ordinal == it.type) {
-                    v.insertBtn.setCardBackgroundColor(it.color)
+                    v.rootLy.setCardBackgroundColor(it.color)
                 }else {
-                    v.insertBtn.setCardBackgroundColor(AppRes.unselectedColor)
+                    v.rootLy.setCardBackgroundColor(AppRes.unselectedColor)
                 }
             }
 

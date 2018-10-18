@@ -5,4 +5,8 @@ import io.realm.annotations.PrimaryKey
 
 open class Alarm(@PrimaryKey var id: String? = null,
                  var dtAlarm: Long = Long.MIN_VALUE,
-                 var action: Int = 0): RealmObject()
+                 var action: Int = 0): RealmObject() {
+    override fun toString(): String {
+        return "Alarm(id=$id, dtAlarm=$dtAlarm, action=$action)"
+    }
+}

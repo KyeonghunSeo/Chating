@@ -1,299 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:translationY="@dimen/extra_margin"
+    app:cardBackgroundColor="@color/white"
+    app:cardElevation="0dp"
+    app:cardCornerRadius="@dimen/extra_margin">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardElevation="0dp"
-        app:cardCornerRadius="25dp">
-    </androidx.cardview.widget.CardView>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginTop="25dp"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="20dp"
-        android:background="@color/white"
-        android:clipChildren="false">
+        android:paddingBottom="50dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:background="@drawable/grey_rect_fill_radius_2"/>
 
         <TextView
+            android:id="@+id/detailBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textSize="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="10dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="16dp"
+            android:layout_gravity="right"
             android:textColor="@color/primaryText"
+            android:textSize="16dp"
             android:fontFamily="@font/bold"
-            android:text="@string/detail_info"
-            android:layout_marginLeft="@dimen/extra_margin"/>
+            android:text="@string/simple"/>
 
-        <HorizontalScrollView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
+            android:layout_marginTop="25dp"
             android:clipChildren="false">
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_margin="10dp">
+                android:layout_marginTop="15dp"
+                android:textSize="18dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/bold"
+                android:text="@string/detail_info"
+                android:layout_marginLeft="@dimen/extra_margin"/>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/memoBtn"
-                    android:layout_width="100dp"
-                    android:layout_height="130dp"
-                    android:layout_margin="10dp"
-                    app:cardElevation="2dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardBackgroundColor="@color/white">
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:clipChildren="false">
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_outline_description"
-                        android:tint="@color/black"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="20dp"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_margin="10dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/bold"
-                        android:text="@string/memo"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="30dp"/>
+                    <FrameLayout
+                        android:id="@+id/memoBtn"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="10dp"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:background="@drawable/grey_rect_stroke_radius_8">
 
-                </androidx.cardview.widget.CardView>
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_outline_description"
+                            android:tint="@color/iconTint"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="10dp"/>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/locationBtn"
-                    android:layout_width="100dp"
-                    android:layout_height="130dp"
-                    android:layout_margin="10dp"
-                    app:cardElevation="2dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardBackgroundColor="@color/white">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:textColor="@color/iconTint"
+                            android:fontFamily="@font/regular"
+                            android:text="@string/memo"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="12dp"/>
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_outline_event_busy"
-                        android:tint="@color/black"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="20dp"/>
+                    </FrameLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/bold"
-                        android:text="@string/location"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="30dp"/>
-                </androidx.cardview.widget.CardView>
+                    <FrameLayout
+                        android:id="@+id/locationBtn"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="10dp"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:background="@drawable/grey_rect_stroke_radius_8">
 
-            </LinearLayout>
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/icon_line_location"
+                            android:tint="@color/iconTint"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="10dp"/>
 
-        </HorizontalScrollView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:textColor="@color/iconTint"
+                            android:fontFamily="@font/regular"
+                            android:text="@string/location"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="13dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textSize="20dp"
-            android:textColor="@color/primaryText"
-            android:fontFamily="@font/bold"
-            android:text="@string/alert"
-            android:layout_marginLeft="@dimen/extra_margin"/>
+                    </FrameLayout>
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:clipChildren="false">
+                </LinearLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
+            </HorizontalScrollView>
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_margin="10dp">
+                android:layout_marginTop="15dp"
+                android:textSize="18dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/bold"
+                android:text="@string/alert"
+                android:layout_marginLeft="@dimen/extra_margin"/>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="100dp"
-                    android:layout_height="130dp"
-                    android:layout_margin="10dp"
-                    app:cardElevation="10dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardBackgroundColor="@color/white">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_outline_description"
-                        android:tint="@color/black"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="20dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/bold"
-                        android:text="@string/memo"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="30dp"/>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="100dp"
-                    android:layout_height="130dp"
-                    android:layout_margin="10dp"
-                    app:cardElevation="2dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardBackgroundColor="@color/white">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_outline_event_busy"
-                        android:tint="@color/black"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="20dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/bold"
-                        android:text="@string/location"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="30dp"/>
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-
-        </HorizontalScrollView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textSize="20dp"
-            android:textColor="@color/primaryText"
-            android:fontFamily="@font/bold"
-            android:text="@string/detail_info"
-            android:layout_marginLeft="@dimen/extra_margin"/>
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:clipChildren="false">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
+            <HorizontalScrollView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_margin="10dp">
+                android:scrollbars="none"
+                android:clipChildren="false">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="100dp"
-                    android:layout_height="130dp"
-                    android:layout_margin="10dp"
-                    app:cardElevation="10dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardBackgroundColor="@color/white">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_margin="10dp">
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_outline_description"
-                        android:tint="@color/black"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="20dp"/>
+                    <FrameLayout
+                        android:id="@+id/alarmBtn"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="10dp"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:background="@drawable/grey_rect_stroke_radius_8">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/bold"
-                        android:text="@string/memo"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="30dp"/>
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_baseline_alarm_24px"
+                            android:tint="@color/iconTint"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="10dp"/>
 
-                </androidx.cardview.widget.CardView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:textColor="@color/iconTint"
+                            android:fontFamily="@font/regular"
+                            android:text="@string/alarm"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="13dp"/>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="100dp"
-                    android:layout_height="130dp"
-                    android:layout_margin="10dp"
-                    app:cardElevation="2dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardBackgroundColor="@color/white">
+                    </FrameLayout>
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_outline_event_busy"
-                        android:tint="@color/black"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="20dp"/>
+                </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/bold"
-                        android:text="@string/location"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="30dp"/>
-                </androidx.cardview.widget.CardView>
+            </HorizontalScrollView>
 
-            </LinearLayout>
+        </LinearLayout>
 
-        </HorizontalScrollView>
+    </FrameLayout>
 
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/detailBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginRight="10dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:padding="16dp"
-        android:layout_gravity="right"
-        android:textColor="@color/primaryText"
-        android:textSize="16dp"
-        android:fontFamily="@font/bold"
-        android:text="@string/simple"/>
-
-</FrameLayout>
+</androidx.cardview.widget.CardView>

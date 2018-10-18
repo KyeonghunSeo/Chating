@@ -1,5 +1,6 @@
 package com.hellowo.journey.alarm
 
+import android.annotation.SuppressLint
 import android.app.*
 import android.app.AlarmManager
 import android.app.AlarmManager.RTC_WAKEUP
@@ -69,10 +70,12 @@ object AlarmManager {
     fun registTimeObjectAlarm(timeObject: TimeObject) {
         val intent = Intent(App.context, TimeObjectAlarmReceiver::class.java)
         intent.putExtra("timeObjectId", timeObject.id)
-        intent.putExtra("requestCode", timeObject.id?.toInt())
         timeObject.alarms.sortBy { it.dtAlarm }
         timeObject.alarms.asSequence().filter { it.dtAlarm >= System.currentTimeMillis() }.sortedBy { it.dtAlarm }.first()?.let {
-            val pIntent = PendingIntent.getBroadcast(App.context, timeObject.id?.toInt() ?: 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val alarmRequestCode = Prefs.getInt("alarmRequestCode", 0) + 1
+            Prefs.putInt("alarmRequestCode", alarmRequestCode)
+            intent.putExtra("alarmRequestCode", alarmRequestCode)
+            val pIntent = PendingIntent.getBroadcast(App.context, alarmRequestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             registAlarm(it, pIntent)
         }
     }
@@ -83,6 +86,7 @@ object AlarmManager {
         if(sender != null) {
             manager.cancel(sender)
             sender.cancel()
+            l("알람 삭제 : $requestCode")
         }
     }
 
@@ -94,7 +98,7 @@ object AlarmManager {
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT -> manager.setExact(AlarmManager.RTC_WAKEUP, alarm.dtAlarm, pendingIntent)
                     else -> manager.set(AlarmManager.RTC_WAKEUP, alarm.dtAlarm, pendingIntent)
                 }
-                l("알람 등록 : ${AppRes.ymdDate.format(Date(alarm.dtAlarm))} ${AppRes.time.format(Date(alarm.dtAlarm))}")
+                l("새 알람 등록 : ${AppRes.ymdDate.format(Date(alarm.dtAlarm))} ${AppRes.time.format(Date(alarm.dtAlarm))}")
             }
         } catch (e: Exception) {
             e.printStackTrace()

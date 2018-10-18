@@ -1,6 +1,5 @@
 package com.hellowo.journey.calendar.view
 
-import android.animation.LayoutTransition
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
@@ -26,9 +25,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.hellowo.journey.*
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.calendar.dialog.AddMoreOptionDialog
+import com.hellowo.journey.calendar.dialog.AlarmPickerDialog
 import com.hellowo.journey.calendar.dialog.ColorPickerDialog
-import com.hellowo.journey.calendar.dialog.DateTimePickerDialog
-import com.hellowo.journey.calendar.model.Alarm
+import com.hellowo.journey.calendar.dialog.StartEndPickerDialog
 import com.hellowo.journey.calendar.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.MapActivity
@@ -62,13 +61,15 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
 
         addOptionBtn.setOnClickListener {
-            AddMoreOptionDialog(this@TimeObjectDetailView).show(MainActivity.instance?.supportFragmentManager, null)
+            AddMoreOptionDialog(this@TimeObjectDetailView)
+                    .show(MainActivity.instance?.supportFragmentManager, null)
         }
 
         initControllBtn()
         initType()
         initTitle()
         initDateTime()
+        initMemo()
     }
 
     private fun initControllBtn() {
@@ -101,13 +102,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         titleInput.isFocusableInTouchMode = false
         titleInput.clearFocus()
         titleInput.setOnClickListener { showTitleKeyPad() }
-
-
     }
 
     private fun initDateTime() {
         timeLy.setOnClickListener {
-            DateTimePickerDialog(MainActivity.instance!!, timeObject) { sCal, eCal, allday ->
+            StartEndPickerDialog(MainActivity.instance!!, timeObject) { sCal, eCal, allday ->
                 timeObject.dtStart = sCal.timeInMillis
                 timeObject.dtEnd = eCal.timeInMillis
                 timeObject.allday = allday
@@ -123,21 +122,14 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
-    private fun showTitleKeyPad() {
-        titleInput.isFocusableInTouchMode = true
-        if (titleInput.requestFocus()) {
-            (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(titleInput, 0)
-        }
-    }
-
-    private fun setData(data: TimeObject) {
-        originalData = data
-        timeObject.copy(data)
-        if(data.isManaged) {
-            deleteBtn.visibility = View.VISIBLE
-        }else {
-            deleteBtn.visibility = View.GONE
-        }
+    private fun initMemo() {
+        memoInput.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                timeObject.description = memoInput.text.toString()
+            }
+            override fun afterTextChanged(p0: Editable?) {}
+        })
     }
 
     private fun updateUI() {
@@ -146,7 +138,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
         updateTitleUI()
         updateDateUI()
+        updateAlarmUI()
         updateLocationUI()
+        updateMemoUI()
     }
 
     private fun updateTitleUI() {
@@ -226,6 +220,17 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
+    private fun updateAlarmUI() {
+        if(timeObject.alarms.isNotEmpty()) {
+            alarmLy.visibility = View.VISIBLE
+            timeObject.alarms.forEach {
+                l(it.toString())
+            }
+        }else {
+            alarmLy.visibility = View.GONE
+        }
+    }
+
     private fun updateLocationUI() {
         if(timeObject.location.isNullOrBlank()) {
             locationLy.visibility = View.GONE
@@ -243,11 +248,31 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
+    fun updateMemoUI() {
+        if(timeObject.description.isNullOrEmpty()) {
+            memoLy.visibility = View.GONE
+        }else {
+            memoInput.setText(timeObject.description)
+            memoLy.visibility = View.VISIBLE
+        }
+    }
+
+    fun showMemoUI() {
+        memoLy.visibility = View.VISIBLE
+    }
+
     fun confirm() {
-        timeObject.alarms.clear()
-        timeObject.alarms.add(Alarm(UUID.randomUUID().toString(), System.currentTimeMillis() + 5000, 0))
-        timeObject.alarms.add(Alarm(UUID.randomUUID().toString(), System.currentTimeMillis() + 10000, 0))
         TimeObjectManager.save(timeObject)
+    }
+
+    private fun setData(data: TimeObject) {
+        originalData = data
+        timeObject.copy(data)
+        if(data.id.isNullOrEmpty()) {
+            deleteBtn.visibility = View.GONE
+        }else {
+            deleteBtn.visibility = View.VISIBLE
+        }
     }
 
     fun show(timeObject: TimeObject) {
@@ -279,7 +304,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
         contentPanel.visibility = View.VISIBLE
 
-        if(!timeObject.isManaged) {
+        if(timeObject.id.isNullOrEmpty()) {
             //showTitleKeyPad()
         }
     }
@@ -310,13 +335,10 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         contentPanel.visibility = View.INVISIBLE
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == RC_LOCATION && resultCode == RESULT_OK) {
-            val place = PlacePicker.getPlace(data, context)
-            timeObject.location = "${place.name}\n${place.address}"
-            timeObject.latitude = place.latLng.latitude
-            timeObject.longitude = place.latLng.longitude
-            updateLocationUI()
+    private fun showTitleKeyPad() {
+        titleInput.isFocusableInTouchMode = true
+        if (titleInput.requestFocus()) {
+            (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(titleInput, 0)
         }
     }
 
@@ -332,6 +354,24 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             intent.putExtra("lat", timeObject.latitude)
             intent.putExtra("lng", timeObject.longitude)
             it.startActivity(intent)
+        }
+    }
+
+    fun openAlarmPicker() {
+        AlarmPickerDialog(timeObject){ result, dtAlarm ->
+            if(result) {
+
+            }
+        }.show(MainActivity.instance?.supportFragmentManager, null)
+    }
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == RC_LOCATION && resultCode == RESULT_OK) {
+            val place = PlacePicker.getPlace(data, context)
+            timeObject.location = "${place.name}\n${place.address}"
+            timeObject.latitude = place.latLng.latitude
+            timeObject.longitude = place.latLng.longitude
+            updateLocationUI()
         }
     }
 }

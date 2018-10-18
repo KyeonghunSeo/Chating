@@ -22,7 +22,7 @@ import java.util.*
 class CalendarPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
     val maxCellNum = 42
-    val dateTextSize = 19f
+    val dateTextSize = 16f
     val columns = 7
     val calendarLy = LinearLayout(context)
     val weekLys = Array(6) { _ -> FrameLayout(context) }

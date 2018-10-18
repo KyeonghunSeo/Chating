@@ -107,9 +107,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         else -> Formula.TOPSTACK
     }
 
-    override fun toString(): String {
-        return "TimeObject(title=$title,type=$type, style=$style, color=$color, location=$location, description=$description, allday=$allday, dtStart=${DateFormat.getDateTimeInstance().format(Date(dtStart))}, dtEnd=${DateFormat.getDateTimeInstance().format(Date(dtEnd))}, dtUpdated=$dtUpdated, timeZone=$timeZone)"
-    }
+
 
     fun copy(data: TimeObject) {
         id = data.id
@@ -137,7 +135,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         }
         alarms.clear()
         data.alarms.forEach {
-
+            alarms.add(Alarm(it.id, it.dtAlarm, it.action))
         }
         links.clear()
         data.links.forEach {
@@ -145,6 +143,10 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         }
         latitude = data.latitude
         longitude = data.longitude
+    }
+
+    override fun toString(): String {
+        return "TimeObject(id=$id, type=$type, style=$style, title=$title, color=$color, fontColor=$fontColor, location=$location, description=$description, repeatId=$repeatId, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, tags=$tags, alarms=$alarms, links=$links, latitude=$latitude, longitude=$longitude)"
     }
 
 }

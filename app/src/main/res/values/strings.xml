@@ -74,6 +74,9 @@
     <string name="simple">간략히</string>
     <string name="set_time">시간설정</string>
     <string name="date_duration">일간</string>
+    <string name="alarm">알림</string>
+    <string name="enter_memo">이곳에 메모를 입력하세요</string>
+    <string name="set_alarm">알림설정</string>
 
     <string-array name="day_of_weeks">
         <item>@string/sun</item>
@@ -84,5 +87,85 @@
         <item>@string/fri</item>
         <item>@string/sat</item>
     </string-array>
+
+    <string-array name="alarm_allday">
+        <item>당일 자정</item>
+        <item>당일 오전 9시</item>
+        <item>하루 전</item>
+        <item>이틀 전</item>
+        <item>1주일 전</item>
+    </string-array>
+
+    <string-array name="alarm_time">
+        <item>이벤트 당시</item>
+        <item>5분 전</item>
+        <item>15분 전</item>
+        <item>30분 전</item>
+        <item>1시간 전</item>
+        <item>2시간 전</item>
+        <item>하루 전</item>
+        <item>이틀 전</item>
+        <item>1주일 전</item>
+    </string-array>
+
+    <integer-array name="alarm_offset_allday">
+        <item>0</item>
+        <item>32400000</item>
+        <item>-86400000</item>
+        <item>-172800000</item>
+        <item>-604800000</item>
+    </integer-array>
+
+    <integer-array name="alarm_offset_time">
+        <item>0</item>
+        <item>-300000</item>
+        <item>-900000</item>
+        <item>-1800000</item>
+        <item>-3600000</item>
+        <item>-7200000</item>
+        <item>-86400000</item>
+        <item>-172800000</item>
+        <item>-604800000</item>
+    </integer-array>
+
+    <string name="no_repeat">반복없음</string>
+    <string name="every_month_type_1">매월 %1$s</string>
+    <string name="every_month_type_2">매월 %1$s %2$s</string>
+
+    <string-array name="repeat_freq_list">
+        <item>@string/no_repeat</item>
+        <item>매일</item>
+        <item>매주</item>
+        <item>격주</item>
+        <item>매월</item>
+        <item>매년</item>
+    </string-array>
+
+    <string-array name="repeat_list">
+        <item>매일</item>
+        <item>매주</item>
+        <item>매월</item>
+        <item>매년</item>
+    </string-array>
+
+    <string-array name="repeat_interval_list">
+        <item>%1$s일마다</item>
+        <item>%1$s주마다</item>
+        <item>%1$s개월마다</item>
+        <item>%1$s년마다</item>
+    </string-array>
+
+    <string-array name="repeat_picker_list">
+        <item>@string/no_repeat</item>
+        <item>매일</item>
+        <item>매주 %1$s</item>
+        <item>@string/every_month_type_1</item>
+        <item>@string/every_month_type_2</item>
+        <item>매년 %1$s</item>
+        <item>주중 매일(월-금)</item>
+        <item>고급…</item>
+    </string-array>
+
+    <string name="custom">직접입력</string>
 
 </resources>

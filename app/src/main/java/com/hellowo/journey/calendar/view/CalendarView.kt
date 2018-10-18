@@ -175,7 +175,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     }
                     if(isSameDay(tempCal, todayCal)) {
                         todayCellNum = cellNum
-                        //dateLy.setBackgroundResource(R.drawable.grey_rect_fill_radius)
+                        //dateLy.setBackgroundResource(R.drawable.grey_rect_fill_radius_2)
                     }
 
                     val dateText = dateTexts[cellNum]

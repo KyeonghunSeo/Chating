@@ -68,13 +68,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playIntentAction() {
-        playAction(intent.getIntExtra("action", 0))
+        playAction(intent.getIntExtra("action", 0), intent.getBundleExtra("bundle"))
         intent.removeExtra("action")
     }
 
-    fun playAction(action: Int) {
+    fun playAction(action: Int, bundle: Bundle?) {
         when(action) {
             1 -> briefingView.show()
+            2 -> {
+                bundle?.let {
+                    viewModel.setTargetTimeObjectById(bundle.getString("timeObjectId"))
+                }
+            }
         }
     }
 

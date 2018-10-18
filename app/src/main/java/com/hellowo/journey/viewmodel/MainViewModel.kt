@@ -138,4 +138,12 @@ class MainViewModel : ViewModel() {
             }
         }
     }
+
+    fun setTargetTimeObjectById(id: String?) {
+        id?.let {
+            targetTimeObject.value = realm.where(TimeObject::class.java)
+                    .equalTo("id", it)
+                    .findFirst()
+        }
+    }
 }

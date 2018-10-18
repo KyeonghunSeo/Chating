@@ -64,9 +64,8 @@ object TimeObjectManager {
 
     fun save(timeObject: TimeObject) {
         realm.executeTransactionAsync{ realm ->
-            if(timeObject.id == null) {
+            if(timeObject.id.isNullOrEmpty()) {
                 timeObject.id = UUID.randomUUID().toString()
-                timeObject.dtUpdated = System.currentTimeMillis()
             }
 
             if(timeObject.dtStart > timeObject.dtEnd) {
@@ -78,6 +77,8 @@ object TimeObjectManager {
             if(timeObject.alarms.isNotEmpty()) {
                 AlarmManager.registTimeObjectAlarm(timeObject)
             }
+
+            timeObject.dtUpdated = System.currentTimeMillis()
             realm.insertOrUpdate(timeObject)
         }
     }

@@ -1,39 +1,22 @@
 package com.hellowo.journey.calendar.dialog
 
-import android.animation.AnimatorSet
-import android.animation.LayoutTransition.CHANGING
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
-import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
-import android.os.Build
 import android.os.Bundle
-import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.*
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hellowo.journey.*
 import com.hellowo.journey.calendar.model.CalendarSkin
 import com.hellowo.journey.calendar.model.TimeObject
-import kotlinx.android.synthetic.main.dialog_date_time_picker.*
+import kotlinx.android.synthetic.main.dialog_start_end_picker.*
 import java.util.*
 
 @SuppressLint("ValidFragment")
-class DateTimePickerDialog(private val activity: Activity, private val timeObject: TimeObject,
+class StartEndPickerDialog(private val activity: Activity, private val timeObject: TimeObject,
                            private val onConfirmed: (Calendar, Calendar, Boolean) -> Unit) : BottomSheetDialogFragment() {
 
     var timeMode = if(timeObject.allday) 0 else 1
@@ -41,7 +24,7 @@ class DateTimePickerDialog(private val activity: Activity, private val timeObjec
     init {}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-            = View.inflate(context, R.layout.dialog_date_time_picker, null)
+            = View.inflate(context, R.layout.dialog_start_end_picker, null)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -89,7 +72,15 @@ class DateTimePickerDialog(private val activity: Activity, private val timeObjec
 
         timeSwitch.isChecked = !timeObject.allday
         timeSwitch.setOnCheckedChangeListener { compoundButton, checked ->
-            timeMode = if(checked) 1 else 0
+            timeMode = if(checked) {
+                setTimeNearOClock(calendarView.startCal)
+                setTime1HourInterval(calendarView.startCal, calendarView.endCal)
+                1
+            }else {
+                setCalendarTime0(calendarView.startCal)
+                setCalendarTime23(calendarView.endCal)
+                0
+            }
             setModeLy()
         }
 

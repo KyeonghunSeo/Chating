@@ -112,6 +112,27 @@ fun copyHourMinSecMill(toCal: Calendar, fromCal: Calendar) {
     toCal.timeInMillis
 }
 
+fun setTimeNearOClock(cal :Calendar) {
+    tempCal.timeInMillis = System.currentTimeMillis()
+    copyHourMinSecMill(cal, tempCal)
+    if (cal.get(Calendar.HOUR_OF_DAY) < 23) {
+        cal.add(Calendar.HOUR_OF_DAY, 1)
+    }
+    cal.set(Calendar.MINUTE, 0)
+    cal.set(Calendar.SECOND, 0)
+    cal.set(Calendar.MILLISECOND, 0)
+}
+
+fun setTime1HourInterval(startCal: Calendar, endCal: Calendar) {
+    val hour = startCal.get(Calendar.HOUR_OF_DAY)
+    copyHourMinSecMill(endCal, startCal)
+    if (hour < 23) {
+        endCal.add(Calendar.HOUR_OF_DAY, 1)
+    } else {
+        setCalendarTime23(endCal)
+    }
+}
+
 fun makeFromBottomSlideTransition() : Transition {
     val transition = Slide()
     transition.slideEdge = Gravity.BOTTOM

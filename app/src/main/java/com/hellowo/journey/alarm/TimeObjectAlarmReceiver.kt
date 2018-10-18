@@ -20,16 +20,15 @@ class TimeObjectAlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         try{
             val realm = Realm.getDefaultInstance()
-            val timeObject = realm.where(TimeObject::class.java)
+            realm.where(TimeObject::class.java)
                     .equalTo("id", intent.getStringExtra("timeObjectId"))
-                    .findFirst()
-            timeObject?.let {
-                val requestCode = intent.getIntExtra("requestCode", -1)
-                l("!!!!!!!!"+requestCode)
-                showNotification(context, it)
-                AlarmManager.unRegistTimeObjectAlarm(requestCode)
-                AlarmManager.registTimeObjectAlarm(it)
-            }
+                    .findFirst()?.let {
+                        val timeObject = realm.copyFromRealm(it)
+                        val alarmRequestCode = intent.getIntExtra("alarmRequestCode", -1)
+                        showNotification(context, timeObject)
+                        AlarmManager.unRegistTimeObjectAlarm(alarmRequestCode)
+                        AlarmManager.registTimeObjectAlarm(timeObject)
+                    }
             realm.close()
         }catch (e: Exception){
             e.printStackTrace()
@@ -38,7 +37,8 @@ class TimeObjectAlarmReceiver : BroadcastReceiver() {
 
     private fun showNotification(context: Context, timeObject: TimeObject) {
         val intent = Intent(context, NotiService::class.java)
-        intent.putExtra("action", 1)
+        intent.putExtra("action", 2)
+        intent.putExtra("timeObjectId", timeObject.id)
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
