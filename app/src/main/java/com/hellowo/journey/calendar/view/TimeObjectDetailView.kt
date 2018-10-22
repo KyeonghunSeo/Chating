@@ -28,6 +28,7 @@ import com.hellowo.journey.calendar.dialog.AddMoreOptionDialog
 import com.hellowo.journey.calendar.dialog.AlarmPickerDialog
 import com.hellowo.journey.calendar.dialog.ColorPickerDialog
 import com.hellowo.journey.calendar.dialog.StartEndPickerDialog
+import com.hellowo.journey.calendar.model.Alarm
 import com.hellowo.journey.calendar.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.MapActivity
@@ -357,11 +358,24 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
-    fun openAlarmPicker() {
-        AlarmPickerDialog(timeObject){ result, dtAlarm ->
-            if(result) {
+    fun addNewAlarm() {
+        val alarm = Alarm(UUID.randomUUID().toString(), timeObject.dtStart, 0)
+        timeObject.alarms.add(alarm)
+        openAlarmPicker(alarm)
+    }
 
+    fun openAlarmPicker(alarm: Alarm) {
+        AlarmPickerDialog(timeObject, alarm){ result, offset ->
+            if(result) {
+                if(offset != Long.MIN_VALUE) {
+                    alarm.dtAlarm = timeObject.dtStart + offset
+                }else {
+
+                }
+            }else {
+                timeObject.alarms.remove(alarm)
             }
+            updateAlarmUI()
         }.show(MainActivity.instance?.supportFragmentManager, null)
     }
 

@@ -6,38 +6,38 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.AppRes
 import com.hellowo.journey.R
-import com.hellowo.journey.calendar.model.TimeObject
-import com.hellowo.journey.calendar.model.TimeObject.Type
 import kotlinx.android.synthetic.main.list_item_alarm_picker.view.*
 
-class AlarmPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RecyclerView(context, attrs, defStyleAttr) {
+class AlarmPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : RecyclerView(context, attrs, defStyleAttr) {
     var onSelected : ((Long) -> Unit)? = null
     val items = ArrayList<AlarmItem>()
+    private val offsets = arrayOf(
+            0,
+            1000L * 60 * 60 * 9,
+            1000L * 60 * 60 * 12,
+            1000L * 60 * 60 * 18,
+            -1000L * 60 * 10,
+            -1000L * 60 * 30,
+            -1000L * 60 * 60,
+            -1000L * 60 * 120,
+            -1000L * 60 * 60 * 24,
+            -1000L * 60 * 60 * 24 * 2,
+            -1000L * 60 * 60 * 24 * 7,
+            Long.MIN_VALUE
+    )
 
     init {
-        layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        adapter = PickerAdapter()
-    }
-
-    fun setType(allday: Boolean) {
-        items.clear()
-        if(allday) {
-            val offsets = AppRes.resources.getIntArray(R.array.alarm_offset_allday)
-            AppRes.resources.getStringArray(R.array.alarm_allday).forEachIndexed { index, it ->
-                items.add(AlarmItem(it, offsets[index].toLong()))
-            }
-        }else {
-            val offsets = AppRes.resources.getIntArray(R.array.alarm_offset_time)
-            AppRes.resources.getStringArray(R.array.alarm_time).forEachIndexed { index, it ->
-                items.add(AlarmItem(it, offsets[index].toLong()))
-            }
+        layoutManager = GridLayoutManager(context, 4)
+        AppRes.resources.getStringArray(R.array.alarms).forEachIndexed { index, it ->
+            items.add(AlarmItem(it, offsets[index]))
         }
-        items.add(AlarmItem(AppRes.resources.getString(R.string.custom), Long.MIN_VALUE))
-        adapter?.notifyDataSetChanged()
+        adapter = PickerAdapter()
     }
 
     inner class AlarmItem(val title: String, val offset: Long)
@@ -46,7 +46,11 @@ class AlarmPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         override fun getItemCount(): Int = items.size
 
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
-            init {}
+            init {
+                (container.layoutParams as RecyclerView.LayoutParams).let {
+
+                }
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int)

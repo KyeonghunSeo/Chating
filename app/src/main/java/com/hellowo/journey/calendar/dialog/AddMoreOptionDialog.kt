@@ -40,7 +40,7 @@ class AddMoreOptionDialog(private val timeObjectDetailView: TimeObjectDetailView
             }
 
             alarmBtn.setOnClickListener {
-                timeObjectDetailView.openAlarmPicker()
+                timeObjectDetailView.addNewAlarm()
                 dismiss()
             }
         }

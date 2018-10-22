@@ -10,12 +10,14 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hellowo.journey.R
+import com.hellowo.journey.calendar.model.Alarm
 import com.hellowo.journey.calendar.model.TimeObject
 import kotlinx.android.synthetic.main.dialog_alarm_picker.*
 
 
 @SuppressLint("ValidFragment")
-class AlarmPickerDialog(private val timeObject: TimeObject, private val onResult: (Boolean, Long) -> Unit) : BottomSheetDialogFragment() {
+class AlarmPickerDialog(private val timeObject: TimeObject, private val alarm: Alarm,
+                        private val onResult: (Boolean, Long) -> Unit) : BottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
             = View.inflate(context, R.layout.dialog_alarm_picker, null)
@@ -28,9 +30,8 @@ class AlarmPickerDialog(private val timeObject: TimeObject, private val onResult
             behavior?.let {
                 it.state = BottomSheetBehavior.STATE_EXPANDED
             }
-            alarmPicker.setType(timeObject.allday)
             alarmPicker.onSelected = { offset ->
-                onResult.invoke(true, timeObject.dtStart - offset)
+                onResult.invoke(true, offset)
                 dismiss()
             }
         }

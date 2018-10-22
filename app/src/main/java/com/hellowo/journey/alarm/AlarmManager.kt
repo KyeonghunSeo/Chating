@@ -71,7 +71,7 @@ object AlarmManager {
         val intent = Intent(App.context, TimeObjectAlarmReceiver::class.java)
         intent.putExtra("timeObjectId", timeObject.id)
         timeObject.alarms.sortBy { it.dtAlarm }
-        timeObject.alarms.asSequence().filter { it.dtAlarm >= System.currentTimeMillis() }.sortedBy { it.dtAlarm }.first()?.let {
+        timeObject.alarms.asSequence().filter { it.dtAlarm >= System.currentTimeMillis() }.sortedBy { it.dtAlarm }.firstOrNull()?.let {
             val alarmRequestCode = Prefs.getInt("alarmRequestCode", 0) + 1
             Prefs.putInt("alarmRequestCode", alarmRequestCode)
             intent.putExtra("alarmRequestCode", alarmRequestCode)

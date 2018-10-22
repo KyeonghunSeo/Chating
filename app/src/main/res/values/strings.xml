@@ -88,45 +88,20 @@
         <item>@string/sat</item>
     </string-array>
 
-    <string-array name="alarm_allday">
-        <item>당일 자정</item>
-        <item>당일 오전 9시</item>
-        <item>하루 전</item>
-        <item>이틀 전</item>
-        <item>1주일 전</item>
-    </string-array>
-
-    <string-array name="alarm_time">
+    <string-array name="alarms">
         <item>이벤트 당시</item>
-        <item>5분 전</item>
-        <item>15분 전</item>
+        <item>당일 오전 9시</item>
+        <item>당일 오후 12시</item>
+        <item>당일 오후 6시</item>
+        <item>10분 전</item>
         <item>30분 전</item>
         <item>1시간 전</item>
         <item>2시간 전</item>
         <item>하루 전</item>
         <item>이틀 전</item>
         <item>1주일 전</item>
+        <item>직접입력</item>
     </string-array>
-
-    <integer-array name="alarm_offset_allday">
-        <item>0</item>
-        <item>32400000</item>
-        <item>-86400000</item>
-        <item>-172800000</item>
-        <item>-604800000</item>
-    </integer-array>
-
-    <integer-array name="alarm_offset_time">
-        <item>0</item>
-        <item>-300000</item>
-        <item>-900000</item>
-        <item>-1800000</item>
-        <item>-3600000</item>
-        <item>-7200000</item>
-        <item>-86400000</item>
-        <item>-172800000</item>
-        <item>-604800000</item>
-    </integer-array>
 
     <string name="no_repeat">반복없음</string>
     <string name="every_month_type_1">매월 %1$s</string>
