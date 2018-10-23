@@ -7,6 +7,8 @@ import android.widget.ScrollView
 import com.hellowo.journey.dpToPx
 import android.view.MotionEvent.*
 import android.view.View
+import android.opengl.ETC1.getHeight
+import com.hellowo.journey.l
 
 
 class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -21,6 +23,7 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
     var firstY = 0f
     var swipeMode = 0
     var isTop = true
+    var isBottom = false
     var onSwipeStateChanged: ((Int) -> Unit)? = null
     var onTop: ((Boolean) -> Unit)? = null
 
@@ -61,14 +64,33 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
         return super.dispatchTouchEvent(ev)
     }
 
-    override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
-        super.onScrollChanged(l, t, oldl, oldt)
-        if(isTop && t > 0) {
+    override fun onScrollChanged(x: Int, y: Int, oldl: Int, oldt: Int) {
+        super.onScrollChanged(x, y, oldl, oldt)
+        if(isTop && y > 0) {
             isTop = false
             onTop?.invoke(false)
-        }else if(!isTop && t == 0) {
+        }else if(!isTop && y == 0) {
             isTop = true
             onTop?.invoke(true)
         }
+/*
+        val view = getChildAt(0) as View
+        val diff = view.bottom - (height + scrollY)
+        isBottom = diff == 0
+        */
     }
+
+    /*
+
+    override fun onOverScrolled(scrollX: Int, scrollY: Int, clampedX: Boolean, clampedY: Boolean) {
+        super.onOverScrolled(scrollX, scrollY, clampedX, clampedY)
+        if(scrollY <= 0 && clampedY) {
+            isTop = true
+            onTop?.invoke(true)
+        }else {
+            isTop = false
+            onTop?.invoke(false)
+        }
+    }
+     */
 }

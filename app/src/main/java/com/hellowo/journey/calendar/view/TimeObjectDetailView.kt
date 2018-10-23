@@ -42,7 +42,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     init {
         LayoutInflater.from(context).inflate(R.layout.view_timeobject_detail, this, true)
         contentPanel.visibility = View.INVISIBLE
-        contentLy.setOnClickListener {}
+        contentPanel.setOnClickListener {}
 
         confirmBtn.setOnClickListener {
             confirm()
@@ -140,12 +140,12 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             TimeObject.Type.NOTE.ordinal -> {
                 titleInput.hint = context.getString(R.string.what_do_you_think)
                 titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
-                titleInput.typeface = AppRes.regularFont
+                titleInput.typeface = AppRes.textFont
             }
             else -> {
                 titleInput.hint = context.getString(R.string.title)
                 titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 32f)
-                titleInput.typeface = AppRes.boldFont
+                titleInput.typeface = AppRes.regularFont
             }
         }
         titleInput.setText(timeObject.title)
@@ -385,5 +385,16 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             timeObject.longitude = place.latLng.longitude
             updateLocationUI()
         }
+    }
+
+    fun addRepeat() {
+        openRepeatDialog()
+    }
+
+    fun openRepeatDialog() {
+        showDialog(RepeatDialog(MainActivity.instance!!, timeObject) { repeat, dtUntil ->
+            timeObject.repeat = repeat
+            timeObject.dtUntil = dtUntil
+        }, true, true, true, false)
     }
 }

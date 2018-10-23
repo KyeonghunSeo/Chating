@@ -43,6 +43,11 @@ class AddMoreOptionDialog(private val timeObjectDetailView: TimeObjectDetailView
                 timeObjectDetailView.addNewAlarm()
                 dismiss()
             }
+
+            repeatBtn.setOnClickListener {
+                timeObjectDetailView.addRepeat()
+                dismiss()
+            }
         }
     }
 }

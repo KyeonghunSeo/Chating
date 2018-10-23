@@ -26,15 +26,17 @@
         <TextView
             android:id="@+id/detailBtn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="10dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:padding="16dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/grey_rect_stroke_radius_10"
             android:layout_gravity="right"
-            android:textColor="@color/primaryText"
-            android:textSize="16dp"
-            android:fontFamily="@font/bold"
+            android:gravity="center"
+            android:textColor="@color/secondaryText"
+            android:textSize="10dp"
+            android:fontFamily="@font/regular"
             android:text="@string/simple"/>
 
         <LinearLayout
@@ -48,8 +50,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:textSize="18dp"
-                android:textColor="@color/primaryText"
+                android:textSize="14dp"
+                android:textColor="@color/secondaryText"
                 android:fontFamily="@font/bold"
                 android:text="@string/detail_info"
                 android:layout_marginLeft="@dimen/extra_margin"/>
@@ -66,65 +68,78 @@
                     android:layout_height="wrap_content"
                     android:clipChildren="false"
                     android:clipToPadding="false"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_margin="10dp">
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
 
-                    <FrameLayout
+                    <LinearLayout
                         android:id="@+id/memoBtn"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:background="@drawable/grey_rect_stroke_radius_8">
+                        android:padding="10dp"
+                        android:background="@drawable/grey_rect_stroke">
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_outline_description"
-                            android:tint="@color/iconTint"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="10dp"/>
-
-                        <TextView
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12dp"
-                            android:textColor="@color/iconTint"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/memo"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="12dp"/>
+                            android:gravity="center_vertical">
 
-                    </FrameLayout>
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_outline_description"
+                                android:tint="@color/secondaryText"/>
 
-                    <FrameLayout
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="3dp"
+                                android:textSize="14dp"
+                                android:textColor="@color/secondaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/memo"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/locationBtn"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:background="@drawable/grey_rect_stroke_radius_8">
+                        android:padding="10dp"
+                        android:background="@drawable/grey_rect_stroke">
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/icon_line_location"
-                            android:tint="@color/iconTint"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="10dp"/>
-
-                        <TextView
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12dp"
-                            android:textColor="@color/iconTint"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/location"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="13dp"/>
+                            android:gravity="center_vertical">
 
-                    </FrameLayout>
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/icon_line_location"
+                                android:tint="@color/secondaryText"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="3dp"
+                                android:textSize="14dp"
+                                android:textColor="@color/secondaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/location"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -134,10 +149,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:textSize="18dp"
-                android:textColor="@color/primaryText"
+                android:textSize="14dp"
+                android:textColor="@color/secondaryText"
                 android:fontFamily="@font/bold"
-                android:text="@string/alert"
+                android:text="@string/function"
                 android:layout_marginLeft="@dimen/extra_margin"/>
 
             <HorizontalScrollView
@@ -152,37 +167,78 @@
                     android:layout_height="wrap_content"
                     android:clipChildren="false"
                     android:clipToPadding="false"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_margin="10dp">
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
 
-                    <FrameLayout
-                        android:id="@+id/alarmBtn"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                    <LinearLayout
+                        android:id="@+id/repeatBtn"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:background="@drawable/grey_rect_stroke_radius_8">
+                        android:padding="10dp"
+                        android:background="@drawable/grey_rect_stroke">
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_baseline_alarm_24px"
-                            android:tint="@color/iconTint"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="10dp"/>
-
-                        <TextView
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12dp"
-                            android:textColor="@color/iconTint"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/alarm"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="13dp"/>
+                            android:gravity="center_vertical">
 
-                    </FrameLayout>
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_outline_class"
+                                android:tint="@color/secondaryText"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="3dp"
+                                android:textSize="14dp"
+                                android:textColor="@color/secondaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/repeat"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/alarmBtn"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:padding="10dp"
+                        android:background="@drawable/grey_rect_stroke">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_baseline_alarm_24px"
+                                android:tint="@color/secondaryText"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="3dp"
+                                android:textSize="14dp"
+                                android:textColor="@color/secondaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/alarm"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

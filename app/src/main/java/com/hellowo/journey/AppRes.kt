@@ -41,6 +41,7 @@ object AppRes {
     var boldFont: Typeface = Typeface.DEFAULT
     var digitFont: Typeface = Typeface.DEFAULT
     var digitBoldFont: Typeface = Typeface.DEFAULT
+    var textFont: Typeface = Typeface.DEFAULT
 
     @SuppressLint("ConstantLocale")
     val language = Locale.getDefault().language
@@ -78,6 +79,7 @@ object AppRes {
         boldFont = ResourcesCompat.getFont(context, R.font.bold)!!
         digitFont = ResourcesCompat.getFont(context, R.font.futura_regular)!!
         digitBoldFont = ResourcesCompat.getFont(context, R.font.futura_regular)!!
+        textFont = ResourcesCompat.getFont(context, R.font.text)!!
 
         //////////////////////////////////////////////////////////////////////////날짜 포맷
 
