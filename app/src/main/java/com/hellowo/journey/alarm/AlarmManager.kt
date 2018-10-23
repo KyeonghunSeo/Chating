@@ -11,6 +11,7 @@ import com.hellowo.journey.*
 import com.hellowo.journey.calendar.model.Alarm
 import com.hellowo.journey.calendar.model.TimeObject
 import com.pixplicity.easyprefs.library.Prefs
+import io.realm.Realm
 import java.util.*
 
 object AlarmManager {
@@ -67,17 +68,16 @@ object AlarmManager {
         }
     }
 
-    fun registTimeObjectAlarm(timeObject: TimeObject) {
+    fun registTimeObjectAlarm(timeObject: TimeObject, registedAlarm: RegistedAlarm) {
         val intent = Intent(App.context, TimeObjectAlarmReceiver::class.java)
         intent.putExtra("timeObjectId", timeObject.id)
-        timeObject.alarms.sortBy { it.dtAlarm }
-        timeObject.alarms.asSequence().filter { it.dtAlarm >= System.currentTimeMillis() }.sortedBy { it.dtAlarm }.firstOrNull()?.let {
-            val alarmRequestCode = Prefs.getInt("alarmRequestCode", 0) + 1
-            Prefs.putInt("alarmRequestCode", alarmRequestCode)
-            intent.putExtra("alarmRequestCode", alarmRequestCode)
-            val pIntent = PendingIntent.getBroadcast(App.context, alarmRequestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-            registAlarm(it, pIntent)
-        }
+        timeObject.alarms
+                .asSequence()
+                .filter { it.dtAlarm >= System.currentTimeMillis() }
+                .firstOrNull()?.let { alarm ->
+                    val pIntent = PendingIntent.getBroadcast(App.context, registedAlarm.requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    registAlarm(alarm, pIntent)
+                }
     }
 
     fun unRegistTimeObjectAlarm(requestCode: Int) {
@@ -98,7 +98,7 @@ object AlarmManager {
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT -> manager.setExact(AlarmManager.RTC_WAKEUP, alarm.dtAlarm, pendingIntent)
                     else -> manager.set(AlarmManager.RTC_WAKEUP, alarm.dtAlarm, pendingIntent)
                 }
-                l("새 알람 등록 : ${AppRes.ymdDate.format(Date(alarm.dtAlarm))} ${AppRes.time.format(Date(alarm.dtAlarm))}")
+                l("알람 등록 : ${AppRes.ymdDate.format(Date(alarm.dtAlarm))} ${AppRes.time.format(Date(alarm.dtAlarm))}")
             }
         } catch (e: Exception) {
             e.printStackTrace()

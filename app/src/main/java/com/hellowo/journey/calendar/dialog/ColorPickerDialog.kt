@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
+import com.hellowo.journey.startDialogShowAnimation
 import com.hellowo.journey.startFromBottomSlideAppearAnimation
 import kotlinx.android.synthetic.main.dialog_color_picker.*
 
@@ -20,7 +21,7 @@ class ColorPickerDialog(private val activity: Activity, private val color: Int,
         setContentView(R.layout.dialog_color_picker)
         setLayout()
         setOnShowListener {
-            startFromBottomSlideAppearAnimation(contentLy, dpToPx(10).toFloat())
+            startDialogShowAnimation(contentLy, dpToPx(10).toFloat())
         }
     }
 

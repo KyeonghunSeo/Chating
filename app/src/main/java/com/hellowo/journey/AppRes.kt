@@ -48,6 +48,9 @@ object AppRes {
     var selectableItemBackground = 0
     var unselectedColor = 0
     var primaryColor = 0
+    var primaryText = 0
+    var secondaryText = 0
+    var disableText = 0
 
     var statusBarHeight = 0
 
@@ -62,6 +65,10 @@ object AppRes {
         selectableItemBackground = typedValue.resourceId
         unselectedColor = resources.getColor(R.color.grey)
         primaryColor = resources.getColor(R.color.colorPrimary)
+        primaryText = resources.getColor(R.color.primaryText)
+        secondaryText = resources.getColor(R.color.secondaryText)
+        disableText = resources.getColor(R.color.disableText)
+
         starDrawable = resources.getDrawable(R.drawable.ic_outline_star_border)
         hightlightCover = resources.getDrawable(R.drawable.highlightcover)
         blankDrawable = resources.getDrawable(R.drawable.blank)

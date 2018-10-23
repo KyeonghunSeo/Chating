@@ -24,10 +24,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.hellowo.journey.*
 import com.hellowo.journey.calendar.TimeObjectManager
-import com.hellowo.journey.calendar.dialog.AddMoreOptionDialog
-import com.hellowo.journey.calendar.dialog.AlarmPickerDialog
-import com.hellowo.journey.calendar.dialog.ColorPickerDialog
-import com.hellowo.journey.calendar.dialog.StartEndPickerDialog
+import com.hellowo.journey.calendar.dialog.*
 import com.hellowo.journey.calendar.model.Alarm
 import com.hellowo.journey.calendar.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
@@ -37,10 +34,6 @@ import java.util.*
 
 
 class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
-    companion object {
-
-    }
-
     private var originalData: TimeObject? = null
     private val timeObject: TimeObject = TimeObject()
     private var googleMap: GoogleMap? = null
@@ -79,7 +72,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 timeObject.color = color
                 timeObject.fontColor = fontColor
                 updateUI()
-            }, true, true, true, false)
+            }, true, false, true, false)
         }
     }
 
@@ -108,9 +101,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     private fun initDateTime() {
         timeLy.setOnClickListener {
             StartEndPickerDialog(MainActivity.instance!!, timeObject) { sCal, eCal, allday ->
-                timeObject.dtStart = sCal.timeInMillis
-                timeObject.dtEnd = eCal.timeInMillis
-                timeObject.allday = allday
+                timeObject.setDateTime(allday, sCal, eCal)
                 updateUI()
             }.show(MainActivity.instance?.supportFragmentManager, null)
         }
@@ -224,9 +215,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     private fun updateAlarmUI() {
         if(timeObject.alarms.isNotEmpty()) {
             alarmLy.visibility = View.VISIBLE
-            timeObject.alarms.forEach {
-                l(it.toString())
-            }
+            alarmListView.setTimeObject(timeObject)
+            alarmListView.onSelected = { openAlarmPicker(it) }
         }else {
             alarmLy.visibility = View.GONE
         }
@@ -359,7 +349,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     fun addNewAlarm() {
-        val alarm = Alarm(UUID.randomUUID().toString(), timeObject.dtStart, 0)
+        val alarm = Alarm(UUID.randomUUID().toString(), timeObject.dtStart, 0, 0)
         timeObject.alarms.add(alarm)
         openAlarmPicker(alarm)
     }
@@ -367,16 +357,24 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     fun openAlarmPicker(alarm: Alarm) {
         AlarmPickerDialog(timeObject, alarm){ result, offset ->
             if(result) {
+                alarm.offset = offset
                 if(offset != Long.MIN_VALUE) {
                     alarm.dtAlarm = timeObject.dtStart + offset
                 }else {
-
+                    openDateTimePicker(context.getString(R.string.set_alarm), alarm.dtAlarm) {
+                        alarm.dtAlarm = it
+                        updateAlarmUI()
+                    }
                 }
             }else {
                 timeObject.alarms.remove(alarm)
             }
             updateAlarmUI()
         }.show(MainActivity.instance?.supportFragmentManager, null)
+    }
+
+    fun openDateTimePicker(title: String, time: Long, onResult: (Long) -> (Unit)) {
+        DateTimePickerDialog(title, time, onResult).show(MainActivity.instance?.supportFragmentManager, null)
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

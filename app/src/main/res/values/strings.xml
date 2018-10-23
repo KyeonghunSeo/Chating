@@ -142,5 +142,7 @@
     </string-array>
 
     <string name="custom">직접입력</string>
+    <string name="passed_alarm">지난 알림</string>
+    <string name="ring_alarm_at_time">%1$s 알림</string>
 
 </resources>

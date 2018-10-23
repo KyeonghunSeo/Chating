@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#286da8</color>
-    <color name="colorPrimaryDark">#b37d4e</color>
-    <color name="colorAccent">#dc5360</color>
+    <color name="colorPrimary">#000f3a</color>
+    <color name="colorPrimaryDark">#00144d</color>
+    <color name="colorAccent">#f2c100</color>
     <color name="colorPrimaryAlpha">#60286da8</color>
 
     <!--
@@ -20,11 +20,11 @@
     <color name="backgroundDark">#f2f2f2</color>
     <color name="backgroundDeepDark">#b4b7bc</color>
     <color name="backgroundDarkAlpha">#EEf2f2f2</color>
-    <color name="iconTint">#6b7a8f</color>
+    <color name="iconTint">#a8aaaf</color>
 
-    <color name="primaryText">#de000000</color>
-    <color name="secondaryText">#89000000</color>
-    <color name="disableText">#cccccc</color>
+    <color name="primaryText">#44464b</color>
+    <color name="secondaryText">#a8aaaf</color>
+    <color name="disableText">#f2f2f3</color>
     <color name="primaryWhiteText">#FFFFFFFF</color>
     <color name="secondaryWhiteText">#b3FFFFFF</color>
     <color name="disableWhiteText">#80FFFFFF</color>
@@ -43,9 +43,9 @@
     <color name="white">#FFFFFF</color>
     <color name="alphaWhite">#D9FFFFFF</color>
     <color name="almostWhite">#F4F4F4</color>
-    <color name="grey">#EFEFF4</color>
+    <color name="grey">#a8aaaf</color>
     <color name="greyAlpha">#60434957</color>
-    <color name="red">#EE7785</color>
+    <color name="red">#FF3366</color>
     <color name="green">#67D5B5</color>
     <color name="yellow">#FDD692</color>
     <color name="blue">#84B1ED</color>

@@ -2,6 +2,7 @@ package com.hellowo.journey.calendar
 
 import android.annotation.SuppressLint
 import com.hellowo.journey.alarm.AlarmManager
+import com.hellowo.journey.alarm.RegistedAlarm
 import com.hellowo.journey.calendar.adapter.TimeObjectCalendarAdapter
 import com.hellowo.journey.calendar.model.CalendarSkin
 import com.hellowo.journey.calendar.model.TimeObject
@@ -75,7 +76,25 @@ object TimeObjectManager {
             }
 
             if(timeObject.alarms.isNotEmpty()) {
-                AlarmManager.registTimeObjectAlarm(timeObject)
+                timeObject.alarms.sortBy { it.dtAlarm }
+
+                var registedAlarm = realm.where(RegistedAlarm::class.java)
+                        .equalTo("timeObjectId", timeObject.id).findFirst()
+
+                if(registedAlarm != null){
+                    AlarmManager.unRegistTimeObjectAlarm(registedAlarm.requestCode)
+                }else {
+                    registedAlarm = realm.createObject(RegistedAlarm::class.java, timeObject.id)?.apply {
+                        val requestCode = realm.where(RegistedAlarm::class.java).max("requestCode")
+                        if(requestCode != null) {
+                            this.requestCode = requestCode.toInt() + 1
+                        }else {
+                            this.requestCode = 0
+                        }
+                    }
+                }
+
+                registedAlarm?.let { AlarmManager.registTimeObjectAlarm(timeObject, it) }
             }
 
             timeObject.dtUpdated = System.currentTimeMillis()

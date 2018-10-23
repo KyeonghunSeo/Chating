@@ -191,6 +191,19 @@ fun startFromBottomSlideAppearAnimation(view: View, offset: Float) {
     animSet.start()
 }
 
+fun startDialogShowAnimation(view: View, offset: Float) {
+    val animSet = AnimatorSet()
+    animSet.playTogether(
+            ObjectAnimator.ofFloat(view, "translationY", offset, 0f),
+            ObjectAnimator.ofFloat(view, "alpha", 0f, 1f),
+            ObjectAnimator.ofFloat(view, "scaleX", 0.98f, 1f),
+            ObjectAnimator.ofFloat(view, "scaleY", 0.98f, 1f)
+    )
+    animSet.interpolator = FastOutSlowInInterpolator()
+    animSet.duration = CalendarView.animDur
+    animSet.start()
+}
+
 fun bitmapToByteArray(bitmap: Bitmap) : ByteArray {
     val stream = ByteArrayOutputStream()
     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)

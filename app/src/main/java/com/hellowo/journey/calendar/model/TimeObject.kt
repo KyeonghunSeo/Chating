@@ -2,6 +2,8 @@ package com.hellowo.journey.calendar.model
 
 import android.graphics.Color
 import com.hellowo.journey.R
+import com.hellowo.journey.getCalendarTime0
+import com.hellowo.journey.getCalendarTime23
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
@@ -107,7 +109,20 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         else -> Formula.TOPSTACK
     }
 
+    fun setDateTime(a: Boolean, s: Calendar, e: Calendar) {
+        allday = a
+        if(allday) {
+            dtStart = getCalendarTime0(s)
+            dtEnd = getCalendarTime23(e)
+        }else {
+            dtStart = s.timeInMillis
+            dtEnd = e.timeInMillis
+        }
 
+        alarms.forEach {
+            it.dtAlarm = dtStart + it.offset
+        }
+    }
 
     fun copy(data: TimeObject) {
         id = data.id
@@ -135,7 +150,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         }
         alarms.clear()
         data.alarms.forEach {
-            alarms.add(Alarm(it.id, it.dtAlarm, it.action))
+            alarms.add(Alarm(it.id, it.dtAlarm, it.offset, it.action))
         }
         links.clear()
         data.links.forEach {

@@ -24,10 +24,12 @@ class TimeObjectAlarmReceiver : BroadcastReceiver() {
                     .equalTo("id", intent.getStringExtra("timeObjectId"))
                     .findFirst()?.let {
                         val timeObject = realm.copyFromRealm(it)
-                        val alarmRequestCode = intent.getIntExtra("alarmRequestCode", -1)
-                        showNotification(context, timeObject)
-                        AlarmManager.unRegistTimeObjectAlarm(alarmRequestCode)
-                        AlarmManager.registTimeObjectAlarm(timeObject)
+                        realm.where(RegistedAlarm::class.java)
+                                .equalTo("timeObjectId", timeObject.id).findFirst()?.let { registedAlarm ->
+                                    showNotification(context, timeObject)
+                                    AlarmManager.unRegistTimeObjectAlarm(registedAlarm.requestCode)
+                                    AlarmManager.registTimeObjectAlarm(timeObject, registedAlarm)
+                                }
                     }
             realm.close()
         }catch (e: Exception){
