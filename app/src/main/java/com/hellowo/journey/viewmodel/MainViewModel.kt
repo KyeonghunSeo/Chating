@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModel
 import com.hellowo.journey.*
 import com.hellowo.journey.R
 import com.hellowo.journey.calendar.TimeObjectManager
-import com.hellowo.journey.calendar.model.ColorTag
-import com.hellowo.journey.calendar.model.Template
-import com.hellowo.journey.calendar.model.TimeObject
+import com.hellowo.journey.model.ColorTag
+import com.hellowo.journey.model.Template
+import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.*

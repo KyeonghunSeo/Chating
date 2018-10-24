@@ -1,6 +1,6 @@
 package com.hellowo.journey.calendar
 
-import com.hellowo.journey.calendar.adapter.TimeObjectCalendarAdapter
+import com.hellowo.journey.adapter.TimeObjectCalendarAdapter
 
 class CalendarComparator : Comparator<TimeObjectCalendarAdapter.TimeObjectViewHolder> {
     override fun compare(l: TimeObjectCalendarAdapter.TimeObjectViewHolder, r: TimeObjectCalendarAdapter.TimeObjectViewHolder): Int {

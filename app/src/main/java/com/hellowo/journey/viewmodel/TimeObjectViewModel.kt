@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import android.content.Intent
 import com.hellowo.journey.ID
 import com.hellowo.journey.TIME
-import com.hellowo.journey.calendar.model.TimeObject
+import com.hellowo.journey.model.TimeObject
 import io.realm.Realm
 import java.util.*
 

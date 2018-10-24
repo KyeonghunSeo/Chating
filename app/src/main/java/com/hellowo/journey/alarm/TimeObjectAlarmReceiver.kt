@@ -9,9 +9,7 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.hellowo.journey.AppRes
 import com.hellowo.journey.R
-import com.hellowo.journey.calendar.TimeObjectManager
-import com.hellowo.journey.calendar.model.TimeObject
-import com.hellowo.journey.l
+import com.hellowo.journey.model.TimeObject
 import io.realm.Realm
 import java.lang.Exception
 

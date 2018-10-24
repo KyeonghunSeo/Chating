@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.hellowo.journey.R
-import com.hellowo.journey.calendar.model.TimeObject
+import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.l
 import com.hellowo.journey.viewmodel.TimeObjectViewModel
 import kotlinx.android.synthetic.main.activity_time_object.*

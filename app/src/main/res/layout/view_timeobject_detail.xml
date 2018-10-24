@@ -30,9 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="35dp"
-                    android:paddingBottom="35dp"
-                    android:paddingLeft="@dimen/extra_margin"
-                    android:paddingRight="@dimen/extra_margin">
+                    android:paddingBottom="35dp">
 
                     <EditText
                         android:id="@+id/titleInput"
@@ -45,7 +43,6 @@
                         android:id="@+id/timeLy"
                         android:orientation="horizontal"
                         android:layout_marginTop="20dp"
-                        android:background="?android:attr/selectableItemBackground"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -146,17 +143,45 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/repeatLy"
+                        android:orientation="vertical"
+                        android:layout_marginTop="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <View
+                            android:layout_width="30dp"
+                            android:layout_height="0.5dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/grey"/>
+
+                        <TextView
+                            android:id="@+id/repeatText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/no_repeat"
+                            android:textColor="@color/primaryText"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/thin" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/alarmLy"
                         android:orientation="vertical"
                         android:layout_marginTop="20dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <com.hellowo.journey.calendar.view.AlarmListView
+                        <com.hellowo.journey.ui.view.AlarmListView
                             android:id="@+id/alarmListView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-                        </com.hellowo.journey.calendar.view.AlarmListView>
+                        </com.hellowo.journey.ui.view.AlarmListView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -168,7 +193,6 @@
 
                         <TextView
                             android:id="@+id/locationText"
-                            android:background="?android:attr/selectableItemBackground"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -326,7 +350,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:background="?android:attr/selectableItemBackground"
                     android:padding="16dp"
                     android:layout_gravity="right|center_vertical"
                     android:textColor="@color/colorPrimary"

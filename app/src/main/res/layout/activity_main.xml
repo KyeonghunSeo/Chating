@@ -74,13 +74,13 @@
 
     </FrameLayout>
 
-    <com.hellowo.journey.calendar.view.CalendarView
+    <com.hellowo.journey.ui.view.CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp"
         android:layout_marginTop="50dp">
-    </com.hellowo.journey.calendar.view.CalendarView>
+    </com.hellowo.journey.ui.view.CalendarView>
 
     <View
         android:id="@+id/topShadow"
@@ -90,12 +90,12 @@
         android:layout_marginTop="50dp">
     </View>
 
-    <com.hellowo.journey.calendar.view.DayView
+    <com.hellowo.journey.ui.view.DayView
         android:id="@+id/dayView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone">
-    </com.hellowo.journey.calendar.view.DayView>
+    </com.hellowo.journey.ui.view.DayView>
 
     <View
         android:background="@color/grey"
@@ -105,7 +105,7 @@
         android:layout_marginBottom="50dp">
     </View>
 
-    <com.hellowo.journey.calendar.view.KeepView
+    <com.hellowo.journey.ui.view.KeepView
         android:id="@+id/keepView"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -123,9 +123,9 @@
             android:src="@drawable/ic_baseline_all_inbox_24px"
             android:tint="@color/iconTint"/>
 
-    </com.hellowo.journey.calendar.view.KeepView>
+    </com.hellowo.journey.ui.view.KeepView>
 
-    <com.hellowo.journey.calendar.view.BriefingView
+    <com.hellowo.journey.ui.view.BriefingView
         android:id="@+id/briefingView"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -134,7 +134,7 @@
         app:cardBackgroundColor="@color/white"
         app:cardElevation="0dp"
         app:cardCornerRadius="15dp">
-    </com.hellowo.journey.calendar.view.BriefingView>
+    </com.hellowo.journey.ui.view.BriefingView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/controlPanel"
@@ -146,22 +146,22 @@
         app:cardElevation="0dp"
         app:cardCornerRadius="15dp">
 
-        <com.hellowo.journey.calendar.view.TemplateControlPager
+        <com.hellowo.journey.ui.view.TemplateControlPager
             android:id="@+id/templateControlPager"
             android:layout_width="100dp"
             android:layout_height="match_parent">
-        </com.hellowo.journey.calendar.view.TemplateControlPager>
+        </com.hellowo.journey.ui.view.TemplateControlPager>
 
     </androidx.cardview.widget.CardView>
 
-    <com.hellowo.journey.calendar.view.TemplateControlPagerIndicator
+    <com.hellowo.journey.ui.view.TemplateControlPagerIndicator
         android:id="@+id/templateControlPagerIndi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clipChildren="false"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="2dp">
-    </com.hellowo.journey.calendar.view.TemplateControlPagerIndicator>
+    </com.hellowo.journey.ui.view.TemplateControlPagerIndicator>
 
     <View
         android:id="@+id/dimView"
@@ -171,11 +171,11 @@
         android:background="@color/transitionDim">
     </View>
 
-    <com.hellowo.journey.calendar.view.TimeObjectDetailView
+    <com.hellowo.journey.ui.view.TimeObjectDetailView
         android:id="@+id/timeObjectDetailView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="15dp">
-    </com.hellowo.journey.calendar.view.TimeObjectDetailView>
+    </com.hellowo.journey.ui.view.TimeObjectDetailView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

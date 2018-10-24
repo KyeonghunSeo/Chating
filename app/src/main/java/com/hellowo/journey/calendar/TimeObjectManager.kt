@@ -1,13 +1,16 @@
 package com.hellowo.journey.calendar
 
 import android.annotation.SuppressLint
+import com.hellowo.journey.AppRes
 import com.hellowo.journey.alarm.AlarmManager
 import com.hellowo.journey.alarm.RegistedAlarm
-import com.hellowo.journey.calendar.adapter.TimeObjectCalendarAdapter
-import com.hellowo.journey.calendar.model.CalendarSkin
-import com.hellowo.journey.calendar.model.TimeObject
-import com.hellowo.journey.calendar.view.CalendarView
+import com.hellowo.journey.adapter.TimeObjectCalendarAdapter
+import com.hellowo.journey.getCalendarTime23
+import com.hellowo.journey.model.CalendarSkin
+import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.l
+import com.hellowo.journey.repeat.RepeatManager
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
@@ -31,11 +34,7 @@ object TimeObjectManager {
     fun setTimeObjectCalendarAdapter(calendarView: CalendarView) {
         withAnim = false
         timeObjectList?.removeAllChangeListeners()
-        timeObjectList = realm.where(TimeObject::class.java)
-                .greaterThanOrEqualTo("dtEnd", calendarView.calendarStartTime)
-                .lessThanOrEqualTo("dtStart", calendarView.calendarEndTime)
-                .sort("dtStart", Sort.ASCENDING)
-                .findAllAsync()
+        timeObjectList = getTimeObjectList(calendarView.calendarStartTime, calendarView.calendarEndTime)
         timeObjectList?.addChangeListener { result, changeSet ->
             l("==========START timeObjectdataSetChanged=========")
             l("result.isLoaded ${result.isLoaded}")
@@ -61,6 +60,27 @@ object TimeObjectManager {
             l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
             l("==========END timeObjectdataSetChanged=========")
         }
+    }
+
+    fun getTimeObjectList(startTime: Long, endTime: Long) : RealmResults<TimeObject> {
+        return realm.where(TimeObject::class.java)
+                .beginGroup()
+                    .greaterThanOrEqualTo("dtEnd", startTime)
+                    .lessThanOrEqualTo("dtStart", endTime)
+                .endGroup()
+                .or()
+                .beginGroup()
+                    .isNotNull("repeat")
+                    .equalTo("dtUntil", Long.MIN_VALUE)
+                .endGroup()
+                .or()
+                .beginGroup()
+                    .isNotNull("repeat")
+                    .notEqualTo("dtUntil", Long.MIN_VALUE)
+                    .greaterThan("dtUntil", startTime)
+                .endGroup()
+                .sort("dtStart", Sort.ASCENDING)
+                .findAllAsync()
     }
 
     fun save(timeObject: TimeObject) {
@@ -103,11 +123,9 @@ object TimeObjectManager {
     }
 
     fun delete(timeObject: TimeObject) {
-        if(timeObject.isValid) {
-            val id = timeObject.id
-            realm.executeTransactionAsync{ realm ->
-                realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.deleteFromRealm()
-            }
+        val id = timeObject.id
+        realm.executeTransactionAsync{ realm ->
+            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.deleteFromRealm()
         }
     }
 
@@ -139,10 +157,25 @@ object TimeObjectManager {
                 .findFirst()
     }
 
-    fun copy(originalData: TimeObject): TimeObject {
-        return TimeObject()
+    fun deleteOnly(timeObject: TimeObject) {
+        val id = timeObject.id
+        val ymdKey = AppRes.ymdkey.format(Date(timeObject.dtStart))
+        realm.executeTransactionAsync{ realm ->
+            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.exDates?.add(ymdKey)
+        }
     }
 
-    fun getCopiedData(originalData: TimeObject): TimeObject = realm.copyFromRealm(originalData)
+    fun deleteAfter(timeObject: TimeObject) {
+        val id = timeObject.id
+        val cal = Calendar.getInstance()
+        cal.timeInMillis = timeObject.dtStart
+
+        cal.add(Calendar.DATE, -1)
+        realm.executeTransactionAsync{ realm ->
+            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
+                it.dtUntil = getCalendarTime23(cal)
+            }
+        }
+    }
 
 }

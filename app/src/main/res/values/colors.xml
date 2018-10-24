@@ -24,7 +24,7 @@
 
     <color name="primaryText">#44464b</color>
     <color name="secondaryText">#a8aaaf</color>
-    <color name="disableText">#f2f2f3</color>
+    <color name="disableText">#c2c2c3</color>
     <color name="primaryWhiteText">#FFFFFFFF</color>
     <color name="secondaryWhiteText">#b3FFFFFF</color>
     <color name="disableWhiteText">#80FFFFFF</color>

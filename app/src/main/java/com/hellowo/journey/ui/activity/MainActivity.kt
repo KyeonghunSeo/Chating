@@ -4,7 +4,6 @@ import android.Manifest
 import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -12,7 +11,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.view.DragEvent
-import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -23,13 +21,10 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.MapFragment
-import com.google.android.gms.maps.SupportMapFragment
 import com.hellowo.journey.*
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.model.AppUser
-import com.hellowo.journey.ui.listener.MainDragAndDropListener
+import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.ui.view.SwipeScrollView.Companion.SWIPE_LEFT
 import com.hellowo.journey.ui.view.SwipeScrollView.Companion.SWIPE_RIGHT
 import com.hellowo.journey.viewmodel.MainViewModel

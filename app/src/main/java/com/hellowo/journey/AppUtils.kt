@@ -25,7 +25,7 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.Transition
-import com.hellowo.journey.calendar.view.CalendarView
+import com.hellowo.journey.ui.view.CalendarView
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -191,13 +191,11 @@ fun startFromBottomSlideAppearAnimation(view: View, offset: Float) {
     animSet.start()
 }
 
-fun startDialogShowAnimation(view: View, offset: Float) {
+fun startDialogShowAnimation(view: View) {
     val animSet = AnimatorSet()
     animSet.playTogether(
-            ObjectAnimator.ofFloat(view, "translationY", offset, 0f),
-            ObjectAnimator.ofFloat(view, "alpha", 0f, 1f),
-            ObjectAnimator.ofFloat(view, "scaleX", 0.98f, 1f),
-            ObjectAnimator.ofFloat(view, "scaleY", 0.98f, 1f)
+            ObjectAnimator.ofFloat(view, "translationY", dpToPx(20).toFloat(), 0f),
+            ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
     )
     animSet.interpolator = FastOutSlowInInterpolator()
     animSet.duration = CalendarView.animDur

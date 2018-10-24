@@ -1,6 +1,5 @@
 package com.hellowo.journey.alarm
 
-import android.annotation.SuppressLint
 import android.app.*
 import android.app.AlarmManager
 import android.app.AlarmManager.RTC_WAKEUP
@@ -8,10 +7,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.hellowo.journey.*
-import com.hellowo.journey.calendar.model.Alarm
-import com.hellowo.journey.calendar.model.TimeObject
+import com.hellowo.journey.model.Alarm
+import com.hellowo.journey.model.TimeObject
 import com.pixplicity.easyprefs.library.Prefs
-import io.realm.Realm
 import java.util.*
 
 object AlarmManager {
