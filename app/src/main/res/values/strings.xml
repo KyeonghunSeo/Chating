@@ -128,7 +128,7 @@
     <string name="repeat_delete">반복 %1$s 삭제</string>
     <string name="how_apply">어떻게 적용할까요?</string>
     <string name="apply_only">이 %1$s에만 적용</string>
-    <string name="apply_after">이 %1$s과 이후의 모든 %1$s에 적용</string>
+    <string name="apply_after">이 %1$s 포함 이후 모든 %1$s에 적용</string>
     <string name="apply_all">모두 적용</string>
 
 </resources>

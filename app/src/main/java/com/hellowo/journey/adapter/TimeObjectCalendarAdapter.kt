@@ -224,14 +224,14 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         for (i in view.cellNum until view.cellNum + view.length) {
             val s = StringBuilder(status.status[i])
             if(i == view.cellNum) {
-                order = s.indexOf("0")
-                if(order == -1) order = s.length
+                order = s.indexOf("0") // 빈공간 찾기
+                if(order == -1) order = s.length // 빈공간이 없으면 가장 마지막 순서
             }
 
             if(order >= s.length) {
-                s.append(CharArray(order - s.length + 1, { _-> '0'}))
+                s.append(CharArray(order - s.length + 1) { _-> '0'}) // 빈공간 채우기
             }
-            status.status[i] = s.replaceRange(order, order + 1, "1").toString()
+            status.status[i] = s.replaceRange(order, order + 1, "1").toString() // 빈공간을 채우고 상태 갱신
         }
         return order
     }

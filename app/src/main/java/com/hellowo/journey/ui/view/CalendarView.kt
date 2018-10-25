@@ -338,7 +338,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 dateText.scaleY = 1.5f
             }
 
-            scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top)
+            //scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top)
             //onViewEffect(cellNum)
         }else {
 

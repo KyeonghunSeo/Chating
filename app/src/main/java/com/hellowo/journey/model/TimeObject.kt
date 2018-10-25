@@ -23,6 +23,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var allday: Boolean = true,
                       var dtStart: Long = Long.MIN_VALUE,
                       var dtEnd: Long = Long.MIN_VALUE,
+                      var dtDone: Long = Long.MIN_VALUE,
                       var dtCreated: Long = Long.MIN_VALUE,
                       var dtUpdated: Long = Long.MIN_VALUE,
                       var timeZone: String? = null,
@@ -107,15 +108,17 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     fun setDateTime(a: Boolean, s: Calendar, e: Calendar) {
-        allday = a
         if(allday) {
-            dtStart = getCalendarTime0(s)
-            dtEnd = getCalendarTime23(e)
+            setDateTime(a, getCalendarTime0(s), getCalendarTime0(e))
         }else {
-            dtStart = s.timeInMillis
-            dtEnd = e.timeInMillis
+            setDateTime(a, s.timeInMillis, e.timeInMillis)
         }
+    }
 
+    fun setDateTime(a: Boolean, s: Long, e: Long) {
+        allday = a
+        dtStart = s
+        dtEnd = e
         alarms.forEach {
             it.dtAlarm = dtStart + it.offset
         }
@@ -136,6 +139,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         allday = data.allday
         dtStart = data.dtStart
         dtEnd = data.dtEnd
+        dtDone = data.dtDone
         dtCreated = data.dtCreated
         dtUpdated = data.dtUpdated
         timeZone = data.timeZone
@@ -162,8 +166,17 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         longitude = data.longitude
     }
 
-    override fun toString(): String {
-        return "TimeObject(id=$id, type=$type, style=$style, title=$title, color=$color, fontColor=$fontColor, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=$exDates, tags=$tags, alarms=$alarms, links=$links, latitude=$latitude, longitude=$longitude)"
+    fun clearRepeat() {
+        repeat = null
+        dtUntil = Long.MIN_VALUE
+        exDates.clear()
     }
+
+    override fun toString(): String {
+        return "TimeObject(id=$id, type=$type, style=$style, title=$title, color=$color, fontColor=$fontColor, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=$exDates, tags=$tags, alarms=$alarms, links=$links, latitude=$latitude, longitude=$longitude)"
+    }
+
+    fun isDone(): Boolean = dtDone != Long.MIN_VALUE
+
 
 }

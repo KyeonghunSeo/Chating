@@ -10,9 +10,9 @@ import com.hellowo.journey.model.CalendarSkin
 import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.list_item_normal_check.view.*
 
-class TimeObjectDayViewAdapter(val context: Context,
-                               val items: List<TimeObject>,
-                               val adapterInterface: (view: View, timeObject: TimeObject) -> Unit) : RecyclerView.Adapter<TimeObjectDayViewAdapter.ViewHolder>() {
+class EventListAdapter(val context: Context,
+                       val items: List<TimeObject>,
+                       val adapterInterface: (view: View, timeObject: TimeObject) -> Unit) : RecyclerView.Adapter<EventListAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = items.size
 

@@ -14,30 +14,43 @@ import androidx.cardview.widget.CardView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.hellowo.journey.*
 import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.adapter.TimeObjectDayViewAdapter
+import com.hellowo.journey.adapter.EventListAdapter
+import com.hellowo.journey.adapter.TaskListAdapter
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.model.CalendarSkin
 import com.hellowo.journey.repeat.RepeatManager
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.RealmResults
-import io.realm.Sort
 import kotlinx.android.synthetic.main.view_day.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {
+class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : CardView(context, attrs, defStyleAttr) {
     companion object;
-    private var calendarView: CalendarView? = null
-    private val items = ArrayList<TimeObject>()
     private var timeObjectList: RealmResults<TimeObject>? = null
-    private val timeObjectDayViewAdapter = TimeObjectDayViewAdapter(context, items) { view, timeObject ->
-        MainActivity.instance?.viewModel?.targetTimeObject?.value = timeObject
-        MainActivity.instance?.viewModel?.targetView?.value = view
+    private val eventList = ArrayList<TimeObject>()
+    private val taskList = ArrayList<TimeObject>()
+    private val noteList = ArrayList<TimeObject>()
+    private val eventAdapter = EventListAdapter(context, eventList) { view, timeObject ->
+        onItemClick(view, timeObject)
     }
+    private val taskAdapter = TaskListAdapter(context, taskList) { view, timeObject, action ->
+        when(action) {
+            0 -> onItemClick(view, timeObject)
+            1 -> TimeObjectManager.done(timeObject)
+        }
+
+    }
+    private val noteAdapter = EventListAdapter(context, noteList) { view, timeObject ->
+        onItemClick(view, timeObject)
+    }
+    private var calendarView: CalendarView? = null
 
     private var isInit = true
     var viewMode = ViewMode.CLOSED
@@ -55,8 +68,15 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     fun setCalendarView(view: CalendarView) { calendarView = view }
 
     private fun initRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = timeObjectDayViewAdapter
+        eventListView.layoutManager = LinearLayoutManager(context)
+        eventListView.adapter = eventAdapter
+
+        taskListView.layoutManager = LinearLayoutManager(context)
+        taskListView.adapter = taskAdapter
+        taskAdapter.itemTouchHelper?.attachToRecyclerView(taskListView)
+
+        noteListView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        noteListView.adapter = noteAdapter
     }
 
     fun notifyDateChanged(offset: Int) {
@@ -71,22 +91,57 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             timeObjectList?.removeAllChangeListeners()
             timeObjectList = TimeObjectManager.getTimeObjectList(startTime, endTime)
             timeObjectList?.addChangeListener { result, changeSet ->
+                l("==========데이뷰 데이터 변경 시작=========")
+                /*
+                if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
+
+                }else if(changeSet.state == OrderedCollectionChangeSet.State.UPDATE) {
+
+                }
                 changeSet.insertionRanges.forEach {
-                    //추가된 데이터
+                    l("추가된 데이터 : ${ result[it.startIndex].toString()}")
                 }
-                items.clear()
+                changeSet.deletionRanges.forEach {
+                    l("삭제 데이터 : ${ result[it.startIndex].toString()}")
+                }
+                changeSet.changeRanges.forEach {
+                    l("변경된 데이터 : ${ result[it.startIndex].toString()}")
+                }
+                */
+                eventList.clear()
+                taskList.clear()
+                noteList.clear()
                 result.forEach { timeObject ->
-                    try{
-                        if(timeObject.repeat.isNullOrEmpty()) {
-                            items.add(timeObject)
-                        }else {
-                            RepeatManager.makeRepeatInstance(timeObject, startTime, endTime).forEach {
-                                items.add(it)
-                            }
+                    when(TimeObject.Type.values()[timeObject.type]) {
+                        TimeObject.Type.EVENT -> {
+                            try{
+                                if(timeObject.repeat.isNullOrEmpty()) {
+                                    eventList.add(timeObject)
+                                }else {
+                                    RepeatManager.makeRepeatInstance(timeObject, startTime, endTime)
+                                            .forEach { eventList.add(it) }
+                                }
+                            }catch (e: Exception){ e.printStackTrace() }
                         }
-                    }catch (e: Exception){ e.printStackTrace() }
+                        TimeObject.Type.TASK -> {
+                            try{
+                                if(timeObject.repeat.isNullOrEmpty()) {
+                                    taskList.add(timeObject)
+                                }else {
+                                    RepeatManager.makeRepeatInstance(timeObject, startTime, endTime)
+                                            .forEach { taskList.add(it) }
+                                }
+                            }catch (e: Exception){ e.printStackTrace() }
+                        }
+                        TimeObject.Type.NOTE -> noteList.add(timeObject)
+                        else -> {
+                        }
+                    }
                 }
-                timeObjectDayViewAdapter.notifyDataSetChanged()
+                eventAdapter.notifyDataSetChanged()
+                taskAdapter.notifyDataSetChanged()
+                noteAdapter.notifyDataSetChanged()
+                l("==========데이뷰 데이터 변경 종료=========")
             }
         }
         if(offset != 0) {
@@ -94,9 +149,20 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }
     }
 
+    private fun onItemClick(view: View, timeObject: TimeObject) {
+        MainActivity.instance?.viewModel?.let {
+            it.targetTimeObject.value = timeObject
+            it.targetView.value = view
+        }
+    }
+
     private fun clearData() {
-        items.clear()
-        timeObjectDayViewAdapter.notifyDataSetChanged()
+        eventList.clear()
+        taskList.clear()
+        noteList.clear()
+        eventAdapter.notifyDataSetChanged()
+        taskAdapter.notifyDataSetChanged()
+        noteAdapter.notifyDataSetChanged()
     }
 
     private fun setDateText() {

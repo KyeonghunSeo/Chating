@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:padding="10dp"
-                        android:background="@drawable/grey_rect_stroke">
+                        android:background="@drawable/normal_rect_stroke">
 
                         <LinearLayout
                             android:orientation="horizontal"
@@ -113,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:padding="10dp"
-                        android:background="@drawable/grey_rect_stroke">
+                        android:background="@drawable/normal_rect_stroke">
 
                         <LinearLayout
                             android:orientation="horizontal"
@@ -177,7 +177,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:padding="10dp"
-                        android:background="@drawable/grey_rect_stroke">
+                        android:background="@drawable/normal_rect_stroke">
 
                         <LinearLayout
                             android:orientation="horizontal"
@@ -212,7 +212,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:padding="10dp"
-                        android:background="@drawable/grey_rect_stroke">
+                        android:background="@drawable/normal_rect_stroke">
 
                         <LinearLayout
                             android:orientation="horizontal"

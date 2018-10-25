@@ -169,7 +169,7 @@ class RepeatDialog(private val activity: Activity, private val timeObject: TimeO
     private fun setUntilLy() {
         if(dtUntil == Long.MIN_VALUE) {
             untilCheck.setImageResource(R.color.transparent)
-            untilCheck.setBackgroundResource(R.drawable.grey_rect_stroke)
+            untilCheck.setBackgroundResource(R.drawable.normal_rect_stroke)
             untilDateText.visibility = View.GONE
             untilText.setTextColor(AppRes.secondaryText)
         }else {
@@ -188,11 +188,11 @@ class RepeatDialog(private val activity: Activity, private val timeObject: TimeO
             monthlyText.setTextColor(AppRes.primaryText)
 
             monthlyWCheck.setImageResource(R.color.transparent)
-            monthlyWCheck.setBackgroundResource(R.drawable.grey_rect_stroke)
+            monthlyWCheck.setBackgroundResource(R.drawable.normal_rect_stroke)
             monthlyWText.setTextColor(AppRes.secondaryText)
         }else {
             monthlyCheck.setImageResource(R.color.transparent)
-            monthlyCheck.setBackgroundResource(R.drawable.grey_rect_stroke)
+            monthlyCheck.setBackgroundResource(R.drawable.normal_rect_stroke)
             monthlyText.setTextColor(AppRes.secondaryText)
 
             monthlyWCheck.setImageResource(R.drawable.check_line)
@@ -211,7 +211,7 @@ class RepeatDialog(private val activity: Activity, private val timeObject: TimeO
         }else {
             interval = 0
             intervalEdit.setTextColor(AppRes.secondaryText)
-            intervalEdit.setBackgroundResource(R.drawable.grey_rect_stroke)
+            intervalEdit.setBackgroundResource(R.drawable.normal_rect_stroke)
             intervalEdit.typeface = AppRes.thinFont
             intervalText.setTextColor(AppRes.secondaryText)
         }
@@ -221,7 +221,7 @@ class RepeatDialog(private val activity: Activity, private val timeObject: TimeO
         weekNumChecks.forEachIndexed { index, textView ->
             if(weekNum[index] == '0') {
                 textView.setTextColor(AppRes.secondaryText)
-                textView.setBackgroundResource(R.drawable.grey_rect_stroke)
+                textView.setBackgroundResource(R.drawable.normal_rect_stroke)
                 textView.typeface = AppRes.thinFont
             }else {
                 textView.setTextColor(Color.WHITE)

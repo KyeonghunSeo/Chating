@@ -16,7 +16,6 @@ import io.realm.RealmResults
 import io.realm.Sort
 import java.util.*
 
-
 object TimeObjectManager {
     @SuppressLint("StaticFieldLeak")
     lateinit var realm: Realm
@@ -87,6 +86,7 @@ object TimeObjectManager {
         realm.executeTransactionAsync{ realm ->
             if(timeObject.id.isNullOrEmpty()) {
                 timeObject.id = UUID.randomUUID().toString()
+                timeObject.dtCreated = System.currentTimeMillis()
             }
 
             if(timeObject.dtStart > timeObject.dtEnd) {
@@ -119,6 +119,50 @@ object TimeObjectManager {
 
             timeObject.dtUpdated = System.currentTimeMillis()
             realm.insertOrUpdate(timeObject)
+        }
+    }
+
+    fun done(timeObject: TimeObject) {
+        val id = timeObject.id
+        realm.executeTransactionAsync{ realm ->
+            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
+                if(it.dtDone == Long.MIN_VALUE) {
+                    it.dtDone = System.currentTimeMillis()
+                }else {
+                    it.dtDone = Long.MIN_VALUE
+                }
+                it.dtUpdated = it.dtDone
+            }
+        }
+    }
+
+    fun deleteOnly(timeObject: TimeObject) {
+        val id = timeObject.id
+        val ymdKey = AppRes.ymdkey.format(Date(timeObject.dtStart))
+        realm.executeTransactionAsync{ realm ->
+            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
+                it.exDates.add(ymdKey)
+                it.dtUpdated = System.currentTimeMillis()
+            }
+        }
+    }
+
+    fun deleteAfter(timeObject: TimeObject) {
+        val id = timeObject.id
+        val cal = Calendar.getInstance()
+        cal.timeInMillis = timeObject.dtStart
+
+        cal.add(Calendar.DATE, -1)
+        realm.executeTransactionAsync{ realm ->
+            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
+                val dtUntil = getCalendarTime23(cal)
+                if(dtUntil < it.dtStart) {
+                    it.deleteFromRealm()
+                }else {
+                    it.dtUntil = getCalendarTime23(cal)
+                    it.dtUpdated = System.currentTimeMillis()
+                }
+            }
         }
     }
 
@@ -155,27 +199,6 @@ object TimeObjectManager {
         return realm.where(TimeObject::class.java)
                 .equalTo("id", id)
                 .findFirst()
-    }
-
-    fun deleteOnly(timeObject: TimeObject) {
-        val id = timeObject.id
-        val ymdKey = AppRes.ymdkey.format(Date(timeObject.dtStart))
-        realm.executeTransactionAsync{ realm ->
-            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.exDates?.add(ymdKey)
-        }
-    }
-
-    fun deleteAfter(timeObject: TimeObject) {
-        val id = timeObject.id
-        val cal = Calendar.getInstance()
-        cal.timeInMillis = timeObject.dtStart
-
-        cal.add(Calendar.DATE, -1)
-        realm.executeTransactionAsync{ realm ->
-            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
-                it.dtUntil = getCalendarTime23(cal)
-            }
-        }
     }
 
 }

@@ -13,7 +13,7 @@ object CalendarSkin {
     var selectedBackgroundColor: Int = 0
     var greyColor: Int = 0
     var dateFont = AppRes.digitFont
-    var noteFont = AppRes.boldFont
+    var noteFont = AppRes.textFont
     var selectFont = AppRes.digitBoldFont
 
     fun init(calendarView: CalendarView) {

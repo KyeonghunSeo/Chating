@@ -173,25 +173,46 @@ object RepeatManager {
     private fun makeInstance(timeObject: TimeObject, duration: Long) : TimeObject {
         val instance = TimeObject()
         instance.copy(timeObject)
-        instance.dtStart = instanceCal.timeInMillis
-        instance.dtEnd = instance.dtStart + duration
+        instance.setDateTime(instance.allday, instanceCal.timeInMillis, instanceCal.timeInMillis + duration)
         return instance
     }
 
     fun save(activity: Activity, timeObject: TimeObject, runnable: Runnable) {
-        val typeName = TimeObject.Type.values()[timeObject.type].name
+        val typeName = activity.getString(TimeObject.Type.values()[timeObject.type].titleId)
         val title = String.format(activity.getString(R.string.repeat_save), typeName)
         val sub = activity.getString(R.string.how_apply)
-        showDialog(CustomDialog(activity, title, sub, getRepeatOptionArray(activity, typeName)) { result, option ->
-
+        val options = arrayOf(
+                String.format(activity.getString(R.string.apply_only), typeName),
+                String.format(activity.getString(R.string.apply_after), typeName, typeName))
+        showDialog(CustomDialog(activity, title, sub, options) { result, option ->
+            if(result) {
+                when(option) {
+                    0 -> {
+                        TimeObjectManager.deleteOnly(timeObject)
+                        timeObject.id = UUID.randomUUID().toString()
+                        timeObject.clearRepeat()
+                        TimeObjectManager.save(timeObject)
+                    }
+                    1 -> {
+                        TimeObjectManager.deleteAfter(timeObject)
+                        timeObject.id = UUID.randomUUID().toString()
+                        TimeObjectManager.save(timeObject)
+                    }
+                }
+                runnable.run()
+            }
         }, true, true, true, false)
     }
 
     fun delete(activity: Activity, timeObject: TimeObject, runnable: Runnable) {
-        val typeName = TimeObject.Type.values()[timeObject.type].name
+        val typeName = activity.getString(TimeObject.Type.values()[timeObject.type].titleId)
         val title = String.format(activity.getString(R.string.repeat_delete), typeName)
-        val sub =activity.getString(R.string.how_apply)
-        showDialog(CustomDialog(activity, title, sub, getRepeatOptionArray(activity, typeName)) { result, option ->
+        val sub = activity.getString(R.string.how_apply)
+        val options = arrayOf(
+                String.format(activity.getString(R.string.apply_only), typeName),
+                String.format(activity.getString(R.string.apply_after), typeName, typeName),
+                activity.getString(R.string.apply_all))
+        showDialog(CustomDialog(activity, title, sub, options) { result, option ->
             if(result) {
                 when(option) {
                     0 -> TimeObjectManager.deleteOnly(timeObject)
@@ -202,10 +223,5 @@ object RepeatManager {
             }
         }, true, true, true, false)
     }
-
-    fun getRepeatOptionArray(context: Context, typeName: String) = arrayOf(
-            String.format(context.getString(R.string.apply_only), typeName),
-            String.format(context.getString(R.string.apply_after), typeName, typeName),
-            context.getString(R.string.apply_all))
 
 }

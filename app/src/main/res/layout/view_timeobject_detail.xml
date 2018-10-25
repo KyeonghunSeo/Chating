@@ -153,10 +153,10 @@
 
                         <View
                             android:layout_width="30dp"
-                            android:layout_height="0.5dp"
+                            android:layout_height="1dp"
                             android:layout_marginTop="20dp"
                             android:layout_marginBottom="10dp"
-                            android:background="@color/grey"/>
+                            android:background="@color/primaryText"/>
 
                         <TextView
                             android:id="@+id/repeatText"
@@ -166,7 +166,7 @@
                             android:text="@string/no_repeat"
                             android:textColor="@color/primaryText"
                             android:textSize="16dp"
-                            android:fontFamily="@font/thin" />
+                            android:fontFamily="@font/regular" />
 
                     </LinearLayout>
 
