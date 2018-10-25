@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initLayout() {
+        monthText.typeface = AppRes.regularFont
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dimView.setOnDragListener(MainDragAndDropListener)
         callAfterViewDrawed(rootLy, Runnable{
@@ -200,7 +201,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setDateText(date: Date) {
-        monthText.text = AppRes.ymSimpleDate.format(date)
+        monthText.text = AppRes.ymDate.format(date)
     }
 
     fun onDrag(event: DragEvent) {

@@ -20,8 +20,8 @@
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:textColor="@color/primaryText"
-
             android:gravity="center"
+            android:fontFamily="@font/regular"
             android:text="@string/sun" />
 
     </LinearLayout>
@@ -39,8 +39,8 @@
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:textColor="@color/primaryText"
-
             android:gravity="center"
+            android:fontFamily="@font/regular"
             android:text="@string/mon" />
 
     </LinearLayout>
@@ -58,8 +58,8 @@
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:textColor="@color/primaryText"
-
             android:gravity="center"
+            android:fontFamily="@font/regular"
             android:text="@string/tue" />
 
     </LinearLayout>
@@ -77,8 +77,8 @@
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:textColor="@color/primaryText"
-
             android:gravity="center"
+            android:fontFamily="@font/regular"
             android:text="@string/wed" />
 
     </LinearLayout>
@@ -96,8 +96,8 @@
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:textColor="@color/primaryText"
-
             android:gravity="center"
+            android:fontFamily="@font/regular"
             android:text="@string/thu" />
 
     </LinearLayout>
@@ -115,8 +115,8 @@
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:textColor="@color/primaryText"
-
             android:gravity="center"
+            android:fontFamily="@font/regular"
             android:text="@string/fri" />
 
     </LinearLayout>
@@ -134,8 +134,8 @@
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:textColor="@color/primaryText"
-
             android:gravity="center"
+            android:fontFamily="@font/regular"
             android:text="@string/sat" />
 
     </LinearLayout>

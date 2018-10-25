@@ -56,7 +56,7 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
                 if(type.ordinal == it.type) {
                     v.rootLy.setCardBackgroundColor(it.color)
                 }else {
-                    v.rootLy.setCardBackgroundColor(AppRes.unselectedColor)
+                    v.rootLy.setCardBackgroundColor(AppRes.disableText)
                 }
             }
 

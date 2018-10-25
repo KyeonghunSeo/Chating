@@ -27,6 +27,7 @@ import com.hellowo.journey.repeat.RepeatManager
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.view_day.view.*
+import kotlinx.android.synthetic.main.view_selected_bar.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -81,8 +82,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun notifyDateChanged(offset: Int) {
         setDateText()
-
-        dowText.translationX = getDowX()
 
         calendarView?.selectedCal?.let { cal ->
             val startTime = getCalendarTime0(cal)
@@ -171,13 +170,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             dowText.text = AppRes.simpleDow.format(it.selectedCal.time)
             val color = it.getDateTextColor(it.postSelectedNum)
             dateText.setTextColor(color)
-            dowText.setTextColor(color)
+            flagImg.setColorFilter(color)
         }
-    }
-
-    private fun getDowX() : Float {
-        return if(dateText.text.length == 1) dpToPx(55).toFloat()
-        else dpToPx(80).toFloat()
     }
 
     fun show() {
@@ -187,10 +181,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
         if(isInit) {
             isInit = false
-            calendarView?.setDefaultDateTextSkin(dateText)
             dateText.typeface = CalendarSkin.selectFont
             dateText.scaleY = CalendarView.selectedDateScale
             dateText.scaleX = CalendarView.selectedDateScale
+            dateText.translationY = CalendarView.selectedDatePosition
         }
 
         setDateText()
@@ -202,14 +196,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 setMargins(location[0], location[1] - AppRes.statusBarHeight, 0, 0)
             }
 
-            val bounds = Rect()
-            dateText.paint.getTextBounds(dateText.text.toString(), 0, dateText.text.length, bounds)
-            dowText.translationX = calendarView!!.minWidth / 2 + bounds.width() / 2 * CalendarView.selectedDateScale + CalendarView.dateMargin
-            dowText.translationY = CalendarView.dateMargin.toFloat()
-
             val animSet = AnimatorSet()
-            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
-                    "elevation", 0f, dpToPx(15).toFloat()).setDuration(ANIM_DUR))
+            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView, "elevation", 0f, dpToPx(15).toFloat()))
+            animSet.duration = 150
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.addListener(object : Animator.AnimatorListener{
                 override fun onAnimationRepeat(p0: Animator?) {}
@@ -231,21 +220,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                             val animSet = AnimatorSet()
                             animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
                                     "elevation", dpToPx(15).toFloat(), 0f).setDuration(ANIM_DUR),
-                                    ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f).setDuration(ANIM_DUR),
-                                    ObjectAnimator.ofFloat(dateText, "scaleX", CalendarView.selectedDateScale, 4f),
-                                    ObjectAnimator.ofFloat(dateText, "scaleY", CalendarView.selectedDateScale, 4f),
-                                    ObjectAnimator.ofFloat(dateText, "translationY", 0f, dpToPx(15).toFloat()),
-                                    ObjectAnimator.ofFloat(dowText, "scaleX", 1f, 3f),
-                                    ObjectAnimator.ofFloat(dowText, "scaleY", 1f, 3f),
-                                    ObjectAnimator.ofFloat(dowText, "translationX", dowText.translationX, getDowX()),
-                                    ObjectAnimator.ofFloat(dowText, "translationY", dowText.translationY, dpToPx(15).toFloat()))
+                                    ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f).setDuration(ANIM_DUR))
                             animSet.interpolator = FastOutSlowInInterpolator()
                             animSet.start()
                         }
                     })
                     TransitionManager.beginDelayedTransition(this@DayView, transiion)
                     layoutParams = CoordinatorLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, mainBarHeight, 0, mainBarHeight)
+                        setMargins(0, 0, 0, mainBarHeight)
                     }
                 }
                 override fun onAnimationCancel(p0: Animator?) {}
@@ -293,14 +275,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     val bounds = Rect()
                     dateText.paint.getTextBounds(dateText.text.toString(), 0, dateText.text.length, bounds)
                     val animSet = AnimatorSet()
-                    animSet.playTogether(ObjectAnimator.ofFloat(dateText, "scaleX", 4f, CalendarView.selectedDateScale),
-                            ObjectAnimator.ofFloat(dateText, "scaleY", 4f, CalendarView.selectedDateScale),
-                            ObjectAnimator.ofFloat(dateText, "translationY", dpToPx(15).toFloat(), 0f),
-                            ObjectAnimator.ofFloat(dowText, "scaleX", 3f, 1f),
-                            ObjectAnimator.ofFloat(dowText, "scaleY", 3f, 1f),
-                            ObjectAnimator.ofFloat(dowText, "translationX", getDowX(),
-                                    calendarView!!.minWidth / 2 + bounds.width() / 2 * CalendarView.selectedDateScale + CalendarView.dateMargin),
-                            ObjectAnimator.ofFloat(dowText, "translationY", dpToPx(15).toFloat(), CalendarView.dateMargin.toFloat()))
+                    animSet.playTogether(ObjectAnimator.ofFloat(dateText, "alpha", 1f, 1f))
                     animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.start()
                 }

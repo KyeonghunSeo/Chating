@@ -39,6 +39,10 @@ fun dpToPx(dps: Int): Int {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dps.toFloat(), Resources.getSystem().displayMetrics).toInt()
 }
 
+fun dpToPx(dps: Float): Float {
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dps, Resources.getSystem().displayMetrics)
+}
+
 fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
     return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
 }
@@ -164,18 +168,19 @@ fun makeViewToBitmap(view: View) : Bitmap {
 }
 
 fun vibrate(context: Context) {
-    (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(15)
+    (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(5)
 }
 
 fun startPagingEffectAnimation(direction: Int, view: View, listener: Animator.AnimatorListener?) {
     val animSet = AnimatorSet()
     if(direction < 0) {
-        animSet.playTogether(ObjectAnimator.ofFloat(view, "translationX", -dpToPx(50).toFloat(), 0f))
+        animSet.playTogether(ObjectAnimator.ofFloat(view, "translationX", -view.width.toFloat(), 0f))
     }else {
-        animSet.playTogether(ObjectAnimator.ofFloat(view, "translationX", dpToPx(50).toFloat(), 0f))
+        animSet.playTogether(ObjectAnimator.ofFloat(view, "translationX", view.width.toFloat(), 0f))
     }
-    animSet.playTogether(ObjectAnimator.ofFloat(view, "alpha", 0f, 1f))
+    animSet.playTogether(ObjectAnimator.ofFloat(view, "alpha", 1f, 1f))
     listener?.let { animSet.addListener(it) }
+    animSet.duration = 250
     animSet.interpolator = FastOutSlowInInterpolator()
     animSet.start()
 }
@@ -194,7 +199,7 @@ fun startFromBottomSlideAppearAnimation(view: View, offset: Float) {
 fun startDialogShowAnimation(view: View) {
     val animSet = AnimatorSet()
     animSet.playTogether(
-            ObjectAnimator.ofFloat(view, "translationY", dpToPx(20).toFloat(), 0f),
+            ObjectAnimator.ofFloat(view, "translationY", dpToPx(20f), 0f),
             ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
     )
     animSet.interpolator = FastOutSlowInInterpolator()

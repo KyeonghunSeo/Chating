@@ -16,13 +16,14 @@ import com.hellowo.journey.model.TimeObject
 @SuppressLint("ViewConstructor")
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
     companion object {
+        val defaulMargin = dpToPx(1) // 뷰간 간격
+
         val strokeWidth = dpToPx(1)
-        val rectRadius = dpToPx(3).toFloat()
+        val rectRadius = dpToPx(1).toFloat()
         val circleRadius = dpToPx(5).toFloat()
         val checkBoxSize = dpToPx(7).toFloat()
-        val defaulMargin = dpToPx(2)
         val defaultPadding = dpToPx(4)
-        val normalTypeSize = dpToPx(20)
+        val normalTypeSize = dpToPx(18)
         val smallTypeSize = dpToPx(15)
         val bigTypeSize = dpToPx(30)
         val memoTypeSize = dpToPx(70)
@@ -121,6 +122,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                             var left = 0f
                             var right = width.toFloat()
                             if(leftOpen) {
+                                /*
                                 left = defaultPadding.toFloat()
                                 val path = Path()
                                 path.moveTo(defaultPadding + rectRadius, 0f)
@@ -131,8 +133,10 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                                 path.lineTo(defaultPadding + rectRadius, 0f)
                                 path.close()
                                 it.drawPath(path, paint)
+                                */
                             }
                             if(rightOpen) {
+                                /*
                                 right = width.toFloat() - defaultPadding
                                 val path = Path()
                                 path.moveTo(right - rectRadius, 0f)
@@ -143,6 +147,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                                 path.lineTo(right - rectRadius, 0f)
                                 path.close()
                                 it.drawPath(path, paint)
+                                */
                             }
                             val rect = RectF(left, 0f, right, height.toFloat())
                             it.drawRoundRect(rect, rectRadius, rectRadius, paint)

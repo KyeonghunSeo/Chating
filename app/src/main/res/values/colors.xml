@@ -24,7 +24,7 @@
 
     <color name="primaryText">#44464b</color>
     <color name="secondaryText">#a8aaaf</color>
-    <color name="disableText">#c2c2c3</color>
+    <color name="disableText">#cccccc</color>
     <color name="primaryWhiteText">#FFFFFFFF</color>
     <color name="secondaryWhiteText">#b3FFFFFF</color>
     <color name="disableWhiteText">#80FFFFFF</color>
@@ -53,7 +53,7 @@
     <color name="transparent">#00000000</color>
 
     <color name="calendarBackground">#ffffff</color>
-    <color name="holiday">#FF3366</color>
+    <color name="holiday">#f53240</color>
     <color name="transitionDim">#60000000</color>
 
     <color name="lol_light_3">#a3daff</color>

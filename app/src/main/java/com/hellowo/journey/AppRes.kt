@@ -47,7 +47,7 @@ object AppRes {
     val language = Locale.getDefault().language
 
     var selectableItemBackground = 0
-    var unselectedColor = 0
+    var almostWhite = 0
     var primaryColor = 0
     var primaryText = 0
     var secondaryText = 0
@@ -64,7 +64,7 @@ object AppRes {
         val typedValue = TypedValue()
         context.theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)
         selectableItemBackground = typedValue.resourceId
-        unselectedColor = resources.getColor(R.color.grey)
+        almostWhite = resources.getColor(R.color.almostWhite)
         primaryColor = resources.getColor(R.color.colorPrimary)
         primaryText = resources.getColor(R.color.primaryText)
         secondaryText = resources.getColor(R.color.secondaryText)

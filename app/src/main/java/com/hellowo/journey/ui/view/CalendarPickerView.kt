@@ -204,7 +204,7 @@ class CalendarPickerView @JvmOverloads constructor(context: Context, attrs: Attr
     private fun setDefaultDateTextSkin(textView: TextView) {
         val dateTextLayoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dateTextSize)
-        textView.typeface = AppRes.digitBoldFont
+        textView.typeface = AppRes.regularFont
         textView.gravity = Gravity.CENTER
         textView.layoutParams = dateTextLayoutParams
     }
