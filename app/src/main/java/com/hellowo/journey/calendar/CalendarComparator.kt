@@ -1,6 +1,7 @@
 package com.hellowo.journey.calendar
 
 import com.hellowo.journey.adapter.TimeObjectCalendarAdapter
+import com.hellowo.journey.model.TimeObject
 
 class CalendarComparator : Comparator<TimeObjectCalendarAdapter.TimeObjectViewHolder> {
     override fun compare(l: TimeObjectCalendarAdapter.TimeObjectViewHolder, r: TimeObjectCalendarAdapter.TimeObjectViewHolder): Int {
@@ -22,7 +23,14 @@ class CalendarComparator : Comparator<TimeObjectCalendarAdapter.TimeObjectViewHo
                                     lLength > rLength -> -1
                                     lLength < rLength -> 1
                                     else -> {
-                                        l.timeObject.title?.compareTo(r.timeObject.title ?: "") ?: 1
+                                        when(l.timeObject.type) {
+                                            TimeObject.Type.TASK.ordinal -> {
+                                                TaskListComparator.sort(l.timeObject, r.timeObject)
+                                            }
+                                            else -> {
+                                                l.timeObject.title?.compareTo(r.timeObject.title ?: "") ?: 1
+                                            }
+                                        }
                                     }
                                 }
                             }

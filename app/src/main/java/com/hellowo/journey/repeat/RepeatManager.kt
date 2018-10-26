@@ -171,8 +171,7 @@ object RepeatManager {
     }
 
     private fun makeInstance(timeObject: TimeObject, duration: Long) : TimeObject {
-        val instance = TimeObject()
-        instance.copy(timeObject)
+        val instance = timeObject.makeCopyObject()
         instance.setDateTime(instance.allday, instanceCal.timeInMillis, instanceCal.timeInMillis + duration)
         return instance
     }

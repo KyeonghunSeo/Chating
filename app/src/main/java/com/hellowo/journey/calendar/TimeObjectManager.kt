@@ -64,19 +64,19 @@ object TimeObjectManager {
     fun getTimeObjectList(startTime: Long, endTime: Long) : RealmResults<TimeObject> {
         return realm.where(TimeObject::class.java)
                 .beginGroup()
-                    .greaterThanOrEqualTo("dtEnd", startTime)
-                    .lessThanOrEqualTo("dtStart", endTime)
+                .greaterThanOrEqualTo("dtEnd", startTime)
+                .lessThanOrEqualTo("dtStart", endTime)
                 .endGroup()
                 .or()
                 .beginGroup()
-                    .isNotNull("repeat")
-                    .equalTo("dtUntil", Long.MIN_VALUE)
+                .isNotNull("repeat")
+                .equalTo("dtUntil", Long.MIN_VALUE)
                 .endGroup()
                 .or()
                 .beginGroup()
-                    .isNotNull("repeat")
-                    .notEqualTo("dtUntil", Long.MIN_VALUE)
-                    .greaterThan("dtUntil", startTime)
+                .isNotNull("repeat")
+                .notEqualTo("dtUntil", Long.MIN_VALUE)
+                .greaterThan("dtUntil", startTime)
                 .endGroup()
                 .sort("dtStart", Sort.ASCENDING)
                 .findAllAsync()
@@ -124,14 +124,34 @@ object TimeObjectManager {
 
     fun done(timeObject: TimeObject) {
         val id = timeObject.id
-        realm.executeTransactionAsync{ realm ->
-            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
-                if(it.dtDone == Long.MIN_VALUE) {
-                    it.dtDone = System.currentTimeMillis()
-                }else {
-                    it.dtDone = Long.MIN_VALUE
+        if(timeObject.repeat.isNullOrEmpty()) {
+            realm.executeTransactionAsync{ realm ->
+                realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
+                    if(it.dtDone == Long.MIN_VALUE) {
+                        it.dtDone = System.currentTimeMillis()
+                    }else {
+                        it.dtDone = Long.MIN_VALUE
+                    }
+                    it.dtUpdated = it.dtDone
                 }
-                it.dtUpdated = it.dtDone
+            }
+        }else {
+            val ymdKey = AppRes.ymdkey.format(Date(timeObject.dtStart))
+            realm.executeTransactionAsync{ realm ->
+                realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
+                    it.exDates.add(ymdKey)
+                    it.dtUpdated = System.currentTimeMillis()
+                    val new = TimeObject()
+                    new.copy(timeObject)
+                    new.id = UUID.randomUUID().toString()
+                    new.clearRepeat()
+                    if(new.dtDone == Long.MIN_VALUE) {
+                        new.dtDone = System.currentTimeMillis()
+                    }else {
+                        new.dtDone = Long.MIN_VALUE
+                    }
+                    realm.insertOrUpdate(new)
+                }
             }
         }
     }

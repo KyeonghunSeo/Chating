@@ -61,7 +61,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val flagImg: ImageView = container.findViewById(R.id.flagImg)
         init {
             flagImg.scaleY = 0f
-            bar.setBackgroundColor(AppRes.disableText)
         }
     }
 
@@ -189,9 +188,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     }
 
                     val dateText = dateHeaders[cellNum].dateText
+                    val color = getDateTextColor(cellNum)
+                    val alpha = if(cellNum in startCellNum..endCellNum) 1f else 0f
                     dateText.text = tempCal.get(Calendar.DATE).toString()
-                    dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.1f
-                    dateText.setTextColor(getDateTextColor(cellNum))
+                    dateText.alpha = alpha
+                    dateText.setTextColor(color)
+                    dateHeaders[cellNum].bar.setBackgroundColor(color)
+                    dateHeaders[cellNum].bar.alpha = alpha
 
                     if(cellNum == 0) {
                         calendarStartTime = tempCal.timeInMillis
@@ -227,9 +230,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun getDateTextColor(cellNum: Int) : Int {
         return if(cellNum == todayCellNum) {
             if(cellNum % columns == 0) {
-                CalendarSkin.holiDateColor
+                CalendarSkin.todayDateColor
             }else {
-                CalendarSkin.selectedDateColor
+                CalendarSkin.todayDateColor
             }
         }else {
             if(cellNum % columns == 0) {
@@ -252,11 +255,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         val dateText = dateHeaders[cellNum].dateText
         val flagImg = dateHeaders[cellNum].flagImg
+        val color = getDateTextColor(cellNum)
+        val alpha = if(cellNum in startCellNum..endCellNum) 1f else 0f
 
         dateText.typeface = CalendarSkin.dateFont
-        dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else 0.1f
-        dateText.typeface = CalendarSkin.dateFont
-        dateHeaders[cellNum].bar.setBackgroundColor(AppRes.disableText)
+        dateText.alpha = alpha
+        dateHeaders[cellNum].bar.setBackgroundColor(color)
+        dateHeaders[cellNum].bar.alpha = alpha
         dateHeaders[cellNum].bar.scaleY = 1f
 
         selectedCellNum = -1
@@ -315,7 +320,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             val dateText = dateHeaders[cellNum].dateText
             val flagImg = dateHeaders[cellNum].flagImg
-
             val color = getDateTextColor(cellNum)
 
             dateText.typeface = CalendarSkin.selectFont

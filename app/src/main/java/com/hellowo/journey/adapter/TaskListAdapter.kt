@@ -3,6 +3,7 @@ package com.hellowo.journey.adapter
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.ColorFilter
+import android.graphics.Paint
 import android.graphics.PorterDuff
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -21,7 +22,7 @@ import java.util.*
 
 class TaskListAdapter(val context: Context, val items: List<TimeObject>,
                       val adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit)
-    : RecyclerView.Adapter<TaskListAdapter.ViewHolder>() {
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var itemTouchHelper: ItemTouchHelper? = null
 
@@ -53,7 +54,7 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>,
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_task, parent, false))
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val timeObject = items[position]
         val v = holder.itemView
 
@@ -70,8 +71,10 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>,
 
         if(timeObject.isDone()) {
             v.checkBox.setImageResource(R.drawable.check_line)
+            v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }else {
             v.checkBox.setImageResource(R.color.transparent)
+            v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }

@@ -2,323 +2,336 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipChildren="false">
+    android:layout_height="match_parent">
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/contentPanel"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom">
 
-        <androidx.cardview.widget.CardView
+        <FrameLayout
+            android:id="@+id/headerLy"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_marginRight="40dp">
+
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/pinBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:padding="10dp"
+                android:tint="@color/iconTint"
+                android:src="@drawable/ic_outline_calendar_today"/>
+
+        </FrameLayout>
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:cardBackgroundColor="@color/white"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="@dimen/extra_margin">
+            android:background="@color/white">
 
-            <androidx.core.widget.NestedScrollView
+            <LinearLayout
+                android:id="@+id/contentLy"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp">
+                android:paddingTop="35dp"
+                android:paddingBottom="35dp">
 
-                <LinearLayout
-                    android:id="@+id/contentLy"
-                    android:orientation="vertical"
+                <EditText
+                    android:id="@+id/titleInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="35dp"
-                    android:paddingBottom="35dp">
+                    android:textColorHint="@color/disableText"
+                    android:background="@color/transparent"/>
 
-                    <EditText
-                        android:id="@+id/titleInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="@color/disableText"
-                        android:background="@color/transparent"/>
-
-                    <LinearLayout
-                        android:id="@+id/timeLy"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="20dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
-                            android:id="@+id/timeStartLy"
-                            android:orientation="vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/startSmallTimeText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="12dp"
-                                android:textColor="@color/primaryText"
-                                android:fontFamily="@font/regular"
-                                android:text="2018년 9월"/>
-
-                            <TextView
-                                android:id="@+id/startBigTimeText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="16dp"
-                                android:textColor="@color/primaryText"
-                                android:includeFontPadding="false"
-                                android:fontFamily="@font/bold"
-                                android:text="6일"/>
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/timeDivider"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:textSize="16dp"
-                            android:textColor="@color/primaryText"
-                            android:text="···"/>
-
-                        <LinearLayout
-                            android:id="@+id/timeEndLy"
-                            android:orientation="vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/endSmallTimeText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/regular"
-                                android:textSize="12dp"
-                                android:textColor="@color/primaryText"
-                                android:text="2018년 9월"/>
-
-                            <TextView
-                                android:id="@+id/endBigTimeText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="16dp"
-                                android:textColor="@color/primaryText"
-                                android:includeFontPadding="false"
-                                android:fontFamily="@font/bold"
-                                android:text="6일"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/durationLy"
-                            android:orientation="horizontal"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:gravity="bottom|right"
-                            android:layout_weight="1">
-
-                            <TextView
-                                android:id="@+id/durationText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="35dp"
-                                android:textColor="@color/primaryText"
-                                android:fontFamily="@font/futura_medium"
-                                android:text="3"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:textSize="15dp"
-                                android:includeFontPadding="false"
-                                android:textColor="@color/primaryText"
-                                android:fontFamily="@font/regular"
-                                android:text="@string/date_duration"/>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/timeLy"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:id="@+id/repeatLy"
+                        android:id="@+id/timeStartLy"
                         android:orientation="vertical"
-                        android:layout_marginTop="20dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp">
-
-                        <View
-                            android:layout_width="30dp"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@color/primaryText"/>
-
-                        <TextView
-                            android:id="@+id/repeatText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="@string/no_repeat"
-                            android:textColor="@color/primaryText"
-                            android:textSize="16dp"
-                            android:fontFamily="@font/regular" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/alarmLy"
-                        android:orientation="vertical"
-                        android:layout_marginTop="20dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.hellowo.journey.ui.view.AlarmListView
-                            android:id="@+id/alarmListView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-                        </com.hellowo.journey.ui.view.AlarmListView>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/locationLy"
-                        android:orientation="vertical"
-                        android:layout_marginTop="20dp"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/locationText"
-                            android:layout_width="match_parent"
+                            android:id="@+id/startSmallTimeText"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="@string/location"
+                            android:textSize="12dp"
                             android:textColor="@color/primaryText"
-                            android:textSize="16dp"
-                            android:fontFamily="@font/bold" />
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp"
-                            android:layout_marginTop="10dp"
-                            app:cardElevation="0dp"
-                            app:cardCornerRadius="20dp">
-
-                            <fragment
-                                android:id="@+id/map"
-                                android:name="com.google.android.gms.maps.SupportMapFragment"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"/>
-
-                            <View
-                                android:id="@+id/mapTouchView"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"/>
-
-                        </androidx.cardview.widget.CardView>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/memoLy"
-                        android:orientation="vertical"
-                        android:layout_marginTop="20dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/memoInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/primaryText"
-                            android:textSize="@dimen/normal_text_size"
-                            android:gravity="top|center_vertical"
-                            android:lineSpacingExtra="3dp"
                             android:fontFamily="@font/regular"
-                            android:background="@color/transparent"
-                            android:hint="@string/enter_memo"/>
+                            android:text="2018년 9월"/>
+
+                        <TextView
+                            android:id="@+id/startBigTimeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16dp"
+                            android:textColor="@color/primaryText"
+                            android:includeFontPadding="false"
+                            android:fontFamily="@font/bold"
+                            android:text="6일"/>
+
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/addOptionBtn"
-                        android:orientation="horizontal"
+                    <TextView
+                        android:id="@+id/timeDivider"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/normal_margin"
-                        android:layout_marginBottom="@dimen/normal_margin">
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textSize="16dp"
+                        android:textColor="@color/primaryText"
+                        android:text="···"/>
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="26dp"
-                            android:layout_height="26dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:visibility="visible"
-                            app:cardElevation="0dp"
-                            app:cardCornerRadius="13dp"
-                            app:cardBackgroundColor="@color/iconTint">
-
-                            <ImageView
-                                app:srcCompat="@drawable/ic_outline_add"
-                                android:padding="5dp"
-                                android:layout_height="match_parent"
-                                android:layout_width="match_parent"
-                                android:tint="@color/white"/>
-
-                        </androidx.cardview.widget.CardView>
+                    <LinearLayout
+                        android:id="@+id/timeEndLy"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/endSmallTimeText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:text="@string/add_option"
+                            android:fontFamily="@font/regular"
+                            android:textSize="12dp"
                             android:textColor="@color/primaryText"
-                            android:fontFamily="@font/bold" />
+                            android:text="2018년 9월"/>
+
+                        <TextView
+                            android:id="@+id/endBigTimeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16dp"
+                            android:textColor="@color/primaryText"
+                            android:includeFontPadding="false"
+                            android:fontFamily="@font/bold"
+                            android:text="6일"/>
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/deleteBtn"
+                        android:id="@+id/durationLy"
                         android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:layout_gravity="right"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:gravity="center_vertical">
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom|right"
+                        android:layout_weight="1">
 
-                        <ImageView
+                        <TextView
+                            android:id="@+id/durationText"
                             android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_outline_delete"
-                            android:tint="@color/red" />
+                            android:layout_height="wrap_content"
+                            android:textSize="35dp"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="@font/futura_medium"
+                            android:text="3"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/red"
-                            android:text="@string/delete"/>
+                            android:layout_marginLeft="5dp"
+                            android:textSize="15dp"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="@font/regular"
+                            android:text="@string/date_duration"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
 
-            </androidx.core.widget.NestedScrollView>
+                <LinearLayout
+                    android:id="@+id/repeatLy"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
 
-        </androidx.cardview.widget.CardView>
+                    <View
+                        android:layout_width="30dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/primaryText"/>
+
+                    <TextView
+                        android:id="@+id/repeatText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/no_repeat"
+                        android:textColor="@color/primaryText"
+                        android:textSize="16dp"
+                        android:fontFamily="@font/regular" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/alarmLy"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.hellowo.journey.ui.view.AlarmListView
+                        android:id="@+id/alarmListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </com.hellowo.journey.ui.view.AlarmListView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/locationLy"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/locationText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/location"
+                        android:textColor="@color/primaryText"
+                        android:textSize="16dp"
+                        android:fontFamily="@font/bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="10dp"
+                        app:cardElevation="0dp"
+                        app:cardCornerRadius="20dp">
+
+                        <fragment
+                            android:id="@+id/map"
+                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                        <View
+                            android:id="@+id/mapTouchView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/memoLy"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/memoInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primaryText"
+                        android:textSize="@dimen/normal_text_size"
+                        android:gravity="top|center_vertical"
+                        android:lineSpacingExtra="3dp"
+                        android:fontFamily="@font/regular"
+                        android:background="@color/transparent"
+                        android:hint="@string/enter_memo"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/addOptionBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginBottom="@dimen/normal_margin">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:visibility="visible"
+                        app:cardElevation="0dp"
+                        app:cardCornerRadius="13dp"
+                        app:cardBackgroundColor="@color/iconTint">
+
+                        <ImageView
+                            app:srcCompat="@drawable/ic_outline_add"
+                            android:padding="5dp"
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:tint="@color/white"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/add_option"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/deleteBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_gravity="right"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_outline_delete"
+                        android:tint="@color/red" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/red"
+                        android:text="@string/delete"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
             android:id="@+id/styleEditLy"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_gravity="bottom"
             android:background="@color/white"
             android:elevation="0dp">
 
@@ -361,6 +374,6 @@
 
         </LinearLayout>
 
-    </FrameLayout>
+    </LinearLayout>
 
 </FrameLayout>

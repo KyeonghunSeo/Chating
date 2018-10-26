@@ -3,11 +3,11 @@ package com.hellowo.journey.model
 import android.graphics.Color
 import com.hellowo.journey.R
 import com.hellowo.journey.getCalendarTime0
-import com.hellowo.journey.getCalendarTime23
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import java.util.*
+
 
 open class TimeObject(@PrimaryKey var id: String? = null,
                       var type: Int = 0,
@@ -32,12 +32,13 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var alarms: RealmList<Alarm> = RealmList(),
                       var links: RealmList<Link> = RealmList(),
                       var latitude: Double = Double.MIN_VALUE,
-                      var longitude: Double = Double.MIN_VALUE): RealmObject() {
+                      var longitude: Double = Double.MIN_VALUE,
+                      var inCalendar: Boolean = true): RealmObject() {
 
     enum class Type(val titleId: Int, val iconId: Int) {
-        NOTE(R.string.note, R.drawable.ic_baseline_description_24px),
         EVENT(R.string.event, R.drawable.ic_baseline_calendar_today_24px),
         TASK(R.string.task, R.drawable.ic_baseline_done_24px),
+        NOTE(R.string.note, R.drawable.ic_baseline_description_24px),
         STAMP(R.string.stamp, R.drawable.ic_outline_class),
         MONEY(R.string.money, R.drawable.ic_outline_monetization_on),
         DECORATION(R.string.decoration, R.drawable.ic_baseline_favorite_24px)
@@ -124,6 +125,12 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         }
     }
 
+    fun makeCopyObject(): TimeObject{
+        val o = TimeObject()
+        o.copy(this)
+        return o
+    }
+
     fun copy(data: TimeObject) {
         id = data.id
         type = data.type
@@ -143,6 +150,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         dtCreated = data.dtCreated
         dtUpdated = data.dtUpdated
         timeZone = data.timeZone
+        inCalendar = data.inCalendar
 
         exDates.clear()
         exDates.addAll(data.exDates)
@@ -173,7 +181,14 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     override fun toString(): String {
-        return "TimeObject(id=$id, type=$type, style=$style, title=$title, color=$color, fontColor=$fontColor, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=$exDates, tags=$tags, alarms=$alarms, links=$links, latitude=$latitude, longitude=$longitude)"
+        return "TimeObject(id=$id, type=$type, style=$style, title=$title, color=$color, fontColor=$fontColor, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, latitude=$latitude, longitude=$longitude, inCalendar=$inCalendar)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other is TimeObject) {
+            return toString() == other.toString()
+        }
+        return false
     }
 
     fun isDone(): Boolean = dtDone != Long.MIN_VALUE

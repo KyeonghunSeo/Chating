@@ -3,6 +3,7 @@ package com.hellowo.journey.ui.view
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -44,7 +45,13 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         LayoutInflater.from(context).inflate(R.layout.view_timeobject_detail, this, true)
         contentPanel.visibility = View.INVISIBLE
         contentPanel.setOnClickListener {}
+        initControllBtn()
+        initTitle()
+        initDateTime()
+        initMemo()
+    }
 
+    private fun initControllBtn() {
         confirmBtn.setOnClickListener {
             confirm()
         }
@@ -58,14 +65,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                     .show(MainActivity.instance?.supportFragmentManager, null)
         }
 
-        initControllBtn()
-        initType()
-        initTitle()
-        initDateTime()
-        initMemo()
-    }
-
-    private fun initControllBtn() {
         colorBtn.setOnClickListener {
             showDialog(ColorPickerDialog(MainActivity.instance!!, timeObject.color) { color, fontColor ->
                 timeObject.color = color
@@ -73,10 +72,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 updateUI()
             }, true, false, true, false)
         }
-    }
 
-    private fun initType() {
-
+        pinBtn.setOnClickListener {
+            timeObject.inCalendar = !timeObject.inCalendar
+            updateHeaderUI()
+        }
     }
 
     private fun initTitle() {
@@ -127,12 +127,21 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         colorBtn.setCardBackgroundColor(timeObject.color)
         fontColorText.setColorFilter(timeObject.fontColor)
 
+        updateHeaderUI()
         updateTitleUI()
         updateDateUI()
         updateRepeatUI()
         updateAlarmUI()
         updateLocationUI()
         updateMemoUI()
+    }
+
+    private fun updateHeaderUI() {
+        if(timeObject.inCalendar) {
+            pinBtn.setBackgroundColor(Color.WHITE)
+        }else {
+            pinBtn.setBackgroundColor(Color.TRANSPARENT)
+        }
     }
 
     private fun updateTitleUI() {

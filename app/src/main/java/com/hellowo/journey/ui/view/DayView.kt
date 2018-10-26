@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
+import android.os.Handler
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.cardview.widget.CardView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Transition
@@ -21,15 +23,20 @@ import com.hellowo.journey.*
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.adapter.EventListAdapter
 import com.hellowo.journey.adapter.TaskListAdapter
+import com.hellowo.journey.calendar.TaskListComparator
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.model.CalendarSkin
 import com.hellowo.journey.repeat.RepeatManager
 import com.hellowo.journey.ui.activity.MainActivity
+import io.realm.OrderedCollectionChangeSet
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.view_day.view.*
 import kotlinx.android.synthetic.main.view_selected_bar.view.*
 import java.util.*
 import kotlin.collections.ArrayList
+import android.os.Looper
+import com.hellowo.journey.adapter.util.ListDiffCallback
+
 
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
@@ -38,6 +45,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val eventList = ArrayList<TimeObject>()
     private val taskList = ArrayList<TimeObject>()
     private val noteList = ArrayList<TimeObject>()
+    private val newEventList = ArrayList<TimeObject>()
+    private val newTaskList = ArrayList<TimeObject>()
+    private val newNoteList = ArrayList<TimeObject>()
+
     private val eventAdapter = EventListAdapter(context, eventList) { view, timeObject ->
         onItemClick(view, timeObject)
     }
@@ -51,11 +62,13 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val noteAdapter = EventListAdapter(context, noteList) { view, timeObject ->
         onItemClick(view, timeObject)
     }
-    private var calendarView: CalendarView? = null
 
+    private var calendarView: CalendarView? = null
     private var isInit = true
     var viewMode = ViewMode.CLOSED
     var onVisibility: ((Boolean) -> Unit)? = null
+    var startTime: Long = 0
+    var endTime: Long = 0
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_day, this, true)
@@ -82,69 +95,89 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun notifyDateChanged(offset: Int) {
         setDateText()
-
         calendarView?.selectedCal?.let { cal ->
-            val startTime = getCalendarTime0(cal)
-            val endTime = getCalendarTime23(cal)
-
+            startTime = getCalendarTime0(cal)
+            endTime = getCalendarTime23(cal)
             timeObjectList?.removeAllChangeListeners()
             timeObjectList = TimeObjectManager.getTimeObjectList(startTime, endTime)
             timeObjectList?.addChangeListener { result, changeSet ->
                 l("==========데이뷰 데이터 변경 시작=========")
-                /*
+                val t = System.currentTimeMillis()
                 if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
+                    eventList.clear()
+                    taskList.clear()
+                    noteList.clear()
 
+                    setListData(result, eventList, taskList, noteList)
+
+                    taskList.sortWith(TaskListComparator())
+
+                    eventAdapter.notifyDataSetChanged()
+                    taskAdapter.notifyDataSetChanged()
+                    noteAdapter.notifyDataSetChanged()
                 }else if(changeSet.state == OrderedCollectionChangeSet.State.UPDATE) {
+                    newEventList.clear()
+                    newTaskList.clear()
+                    newNoteList.clear()
 
+                    setListData(result, newEventList, newTaskList, newNoteList)
+
+                    newTaskList.sortWith(TaskListComparator())
+
+                    updateChange(eventAdapter, eventList, newEventList)
+                    updateChange(taskAdapter, taskList, newTaskList)
+                    updateChange(noteAdapter, noteList, newNoteList)
                 }
-                changeSet.insertionRanges.forEach {
-                    l("추가된 데이터 : ${ result[it.startIndex].toString()}")
-                }
-                changeSet.deletionRanges.forEach {
-                    l("삭제 데이터 : ${ result[it.startIndex].toString()}")
-                }
-                changeSet.changeRanges.forEach {
-                    l("변경된 데이터 : ${ result[it.startIndex].toString()}")
-                }
-                */
-                eventList.clear()
-                taskList.clear()
-                noteList.clear()
-                result.forEach { timeObject ->
-                    when(TimeObject.Type.values()[timeObject.type]) {
-                        TimeObject.Type.EVENT -> {
-                            try{
-                                if(timeObject.repeat.isNullOrEmpty()) {
-                                    eventList.add(timeObject)
-                                }else {
-                                    RepeatManager.makeRepeatInstance(timeObject, startTime, endTime)
-                                            .forEach { eventList.add(it) }
-                                }
-                            }catch (e: Exception){ e.printStackTrace() }
-                        }
-                        TimeObject.Type.TASK -> {
-                            try{
-                                if(timeObject.repeat.isNullOrEmpty()) {
-                                    taskList.add(timeObject)
-                                }else {
-                                    RepeatManager.makeRepeatInstance(timeObject, startTime, endTime)
-                                            .forEach { taskList.add(it) }
-                                }
-                            }catch (e: Exception){ e.printStackTrace() }
-                        }
-                        TimeObject.Type.NOTE -> noteList.add(timeObject)
-                        else -> {
-                        }
-                    }
-                }
-                eventAdapter.notifyDataSetChanged()
-                taskAdapter.notifyDataSetChanged()
-                noteAdapter.notifyDataSetChanged()
+                l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
                 l("==========데이뷰 데이터 변경 종료=========")
             }
         }
         if(offset != 0) {
             startPagingEffectAnimation(offset, rootLy, null)
+        }
+    }
+
+    private fun updateChange(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>,
+                            o: ArrayList<TimeObject>, n: ArrayList<TimeObject>) {
+        Thread {
+            val diffResult = DiffUtil.calculateDiff(ListDiffCallback(o, n))
+            o.clear()
+            o.addAll(n)
+            Handler(Looper.getMainLooper()).post{
+                diffResult.dispatchUpdatesTo(adapter)
+            }
+        }.start()
+    }
+
+    private fun setListData(result: RealmResults<TimeObject>,
+                            e: ArrayList<TimeObject>, t: ArrayList<TimeObject>, n: ArrayList<TimeObject>) {
+        result.forEach { timeObject ->
+            when(TimeObject.Type.values()[timeObject.type]) {
+                TimeObject.Type.EVENT -> {
+                    try{
+                        if(timeObject.repeat.isNullOrEmpty()) {
+                            e.add(timeObject.makeCopyObject())
+                        }else {
+                            RepeatManager.makeRepeatInstance(timeObject, startTime, endTime)
+                                    .forEach { e.add(it) }
+                        }
+                    }catch (e: Exception){ e.printStackTrace() }
+                }
+                TimeObject.Type.TASK -> {
+                    try{
+                        if(timeObject.repeat.isNullOrEmpty()) {
+                            t.add(timeObject.makeCopyObject())
+                        }else {
+                            RepeatManager.makeRepeatInstance(timeObject, startTime, endTime)
+                                    .forEach { t.add(it) }
+                        }
+                    }catch (e: Exception){ e.printStackTrace() }
+                }
+                TimeObject.Type.NOTE -> n.add(timeObject.makeCopyObject())
+                else -> {
+
+                }
+            }
         }
     }
 

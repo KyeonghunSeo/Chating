@@ -18,7 +18,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     companion object {
         val defaulMargin = dpToPx(1) // 뷰간 간격
 
-        val strokeWidth = dpToPx(1)
+        val strokeWidth = dpToPx(0.5f)
         val rectRadius = dpToPx(1).toFloat()
         val circleRadius = dpToPx(5).toFloat()
         val checkBoxSize = dpToPx(7).toFloat()
@@ -53,7 +53,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     init {
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize)
         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-        typeface = CalendarSkin.noteFont
+        typeface = AppRes.regularFont
 
         when(TimeObject.Type.values()[timeObject.type]) {
             TimeObject.Type.NOTE -> {
@@ -162,26 +162,25 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     setSingleLine(true)
                     setHorizontallyScrolling(true)
 
-                    paint.strokeWidth = strokeWidth.toFloat()
+                    paint.strokeWidth = strokeWidth
                     paint.color = color
-                    paint.style = Paint.Style.FILL
+                    paint.style = Paint.Style.STROKE
 
-                    val center = leftPadding / 2f
-                    val checkRadius = leftPadding / 2
-                    val rect = RectF(center - checkRadius, iconTopYCenter - checkRadius, center + checkRadius, iconTopYCenter + checkRadius)
-                    if(true) {
-                        //alpha = 0.5f
-                        //paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    val centerY = smallTypeSize / 2f - defaulMargin
+                    val checkRadius = leftPadding / 2.9f
+                    val centerX = checkRadius + strokeWidth
+                    val rect = RectF(centerX - checkRadius, centerY - checkRadius, centerX + checkRadius, centerY + checkRadius)
+                    if(timeObject.isDone()) {
+                        paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                         it.drawRect(rect, paint)
-                        paint.color = Color.WHITE
-                        it.drawLine(center - checkRadius * 0.75f, center,
-                                center - checkRadius * 0.25f, center + checkRadius * 0.5f, paint)
-                        it.drawLine(center - checkRadius * 0.25f, center + checkRadius * 0.5f,
-                                center + checkRadius * 0.75f, center - checkRadius * 0.5f, paint)
+                        it.drawLine(centerX - checkRadius * 0.75f, centerY,
+                                centerX - checkRadius * 0.25f, centerY + checkRadius * 0.5f, paint)
+                        it.drawLine(centerX - checkRadius * 0.25f, centerY + checkRadius * 0.5f,
+                                centerX + checkRadius * 0.75f, centerY - checkRadius * 0.5f, paint)
                     }else {
-                        paint.style = Paint.Style.STROKE
-                        it.drawRoundRect(rect, rectRadius, rectRadius, paint)
+                        it.drawRect(rect, paint)
                     }
+                    paint.style = Paint.Style.FILL
                 }
                 TimeObject.Type.DECORATION -> {
                     setPadding(defaultPadding * 2, defaultPadding * 2, defaultPadding * 2, defaultPadding * 2)
@@ -191,7 +190,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     gravity = Gravity.TOP
                     ellipsize = TextUtils.TruncateAt.END
 
-                    paint.strokeWidth = strokeWidth.toFloat()
+                    paint.strokeWidth = strokeWidth
                     paint.color = color
 
                     val left = defaultPadding.toFloat()
