@@ -4,7 +4,7 @@
     <dimen name="elevation_normal">4dp</dimen>
     <dimen name="elevation_large">8dp</dimen>
     <dimen name="small_margin">10dp</dimen>
-    <dimen name="normal_margin">15dp</dimen>
+    <dimen name="normal_margin">16dp</dimen>
     <dimen name="big_margin">20dp</dimen>
     <dimen name="normal_input_size">13sp</dimen>
     <dimen name="title_input_size">16sp</dimen>

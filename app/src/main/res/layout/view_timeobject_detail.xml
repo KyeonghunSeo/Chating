@@ -30,8 +30,8 @@
                 android:layout_height="40dp"
                 android:layout_gravity="right"
                 android:padding="10dp"
-                android:tint="@color/iconTint"
-                android:src="@drawable/ic_outline_calendar_today"/>
+                android:tint="@color/primaryText"
+                android:src="@drawable/pin"/>
 
         </FrameLayout>
 

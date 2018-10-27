@@ -21,6 +21,10 @@ const val RC_FILEPICKER = 9090
 const val RC_LOCATION = 9091
 
 var mainBarHeight = dpToPx(50)
+var smallMargin = dpToPx(10f)
+var normalMargin = dpToPx(16f)
+var bigMargin = dpToPx(20f)
+var extraMargin = dpToPx(32f)
 
 enum class ViewMode {
     CLOSED, OPENED, ANIMATING

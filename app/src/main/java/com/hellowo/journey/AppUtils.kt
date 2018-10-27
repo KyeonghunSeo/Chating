@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream
 import java.util.*
 
 private val tempCal = Calendar.getInstance()
+private val tempCal2 = Calendar.getInstance()
 
 fun l(s: String){
     Log.d("aaa", s)
@@ -87,6 +88,12 @@ fun getCalendarTime23 (cal: Calendar) : Long  {
 fun getDiffToday(cal: Calendar): Int {
     tempCal.timeInMillis = System.currentTimeMillis()
     return getDiffDate(tempCal, cal)
+}
+
+fun getDiffDate(t1: Long, t2: Long): Int {
+    tempCal.timeInMillis = t1
+    tempCal2.timeInMillis = t2
+    return getDiffDate(tempCal, tempCal2)
 }
 
 fun getDiffDate(c1: Calendar, c2: Calendar): Int {
@@ -246,7 +253,7 @@ fun statusBarWhite(activity: Activity) {
         var flags = window.peekDecorView().systemUiVisibility
         flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         window.peekDecorView().systemUiVisibility = flags
-        window.statusBarColor = ContextCompat.getColor(activity, R.color.white)
+        window.statusBarColor = ContextCompat.getColor(activity, R.color.almostWhite)
     }
 }
 
@@ -255,8 +262,8 @@ fun statusBarBlackAlpah(activity: Activity) {
         val window = activity.window
         var flags = window.peekDecorView().systemUiVisibility
         flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-        window.peekDecorView().systemUiVisibility = flags
-        window.statusBarColor = ContextCompat.getColor(activity, R.color.transitionDim)
+        //window.peekDecorView().systemUiVisibility = flags
+        //window.statusBarColor = ContextCompat.getColor(activity, R.color.transitionDim)
     }
 }
 

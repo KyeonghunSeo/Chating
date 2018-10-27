@@ -20,7 +20,7 @@ object CalendarSkin {
         val resource = calendarView.context.resources
         backgroundColor = resource.getColor(R.color.calendarBackground)
         dateColor = resource.getColor(R.color.primaryText)
-        holiDateColor = resource.getColor(R.color.red)
+        holiDateColor = resource.getColor(R.color.holiday)
         todayDateColor = resource.getColor(R.color.colorPrimary)
         selectedDateColor = resource.getColor(R.color.primaryText)
         selectedBackgroundColor = resource.getColor(R.color.grey)

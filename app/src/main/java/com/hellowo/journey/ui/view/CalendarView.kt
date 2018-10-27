@@ -32,6 +32,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val animDur = 250L
         const val columns = 7
         const val selectedDateScale = 1.5f
+        const val outDateAlpha = 0.4f
         val selectedDatePosition = -dpToPx(0f)
         val todayCal: Calendar = Calendar.getInstance()
         val dateSize = dpToPx(20)
@@ -189,7 +190,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
                     val dateText = dateHeaders[cellNum].dateText
                     val color = getDateTextColor(cellNum)
-                    val alpha = if(cellNum in startCellNum..endCellNum) 1f else 0f
+                    val alpha = if(cellNum in startCellNum..endCellNum) 1f else outDateAlpha
                     dateText.text = tempCal.get(Calendar.DATE).toString()
                     dateText.alpha = alpha
                     dateText.setTextColor(color)
@@ -245,9 +246,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun onDateClick(cellNum: Int) {
         tempCal.timeInMillis = cellTimeMills[cellNum]
-        if(cellNum in startCellNum..endCellNum) {
-            selectDate(cellNum,true, isSameDay(tempCal, selectedCal))
-        }
+        selectDate(cellNum,true, isSameDay(tempCal, selectedCal))
     }
 
     private fun unselectDate(cellNum: Int, anim: Boolean) {
@@ -256,7 +255,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateText = dateHeaders[cellNum].dateText
         val flagImg = dateHeaders[cellNum].flagImg
         val color = getDateTextColor(cellNum)
-        val alpha = if(cellNum in startCellNum..endCellNum) 1f else 0f
+        val alpha = if(cellNum in startCellNum..endCellNum) 1f else outDateAlpha
 
         dateText.typeface = CalendarSkin.dateFont
         dateText.alpha = alpha
@@ -325,6 +324,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.typeface = CalendarSkin.selectFont
             dateText.alpha = 1f
             flagImg.setColorFilter(color)
+            if(cellNum == todayCellNum) {
+                flagImg.setImageResource(R.drawable.flag_today)
+            }else {
+                flagImg.setImageResource(R.drawable.flag_to_bottom)
+            }
             dateHeaders[cellNum].bar.setBackgroundColor(color)
             dateHeaders[cellNum].bar.scaleY = 2f
             dateHeaders[cellNum].dowText.text = dow[cellNum % columns]
@@ -575,4 +579,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
     /////////////////////////////////드래그 처리 부분/////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    fun isTop() = scrollView.isTop
 }

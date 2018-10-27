@@ -25,6 +25,8 @@ import com.hellowo.journey.*
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.listener.MainDragAndDropListener
+import com.hellowo.journey.ui.view.CalendarView
+import com.hellowo.journey.ui.view.DayView
 import com.hellowo.journey.ui.view.SwipeScrollView.Companion.SWIPE_LEFT
 import com.hellowo.journey.ui.view.SwipeScrollView.Companion.SWIPE_RIGHT
 import com.hellowo.journey.viewmodel.MainViewModel
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     lateinit var viewModel: MainViewModel
+    lateinit var dayView: DayView
     private val insertBtnHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message?) {
@@ -101,7 +104,7 @@ class MainActivity : AppCompatActivity() {
             briefingView.refreshTodayView(calendarView.todayStatus)
         }
         calendarView.setOnSwiped { state ->
-            if(dayView.viewMode == ViewMode.OPENED) {
+            if(dayView.isOpened()) {
                 when(state) {
                     SWIPE_LEFT -> {
                         vibrate(this)
@@ -126,19 +129,23 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
+        }//ba315dc0-7517-4963-96ea-1cab21fd89f2
         topShadow.visibility = View.GONE
         calendarView.setOnTop { isTop ->
-            if(!isTop) topShadow.visibility = View.VISIBLE
+            if(dayView.isOpened() || !isTop) topShadow.visibility = View.VISIBLE
             else topShadow.visibility = View.GONE
         }
     }
 
-    fun getCalendarView() = calendarView
+    fun getCalendarView(): CalendarView = calendarView
 
     private fun initDayView() {
-        dayView.setCalendarView(calendarView)
+        dayView = DayView(calendarView, this@MainActivity)
+        dayView.visibility = View.GONE
+        rootLy.addView(dayView, rootLy.indexOfChild(topShadow))
         dayView.onVisibility = { show ->
+            if(show || !calendarView.isTop()) topShadow.visibility = View.VISIBLE
+            else topShadow.visibility = View.GONE
         }
     }
 
@@ -163,7 +170,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initTemplateView() {
-        templateControlPager.indicator = templateControlPagerIndi
     }
 
     private fun initBtns() {
@@ -184,7 +190,6 @@ class MainActivity : AppCompatActivity() {
         viewModel.templateList.observe(this, androidx.lifecycle.Observer {
             it?.let {
                 templateControlPager.notify(it)
-                templateControlPagerIndi.notify(it)
             }
         })
     }
@@ -285,7 +290,7 @@ class MainActivity : AppCompatActivity() {
             timeObjectDetailView.viewMode == ViewMode.OPENED -> timeObjectDetailView.hide()
             keepView.viewMode == ViewMode.OPENED -> keepView.hide()
             briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
-            dayView.viewMode == ViewMode.OPENED -> dayView.hide()
+            dayView.isOpened() -> dayView.hide()
             else -> super.onBackPressed()
         }
     }

@@ -24,6 +24,9 @@ class CalendarComparator : Comparator<TimeObjectCalendarAdapter.TimeObjectViewHo
                                     lLength < rLength -> 1
                                     else -> {
                                         when(l.timeObject.type) {
+                                            TimeObject.Type.EVENT.ordinal -> {
+                                                EventListComparator.sort(l.timeObject, r.timeObject)
+                                            }
                                             TimeObject.Type.TASK.ordinal -> {
                                                 TaskListComparator.sort(l.timeObject, r.timeObject)
                                             }

@@ -194,27 +194,36 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
             }
         }
 
-        viewHolderList.forEach {
-            try{
-                it.timeObjectViewList?.forEach {
-                    //it.alpha = if(it.cellNum + it.length - 1 in calendarView.startCellNum..calendarView.endCellNum) 1f else 0.2f
+        viewHolderList.forEach { holder ->
+            if(TimeObjectManager.lastUpdatedItem == holder.timeObject) {
+                TimeObjectManager.lastUpdatedItem = null
+                holder.timeObjectViewList?.forEach {
+                    val lastAlpha = if(isOutDate(it)) 1f else CalendarView.outDateAlpha
+                    it.alpha = 0f
                     calendarView.dateCells[it.cellNum].addView(it)
-                    if(TimeObjectManager.lastUpdatedItem == it.timeObject) {
-                        showInsertAnimation(it)
-                    }
+                    it.post { showInsertAnimation(it, lastAlpha) }
                 }
-            }catch (e: Exception){ e.printStackTrace() }
+            }else {
+                holder.timeObjectViewList?.forEach {
+                    it.alpha = if(isOutDate(it)) 1f else CalendarView.outDateAlpha
+                    calendarView.dateCells[it.cellNum].addView(it)
+                }
+            }
         }
 
         calendarView.calendarLy.layoutParams.height = calendarHeight
         calendarView.calendarLy.requestLayout()
     }
 
-    private fun showInsertAnimation(view: TimeObjectView) {
-        TimeObjectManager.lastUpdatedItem = null
+    private fun isOutDate(view: TimeObjectView) = view.cellNum in calendarView.startCellNum..calendarView.endCellNum ||
+            view.cellNum + view.length - 1 in calendarView.startCellNum..calendarView.endCellNum
+
+    private fun showInsertAnimation(view: TimeObjectView, lastAlpha: Float) {
         val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f).setDuration(500),
-                ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f).setDuration(500))
+        animSet.playTogether(
+                ObjectAnimator.ofFloat(view, "translationY", TimeObjectView.normalTypeSize.toFloat(), 0f),
+                ObjectAnimator.ofFloat(view, "alpha", 0f, lastAlpha))
+        animSet.duration = 500
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
     }

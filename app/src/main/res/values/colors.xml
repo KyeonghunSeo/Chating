@@ -21,8 +21,9 @@
     <color name="backgroundDeepDark">#b4b7bc</color>
     <color name="backgroundDarkAlpha">#EEf2f2f2</color>
     <color name="iconTint">#a8aaaf</color>
-
-    <color name="primaryText">#44464b</color>
+<!--
+    <color name="primaryText">#44464b</color> -->
+    <color name="primaryText">#414141</color>
     <color name="secondaryText">#a8aaaf</color>
     <color name="disableText">#cccccc</color>
     <color name="primaryWhiteText">#FFFFFFFF</color>
@@ -53,7 +54,7 @@
     <color name="transparent">#00000000</color>
 
     <color name="calendarBackground">#ffffff</color>
-    <color name="holiday">#f53240</color>
+    <color name="holiday">#ff6a5c</color>
     <color name="transitionDim">#60000000</color>
 
     <color name="lol_light_3">#a3daff</color>

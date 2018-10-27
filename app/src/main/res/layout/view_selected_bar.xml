@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="30dp">
+    android:layout_height="30dp"
+    android:clipChildren="false">
 
     <View
         android:id="@+id/bar"
@@ -32,6 +33,7 @@
         android:layout_height="17dp"
         android:layout_marginRight="6dp"
         android:layout_gravity="right"
+        android:transformPivotX="8.5dp"
         android:transformPivotY="0dp"
         android:src="@drawable/flag_to_bottom"
         android:tint="@color/primaryText"/>
@@ -45,6 +47,8 @@
         android:layout_gravity="right"
         android:gravity="center_horizontal"
         android:textSize="7dp"
+        android:transformPivotX="8.5dp"
+        android:transformPivotY="0dp"
         android:textColor="@color/white"
         android:fontFamily="@font/regular"
         android:text="@string/sun" />

@@ -15,19 +15,20 @@
             android:id="@+id/todayImg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="12dp"
-            android:src="@drawable/ic_baseline_calendar_today_24px"
-            android:tint="@color/iconTint"/>
+            android:padding="10dp"
+            android:src="@drawable/bookmark"
+            android:tint="@color/primaryText"/>
 
         <TextView
             android:id="@+id/todayText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="6.5dp"
-            android:textSize="10dp"
+            android:paddingBottom="1dp"
+            android:paddingRight="5.5dp"
+            android:textSize="11dp"
             android:gravity="center"
-            android:textColor="@color/iconTint"
-            android:fontFamily="@font/futura_medium"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/regular"
             android:text="31"/>
 
     </FrameLayout>

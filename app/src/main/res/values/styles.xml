@@ -2,14 +2,14 @@
 
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/red</item>
-        <item name="colorAccent">@color/black</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
 
         <!-- enable window content transitions -->
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:fontFamily">@font/bold</item>
+        <item name="android:statusBarColor">@color/almostWhite</item>
 
         <!-- specify enter and exit transitions
         <item name="android:windowEnterTransition">@transition/explode</item>
@@ -19,9 +19,6 @@
 
     <style name="AppTheme" parent="BaseTheme">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryDark">@color/blue</item>
-        <item name="colorAccent">@color/black</item>
     </style>
 
     <style name="TranslucentStatusTheme" parent="AppTheme">

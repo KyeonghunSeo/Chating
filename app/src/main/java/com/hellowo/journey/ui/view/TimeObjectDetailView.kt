@@ -139,8 +139,10 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     private fun updateHeaderUI() {
         if(timeObject.inCalendar) {
             pinBtn.setBackgroundColor(Color.WHITE)
+            pinBtn.setImageResource(R.drawable.pin)
         }else {
-            pinBtn.setBackgroundColor(Color.TRANSPARENT)
+            pinBtn.setBackgroundResource(R.drawable.edge)
+            pinBtn.setImageBitmap(null)
         }
     }
 

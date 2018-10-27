@@ -10,23 +10,22 @@
     <FrameLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/background">
+        android:layout_height="50dp">
 
         <LinearLayout
             android:id="@+id/dateLy"
             android:animateLayoutChanges="true"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:gravity="top">
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="bottom">
 
             <TextView
                 android:id="@+id/monthText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:includeFontPadding="false"
                 android:textColor="@color/primaryText"
                 android:fontFamily="@font/regular"
@@ -51,7 +50,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:padding="10dp"
-                android:src="@drawable/ic_outline_account_circle"/>
+                android:src="@drawable/user"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -92,15 +91,8 @@
         android:layout_height="0.5dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="49.5dp">
     </View>
-
-    <com.hellowo.journey.ui.view.DayView
-        android:id="@+id/dayView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-    </com.hellowo.journey.ui.view.DayView>
 
     <View
         android:background="@color/white"
@@ -123,9 +115,9 @@
             android:background="?android:attr/selectableItemBackground"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="12dp"
-            android:src="@drawable/ic_baseline_all_inbox_24px"
-            android:tint="@color/iconTint"/>
+            android:padding="11dp"
+            android:src="@drawable/archive"
+            android:tint="@color/primaryText"/>
 
     </com.hellowo.journey.ui.view.KeepView>
 
@@ -143,9 +135,10 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/controlPanel"
         android:animateLayoutChanges="true"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_gravity="bottom|center_horizontal"
+        android:visibility="visible"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="0dp"
         app:cardCornerRadius="15dp">
@@ -158,14 +151,13 @@
 
     </androidx.cardview.widget.CardView>
 
-    <com.hellowo.journey.ui.view.TemplateControlPagerIndicator
-        android:id="@+id/templateControlPagerIndi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clipChildren="false"
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="2dp">
-    </com.hellowo.journey.ui.view.TemplateControlPagerIndicator>
+        android:src="@drawable/plus"
+        android:padding="10dp"
+        android:tint="@color/primaryText"/>
 
     <View
         android:id="@+id/dimView"

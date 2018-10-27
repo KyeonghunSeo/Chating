@@ -109,7 +109,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     fun setDateTime(a: Boolean, s: Calendar, e: Calendar) {
-        if(allday) {
+        if(a) {
             setDateTime(a, getCalendarTime0(s), getCalendarTime0(e))
         }else {
             setDateTime(a, s.timeInMillis, e.timeInMillis)

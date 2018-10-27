@@ -20,7 +20,7 @@ import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.list_item_task.view.*
 import java.util.*
 
-class TaskListAdapter(val context: Context, val items: List<TimeObject>, val currentCal: Calendar,
+class NoteListAdapter(val context: Context, val items: List<TimeObject>, val currentCal: Calendar,
                       val adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -91,7 +91,7 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
         return true
     }
 
-    inner class SimpleItemTouchHelperCallback(private val mAdapter: TaskListAdapter) : ItemTouchHelper.Callback() {
+    inner class SimpleItemTouchHelperCallback(private val mAdapter: NoteListAdapter) : ItemTouchHelper.Callback() {
         private val ALPHA_FULL = 1.0f
 
         override fun isLongPressDragEnabled(): Boolean = true
@@ -128,9 +128,9 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
             // We only want the active item to change
             if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-                if (viewHolder is TaskListAdapter.ViewHolder) {
+                if (viewHolder is NoteListAdapter.ViewHolder) {
                     // Let the view holder know that this item is being moved or dragged
-                    val itemViewHolder = viewHolder as TaskListAdapter.ViewHolder?
+                    val itemViewHolder = viewHolder as NoteListAdapter.ViewHolder?
                     itemViewHolder!!.onItemSelected()
                 }
             }
@@ -141,7 +141,7 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
             viewHolder.itemView.alpha = ALPHA_FULL
-            (viewHolder as? TaskListAdapter.ViewHolder)?.onItemClear()
+            (viewHolder as? NoteListAdapter.ViewHolder)?.onItemClear()
         }
     }
 }
