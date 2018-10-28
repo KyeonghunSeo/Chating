@@ -56,6 +56,7 @@ object AppRes {
     var statusBarHeight = 0
 
     lateinit var starDrawable: Drawable
+    lateinit var ideaDrawable: Drawable
     lateinit var hightlightCover: Drawable
     lateinit var blankDrawable: Drawable
 
@@ -71,6 +72,7 @@ object AppRes {
         disableText = resources.getColor(R.color.disableText)
 
         starDrawable = resources.getDrawable(R.drawable.ic_outline_star_border)
+        ideaDrawable = resources.getDrawable(R.drawable.idea)
         hightlightCover = resources.getDrawable(R.drawable.highlightcover)
         blankDrawable = resources.getDrawable(R.drawable.blank)
 

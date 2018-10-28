@@ -102,6 +102,8 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
             v.alarmIndi.visibility = View.GONE
         }
 
+        v.checkBox.setColorFilter(timeObject.color)
+
         if(timeObject.isDone()) {
             v.checkBox.setImageResource(R.drawable.checked)
             v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG

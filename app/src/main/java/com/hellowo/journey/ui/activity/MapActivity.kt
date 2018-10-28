@@ -17,11 +17,11 @@ import com.hellowo.journey.AppRes
 import com.hellowo.journey.R
 import kotlinx.android.synthetic.main.activity_map.*
 
-private var location: String? = null
-private var lat: Double = 0.toDouble()
-private var lng: Double = 0.toDouble()
-
 class MapActivity : AppCompatActivity() {
+    private var location: String? = null
+    private var lat: Double = 0.toDouble()
+    private var lng: Double = 0.toDouble()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)

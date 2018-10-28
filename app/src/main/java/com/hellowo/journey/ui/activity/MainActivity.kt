@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-        }//ba315dc0-7517-4963-96ea-1cab21fd89f2
+        }
         topShadow.visibility = View.GONE
         calendarView.setOnTop { isTop ->
             if(dayView.isOpened() || !isTop) topShadow.visibility = View.VISIBLE
@@ -174,7 +174,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBtns() {
         menuBtn.setOnClickListener {
-            checkExternalStoragePermission()
+            //checkExternalStoragePermission()
+            startActivity(Intent(this, DrawActivity::class.java))
         }
     }
 

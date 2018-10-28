@@ -144,7 +144,9 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
 
                 if(currentType != it.timeObject.type) {
                     currentType = it.timeObject.type
-                    setTypeMargin()
+                    if(currentType == TimeObject.Type.TASK.ordinal) {
+                        setTypeMargin()
+                    }
                 }
 
                 it.timeObjectViewList?.forEach {
@@ -178,7 +180,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
     }
 
     private fun setTypeMargin() {
-        val typeMargin = dpToPx(3)
+        val typeMargin = dpToPx(2)
         cellBottomArray.forEachIndexed { index, i -> cellBottomArray[index] += typeMargin }
     }
 

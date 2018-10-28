@@ -5,11 +5,10 @@
     android:gravity="center_vertical">
 
     <FrameLayout
-        android:layout_width="40dp"
+        android:layout_width="52dp"
         android:layout_height="match_parent">
 
         <View
-            android:id="@+id/topLine"
             android:layout_width="0.7dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -33,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="52dp"
         android:layout_marginRight="120dp">
 
         <LinearLayout

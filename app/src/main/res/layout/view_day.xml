@@ -5,84 +5,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/headerLy"
+    <LinearLayout
+        android:id="@+id/contentLy"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:clipChildren="false">
+        android:layout_height="wrap_content">
 
-        <include layout="@layout/view_selected_bar" />
-
-    </FrameLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp">
-
-        <LinearLayout
-            android:id="@+id/contentLy"
-            android:orientation="vertical"
+        <FrameLayout
+            android:id="@+id/headerLy"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="100dp"
+            android:clipChildren="false">
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/disableText"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/disableText"/>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/eventLy"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants">
 
                 <LinearLayout
+                    android:id="@+id/eventLy"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/normal_margin">
-
-                    <View
-                        android:background="@color/secondaryText"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginBottom="1dp">
-                    </View>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:text="@string/event"
-                        android:textSize="12dp"
-                        android:fontFamily="@font/thin"
-                        android:textColor="@color/secondaryText"/>
-
-                    <View
-                        android:background="@color/secondaryText"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp">
-                    </View>
-
-                </LinearLayout>
-
-                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-                    <FrameLayout
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent">
-
-                        <View
-                            android:layout_width="5dp"
-                            android:layout_height="0.7dp"
-                            android:layout_gravity="center_horizontal"
-                            android:background="@color/disableText"/>
-
-                        <View
-                            android:layout_width="5dp"
-                            android:layout_height="0.7dp"
-                            android:layout_gravity="center_horizontal|bottom"
-                            android:background="@color/disableText"/>
-
-                    </FrameLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/eventListView"
@@ -91,101 +58,113 @@
                         android:nestedScrollingEnabled="false">
                     </androidx.recyclerview.widget.RecyclerView>
 
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/taskLy"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/normal_margin">
-
-                    <View
-                        android:background="@color/secondaryText"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginBottom="1dp">
-                    </View>
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:text="@string/task"
-                        android:textSize="12dp"
-                        android:fontFamily="@font/thin"
-                        android:textColor="@color/secondaryText"/>
+                        <FrameLayout
+                            android:layout_width="52dp"
+                            android:layout_height="40dp">
 
-                    <View
-                        android:background="@color/secondaryText"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp">
-                    </View>
+                            <View
+                                android:layout_width="0.7dp"
+                                android:layout_height="18.5dp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@color/disableText"/>
+
+                            <ImageView
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:layout_marginTop="18.5dp"
+                                android:layout_gravity="center_horizontal"
+                                android:tint="@color/disableText"
+                                android:src="@drawable/circle_fill"/>
+
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginRight="16dp">
+
+                            <TextView
+                                android:id="@+id/eventEmptyText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14dp"
+                                android:lineSpacingExtra="2dp"
+                                android:textColor="@color/disableText"
+                                android:fontFamily="@font/text"
+                                android:textStyle="italic"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:text="@string/empty_event_past"/>
+
+                        </LinearLayout>
+
+                    </FrameLayout>
 
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/taskListView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false">
-                </androidx.recyclerview.widget.RecyclerView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/noteLy"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
                 <LinearLayout
+                    android:id="@+id/taskLy"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/normal_margin">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <View
-                        android:background="@color/secondaryText"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0.5dp">
-                    </View>
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:text="@string/note"
-                        android:textSize="12dp"
-                        android:fontFamily="@font/thin"
-                        android:textColor="@color/secondaryText"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/taskListView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false">
+                        </androidx.recyclerview.widget.RecyclerView>
 
-                    <View
-                        android:background="@color/secondaryText"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp">
-                    </View>
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/taskFinishAnimView"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="right|bottom"
+                            android:layout_margin="16dp"/>
+                    </FrameLayout>
 
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/noteListView"
+                <LinearLayout
+                    android:id="@+id/noteLy"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_marginTop="20dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/noteListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false">
+                    </androidx.recyclerview.widget.RecyclerView>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
-    </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:clipChildren="false">
+
+        <include layout="@layout/view_selected_bar" />
+
+    </FrameLayout>
 
 </FrameLayout>

@@ -30,6 +30,9 @@ class CalendarComparator : Comparator<TimeObjectCalendarAdapter.TimeObjectViewHo
                                             TimeObject.Type.TASK.ordinal -> {
                                                 TaskListComparator.sort(l.timeObject, r.timeObject)
                                             }
+                                            TimeObject.Type.NOTE.ordinal -> {
+                                                NoteListComparator.sort(l.timeObject, r.timeObject)
+                                            }
                                             else -> {
                                                 l.timeObject.title?.compareTo(r.timeObject.title ?: "") ?: 1
                                             }

@@ -3,12 +3,15 @@ package com.hellowo.journey.adapter
 import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
+import android.graphics.Canvas
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.hellowo.journey.*
 import com.hellowo.journey.alarm.AlarmManager
+import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.model.CalendarSkin
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.repeat.RepeatManager
@@ -20,12 +23,17 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val tempCal = Calendar.getInstance()
+    var itemTouchHelper: ItemTouchHelper? = null
+
+    init {
+        val callback = SimpleItemTouchHelperCallback(this)
+        itemTouchHelper = ItemTouchHelper(callback)
+    }
 
     override fun getItemCount(): Int = items.size
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
-        init {
-        }
+        init {}
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
@@ -89,5 +97,59 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
         }
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
+    }
+
+    inner class SimpleItemTouchHelperCallback(private val mAdapter: EventListAdapter) : ItemTouchHelper.Callback() {
+        private val ALPHA_FULL = 1.0f
+        private var reordering = false
+
+        override fun isLongPressDragEnabled(): Boolean = false
+
+        override fun isItemViewSwipeEnabled(): Boolean = true
+
+        override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+            val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+            val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
+            return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, swipeFlags)
+        }
+
+        override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+            return false
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+        }
+
+        override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                                 dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                // Fade out the view as it is swiped out of the parent's bounds
+                val alpha = ALPHA_FULL - Math.abs(dX) / viewHolder.itemView.width.toFloat()
+                viewHolder.itemView.alpha = alpha
+                viewHolder.itemView.translationX = dX
+            } else {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            }
+        }
+
+        override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+            // We only want the active item to change
+            if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+                if (viewHolder is NoteListAdapter.ViewHolder) {
+                    // Let the view holder know that this item is being moved or dragged
+                    val itemViewHolder = viewHolder as NoteListAdapter.ViewHolder?
+                    itemViewHolder!!.onItemSelected()
+                }
+            }
+
+            super.onSelectedChanged(viewHolder, actionState)
+        }
+
+        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            super.clearView(recyclerView, viewHolder)
+            viewHolder.itemView.alpha = ALPHA_FULL
+            (viewHolder as? NoteListAdapter.ViewHolder)?.onItemClear()
+        }
     }
 }

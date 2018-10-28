@@ -36,6 +36,7 @@
         </activity>
 
         <activity android:name=".ui.activity.MapActivity" />
+        <activity android:name=".ui.activity.DrawActivity" />
 
         <receiver android:name="com.hellowo.journey.alarm.BriefingAlarmReceiver"/>
         <receiver android:name="com.hellowo.journey.alarm.TimeObjectAlarmReceiver"/>

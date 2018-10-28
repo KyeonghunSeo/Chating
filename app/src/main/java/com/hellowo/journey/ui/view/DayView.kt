@@ -39,6 +39,7 @@ import android.widget.FrameLayout
 import com.hellowo.journey.adapter.NoteListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.calendar.EventListComparator
+import com.hellowo.journey.calendar.NoteListComparator
 
 
 class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
@@ -67,7 +68,15 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
-            1 -> TimeObjectManager.done(timeObject)
+            1 -> {/*
+                if(!timeObject.isDone() && taskList.filter { !it.isDone() }.size == 1) {
+                    taskFinishAnimView.visibility = View.VISIBLE
+                    taskFinishAnimView.playAnimation()
+                }else {
+                    taskFinishAnimView.visibility = View.GONE
+                }*/
+                TimeObjectManager.done(timeObject)
+            }
         }
     }
     private val noteAdapter = NoteListAdapter(context, noteList, calendarView.selectedCal)
@@ -96,19 +105,26 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             it.marginEnd = normalMargin.toInt()
             it.marginStart = normalMargin.toInt()
         }
+
+        taskFinishAnimView.imageAssetsFolder = "assets/"
+        taskFinishAnimView.setAnimation("done_button.json")
+        taskFinishAnimView.visibility = View.GONE
+
         contentLy.visibility = View.INVISIBLE
     }
 
     private fun initRecyclerView() {
         eventListView.layoutManager = LinearLayoutManager(context)
         eventListView.adapter = eventAdapter
+        eventAdapter.itemTouchHelper?.attachToRecyclerView(eventListView)
 
         taskListView.layoutManager = LinearLayoutManager(context)
         taskListView.adapter = taskAdapter
         taskAdapter.itemTouchHelper?.attachToRecyclerView(taskListView)
 
-        noteListView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        noteListView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         noteListView.adapter = noteAdapter
+        noteAdapter.itemTouchHelper?.attachToRecyclerView(noteListView)
     }
 
     fun notifyDateChanged(offset: Int) {
@@ -158,6 +174,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         collocateData(data, e, t, n)
         e.sortWith(EventListComparator())
         t.sortWith(TaskListComparator())
+        n.sortWith(NoteListComparator())
     }
 
     private fun collocateData(data: RealmResults<TimeObject>, e: ArrayList<TimeObject>,

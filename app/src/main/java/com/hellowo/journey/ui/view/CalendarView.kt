@@ -264,7 +264,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         dateHeaders[cellNum].bar.scaleY = 1f
 
         selectedCellNum = -1
-        //offViewEffect(cellNum)
+        offViewEffect(cellNum)
 
         if(anim) {
             lastUnSelectAnimSet?.cancel()
@@ -366,7 +366,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
 
             //scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top)
-            //onViewEffect(cellNum)
+            onViewEffect(cellNum)
         }else {
 
         }
@@ -382,6 +382,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     view.marqueeRepeatLimit = -1
                     view.isFocusable = true
                     view.postDelayed({
+                        l("마퀴!")
                         view.isSelected = true
                     }, 1000)
                 }

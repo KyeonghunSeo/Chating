@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/contentPanel"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom">
@@ -38,6 +37,8 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="50dp"
             android:background="@color/white">
 
             <LinearLayout
@@ -217,12 +218,10 @@
                         android:textSize="16dp"
                         android:fontFamily="@font/bold" />
 
-                    <androidx.cardview.widget.CardView
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_marginTop="10dp"
-                        app:cardElevation="0dp"
-                        app:cardCornerRadius="20dp">
+                        android:layout_marginTop="10dp">
 
                         <fragment
                             android:id="@+id/map"
@@ -235,7 +234,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"/>
 
-                    </androidx.cardview.widget.CardView>
+                    </FrameLayout>
 
                 </LinearLayout>
 
@@ -332,6 +331,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_gravity="bottom"
             android:background="@color/white"
             android:elevation="0dp">
 
@@ -374,6 +374,6 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </FrameLayout>
 
 </FrameLayout>

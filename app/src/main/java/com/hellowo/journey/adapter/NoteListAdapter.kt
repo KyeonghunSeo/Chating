@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.hellowo.journey.AppRes
 import com.hellowo.journey.R
+import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.list_item_note.view.*
 import java.util.*
@@ -57,19 +59,18 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
             timeObject.title
         }
 
-        if(timeObject.location.isNullOrBlank()) {
-            v.locationText.visibility = View.GONE
-        }else {
-            v.locationText.visibility = View.VISIBLE
-            v.locationText.text = timeObject.location
-        }
+        val finishTexs = StringBuilder()
 
-        if(timeObject.description.isNullOrBlank()) {
-            v.memoText.visibility = View.GONE
-        }else {
-            v.memoText.visibility = View.VISIBLE
-            v.memoText.text = timeObject.description
+        if(!timeObject.location.isNullOrBlank()) {
+            finishTexs.append("${timeObject.location?.substringBefore("\n")}\n")
         }
+        val updatedDate = Date(timeObject.dtUpdated)
+        finishTexs.append("${AppRes.ymdeDate.format(updatedDate)} ${AppRes.time.format(updatedDate)}")
+        v.finishText.text = finishTexs.toString()
+
+        v.tagText.visibility = View.GONE
+
+        v.topDivider.setBackgroundColor(timeObject.color)
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
         v.setOnLongClickListener {
@@ -86,6 +87,7 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
 
     inner class SimpleItemTouchHelperCallback(private val mAdapter: NoteListAdapter) : ItemTouchHelper.Callback() {
         private val ALPHA_FULL = 1.0f
+        private var reordering = false
 
         override fun isLongPressDragEnabled(): Boolean = true
 
@@ -98,7 +100,7 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
         }
 
         override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-            mAdapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+            reordering = reordering or mAdapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
             return true
         }
 
@@ -126,6 +128,9 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
                     val itemViewHolder = viewHolder as NoteListAdapter.ViewHolder?
                     itemViewHolder!!.onItemSelected()
                 }
+            }else if(reordering && actionState == ItemTouchHelper.ACTION_STATE_IDLE){
+                reordering = false
+                TimeObjectManager.reorder(items)
             }
 
             super.onSelectedChanged(viewHolder, actionState)
