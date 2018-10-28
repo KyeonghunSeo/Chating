@@ -131,5 +131,6 @@
     <string name="apply_after">이 %1$s 포함 이후 모든 %1$s에 적용</string>
     <string name="apply_all">모두 적용</string>
     <string name="date_of_total">%1$s 일차</string>
+    <string name="empty_note">빈 노트</string>
 
 </resources>

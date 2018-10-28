@@ -134,6 +134,15 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                                 path.close()
                                 it.drawPath(path, paint)
                                 */
+                                left = defaultPadding.toFloat()
+                                val path = Path()
+                                path.moveTo(0f, 0f)
+                                path.lineTo(0f, height.toFloat() - defaultPadding)
+                                path.lineTo(defaultPadding.toFloat(), height.toFloat())
+                                path.lineTo(defaultPadding.toFloat(), 0f)
+                                path.lineTo(0f, 0f)
+                                path.close()
+                                it.drawPath(path, paint)
                             }
                             if(rightOpen) {
                                 /*
@@ -148,6 +157,15 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                                 path.close()
                                 it.drawPath(path, paint)
                                 */
+                                right = width.toFloat() - defaultPadding
+                                val path = Path()
+                                path.moveTo(right, 0f)
+                                path.lineTo(right, height.toFloat())
+                                path.lineTo(right + defaultPadding, height.toFloat())
+                                path.lineTo(right + defaultPadding, defaultPadding.toFloat())
+                                path.lineTo(right, 0f)
+                                path.close()
+                                it.drawPath(path, paint)
                             }
                             val rect = RectF(left, 0f, right, height.toFloat())
                             it.drawRoundRect(rect, rectRadius, rectRadius, paint)
@@ -166,8 +184,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     paint.color = color
                     paint.style = Paint.Style.STROKE
 
-                    val centerY = smallTypeSize / 2f - defaulMargin
-                    val checkRadius = leftPadding / 2.9f
+                    val centerY = smallTypeSize / 2f - defaulMargin - strokeWidth
+                    val checkRadius = leftPadding / 3f
                     val centerX = checkRadius + strokeWidth
                     val rect = RectF(centerX - checkRadius, centerY - checkRadius, centerX + checkRadius, centerY + checkRadius)
                     if(timeObject.isDone()) {

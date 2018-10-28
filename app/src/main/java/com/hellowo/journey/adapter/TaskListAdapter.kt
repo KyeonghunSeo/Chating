@@ -1,10 +1,7 @@
 package com.hellowo.journey.adapter
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.ColorFilter
-import android.graphics.Paint
-import android.graphics.PorterDuff
+import android.graphics.*
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -14,14 +11,18 @@ import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.SimpleColorFilter
 import com.airbnb.lottie.model.KeyPath
 import com.airbnb.lottie.value.LottieValueCallback
+import com.hellowo.journey.AppRes
 import com.hellowo.journey.R
+import com.hellowo.journey.calendar.TimeObjectManager
+import com.hellowo.journey.l
 import com.hellowo.journey.model.CalendarSkin
 import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.repeat.RepeatManager
 import kotlinx.android.synthetic.main.list_item_task.view.*
 import java.util.*
 
 class TaskListAdapter(val context: Context, val items: List<TimeObject>, val currentCal: Calendar,
-                      val adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit)
+                      val adapterInterface: (view: View?, timeObject: TimeObject, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var itemTouchHelper: ItemTouchHelper? = null
@@ -43,11 +44,11 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
         }
 
         fun onItemSelected() {
-            //itemView.setBackgroundColor(Color.LTGRAY)
+            //itemView.setBackgroundColor(AppRes.almostWhite)
         }
 
         fun onItemClear() {
-            //itemView.setBackgroundColor(0)
+            //itemView.setBackgroundColor(Color.TRANSPARENT)
         }
     }
 
@@ -58,7 +59,6 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
         val timeObject = items[position]
         val v = holder.itemView
 
-        v.titleText.text = timeObject.title
         /*
         v.checkBox.setOnClickListener {
             v.checkBox.playAnimation()
@@ -69,16 +69,49 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
         v.checkBox.addValueCallback<ColorFilter>(keyPath, LottieProperty.COLOR_FILTER, callback)
         */
 
+        v.titleText.text = if(timeObject.title.isNullOrBlank()) {
+            context.getString(R.string.untitle)
+        }else {
+            timeObject.title
+        }
+
+        if(timeObject.repeat.isNullOrBlank()) {
+            v.repeatText.visibility = View.GONE
+        }else {
+            v.repeatText.visibility = View.VISIBLE
+            v.repeatText.text = RepeatManager.makeRepeatText(timeObject)
+        }
+
+        if(timeObject.location.isNullOrBlank()) {
+            v.locationText.visibility = View.GONE
+        }else {
+            v.locationText.visibility = View.VISIBLE
+            v.locationText.text = timeObject.location
+        }
+
+        if(timeObject.description.isNullOrBlank()) {
+            v.memoText.visibility = View.GONE
+        }else {
+            v.memoText.visibility = View.VISIBLE
+            v.memoText.text = timeObject.description
+        }
+
+        if(timeObject.alarms.any{ it.dtAlarm >= System.currentTimeMillis() }) {
+            v.alarmIndi.visibility = View.VISIBLE
+        }else {
+            v.alarmIndi.visibility = View.GONE
+        }
+
         if(timeObject.isDone()) {
-            v.checkBox.setImageResource(R.drawable.check_line)
+            v.checkBox.setImageResource(R.drawable.checked)
             v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }else {
-            v.checkBox.setImageResource(R.color.transparent)
+            v.checkBox.setImageResource(R.drawable.unchecked)
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
-        v.checkBox.setOnClickListener { adapterInterface.invoke(it, timeObject, 1) }
+        v.checkArea.setOnClickListener { adapterInterface.invoke(it, timeObject, 1) }
         v.setOnLongClickListener {
             itemTouchHelper?.startDrag(holder)
             return@setOnLongClickListener false
@@ -86,13 +119,21 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
     }
 
     fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-        Collections.swap(items, fromPosition, toPosition)
-        notifyItemMoved(fromPosition, toPosition)
-        return true
+        val target = items[fromPosition]
+        if(!target.isDone()) {
+            val limitIndex = items.indexOf(items.last { !it.isDone() })
+            if(toPosition <= limitIndex) {
+                Collections.swap(items, fromPosition, toPosition)
+                notifyItemMoved(fromPosition, toPosition)
+                return true
+            }
+        }
+        return false
     }
 
     inner class SimpleItemTouchHelperCallback(private val mAdapter: TaskListAdapter) : ItemTouchHelper.Callback() {
         private val ALPHA_FULL = 1.0f
+        private var reordering = false
 
         override fun isLongPressDragEnabled(): Boolean = true
 
@@ -105,7 +146,7 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
         }
 
         override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-            mAdapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+            reordering = reordering or mAdapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
             return true
         }
 
@@ -131,8 +172,11 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
                 if (viewHolder is TaskListAdapter.ViewHolder) {
                     // Let the view holder know that this item is being moved or dragged
                     val itemViewHolder = viewHolder as TaskListAdapter.ViewHolder?
-                    itemViewHolder!!.onItemSelected()
+                    itemViewHolder?.onItemSelected()
                 }
+            }else if(reordering && actionState == ItemTouchHelper.ACTION_STATE_IDLE){
+                reordering = false
+                TimeObjectManager.reorder(items.filter { !it.isDone() })
             }
 
             super.onSelectedChanged(viewHolder, actionState)

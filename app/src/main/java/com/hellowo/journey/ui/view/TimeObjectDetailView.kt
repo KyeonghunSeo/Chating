@@ -262,6 +262,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     fun updateMemoUI() {
         if(timeObject.description.isNullOrEmpty()) {
+            memoInput.setText("")
             memoLy.visibility = View.GONE
         }else {
             memoInput.setText(timeObject.description)

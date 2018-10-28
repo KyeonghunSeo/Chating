@@ -10,10 +10,16 @@ class TaskListComparator : Comparator<TimeObject> {
                 l.dtDone > r.dtDone -> 1
                 else -> {
                     when{
-                        l.dtCreated < r.dtCreated -> 1
-                        l.dtCreated > r.dtCreated -> -1
+                        l.ordering < r.ordering -> -1
+                        l.ordering > r.ordering -> 1
                         else -> {
-                            l.title?.compareTo(r.title ?: "") ?: 1
+                            when{
+                                l.dtCreated < r.dtCreated -> 1
+                                l.dtCreated > r.dtCreated -> -1
+                                else -> {
+                                    l.title?.compareTo(r.title ?: "") ?: 1
+                                }
+                            }
                         }
                     }
                 }

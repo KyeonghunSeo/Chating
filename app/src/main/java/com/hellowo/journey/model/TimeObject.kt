@@ -33,7 +33,8 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var links: RealmList<Link> = RealmList(),
                       var latitude: Double = Double.MIN_VALUE,
                       var longitude: Double = Double.MIN_VALUE,
-                      var inCalendar: Boolean = true): RealmObject() {
+                      var inCalendar: Boolean = true,
+                      var ordering: Int = Int.MIN_VALUE): RealmObject() {
 
     enum class Type(val titleId: Int, val iconId: Int) {
         EVENT(R.string.event, R.drawable.ic_baseline_calendar_today_24px),
@@ -150,28 +151,24 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         dtCreated = data.dtCreated
         dtUpdated = data.dtUpdated
         timeZone = data.timeZone
-        inCalendar = data.inCalendar
-
         exDates.clear()
         exDates.addAll(data.exDates)
-
         tags.clear()
         data.tags.forEach {
 
         }
-
         alarms.clear()
         data.alarms.forEach {
             alarms.add(Alarm(it.id, it.dtAlarm, it.offset, it.action))
         }
-
         links.clear()
         data.links.forEach {
 
         }
-
         latitude = data.latitude
         longitude = data.longitude
+        inCalendar = data.inCalendar
+        ordering = data.ordering
     }
 
     fun clearRepeat() {
@@ -184,9 +181,31 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         return "TimeObject(id=$id, type=$type, style=$style, title=$title, color=$color, fontColor=$fontColor, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, latitude=$latitude, longitude=$longitude, inCalendar=$inCalendar)"
     }
 
-    override fun equals(other: Any?): Boolean {
+    override fun equals(other: Any?): Boolean { // 리스트 업데이트 비교시 사용
         if (other is TimeObject) {
-            return toString() == other.toString()
+            return id == other.id
+                    && type == other.type
+                    && style == other.style
+                    && title == other.title
+                    && color == other.color
+                    && fontColor == other.fontColor
+                    && location == other.location
+                    && description == other.description
+                    && repeat == other.repeat
+                    && count == other.count
+                    && dtUntil == other.dtUntil
+                    && allday == other.allday
+                    && dtStart == other.dtStart
+                    && dtEnd == other.dtEnd
+                    && dtDone == other.dtDone
+                    && timeZone == other.timeZone
+                    && exDates.joinToString(",") == other.exDates.joinToString(",")
+                    && tags.joinToString(",") == other.tags.joinToString(",")
+                    && alarms.joinToString(",") == other.alarms.joinToString(",")
+                    && links.joinToString(",") == other.links.joinToString(",")
+                    && latitude == other.latitude
+                    && longitude == other.longitude
+                    && inCalendar == other.inCalendar
         }
         return false
     }

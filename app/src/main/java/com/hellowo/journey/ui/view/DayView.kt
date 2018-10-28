@@ -204,7 +204,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         }.start()
     }
 
-    private fun onItemClick(view: View, timeObject: TimeObject) {
+    private fun onItemClick(view: View?, timeObject: TimeObject) {
         MainActivity.instance?.viewModel?.let {
             it.targetTimeObject.value = timeObject
             it.targetView.value = view

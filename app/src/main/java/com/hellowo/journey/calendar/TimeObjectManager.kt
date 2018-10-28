@@ -221,4 +221,15 @@ object TimeObjectManager {
                 .findFirst()
     }
 
+    fun reorder(list: List<TimeObject>) {
+        realm.executeTransactionAsync{ realm ->
+            list.forEachIndexed { index, timeObject ->
+                realm.where(TimeObject::class.java).equalTo("id", timeObject.id).findFirst()?.let {
+                    it.ordering = index
+                    it.dtUpdated = System.currentTimeMillis()
+                }
+            }
+        }
+    }
+
 }

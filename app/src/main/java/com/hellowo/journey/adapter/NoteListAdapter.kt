@@ -2,22 +2,15 @@ package com.hellowo.journey.adapter
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.ColorFilter
 import android.graphics.Paint
-import android.graphics.PorterDuff
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.airbnb.lottie.LottieProperty
-import com.airbnb.lottie.SimpleColorFilter
-import com.airbnb.lottie.model.KeyPath
-import com.airbnb.lottie.value.LottieValueCallback
+import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.R
-import com.hellowo.journey.model.CalendarSkin
 import com.hellowo.journey.model.TimeObject
-import kotlinx.android.synthetic.main.list_item_task.view.*
+import kotlinx.android.synthetic.main.list_item_note.view.*
 import java.util.*
 
 class NoteListAdapter(val context: Context, val items: List<TimeObject>, val currentCal: Calendar,
@@ -52,33 +45,33 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-            = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_task, parent, false))
+            = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_note, parent, false))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val timeObject = items[position]
         val v = holder.itemView
 
-        v.titleText.text = timeObject.title
-        /*
-        v.checkBox.setOnClickListener {
-            v.checkBox.playAnimation()
-        }
-        val filter = SimpleColorFilter(timeObject.color)
-        val keyPath = KeyPath("**")
-        val callback = LottieValueCallback<ColorFilter>(filter)
-        v.checkBox.addValueCallback<ColorFilter>(keyPath, LottieProperty.COLOR_FILTER, callback)
-        */
-
-        if(timeObject.isDone()) {
-            v.checkBox.setImageResource(R.drawable.check_line)
-            v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        v.titleText.text = if(timeObject.title.isNullOrBlank()) {
+            context.getString(R.string.empty_note)
         }else {
-            v.checkBox.setImageResource(R.color.transparent)
-            v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
+            timeObject.title
+        }
+
+        if(timeObject.location.isNullOrBlank()) {
+            v.locationText.visibility = View.GONE
+        }else {
+            v.locationText.visibility = View.VISIBLE
+            v.locationText.text = timeObject.location
+        }
+
+        if(timeObject.description.isNullOrBlank()) {
+            v.memoText.visibility = View.GONE
+        }else {
+            v.memoText.visibility = View.VISIBLE
+            v.memoText.text = timeObject.description
         }
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
-        v.checkBox.setOnClickListener { adapterInterface.invoke(it, timeObject, 1) }
         v.setOnLongClickListener {
             itemTouchHelper?.startDrag(holder)
             return@setOnLongClickListener false

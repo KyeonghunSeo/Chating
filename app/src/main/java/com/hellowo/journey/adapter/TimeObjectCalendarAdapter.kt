@@ -30,12 +30,13 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
     private val drawStartYOffset = CalendarView.dateArea + /*날짜와 블록 마진*/dpToPx(2)
     private val cellBottomArray = Array(42){ _ -> drawStartYOffset}
     private val rowHeightArray = Array(6){ _ -> drawStartYOffset}
+    private val notInCalendarList = Array(42){ _ -> ArrayList<TimeObject>()}
 
     fun draw() {
         setCalendarData()
         makeTimeObjectViewHolder()
-        setTimeObjectViews()
-        refreshCalendarView()
+        calculateTimeObjectViewsPosition()
+        drawTimeObjectViewOnCalendarView()
     }
 
     fun refresh(result: RealmResults<TimeObject>, anim: Boolean) {
@@ -48,6 +49,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         viewLevelStatusMap.clear()
         cellBottomArray.fill(drawStartYOffset)
         rowHeightArray.fill(drawStartYOffset)
+        notInCalendarList.forEach { it.clear() }
         draw()
     }
 
@@ -61,64 +63,68 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         items.forEach{ timeObject ->
             try{
                 if(timeObject.repeat.isNullOrEmpty()) {
-                    computPosition(timeObject)
+                    makeTimeObjectView(timeObject)
                 }else {
                     RepeatManager.makeRepeatInstance(timeObject,
                             calendarView.calendarStartTime, calendarView.calendarEndTime)
-                            .forEach { computPosition(it) }
+                            .forEach { makeTimeObjectView(it) }
                 }
             }catch (e: Exception){ e.printStackTrace() }
         }
         viewHolderList.sortWith(CalendarComparator())
     }
 
-    private fun computPosition(timeObject: TimeObject) {
+    private fun makeTimeObjectView(timeObject: TimeObject) {
         val info = TimeObjectViewHolder(timeObject)
         info.startCellNum = ((timeObject.dtStart - calStartTime) / DAY_MILL).toInt()
         info.endCellNum = ((timeObject.dtEnd - calStartTime) / DAY_MILL).toInt()
 
-        var lOpen = false
-        var rOpen = false
+        if(timeObject.inCalendar) {
+            var lOpen = false
+            var rOpen = false
 
-        if(info.startCellNum < 0) {
-            info.startCellNum = 0
-            lOpen = true
-        }
-        if(info.endCellNum >= maxCellNum) {
-            info.endCellNum = maxCellNum - 1
-            rOpen = true
-        }
+            if(info.startCellNum < 0) {
+                info.startCellNum = 0
+                lOpen = true
+            }
+            if(info.endCellNum >= maxCellNum) {
+                info.endCellNum = maxCellNum - 1
+                rOpen = true
+            }
 
-        var currentCell = info.startCellNum
-        var length = info.endCellNum - info.startCellNum + 1
-        var margin = columns - currentCell % columns
-        val size = 1 + (info.endCellNum / columns - info.startCellNum / columns)
+            var currentCell = info.startCellNum
+            var length = info.endCellNum - info.startCellNum + 1
+            var margin = columns - currentCell % columns
+            val size = 1 + (info.endCellNum / columns - info.startCellNum / columns)
 
-        info.timeObjectViewList = Array(size) { index ->
-            TimeObjectView(context, timeObject, currentCell, if (length <= margin) length else margin).apply {
-                currentCell += margin
-                length -= margin
-                margin = 7
-                when(index) {
-                    0 -> {
-                        leftOpen = lOpen
-                        rightOpen = size > 1
-                    }
-                    size - 2 -> {
-                        leftOpen = true
-                        rightOpen = true
-                    }
-                    else -> {
-                        leftOpen = size > 1
-                        rightOpen = rOpen
+            info.timeObjectViewList = Array(size) { index ->
+                TimeObjectView(context, timeObject, currentCell, if (length <= margin) length else margin).apply {
+                    currentCell += margin
+                    length -= margin
+                    margin = 7
+                    when(index) {
+                        0 -> {
+                            leftOpen = lOpen
+                            rightOpen = size > 1
+                        }
+                        size - 2 -> {
+                            leftOpen = true
+                            rightOpen = true
+                        }
+                        else -> {
+                            leftOpen = size > 1
+                            rightOpen = rOpen
+                        }
                     }
                 }
             }
+            viewHolderList.add(info)
+        }else {
+            (info.startCellNum .. info.endCellNum).forEach { notInCalendarList[it].add(timeObject) }
         }
-        viewHolderList.add(info)
     }
 
-    private fun setTimeObjectViews() {
+    private fun calculateTimeObjectViewsPosition() {
         var currentViewLevel = -1
         var currentType = -1
         viewHolderList.forEach {
@@ -176,7 +182,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         cellBottomArray.forEachIndexed { index, i -> cellBottomArray[index] += typeMargin }
     }
 
-    private fun refreshCalendarView() {
+    private fun drawTimeObjectViewOnCalendarView() {
         if(withAnimtion) {
             TransitionManager.beginDelayedTransition(calendarView.calendarLy, makeChangeBounceTransition())
             withAnimtion = false
