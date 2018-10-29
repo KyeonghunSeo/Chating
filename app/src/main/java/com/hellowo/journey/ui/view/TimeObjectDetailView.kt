@@ -439,4 +439,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             updateRepeatUI()
         }, true, true, true, false)
     }
+
+    fun isOpened(): Boolean = viewMode == ViewMode.OPENED
 }

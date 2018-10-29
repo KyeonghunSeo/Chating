@@ -60,22 +60,20 @@ class MainViewModel : ViewModel() {
         val templates = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
         if(templates.isEmpty()) {
             realm.executeTransaction {
-                val event = realm.createObject(Template::class.java, 1)
-                event.title = App.context.getString(R.string.event)
+                val event = realm.createObject(Template::class.java, 0)
+                event.title = App.context.getString(R.string.new_event)
                 event.type = TimeObject.Type.EVENT.ordinal
                 event.color = AppRes.primaryColor
                 event.order = 0
 
-                val task = realm.createObject(Template::class.java, 2)
-                task.title = App.context.getString(R.string.task)
+                val task = realm.createObject(Template::class.java, 1)
+                task.title = App.context.getString(R.string.new_task)
                 task.type = TimeObject.Type.TASK.ordinal
-                task.color = AppRes.primaryText
                 task.order = 1
 
-                val note = realm.createObject(Template::class.java, 0)
-                note.title = App.context.getString(R.string.note)
+                val note = realm.createObject(Template::class.java, 2)
+                note.title = App.context.getString(R.string.new_note)
                 note.type = TimeObject.Type.NOTE.ordinal
-                note.color = AppRes.primaryText
                 note.order = 2
             }
             templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
@@ -133,7 +131,10 @@ class MainViewModel : ViewModel() {
             targetTimeObject.value = TimeObjectManager.makeNewTimeObject(startTime, endTime).apply {
                 targetTemplate.value?.let {
                     type = it.type
+                    style = it.style
                     color = it.color
+                    fontColor = it.fontColor
+                    inCalendar = it.inCalendar
                 }
             }
         }

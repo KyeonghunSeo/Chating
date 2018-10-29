@@ -94,6 +94,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     init {
         LayoutInflater.from(context).inflate(R.layout.view_day, this, true)
         //rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        contentLy.setOnClickListener {}
         setCardBackgroundColor(Color.WHITE)
         initRecyclerView()
         elevation = 0f

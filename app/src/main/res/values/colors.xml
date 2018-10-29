@@ -42,7 +42,6 @@
     <color name="black">#000000</color>
     <color name="blackAlpha">#60000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="alphaWhite">#D9FFFFFF</color>
     <color name="almostWhite">#F4F4F4</color>
     <color name="grey">#a8aaaf</color>
     <color name="greyAlpha">#60434957</color>
@@ -56,6 +55,7 @@
     <color name="calendarBackground">#ffffff</color>
     <color name="holiday">#ff6a5c</color>
     <color name="transitionDim">#60000000</color>
+    <color name="transitionDimWhite">#D9FFFFFF</color>
 
     <color name="lol_light_3">#a3daff</color>
     <color name="lol_light_2">#1ec0ff</color>

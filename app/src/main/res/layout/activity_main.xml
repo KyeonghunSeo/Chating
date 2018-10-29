@@ -132,33 +132,6 @@
         app:cardCornerRadius="15dp">
     </com.hellowo.journey.ui.view.BriefingView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/controlPanel"
-        android:animateLayoutChanges="true"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:visibility="visible"
-        app:cardBackgroundColor="@color/white"
-        app:cardElevation="0dp"
-        app:cardCornerRadius="15dp">
-
-        <com.hellowo.journey.ui.view.TemplateControlPager
-            android:id="@+id/templateControlPager"
-            android:layout_width="100dp"
-            android:layout_height="match_parent">
-        </com.hellowo.journey.ui.view.TemplateControlPager>
-
-    </androidx.cardview.widget.CardView>
-
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:src="@drawable/plus"
-        android:padding="10dp"
-        android:tint="@color/primaryText"/>
-
     <View
         android:id="@+id/dimView"
         android:layout_width="match_parent"
@@ -167,11 +140,16 @@
         android:background="@color/transitionDim">
     </View>
 
+    <com.hellowo.journey.ui.view.TemplateControlView
+        android:id="@+id/templateControlView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"/>
+
     <com.hellowo.journey.ui.view.TimeObjectDetailView
         android:id="@+id/timeObjectDetailView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="15dp">
+        android:layout_height="match_parent">
     </com.hellowo.journey.ui.view.TimeObjectDetailView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

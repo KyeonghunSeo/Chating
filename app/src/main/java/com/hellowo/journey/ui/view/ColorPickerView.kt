@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.R
+import com.hellowo.journey.adapter.util.SpacesItemDecoration
 import com.hellowo.journey.ui.dialog.ColorPickerDialog
 import com.hellowo.journey.model.ColorTag
 import com.hellowo.journey.dpToPx
@@ -54,23 +55,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
                 selectedPos = position
                 onSelceted.invoke(item.color, item.fontColor)
                 setDialog.dismiss()
-            }
-        }
-    }
-
-    inner class SpacesItemDecoration(private val space: Int) : RecyclerView.ItemDecoration() {
-
-        override fun getItemOffsets(outRect: Rect, view: View,
-                                    parent: RecyclerView, state: RecyclerView.State) {
-            outRect.left = space
-            outRect.top = space
-            outRect.right = space
-            outRect.bottom = space
-
-            // Add top margin only for the first item to avoid double space between items
-            if (parent.getChildLayoutPosition(view) == 0) {
-            } else {
-                //outRect.top = 0
             }
         }
     }

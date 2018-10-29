@@ -58,7 +58,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
-                val leftSideMargin = if(leftOpen) CalendarView.weekSideMargin else 0
+                val leftSideMargin = if(leftOpen) defaultPadding else 0
                 when(timeObject.style){
                     1 -> {
                         setPadding(defaultPadding + leftSideMargin, 0, defaultPadding, 0)
@@ -136,50 +136,27 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         }
                         else -> {
                             paint.style = Paint.Style.FILL
+                            val edge = defaultPadding.toFloat()
                             var left = 0f
                             var right = width.toFloat()
                             if(leftOpen) {
-                                /*
-                                left = defaultPadding.toFloat()
-                                val path = Path()
-                                path.moveTo(defaultPadding + rectRadius, 0f)
-                                path.lineTo(defaultPadding.toFloat(), 0f)
-                                path.lineTo(0f, height * 0.5f)
-                                path.lineTo(defaultPadding.toFloat(), height.toFloat())
-                                path.lineTo(defaultPadding.toFloat() + rectRadius, height.toFloat())
-                                path.lineTo(defaultPadding + rectRadius, 0f)
-                                path.close()
-                                it.drawPath(path, paint)
-                                */
                                 left = defaultPadding.toFloat()
                                 val path = Path()
                                 path.moveTo(0f, 0f)
-                                path.lineTo(0f, height.toFloat() - defaultPadding)
-                                path.lineTo(defaultPadding.toFloat(), height.toFloat())
-                                path.lineTo(defaultPadding.toFloat(), 0f)
+                                path.lineTo(edge, 0f)
+                                path.lineTo(edge, height.toFloat())
+                                path.lineTo(0f, height.toFloat())
+                                path.lineTo(edge, height / 2f)
                                 path.lineTo(0f, 0f)
                                 path.close()
                                 it.drawPath(path, paint)
                             }
                             if(rightOpen) {
-                                /*
-                                right = width.toFloat() - defaultPadding
-                                val path = Path()
-                                path.moveTo(right - rectRadius, 0f)
-                                path.lineTo(right, 0f)
-                                path.lineTo(right + defaultPadding, height * 0.5f)
-                                path.lineTo(right, height.toFloat())
-                                path.lineTo(right - rectRadius, height.toFloat())
-                                path.lineTo(right - rectRadius, 0f)
-                                path.close()
-                                it.drawPath(path, paint)
-                                */
                                 right = width.toFloat() - defaultPadding
                                 val path = Path()
                                 path.moveTo(right, 0f)
+                                path.lineTo(right + edge, height * 0.5f)
                                 path.lineTo(right, height.toFloat())
-                                path.lineTo(right + defaultPadding, height.toFloat())
-                                path.lineTo(right + defaultPadding, defaultPadding.toFloat())
                                 path.lineTo(right, 0f)
                                 path.close()
                                 it.drawPath(path, paint)
@@ -354,10 +331,10 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     fun setLayout() {
         var w = mRight - mLeft - defaulMargin
         if(leftOpen) {
-            w += CalendarView.weekSideMargin
-            translationX = -CalendarView.weekSideMargin.toFloat()
+            w += defaultPadding
+            translationX = -defaultPadding.toFloat()
         }
-        if(rightOpen) w += CalendarView.weekSideMargin
+        if(rightOpen) w += defaultPadding
 
         val lp = FrameLayout.LayoutParams(w, mBottom - mTop - defaulMargin)
         lp.setMargins(0, mTop, 0, 0)

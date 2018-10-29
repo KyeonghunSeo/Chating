@@ -176,6 +176,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initTemplateView() {
+
     }
 
     private fun initBtns() {
@@ -195,9 +196,7 @@ class MainActivity : AppCompatActivity() {
         })
         viewModel.appUser.observe(this, androidx.lifecycle.Observer { it?.let { updateUserUI(it) } })
         viewModel.templateList.observe(this, androidx.lifecycle.Observer {
-            it?.let {
-                templateControlPager.notify(it)
-            }
+            it?.let { templateControlView.notify(it) }
         })
     }
 
@@ -242,11 +241,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun onDimDark(animation: Boolean, dark: Boolean) {
-        dimView.setOnClickListener { onBackPressed() }
+    fun onDimDark(animation: Boolean, eventBackPressed: Boolean) {
+        dimView.setOnClickListener { if(eventBackPressed) onBackPressed() }
         dimView.isClickable = true
         if (animation) {
-            ObjectAnimator.ofFloat(dimView, "alpha", 0f, 1f).setDuration(50).start()
+            ObjectAnimator.ofFloat(dimView, "alpha", 0f, 1f).setDuration(200).start()
         } else {
             dimView.alpha = 1f
         }
@@ -257,7 +256,7 @@ class MainActivity : AppCompatActivity() {
         dimView.setOnClickListener(null)
         dimView.isClickable = false
         if (animation) {
-            ObjectAnimator.ofFloat(dimView, "alpha", 1f, 0f).setDuration(50).start()
+            ObjectAnimator.ofFloat(dimView, "alpha", 1f, 0f).setDuration(200).start()
         } else {
             dimView.alpha = 0f
         }
@@ -294,7 +293,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         when{
-            timeObjectDetailView.viewMode == ViewMode.OPENED -> timeObjectDetailView.hide()
+            timeObjectDetailView.isOpened() -> timeObjectDetailView.hide()
+            templateControlView.isExpanded -> templateControlView.collapse(true)
             keepView.viewMode == ViewMode.OPENED -> keepView.hide()
             briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
             dayView.isOpened() -> dayView.hide()

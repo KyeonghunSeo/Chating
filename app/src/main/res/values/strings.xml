@@ -134,5 +134,7 @@
     <string name="empty_note">빈 노트</string>
     <string name="show_next_event">“바쁜 하루였네요.”</string>
     <string name="empty_event_past">“한가한 날 이었네요.”</string>
+    <string name="new_event">새 일정</string>
+    <string name="new_task">새 할일</string>
 
 </resources>
