@@ -11,14 +11,14 @@
         android:layout_height="36dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="8dp"
+        app:cardBackgroundColor="@color/almostWhite"
         app:cardElevation="0dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
-            android:background="@color/almostWhite">
+            android:padding="5dp">
         </androidx.recyclerview.widget.RecyclerView>
 
     </androidx.cardview.widget.CardView>

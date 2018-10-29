@@ -9,6 +9,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.hellowo.journey.*
@@ -20,6 +21,7 @@ import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.view_template_control.view.*
 
 class TemplateControlView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+    private val itemHeight = dpToPx(60)
     private val collapseSize = dpToPx(36)
     private val bottomMargin = dpToPx(8)
     val items = ArrayList<Template>()
@@ -29,7 +31,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         LayoutInflater.from(context).inflate(R.layout.view_template_control, this, true)
         itemView.radius = collapseSize / 2f
         controllView.radius = collapseSize / 2f
-        recyclerView.layoutManager = GridLayoutManager(context, 4)
+        recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = TemplateAdapter(context, items) {
             Prefs.putInt("last_template_id", it.id)
             setControlView(it)
@@ -71,25 +73,28 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     private fun expand() {
+        val h = items.size * itemHeight + dpToPx(10)
+
         val transiion = makeChangeBounceTransition()
         transiion.interpolator = FastOutSlowInInterpolator()
         transiion.duration = ANIM_DUR
         transiion.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
+                TransitionManager.beginDelayedTransition(itemView, makeFromBottomSlideTransition())
                 recyclerView.visibility = View.VISIBLE
+                recyclerView.adapter?.notifyDataSetChanged()
             }
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f),
-                        ObjectAnimator.ofFloat(itemView, "radius", itemView.radius, collapseSize / 2f))
+                animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f),
+                        ObjectAnimator.ofFloat(itemView, "radius", itemView.radius, dpToPx(1f)))
                 animSet.duration = ANIM_DUR
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
             }
-
         })
         TransitionManager.beginDelayedTransition(this@TemplateControlView, transiion)
 
@@ -99,8 +104,8 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         }
 
         (itemView.layoutParams as FrameLayout.LayoutParams).let {
-            it.width = collapseSize * 7
-            it.height = collapseSize * 7
+            it.width = collapseSize * 6
+            it.height = h
             it.bottomMargin = bottomMargin * 7
         }
         itemView.elevation = dpToPx(5f)
@@ -181,7 +186,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         items.clear()
         items.addAll(it)
         recyclerView.adapter?.notifyDataSetChanged()
-        l("!!!!!!!!!!!!!!!!"+items.size)
         it.firstOrNull { it.id == Prefs.getInt("last_template_id", 0) }?.let {
             setControlView(it)
         }

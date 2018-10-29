@@ -5,7 +5,7 @@
 
    <FrameLayout
        android:id="@+id/contentLy"
-       android:layout_width="50dp"
+       android:layout_width="match_parent"
        android:layout_height="50dp"
        android:elevation="0.5dp"
        android:background="@drawable/white_rect_fill_radius_1">
@@ -24,6 +24,7 @@
               android:background="@color/colorPrimary">
 
               <ImageView
+                  android:id="@+id/iconImg"
                   android:layout_width="20dp"
                   android:layout_height="20dp"
                   android:layout_gravity="bottom|right"
