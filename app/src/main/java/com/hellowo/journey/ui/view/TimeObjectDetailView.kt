@@ -414,7 +414,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun openDateTimePicker(title: String, time: Long, onResult: (Long) -> (Unit)) {
-        DateTimePickerDialog(title, time, onResult).show(MainActivity.instance?.supportFragmentManager, null)
+        showDialog(TimePickerDialog(MainActivity.instance!!, time, onResult),
+                true, true, true, false)
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

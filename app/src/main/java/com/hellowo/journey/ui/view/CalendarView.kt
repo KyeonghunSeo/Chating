@@ -5,12 +5,10 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Rect
 import android.os.Handler
 import android.os.Message
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -19,7 +17,7 @@ import com.hellowo.journey.*
 import java.util.*
 import android.widget.*
 import android.widget.LinearLayout.HORIZONTAL
-import com.hellowo.journey.model.CalendarSkin
+import com.hellowo.journey.calendar.CalendarSkin
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
@@ -88,12 +86,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var minHeight = 0f
     var rows = 0
     var todayStatus = 0
+    var autoScroll = true
 
     init {
         CalendarSkin.init(this)
         createViews()
         setLayout()
-        callAfterViewDrawed(this, Runnable { drawCalendar(System.currentTimeMillis(), true) })
+        callAfterViewDrawed(this, Runnable { drawCalendar(System.currentTimeMillis()) })
     }
 
     private fun createViews() {
@@ -140,7 +139,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    private fun drawCalendar(time: Long, isInit: Boolean) {
+    private fun drawCalendar(time: Long) {
         l("==========START drawCalendar=========")
         val t = System.currentTimeMillis()
         todayCal.timeInMillis = System.currentTimeMillis()
@@ -163,12 +162,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         calendarLy.layoutParams.height = minCalendarHeight
         calendarLy.requestLayout()
         tempCal.add(Calendar.DATE, -startCellNum)
-
-        if(isInit) {
-            weekLySideView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, dpToPx(100)).apply {
-                //gravity = Gravity.BOTTOM
-            }
-        }
 
         for(i in 0..5) {
             val weekLy = weekLys[i]
@@ -331,6 +324,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
             dateHeaders[cellNum].bar.setBackgroundColor(color)
             dateHeaders[cellNum].bar.scaleY = 2f
+            dateHeaders[cellNum].bar.alpha = 1f
             dateHeaders[cellNum].dowText.text = dow[cellNum % columns]
 
             if(anim) {
@@ -365,7 +359,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 flagImg.scaleY = 1f
             }
 
-            //scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top)
+            if(autoScroll) {
+                autoScroll = false
+                scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top)
+            }
             onViewEffect(cellNum)
         }else {
 
@@ -382,7 +379,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     view.marqueeRepeatLimit = -1
                     view.isFocusable = true
                     view.postDelayed({
-                        l("마퀴!")
                         view.isSelected = true
                     }, 1000)
                 }
@@ -409,14 +405,16 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         scrollView.onTop = onTop
     }
 
-    fun moveDate(offset: Int) {
+    fun moveDate(offset: Int, isAutoScroll: Boolean) {
         selectedCal.add(Calendar.DATE, offset)
-        drawCalendar(selectedCal.timeInMillis, false)
+        autoScroll = isAutoScroll
+        drawCalendar(selectedCal.timeInMillis)
     }
 
-    fun moveDate(time: Long) {
+    fun moveDate(time: Long, isAutoScroll: Boolean) {
         selectedCal.timeInMillis = time
-        drawCalendar(time, false)
+        autoScroll = isAutoScroll
+        drawCalendar(time)
     }
 
     fun moveMonth(offset: Int) {
@@ -426,7 +424,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             unselectDate(selectedCellNum, false)
         }
         scrollView.scrollTo(0, 0)
-        drawCalendar(monthCal.timeInMillis, false)
+        autoScroll = true
+        drawCalendar(monthCal.timeInMillis)
         startPagingEffectAnimation(offset, scrollView, null)
     }
 

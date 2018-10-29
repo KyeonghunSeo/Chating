@@ -25,6 +25,7 @@ import com.hellowo.journey.*
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.listener.MainDragAndDropListener
+import com.hellowo.journey.ui.dialog.DatePickerDialog
 import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.ui.view.DayView
 import com.hellowo.journey.ui.view.SwipeScrollView.Companion.SWIPE_LEFT
@@ -84,6 +85,11 @@ class MainActivity : AppCompatActivity() {
     private fun initLayout() {
         monthText.typeface = AppRes.regularFont
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        dateLy.setOnClickListener {
+            showDialog(DatePickerDialog(this@MainActivity, calendarView.selectedCal.timeInMillis) {
+                calendarView.moveDate(it, true)
+            }, true, true, true, false)
+        }
         dimView.setOnDragListener(MainDragAndDropListener)
         callAfterViewDrawed(rootLy, Runnable{
             val location = IntArray(2)
@@ -108,12 +114,12 @@ class MainActivity : AppCompatActivity() {
                 when(state) {
                     SWIPE_LEFT -> {
                         vibrate(this)
-                        calendarView.moveDate(-1)
+                        calendarView.moveDate(-1, true)
                         dayView.notifyDateChanged(-1)
                     }
                     SWIPE_RIGHT -> {
                         vibrate(this)
-                        calendarView.moveDate(1)
+                        calendarView.moveDate(1, true)
                         dayView.notifyDateChanged(1)
                     }
                 }
@@ -162,7 +168,7 @@ class MainActivity : AppCompatActivity() {
     private fun initBriefingView() {
         briefingView.setOnClickListener {
             if(calendarView.todayStatus != 0) {
-                calendarView.moveDate(System.currentTimeMillis())
+                calendarView.moveDate(System.currentTimeMillis(), true)
             }else {
                 briefingView.show()
             }

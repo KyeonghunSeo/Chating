@@ -1,7 +1,6 @@
 package com.hellowo.journey.adapter
 
 import android.annotation.SuppressLint
-import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Canvas
 import androidx.recyclerview.widget.RecyclerView
@@ -10,9 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.hellowo.journey.*
-import com.hellowo.journey.alarm.AlarmManager
-import com.hellowo.journey.calendar.TimeObjectManager
-import com.hellowo.journey.model.CalendarSkin
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.repeat.RepeatManager
 import kotlinx.android.synthetic.main.list_item_event.view.*
@@ -101,7 +97,6 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
 
     inner class SimpleItemTouchHelperCallback(private val mAdapter: EventListAdapter) : ItemTouchHelper.Callback() {
         private val ALPHA_FULL = 1.0f
-        private var reordering = false
 
         override fun isLongPressDragEnabled(): Boolean = false
 
@@ -125,9 +120,9 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
                                  dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
             if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
                 // Fade out the view as it is swiped out of the parent's bounds
-                val alpha = ALPHA_FULL - Math.abs(dX) / viewHolder.itemView.width.toFloat()
-                viewHolder.itemView.alpha = alpha
-                viewHolder.itemView.translationX = dX
+                //val alpha = ALPHA_FULL - Math.abs(dX) / viewHolder.itemView.width.toFloat()
+                //viewHolder.itemView.alpha = alpha
+                viewHolder.itemView.frontLy.translationX = dX
             } else {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }

@@ -116,6 +116,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                             rightOpen = rOpen
                         }
                     }
+                    setLookByType()
                 }
             }
             viewHolderList.add(info)
@@ -206,14 +207,14 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
             if(TimeObjectManager.lastUpdatedItem == holder.timeObject) {
                 TimeObjectManager.lastUpdatedItem = null
                 holder.timeObjectViewList?.forEach {
-                    val lastAlpha = if(isOutDate(it)) 1f else CalendarView.outDateAlpha
+                    //val lastAlpha = if(isOutDate(it)) 1f else CalendarView.outDateAlpha
                     it.alpha = 0f
                     calendarView.dateCells[it.cellNum].addView(it)
-                    it.post { showInsertAnimation(it, lastAlpha) }
+                    it.post { showInsertAnimation(it, 1f) }
                 }
             }else {
                 holder.timeObjectViewList?.forEach {
-                    it.alpha = if(isOutDate(it)) 1f else CalendarView.outDateAlpha
+                    //it.alpha = if(isOutDate(it)) 1f else CalendarView.outDateAlpha
                     calendarView.dateCells[it.cellNum].addView(it)
                 }
             }

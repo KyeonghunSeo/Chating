@@ -14,7 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.journey.*
-import com.hellowo.journey.model.CalendarSkin
+import com.hellowo.journey.calendar.CalendarSkin
 import kotlinx.android.synthetic.main.view_calendar_picker.view.*
 import java.util.*
 

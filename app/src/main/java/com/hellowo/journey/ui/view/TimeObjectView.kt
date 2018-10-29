@@ -10,7 +10,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.hellowo.journey.*
-import com.hellowo.journey.model.CalendarSkin
+import com.hellowo.journey.calendar.CalendarSkin
 import com.hellowo.journey.model.TimeObject
 
 @SuppressLint("ViewConstructor")
@@ -47,26 +47,30 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize)
         //setBackgroundColor(AppRes.almostWhite)
 
+    }
+
+    fun setLookByType() {
         when(TimeObject.Type.values()[timeObject.type]) {
             TimeObject.Type.EVENT -> {
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-                typeface = AppRes.thinFont
+                typeface = AppRes.regularFont
                 gravity = Gravity.CENTER_VERTICAL
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
+                val leftSideMargin = if(leftOpen) CalendarView.weekSideMargin else 0
                 when(timeObject.style){
                     1 -> {
-                        setPadding(defaultPadding, 0, defaultPadding, 0)
+                        setPadding(defaultPadding + leftSideMargin, 0, defaultPadding, 0)
                         setTextColor(timeObject.color)
                     }
                     2 -> {
-                        setPadding(defaultPadding, 0, defaultPadding, 0)
-                        setTextColor(timeObject.color)
+                        setPadding(defaulMargin * 5 + leftSideMargin, 0, defaultPadding, 0)
+                        setTextColor(AppRes.primaryText)
                     }
                     else -> {
-                        setPadding(leftPadding / 2, 0, defaultPadding, 0)
-                        setTextColor(AppRes.primaryText)
+                        setPadding(defaultPadding + leftSideMargin, 0, defaultPadding, 0)
+                        setTextColor(timeObject.fontColor)
                     }
                 }
             }
@@ -92,7 +96,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                 typeface = AppRes.textFont
                 setLineSpacing(strokeWidth, 1f)
-                setPadding(defaultPadding / 2, iconSize + defaulMargin, defaultPadding / 2, defaultPadding / 2)
+                setPadding(defaultPadding / 2, iconSize + defaulMargin, defaultPadding, defaultPadding)
             }
             else -> {
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
@@ -119,6 +123,18 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                             paint.style = Paint.Style.FILL
                         }
                         2 -> {
+                            paint.alpha = 15
+                            val bgrect = RectF(0f, 0f, width.toFloat(), height.toFloat())
+                            it.drawRoundRect(bgrect, rectRadius, rectRadius, paint)
+                            paint.alpha = 255
+                            val rect = if(length > 1) {
+                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
+                            }else {
+                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
+                            }
+                            if(!leftOpen) it.drawRect(rect, paint)
+                        }
+                        else -> {
                             paint.style = Paint.Style.FILL
                             var left = 0f
                             var right = width.toFloat()
@@ -171,18 +187,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                             val rect = RectF(left, 0f, right, height.toFloat())
                             it.drawRoundRect(rect, rectRadius, rectRadius, paint)
                         }
-                        else -> {
-                            paint.alpha = 15
-                            val bgrect = RectF(0f, 0f, width.toFloat(), height.toFloat())
-                            it.drawRoundRect(bgrect, rectRadius, rectRadius, paint)
-                            paint.alpha = 255
-                            val rect = if(length > 1) {
-                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
-                            }else {
-                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
-                            }
-                            it.drawRoundRect(rect, rectRadius, rectRadius, paint)
-                        }
                     }
 
                 }
@@ -227,7 +231,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                                 AppRes.ideaDrawable.setBounds(0, 0, iconSize, iconSize)
                                 AppRes.ideaDrawable.draw(canvas)
                             }else {
-                                val rect = RectF(defaultPadding.toFloat(), iconSize / 2f,
+                                val rect = RectF(defaultPadding / 2f, iconSize / 2f,
                                         iconSize.toFloat() + defaultPadding, iconSize / 2f + strokeWidth * 2)
                                 it.drawRect(rect, paint)
                             }
@@ -348,7 +352,14 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     }
 
     fun setLayout() {
-        val lp = FrameLayout.LayoutParams(mRight - mLeft - defaulMargin, mBottom - mTop - defaulMargin)
+        var w = mRight - mLeft - defaulMargin
+        if(leftOpen) {
+            w += CalendarView.weekSideMargin
+            translationX = -CalendarView.weekSideMargin.toFloat()
+        }
+        if(rightOpen) w += CalendarView.weekSideMargin
+
+        val lp = FrameLayout.LayoutParams(w, mBottom - mTop - defaulMargin)
         lp.setMargins(0, mTop, 0, 0)
         layoutParams = lp
     }

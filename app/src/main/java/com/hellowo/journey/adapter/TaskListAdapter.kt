@@ -7,15 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.airbnb.lottie.LottieProperty
-import com.airbnb.lottie.SimpleColorFilter
-import com.airbnb.lottie.model.KeyPath
-import com.airbnb.lottie.value.LottieValueCallback
-import com.hellowo.journey.AppRes
 import com.hellowo.journey.R
 import com.hellowo.journey.calendar.TimeObjectManager
-import com.hellowo.journey.l
-import com.hellowo.journey.model.CalendarSkin
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.repeat.RepeatManager
 import kotlinx.android.synthetic.main.list_item_task.view.*

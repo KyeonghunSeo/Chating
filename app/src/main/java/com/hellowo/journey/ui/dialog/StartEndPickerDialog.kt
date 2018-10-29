@@ -10,7 +10,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hellowo.journey.*
-import com.hellowo.journey.model.CalendarSkin
+import com.hellowo.journey.calendar.CalendarSkin
 import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.dialog_start_end_picker.*
 import java.util.*

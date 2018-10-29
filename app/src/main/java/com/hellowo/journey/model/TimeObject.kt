@@ -34,7 +34,8 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var latitude: Double = Double.MIN_VALUE,
                       var longitude: Double = Double.MIN_VALUE,
                       var inCalendar: Boolean = true,
-                      var ordering: Int = Int.MIN_VALUE): RealmObject() {
+                      var ordering: Int = Int.MIN_VALUE,
+                      var folder: Folder? = null): RealmObject() {
 
     enum class Type(val titleId: Int, val iconId: Int) {
         EVENT(R.string.event, R.drawable.ic_baseline_calendar_today_24px),
@@ -169,6 +170,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         longitude = data.longitude
         inCalendar = data.inCalendar
         ordering = data.ordering
+        folder = data.folder
     }
 
     fun clearRepeat() {

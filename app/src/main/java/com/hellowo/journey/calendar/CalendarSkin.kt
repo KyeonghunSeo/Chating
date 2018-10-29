@@ -1,4 +1,4 @@
-package com.hellowo.journey.model
+package com.hellowo.journey.calendar
 
 import com.hellowo.journey.AppRes
 import com.hellowo.journey.R

@@ -37,6 +37,7 @@
 
         <activity android:name=".ui.activity.MapActivity" />
         <activity android:name=".ui.activity.DrawActivity" />
+        <activity android:name=".ui.activity.TrashActivity" />
 
         <receiver android:name="com.hellowo.journey.alarm.BriefingAlarmReceiver"/>
         <receiver android:name="com.hellowo.journey.alarm.TimeObjectAlarmReceiver"/>

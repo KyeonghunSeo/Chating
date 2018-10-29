@@ -6,11 +6,9 @@ import com.hellowo.journey.alarm.AlarmManager
 import com.hellowo.journey.alarm.RegistedAlarm
 import com.hellowo.journey.adapter.TimeObjectCalendarAdapter
 import com.hellowo.journey.getCalendarTime23
-import com.hellowo.journey.model.CalendarSkin
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.l
-import com.hellowo.journey.repeat.RepeatManager
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
@@ -64,6 +62,12 @@ object TimeObjectManager {
     fun getTimeObjectList(startTime: Long, endTime: Long) : RealmResults<TimeObject> {
         return realm.where(TimeObject::class.java)
                 .beginGroup()
+                .isNull("folder")
+                .greaterThan("dtCreated", 0)
+                .endGroup()
+                .and()
+                .beginGroup()
+                .beginGroup()
                 .greaterThanOrEqualTo("dtEnd", startTime)
                 .lessThanOrEqualTo("dtStart", endTime)
                 .endGroup()
@@ -77,6 +81,7 @@ object TimeObjectManager {
                 .isNotNull("repeat")
                 .notEqualTo("dtUntil", Long.MIN_VALUE)
                 .greaterThan("dtUntil", startTime)
+                .endGroup()
                 .endGroup()
                 .sort("dtStart", Sort.ASCENDING)
                 .findAllAsync()
@@ -176,7 +181,7 @@ object TimeObjectManager {
         realm.executeTransactionAsync{ realm ->
             realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
                 val dtUntil = getCalendarTime23(cal)
-                if(dtUntil < it.dtStart) {
+                if(dtUntil < it.dtStart) { // 기한보다 작으면 완전히 제거
                     it.deleteFromRealm()
                 }else {
                     it.dtUntil = getCalendarTime23(cal)
@@ -189,7 +194,10 @@ object TimeObjectManager {
     fun delete(timeObject: TimeObject) {
         val id = timeObject.id
         realm.executeTransactionAsync{ realm ->
-            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.deleteFromRealm()
+            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
+                it.dtCreated = -1
+                it.dtUpdated = System.currentTimeMillis()
+            }
         }
     }
 
