@@ -214,8 +214,6 @@ object TimeObjectManager {
 
     fun makeNewTimeObject(start: Long, end: Long): TimeObject {
         return TimeObject().apply {
-            type = TimeObject.Type.NOTE.ordinal
-            style = TimeObject.Style.DEFAULT.ordinal
             color = CalendarSkin.dateColor
             dtStart = start
             dtEnd = end

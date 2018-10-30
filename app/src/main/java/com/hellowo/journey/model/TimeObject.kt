@@ -37,13 +37,14 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var ordering: Int = Int.MIN_VALUE,
                       var folder: Folder? = null): RealmObject() {
 
-    enum class Type(val titleId: Int, val iconId: Int) {
-        EVENT(R.string.event, R.drawable.ic_baseline_calendar_today_24px),
-        TASK(R.string.task, R.drawable.ic_baseline_done_24px),
-        NOTE(R.string.note, R.drawable.ic_baseline_description_24px),
-        STAMP(R.string.stamp, R.drawable.ic_outline_class),
-        MONEY(R.string.money, R.drawable.ic_outline_monetization_on),
-        DECORATION(R.string.decoration, R.drawable.ic_baseline_favorite_24px)
+    enum class Type(val titleId: Int, val iconId: Int, val enableLongTerm: Boolean) {
+        EVENT(R.string.event, R.drawable.ic_baseline_calendar_today_24px, true),
+        TASK(R.string.task, R.drawable.ic_baseline_done_24px, false),
+        NOTE(R.string.note, R.drawable.ic_baseline_description_24px, false),
+        STAMP(R.string.stamp, R.drawable.ic_outline_class, false),
+        TERM(R.string.term, R.drawable.ic_outline_class, true),
+        MONEY(R.string.money, R.drawable.ic_outline_monetization_on, false),
+        DRAWING(R.string.drawing, R.drawable.ic_baseline_favorite_24px, false)
     }
 
     enum class Style {
@@ -52,36 +53,6 @@ open class TimeObject(@PrimaryKey var id: String? = null,
 
     enum class Formula {
         BACKGROUND, TOPSTACK, LINEAR, BOTTOMSTACK, OVERLAY
-    }
-
-    enum class ViewLevel(val priority: Int) {
-        IMPORTANT(0), NORMAL(1), PROJECT(2), STAMP(3), JOURNAL(4), ROUGH(5), BACKGROUND(-1)
-    }
-
-
-    fun getViewLevelPriority(): Int = when(Type.values()[type]) {
-        Type.EVENT -> {
-            when(Style.values()[style]) {
-                Style.LONG -> ViewLevel.ROUGH.priority
-                else -> ViewLevel.NORMAL.priority
-            }
-        }
-        Type.TASK -> {
-            when(Style.values()[style]) {
-                Style.LONG -> ViewLevel.PROJECT.priority
-                else -> ViewLevel.NORMAL.priority
-            }
-        }
-        Type.MONEY -> {
-            when(Style.values()[style]) {
-                Style.SHORT -> ViewLevel.JOURNAL.priority
-                Style.LONG -> ViewLevel.JOURNAL.priority
-                else -> ViewLevel.NORMAL.priority
-            }
-        }
-        Type.STAMP -> ViewLevel.STAMP.priority
-        Type.DECORATION -> ViewLevel.JOURNAL.priority
-        else -> ViewLevel.NORMAL.priority
     }
 
     fun getFormula(): Formula = when(Type.values()[type]) {
@@ -105,8 +76,8 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                 else -> Formula.LINEAR
             }
         }
-        Type.STAMP -> Formula.TOPSTACK
-        Type.DECORATION -> Formula.TOPSTACK
+        Type.STAMP -> Formula.LINEAR
+        Type.TERM -> Formula.BOTTOMSTACK
         else -> Formula.TOPSTACK
     }
 

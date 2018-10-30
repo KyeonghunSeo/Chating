@@ -28,14 +28,10 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>, val 
         val v = holder.itemView
 
         v.titleText.text = item.title
-        v.titleText.setTextColor(item.fontColor)
         v.iconImg.setImageResource(TimeObject.Type.values()[item.type].iconId)
         v.iconImg.setColorFilter(item.fontColor)
-        v.contentLy.setBackgroundColor(item.color)
-        v.contentMarginLy.setBackgroundColor(item.color)
+        v.iconImg.setBackgroundColor(item.color)
         v.pinBtn.showPinBtn = false
-        v.pinBtn.backColor = item.color
-        v.pinBtn.color = item.color
         v.pinBtn.pin(item.inCalendar)
         v.setOnClickListener { adapterInterface.invoke(item) }
     }

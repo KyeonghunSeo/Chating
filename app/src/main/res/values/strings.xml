@@ -58,7 +58,7 @@
     <string name="task">할일</string>
     <string name="stamp">스탬프</string>
     <string name="decoration">꾸미기</string>
-    <string name="money">가계</string>
+    <string name="money">수입/지출</string>
     <string name="delete">삭제</string>
     <string name="start">시작</string>
     <string name="end">종료</string>
@@ -136,5 +136,8 @@
     <string name="empty_event_past">“한가한 날 이었네요.”</string>
     <string name="new_event">새 일정</string>
     <string name="new_task">새 할일</string>
+    <string name="plan">계획</string>
+    <string name="drawing">그림</string>
+    <string name="term">기간</string>
 
 </resources>

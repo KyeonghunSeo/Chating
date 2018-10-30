@@ -33,7 +33,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     object : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
-            readyExpand()
+            expand()
         }
     }
 
@@ -49,16 +49,16 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             postDelayed({collapse(false)}, 0)
         }
         recyclerView.visibility = View.GONE
-
+/*
         touchEventView.setOnTouchListener { view, motionEvent ->
             if(!isExpanded) {
                 when(motionEvent.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        addBtnHandler.sendEmptyMessageDelayed(0, 50)
+                        expand()
                     }
                     MotionEvent.ACTION_UP -> {
                         if(motionEvent.x > 0 && motionEvent.x < width &&
-                                motionEvent.y > -itemHeight && motionEvent.y < height){
+                                motionEvent.y > 0 && motionEvent.y < height){
                             addBtnHandler.removeMessages(0)
                             MainActivity.instance?.viewModel?.makeNewTimeObject()
                         }
@@ -68,12 +68,8 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             }
             return@setOnTouchListener false
         }
-
-        touchEventView.setOnLongClickListener {
-            expand()
-            return@setOnLongClickListener true
-        }
-
+*/
+        touchEventView.setOnClickListener { expand() }
         callAfterViewDrawed(this, Runnable{})
     }
 
@@ -100,11 +96,12 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             it.width = collapseSize
             it.bottomMargin = bottomMargin
         }
+        controllView.elevation = dpToPx(5f)
 
         (itemView.layoutParams as FrameLayout.LayoutParams).let {
             it.width = itemWidth
             it.height = h
-            it.bottomMargin = bottomMargin * 7
+            it.bottomMargin = itemHeight - dpToPx(5)
         }
         itemView.elevation = dpToPx(5f)
 
@@ -117,23 +114,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         touchEventView.setOnClickListener { collapse(true) }
 
         isExpanded = true
-    }
-
-    private fun readyExpand() {
-        val transiion = makeChangeBounceTransition()
-        TransitionManager.beginDelayedTransition(this@TemplateControlView, transiion)
-
-        (controllView.layoutParams as FrameLayout.LayoutParams).let {
-            it.width = WRAP_CONTENT
-            it.bottomMargin = collapseSize * 2
-        }
-        controllView.elevation = dpToPx(5f)
-
-        (itemView.layoutParams as FrameLayout.LayoutParams).let {
-            it.bottomMargin = collapseSize * 2
-        }
-
-        controllView.requestLayout()
     }
 
     fun collapse(withDimOff: Boolean) {
@@ -172,9 +152,26 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         itemView.requestLayout()
         if(withDimOff) MainActivity.instance?.offDimDark(true, false)
 
-        touchEventView.setOnClickListener (null)
+        touchEventView.setOnClickListener { expand() }
 
         isExpanded = false
+    }
+
+    private fun readyExpand() {
+        val transiion = makeChangeBounceTransition()
+        TransitionManager.beginDelayedTransition(this@TemplateControlView, transiion)
+
+        (controllView.layoutParams as FrameLayout.LayoutParams).let {
+            it.width = WRAP_CONTENT
+            it.bottomMargin = collapseSize * 2
+        }
+        controllView.elevation = dpToPx(5f)
+
+        (itemView.layoutParams as FrameLayout.LayoutParams).let {
+            it.bottomMargin = collapseSize * 2
+        }
+
+        controllView.requestLayout()
     }
 
     fun notify(it: List<Template>) {

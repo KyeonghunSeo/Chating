@@ -9,37 +9,52 @@
         android:clipToPadding="false"
         android:padding="5dp">
 
+        <com.hellowo.journey.ui.view.PinView
+            android:id="@+id/pinBtn"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="right"
+            android:elevation="2dp">
+        </com.hellowo.journey.ui.view.PinView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:elevation="2dp"/>
+
+        <View
+            android:id="@+id/contentMarginLy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="right"
+            android:elevation="2dp"/>
+
         <FrameLayout
             android:id="@+id/contentLy"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="15dp"
-            android:background="@color/white"
-            android:elevation="1dp">
-
-            <ImageView
-                android:id="@+id/colorImg"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_gravity="center_vertical"
-                android:tint="@color/secondaryText"/>
+            android:layout_marginRight="20dp"
+            android:elevation="2dp">
 
             <ImageView
                 android:id="@+id/iconImg"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginLeft="15dp"
-                android:padding="2dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@color/colorPrimary"
+                android:padding="13dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/calendar"
-                android:tint="@color/secondaryText"/>
+                android:tint="@color/white"/>
 
             <TextView
                 android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="50dp"
                 android:layout_gravity="center_vertical"
                 android:textSize="11dp"
                 android:maxLines="2"
@@ -49,29 +64,12 @@
 
         </FrameLayout>
 
-        <com.hellowo.journey.ui.view.PinView
-            android:id="@+id/pinBtn"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_gravity="right"
-            android:elevation="1dp">
-        </com.hellowo.journey.ui.view.PinView>
-
-        <View
-            android:id="@+id/contentMarginLy"
-            android:layout_width="15dp"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="right"
-            android:elevation="1dp"/>
-
         <View
             android:id="@+id/colorView"
             android:layout_width="3dp"
             android:layout_height="match_parent"
             android:background="#20000000"
-            android:elevation="1dp"/>
+            android:elevation="2dp"/>
 
     </FrameLayout>
 

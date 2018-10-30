@@ -24,11 +24,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val normalTypeSize = dpToPx(18)
         val smallTypeSize = dpToPx(15)
         val bigTypeSize = dpToPx(30)
-        val memoTypeSize = dpToPx(70)
-        val levelMargin = dpToPx(5)
-        val leftPadding = dpToPx(10)
         val iconSize = dpToPx(8)
-
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
     }
 
@@ -98,6 +94,28 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setLineSpacing(strokeWidth, 1f)
                 setPadding(defaultPadding / 2, iconSize + defaulMargin, defaultPadding, defaultPadding)
             }
+            TimeObject.Type.TERM -> {
+                text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
+                typeface = AppRes.regularFont
+                gravity = Gravity.CENTER
+                maxLines = 1
+                setSingleLine(true)
+                setHorizontallyScrolling(true)
+                when(timeObject.style){
+                    1 -> {
+                        setPadding(defaultPadding, 0, defaultPadding, 0)
+                        setTextColor(timeObject.color)
+                    }
+                    2 -> {
+                        setPadding(defaulMargin, 0, defaultPadding, 0)
+                        setTextColor(AppRes.primaryText)
+                    }
+                    else -> {
+                        setPadding(defaultPadding, 0, defaultPadding, 0)
+                        setTextColor(timeObject.color)
+                    }
+                }
+            }
             else -> {
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 typeface = AppRes.regularFont
@@ -113,7 +131,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             when(TimeObject.Type.values()[timeObject.type]) {
                 TimeObject.Type.EVENT -> {
                     paint.color = color
-
                     when(timeObject.style){
                         1 -> {
                             paint.style = Paint.Style.STROKE
@@ -215,7 +232,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         }
                     }
                 }
-                TimeObject.Type.DECORATION -> {
+                TimeObject.Type.STAMP -> {
                     setPadding(defaultPadding * 2, defaultPadding * 2, defaultPadding * 2, defaultPadding * 2)
                     setSingleLine(false)
                     maxLines = 4
@@ -261,6 +278,44 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     paint.style = Paint.Style.FILL
                     paint.alpha = 100
                     it.drawPath(path, paint)
+
+                }
+                TimeObject.Type.TERM -> {
+                    paint.color = Color.RED
+                    when(timeObject.style){
+                        1 -> {
+                            paint.style = Paint.Style.STROKE
+                            paint.strokeWidth = strokeWidth * 4f
+                            val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
+                            it.drawRoundRect(rect, rectRadius, rectRadius, paint)
+                            paint.style = Paint.Style.FILL
+                        }
+                        2 -> {
+                            paint.alpha = 15
+                            val bgrect = RectF(0f, 0f, width.toFloat(), height.toFloat())
+                            it.drawRoundRect(bgrect, rectRadius, rectRadius, paint)
+                            paint.alpha = 255
+                            val rect = if(length > 1) {
+                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
+                            }else {
+                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
+                            }
+                            if(!leftOpen) it.drawRect(rect, paint)
+                        }
+                        else -> {
+                            l("!!!!!"+width +"/"+ height)
+                            paint.alpha = 15
+                            val bgrect = RectF(0f, 0f, width.toFloat(), height.toFloat())
+                            it.drawRoundRect(bgrect, rectRadius, rectRadius, paint)
+                            paint.alpha = 255
+                            val rect = if(length > 1) {
+                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
+                            }else {
+                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
+                            }
+                            if(!leftOpen) it.drawRect(rect, paint)
+                        }
+                    }
 
                 }
                 /*
@@ -324,7 +379,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             }
         }
         TimeObject.Type.TASK -> smallTypeSize
-        TimeObject.Type.DECORATION -> memoTypeSize
         else -> normalTypeSize
     }
 

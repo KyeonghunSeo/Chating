@@ -60,22 +60,14 @@ class MainViewModel : ViewModel() {
         val templates = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
         if(templates.isEmpty()) {
             realm.executeTransaction {
-                val event = realm.createObject(Template::class.java, 0)
-                event.title = App.context.getString(R.string.new_event)
-                event.type = TimeObject.Type.EVENT.ordinal
-                event.color = AppRes.primaryColor
-                event.order = 0
-
-                val task = realm.createObject(Template::class.java, 1)
-                task.title = App.context.getString(R.string.new_task)
-                task.type = TimeObject.Type.TASK.ordinal
-                task.inCalendar = false
-                task.order = 1
-
-                val note = realm.createObject(Template::class.java, 2)
-                note.title = App.context.getString(R.string.new_note)
-                note.type = TimeObject.Type.NOTE.ordinal
-                note.order = 2
+                TimeObject.Type.values().forEachIndexed { index, t ->
+                    realm.createObject(Template::class.java, index).run {
+                        title = App.context.getString(t.titleId)
+                        type = t.ordinal
+                        color = AppRes.primaryText
+                        order = index
+                    }
+                }
             }
             templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
         }else {

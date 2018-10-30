@@ -11,7 +11,9 @@ import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.repeat.RepeatManager
 import com.hellowo.journey.ui.view.CalendarView
+import com.hellowo.journey.ui.view.CalendarView.Companion.weekLyBottomPadding
 import com.hellowo.journey.ui.view.TimeObjectView
+import com.hellowo.journey.ui.view.TimeObjectView.Companion.normalTypeSize
 import io.realm.RealmResults
 import java.util.*
 import kotlin.collections.ArrayList
@@ -20,13 +22,14 @@ import kotlin.collections.HashMap
 
 class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, private val calendarView: CalendarView) {
     private val viewHolderList = ArrayList<TimeObjectViewHolder>()
-    private val viewLevelStatusMap = HashMap<Int, ViewLevelStatus>()
+    private val viewLevelStatusMap = HashMap<TimeObject.Formula, ViewLevelStatus>()
     private val context = calendarView.context
     private val columns = CalendarView.columns
     private var rows = 0
     private var maxCellNum = 0
     private var calStartTime = 0L
     private var withAnimtion = false
+    private val minHeight = calendarView.minHeight.toInt()
     private val drawStartYOffset = CalendarView.dateArea + /*날짜와 블록 마진*/dpToPx(2)
     private val cellBottomArray = Array(42){ _ -> drawStartYOffset}
     private val rowHeightArray = Array(6){ _ -> drawStartYOffset}
@@ -126,40 +129,48 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
     }
 
     private fun calculateTimeObjectViewsPosition() {
-        var currentViewLevel = -1
-        var currentType = -1
-        viewHolderList.forEach {
+        var currentFomula = TimeObject.Formula.BACKGROUND
+        var currentType = TimeObject.Type.EVENT
+        viewHolderList.forEach { viewHolder ->
             try{
-                val timeObject = it.timeObject
-                val viewLevel = timeObject.getViewLevelPriority()
+                val timeObject = viewHolder.timeObject
                 val formula = timeObject.getFormula()
-                val status = viewLevelStatusMap[viewLevel]?: ViewLevelStatus().apply { viewLevelStatusMap[viewLevel] = this }
+                val status = viewLevelStatusMap[formula]?: ViewLevelStatus().apply { viewLevelStatusMap[formula] = this }
 
-                if(currentViewLevel == -1) { currentViewLevel = viewLevel }
-                if(currentType == -1) { currentType = it.timeObject.type }
-
-                if(viewLevel != currentViewLevel) {
-                    currentViewLevel = viewLevel
-                    computeRowHeight()
-                }
-
-                if(currentType != it.timeObject.type) {
-                    currentType = it.timeObject.type
-                    if(currentType == TimeObject.Type.TASK.ordinal) {
-                        setTypeMargin()
+                if(currentType.ordinal != timeObject.type) {
+                    currentType = TimeObject.Type.values()[timeObject.type]
+                    when(currentType) {
+                        TimeObject.Type.TERM -> setTypeMargin(dpToPx(18))
+                        else -> {
+                        }
                     }
                 }
 
-                it.timeObjectViewList?.forEach {
+                if(formula != currentFomula) {
+                    currentFomula = formula
+                    when(currentFomula) {
+                        TimeObject.Formula.BACKGROUND -> {}
+                        TimeObject.Formula.TOPSTACK -> {}
+                        TimeObject.Formula.LINEAR -> computeMaxRowHeight()
+                        TimeObject.Formula.BOTTOMSTACK -> {
+                            computeMaxRowHeight()
+                            computeBottomStackStartPos()
+                        }
+                    }
+                }
+
+                viewHolder.timeObjectViewList?.forEach {
                     it.mLeft = (calendarView.minWidth * (it.cellNum % columns)).toInt() + CalendarView.weekSideMargin
                     it.mRight = it.mLeft + (calendarView.minWidth * it.length).toInt()
                     when(formula) {
                         TimeObject.Formula.TOPSTACK -> {
-                            it.mTop = computeOrder(it, status) * it.getViewHeight() /*블럭수에 따른 높이*/ + rowHeightArray[it.cellNum / columns]
+                            it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
                         }
                         TimeObject.Formula.LINEAR -> {
-                            //l("viewLevel : ${viewLevel}, ${it.cellNum} : ${cellBottomArray[it.cellNum]}")
                             it.mTop = cellBottomArray[it.cellNum]
+                        }
+                        TimeObject.Formula.BOTTOMSTACK -> {
+                            it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
                         }
                         else -> {}
                     }
@@ -171,17 +182,22 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 }
             }catch (e: Exception){ e.printStackTrace() }
         }
-        computeRowHeight()
+        computeMaxRowHeight()
     }
 
-    private fun computeRowHeight() {
+    private fun computeMaxRowHeight() { // 1주일중 가장 높이가 높은곳 계산
         (0..5).forEach{ index ->
-            rowHeightArray[index] = cellBottomArray.sliceArray(index*7..index*7+6).max() ?: 0 + TimeObjectView.levelMargin
+            rowHeightArray[index] = cellBottomArray.sliceArray(index*7..index*7+6).max() ?: 0
         }
     }
 
-    private fun setTypeMargin() {
-        val typeMargin = dpToPx(2)
+    private fun computeBottomStackStartPos() {
+        (0..5).forEach{ index ->
+            rowHeightArray[index] = Math.max(minHeight - weekLyBottomPadding - normalTypeSize, rowHeightArray[index])
+        }
+    }
+
+    private fun setTypeMargin(typeMargin: Int) {
         cellBottomArray.forEachIndexed { index, i -> cellBottomArray[index] += typeMargin }
     }
 
@@ -191,8 +207,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
             withAnimtion = false
         }
         var calendarHeight = 0
-        val minHeight = calendarView.minHeight.toInt()
-        val bottomPadding = CalendarView.weekLyBottomPadding
+        val bottomPadding = weekLyBottomPadding
 
         calendarView.weekLys.forEachIndexed { index, weekLy ->
             if(index < rows) {
