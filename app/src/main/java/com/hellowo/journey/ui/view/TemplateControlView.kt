@@ -2,13 +2,15 @@ package com.hellowo.journey.ui.view
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Handler
+import android.os.Message
 import android.util.AttributeSet
 import android.view.*
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -21,15 +23,22 @@ import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.view_template_control.view.*
 
 class TemplateControlView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
-    private val itemHeight = dpToPx(60)
+    private val itemHeight = dpToPx(50)
+    private val itemWidth = dpToPx(150)
     private val collapseSize = dpToPx(36)
     private val bottomMargin = dpToPx(8)
     val items = ArrayList<Template>()
     var isExpanded = false
+    private val addBtnHandler = @SuppressLint("HandlerLeak")
+    object : Handler() {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            readyExpand()
+        }
+    }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_template_control, this, true)
-        itemView.radius = collapseSize / 2f
         controllView.radius = collapseSize / 2f
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = TemplateAdapter(context, items) {
@@ -37,36 +46,32 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             setControlView(it)
             MainActivity.instance?.viewModel?.targetTemplate?.value = it
             MainActivity.instance?.viewModel?.makeNewTimeObject()
-            collapse(false)
+            postDelayed({collapse(false)}, 0)
         }
-        recyclerView.addItemDecoration(SpacesItemDecoration(dpToPx(5)))
         recyclerView.visibility = View.GONE
 
-        setOnTouchListener { view, motionEvent ->
+        touchEventView.setOnTouchListener { view, motionEvent ->
             if(!isExpanded) {
                 when(motionEvent.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        readyExpand()
+                        addBtnHandler.sendEmptyMessageDelayed(0, 50)
                     }
                     MotionEvent.ACTION_UP -> {
-                        collapse(false)
+                        if(motionEvent.x > 0 && motionEvent.x < width &&
+                                motionEvent.y > -itemHeight && motionEvent.y < height){
+                            addBtnHandler.removeMessages(0)
+                            MainActivity.instance?.viewModel?.makeNewTimeObject()
+                        }
+                        postDelayed({collapse(false)}, 0)
                     }
                 }
             }
             return@setOnTouchListener false
         }
 
-        setOnLongClickListener {
+        touchEventView.setOnLongClickListener {
             expand()
             return@setOnLongClickListener true
-        }
-
-        setOnClickListener {
-            if(isExpanded) {
-                collapse(true)
-            }else {
-                MainActivity.instance?.viewModel?.makeNewTimeObject()
-            }
         }
 
         callAfterViewDrawed(this, Runnable{})
@@ -76,21 +81,14 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         val h = items.size * itemHeight + dpToPx(10)
 
         val transiion = makeChangeBounceTransition()
-        transiion.interpolator = FastOutSlowInInterpolator()
-        transiion.duration = ANIM_DUR
         transiion.addListener(object : Transition.TransitionListener{
-            override fun onTransitionEnd(transition: Transition) {
-                TransitionManager.beginDelayedTransition(itemView, makeFromBottomSlideTransition())
-                recyclerView.visibility = View.VISIBLE
-                recyclerView.adapter?.notifyDataSetChanged()
-            }
+            override fun onTransitionEnd(transition: Transition) {}
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f),
-                        ObjectAnimator.ofFloat(itemView, "radius", itemView.radius, dpToPx(1f)))
+                animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f))
                 animSet.duration = ANIM_DUR
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
@@ -104,28 +102,25 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         }
 
         (itemView.layoutParams as FrameLayout.LayoutParams).let {
-            it.width = collapseSize * 6
+            it.width = itemWidth
             it.height = h
             it.bottomMargin = bottomMargin * 7
         }
         itemView.elevation = dpToPx(5f)
 
-        val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", 0f, 45f),
-                ObjectAnimator.ofFloat(itemView, "radius", itemView.radius, dpToPx(1f)))
-        animSet.duration = ANIM_DUR
-        animSet.interpolator = FastOutSlowInInterpolator()
-        animSet.start()
+        recyclerView.visibility = View.VISIBLE
+        recyclerView.adapter?.notifyDataSetChanged()
 
         controllView.requestLayout()
         MainActivity.instance?.onDimDark(true, true)
+
+        touchEventView.setOnClickListener { collapse(true) }
+
         isExpanded = true
     }
 
     private fun readyExpand() {
         val transiion = makeChangeBounceTransition()
-        transiion.interpolator = FastOutSlowInInterpolator()
-        transiion.duration = ANIM_DUR
         TransitionManager.beginDelayedTransition(this@TemplateControlView, transiion)
 
         (controllView.layoutParams as FrameLayout.LayoutParams).let {
@@ -143,8 +138,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
 
     fun collapse(withDimOff: Boolean) {
         val transiion = makeChangeBounceTransition()
-        transiion.interpolator = FastOutSlowInInterpolator()
-        transiion.duration = ANIM_DUR
         transiion.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
                 controllView.elevation = 0f
@@ -156,8 +149,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f),
-                        ObjectAnimator.ofFloat(itemView, "radius", itemView.radius, collapseSize / 2f))
+                animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f))
                 animSet.duration = ANIM_DUR
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
@@ -179,6 +171,9 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
 
         itemView.requestLayout()
         if(withDimOff) MainActivity.instance?.offDimDark(true, false)
+
+        touchEventView.setOnClickListener (null)
+
         isExpanded = false
     }
 

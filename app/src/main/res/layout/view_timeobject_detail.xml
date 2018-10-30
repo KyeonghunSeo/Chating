@@ -23,14 +23,11 @@
 
             </FrameLayout>
 
-            <ImageView
+            <com.hellowo.journey.ui.view.PinView
                 android:id="@+id/pinBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_gravity="right"
-                android:padding="10dp"
-                android:tint="@color/primaryText"
-                android:src="@drawable/pin"/>
+                android:layout_gravity="right"/>
 
         </FrameLayout>
 

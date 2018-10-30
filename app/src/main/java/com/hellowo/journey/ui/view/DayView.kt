@@ -23,7 +23,7 @@ import com.hellowo.journey.*
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.adapter.EventListAdapter
 import com.hellowo.journey.adapter.TaskListAdapter
-import com.hellowo.journey.calendar.TaskListComparator
+import com.hellowo.journey.calendar.util.TaskListComparator
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.calendar.CalendarSkin
 import com.hellowo.journey.repeat.RepeatManager
@@ -38,8 +38,8 @@ import android.os.Looper
 import android.widget.FrameLayout
 import com.hellowo.journey.adapter.NoteListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
-import com.hellowo.journey.calendar.EventListComparator
-import com.hellowo.journey.calendar.NoteListComparator
+import com.hellowo.journey.calendar.util.EventListComparator
+import com.hellowo.journey.calendar.util.NoteListComparator
 
 
 class DayView @JvmOverloads constructor(private val calendarView: CalendarView,

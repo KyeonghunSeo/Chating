@@ -6,7 +6,7 @@ import android.widget.FrameLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
 import com.hellowo.journey.*
-import com.hellowo.journey.calendar.CalendarComparator
+import com.hellowo.journey.calendar.util.CalendarComparator
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.repeat.RepeatManager

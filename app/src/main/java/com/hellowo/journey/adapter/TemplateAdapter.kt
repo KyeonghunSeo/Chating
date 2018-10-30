@@ -1,13 +1,16 @@
 package com.hellowo.journey.adapter
 
 import android.content.Context
+import android.graphics.Color
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.hellowo.journey.AppRes
 import com.hellowo.journey.R
 import com.hellowo.journey.l
 import com.hellowo.journey.model.Template
+import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.list_item_template.view.*
 
 class TemplateAdapter(val context: Context, val items: ArrayList<Template>, val adapterInterface: (template: Template) -> Unit)
@@ -25,7 +28,15 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>, val 
         val v = holder.itemView
 
         v.titleText.text = item.title
-
+        v.titleText.setTextColor(item.fontColor)
+        v.iconImg.setImageResource(TimeObject.Type.values()[item.type].iconId)
+        v.iconImg.setColorFilter(item.fontColor)
+        v.contentLy.setBackgroundColor(item.color)
+        v.contentMarginLy.setBackgroundColor(item.color)
+        v.pinBtn.showPinBtn = false
+        v.pinBtn.backColor = item.color
+        v.pinBtn.color = item.color
+        v.pinBtn.pin(item.inCalendar)
         v.setOnClickListener { adapterInterface.invoke(item) }
     }
 }

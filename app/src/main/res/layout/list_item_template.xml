@@ -1,65 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-   <FrameLayout
-       android:id="@+id/contentLy"
-       android:layout_width="match_parent"
-       android:layout_height="50dp"
-       android:elevation="0.5dp"
-       android:background="@drawable/white_rect_fill_radius_1">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:clipToPadding="false"
+        android:padding="5dp">
 
-      <LinearLayout
-          android:orientation="vertical"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/contentLy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:elevation="1dp">
 
-          <FrameLayout
-              android:id="@+id/colorBackground"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="0dp"
-              android:layout_weight="1"
-              android:background="@color/colorPrimary">
+            <ImageView
+                android:id="@+id/colorImg"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center_vertical"
+                android:tint="@color/secondaryText"/>
 
-              <ImageView
-                  android:id="@+id/iconImg"
-                  android:layout_width="20dp"
-                  android:layout_height="20dp"
-                  android:layout_gravity="bottom|right"
-                  android:layout_margin="5dp"
-                  android:src="@drawable/calendar"
-                  android:tint="@color/white"/>
-
-          </FrameLayout>
-
-         <LinearLayout
-             android:orientation="vertical"
-             android:layout_width="match_parent"
-             android:layout_height="0dp"
-             android:layout_weight="1">
+            <ImageView
+                android:id="@+id/iconImg"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="15dp"
+                android:padding="2dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/calendar"
+                android:tint="@color/secondaryText"/>
 
             <TextView
                 android:id="@+id/titleText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="5dp"
-                android:textSize="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_gravity="center_vertical"
+                android:textSize="11dp"
+                android:maxLines="2"
                 android:textColor="@color/primaryText"
-                android:fontFamily="@font/regular"
+                android:fontFamily="@font/thin"
                 android:text="새 할일"/>
 
-         </LinearLayout>
+        </FrameLayout>
 
-      </LinearLayout>
+        <com.hellowo.journey.ui.view.PinView
+            android:id="@+id/pinBtn"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="right"
+            android:elevation="1dp">
+        </com.hellowo.journey.ui.view.PinView>
 
-      <View
-          android:layout_width="3dp"
-          android:layout_height="match_parent"
-          android:background="#10000000">
-      </View>
+        <View
+            android:id="@+id/contentMarginLy"
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="right"
+            android:elevation="1dp"/>
 
-   </FrameLayout>
+        <View
+            android:id="@+id/colorView"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:background="#20000000"
+            android:elevation="1dp"/>
+
+    </FrameLayout>
 
 </FrameLayout>

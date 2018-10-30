@@ -69,6 +69,7 @@ class MainViewModel : ViewModel() {
                 val task = realm.createObject(Template::class.java, 1)
                 task.title = App.context.getString(R.string.new_task)
                 task.type = TimeObject.Type.TASK.ordinal
+                task.inCalendar = false
                 task.order = 1
 
                 val note = realm.createObject(Template::class.java, 2)
