@@ -3,6 +3,7 @@ package com.hellowo.journey.ui.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
+import android.graphics.Typeface.ITALIC
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
@@ -12,44 +13,45 @@ import android.widget.TextView
 import com.hellowo.journey.*
 import com.hellowo.journey.calendar.CalendarSkin
 import com.hellowo.journey.model.TimeObject
+import java.time.format.TextStyle
 
 @SuppressLint("ViewConstructor")
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
     companion object {
-        val defaulMargin = dpToPx(1) // 뷰간 간격
+        var standardTextSize = 9f
+        val defaulMargin = dpToPx(1.5f) // 뷰간 간격
         val defaultPadding = dpToPx(4)
         val strokeWidth = dpToPx(0.5f) // 선 간격
-        val rectRadius = dpToPx(1f)
+        val rectRadius = dpToPx(0f)
         val circleRadius = dpToPx(5f)
         val normalTypeSize = dpToPx(18)
-        val smallTypeSize = dpToPx(15)
-        val bigTypeSize = dpToPx(30)
+        val smallTypeSize = dpToPx(13)
+        val bigTypeSize = dpToPx(25)
         val iconSize = dpToPx(8)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
     }
-
-    var mTextSize = 9f
-    var mLeft = 0
-    var mTop = 0
-    var mRight = 0
-    var mBottom = 0
+    var mLeft = 0f
+    var mTop = 0f
+    var mRight = 0f
+    var mBottom = 0f
     var mLine = 0
     var color = timeObject.color
     var leftOpen = false
     var rightOpen = false
-    var line = 0
+    var textSpaceWidth = 0f
+    //var line = 0
 
     init {
-        setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize)
+        includeFontPadding = false
         //setBackgroundColor(AppRes.almostWhite)
-
     }
 
     fun setLookByType() {
         when(TimeObject.Type.values()[timeObject.type]) {
             TimeObject.Type.EVENT -> {
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-                typeface = AppRes.regularFont
+                typeface = AppRes.thinFont
                 gravity = Gravity.CENTER_VERTICAL
                 maxLines = 1
                 setSingleLine(true)
@@ -61,7 +63,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         setTextColor(timeObject.color)
                     }
                     2 -> {
-                        setPadding(defaulMargin * 5 + leftSideMargin, 0, defaultPadding, 0)
+                        setPadding((defaulMargin * 5 + leftSideMargin).toInt(), 0, defaultPadding, 0)
                         setTextColor(AppRes.primaryText)
                     }
                     else -> {
@@ -71,6 +73,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 }
             }
             TimeObject.Type.TASK -> {
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 typeface = AppRes.thinFont
                 gravity = Gravity.CENTER_VERTICAL
@@ -89,28 +92,34 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 }
             }
             TimeObject.Type.NOTE -> {
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                 typeface = AppRes.textFont
                 setLineSpacing(strokeWidth, 1f)
-                setPadding(defaultPadding / 2, iconSize + defaulMargin, defaultPadding, defaultPadding)
+                setPadding(defaulMargin.toInt(), (iconSize + defaulMargin).toInt(), defaultPadding, 0)
+                setTextColor(CalendarSkin.dateColor)
             }
             TimeObject.Type.TERM -> {
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-                typeface = AppRes.regularFont
-                gravity = Gravity.CENTER
+                gravity = Gravity.CENTER_HORIZONTAL
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
                 when(timeObject.style){
                     1 -> {
+                        setTypeface(AppRes.regularFont, ITALIC)
+                        gravity = Gravity.CENTER_HORIZONTAL
                         setPadding(defaultPadding, 0, defaultPadding, 0)
                         setTextColor(timeObject.color)
                     }
                     2 -> {
-                        setPadding(defaulMargin, 0, defaultPadding, 0)
+                        setPadding(defaulMargin.toInt(), 0, defaultPadding, 0)
                         setTextColor(AppRes.primaryText)
                     }
                     else -> {
+                        setTypeface(AppRes.regularFont, ITALIC)
+                        gravity = Gravity.CENTER
                         setPadding(defaultPadding, 0, defaultPadding, 0)
                         setTextColor(timeObject.color)
                     }
@@ -182,7 +191,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                             it.drawRoundRect(rect, rectRadius, rectRadius, paint)
                         }
                     }
-
+                    super.onDraw(canvas)
                 }
                 TimeObject.Type.TASK -> {
                     when(timeObject.style) {
@@ -190,16 +199,16 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                             if(timeObject.isDone()) {
                                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                             }
-                            it.drawRect(RectF(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat()), paint)
+                            it.drawRect(RectF(0f, height.toFloat(), width.toFloat(), height.toFloat()), paint)
                         }
                         else -> {
                             paint.strokeWidth = strokeWidth
                             paint.color = color
                             paint.style = Paint.Style.STROKE
 
-                            val centerY = smallTypeSize / 2f - defaulMargin - strokeWidth
-                            val checkRadius = iconSize / 2f
-                            val centerX = checkRadius + strokeWidth
+                            val centerY = (smallTypeSize - defaulMargin) / 2f - strokeWidth
+                            val checkRadius = iconSize / 2.5f
+                            val centerX = checkRadius + defaulMargin
                             val rect = RectF(centerX - checkRadius, centerY - checkRadius, centerX + checkRadius, centerY + checkRadius)
                             if(timeObject.isDone()) {
                                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
@@ -214,26 +223,33 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                             paint.style = Paint.Style.FILL
                         }
                     }
+                    super.onDraw(canvas)
                 }
                 TimeObject.Type.NOTE -> {
-                    setTextColor(CalendarSkin.dateColor)
                     paint.color = CalendarSkin.dateColor
-
                     when(TimeObject.Style.values()[timeObject.style]){
                         TimeObject.Style.DEFAULT -> {
                             if(false) {
                                 AppRes.ideaDrawable.setBounds(0, 0, iconSize, iconSize)
                                 AppRes.ideaDrawable.draw(canvas)
                             }else {
-                                val rect = RectF(defaultPadding / 2f, iconSize / 2f,
-                                        iconSize.toFloat() + defaultPadding, iconSize / 2f + strokeWidth * 2)
+                                val rect = RectF(defaulMargin, iconSize / 2f,
+                                        iconSize.toFloat() + defaulMargin, iconSize / 2f + strokeWidth * 2)
                                 it.drawRect(rect, paint)
                             }
                         }
                     }
+                    super.onDraw(canvas)
                 }
                 TimeObject.Type.STAMP -> {
-                    setPadding(defaultPadding * 2, defaultPadding * 2, defaultPadding * 2, defaultPadding * 2)
+                    CalendarSkin.drawStamp(canvas, this)
+                }
+                TimeObject.Type.TERM -> {
+                    super.onDraw(canvas)
+                    CalendarSkin.drawTerm(canvas, this)
+                }
+                /* 메모 모양
+                setPadding(defaultPadding * 2, defaultPadding * 2, defaultPadding * 2, defaultPadding * 2)
                     setSingleLine(false)
                     maxLines = 4
                     setTextColor(color)
@@ -279,46 +295,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     paint.alpha = 100
                     it.drawPath(path, paint)
 
-                }
-                TimeObject.Type.TERM -> {
-                    paint.color = Color.RED
-                    when(timeObject.style){
-                        1 -> {
-                            paint.style = Paint.Style.STROKE
-                            paint.strokeWidth = strokeWidth * 4f
-                            val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
-                            it.drawRoundRect(rect, rectRadius, rectRadius, paint)
-                            paint.style = Paint.Style.FILL
-                        }
-                        2 -> {
-                            paint.alpha = 15
-                            val bgrect = RectF(0f, 0f, width.toFloat(), height.toFloat())
-                            it.drawRoundRect(bgrect, rectRadius, rectRadius, paint)
-                            paint.alpha = 255
-                            val rect = if(length > 1) {
-                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
-                            }else {
-                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
-                            }
-                            if(!leftOpen) it.drawRect(rect, paint)
-                        }
-                        else -> {
-                            l("!!!!!"+width +"/"+ height)
-                            paint.alpha = 15
-                            val bgrect = RectF(0f, 0f, width.toFloat(), height.toFloat())
-                            it.drawRoundRect(bgrect, rectRadius, rectRadius, paint)
-                            paint.alpha = 255
-                            val rect = if(length > 1) {
-                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
-                            }else {
-                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
-                            }
-                            if(!leftOpen) it.drawRect(rect, paint)
-                        }
-                    }
 
-                }
-                /*
                 3 -> {
                     val paint = Paint()
                     paint.style = Paint.Style.STROKE
@@ -331,7 +308,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 }
                 4 -> { // 시계
                     val paint = Paint()
-                    paint.style = Paint.Style.TOPSTACK
+                    paint.style = Paint.Style.TOP_STACK
                     paint.strokeWidth = strokeWidth.toFloat()
                     paint.color = color
                     paint.isAntiAlias = true
@@ -357,28 +334,33 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 else -> {}
             }
         }
-        super.onDraw(canvas)
     }
 
     fun getViewHeight(): Int = when(TimeObject.Type.values()[timeObject.type]) {
-        TimeObject.Type.NOTE -> {
-            setSingleLine(false)
-            maxLines = 5
-            gravity = Gravity.TOP
-            ellipsize = TextUtils.TruncateAt.END
-            val width =  mRight - mLeft - defaulMargin
-            measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), heightMeasureSpec)
-            line = (paint.measureText(text.toString()) / width).toInt() + 1
-            measuredHeight
-        }
         TimeObject.Type.EVENT -> {
             when (TimeObject.Style.values()[timeObject.style]) {
                 TimeObject.Style.SHORT -> smallTypeSize
-                TimeObject.Style.LONG -> bigTypeSize
                 else -> normalTypeSize
             }
         }
         TimeObject.Type.TASK -> smallTypeSize
+        TimeObject.Type.NOTE -> {
+            setSingleLine(false)
+            maxLines = 10
+            gravity = Gravity.TOP
+            ellipsize = TextUtils.TruncateAt.END
+            val width =  mRight - mLeft - defaulMargin
+            measure(View.MeasureSpec.makeMeasureSpec(width.toInt(), View.MeasureSpec.EXACTLY), heightMeasureSpec)
+            //line = (paint.measureText(text.toString()) / width).toInt() + 1
+            measuredHeight + /*폰트 자체 패딩때문에 조금 여유를 줘야함*/defaultPadding
+        }
+        TimeObject.Type.STAMP -> {
+            bigTypeSize
+        }
+        TimeObject.Type.TERM -> {
+            textSpaceWidth = paint.measureText(text.toString())
+            normalTypeSize
+        }
         else -> normalTypeSize
     }
 
@@ -390,13 +372,9 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         }
         if(rightOpen) w += defaultPadding
 
-        val lp = FrameLayout.LayoutParams(w, mBottom - mTop - defaulMargin)
-        lp.setMargins(0, mTop, 0, 0)
+        val lp = FrameLayout.LayoutParams(w.toInt(), (mBottom - mTop - defaulMargin).toInt())
+        lp.setMargins(0, mTop.toInt(), 0, 0)
         layoutParams = lp
-    }
-
-    override fun toString(): String {
-        return "TimeObjectView(timeObject=$timeObject, cellNum=$cellNum, length=$length, mTextSize=$mTextSize, mLeft=$mLeft, mTop=$mTop, mRight=$mRight, mBottom=$mBottom, mLine=$mLine)"
     }
 
 }

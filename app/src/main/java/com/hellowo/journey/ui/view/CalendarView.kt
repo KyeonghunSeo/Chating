@@ -361,7 +361,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             if(autoScroll) {
                 autoScroll = false
-                scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top)
+                scrollView.post { scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top) }
             }
             onViewEffect(cellNum)
         }else {

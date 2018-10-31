@@ -52,33 +52,27 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     enum class Formula {
-        BACKGROUND, TOPSTACK, LINEAR, BOTTOMSTACK, OVERLAY
+        BACKGROUND, TOP_STACK, TOP_LINEAR, TOP_FLOW,  BOTTOM_LINEAR, BOTTOM_STACK, OVERLAY
     }
 
     fun getFormula(): Formula = when(Type.values()[type]) {
-        Type.NOTE -> Formula.LINEAR
         Type.EVENT -> {
             when(Style.values()[style]) {
-                Style.SHORT -> Formula.LINEAR
-                else -> Formula.TOPSTACK
+                Style.SHORT -> Formula.TOP_LINEAR
+                else -> Formula.TOP_STACK
             }
         }
         Type.TASK -> {
             when(Style.values()[style]) {
-                Style.LONG -> Formula.TOPSTACK
-                else -> Formula.LINEAR
+                Style.LONG -> Formula.TOP_STACK
+                else -> Formula.TOP_LINEAR
             }
         }
-        Type.MONEY -> {
-            when(Style.values()[style]) {
-                Style.SHORT -> Formula.TOPSTACK
-                Style.LONG -> Formula.TOPSTACK
-                else -> Formula.LINEAR
-            }
-        }
-        Type.STAMP -> Formula.LINEAR
-        Type.TERM -> Formula.BOTTOMSTACK
-        else -> Formula.TOPSTACK
+        Type.NOTE -> Formula.TOP_LINEAR
+        Type.STAMP -> Formula.TOP_FLOW
+        Type.MONEY -> Formula.TOP_LINEAR
+        Type.TERM -> Formula.BOTTOM_STACK
+        else -> Formula.TOP_STACK
     }
 
     fun setDateTime(a: Boolean, s: Calendar, e: Calendar) {

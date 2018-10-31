@@ -204,7 +204,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                 }
                 TimeObject.Type.NOTE -> n.add(timeObject.makeCopyObject())
                 else -> {
-
+                    n.add(timeObject.makeCopyObject())
                 }
             }
         }

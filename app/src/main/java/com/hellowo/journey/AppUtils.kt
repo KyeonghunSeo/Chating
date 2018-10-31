@@ -321,4 +321,21 @@ class MyAsyncTask() : AsyncTask<String, String, String?>() {
     }
 }
 
+public Bitmap buildUpdate(String time) // 위젯에서 폰트 적용
+{
+    Bitmap myBitmap = Bitmap.createBitmap(160, 84, Bitmap.Config.ARGB_4444);
+    Canvas myCanvas = new Canvas(myBitmap);
+    Paint paint = new Paint();
+    Typeface clock = Typeface.createFromAsset(this.getAssets(),"Clockopia.ttf");
+    paint.setAntiAlias(true);
+    paint.setSubpixelText(true);
+    paint.setTypeface(clock);
+    paint.setStyle(Paint.Style.FILL);
+    paint.setColor(Color.WHITE);
+    paint.setTextSize(65);
+    paint.setTextAlign(Align.CENTER);
+    myCanvas.drawText(time, 80, 60, paint);
+    return myBitmap;
+}
+
  */
