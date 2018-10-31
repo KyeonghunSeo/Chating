@@ -1,12 +1,8 @@
-package com.hellowo.journey.repeat
+package com.hellowo.journey.calendar
 
 import android.app.Activity
-import android.app.AlertDialog
-import android.content.Context
 import com.hellowo.journey.*
-import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.dialog.CustomDialog
 import org.json.JSONObject
 import java.lang.Exception
@@ -18,7 +14,7 @@ object RepeatManager {
     private val dailyIntervalStr = App.context.getString(R.string.daily_interval)
     private val weeklyStr = "${App.context.getString(R.string.weekly)} ${App.context.getString(R.string.repeat)}"
     private val weeklyIntervalStr = App.context.getString(R.string.weekly_interval)
-    private  val monthlyStr = App.context.getString(R.string.monthly_interval)
+    private val monthlyStr = App.context.getString(R.string.monthly_interval)
     private val monthlyWStr = App.context.getString(R.string.monthly_w_interval)
     private val yearlyStr = "${App.context.getString(R.string.yearly)} ${App.context.getString(R.string.repeat)}"
     private val weekNumStr = App.context.getString(R.string.weekNum)

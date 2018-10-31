@@ -40,7 +40,7 @@
         <activity android:name=".ui.activity.TrashActivity" />
 
         <receiver android:name="com.hellowo.journey.alarm.BriefingAlarmReceiver"/>
-        <receiver android:name="com.hellowo.journey.alarm.TimeObjectAlarmReceiver"/>
+        <receiver android:name="com.hellowo.journey.alarm.com.hellowo.journey.draw.PencilViewAlarmReceiver"/>
         <service android:name="com.hellowo.journey.alarm.NotiService" />
     </application>
 

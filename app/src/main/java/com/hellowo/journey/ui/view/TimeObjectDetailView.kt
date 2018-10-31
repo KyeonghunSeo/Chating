@@ -3,7 +3,6 @@ package com.hellowo.journey.ui.view
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -27,7 +26,7 @@ import com.hellowo.journey.*
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.model.Alarm
 import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.repeat.RepeatManager
+import com.hellowo.journey.calendar.RepeatManager
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.MapActivity
 import com.hellowo.journey.ui.dialog.*

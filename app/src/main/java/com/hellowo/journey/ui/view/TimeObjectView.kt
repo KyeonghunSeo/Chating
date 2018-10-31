@@ -35,10 +35,10 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     var mRight = 0f
     var mBottom = 0f
     var mLine = 0
-    var color = timeObject.color
     var leftOpen = false
     var rightOpen = false
     var textSpaceWidth = 0f
+    var childList: ArrayList<TimeObject>? = null
     //var line = 0
 
     init {
@@ -139,7 +139,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             paint.isAntiAlias = true
             when(TimeObject.Type.values()[timeObject.type]) {
                 TimeObject.Type.EVENT -> {
-                    paint.color = color
+                    paint.color = timeObject.color
                     when(timeObject.style){
                         1 -> {
                             paint.style = Paint.Style.STROKE
@@ -203,7 +203,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         }
                         else -> {
                             paint.strokeWidth = strokeWidth
-                            paint.color = color
+                            paint.color = timeObject.color
                             paint.style = Paint.Style.STROKE
 
                             val centerY = (smallTypeSize - defaulMargin) / 2f - strokeWidth
@@ -225,24 +225,15 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     }
                     super.onDraw(canvas)
                 }
-                TimeObject.Type.NOTE -> {
-                    paint.color = CalendarSkin.dateColor
-                    when(TimeObject.Style.values()[timeObject.style]){
-                        TimeObject.Style.DEFAULT -> {
-                            if(false) {
-                                AppRes.ideaDrawable.setBounds(0, 0, iconSize, iconSize)
-                                AppRes.ideaDrawable.draw(canvas)
-                            }else {
-                                val rect = RectF(defaulMargin, iconSize / 2f,
-                                        iconSize.toFloat() + defaulMargin, iconSize / 2f + strokeWidth * 2)
-                                it.drawRect(rect, paint)
-                            }
-                        }
-                    }
-                    super.onDraw(canvas)
-                }
                 TimeObject.Type.STAMP -> {
                     CalendarSkin.drawStamp(canvas, this)
+                }
+                TimeObject.Type.NOTE -> {
+                    CalendarSkin.drawNote(canvas, this)
+                    super.onDraw(canvas)
+                }
+                TimeObject.Type.MONEY -> {
+                    CalendarSkin.drawMoney(canvas, this)
                 }
                 TimeObject.Type.TERM -> {
                     super.onDraw(canvas)
@@ -355,7 +346,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             measuredHeight + /*폰트 자체 패딩때문에 조금 여유를 줘야함*/defaultPadding
         }
         TimeObject.Type.STAMP -> {
-            bigTypeSize
+            normalTypeSize
         }
         TimeObject.Type.TERM -> {
             textSpaceWidth = paint.measureText(text.toString())

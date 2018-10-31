@@ -9,13 +9,14 @@ import com.hellowo.journey.*
 import com.hellowo.journey.calendar.util.CalendarComparator
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.calendar.TimeObjectManager
-import com.hellowo.journey.repeat.RepeatManager
+import com.hellowo.journey.calendar.RepeatManager
 import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.ui.view.CalendarView.Companion.weekLyBottomPadding
 import com.hellowo.journey.ui.view.TimeObjectView
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.normalTypeSize
 import io.realm.RealmResults
-import java.util.*
+import com.hellowo.journey.model.TimeObject.Type.*
+import com.hellowo.journey.model.TimeObject.Formula.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -47,7 +48,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         items = result
         withAnimtion = anim
         viewHolderList.forEach { holder ->
-            holder.timeObjectViewList?.forEach { (it.parent as FrameLayout).removeView(it) }
+            holder.timeObjectViewList.forEach { (it.parent as FrameLayout).removeView(it) }
         }
         viewHolderList.clear()
         viewLevelStatusMap.clear()
@@ -81,53 +82,70 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
     }
 
     private fun makeTimeObjectView(timeObject: TimeObject) {
-        val info = TimeObjectViewHolder(timeObject)
-        info.startCellNum = ((timeObject.dtStart - calStartTime) / DAY_MILL).toInt()
-        info.endCellNum = ((timeObject.dtEnd - calStartTime) / DAY_MILL).toInt()
-
+        var startCellNum = ((timeObject.dtStart - calStartTime) / DAY_MILL).toInt()
+        var endCellNum = ((timeObject.dtEnd - calStartTime) / DAY_MILL).toInt()
         if(timeObject.inCalendar) {
-            var lOpen = false
-            var rOpen = false
+            when(TimeObject.Type.values()[timeObject.type]){
+                TimeObject.Type.STAMP, TimeObject.Type.MONEY -> {
+                    val holder = viewHolderList
+                            .firstOrNull { it.timeObject.type == timeObject.type && it.startCellNum == startCellNum }
+                            ?: TimeObjectViewHolder(timeObject, startCellNum, endCellNum).apply { viewHolderList.add(this) }
 
-            if(info.startCellNum < 0) {
-                info.startCellNum = 0
-                lOpen = true
-            }
-            if(info.endCellNum >= maxCellNum) {
-                info.endCellNum = maxCellNum - 1
-                rOpen = true
-            }
+                    val timeObjectView = holder.timeObjectViewList.firstOrNull() ?:
+                        TimeObjectView(context, timeObject, startCellNum, 1).apply {
+                            childList = ArrayList()
+                            setLookByType()
+                            holder.timeObjectViewList.add(this) }
 
-            var currentCell = info.startCellNum
-            var length = info.endCellNum - info.startCellNum + 1
-            var margin = columns - currentCell % columns
-            val size = 1 + (info.endCellNum / columns - info.startCellNum / columns)
+                    timeObjectView.childList?.add(timeObject)
+                }
+                else -> {
+                    var lOpen = false
+                    var rOpen = false
 
-            info.timeObjectViewList = Array(size) { index ->
-                TimeObjectView(context, timeObject, currentCell, if (length <= margin) length else margin).apply {
-                    currentCell += margin
-                    length -= margin
-                    margin = 7
-                    when(index) {
-                        0 -> {
-                            leftOpen = lOpen
-                            rightOpen = size > 1
-                        }
-                        size - 2 -> {
-                            leftOpen = true
-                            rightOpen = true
-                        }
-                        else -> {
-                            leftOpen = size > 1
-                            rightOpen = rOpen
-                        }
+                    if(startCellNum < 0) {
+                        startCellNum = 0
+                        lOpen = true
                     }
-                    setLookByType()
+                    if(endCellNum >= maxCellNum) {
+                        endCellNum = maxCellNum - 1
+                        rOpen = true
+                    }
+
+                    val holder = TimeObjectViewHolder(timeObject, startCellNum, endCellNum)
+                    var currentCell = holder.startCellNum
+                    var length = holder.endCellNum - holder.startCellNum + 1
+                    var margin = columns - currentCell % columns
+                    val size = 1 + (holder.endCellNum / columns - holder.startCellNum / columns)
+
+                    (0 until size).forEach { index ->
+                        holder.timeObjectViewList.add(
+                                TimeObjectView(context, timeObject, currentCell,
+                                        if (length <= margin) length else margin).apply {
+                                    currentCell += margin
+                                    length -= margin
+                                    margin = 7
+                                    when(holder.timeObjectViewList.size) {
+                                        0 -> {
+                                            leftOpen = lOpen
+                                            rightOpen = size > 1
+                                        }
+                                        size - 1 -> {
+                                            leftOpen = size > 1
+                                            rightOpen = rOpen
+                                        }
+                                        else -> {
+                                            leftOpen = true
+                                            rightOpen = true
+                                        }
+                                    }
+                                    setLookByType()
+                                })}
+                    viewHolderList.add(holder)
                 }
             }
-            viewHolderList.add(info)
         }else {
-            (info.startCellNum .. info.endCellNum).forEach { notInCalendarList[it].add(timeObject) }
+            (startCellNum .. endCellNum).forEach { notInCalendarList[it].add(timeObject) }
         }
     }
 
@@ -143,45 +161,46 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 if(currentType.ordinal != timeObject.type) {
                     currentType = TimeObject.Type.values()[timeObject.type]
                     when(currentType) {
-                        TimeObject.Type.TERM -> setTypeMargin(dpToPx(18f))
+                        TASK, STAMP, MONEY -> setTypeMargin(dpToPx(3f), currentType)
+                        TERM -> addBottomMargin(dpToPx(18f))
                         else -> {}
                     }
                 }
 
                 if(formula != currentFomula) {
-                    when(formula) {
-                        TimeObject.Formula.BOTTOM_LINEAR -> computeBottomLinearStartPos()
-                        TimeObject.Formula.BOTTOM_STACK -> {
+                    currentFomula = formula
+                    when(currentFomula) {
+                        BOTTOM_LINEAR -> computeBottomLinearStartPos()
+                        BOTTOM_STACK -> {
                             computeMaxRowHeight()
                             computeBottomStackStartPos()
                         }
                     }
-                    currentFomula = formula
                 }
 
-                viewHolder.timeObjectViewList?.forEach {
+                viewHolder.timeObjectViewList.forEach {
                     it.mLeft = (minWidth * (it.cellNum % columns)) + CalendarView.weekSideMargin
                     it.mRight = it.mLeft + (minWidth * it.length).toInt()
                     when(formula) {
-                        TimeObject.Formula.TOP_STACK -> {
+                        TOP_STACK -> {
                             it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
                         }
-                        TimeObject.Formula.TOP_LINEAR -> {
+                        TOP_FLOW, TOP_LINEAR, MID_FLOW -> {
                             it.mTop = cellBottomArray[it.cellNum]
                         }
-                        TimeObject.Formula.BOTTOM_LINEAR -> {
+                        BOTTOM_LINEAR -> {
                             it.mTop = cellBottomArray[it.cellNum]
                         }
-                        TimeObject.Formula.BOTTOM_STACK -> {
+                        BOTTOM_STACK -> {
                             it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
                         }
                         else -> {}
                     }
                     it.mBottom = it.mTop + it.getViewHeight()
                     it.setLayout()
+
                     (it.cellNum until it.cellNum + it.length).forEach{ index ->
-                        cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom)
-                    }
+                        cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom) }
                 }
             }catch (e: Exception){ e.printStackTrace() }
         }
@@ -206,9 +225,16 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         }
     }
 
-    private fun setTypeMargin(typeMargin: Float) {
-        cellBottomArray.forEachIndexed { index, i -> cellBottomArray[index] += typeMargin }
+    private fun addBottomMargin(margin: Float) {
+        cellBottomArray.forEachIndexed { index, i -> cellBottomArray[index] += margin }
     }
+
+    private fun setTypeMargin(margin: Float, type: TimeObject.Type) {
+        viewHolderList.filter { it.timeObject.type == type.ordinal }.distinctBy { it.startCellNum }.forEach {
+            if(cellBottomArray[it.startCellNum] > drawStartYOffset) cellBottomArray[it.startCellNum] += margin
+        }
+    }
+
 
     private fun drawTimeObjectViewOnCalendarView() {
         if(withAnimtion) {
@@ -230,14 +256,14 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         viewHolderList.forEach { holder ->
             if(TimeObjectManager.lastUpdatedItem == holder.timeObject) {
                 TimeObjectManager.lastUpdatedItem = null
-                holder.timeObjectViewList?.forEach {
+                holder.timeObjectViewList.forEach {
                     //val lastAlpha = if(isOutDate(it)) 1f else CalendarView.outDateAlpha
                     it.alpha = 0f
                     calendarView.dateCells[it.cellNum].addView(it)
                     it.post { showInsertAnimation(it, 1f) }
                 }
             }else {
-                holder.timeObjectViewList?.forEach {
+                holder.timeObjectViewList.forEach {
                     //it.alpha = if(isOutDate(it)) 1f else CalendarView.outDateAlpha
                     calendarView.dateCells[it.cellNum].addView(it)
                 }
@@ -280,19 +306,14 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
 
     fun getViews(cellNum: Int) : List<TimeObjectView> {
         val result = ArrayList<TimeObjectView>()
-        viewHolderList.filter { it.startCellNum == cellNum }.forEach {
-            it.timeObjectViewList?.let { result.addAll(it) }
+        viewHolderList.filter { it.startCellNum == cellNum }.forEach { viewHolder ->
+            viewHolder.timeObjectViewList.let { result.addAll(it) }
         }
         return result
     }
 
-    inner class TimeObjectViewHolder(val timeObject: TimeObject) {
-        var startCellNum = 0
-        var endCellNum = 0
-        var timeObjectViewList : Array<TimeObjectView>? = null
-        override fun toString(): String {
-            return "TimeObjectViewHolder(timeObject=$timeObject, startCellNum=$startCellNum, endCellNum=$endCellNum, timeObjectViewList=${Arrays.toString(timeObjectViewList)})"
-        }
+    inner class TimeObjectViewHolder(val timeObject: TimeObject, val startCellNum: Int, val endCellNum: Int) {
+        val timeObjectViewList = ArrayList<TimeObjectView>()
     }
 
     inner class ViewLevelStatus {

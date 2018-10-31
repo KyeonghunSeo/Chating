@@ -4,6 +4,7 @@ import android.graphics.*
 import com.hellowo.journey.AppRes
 import com.hellowo.journey.R
 import com.hellowo.journey.l
+import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.ui.view.TimeObjectView
 
@@ -34,7 +35,7 @@ object CalendarSkin {
         val paint = view.paint
         val width = view.width
         val height = view.height
-        paint.color = view.color
+        paint.color = view.timeObject.color
         canvas.translate(view.scrollX.toFloat(), 0f)
         when(view.timeObject.style){
             1 -> {
@@ -151,14 +152,107 @@ object CalendarSkin {
     }
 
     fun drawStamp(canvas: Canvas, view: TimeObjectView) {
-        val stamp = AppRes.resources.getDrawable(R.drawable.stamp)
-        stamp.setColorFilter(view.color, PorterDuff.Mode.DST)
-        stamp.setBounds(0, 0, view.height, view.height)
-        stamp.draw(canvas)
-/*
-        val icon = AppRes.resources.getDrawable(R.drawable.idea)
-        icon.setColorFilter(view.color, PorterDuff.Mode.DST)
-        icon.setBounds(0, 0, view.height, view.height)
-        icon.draw(canvas)*/
+        val margin = TimeObjectView.defaulMargin.toInt()
+        val width = (view.width - TimeObjectView.defaulMargin * 2).toInt()
+        val size = (view.height - TimeObjectView.defaulMargin * 2).toInt()
+        val totalStampCnt = view.childList?.size ?: 0
+        if(totalStampCnt > 0) {
+            if(size * totalStampCnt + (margin * (totalStampCnt - 1)) > width) {
+                var left = width - size
+                val overlap = ((width - size) / (totalStampCnt - 1))
+                (totalStampCnt - 1 downTo 0).forEach { index ->
+                    val circle = AppRes.resources.getDrawable(R.drawable.circle_fill)
+                    circle.setColorFilter(view.timeObject.color, PorterDuff.Mode.SRC_ATOP)
+                    circle.setBounds(left, 0, left + size, size)
+                    circle.draw(canvas)
+
+                    val stamp = AppRes.resources.getDrawable(StampManager.stamps[index])
+                    stamp.setColorFilter(view.timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
+                    stamp.setBounds(left + margin, 0 + margin, left + size - margin, size - margin)
+                    stamp.draw(canvas)
+
+                    val stroke = AppRes.resources.getDrawable(R.drawable.circle_stroke_1dp)
+                    stroke.setColorFilter(view.timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
+                    stroke.setBounds(left - margin, -margin, left + size + margin, size + margin)
+                    stroke.draw(canvas)
+
+                    left -= overlap
+                }
+            }else {
+                var left = margin
+                view.childList?.forEachIndexed { index, timeObject ->
+                    val circle = AppRes.resources.getDrawable(R.drawable.circle_fill)
+                    circle.setColorFilter(view.timeObject.color, PorterDuff.Mode.SRC_ATOP)
+                    circle.setBounds(left, 0, left + size, size)
+                    circle.draw(canvas)
+
+                    val stamp = AppRes.resources.getDrawable(StampManager.stamps[index])
+                    stamp.setColorFilter(view.timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
+                    stamp.setBounds(left + margin, 0 + margin, left + size - margin, size - margin)
+                    stamp.draw(canvas)
+                    left += size + margin
+                }
+            }
+        }
+    }
+
+    fun drawNote(canvas: Canvas, view: TimeObjectView) {
+        val timeObject = view.timeObject
+        val paint = view.paint
+        paint.color = timeObject.color
+        when(TimeObject.Style.values()[timeObject.style]){
+            TimeObject.Style.DEFAULT -> {
+                val rect = RectF(TimeObjectView.defaulMargin,
+                        TimeObjectView.iconSize / 2f,
+                        TimeObjectView.iconSize.toFloat() + TimeObjectView.defaulMargin,
+                        TimeObjectView.iconSize / 2f + TimeObjectView.strokeWidth * 2)
+                canvas.drawRect(rect, paint)
+            }
+        }
+    }
+
+    fun drawMoney(canvas: Canvas, view: TimeObjectView) {
+        val margin = TimeObjectView.defaulMargin.toInt()
+        val width = (view.width - TimeObjectView.defaulMargin * 2).toInt()
+        val size = (view.height - TimeObjectView.defaulMargin * 2).toInt()
+        val totalStampCnt = view.childList?.size ?: 0
+        if(totalStampCnt > 0) {
+            if(size * totalStampCnt + (margin * (totalStampCnt - 1)) > width) {
+                var left = width - size
+                val overlap = ((width - size) / (totalStampCnt - 1))
+                (totalStampCnt - 1 downTo 0).forEach { index ->
+                    val circle = AppRes.resources.getDrawable(R.drawable.circle_fill)
+                    circle.setColorFilter(view.timeObject.color, PorterDuff.Mode.SRC_ATOP)
+                    circle.setBounds(left, 0, left + size, size)
+                    circle.draw(canvas)
+
+                    val stamp = AppRes.resources.getDrawable(StampManager.stamps[index])
+                    stamp.setColorFilter(view.timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
+                    stamp.setBounds(left + margin, 0 + margin, left + size - margin, size - margin)
+                    stamp.draw(canvas)
+
+                    val stroke = AppRes.resources.getDrawable(R.drawable.circle_stroke_1dp)
+                    stroke.setColorFilter(view.timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
+                    stroke.setBounds(left - margin, -margin, left + size + margin, size + margin)
+                    stroke.draw(canvas)
+
+                    left -= overlap
+                }
+            }else {
+                var left = margin
+                view.childList?.forEachIndexed { index, timeObject ->
+                    val circle = AppRes.resources.getDrawable(R.drawable.circle_fill)
+                    circle.setColorFilter(view.timeObject.color, PorterDuff.Mode.SRC_ATOP)
+                    circle.setBounds(left, 0, left + size, size)
+                    circle.draw(canvas)
+
+                    val stamp = AppRes.resources.getDrawable(StampManager.stamps[index])
+                    stamp.setColorFilter(view.timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
+                    stamp.setBounds(left + margin, 0 + margin, left + size - margin, size - margin)
+                    stamp.draw(canvas)
+                    left += size + margin
+                }
+            }
+        }
     }
 }

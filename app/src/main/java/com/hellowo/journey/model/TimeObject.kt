@@ -52,7 +52,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     enum class Formula {
-        BACKGROUND, TOP_STACK, TOP_LINEAR, TOP_FLOW,  BOTTOM_LINEAR, BOTTOM_STACK, OVERLAY
+        BACKGROUND, TOP_STACK, TOP_FLOW, TOP_LINEAR, MID_FLOW, BOTTOM_LINEAR, BOTTOM_STACK, OVERLAY
     }
 
     fun getFormula(): Formula = when(Type.values()[type]) {
@@ -70,7 +70,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         }
         Type.NOTE -> Formula.TOP_LINEAR
         Type.STAMP -> Formula.TOP_FLOW
-        Type.MONEY -> Formula.TOP_LINEAR
+        Type.MONEY -> Formula.MID_FLOW
         Type.TERM -> Formula.BOTTOM_STACK
         else -> Formula.TOP_STACK
     }

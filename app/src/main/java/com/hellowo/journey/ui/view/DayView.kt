@@ -26,7 +26,7 @@ import com.hellowo.journey.adapter.TaskListAdapter
 import com.hellowo.journey.calendar.util.TaskListComparator
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.calendar.CalendarSkin
-import com.hellowo.journey.repeat.RepeatManager
+import com.hellowo.journey.calendar.RepeatManager
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.OrderedCollectionChangeSet
 import io.realm.RealmResults
