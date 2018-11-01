@@ -7,19 +7,22 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Color
+import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.IBinder
 import android.os.Vibrator
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Fade
@@ -175,7 +178,7 @@ fun makeViewToBitmap(view: View) : Bitmap {
 }
 
 fun vibrate(context: Context) {
-    (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(5)
+    (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.vibrate(10)
 }
 
 fun startPagingEffectAnimation(direction: Int, view: View, listener: Animator.AnimatorListener?) {
@@ -307,6 +310,18 @@ fun showDialog(dialog: Dialog, is_cancelable: Boolean, is_dim: Boolean, is_backg
     }
 
 }
+
+fun setTextBoldUnderBar(originText: String, textView: TextView, color: Int, texts: Array<String>, clickableSpanTerms: Array<ClickableSpan>?) {
+    val ss = SpannableString(originText)
+    texts.forEach {
+        //ss.setSpan(clickableSpanTerms, text.length - 7, text.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val index = originText.indexOf(it)
+        ss.setSpan(StyleSpan(Typeface.BOLD), index, it.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        ss.setSpan(ForegroundColorSpan(color), index, it.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    }
+    textView.text = ss
+}
+
 
 /* 코드
 class MyAsyncTask() : AsyncTask<String, String, String?>() {

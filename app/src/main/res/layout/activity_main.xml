@@ -80,7 +80,6 @@
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="50dp"
         android:layout_marginTop="50dp">
     </com.hellowo.journey.ui.view.CalendarView>
 
@@ -94,13 +93,6 @@
         android:layout_marginTop="49.5dp">
     </View>
 
-    <View
-        android:background="@color/white"
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-    </View>
-
     <com.hellowo.journey.ui.view.KeepView
         android:id="@+id/keepView"
         android:layout_width="50dp"
@@ -109,7 +101,8 @@
         android:layout_marginLeft="10dp"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="0dp"
-        app:cardCornerRadius="15dp">
+        app:cardCornerRadius="15dp"
+        android:visibility="gone">
 
         <ImageView
             android:background="?android:attr/selectableItemBackground"
@@ -129,7 +122,8 @@
         android:layout_marginRight="10dp"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="0dp"
-        app:cardCornerRadius="15dp">
+        app:cardCornerRadius="15dp"
+        android:visibility="gone">
     </com.hellowo.journey.ui.view.BriefingView>
 
     <View
@@ -142,7 +136,7 @@
 
     <com.hellowo.journey.ui.view.TemplateControlView
         android:id="@+id/templateControlView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"/>
 

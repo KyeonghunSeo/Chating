@@ -44,9 +44,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var dayView: DayView
     private val insertBtnHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
-        override fun handleMessage(msg: Message?) {
-            super.handleMessage(msg)
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initLayout() {
-        monthText.typeface = AppRes.regularFont
+        window.navigationBarColor = resources.getColor(R.color.transitionDimWhite)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener {
             showDialog(DatePickerDialog(this@MainActivity, calendarView.selectedCal.timeInMillis) {

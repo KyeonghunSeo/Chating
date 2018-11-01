@@ -105,7 +105,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         setBackgroundColor(CalendarSkin.backgroundColor)
         scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         rootLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        rootLy.setPadding(0, 0, 0 , 0)
+        rootLy.setPadding(0, 0, 0 , mainBarHeight)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
 
@@ -155,7 +155,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         todayCellNum = -1
         postSelectedNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height
+        minCalendarHeight = height - mainBarHeight
         minWidth = (width.toFloat() - weekSideMargin * 2) / columns
         minHeight = minCalendarHeight.toFloat() / rows
 
