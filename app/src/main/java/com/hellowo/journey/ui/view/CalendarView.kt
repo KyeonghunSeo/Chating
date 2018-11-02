@@ -9,19 +9,24 @@ import android.os.Handler
 import android.os.Message
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.view.*
+import android.view.DragEvent
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.LinearLayout.HORIZONTAL
+import android.widget.TextView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.journey.*
-import java.util.*
-import android.widget.*
-import android.widget.LinearLayout.HORIZONTAL
 import com.hellowo.journey.calendar.CalendarSkin
 import com.hellowo.journey.calendar.TimeObjectManager
+import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
-import com.hellowo.journey.listener.MainDragAndDropListener
+import java.util.*
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
@@ -128,7 +133,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 //dateCell.setBackgroundResource(AppRes.selectableItemBackground)
                 dateCell.setOnClickListener { onDateClick(cellNum) }
                 dateCell.setOnLongClickListener {
-                    MainDragAndDropListener.start(it, DragMode.INSERT)
+                    MainDragAndDropListener.start(it, MainDragAndDropListener.DragMode.INSERT)
                     return@setOnLongClickListener true
                 }
                 dateCell.layoutParams = LinearLayout.LayoutParams(0, MATCH_PARENT, 1f)
@@ -558,7 +563,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     highlightCells(startDragCell, currentDragCell)
                 }
                 DragEvent.ACTION_DROP -> {
-                    if(MainDragAndDropListener.dragMode == DragMode.INSERT) {
+                    if(MainDragAndDropListener.dragMode == MainDragAndDropListener.DragMode.INSERT) {
                         MainActivity.instance?.viewModel?.makeNewTimeObject(startDragTime, endDragTime)
                     }
                 }

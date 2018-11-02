@@ -158,8 +158,8 @@ object CalendarSkin {
         val totalStampCnt = view.childList?.size ?: 0
         if(totalStampCnt > 0) {
             if(size * totalStampCnt + (margin * (totalStampCnt - 1)) > width) {
-                var left = width - size
-                val overlap = ((width - size) / (totalStampCnt - 1))
+                var left = width - size - margin
+                val overlap = width / totalStampCnt
                 (totalStampCnt - 1 downTo 0).forEach { index ->
                     val circle = AppRes.resources.getDrawable(R.drawable.circle_fill)
                     circle.setColorFilter(view.timeObject.color, PorterDuff.Mode.SRC_ATOP)
@@ -172,7 +172,7 @@ object CalendarSkin {
                     stamp.draw(canvas)
 
                     val stroke = AppRes.resources.getDrawable(R.drawable.circle_stroke_1dp)
-                    stroke.setColorFilter(view.timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
+                    stroke.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
                     stroke.setBounds(left - margin, -margin, left + size + margin, size + margin)
                     stroke.draw(canvas)
 
@@ -218,8 +218,8 @@ object CalendarSkin {
         val totalStampCnt = view.childList?.size ?: 0
         if(totalStampCnt > 0) {
             if(size * totalStampCnt + (margin * (totalStampCnt - 1)) > width) {
-                var left = width - size
-                val overlap = ((width - size) / (totalStampCnt - 1))
+                var left = width - size - margin
+                val overlap = ((width - size) / (totalStampCnt))
                 (totalStampCnt - 1 downTo 0).forEach { index ->
                     val circle = AppRes.resources.getDrawable(R.drawable.circle_fill)
                     circle.setColorFilter(view.timeObject.color, PorterDuff.Mode.SRC_ATOP)
@@ -232,7 +232,7 @@ object CalendarSkin {
                     stamp.draw(canvas)
 
                     val stroke = AppRes.resources.getDrawable(R.drawable.circle_stroke_1dp)
-                    stroke.setColorFilter(view.timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
+                    stroke.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
                     stroke.setBounds(left - margin, -margin, left + size + margin, size + margin)
                     stroke.draw(canvas)
 

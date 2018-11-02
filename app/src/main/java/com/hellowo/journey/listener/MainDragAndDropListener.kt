@@ -6,15 +6,22 @@ import android.graphics.Point
 import android.os.Build
 import android.view.DragEvent
 import android.view.View
-import com.hellowo.journey.DragMode
 import com.hellowo.journey.ui.activity.MainActivity
 
 object MainDragAndDropListener : View.OnDragListener {
+    enum class DragMode {
+        NONE, INSERT, MOVE
+    }
+
     var dragMode = DragMode.NONE
 
     override fun onDrag(view: View?, event: DragEvent?): Boolean {
-        event?.let { MainActivity.instance?.onDrag(event) }
-        return true
+        return if(dragMode != DragMode.NONE) {
+            event?.let { MainActivity.instance?.onDrag(event) }
+            true
+        }else {
+            false
+        }
     }
 
     fun start(view: View, dragMode: DragMode) {

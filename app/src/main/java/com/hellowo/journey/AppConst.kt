@@ -29,7 +29,3 @@ var extraMargin = dpToPx(32f)
 enum class ViewMode {
     CLOSED, OPENED, ANIMATING
 }
-
-enum class DragMode {
-    NONE, INSERT, MOVE
-}

@@ -1,17 +1,13 @@
 package com.hellowo.journey.adapter
 
 import android.content.Context
-import android.graphics.Color
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
-import com.hellowo.journey.AppRes
+import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
-import com.hellowo.journey.l
 import com.hellowo.journey.model.Template
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
@@ -24,7 +20,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>, val 
     val previewWidth = dpToPx(80f)
     val calendar = MainActivity.instance?.getCalendarView()?.selectedCal ?: Calendar.getInstance()
 
-    override fun getItemCount(): Int = items.size * 10
+    override fun getItemCount(): Int = items.size * 100
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {

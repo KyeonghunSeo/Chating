@@ -55,7 +55,7 @@
     <color name="calendarBackground">#ffffff</color>
     <color name="holiday">#ff6a5c</color>
     <color name="transitionDim">#60000000</color>
-    <color name="transitionDimWhite">#D9F4F4F4</color>
+    <color name="transitionDimWhite">#F4F4F4F4</color>
 
     <color name="lol_light_3">#a3daff</color>
     <color name="lol_light_2">#1ec0ff</color>
