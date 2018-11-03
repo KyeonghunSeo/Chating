@@ -7,8 +7,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -43,7 +43,7 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                     override fun onTransitionStart(transition: Transition) {}
                 })
                 TransitionManager.beginDelayedTransition(this@KeepView, transiion)
-                layoutParams = CoordinatorLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+                layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
             }
             override fun onAnimationCancel(p0: Animator?) {}
             override fun onAnimationStart(p0: Animator?) {}
@@ -76,7 +76,7 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             override fun onTransitionStart(transition: Transition) {}
         })
         TransitionManager.beginDelayedTransition(this, transiion)
-        layoutParams = CoordinatorLayout.LayoutParams(dpToPx(50), dpToPx(50)).apply {
+        layoutParams = FrameLayout.LayoutParams(dpToPx(50), dpToPx(50)).apply {
             gravity = Gravity.BOTTOM
             setMargins(dpToPx(8), 0, 0, 0)
         }

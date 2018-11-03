@@ -8,8 +8,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -59,7 +59,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         override fun onTransitionStart(transition: Transition) {}
                     })
                     TransitionManager.beginDelayedTransition(this@BriefingView, transiion)
-                    layoutParams = CoordinatorLayout.LayoutParams(dpToPx(300), dpToPx(500)).apply {
+                    layoutParams = FrameLayout.LayoutParams(dpToPx(300), dpToPx(500)).apply {
                         gravity = Gravity.BOTTOM or Gravity.RIGHT
                         setMargins(0, 0, dpToPx(20), dpToPx(20))
                     }
@@ -98,7 +98,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             override fun onTransitionStart(transition: Transition) {}
         })
         TransitionManager.beginDelayedTransition(this, transiion)
-        layoutParams = CoordinatorLayout.LayoutParams(dpToPx(50), dpToPx(50)).apply {
+        layoutParams = FrameLayout.LayoutParams(dpToPx(50), dpToPx(50)).apply {
             gravity = Gravity.BOTTOM or Gravity.RIGHT
             setMargins(0, 0, dpToPx(10), 0)
         }

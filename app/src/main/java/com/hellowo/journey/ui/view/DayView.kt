@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.cardview.widget.CardView
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +35,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import android.os.Looper
 import android.widget.FrameLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.hellowo.journey.adapter.NoteListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.calendar.util.EventListComparator
@@ -271,7 +271,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         calendarView.getSelectedView().let { dateLy ->
             val location = IntArray(2)
             dateLy.getLocationInWindow(location)
-            layoutParams = CoordinatorLayout.LayoutParams(dateLy.width, dateLy.height).apply {
+            layoutParams = FrameLayout.LayoutParams(dateLy.width, dateLy.height).apply {
                 setMargins(location[0], location[1] - AppRes.statusBarHeight, 0, 0)
             }
 
@@ -299,8 +299,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                             notifyDateChanged(0)
 
                             val animSet = AnimatorSet()
-                            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
-                                    "elevation", dpToPx(15).toFloat(), 0f),
+                            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView, "elevation", dpToPx(15).toFloat(), 0f),
                                     ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f),
                                     ObjectAnimator.ofFloat(dateText, "scaleX", dateText.scaleX, headerTextScale),
                                     ObjectAnimator.ofFloat(dateText, "scaleY", dateText.scaleY, headerTextScale),
@@ -318,7 +317,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                         }
                     })
                     TransitionManager.beginDelayedTransition(this@DayView, transiion)
-                    layoutParams = CoordinatorLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
+                    layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
                         setMargins(0, mainBarHeight, 0, mainBarHeight)
                     }
                 }
@@ -385,7 +384,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                 }
             })
             TransitionManager.beginDelayedTransition(this, transiion)
-            layoutParams = CoordinatorLayout.LayoutParams(dateLy.width, dateLy.height).apply {
+            layoutParams = FrameLayout.LayoutParams(dateLy.width, dateLy.height).apply {
                 setMargins(location[0], location[1] - AppRes.statusBarHeight, 0, 0)
             }
         }

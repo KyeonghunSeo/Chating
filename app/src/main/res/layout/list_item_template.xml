@@ -139,13 +139,6 @@
 
         </FrameLayout>
 
-        <View
-            android:id="@+id/colorView"
-            android:layout_width="3dp"
-            android:layout_height="match_parent"
-            android:background="#20000000"
-            android:elevation="2dp"/>
-
     </FrameLayout>
 
 </FrameLayout>

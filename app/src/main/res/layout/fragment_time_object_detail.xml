@@ -10,7 +10,7 @@
         android:id="@+id/backgroundDim"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blackAlpha"/>
+        android:background="@color/transitionDim"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/contentLy"

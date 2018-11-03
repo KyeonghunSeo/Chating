@@ -139,58 +139,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             paint.isAntiAlias = true
             when(TimeObject.Type.values()[timeObject.type]) {
                 TimeObject.Type.EVENT -> {
-                    paint.color = timeObject.color
-                    when(timeObject.style){
-                        1 -> {
-                            paint.style = Paint.Style.STROKE
-                            paint.strokeWidth = strokeWidth * 4f
-                            val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
-                            it.drawRoundRect(rect, rectRadius, rectRadius, paint)
-                            paint.style = Paint.Style.FILL
-                        }
-                        2 -> {
-                            paint.alpha = 15
-                            val bgrect = RectF(0f, 0f, width.toFloat(), height.toFloat())
-                            it.drawRoundRect(bgrect, rectRadius, rectRadius, paint)
-                            paint.alpha = 255
-                            val rect = if(length > 1) {
-                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
-                            }else {
-                                RectF(0f, 0f, strokeWidth * 4, height.toFloat())
-                            }
-                            if(!leftOpen) it.drawRect(rect, paint)
-                        }
-                        else -> {
-                            paint.style = Paint.Style.FILL
-                            val edge = defaultPadding.toFloat()
-                            var left = 0f
-                            var right = width.toFloat()
-                            if(leftOpen) {
-                                left = defaultPadding.toFloat()
-                                val path = Path()
-                                path.moveTo(0f, 0f)
-                                path.lineTo(edge, 0f)
-                                path.lineTo(edge, height.toFloat())
-                                path.lineTo(0f, height.toFloat())
-                                path.lineTo(edge, height / 2f)
-                                path.lineTo(0f, 0f)
-                                path.close()
-                                it.drawPath(path, paint)
-                            }
-                            if(rightOpen) {
-                                right = width.toFloat() - defaultPadding
-                                val path = Path()
-                                path.moveTo(right, 0f)
-                                path.lineTo(right + edge, height * 0.5f)
-                                path.lineTo(right, height.toFloat())
-                                path.lineTo(right, 0f)
-                                path.close()
-                                it.drawPath(path, paint)
-                            }
-                            val rect = RectF(left, 0f, right, height.toFloat())
-                            it.drawRoundRect(rect, rectRadius, rectRadius, paint)
-                        }
-                    }
+                    CalendarSkin.drawEvent(canvas, this)
                     super.onDraw(canvas)
                 }
                 TimeObject.Type.TASK -> {

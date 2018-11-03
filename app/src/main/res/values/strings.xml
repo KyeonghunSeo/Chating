@@ -139,5 +139,8 @@
     <string name="plan">계획</string>
     <string name="drawing">그림</string>
     <string name="term">기간</string>
+    <string name="calendar_settings">캘린더 설정</string>
+    <string name="selected">선택됨</string>
+    <string name="add_direct">바로저장</string>
 
 </resources>

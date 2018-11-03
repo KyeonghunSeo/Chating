@@ -12,9 +12,11 @@ import android.os.Handler
 import android.os.Message
 import android.view.DragEvent
 import android.view.View
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProviders
+import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -145,7 +147,7 @@ class MainActivity : AppCompatActivity() {
     private fun initDayView() {
         dayView = DayView(calendarView, this@MainActivity)
         dayView.visibility = View.GONE
-        rootLy.addView(dayView, rootLy.indexOfChild(topShadow))
+        calendarLy.addView(dayView, calendarLy.indexOfChild(topShadow))
         dayView.onVisibility = { show ->
             if(show || !calendarView.isTop()) topShadow.visibility = View.VISIBLE
             else topShadow.visibility = View.GONE
@@ -179,7 +181,10 @@ class MainActivity : AppCompatActivity() {
     private fun initBtns() {
         menuBtn.setOnClickListener {
             //checkExternalStoragePermission()
-            startActivity(Intent(this, DrawActivity::class.java))
+
+            //startActivity(Intent(this, DrawActivity::class.java))
+
+            viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
         }
     }
 
@@ -191,9 +196,23 @@ class MainActivity : AppCompatActivity() {
                 timeObjectDetailView.hide()
             }
         })
+
         viewModel.appUser.observe(this, androidx.lifecycle.Observer { it?.let { updateUserUI(it) } })
+
         viewModel.templateList.observe(this, androidx.lifecycle.Observer {
             it?.let { templateControlView.notify(it) }
+        })
+
+        viewModel.isCalendarSettingOpened.observe(this, androidx.lifecycle.Observer { isOpend ->
+            isOpend?.let {
+                l("!!!!!!!!!!")
+                TransitionManager.beginDelayedTransition(calendarLy, makeChangeBounceTransition())
+                (calendarLy.layoutParams as FrameLayout.LayoutParams).let {
+                    if(isOpend) it.topMargin = dpToPx(300)
+                    else it.topMargin = dpToPx(0)
+                }
+                calendarLy.requestLayout()
+            }
         })
     }
 
@@ -291,7 +310,7 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         when{
             timeObjectDetailView.isOpened() -> timeObjectDetailView.hide()
-            templateControlView.isExpanded -> templateControlView.collapse(true)
+            templateControlView.isExpanded -> templateControlView.collapse()
             keepView.viewMode == ViewMode.OPENED -> keepView.hide()
             briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
             dayView.isOpened() -> dayView.hide()

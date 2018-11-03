@@ -40,7 +40,7 @@
     <color name="disableWhiteText">#80FFFFFF</color>
      -->
     <color name="black">#000000</color>
-    <color name="blackAlpha">#60000000</color>
+    <color name="whiteAlpha">#f4FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="almostWhite">#F4F4F4</color>
     <color name="grey">#a8aaaf</color>
@@ -55,7 +55,7 @@
     <color name="calendarBackground">#ffffff</color>
     <color name="holiday">#ff6a5c</color>
     <color name="transitionDim">#60000000</color>
-    <color name="transitionDimWhite">#F4F4F4F4</color>
+    <color name="transitionDimWhite">#ccF4F4F4</color>
 
     <color name="lol_light_3">#a3daff</color>
     <color name="lol_light_2">#1ec0ff</color>

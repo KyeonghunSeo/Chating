@@ -34,7 +34,8 @@ import kotlinx.android.synthetic.main.view_timeobject_detail.view.*
 import java.util.*
 
 
-class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
+class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : FrameLayout(context, attrs, defStyleAttr) {
     private var originalData: TimeObject? = null
     private val timeObject: TimeObject = TimeObject()
     private var googleMap: GoogleMap? = null

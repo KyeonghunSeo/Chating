@@ -26,6 +26,7 @@ class MainViewModel : ViewModel() {
     val targetTemplate = MutableLiveData<Template>()
     val templateList = MutableLiveData<List<Template>>()
     val colorTagList = MutableLiveData<List<ColorTag>>()
+    val isCalendarSettingOpened = MutableLiveData<Boolean>()
 
     init {
         if(SyncUser.current() == null) {
@@ -121,7 +122,12 @@ class MainViewModel : ViewModel() {
 
     fun makeNewTimeObject(startTime: Long, endTime: Long) {
         MainActivity.instance?.getCalendarView()?.let {
-            targetTimeObject.value = TimeObjectManager.makeNewTimeObject(startTime, endTime).apply {
+            targetTimeObject.value = makeTimeObjectByTatgetTemplate(startTime, endTime)
+        }
+    }
+
+    fun makeTimeObjectByTatgetTemplate(startTime: Long, endTime: Long) =
+            TimeObjectManager.makeNewTimeObject(startTime, endTime).apply {
                 targetTemplate.value?.let {
                     type = it.type
                     style = it.style
@@ -130,14 +136,19 @@ class MainViewModel : ViewModel() {
                     inCalendar = it.inCalendar
                 }
             }
-        }
-    }
 
     fun setTargetTimeObjectById(id: String?) {
         id?.let {
             targetTimeObject.value = realm.where(TimeObject::class.java)
                     .equalTo("id", it)
                     .findFirst()
+        }
+    }
+
+    fun saveDirectByTemplate() {
+        MainActivity.instance?.getCalendarView()?.let {
+            TimeObjectManager.save(makeTimeObjectByTatgetTemplate(
+                    getCalendarTime0(it.selectedCal), getCalendarTime23(it.selectedCal)))
         }
     }
 }
