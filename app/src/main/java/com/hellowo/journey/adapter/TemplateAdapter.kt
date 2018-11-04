@@ -1,6 +1,8 @@
 package com.hellowo.journey.adapter
 
 import android.content.Context
+import android.graphics.Color
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +19,12 @@ import java.util.*
 
 class TemplateAdapter(val context: Context, val items: ArrayList<Template>, val adapterInterface: (template: Template) -> Unit)
     : RecyclerView.Adapter<TemplateAdapter.ViewHolder>() {
-    val previewWidth = dpToPx(80f)
+    val previewWidth = dpToPx(60f)
     val calendar = MainActivity.instance?.getCalendarView()?.selectedCal ?: Calendar.getInstance()
+    val shortText = context.getString(R.string.title)
+    val longText = "TEXTTEXTTEXTTEXTTEXTTEXT"
 
-    override fun getItemCount(): Int = items.size * 100
+    override fun getItemCount(): Int = (items.size + 1) * 100
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
@@ -32,26 +36,55 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>, val 
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_template, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position % items.size]
         val v = holder.itemView
+        val pos = position % (items.size + 1)
+        if(pos < items.size) {
+            val item = items[pos]
 
-        val timeObjectView = v.previewContainer.getChildAt(0) as TimeObjectView
-        timeObjectView.timeObject.type = item.type
-        timeObjectView.timeObject.color = item.color
-        timeObjectView.timeObject.fontColor = item.fontColor
-        timeObjectView.timeObject.title = context.getString(TimeObject.Type.values()[item.type].titleId)
-        timeObjectView.setLookByType()
-        timeObjectView.mLeft = 0f
-        timeObjectView.mRight = previewWidth
-        timeObjectView.mTop = 0f
-        timeObjectView.mBottom = timeObjectView.getViewHeight().toFloat()
-        val lp = FrameLayout.LayoutParams(previewWidth.toInt(), timeObjectView.getViewHeight())
-        timeObjectView.layoutParams = lp
+            v.contentLy.setBackgroundResource(R.drawable.white_rect_fill_radius_1)
 
-        v.titleText.text = item.title
-        //v.iconImg.setImageResource(TimeObject.Type.values()[item.type].iconId)
-        v.pinBtn.showPinBtn = false
-        v.pinBtn.pin(item.inCalendar)
-        v.setOnClickListener { adapterInterface.invoke(item) }
+            val timeObjectView = v.previewContainer.getChildAt(0) as TimeObjectView
+            timeObjectView.visibility = View.VISIBLE
+
+            when(TimeObject.Type.values()[item.type]) {
+                TimeObject.Type.TASK -> {
+                    timeObjectView.timeObject.title = shortText
+                    timeObjectView.scaleX = 1f
+                    timeObjectView.scaleY = 1f
+                }
+                TimeObject.Type.NOTE -> {
+                    timeObjectView.timeObject.title = longText
+                    timeObjectView.scaleX = 1f
+                    timeObjectView.scaleY = 1f
+                }
+                else -> {
+                    timeObjectView.timeObject.title = shortText
+                    timeObjectView.scaleX = 1f
+                    timeObjectView.scaleY = 1f
+                }
+            }
+
+            timeObjectView.timeObject.type = item.type
+            timeObjectView.timeObject.color = item.color
+            timeObjectView.timeObject.fontColor = item.fontColor
+            timeObjectView.setLookByType()
+            timeObjectView.mLeft = 0f
+            timeObjectView.mRight = previewWidth
+            timeObjectView.mTop = 0f
+            timeObjectView.mBottom = timeObjectView.getViewHeight().toFloat()
+            val lp = FrameLayout.LayoutParams(previewWidth.toInt(), timeObjectView.getViewHeight())
+            lp.gravity = Gravity.CENTER
+            timeObjectView.layoutParams = lp
+
+            v.iconImg.setImageBitmap(null)
+            v.titleText.text = item.title
+            //v.iconImg.setImageResource(TimeObject.Type.values()[item.type].iconId)
+            v.setOnClickListener { adapterInterface.invoke(item) }
+        }else {
+            v.previewContainer.getChildAt(0).visibility = View.GONE
+            v.contentLy.setBackgroundColor(Color.TRANSPARENT)
+            v.iconImg.setImageResource(R.drawable.add_line)
+            v.titleText.text = context.getString(R.string.make_new)
+        }
     }
 }

@@ -23,8 +23,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val defaultPadding = dpToPx(4)
         val strokeWidth = dpToPx(0.5f) // 선 간격
         val rectRadius = dpToPx(0f)
-        val circleRadius = dpToPx(5f)
-        val normalTypeSize = dpToPx(18)
+        val normalTypeSize = dpToPx(17)
         val smallTypeSize = dpToPx(13)
         val bigTypeSize = dpToPx(25)
         val iconSize = dpToPx(8)
@@ -51,7 +50,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             TimeObject.Type.EVENT -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-                typeface = AppRes.thinFont
                 gravity = Gravity.CENTER_VERTICAL
                 maxLines = 1
                 setSingleLine(true)
@@ -60,15 +58,23 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 when(timeObject.style){
                     1 -> {
                         setPadding(defaultPadding + leftSideMargin, 0, defaultPadding, 0)
+                        typeface = AppRes.thinFont
                         setTextColor(timeObject.color)
                     }
                     2 -> {
                         setPadding((defaulMargin * 5 + leftSideMargin).toInt(), 0, defaultPadding, 0)
+                        typeface = AppRes.thinFont
                         setTextColor(AppRes.primaryText)
                     }
-                    else -> {
+                    3 -> {
                         setPadding(defaultPadding + leftSideMargin, 0, defaultPadding, 0)
+                        typeface = AppRes.regularFont
                         setTextColor(timeObject.fontColor)
+                    }
+                    else -> {
+                        setPadding(iconSize  + defaulMargin.toInt() + leftSideMargin, 0, defaultPadding, 0)
+                        typeface = AppRes.regularFont
+                        setTextColor(AppRes.primaryText)
                     }
                 }
             }
@@ -143,35 +149,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     super.onDraw(canvas)
                 }
                 TimeObject.Type.TASK -> {
-                    when(timeObject.style) {
-                        1 -> {
-                            if(timeObject.isDone()) {
-                                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                            }
-                            it.drawRect(RectF(0f, height.toFloat(), width.toFloat(), height.toFloat()), paint)
-                        }
-                        else -> {
-                            paint.strokeWidth = strokeWidth
-                            paint.color = timeObject.color
-                            paint.style = Paint.Style.STROKE
-
-                            val centerY = (smallTypeSize - defaulMargin) / 2f - strokeWidth
-                            val checkRadius = iconSize / 2.5f
-                            val centerX = checkRadius + defaulMargin
-                            val rect = RectF(centerX - checkRadius, centerY - checkRadius, centerX + checkRadius, centerY + checkRadius)
-                            if(timeObject.isDone()) {
-                                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                                it.drawRect(rect, paint)
-                                it.drawLine(centerX - checkRadius * 0.65f, centerY,
-                                        centerX - checkRadius * 0.25f, centerY + checkRadius * 0.5f, paint)
-                                it.drawLine(centerX - checkRadius * 0.25f, centerY + checkRadius * 0.5f,
-                                        centerX + checkRadius * 0.65f, centerY - checkRadius * 0.5f, paint)
-                            }else {
-                                it.drawRect(rect, paint)
-                            }
-                            paint.style = Paint.Style.FILL
-                        }
-                    }
+                    CalendarSkin.drawTask(canvas, this)
                     super.onDraw(canvas)
                 }
                 TimeObject.Type.STAMP -> {
@@ -188,89 +166,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     super.onDraw(canvas)
                     CalendarSkin.drawTerm(canvas, this)
                 }
-                /* 메모 모양
-                setPadding(defaultPadding * 2, defaultPadding * 2, defaultPadding * 2, defaultPadding * 2)
-                    setSingleLine(false)
-                    maxLines = 4
-                    setTextColor(color)
-                    gravity = Gravity.TOP
-                    ellipsize = TextUtils.TruncateAt.END
-
-                    paint.strokeWidth = strokeWidth
-                    paint.color = color
-
-                    val left = defaultPadding.toFloat()
-                    val top = defaultPadding.toFloat()
-                    val right = width.toFloat() - defaultPadding
-                    val bottom = height.toFloat() - defaultPadding
-
-                    var path = Path()
-                    path.moveTo(left, top)
-                    path.lineTo(right, top)
-                    path.lineTo(right, bottom - circleRadius)
-                    path.lineTo(right - circleRadius, bottom - circleRadius)
-                    path.lineTo(right - circleRadius, bottom)
-                    path.lineTo(left, bottom)
-                    path.lineTo(left, top)
-                    paint.style = Paint.Style.FILL
-                    paint.alpha = 30
-                    it.drawPath(path, paint)
-
-                    path = Path()
-                    path.moveTo(right, bottom - circleRadius)
-                    path.lineTo(right - circleRadius, bottom - circleRadius)
-                    path.lineTo(right - circleRadius, bottom)
-                    path.lineTo(right, bottom - circleRadius)
-                    paint.style = Paint.Style.STROKE
-                    paint.alpha = 30
-                    it.drawPath(path, paint)
-
-                    path = Path()
-                    path.moveTo(right - circleRadius, bottom - circleRadius)
-                    path.lineTo(right - circleRadius * 2, bottom)
-                    path.lineTo(right - circleRadius, bottom)
-                    path.lineTo(right - circleRadius, bottom - circleRadius)
-                    path.close()
-                    paint.style = Paint.Style.FILL
-                    paint.alpha = 100
-                    it.drawPath(path, paint)
-
-
-                3 -> {
-                    val paint = Paint()
-                    paint.style = Paint.Style.STROKE
-                    paint.strokeWidth = strokeWidth.toFloat()
-                    paint.color = color
-                    paint.isAntiAlias = true
-                    val center = smallTypeSize / 2f
-                    val rect = RectF(center - circleRadius, center - circleRadius, center + circleRadius, center + circleRadius)
-                    it.drawRoundRect(rect, radius, radius, paint)
-                }
-                4 -> { // 시계
-                    val paint = Paint()
-                    paint.style = Paint.Style.TOP_STACK
-                    paint.strokeWidth = strokeWidth.toFloat()
-                    paint.color = color
-                    paint.isAntiAlias = true
-                    tempCal.timeInMillis = timeObject.dtStart
-                    val degreeH = tempCal.get(Calendar.HOUR_OF_DAY) % 12 * 360 / 12 + 270
-                    val sX = normalTypeSize / 2f
-                    val sY = height / 2f
-                    val hX = Math.cos(Math.toRadians(degreeH.toDouble())) * (circleRadius - strokeWidth)
-                    val hY = Math.sin(Math.toRadians(degreeH.toDouble())) * (circleRadius - strokeWidth)
-
-                    it.drawCircle(sX, sY, circleRadius, paint)
-                    paint.color = Color.WHITE
-                    it.drawLine(sX, sY, (sX + hX).toFloat(), (sY + hY).toFloat(), paint)
-                }
-                5 -> {
-                    val bitmap = BitmapFactory.decodeResource(resources, R.drawable.p1)
-                    val bitmapDrawable = BitmapDrawable(resources, bitmap)
-                    bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
-                    bitmapDrawable.setTargetDensity(it)
-                    it.drawBitmap(bitmapDrawable.bitmap, 0f, 0f, Paint())
-                }
-                */
                 else -> {}
             }
         }

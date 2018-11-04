@@ -20,35 +20,50 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_gravity="bottom|center_horizontal"
+        android:clipChildren="false"
         android:visibility="visible">
 
         <FrameLayout
             android:id="@+id/selectedLy"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="180dp"
             android:layout_gravity="bottom|center_horizontal">
 
+            <ImageView
+                android:id="@+id/selectedTopArrow"
+                android:layout_width="10dp"
+                android:layout_height="5dp"
+                android:rotation="180"
+                android:scaleType="fitXY"
+                android:src="@drawable/down_arrow"
+                android:tint="@color/primaryText"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"/>
+
             <TextView
                 android:id="@+id/selectedText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:paddingTop="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingBottom="3dp"
+                android:textSize="14dp"
                 android:gravity="center"
                 android:text="@string/selected"
                 android:fontFamily="@font/regular"
-                android:textColor="@color/primaryText"/>
+                android:textColor="@color/primaryText"
+                android:background="@drawable/primary_side_open_rect_stroke_1dp"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="7dp"
-                android:background="@color/primaryText"
-                android:layout_gravity="bottom"/>
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="8dp"
+                android:layout_width="10dp"
+                android:layout_height="5dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/down_arrow"
                 android:tint="@color/primaryText"
                 android:layout_gravity="bottom|center_horizontal"/>
@@ -59,7 +74,8 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:layout_gravity="bottom|center_horizontal">
+            android:layout_gravity="bottom|center_horizontal"
+            android:clipChildren="false">
         </androidx.recyclerview.widget.RecyclerView>
 
     </FrameLayout>

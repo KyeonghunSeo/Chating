@@ -219,9 +219,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         TimeObjectManager.setTimeObjectCalendarAdapter(this)
         onDrawed?.invoke(monthCal)
 
-        l("${monthCal.get(Calendar.YEAR)}년 ${(monthCal.get(Calendar.MONTH) + 1)}월")
-        l("캘린더 높이 : $minCalendarHeight")
-        l("행 : $rows")
         l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
         l("==========END drawCalendar=========")
     }
@@ -377,6 +374,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun onViewEffect(cellNum: Int) {
+        /*
         TimeObjectManager.timeObjectCalendarAdapter?.getViews(cellNum)?.let {
             it.forEach { view ->
                 if(view.timeObject.type == TimeObject.Type.EVENT.ordinal || view.timeObject.type == TimeObject.Type.TASK.ordinal) {
@@ -388,10 +386,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     }, 1000)
                 }
             }
-        }
+        }*/
     }
 
-    private fun offViewEffect(cellNum: Int) {
+    private fun offViewEffect(cellNum: Int) {/*
         TimeObjectManager.timeObjectCalendarAdapter?.getViews(cellNum)?.let {
             it.forEach { view ->
                 if(view.timeObject.type == TimeObject.Type.EVENT.ordinal || view.timeObject.type == TimeObject.Type.TASK.ordinal) {
@@ -399,7 +397,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     view.isSelected = false
                 }
             }
-        }
+        }*/
     }
 
     fun setOnSwiped(onSwiped: ((Int) -> Unit)) {

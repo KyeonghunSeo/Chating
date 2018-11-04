@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.hellowo.journey.*
 import com.hellowo.journey.model.TimeObject
@@ -18,6 +19,8 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
                        val adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    val dotSize = dpToPx(8)
+    val dotTopMargin = dpToPx(18)
     val tempCal = Calendar.getInstance()
     var itemTouchHelper: ItemTouchHelper? = null
 
@@ -39,6 +42,13 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val timeObject = items[position]
         val v = holder.itemView
+
+        if(timeObject.tags.isNotEmpty()) {
+            v.tagText.visibility = View.VISIBLE
+            v.tagText.text = timeObject.tags.joinToString("") { "#${it.id}" }
+        }else {
+            v.tagText.visibility = View.GONE
+        }
 
         v.titleText.text = if(timeObject.title.isNullOrBlank()) {
             context.getString(R.string.untitle)
@@ -76,7 +86,11 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
         v.dotImg.setColorFilter(timeObject.color)
 
         if(timeObject.allday || timeObject.dtStart < getCalendarTime0(currentCal)) {
-            v.dotImg.setImageResource(R.drawable.circle_fill)
+            (v.dotImg.layoutParams as FrameLayout.LayoutParams).let {
+                it.height = dotSize * 2
+                it.topMargin = dotTopMargin - dotSize / 2
+                v.dotImg.requestLayout()
+            }
             tempCal.timeInMillis = timeObject.dtStart
             val totalDate = getDiffDate(timeObject.dtStart, timeObject.dtEnd) + 1
             val toDateNum = getDiffDate(tempCal, currentCal)
@@ -87,9 +101,14 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
                 v.timeText.visibility = View.GONE
             }
         }else {
-            v.dotImg.setImageResource(R.drawable.circle_stroke_1dp)
+            (v.dotImg.layoutParams as FrameLayout.LayoutParams).let {
+                it.height = dotSize
+                it.topMargin = dotTopMargin
+                v.dotImg.requestLayout()
+            }
             v.timeText.visibility = View.VISIBLE
-            v.timeText.text = "${AppRes.time.format(Date(timeObject.dtStart))} ~ ${AppRes.time.format(Date(timeObject.dtEnd))}"
+            v.timeText.text = "${AppRes.time.format(Date(timeObject.dtStart))}\n~" +
+                    "         \n${AppRes.time.format(Date(timeObject.dtEnd))}"
         }
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }

@@ -121,7 +121,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         exDates.addAll(data.exDates)
         tags.clear()
         data.tags.forEach {
-
+            tags.add(Tag(it.id))
         }
         alarms.clear()
         data.alarms.forEach {

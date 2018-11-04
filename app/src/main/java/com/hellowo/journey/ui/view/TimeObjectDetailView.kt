@@ -61,8 +61,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
 
         addOptionBtn.setOnClickListener {
-            AddMoreOptionDialog(this@TimeObjectDetailView)
-                    .show(MainActivity.instance?.supportFragmentManager, null)
+            showDialog(MoreOptionDialog(MainActivity.instance!!,this@TimeObjectDetailView),
+                    true, true, true, false)
         }
 
         colorBtn.setOnClickListener {
@@ -70,7 +70,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 timeObject.color = color
                 timeObject.fontColor = fontColor
                 updateUI()
-            }, true, false, true, false)
+            }, true, true, true, false)
         }
 
         pinBtn.setOnClickListener {
@@ -128,6 +128,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         fontColorText.setColorFilter(timeObject.fontColor)
 
         updateHeaderUI()
+        updateTagUI()
         updateTitleUI()
         updateDateUI()
         updateRepeatUI()
@@ -140,6 +141,15 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         pinBtn.pin(timeObject.inCalendar)
     }
 
+    private fun updateTagUI() {
+        if(timeObject.tags.isNotEmpty()) {
+            tagText.visibility = View.VISIBLE
+            tagText.text = timeObject.tags.joinToString("") { "#${it.id}" }
+        }else {
+            tagText.visibility = View.GONE
+        }
+    }
+
     private fun updateTitleUI() {
         when(timeObject.type) {
             TimeObject.Type.NOTE.ordinal -> {
@@ -150,7 +160,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             else -> {
                 titleInput.hint = context.getString(R.string.title)
                 titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 32f)
-                titleInput.typeface = AppRes.regularFont
+                titleInput.typeface = AppRes.thinFont
             }
         }
         titleInput.setText(timeObject.title)
@@ -360,6 +370,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         contentPanel.visibility = View.INVISIBLE
     }
 
+    fun isOpened(): Boolean = viewMode == ViewMode.OPENED
+
     private fun showTitleKeyPad() {
         titleInput.isFocusableInTouchMode = true
         if (titleInput.requestFocus()) {
@@ -434,5 +446,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }, true, true, true, false)
     }
 
-    fun isOpened(): Boolean = viewMode == ViewMode.OPENED
+    fun showTagDialog() {
+        showDialog(TagDialog(MainActivity.instance!!, timeObject) {
+            timeObject.tags.clear()
+            timeObject.tags.addAll(it)
+            updateTagUI()
+        }, true, true, true, false)
+    }
 }

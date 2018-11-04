@@ -1,143 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="100dp"
-    android:layout_height="wrap_content">
+    android:layout_width="90dp"
+    android:layout_height="110dp"
+    android:clipChildren="false">
 
     <FrameLayout
-        android:layout_width="90dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:clipToPadding="false"
-        android:padding="5dp">
+        android:id="@+id/contentLy"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:background="@drawable/white_rect_fill_radius_1"
+        android:elevation="0dp">
 
-        <com.hellowo.journey.ui.view.PinView
-            android:id="@+id/pinBtn"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_gravity="right"
-            android:elevation="2dp">
-        </com.hellowo.journey.ui.view.PinView>
-
-        <View
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/white"
-            android:elevation="2dp"/>
-
-        <FrameLayout
-            android:id="@+id/contentLy"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="9dp"
-            android:background="@drawable/white_rect_fill_radius_1"
-            android:elevation="2dp">
+            android:layout_height="match_parent">
 
             <FrameLayout
+                android:id="@+id/previewContainer"
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="7dp"
-                android:layout_height="60dp">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="3dp"
+                android:background="@drawable/normal_rect_stroke">
 
-                <FrameLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipChildren="false">
-
-                    <View
-                        android:id="@+id/bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/primaryText"/>
-
-                    <TextView
-                        android:id="@+id/dateText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:textSize="11dp"
-                        android:includeFontPadding="false"
-                        android:transformPivotX="0dp"
-                        android:transformPivotY="0dp"
-                        android:textColor="@color/primaryText"
-                        android:fontFamily="@font/regular"
-                        android:text="" />
-
-                    <ImageView
-                        android:id="@+id/flagImg"
-                        android:layout_width="17dp"
-                        android:layout_height="17dp"
-                        android:layout_marginRight="6dp"
-                        android:layout_gravity="right"
-                        android:transformPivotX="8.5dp"
-                        android:transformPivotY="0dp"
-                        android:tint="@color/primaryText"/>
-
-                    <TextView
-                        android:id="@+id/dowText"
-                        android:layout_width="17dp"
-                        android:layout_height="17dp"
-                        android:layout_marginRight="6dp"
-                        android:paddingTop="3dp"
-                        android:layout_gravity="right"
-                        android:gravity="center_horizontal"
-                        android:textSize="7dp"
-                        android:transformPivotX="8.5dp"
-                        android:transformPivotY="0dp"
-                        android:textColor="@color/white"
-                        android:fontFamily="@font/regular" />
-
-                    <FrameLayout
-                        android:id="@+id/previewContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp">
-
-
-                    </FrameLayout>
-
-                </FrameLayout>
+                <ImageView
+                    android:id="@+id/iconImg"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/add_line"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:tint="@color/primaryText"/>
 
             </FrameLayout>
 
-            <LinearLayout
-                android:orientation="vertical"
+            <FrameLayout
+                android:id="@+id/bottomContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="15dp">
+                android:layout_height="0dp"
+                android:layout_weight="0.75">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/almostWhite"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/titleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center"
                     android:textSize="12dp"
                     android:maxLines="3"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/regular"
                     android:text="새 할일"/>
 
-                <TextView
-                    android:id="@+id/subText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="8dp"
-                    android:maxLines="1"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/thin"
-                    android:text=""
-                    android:visibility="gone"/>
+            </FrameLayout>
 
-            </LinearLayout>
+        </LinearLayout>
 
-        </FrameLayout>
 
     </FrameLayout>
 

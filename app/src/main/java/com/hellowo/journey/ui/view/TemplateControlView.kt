@@ -24,8 +24,7 @@ import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.view_template_control.view.*
 
 class TemplateControlView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
-    private val itemHeight = dpToPx(120)
-    private val itemWidth = dpToPx(100)
+    private val itemWidth = dpToPx(90)
     private val collapseSize = dpToPx(36)
     private val scrolOffset = dpToPx(5)
     val layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
@@ -33,8 +32,8 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     var selectedPosition = 0
     var selectFlag = false
     var clickFlag = false
-    var autoPagingFlag = 0
-    var autoPagingSpeed = 0
+    var autoScrollFlag = 0
+    var autoScrollSpeed = 0
     var isExpanded = false
     var scrollXdelta = 0
     private val handler = @SuppressLint("HandlerLeak")
@@ -44,12 +43,12 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                 0 -> expand()
                 1 -> {
                     when {
-                        autoPagingFlag > 0 -> {
-                            recyclerView.scrollBy(scrolOffset * autoPagingSpeed, 0)
+                        autoScrollFlag > 0 -> {
+                            recyclerView.scrollBy(scrolOffset * autoScrollSpeed, 0)
                             this.sendEmptyMessageDelayed(1, 1)
                         }
-                        autoPagingFlag < 0 -> {
-                            recyclerView.scrollBy(-scrolOffset * autoPagingSpeed, 0)
+                        autoScrollFlag < 0 -> {
+                            recyclerView.scrollBy(-scrolOffset * autoScrollSpeed, 0)
                             this.sendEmptyMessageDelayed(1, 1)
                         }
                     }
@@ -79,7 +78,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                         view.translationY = yOffset * distanseScalse
                         view.scaleX = 1 - scaleOffset * distanseScalse
                         view.scaleY = 1 - scaleOffset * distanseScalse
-                        //view.findViewById<FrameLayout>(R.id.contentLy).elevation = zOffset * (1 - distanseScalse)
+                        view.findViewById<FrameLayout>(R.id.contentLy).elevation = zOffset * (1 - distanseScalse)
                     }
                 }
             }
@@ -93,9 +92,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                         findAndSelectCenterItem()
                     }
                 }else {
-                    if(selectedLy.alpha == 1f) {
-                        //ObjectAnimator.ofFloat(selectedLy, "alpha",1f, 0f).start()
-                    }
+                    startScrolling()
                 }
             }
         })
@@ -116,7 +113,8 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                 MotionEvent.ACTION_UP -> {
                     handler.removeMessages(0)
                     handler.removeMessages(1)
-                    if(event.x > 0 && event.x < width && event.y > 0 && event.y < height){
+                    if(event.x > 0 && event.x < touchEventView.width &&
+                            event.y > 0 && event.y < touchEventView.height){
                         if(clickFlag) {
                             if(!isExpanded) MainActivity.instance?.viewModel?.makeNewTimeObject()
                         }else {
@@ -124,9 +122,19 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                         }
                     }else {
                         if(clickFlag) {
-                            if(event.y < -recyclerView.height + height) {
-                                MainActivity.instance?.viewModel?.saveDirectByTemplate()
-                                collapse()
+                            when {
+                                event.y < -touchEventView.height * 1.5 -> {
+                                    MainActivity.instance?.viewModel?.saveDirectByTemplate()
+                                    collapse()
+                                }
+                                event.y < 0 -> {
+                                    endScrolling()
+                                    MainActivity.instance?.viewModel?.makeNewTimeObject()
+                                    collapse()
+                                }
+                                else -> {
+                                    endScrolling()
+                                }
                             }
                         }
                     }
@@ -134,48 +142,58 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                 }
                 MotionEvent.ACTION_MOVE -> {
                     if(clickFlag) {
-                        val width = touchEventView.width
-                        val height = touchEventView.height
-                        if(event.x > width / 2 + itemWidth * 1.5) {
-                            autoPagingSpeed = 2
-                            if(autoPagingFlag <= 0) {
-                                autoPagingFlag = 1
+                        if(event.x > touchEventView.width / 2 + itemWidth * 1.0) {
+                            autoScrollSpeed = 2
+                            if(autoScrollFlag <= 0) {
+                                startScrolling()
+                                autoScrollFlag = 1
                                 handler.removeMessages(1)
                                 handler.sendEmptyMessage(1)
                             }
-                        }else if(event.x < width / 2 - itemWidth * 1.5){
-                            autoPagingSpeed = 2
-                            if(autoPagingFlag >= 0) {
-                                autoPagingFlag = -1
+                        }else if(event.x < touchEventView.width / 2 - itemWidth * 1.0){
+                            autoScrollSpeed = 2
+                            if(autoScrollFlag >= 0) {
+                                startScrolling()
+                                autoScrollFlag = -1
                                 handler.removeMessages(1)
                                 handler.sendEmptyMessage(1)
                             }
-                        }else if(event.x > width / 2 + itemWidth * 0.75){
-                            autoPagingSpeed = 1
-                            if(autoPagingFlag <= 0) {
-                                autoPagingFlag = 1
+                        }else if(event.x > touchEventView.width / 2 + itemWidth * 0.5){
+                            autoScrollSpeed = 1
+                            if(autoScrollFlag <= 0) {
+                                startScrolling()
+                                autoScrollFlag = 1
                                 handler.removeMessages(1)
                                 handler.sendEmptyMessage(1)
                             }
-                        }else if(event.x < width / 2 - itemWidth * 0.75){
-                            autoPagingSpeed = 1
-                            if(autoPagingFlag >= 0) {
-                                autoPagingFlag = -1
+                        }else if(event.x < touchEventView.width / 2 - itemWidth * 0.5){
+                            autoScrollSpeed = 1
+                            if(autoScrollFlag >= 0) {
+                                startScrolling()
+                                autoScrollFlag = -1
                                 handler.removeMessages(1)
                                 handler.sendEmptyMessage(1)
                             }
                         }else {
-                            if(autoPagingFlag != 0) {
-                                autoPagingFlag = 0
-                                handler.removeMessages(1)
-                                findAndSelectCenterItem()
-                            }
+                            endScrolling()
                         }
 
-                        if(event.y < -recyclerView.height + height) {
-                            selectedText.text = context.getString(R.string.add_direct)
-                        }else {
-                            selectedText.text = context.getString(R.string.selected)
+                        when {
+                            event.y < -touchEventView.height * 1.5 -> {
+                                selectedText.text = context.getString(R.string.add_direct)
+                                selectedTopArrow.visibility = View.VISIBLE
+                                selectedLy.translationY = -dpToPx(10f)
+                            }
+                            event.y < 0 -> {
+                                selectedText.text = context.getString(R.string.add)
+                                selectedTopArrow.visibility = View.GONE
+                                selectedLy.translationY = 0f
+                            }
+                            else -> {
+                                selectedText.text = context.getString(R.string.selected)
+                                selectedTopArrow.visibility = View.GONE
+                                selectedLy.translationY = 0f
+                            }
                         }
                     }
                 }
@@ -216,7 +234,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
 
     fun collapse() {
         controllView.elevation = 0f
-        autoPagingFlag = 0
+        autoScrollFlag = 0
 
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f),
@@ -234,10 +252,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         isExpanded = false
     }
 
-    private fun restoreViews() {
-        listLy.visibility = View.INVISIBLE
-    }
-
     fun notify(it: List<Template>) {
         items.clear()
         items.addAll(it)
@@ -245,18 +259,14 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         it.firstOrNull { it.id == Prefs.getInt("last_template_id", 0) }?.let {
             selectItem(it)
             recyclerView.adapter?.notifyDataSetChanged()
-            recyclerView.scrollToPosition(items.size * 50 + selectedPosition)
+            recyclerView.scrollToPosition((items.size + 1) * 50 + selectedPosition)
         }
-    }
-
-    private fun setScrollCenterSelectedItem() {
-        recyclerView.scrollBy(-(width / 2 - itemWidth / 2), 0)
     }
 
     private fun findAndSelectCenterItem() {
         selectFlag = true
         selectedLy.visibility = View.VISIBLE
-        //ObjectAnimator.ofFloat(selectedLy, "alpha",0f, 1f).start()
+        ObjectAnimator.ofFloat(selectedLy, "alpha",0f, 1f).start()
         var delta = Int.MAX_VALUE
         var sIndex = 0
         (0 until layoutManager.childCount).forEach {
@@ -271,8 +281,10 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             }
         }
         recyclerView.smoothScrollBy(delta * -1, 0)
-        selectedPosition = (layoutManager.findFirstVisibleItemPosition() + sIndex) % items.size
-        selectItem(items[selectedPosition])
+        selectedPosition = (layoutManager.findFirstVisibleItemPosition() + sIndex) % (items.size + 1)
+        if(selectedPosition < items.size) {
+            selectItem(items[selectedPosition])
+        }
     }
 
     private fun selectItem(template: Template) {
@@ -286,5 +298,30 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         controllBackground.setBackgroundColor(template.color)
         templateIconImg.setColorFilter(template.fontColor)
         templateNameText.text = template.title
+    }
+
+    private fun setScrollCenterSelectedItem() {
+        recyclerView.scrollBy(-(width / 2 - itemWidth / 2), 0)
+    }
+
+    private fun startScrolling() {
+        if(selectedLy.alpha == 1f) {
+            ObjectAnimator.ofFloat(selectedLy, "alpha",1f, 0f).start()
+        }
+    }
+
+    private fun endScrolling() {
+        if(autoScrollFlag != 0) {
+            autoScrollFlag = 0
+            handler.removeMessages(1)
+            findAndSelectCenterItem()
+        }
+    }
+
+    private fun restoreViews() {
+        listLy.visibility = View.INVISIBLE
+        selectedLy.alpha = 1f
+        selectedLy.translationY = 0f
+        selectedTopArrow.visibility = View.GONE
     }
 }

@@ -142,5 +142,12 @@
     <string name="calendar_settings">캘린더 설정</string>
     <string name="selected">선택됨</string>
     <string name="add_direct">바로저장</string>
+    <string name="make_new">새로 만들기</string>
+    <string name="add">입력</string>
+    <string name="tag">태그</string>
+    <string name="more_options">추가 옵션</string>
+    <string name="edit_tag">태그 편집</string>
+    <string name="enter_tag">새로운 태그를 만들어보세요</string>
+    <string name="no_tag">태그가 없습니다</string>
 
 </resources>

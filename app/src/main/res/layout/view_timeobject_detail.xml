@@ -43,8 +43,17 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="35dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:paddingBottom="35dp">
+
+                <TextView
+                    android:id="@+id/tagText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primaryText"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/thin"/>
 
                 <EditText
                     android:id="@+id/titleInput"
@@ -161,9 +170,7 @@
                     android:orientation="vertical"
                     android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
+                    android:layout_height="wrap_content">
 
                     <View
                         android:layout_width="30dp"

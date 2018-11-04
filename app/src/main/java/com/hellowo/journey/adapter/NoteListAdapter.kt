@@ -53,6 +53,13 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
         val timeObject = items[position]
         val v = holder.itemView
 
+        if(timeObject.tags.isNotEmpty()) {
+            v.tagText.visibility = View.VISIBLE
+            v.tagText.text = timeObject.tags.joinToString("") { "#${it.id}" }
+        }else {
+            v.tagText.visibility = View.GONE
+        }
+
         v.titleText.text = if(timeObject.title.isNullOrBlank()) {
             context.getString(R.string.empty_note)
         }else {
@@ -67,8 +74,6 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
         val updatedDate = Date(timeObject.dtUpdated)
         finishTexs.append("${AppRes.ymdeDate.format(updatedDate)} ${AppRes.time.format(updatedDate)}")
         v.finishText.text = finishTexs.toString()
-
-        v.tagText.visibility = View.GONE
 
         v.topDivider.setBackgroundColor(timeObject.color)
 
