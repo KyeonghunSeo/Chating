@@ -68,13 +68,13 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
-            1 -> {/*
+            1 -> {
                 if(!timeObject.isDone() && taskList.filter { !it.isDone() }.size == 1) {
                     taskFinishAnimView.visibility = View.VISIBLE
                     taskFinishAnimView.playAnimation()
                 }else {
                     taskFinishAnimView.visibility = View.GONE
-                }*/
+                }
                 TimeObjectManager.done(timeObject)
             }
         }
@@ -108,7 +108,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         }
 
         taskFinishAnimView.imageAssetsFolder = "assets/"
-        taskFinishAnimView.setAnimation("done_button.json")
+        taskFinishAnimView.setAnimation("success.json")
         taskFinishAnimView.visibility = View.GONE
 
         contentLy.visibility = View.INVISIBLE

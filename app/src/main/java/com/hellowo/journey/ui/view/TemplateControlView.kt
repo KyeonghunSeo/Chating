@@ -295,8 +295,8 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     private fun setControlView(template: Template) {
-        controllBackground.setBackgroundColor(template.color)
-        templateIconImg.setColorFilter(template.fontColor)
+        //controllBackground.setBackgroundColor(template.color)
+        //templateIconImg.setColorFilter(template.fontColor)
         templateNameText.text = template.title
     }
 

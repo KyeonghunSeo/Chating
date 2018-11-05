@@ -4,6 +4,8 @@
     package="com.hellowo.journey">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="false"
@@ -40,7 +42,6 @@
         <activity android:name=".ui.activity.TrashActivity" />
 
         <receiver android:name="com.hellowo.journey.alarm.BriefingAlarmReceiver"/>
-        <receiver android:name="com.hellowo.journey.alarm.com.hellowo.journey.draw.PencilViewAlarmReceiver"/>
         <service android:name="com.hellowo.journey.alarm.NotiService" />
     </application>
 

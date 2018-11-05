@@ -106,11 +106,9 @@
 
         <View
             android:id="@+id/topShadow"
-            android:background="@color/primaryText"
+            android:background="@color/secondaryText"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginTop="49.5dp">
         </View>
 
@@ -154,6 +152,24 @@
             android:alpha="0"
             android:background="@color/transitionDim">
         </View>
+
+        <View
+            android:id="@+id/bottomShadow"
+            android:background="@color/secondaryText"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="49.5dp"
+            android:layout_gravity="bottom">
+        </View>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:tint="@color/primaryText"
+            android:src="@drawable/layers"
+            android:padding="12dp"
+            android:layout_marginLeft="10dp"/>
 
         <com.hellowo.journey.ui.view.TemplateControlView
             android:id="@+id/templateControlView"

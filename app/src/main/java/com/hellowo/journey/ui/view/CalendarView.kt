@@ -42,7 +42,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateArea = dpToPx(30)
         val weekLyBottomPadding = dpToPx(20)
         val dateMargin = dpToPx(1)
-        val weekSideMargin = dpToPx(16)
+        val weekSideMargin = dpToPx(0)
         val autoPagingThreshold = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)

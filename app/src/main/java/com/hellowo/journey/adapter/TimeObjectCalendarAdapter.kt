@@ -6,6 +6,7 @@ import android.widget.FrameLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
 import com.hellowo.journey.*
+import com.hellowo.journey.calendar.OsCalendarManager
 import com.hellowo.journey.calendar.util.CalendarComparator
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.calendar.TimeObjectManager
@@ -78,6 +79,10 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 }
             }catch (e: Exception){ e.printStackTrace() }
         }
+        /*
+        OsCalendarManager.getInstances(context, "", calendarView.calendarStartTime, calendarView.calendarEndTime).forEach {
+            makeTimeObjectView(it)
+        }*/
         viewHolderList.sortWith(CalendarComparator())
     }
 

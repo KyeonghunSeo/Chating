@@ -11,6 +11,7 @@ import com.hellowo.journey.adapter.TagAdapter
 import com.hellowo.journey.l
 import com.hellowo.journey.model.Tag
 import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.showDialog
 import com.hellowo.journey.startDialogShowAnimation
 import io.realm.Realm
 import kotlinx.android.synthetic.main.dialog_tag.*
@@ -18,7 +19,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class TagDialog(activity: Activity, timeObject: TimeObject,
+class TagDialog(val activity: Activity, timeObject: TimeObject,
                 private val onResult: (ArrayList<Tag>) -> Unit) : Dialog(activity) {
     val items = ArrayList<Tag>()
     val realm = Realm.getDefaultInstance()
@@ -44,20 +45,8 @@ class TagDialog(activity: Activity, timeObject: TimeObject,
 
         tagInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == IME_ACTION_DONE) {
+                saveTag()
                 if(!tagInput.text.isNullOrBlank()){
-                    val id = tagInput.text.toString()
-                    realm.executeTransaction {
-                        var tag = realm.where(Tag::class.java)
-                                .equalTo("id", id)
-                                .findFirst()
-                        if(tag == null) {
-                            tag = realm.createObject(Tag::class.java, id)
-                            val order = realm.where(Tag::class.java).max("order")?.toInt() ?: -1
-                            tag.order = order + 1
-                        }
-                    }
-
-                    items.add(Tag(id))
                     tagText.text = items.joinToString("") { "#${it.id}" }
                     recyclerView.adapter?.notifyDataSetChanged()
                     tagInput.setText("")
@@ -67,11 +56,23 @@ class TagDialog(activity: Activity, timeObject: TimeObject,
         }
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = TagAdapter(realm.where(Tag::class.java).findAllAsync(), items) { tag ->
-            if(items.any { it.id == tag.id }){
-                items.remove(items.first { it.id == tag.id })
-            }else {
-                items.add(realm.copyFromRealm(tag))
+        recyclerView.adapter = TagAdapter(realm.where(Tag::class.java).findAllAsync(), items) { action, tag ->
+            when(action) {
+                0 -> {
+                    if(items.any { it.id == tag.id }){
+                        items.remove(items.first { it.id == tag.id })
+                    }else {
+                        items.add(realm.copyFromRealm(tag))
+                    }
+                }
+                1 -> {
+                    showDialog(CustomDialog(activity, context.getString(R.string.delete_tag),
+                            context.getString(R.string.delete_tag_sub), null) { result, _ ->
+                        if(result) {
+                            deleteTag(tag)
+                        }
+                    }, true, true, true, false)
+                }
             }
             tagText.text = items.joinToString("") { "#${it.id}" }
             recyclerView.adapter?.notifyDataSetChanged()
@@ -79,8 +80,38 @@ class TagDialog(activity: Activity, timeObject: TimeObject,
 
         cancelBtn.setOnClickListener { dismiss() }
         confirmBtn.setOnClickListener {
+            saveTag()
             onResult.invoke(items)
             dismiss()
+        }
+    }
+
+    private fun deleteTag(tag: Tag) {
+        if(items.any { it.id == tag.id }){
+            items.remove(items.first { it.id == tag.id })
+        }
+        realm.executeTransaction {
+            realm.where(Tag::class.java)
+                    .equalTo("id", tag.id)
+                    .findFirst()?.deleteFromRealm()
+        }
+    }
+
+    private fun saveTag() {
+        if(!tagInput.text.isNullOrBlank()){
+            val id = tagInput.text.toString()
+            realm.executeTransaction {
+                var tag = realm.where(Tag::class.java)
+                        .equalTo("id", id)
+                        .findFirst()
+                if(tag == null) {
+                    tag = realm.createObject(Tag::class.java, id)
+                    val order = realm.where(Tag::class.java).max("order")?.toInt() ?: -1
+                    tag.order = order + 1
+                }
+            }
+
+            items.add(Tag(id))
         }
     }
 

@@ -14,7 +14,7 @@ import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.list_item_tag.view.*
 
 class TagAdapter(data: OrderedRealmCollection<Tag>, val checkedItems: ArrayList<Tag>,
-                 val adapterInterface: (tag: Tag) -> Unit)
+                 val adapterInterface: (action: Int, tag: Tag) -> Unit)
     : RealmRecyclerViewAdapter<Tag, TagAdapter.ViewHolder>(data, true) {
 
     init {
@@ -39,7 +39,8 @@ class TagAdapter(data: OrderedRealmCollection<Tag>, val checkedItems: ArrayList<
                 v.hashText.setTextColor(AppRes.secondaryText)
                 v.hashText.typeface = AppRes.thinFont
             }
-            v.setOnClickListener { adapterInterface.invoke(tag) }
+            v.deleteBtn.setOnClickListener { adapterInterface.invoke(1, tag) }
+            v.setOnClickListener { adapterInterface.invoke(0, tag) }
         }
     }
 

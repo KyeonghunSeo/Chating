@@ -92,8 +92,7 @@
             android:id="@+id/controllBackground"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/primaryText">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/templateIconImg"
@@ -101,7 +100,7 @@
                 android:layout_height="36dp"
                 android:padding="10dp"
                 android:src="@drawable/add_line"
-                android:tint="@color/white"/>
+                android:tint="@color/primaryText"/>
 
             <TextView
                 android:id="@+id/templateNameText"

@@ -54,25 +54,25 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
-                val leftSideMargin = if(leftOpen) defaultPadding else 0
+                //val leftSideMargin = if(leftOpen) defaultPadding else 0
                 when(timeObject.style){
                     1 -> {
-                        setPadding(defaultPadding + leftSideMargin, 0, defaultPadding, 0)
+                        setPadding(defaultPadding, 0, defaultPadding, 0)
                         typeface = AppRes.thinFont
                         setTextColor(timeObject.color)
                     }
                     2 -> {
-                        setPadding((defaulMargin * 5 + leftSideMargin).toInt(), 0, defaultPadding, 0)
+                        setPadding((defaulMargin * 5).toInt(), 0, defaultPadding, 0)
                         typeface = AppRes.thinFont
                         setTextColor(AppRes.primaryText)
                     }
                     3 -> {
-                        setPadding(defaultPadding + leftSideMargin, 0, defaultPadding, 0)
+                        setPadding(defaultPadding, 0, defaultPadding, 0)
                         typeface = AppRes.regularFont
                         setTextColor(timeObject.fontColor)
                     }
                     else -> {
-                        setPadding(iconSize  + defaulMargin.toInt() + leftSideMargin, 0, defaultPadding, 0)
+                        setPadding(iconSize  + defaulMargin.toInt(), 0, defaultPadding, 0)
                         typeface = AppRes.regularFont
                         setTextColor(AppRes.primaryText)
                     }
@@ -201,12 +201,13 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
     fun setLayout() {
         var w = mRight - mLeft - defaulMargin
+        /*
         if(leftOpen) {
             w += defaultPadding
             translationX = -defaultPadding.toFloat()
         }
         if(rightOpen) w += defaultPadding
-
+        */
         val lp = FrameLayout.LayoutParams(w.toInt(), (mBottom - mTop - defaulMargin).toInt())
         lp.setMargins(0, mTop.toInt(), 0, 0)
         layoutParams = lp

@@ -19,8 +19,8 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
                        val adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val dotSize = dpToPx(8)
-    val dotTopMargin = dpToPx(18)
+    val dotSize = dpToPx(6)
+    val dotTopMargin = dpToPx(19)
     val tempCal = Calendar.getInstance()
     var itemTouchHelper: ItemTouchHelper? = null
 

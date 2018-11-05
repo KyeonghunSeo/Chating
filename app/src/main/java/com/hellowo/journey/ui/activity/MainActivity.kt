@@ -24,6 +24,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.hellowo.journey.*
+import com.hellowo.journey.calendar.OsCalendarManager
 import com.hellowo.journey.calendar.TimeObjectManager
 import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.listener.MainDragAndDropListener
@@ -135,10 +136,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        topShadow.visibility = View.GONE
+        topShadow.visibility = View.VISIBLE
         calendarView.setOnTop { isTop ->
-            if(dayView.isOpened() || !isTop) topShadow.visibility = View.VISIBLE
-            else topShadow.visibility = View.GONE
+            //if(dayView.isOpened() || !isTop) topShadow.visibility = View.VISIBLE
+            //else topShadow.visibility = View.GONE
         }
     }
 
@@ -149,8 +150,8 @@ class MainActivity : AppCompatActivity() {
         dayView.visibility = View.GONE
         calendarLy.addView(dayView, calendarLy.indexOfChild(topShadow))
         dayView.onVisibility = { show ->
-            if(show || !calendarView.isTop()) topShadow.visibility = View.VISIBLE
-            else topShadow.visibility = View.GONE
+            //if(show || !calendarView.isTop()) topShadow.visibility = View.VISIBLE
+            //else topShadow.visibility = View.GONE
         }
     }
 
@@ -184,7 +185,9 @@ class MainActivity : AppCompatActivity() {
 
             //startActivity(Intent(this, DrawActivity::class.java))
 
-            viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
+            //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
+
+            checkOsCalendarPermission()
         }
     }
 
@@ -287,12 +290,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkOsCalendarPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CALENDAR), RC_PERMISSIONS)
+        } else {
+            OsCalendarManager.getCalendarList(this)
+        }
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             RC_PERMISSIONS -> {
                 permissions.indices
                         .filter { permissions[it] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[it] == PackageManager.PERMISSION_GRANTED }
-                        .forEach { showPhotoPicker() }
+                        .forEach { _ -> showPhotoPicker() }
+                permissions.indices
+                        .filter { permissions[it] == Manifest.permission.READ_CALENDAR && grantResults[it] == PackageManager.PERMISSION_GRANTED }
+                        .forEach { _ -> OsCalendarManager.getCalendarList(this) }
                 return
             }
         }
