@@ -79,10 +79,10 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 }
             }catch (e: Exception){ e.printStackTrace() }
         }
-        /*
+
         OsCalendarManager.getInstances(context, "", calendarView.calendarStartTime, calendarView.calendarEndTime).forEach {
             makeTimeObjectView(it)
-        }*/
+        }
         viewHolderList.sortWith(CalendarComparator())
     }
 

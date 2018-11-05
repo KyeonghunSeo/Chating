@@ -10,8 +10,7 @@ import android.text.TextUtils
 import com.hellowo.journey.l
 import com.hellowo.journey.model.TimeObject
 import com.pixplicity.easyprefs.library.Prefs
-import java.util.ArrayList
-import java.util.HashMap
+import java.util.*
 
 object OsCalendarManager {
     private val INDEX_ID = 0
@@ -107,12 +106,15 @@ object OsCalendarManager {
         val cur: Cursor?
 
         val osCalendarIds = Prefs.getStringSet("osCalendarIds", HashSet<String>())
-        if (osCalendarIds.size > 0) {
-        //if (true) {
+        //if (osCalendarIds.size > 0) {
+        if (true) {
             val categoryQuery = osCalendarIds.joinToString(" OR ") { "(${CalendarContract.Instances.CALENDAR_ID}=$it)" }
 
-            if (TextUtils.isEmpty(keyWord)) {
+            if (TextUtils.isEmpty(keyWord)) {/*
                 selection = "(" + CalendarContract.Instances.VISIBLE + " = ?)" + " AND (" + categoryQuery + ")"
+                selectionArgs = arrayOf("1")*/
+
+                selection = "(" + CalendarContract.Instances.VISIBLE + " = ?)"
                 selectionArgs = arrayOf("1")
             } else {
                 selection = ("(" + CalendarContract.Instances.VISIBLE + " = ?) AND ((" +
@@ -144,9 +146,11 @@ object OsCalendarManager {
         return instance_list
     }
 
+    val timeZone = TimeZone.getDefault().rawOffset
+
     private fun makeTimeObject(cur: Cursor) : TimeObject{
         val block = TimeObject(
-                id = "os",
+                id = "osInstance::${cur.getLong(INDEX_ID)}",
                 type = 0,
                 title = cur.getString(INDEX_TITLE),
                 color = cur.getInt(INDEX_EVENT_COLOR),
@@ -155,6 +159,12 @@ object OsCalendarManager {
                 allday = cur.getInt(INDEX_ALLDAY) == 1,
                 dtStart = cur.getLong(INDEX_DTSTART),
                 dtEnd = cur.getLong(INDEX_DTEND))
+        if(block.allday) {
+            block.dtUpdated = block.dtStart
+            block.dtCreated = block.dtEnd
+            block.dtStart -= timeZone
+            block.dtEnd -= (timeZone + 1)
+        }
         return block
     }
 }

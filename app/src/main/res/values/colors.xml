@@ -53,7 +53,7 @@
     <color name="transparent">#00000000</color>
 
     <color name="calendarBackground">#ffffff</color>
-    <color name="holiday">#ff6a5c</color>
+    <color name="holiday">#fc4a1a</color>
     <color name="transitionDim">#60000000</color>
     <color name="transitionDimWhite">#ccF4F4F4</color>
 

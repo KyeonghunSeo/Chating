@@ -54,6 +54,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
+                isHorizontalFadingEdgeEnabled = true
                 //val leftSideMargin = if(leftOpen) defaultPadding else 0
                 when(timeObject.style){
                     1 -> {
@@ -73,7 +74,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     }
                     else -> {
                         setPadding(iconSize  + defaulMargin.toInt(), 0, defaultPadding, 0)
-                        typeface = AppRes.regularFont
+                        typeface = AppRes.thinFont
                         setTextColor(AppRes.primaryText)
                     }
                 }

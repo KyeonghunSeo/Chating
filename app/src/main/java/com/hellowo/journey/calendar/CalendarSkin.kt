@@ -25,7 +25,7 @@ object CalendarSkin {
     fun init(calendarView: CalendarView) {
         val resource = calendarView.context.resources
         backgroundColor = resource.getColor(R.color.calendarBackground)
-        dateColor = resource.getColor(R.color.secondaryText)
+        dateColor = resource.getColor(R.color.primaryText)
         holiDateColor = resource.getColor(R.color.holiday)
         todayDateColor = resource.getColor(R.color.primaryText)
         selectedDateColor = resource.getColor(R.color.primaryText)
@@ -106,9 +106,9 @@ object CalendarSkin {
                 paint.alpha = 255
                 val redius = defaulMargin
                 if(view.timeObject.allday) {
-                    val rect = RectF(iconSize / 2f - redius, height / 2f - redius * 2,
+                    val rect = RectF(iconSize / 2f - redius * 1.1f, height / 2f - redius * 2,
                             iconSize / 2f + redius, height / 2f + redius * 2)
-                    canvas.drawRoundRect(rect, redius, redius, paint)
+                    canvas.drawRoundRect(rect, 0f, 0f, paint)
                 }else {
                     canvas.drawCircle(iconSize / 2f, height / 2f, redius, paint)
                 }

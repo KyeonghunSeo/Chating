@@ -348,6 +348,8 @@ class MainActivity : AppCompatActivity() {
                             })
                 }catch (e: Exception){}
             }
+        }else if(requestCode == RC_OS_CALENDAR) {
+            dayView.onActivityResult(requestCode, resultCode, data)
         }
     }
 

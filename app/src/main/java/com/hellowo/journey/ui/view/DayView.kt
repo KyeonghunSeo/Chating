@@ -3,9 +3,12 @@ package com.hellowo.journey.ui.view
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.ContentUris
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
+import android.net.Uri
 import android.os.Handler
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -34,10 +37,14 @@ import kotlinx.android.synthetic.main.view_selected_bar.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 import android.os.Looper
+import android.provider.CalendarContract
+import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
+import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.hellowo.journey.adapter.NoteListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
+import com.hellowo.journey.calendar.OsCalendarManager
 import com.hellowo.journey.calendar.util.EventListComparator
 import com.hellowo.journey.calendar.util.NoteListComparator
 
@@ -173,6 +180,11 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         t.clear()
         n.clear()
         collocateData(data, e, t, n)
+
+        OsCalendarManager.getInstances(context, "", startTime, endTime).forEach {
+            if(it.dtStart < endTime && it.dtEnd > startTime) e.add(it)
+        }
+
         e.sortWith(EventListComparator())
         t.sortWith(TaskListComparator())
         n.sortWith(NoteListComparator())
@@ -224,8 +236,22 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
 
     private fun onItemClick(view: View?, timeObject: TimeObject) {
         MainActivity.instance?.viewModel?.let {
-            it.targetTimeObject.value = timeObject
-            it.targetView.value = view
+            if(timeObject.id?.startsWith("osInstance::") == true) {
+                val eventId = timeObject.id!!.substring("osInstance::".length, timeObject.id!!.length).toLong()
+                val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
+                val intent = Intent(Intent.ACTION_VIEW).setData(uri)
+                if(timeObject.allday) {
+                    intent.putExtra(EXTRA_EVENT_BEGIN_TIME, timeObject.dtUpdated)
+                    intent.putExtra(EXTRA_EVENT_END_TIME, timeObject.dtCreated)
+                }else {
+                    intent.putExtra(EXTRA_EVENT_BEGIN_TIME, timeObject.dtStart)
+                    intent.putExtra(EXTRA_EVENT_END_TIME, timeObject.dtEnd)
+                }
+                MainActivity.instance?.startActivityForResult(intent, RC_OS_CALENDAR)
+            }else {
+                it.targetTimeObject.value = timeObject
+                it.targetView.value = view
+            }
         }
     }
 
@@ -391,4 +417,8 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     }
 
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        notifyDateChanged(0)
+    }
 }
