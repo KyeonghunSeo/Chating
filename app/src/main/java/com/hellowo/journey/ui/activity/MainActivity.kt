@@ -186,9 +186,9 @@ class MainActivity : AppCompatActivity() {
 
             //startActivity(Intent(this, DrawActivity::class.java))
 
-            viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
+            //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
 
-            //checkOsCalendarPermission()
+            checkOsCalendarPermission()
         }
     }
 

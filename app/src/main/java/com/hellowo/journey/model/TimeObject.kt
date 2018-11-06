@@ -72,6 +72,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         Type.STAMP -> Formula.TOP_FLOW
         Type.MONEY -> Formula.MID_FLOW
         Type.TERM -> Formula.BOTTOM_STACK
+        Type.DRAWING -> Formula.OVERLAY
         else -> Formula.TOP_STACK
     }
 

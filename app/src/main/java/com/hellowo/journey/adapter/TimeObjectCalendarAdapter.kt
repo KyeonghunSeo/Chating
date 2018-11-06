@@ -191,19 +191,25 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                     when(formula) {
                         TOP_STACK -> {
                             it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
+                            it.mBottom = it.mTop + it.getViewHeight()
                         }
                         TOP_FLOW, TOP_LINEAR, MID_FLOW -> {
                             it.mTop = cellBottomArray[it.cellNum]
+                            it.mBottom = it.mTop + it.getViewHeight()
                         }
                         BOTTOM_LINEAR -> {
                             it.mTop = cellBottomArray[it.cellNum]
+                            it.mBottom = it.mTop + it.getViewHeight()
                         }
                         BOTTOM_STACK -> {
                             it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
+                            it.mBottom = it.mTop + it.getViewHeight()
                         }
-                        else -> {}
+                        OVERLAY -> {
+                            it.mTop = drawStartYOffset
+                            it.mBottom = calendarView.minHeight
+                        }
                     }
-                    it.mBottom = it.mTop + it.getViewHeight()
                     it.setLayout()
 
                     (it.cellNum until it.cellNum + it.length).forEach{ index ->

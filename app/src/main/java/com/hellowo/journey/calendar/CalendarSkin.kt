@@ -399,6 +399,15 @@ object CalendarSkin {
         }
     }
 
+    fun drawDrawing(canvas: Canvas, view: TimeObjectView) {
+        val margin = defaulMargin.toInt()
+        val width = view.width
+        val height = view.height
+        val frame = AppRes.resources.getDrawable(R.drawable.frame_2)
+        frame.setBounds(0, height - 245 * width / 420, width, height)
+        frame.draw(canvas)
+    }
+
     /* 메모 모양
                 setPadding(defaultPadding * 2, defaultPadding * 2, defaultPadding * 2, defaultPadding * 2)
                     setSingleLine(false)

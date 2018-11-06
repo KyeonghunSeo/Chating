@@ -3,7 +3,7 @@ package com.hellowo.journey.ui.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
-import android.graphics.Typeface.ITALIC
+import android.graphics.Typeface.*
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
@@ -132,6 +132,14 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     }
                 }
             }
+            TimeObject.Type.DRAWING -> {
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + 3)
+                text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
+                setTypeface(AppRes.textFont, BOLD_ITALIC)
+                setLineSpacing(strokeWidth, 1f)
+                setPadding(defaultPadding, defaultPadding, defaultPadding, normalTypeSize * 2)
+                setTextColor(CalendarSkin.dateColor)
+            }
             else -> {
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 typeface = AppRes.regularFont
@@ -166,6 +174,10 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 TimeObject.Type.TERM -> {
                     super.onDraw(canvas)
                     CalendarSkin.drawTerm(canvas, this)
+                }
+                TimeObject.Type.DRAWING -> {
+                    super.onDraw(canvas)
+                    CalendarSkin.drawDrawing(canvas, this)
                 }
                 else -> {}
             }
