@@ -34,6 +34,7 @@ import com.hellowo.journey.ui.view.DayView
 import com.hellowo.journey.ui.view.SwipeScrollView.Companion.SWIPE_LEFT
 import com.hellowo.journey.ui.view.SwipeScrollView.Companion.SWIPE_RIGHT
 import com.hellowo.journey.viewmodel.MainViewModel
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -185,14 +186,14 @@ class MainActivity : AppCompatActivity() {
 
             //startActivity(Intent(this, DrawActivity::class.java))
 
-            //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
+            viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
 
-            checkOsCalendarPermission()
+            //checkOsCalendarPermission()
         }
     }
 
     private fun initObserver() {
-        viewModel.targetTimeObject.observe(this, androidx.lifecycle.Observer { timeObject ->
+        viewModel.targetTimeObject.observe(this, Observer { timeObject ->
             if(timeObject != null) {
                 timeObjectDetailView.show(timeObject)
             }else {
@@ -200,18 +201,17 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.appUser.observe(this, androidx.lifecycle.Observer { it?.let { updateUserUI(it) } })
+        viewModel.appUser.observe(this, Observer { it?.let { updateUserUI(it) } })
 
-        viewModel.templateList.observe(this, androidx.lifecycle.Observer {
+        viewModel.templateList.observe(this, Observer {
             it?.let { templateControlView.notify(it) }
         })
 
-        viewModel.isCalendarSettingOpened.observe(this, androidx.lifecycle.Observer { isOpend ->
+        viewModel.isCalendarSettingOpened.observe(this, Observer { isOpend ->
             isOpend?.let {
-                l("!!!!!!!!!!")
                 TransitionManager.beginDelayedTransition(calendarLy, makeChangeBounceTransition())
                 (calendarLy.layoutParams as FrameLayout.LayoutParams).let {
-                    if(isOpend) it.topMargin = dpToPx(300)
+                    if(isOpend) it.topMargin = dpToPx(150)
                     else it.topMargin = dpToPx(0)
                 }
                 calendarLy.requestLayout()

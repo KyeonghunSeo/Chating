@@ -9,6 +9,7 @@ import com.hellowo.journey.ui.view.TimeObjectView
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaulMargin
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaultPadding
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.iconSize
+import com.hellowo.journey.ui.view.TimeObjectView.Companion.strokeWidth
 
 object CalendarSkin {
     var backgroundColor: Int = 0
@@ -98,7 +99,7 @@ object CalendarSkin {
                 paint.style = Paint.Style.FILL
 
                 if(view.length > 1) {
-                    paint.alpha = 15
+                    paint.alpha = 100
                     val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
                     canvas.drawRoundRect(rect, defaulMargin, defaulMargin, paint)
                 }
@@ -106,11 +107,11 @@ object CalendarSkin {
                 paint.alpha = 255
                 val redius = defaulMargin
                 if(view.timeObject.allday) {
-                    val rect = RectF(iconSize / 2f - redius * 1.1f, height / 2f - redius * 2,
-                            iconSize / 2f + redius, height / 2f + redius * 2)
+                    val rect = RectF(iconSize / 2f - redius, height / 2f - redius * 2.6f,
+                            iconSize / 2f + redius, height / 2f + redius * 2.4f)
                     canvas.drawRoundRect(rect, 0f, 0f, paint)
                 }else {
-                    canvas.drawCircle(iconSize / 2f, height / 2f, redius, paint)
+                    canvas.drawCircle(iconSize / 2f, height / 2f - strokeWidth, redius, paint)
                 }
             }
         }
@@ -130,9 +131,9 @@ object CalendarSkin {
             }
             else -> {
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = TimeObjectView.strokeWidth
+                paint.strokeWidth = strokeWidth
 
-                val centerY = (TimeObjectView.smallTypeSize - defaulMargin) / 2f - TimeObjectView.strokeWidth
+                val centerY = (TimeObjectView.smallTypeSize - defaulMargin) / 2f - strokeWidth
                 val checkRadius = TimeObjectView.iconSize / 2.5f
                 val centerX = checkRadius + defaulMargin
                 val rect = RectF(centerX - checkRadius, centerY - checkRadius, centerX + checkRadius, centerY + checkRadius)
@@ -159,7 +160,7 @@ object CalendarSkin {
         canvas.translate(view.scrollX.toFloat(), 0f)
         when(view.timeObject.style){
             1 -> { // 양쪽 얇은 화살표
-                val periodLine = (TimeObjectView.strokeWidth * 1.5).toInt()
+                val periodLine = (strokeWidth * 1.5).toInt()
                 val rectl = RectF(periodLine.toFloat(),
                         height / 2f - periodLine / 2,
                         view.width / 2 - view.textSpaceWidth / 2 - defaulMargin,
@@ -205,7 +206,7 @@ object CalendarSkin {
                 }
             }
             2 -> {
-                val periodLine = (TimeObjectView.strokeWidth * 2).toInt()
+                val periodLine = (strokeWidth * 2).toInt()
                 val rect = RectF(periodLine.toFloat(), height - (periodLine * 4).toFloat(),
                         view.width - periodLine.toFloat(), height - (periodLine * 5).toFloat())
                 canvas.drawRect(rect, paint)
@@ -238,7 +239,7 @@ object CalendarSkin {
             }
             else -> { // 두꺼운 화살표
                 paint.alpha = 150
-                val periodLine = (TimeObjectView.strokeWidth * 7.5).toInt()
+                val periodLine = (strokeWidth * 7.5).toInt()
                 val rectl = RectF(periodLine * 2f,
                         height / 2f - periodLine / 2,
                         width / 2 - view.textSpaceWidth / 2 - defaultPadding,
@@ -347,7 +348,7 @@ object CalendarSkin {
                 val rect = RectF(defaulMargin,
                         TimeObjectView.iconSize / 2f,
                         TimeObjectView.iconSize.toFloat() + defaulMargin,
-                        TimeObjectView.iconSize / 2f + TimeObjectView.strokeWidth * 2)
+                        TimeObjectView.iconSize / 2f + strokeWidth * 2)
                 canvas.drawRect(rect, paint)
             }
         }

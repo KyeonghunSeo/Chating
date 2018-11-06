@@ -355,6 +355,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     }
 
     fun hide() {
+        timeObjectList?.removeAllChangeListeners()
         calendarView.getSelectedView().let { dateLy ->
             dateText.text = calendarView.selectedCal?.get(Calendar.DATE).toString()
             elevation = dpToPx(15).toFloat()

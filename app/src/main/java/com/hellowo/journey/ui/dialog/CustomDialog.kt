@@ -18,11 +18,10 @@ class CustomDialog(activity: Activity, private val title: String, private val su
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.attributes.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_custom)
         setLayout()
-        setOnShowListener {
-            startDialogShowAnimation(contentLy)
-        }
+        setOnShowListener {}
     }
 
     private fun setLayout() {

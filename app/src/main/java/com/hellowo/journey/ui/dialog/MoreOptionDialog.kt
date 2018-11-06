@@ -15,11 +15,10 @@ class MoreOptionDialog(activity: Activity, private val timeObjectDetailView: Tim
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.attributes.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_more_option)
         setLayout()
-        setOnShowListener {
-            startDialogShowAnimation(contentLy)
-        }
+        setOnShowListener {}
     }
 
     private fun setLayout() {

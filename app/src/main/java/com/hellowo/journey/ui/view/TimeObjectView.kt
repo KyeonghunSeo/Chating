@@ -101,7 +101,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             TimeObject.Type.NOTE -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
-                typeface = AppRes.textFont
+                typeface = AppRes.thinFont
                 setLineSpacing(strokeWidth, 1f)
                 setPadding(defaulMargin.toInt(), (iconSize + defaulMargin).toInt(), defaultPadding, 0)
                 setTextColor(CalendarSkin.dateColor)

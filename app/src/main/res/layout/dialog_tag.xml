@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/contentLy"
@@ -15,7 +15,7 @@
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:layout_gravity="center"
-        android:layout_margin="10dp">
+        android:layout_margin="20dp">
 
         <TextView
             android:id="@+id/tagText"
@@ -52,8 +52,9 @@
 
             <EditText
                 android:id="@+id/tagInput"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:padding="10dp"
                 android:textSize="18dp"
                 android:hint="@string/enter_tag"
@@ -64,12 +65,25 @@
                 android:background="@color/transparent"
                 android:fontFamily="@font/thin"/>
 
+            <TextView
+                android:id="@+id/addBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/regular"
+                android:text="@string/add"/>
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp">

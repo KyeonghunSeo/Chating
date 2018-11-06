@@ -8,14 +8,12 @@ import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hellowo.journey.R
 import com.hellowo.journey.adapter.TagAdapter
-import com.hellowo.journey.l
 import com.hellowo.journey.model.Tag
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.showDialog
 import com.hellowo.journey.startDialogShowAnimation
 import io.realm.Realm
 import kotlinx.android.synthetic.main.dialog_tag.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -30,11 +28,10 @@ class TagDialog(val activity: Activity, timeObject: TimeObject,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.attributes.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_tag)
         setLayout()
-        setOnShowListener {
-            startDialogShowAnimation(contentLy)
-        }
+        setOnShowListener {}
     }
 
     private fun setLayout() {
@@ -43,15 +40,9 @@ class TagDialog(val activity: Activity, timeObject: TimeObject,
 
         tagText.text = items.joinToString("") { "#${it.id}" }
 
+        addBtn.setOnClickListener { createAndAddTag() }
         tagInput.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == IME_ACTION_DONE) {
-                saveTag()
-                if(!tagInput.text.isNullOrBlank()){
-                    tagText.text = items.joinToString("") { "#${it.id}" }
-                    recyclerView.adapter?.notifyDataSetChanged()
-                    tagInput.setText("")
-                }
-            }
+            if (actionId == IME_ACTION_DONE) { createAndAddTag() }
             return@setOnEditorActionListener false
         }
 
@@ -80,9 +71,18 @@ class TagDialog(val activity: Activity, timeObject: TimeObject,
 
         cancelBtn.setOnClickListener { dismiss() }
         confirmBtn.setOnClickListener {
-            saveTag()
+            createTag()
             onResult.invoke(items)
             dismiss()
+        }
+    }
+
+    private fun createAndAddTag() {
+        createTag()
+        if(!tagInput.text.isNullOrBlank()){
+            tagText.text = items.joinToString("") { "#${it.id}" }
+            recyclerView.adapter?.notifyDataSetChanged()
+            tagInput.setText("")
         }
     }
 
@@ -95,9 +95,10 @@ class TagDialog(val activity: Activity, timeObject: TimeObject,
                     .equalTo("id", tag.id)
                     .findFirst()?.deleteFromRealm()
         }
+        tagText.text = items.joinToString("") { "#${it.id}" }
     }
 
-    private fun saveTag() {
+    private fun createTag() {
         if(!tagInput.text.isNullOrBlank()){
             val id = tagInput.text.toString()
             realm.executeTransaction {
@@ -110,8 +111,9 @@ class TagDialog(val activity: Activity, timeObject: TimeObject,
                     tag.order = order + 1
                 }
             }
-
-            items.add(Tag(id))
+            if(!items.any { it.id == id }){
+                items.add(Tag(id))
+            }
         }
     }
 

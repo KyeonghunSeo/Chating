@@ -5,6 +5,8 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.util.ChineseCalendar
+import android.os.Build
 import android.os.Handler
 import android.os.Message
 import android.text.TextUtils
@@ -245,8 +247,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun unselectDate(cellNum: Int, anim: Boolean) {
-        l("선택 해제 : " + android.text.format.DateFormat.getDateFormat(context).format(cellTimeMills[cellNum]))
-
         val dateText = dateHeaders[cellNum].dateText
         val flagImg = dateHeaders[cellNum].flagImg
         val color = getDateTextColor(cellNum)
@@ -295,7 +295,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun selectDate(cellNum: Int, anim: Boolean, showDayView: Boolean) {
         if(!showDayView) {
-            l("선택한 날짜 : " + android.text.format.DateFormat.getDateFormat(context).format(cellTimeMills[cellNum]))
+            l("selectDate : ${AppRes.ymdDate.format(Date(cellTimeMills[cellNum]))}")
             selectedCal.timeInMillis = cellTimeMills[cellNum]
             if(cellNum / columns != selectedCellNum / columns) {
                 weekLySideView.parent?.let {

@@ -1,43 +1,31 @@
 package com.hellowo.journey.calendar
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
+import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.Color
 import android.provider.CalendarContract
 import android.text.TextUtils
-import com.hellowo.journey.l
+import androidx.core.app.ActivityCompat
 import com.hellowo.journey.model.TimeObject
 import com.pixplicity.easyprefs.library.Prefs
 import java.util.*
 
 object OsCalendarManager {
-    private val INDEX_ID = 0
-    private val INDEX_TITLE = 1
-    private val INDEX_DTSTART = 2
-    private val INDEX_DTEND = 3
-    private val INDEX_ALLDAY = 4
-    private val INDEX_DURATION = 5
-    private val INDEX_LOCATION = 6
-    private val INDEX_DESCRIPTION = 7
-    private val INDEX_EVENT_COLOR = 8
-    private val INDEX_RRULE = 9
-    private val INDEX_RDATE = 10
-    private val INDEX_HAS_ALARM = 11
-    private val INDEX_HAS_ATTENDEE_DATA = 12
-    private val INDEX_EVENT_TIMEZONE = 13
-    private val INDEX_CALENDAR_ID = 14
-    private val INDEX_ORIGINAL_DTSTART = 15
-    private val INDEX_ORIGINAL_DTEND = 16
+    private const val INDEX_ID = 0
+    private const val INDEX_TITLE = 1
+    private const val INDEX_DTSTART = 2
+    private const val INDEX_DTEND = 3
+    private const val INDEX_ALLDAY = 4
+    private const val INDEX_CAL_COLOR = 5
+    private const val INDEX_LOCATION = 6
+    private const val INDEX_DESCRIPTION = 7
+    private const val INDEX_EVENT_COLOR = 8
 
-    private val INDEX_CALENDAR_DISPLAY_NAME = 1
-    private val INDEX_CALENDAR_COLOR = 2
-    private val INDEX_ACCOUNT_TYPE = 3
-    private val INDEX_ACCOUNT_NAME = 4
-    private val INDEX_OWNER_ACCOUNT = 5
-    private val INDEX_VISIBLE = 6
-    private val INDEX_CALENDAR_ACCESS_LEVEL = 7
+    private const val INDEX_CALENDAR_DISPLAY_NAME = 1
+    private const val INDEX_CALENDAR_COLOR = 2
 
     private val CALENDAR_PROJECTION = arrayOf(
             CalendarContract.Calendars._ID,
@@ -55,7 +43,7 @@ object OsCalendarManager {
             CalendarContract.Instances.BEGIN,
             CalendarContract.Instances.END,
             CalendarContract.Instances.ALL_DAY,
-            CalendarContract.Instances.DURATION,
+            CalendarContract.Instances.CALENDAR_COLOR,
             CalendarContract.Instances.EVENT_LOCATION,
             CalendarContract.Instances.DESCRIPTION,
             CalendarContract.Instances.EVENT_COLOR,
@@ -77,83 +65,89 @@ object OsCalendarManager {
         }
     }
 
+    private fun checkPermission(context: Context)
+            = ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
+
     @SuppressLint("MissingPermission")
     fun getCalendarList(context: Context): List<OsCalendar> {
-        val cr = context.contentResolver
         val categoryList = ArrayList<OsCalendar>()
-        val cur = cr.query(CalendarContract.Calendars.CONTENT_URI, CALENDAR_PROJECTION, null, null, null)
+        if(checkPermission(context)) {
+            val cr = context.contentResolver
+            val cur = cr.query(CalendarContract.Calendars.CONTENT_URI, CALENDAR_PROJECTION, null, null, null)
 
-        if (cur != null && cur.count > 0) {
-            while (!cur.isLast) {
-                cur.moveToNext()
-                val osCalendar = OsCalendar(cur.getLong(INDEX_ID),
-                        cur.getString(INDEX_CALENDAR_DISPLAY_NAME),
-                        cur.getInt(INDEX_CALENDAR_COLOR))
-                l(osCalendar.toString())
-                categoryList.add(osCalendar)
+            if (cur != null && cur.count > 0) {
+                while (!cur.isLast) {
+                    cur.moveToNext()
+                    val osCalendar = OsCalendar(cur.getLong(INDEX_ID),
+                            cur.getString(INDEX_CALENDAR_DISPLAY_NAME),
+                            cur.getInt(INDEX_CALENDAR_COLOR))
+                    categoryList.add(osCalendar)
+                }
             }
+            cur?.close()
         }
-        cur?.close()
         return categoryList
     }
 
     @SuppressLint("MissingPermission")
     fun getInstances(context: Context, keyWord: String, startMillis: Long, endMillis: Long): List<TimeObject> {
-        val cr = context.contentResolver
-        val instance_list = ArrayList<TimeObject>()
-        val selection: String
-        val selectionArgs: Array<String>
-        val cur: Cursor?
+        val list = ArrayList<TimeObject>()
+        if(checkPermission(context)) {
+            val cr = context.contentResolver
+            val selection: String
+            val selectionArgs: Array<String>
+            val cur: Cursor?
 
-        val osCalendarIds = Prefs.getStringSet("osCalendarIds", HashSet<String>())
-        //if (osCalendarIds.size > 0) {
-        if (true) {
-            val categoryQuery = osCalendarIds.joinToString(" OR ") { "(${CalendarContract.Instances.CALENDAR_ID}=$it)" }
+            val osCalendarIds = Prefs.getStringSet("osCalendarIds", HashSet<String>())
+            //if (osCalendarIds.size > 0) {
+            if (true) {
+                val categoryQuery = osCalendarIds.joinToString(" OR ") { "(${CalendarContract.Instances.CALENDAR_ID}=$it)" }
 
-            if (TextUtils.isEmpty(keyWord)) {/*
+                if (TextUtils.isEmpty(keyWord)) {/*
                 selection = "(" + CalendarContract.Instances.VISIBLE + " = ?)" + " AND (" + categoryQuery + ")"
                 selectionArgs = arrayOf("1")*/
 
-                selection = "(" + CalendarContract.Instances.VISIBLE + " = ?)"
-                selectionArgs = arrayOf("1")
-            } else {
-                selection = ("(" + CalendarContract.Instances.VISIBLE + " = ?) AND ((" +
-                        CalendarContract.Instances.TITLE + " LIKE ?) OR (" + CalendarContract.Instances.DESCRIPTION + " LIKE ?))"
-                        + " AND (" + categoryQuery + ")")
-                selectionArgs = arrayOf("1", "%$keyWord%", "%$keyWord%")
-            }
-
-            val builder = CalendarContract.Instances.CONTENT_URI.buildUpon()
-            ContentUris.appendId(builder, startMillis)
-            ContentUris.appendId(builder, endMillis)
-
-            cur = cr.query(builder.build(), INSTANCE_PROJECTION, selection, selectionArgs, CalendarContract.Instances.BEGIN + " asc")
-
-            if (cur != null && cur.count > 0) {
-                while (!cur.isLast) {
-                    cur.moveToNext()
-                    try {
-                        instance_list.add(makeTimeObject(cur))
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-
+                    selection = "(" + CalendarContract.Instances.VISIBLE + " = ?)"
+                    selectionArgs = arrayOf("1")
+                } else {
+                    selection = ("(" + CalendarContract.Instances.VISIBLE + " = ?) AND ((" +
+                            CalendarContract.Instances.TITLE + " LIKE ?) OR (" + CalendarContract.Instances.DESCRIPTION + " LIKE ?))"
+                            + " AND (" + categoryQuery + ")")
+                    selectionArgs = arrayOf("1", "%$keyWord%", "%$keyWord%")
                 }
-            }
-            cur?.close()
-        }
 
-        return instance_list
+                val builder = CalendarContract.Instances.CONTENT_URI.buildUpon()
+                ContentUris.appendId(builder, startMillis)
+                ContentUris.appendId(builder, endMillis)
+
+                cur = cr.query(builder.build(), INSTANCE_PROJECTION, selection, selectionArgs, CalendarContract.Instances.BEGIN + " asc")
+
+                if (cur != null && cur.count > 0) {
+                    while (!cur.isLast) {
+                        cur.moveToNext()
+                        try {
+                            list.add(makeTimeObject(cur))
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+
+                    }
+                }
+                cur?.close()
+            }
+        }
+        return list
     }
 
-    val timeZone = TimeZone.getDefault().rawOffset
+    private val timeZone = TimeZone.getDefault().rawOffset
 
     private fun makeTimeObject(cur: Cursor) : TimeObject{
         val block = TimeObject(
                 id = "osInstance::${cur.getLong(INDEX_ID)}",
                 type = 0,
                 title = cur.getString(INDEX_TITLE),
-                color = cur.getInt(INDEX_EVENT_COLOR),
+                color = if(cur.getInt(INDEX_EVENT_COLOR) != 0) cur.getInt(INDEX_EVENT_COLOR)
+                else cur.getInt(INDEX_CAL_COLOR),
                 location = cur.getString(INDEX_LOCATION),
                 description = cur.getString(INDEX_DESCRIPTION),
                 allday = cur.getInt(INDEX_ALLDAY) == 1,
