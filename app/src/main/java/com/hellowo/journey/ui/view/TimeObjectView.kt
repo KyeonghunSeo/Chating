@@ -52,9 +52,9 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 gravity = Gravity.CENTER_VERTICAL
                 maxLines = 1
-                setSingleLine(true)
-                setHorizontallyScrolling(true)
-                isHorizontalFadingEdgeEnabled = true
+                //setSingleLine(true)
+                //setHorizontallyScrolling(true)
+                //isHorizontalFadingEdgeEnabled = true
                 //val leftSideMargin = if(leftOpen) defaultPadding else 0
                 when(timeObject.style){
                     1 -> {
@@ -74,7 +74,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     }
                     else -> {
                         setPadding(iconSize  + defaulMargin.toInt(), 0, defaultPadding, 0)
-                        typeface = AppRes.thinFont
+                        typeface = AppRes.regularFont
                         setTextColor(AppRes.primaryText)
                     }
                 }
@@ -82,7 +82,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             TimeObject.Type.TASK -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-                typeface = AppRes.thinFont
+                typeface = AppRes.regularFont
                 gravity = Gravity.CENTER_VERTICAL
                 maxLines = 1
                 setSingleLine(true)
@@ -101,7 +101,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             TimeObject.Type.NOTE -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
-                typeface = AppRes.thinFont
+                typeface = AppRes.regularFont
                 setLineSpacing(strokeWidth, 1f)
                 setPadding(defaulMargin.toInt(), (iconSize + defaulMargin).toInt(), defaultPadding, 0)
                 setTextColor(CalendarSkin.dateColor)

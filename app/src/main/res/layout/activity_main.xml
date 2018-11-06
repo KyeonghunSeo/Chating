@@ -121,15 +121,7 @@
             app:cardBackgroundColor="@color/white"
             app:cardElevation="0dp"
             app:cardCornerRadius="15dp"
-            android:visibility="gone">
-
-            <ImageView
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:padding="11dp"
-                android:src="@drawable/archive"
-                android:tint="@color/primaryText"/>
+            android:visibility="visible">
 
         </com.hellowo.journey.ui.view.KeepView>
 
