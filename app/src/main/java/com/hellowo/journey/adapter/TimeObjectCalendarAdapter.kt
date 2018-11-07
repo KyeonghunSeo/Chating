@@ -6,11 +6,11 @@ import android.widget.FrameLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
 import com.hellowo.journey.*
-import com.hellowo.journey.calendar.OsCalendarManager
-import com.hellowo.journey.calendar.util.CalendarComparator
+import com.hellowo.journey.manager.OsCalendarManager
+import com.hellowo.journey.util.CalendarComparator
 import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.calendar.TimeObjectManager
-import com.hellowo.journey.calendar.RepeatManager
+import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.ui.view.CalendarView.Companion.weekLyBottomPadding
 import com.hellowo.journey.ui.view.TimeObjectView
@@ -267,7 +267,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         }
 
         viewHolderList.forEach { holder ->
-            if(TimeObjectManager.lastUpdatedItem == holder.timeObject) {
+            if(TimeObjectManager.lastUpdatedItem?.id == holder.timeObject.id) {
                 TimeObjectManager.lastUpdatedItem = null
                 holder.timeObjectViewList.forEach {
                     //val lastAlpha = if(isOutDate(it)) 1f else CalendarView.outDateAlpha

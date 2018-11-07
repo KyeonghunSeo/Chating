@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
-import android.net.Uri
 import android.os.Handler
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -25,10 +24,10 @@ import com.hellowo.journey.*
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.adapter.EventListAdapter
 import com.hellowo.journey.adapter.TaskListAdapter
-import com.hellowo.journey.calendar.util.TaskListComparator
-import com.hellowo.journey.calendar.TimeObjectManager
-import com.hellowo.journey.calendar.CalendarSkin
-import com.hellowo.journey.calendar.RepeatManager
+import com.hellowo.journey.util.TaskListComparator
+import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.manager.CalendarSkin
+import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.OrderedCollectionChangeSet
 import io.realm.RealmResults
@@ -41,12 +40,11 @@ import android.provider.CalendarContract
 import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
 import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
 import android.widget.FrameLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.hellowo.journey.adapter.NoteListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
-import com.hellowo.journey.calendar.OsCalendarManager
-import com.hellowo.journey.calendar.util.EventListComparator
-import com.hellowo.journey.calendar.util.NoteListComparator
+import com.hellowo.journey.manager.OsCalendarManager
+import com.hellowo.journey.util.EventListComparator
+import com.hellowo.journey.util.NoteListComparator
 
 
 class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
@@ -285,8 +283,6 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         }
     }
 
-
-
     fun show() {
         viewMode = ViewMode.ANIMATING
         visibility = View.VISIBLE
@@ -323,7 +319,6 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                         override fun onTransitionCancel(transition: Transition) {}
                         override fun onTransitionStart(transition: Transition) {
                             notifyDateChanged(0)
-
                             val animSet = AnimatorSet()
                             animSet.playTogether(ObjectAnimator.ofFloat(this@DayView, "elevation", dpToPx(15).toFloat(), 0f),
                                     ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f),
@@ -357,7 +352,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     fun hide() {
         timeObjectList?.removeAllChangeListeners()
         calendarView.getSelectedView().let { dateLy ->
-            dateText.text = calendarView.selectedCal?.get(Calendar.DATE).toString()
+            dateText.text = calendarView.selectedCal.get(Calendar.DATE).toString()
             elevation = dpToPx(15).toFloat()
             viewMode = ViewMode.ANIMATING
 

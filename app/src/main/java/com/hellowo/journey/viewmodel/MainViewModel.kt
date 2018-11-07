@@ -8,11 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hellowo.journey.*
 import com.hellowo.journey.R
-import com.hellowo.journey.calendar.TimeObjectManager
-import com.hellowo.journey.model.ColorTag
-import com.hellowo.journey.model.Template
-import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.model.AppUser
+import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.model.*
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.*
 import java.util.*
@@ -27,6 +24,7 @@ class MainViewModel : ViewModel() {
     val templateList = MutableLiveData<List<Template>>()
     val colorTagList = MutableLiveData<List<ColorTag>>()
     val isCalendarSettingOpened = MutableLiveData<Boolean>()
+    val targetFolder = MutableLiveData<Folder>()
 
     init {
         if(SyncUser.current() == null) {

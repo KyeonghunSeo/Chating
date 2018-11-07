@@ -11,7 +11,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
 import com.hellowo.journey.*
 import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.calendar.RepeatManager
+import com.hellowo.journey.manager.RepeatManager
 import kotlinx.android.synthetic.main.dialog_repeat.*
 import org.json.JSONObject
 import java.util.*

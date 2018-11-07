@@ -1,4 +1,4 @@
-package com.hellowo.journey.calendar
+package com.hellowo.journey.manager
 
 import android.graphics.*
 import com.hellowo.journey.AppRes
@@ -298,21 +298,22 @@ object CalendarSkin {
                 val overlap = size - (width - size * totalStampCnt) / (1 - totalStampCnt)
                 (totalStampCnt - 1 downTo 0).forEach { index ->
                     view.childList?.get(index)?.let { timeObject ->
+                        /*
                         val circle = AppRes.resources.getDrawable(R.drawable.circle_fill)
                         circle.setColorFilter(timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
                         circle.setBounds(right - size + 1, 1, right - 1, size - 1)
                         circle.draw(canvas)
-
+                        */
                         val stamp = AppRes.resources.getDrawable(StampManager.stamps[index])
-                        stamp.setColorFilter(timeObject.color, PorterDuff.Mode.SRC_ATOP)
+                        //stamp.setColorFilter(timeObject.color, PorterDuff.Mode.SRC_ATOP)
                         stamp.setBounds(right - size + margin, margin, right - margin, size - margin)
                         stamp.draw(canvas)
-
+/*
                         val stroke = AppRes.resources.getDrawable(R.drawable.circle_stroke_1dp)
                         stroke.setColorFilter(timeObject.color, PorterDuff.Mode.SRC_ATOP)
                         stroke.setBounds(right - size, 0, right, size)
                         stroke.draw(canvas)
-
+*/
                         right -= overlap
                     }
                 }
@@ -324,15 +325,15 @@ object CalendarSkin {
                     circle.draw(canvas)
 
                     val stamp = AppRes.resources.getDrawable(StampManager.stamps[index])
-                    stamp.setColorFilter(timeObject.color, PorterDuff.Mode.SRC_ATOP)
+                    //stamp.setColorFilter(timeObject.color, PorterDuff.Mode.SRC_ATOP)
                     stamp.setBounds(left + margin, margin, left + size - margin, size - margin)
                     stamp.draw(canvas)
-
+/*
                     val stroke = AppRes.resources.getDrawable(R.drawable.circle_stroke_1dp)
                     stroke.setColorFilter(timeObject.color, PorterDuff.Mode.SRC_ATOP)
                     stroke.setBounds(left, 0, left + size, size)
                     stroke.draw(canvas)
-
+*/
                     left += size + margin
                 }
             }

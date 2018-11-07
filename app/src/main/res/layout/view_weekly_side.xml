@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/transparent"
-    app:cardCornerRadius="3dp"
-    app:cardElevation="0dp">
+    android:layout_height="30dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/secondaryText"/>
 
     <TextView
         android:id="@+id/weekNumText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:textSize="30dp"
-        android:layout_marginLeft="5dp"
-        android:textColor="@color/background"
-        android:fontFamily="@font/bold"
-        android:text="W02" />
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:includeFontPadding="false"
+        android:textColor="@color/primaryText"
+        android:fontFamily="@font/regular"
+        android:textSize="12dp" />
 
-</androidx.cardview.widget.CardView>
+</FrameLayout>

@@ -8,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.hellowo.journey.R
-import com.hellowo.journey.calendar.TimeObjectManager
+import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.calendar.RepeatManager
+import com.hellowo.journey.manager.RepeatManager
 import kotlinx.android.synthetic.main.list_item_task.view.*
 import java.util.*
 

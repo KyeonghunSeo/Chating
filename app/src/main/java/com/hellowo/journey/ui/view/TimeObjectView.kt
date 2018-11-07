@@ -11,9 +11,8 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.hellowo.journey.*
-import com.hellowo.journey.calendar.CalendarSkin
+import com.hellowo.journey.manager.CalendarSkin
 import com.hellowo.journey.model.TimeObject
-import java.time.format.TextStyle
 
 @SuppressLint("ViewConstructor")
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {

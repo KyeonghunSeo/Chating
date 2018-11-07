@@ -33,7 +33,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     var selectFlag = false
     var clickFlag = false
     var autoScrollFlag = 0
-    var autoScrollSpeed = 0
+    var autoScrollSpeed = 0f
     var isExpanded = false
     var scrollXdelta = 0
     private val handler = @SuppressLint("HandlerLeak")
@@ -44,11 +44,11 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                 1 -> {
                     when {
                         autoScrollFlag > 0 -> {
-                            recyclerView.scrollBy(scrolOffset * autoScrollSpeed, 0)
+                            recyclerView.scrollBy((scrolOffset * autoScrollSpeed).toInt(), 0)
                             this.sendEmptyMessageDelayed(1, 1)
                         }
                         autoScrollFlag < 0 -> {
-                            recyclerView.scrollBy(-scrolOffset * autoScrollSpeed, 0)
+                            recyclerView.scrollBy((-scrolOffset * autoScrollSpeed).toInt(), 0)
                             this.sendEmptyMessageDelayed(1, 1)
                         }
                     }
@@ -142,32 +142,16 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                 }
                 MotionEvent.ACTION_MOVE -> {
                     if(clickFlag) {
-                        if(event.x > touchEventView.width / 2 + itemWidth * 1.0) {
-                            autoScrollSpeed = 2
+                        if(event.x > touchEventView.width / 2 + itemWidth / 2){
+                            autoScrollSpeed = ((event.x - (touchEventView.width / 2 + itemWidth / 2)) / (itemWidth / 2) + 0.5f)
                             if(autoScrollFlag <= 0) {
                                 startScrolling()
                                 autoScrollFlag = 1
                                 handler.removeMessages(1)
                                 handler.sendEmptyMessage(1)
                             }
-                        }else if(event.x < touchEventView.width / 2 - itemWidth * 1.0){
-                            autoScrollSpeed = 2
-                            if(autoScrollFlag >= 0) {
-                                startScrolling()
-                                autoScrollFlag = -1
-                                handler.removeMessages(1)
-                                handler.sendEmptyMessage(1)
-                            }
-                        }else if(event.x > touchEventView.width / 2 + itemWidth * 0.5){
-                            autoScrollSpeed = 1
-                            if(autoScrollFlag <= 0) {
-                                startScrolling()
-                                autoScrollFlag = 1
-                                handler.removeMessages(1)
-                                handler.sendEmptyMessage(1)
-                            }
-                        }else if(event.x < touchEventView.width / 2 - itemWidth * 0.5){
-                            autoScrollSpeed = 1
+                        }else if(event.x < touchEventView.width / 2 - itemWidth / 2){
+                            autoScrollSpeed = (((touchEventView.width / 2 - itemWidth / 2) - event.x) / (itemWidth / 2) + 0.5f)
                             if(autoScrollFlag >= 0) {
                                 startScrolling()
                                 autoScrollFlag = -1

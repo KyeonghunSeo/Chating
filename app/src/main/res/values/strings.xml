@@ -151,5 +151,6 @@
     <string name="no_tag">태그가 없습니다</string>
     <string name="delete_tag">태그 삭제</string>
     <string name="delete_tag_sub">정말 이 태그를 삭제할까요?</string>
+    <string name="keep">보관함</string>
 
 </resources>

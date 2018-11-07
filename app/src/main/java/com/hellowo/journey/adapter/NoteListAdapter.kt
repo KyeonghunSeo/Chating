@@ -2,7 +2,6 @@ package com.hellowo.journey.adapter
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.AppRes
 import com.hellowo.journey.R
-import com.hellowo.journey.calendar.TimeObjectManager
+import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.list_item_note.view.*
 import java.util.*

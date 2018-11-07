@@ -1,4 +1,4 @@
-package com.hellowo.journey.calendar
+package com.hellowo.journey.manager
 
 import android.Manifest
 import android.annotation.SuppressLint

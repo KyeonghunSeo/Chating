@@ -1,5 +1,6 @@
 package com.hellowo.journey.ui.view
 
+import android.animation.ObjectAnimator
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
@@ -23,10 +24,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.hellowo.journey.*
-import com.hellowo.journey.calendar.TimeObjectManager
+import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.Alarm
 import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.calendar.RepeatManager
+import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.MapActivity
 import com.hellowo.journey.ui.dialog.*
@@ -313,11 +314,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     fun show(timeObject: TimeObject) {
         l("=======SHOW DetailView=======\n$timeObject")
         viewMode = ViewMode.OPENED
-        MainActivity.instance?.let {
-            it.onDimDark(true, true)
-        }
-        //layoutParams.height = insertModeHeight
-        //requestLayout()
         setData(timeObject)
         updateUI()
 
@@ -333,7 +329,12 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
-            override fun onTransitionStart(transition: Transition) {}
+            override fun onTransitionStart(transition: Transition) {
+                ObjectAnimator.ofFloat(backgroundLy, "alpha",0f, 1f).start()
+                backgroundLy.setOnClickListener {
+                    MainActivity.instance?.viewModel?.targetTimeObject?.value = null
+                }
+            }
         })
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
@@ -347,9 +348,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     fun hide() {
         l("=======HIDE DetailView=======")
         viewMode = ViewMode.CLOSED
-        MainActivity.instance?.let {
-            it.offDimDark(true, true)
-        }
         val t1 = makeFromBottomSlideTransition()
         t1.addTarget(contentPanel)
 
@@ -361,6 +359,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {
+                ObjectAnimator.ofFloat(backgroundLy, "alpha",1f, 0f).start()
                 hideKeyPad(windowToken, titleInput)
             }
         })
@@ -368,6 +367,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
         //contentLy.layoutTransition.disableTransitionType(LayoutTransition.CHANGING)
         contentPanel.visibility = View.INVISIBLE
+        backgroundLy.setOnClickListener(null)
     }
 
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED

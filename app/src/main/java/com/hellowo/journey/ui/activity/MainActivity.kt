@@ -9,7 +9,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
-import android.os.Message
 import android.view.DragEvent
 import android.view.View
 import android.widget.FrameLayout
@@ -24,8 +23,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.hellowo.journey.*
-import com.hellowo.journey.calendar.OsCalendarManager
-import com.hellowo.journey.calendar.TimeObjectManager
+import com.hellowo.journey.manager.OsCalendarManager
+import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.ui.dialog.DatePickerDialog
@@ -35,6 +34,7 @@ import com.hellowo.journey.ui.view.SwipeScrollView.Companion.SWIPE_LEFT
 import com.hellowo.journey.ui.view.SwipeScrollView.Companion.SWIPE_RIGHT
 import com.hellowo.journey.viewmodel.MainViewModel
 import androidx.lifecycle.Observer
+import com.hellowo.journey.manager.FolderManager
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     private fun initLayout() {
         window.navigationBarColor = resources.getColor(R.color.transitionDimWhite)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        dateLy.setOnClickListener {
+        dateLy.setOnClickListener { _ ->
             showDialog(DatePickerDialog(this@MainActivity, calendarView.selectedCal.timeInMillis) {
                 calendarView.moveDate(it, true)
             }, true, true, true, false)
@@ -161,9 +161,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initKeepView() {
-        keepView.setOnClickListener {
-            if(keepView.viewMode == ViewMode.CLOSED) { keepView.show() }
-        }
+        keepBtn.setOnClickListener { viewModel.targetFolder.value = FolderManager.getPrimaryFolder() }
     }
 
     private fun initBriefingView() {
@@ -201,14 +199,14 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.appUser.observe(this, Observer { it?.let { updateUserUI(it) } })
+        viewModel.appUser.observe(this, Observer { appUser -> appUser?.let { updateUserUI(it) } })
 
-        viewModel.templateList.observe(this, Observer {
-            it?.let { templateControlView.notify(it) }
+        viewModel.templateList.observe(this, Observer { list ->
+            list?.let { templateControlView.notify(it) }
         })
 
         viewModel.isCalendarSettingOpened.observe(this, Observer { isOpend ->
-            isOpend?.let {
+            isOpend?.let { _ ->
                 TransitionManager.beginDelayedTransition(calendarLy, makeChangeBounceTransition())
                 (calendarLy.layoutParams as FrameLayout.LayoutParams).let {
                     if(isOpend) it.topMargin = dpToPx(150)
@@ -217,6 +215,9 @@ class MainActivity : AppCompatActivity() {
                 calendarLy.requestLayout()
             }
         })
+
+        viewModel.targetFolder.observe(this, Observer { folder -> folder?.let {
+            if(keepView.viewMode == ViewMode.CLOSED) { keepView.show() }}})
     }
 
     private fun updateUserUI(appUser: AppUser) {
@@ -226,7 +227,7 @@ class MainActivity : AppCompatActivity() {
                     .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
                     .into(profileImage)
         }else {
-            profileImage.setColorFilter(resources.getColor(R.color.iconTint))
+            profileImage.setColorFilter(AppRes.primaryText)
         }
     }
 
@@ -323,7 +324,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         when{
-            timeObjectDetailView.isOpened() -> timeObjectDetailView.hide()
+            timeObjectDetailView.isOpened() -> viewModel.targetTimeObject.value = null
             templateControlView.isExpanded -> templateControlView.collapse()
             keepView.viewMode == ViewMode.OPENED -> keepView.hide()
             briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
