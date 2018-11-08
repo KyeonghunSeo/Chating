@@ -9,6 +9,7 @@ import com.hellowo.journey.getCalendarTime23
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.l
+import com.hellowo.journey.model.Folder
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
@@ -84,6 +85,16 @@ object TimeObjectManager {
                 .endGroup()
                 .endGroup()
                 .sort("dtStart", Sort.ASCENDING)
+                .findAllAsync()
+    }
+
+    fun getTimeObjectList(folder: Folder) : RealmResults<TimeObject> {
+        return realm.where(TimeObject::class.java)
+                .beginGroup()
+                .equalTo("folder.id", folder.id)
+                .greaterThan("dtCreated", 0)
+                .endGroup()
+                .sort("dtCreated", Sort.DESCENDING)
                 .findAllAsync()
     }
 

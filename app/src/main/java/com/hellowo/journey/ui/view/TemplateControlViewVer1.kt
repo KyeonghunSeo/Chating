@@ -109,7 +109,6 @@ class TemplateControlViewVer1 @JvmOverloads constructor(context: Context, attrs:
         recyclerView.adapter?.notifyDataSetChanged()
 
         controllView.requestLayout()
-        MainActivity.instance?.onDimDark(true, true)
 
         touchEventView.setOnClickListener { collapse(true) }
 
@@ -150,7 +149,6 @@ class TemplateControlViewVer1 @JvmOverloads constructor(context: Context, attrs:
         }
 
         itemView.requestLayout()
-        if(withDimOff) MainActivity.instance?.offDimDark(true, false)
 
         touchEventView.setOnClickListener { expand() }
 

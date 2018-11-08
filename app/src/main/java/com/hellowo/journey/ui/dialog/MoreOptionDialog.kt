@@ -50,6 +50,11 @@ class MoreOptionDialog(activity: Activity, private val timeObjectDetailView: Tim
             dismiss()
         }
 
+        imageBtn.setOnClickListener {
+            timeObjectDetailView.openImagePicker()
+            dismiss()
+        }
+
         cancelBtn.setOnClickListener { dismiss() }
     }
 

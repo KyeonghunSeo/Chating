@@ -130,7 +130,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         }
         links.clear()
         data.links.forEach {
-
+            links.add(Link(it.id, it.type, it.title, it.properties, it.data))
         }
         latitude = data.latitude
         longitude = data.longitude

@@ -18,6 +18,16 @@
             android:fontFamily="@font/regular"
             android:textSize="18dp"/>
 
+        <ImageView
+            android:id="@+id/layoutBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:tint="@color/primaryText"
+            android:src="@drawable/layers"
+            android:padding="12dp"
+            android:layout_marginLeft="10dp"/>
+
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView

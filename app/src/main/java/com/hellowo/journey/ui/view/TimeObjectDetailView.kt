@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -14,9 +15,12 @@ import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
 import com.google.android.gms.location.places.ui.PlacePicker
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,6 +32,7 @@ import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.Alarm
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.manager.RepeatManager
+import com.hellowo.journey.model.Link
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.MapActivity
 import com.hellowo.journey.ui.dialog.*
@@ -334,6 +339,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 backgroundLy.setOnClickListener {
                     MainActivity.instance?.viewModel?.targetTimeObject?.value = null
                 }
+                backgroundLy.isClickable = true
             }
         })
         TransitionManager.beginDelayedTransition(this, transitionSet)
@@ -368,6 +374,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         //contentLy.layoutTransition.disableTransitionType(LayoutTransition.CHANGING)
         contentPanel.visibility = View.INVISIBLE
         backgroundLy.setOnClickListener(null)
+        backgroundLy.isClickable = false
     }
 
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED
@@ -431,6 +438,20 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             timeObject.latitude = place.latLng.latitude
             timeObject.longitude = place.latLng.longitude
             updateLocationUI()
+        }else if (requestCode == RC_IMAGEPICKER && resultCode == AppCompatActivity.RESULT_OK) {
+            if (data != null) {
+                val uri = data.data
+                try{
+                    Glide.with(this).asBitmap().load(uri)
+                            .into(object : SimpleTarget<Bitmap>(){
+                                override fun onResourceReady(resource: Bitmap, transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?) {
+                                    l("사진 크기 : ${resource.rowBytes} 바이트")
+                                    timeObject.links.add(Link(UUID.randomUUID().toString(), Link.Type.IMAGE.ordinal,
+                                            null, null, bitmapToByteArray(resource)))
+                                }
+                            })
+                }catch (e: Exception){}
+            }
         }
     }
 
@@ -452,5 +473,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             timeObject.tags.addAll(it)
             updateTagUI()
         }, true, true, true, false)
+    }
+
+    fun openImagePicker() {
+        MainActivity.instance?.checkExternalStoragePermission(RC_IMAGEPICKER)
     }
 }

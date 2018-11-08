@@ -63,14 +63,12 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     private val newTaskList = ArrayList<TimeObject>()
     private val newNoteList = ArrayList<TimeObject>()
 
-    private val eventAdapter = EventListAdapter(context, eventList, calendarView.selectedCal)
-    { view, timeObject, action ->
+    private val eventAdapter = EventListAdapter(context, eventList, calendarView.selectedCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
         }
     }
-    private val taskAdapter = TaskListAdapter(context, taskList, calendarView.selectedCal)
-    { view, timeObject, action ->
+    private val taskAdapter = TaskListAdapter(context, taskList, calendarView.selectedCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
             1 -> {
@@ -84,8 +82,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             }
         }
     }
-    private val noteAdapter = NoteListAdapter(context, noteList, calendarView.selectedCal)
-    { view, timeObject, action ->
+    private val noteAdapter = NoteListAdapter(context, noteList, calendarView.selectedCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
         }

@@ -216,8 +216,15 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.targetFolder.observe(this, Observer { folder -> folder?.let {
-            if(keepView.viewMode == ViewMode.CLOSED) { keepView.show() }}})
+        viewModel.targetFolder.observe(this, Observer { folder ->
+            if (folder != null) {
+                if (keepView.viewMode == ViewMode.CLOSED) {
+                    keepView.show()
+                }
+            } else {
+                keepView.hide()
+            }
+        })
     }
 
     private fun updateUserUI(appUser: AppUser) {
@@ -261,33 +268,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun onDimDark(animation: Boolean, eventBackPressed: Boolean) {
-        dimView.setOnClickListener { if(eventBackPressed) onBackPressed() }
-        dimView.isClickable = true
-        if (animation) {
-            ObjectAnimator.ofFloat(dimView, "alpha", 0f, 1f).setDuration(200).start()
-        } else {
-            dimView.alpha = 1f
-        }
-        statusBarBlackAlpah(this)
-    }
-
-    fun offDimDark(animation: Boolean, dark: Boolean) {
-        dimView.setOnClickListener(null)
-        dimView.isClickable = false
-        if (animation) {
-            ObjectAnimator.ofFloat(dimView, "alpha", 1f, 0f).setDuration(200).start()
-        } else {
-            dimView.alpha = 0f
-        }
-        statusBarWhite(this)
-    }
-
-    private fun checkExternalStoragePermission() {
+    fun checkExternalStoragePermission(requestCode: Int) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), RC_PERMISSIONS)
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), requestCode)
         } else {
-            showPhotoPicker()
+            showPhotoPicker(requestCode)
         }
     }
 
@@ -303,22 +288,25 @@ class MainActivity : AppCompatActivity() {
         when (requestCode) {
             RC_PERMISSIONS -> {
                 permissions.indices
-                        .filter { permissions[it] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[it] == PackageManager.PERMISSION_GRANTED }
-                        .forEach { _ -> showPhotoPicker() }
-                permissions.indices
                         .filter { permissions[it] == Manifest.permission.READ_CALENDAR && grantResults[it] == PackageManager.PERMISSION_GRANTED }
                         .forEach { _ -> OsCalendarManager.getCalendarList(this) }
+                return
+            }
+            RC_IMAGEPICKER, RC_FILEPICKER -> {
+                permissions.indices
+                        .filter { permissions[it] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[it] == PackageManager.PERMISSION_GRANTED }
+                        .forEach { _ -> showPhotoPicker(requestCode) }
                 return
             }
         }
     }
 
-    private fun showPhotoPicker() {
+    private fun showPhotoPicker(requestCode: Int) {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         try {
-            startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), RC_FILEPICKER)
+            startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), requestCode)
         } catch (ex: android.content.ActivityNotFoundException) { ex.printStackTrace() }
     }
 
@@ -326,7 +314,7 @@ class MainActivity : AppCompatActivity() {
         when{
             timeObjectDetailView.isOpened() -> viewModel.targetTimeObject.value = null
             templateControlView.isExpanded -> templateControlView.collapse()
-            keepView.viewMode == ViewMode.OPENED -> keepView.hide()
+            keepView.viewMode == ViewMode.OPENED -> viewModel.targetFolder.value = null
             briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
             dayView.isOpened() -> dayView.hide()
             else -> super.onBackPressed()

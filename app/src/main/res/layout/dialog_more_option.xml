@@ -4,7 +4,7 @@
     android:id="@+id/rootLy"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    
+
     <LinearLayout
         android:id="@+id/contentLy"
         android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
                 android:fontFamily="@font/regular"
                 android:text="@string/more_options"/>
         </LinearLayout>
-        
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -332,6 +332,69 @@
                                 android:textColor="@color/primaryText"
                                 android:fontFamily="@font/thin"
                                 android:text="@string/alarm"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textSize="14dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/thin"
+                android:text="@string/attachment"
+                android:layout_marginLeft="20dp"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:clipChildren="false">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/imageBtn"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:padding="10dp"
+                        android:background="@drawable/normal_rect_stroke">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:tint="@color/primaryText"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="3dp"
+                                android:textSize="14dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/thin"
+                                android:text="@string/image"/>
 
                         </LinearLayout>
 

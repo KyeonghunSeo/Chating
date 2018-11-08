@@ -9,6 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.hellowo.journey.*
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.manager.RepeatManager
@@ -81,6 +85,10 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
             v.alarmIndi.visibility = View.VISIBLE
         }else {
             v.alarmIndi.visibility = View.GONE
+        }
+
+        if(timeObject.links.isNotEmpty()){
+            Glide.with(context).load(timeObject.links[0]?.data).into(v.imageView)
         }
 
         v.dotImg.setColorFilter(timeObject.color)

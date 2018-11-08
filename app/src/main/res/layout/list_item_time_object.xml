@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical">
+
+   <LinearLayout
+       android:orientation="vertical"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginLeft="21dp"
+       android:layout_marginRight="16dp">
+
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
+
+         <ImageView
+             android:id="@+id/iconImg"
+             android:layout_width="20dp"
+             android:layout_height="20dp"
+             android:visibility="gone"
+             android:src="@drawable/idea"
+             android:tint="@color/primaryText"/>
+
+         <View
+             android:id="@+id/topDivider"
+             android:layout_width="10dp"
+             android:layout_height="1dp"
+             android:layout_marginBottom="10dp"
+             android:visibility="visible"
+             android:background="@color/primaryText"/>
+
+         <TextView
+             android:id="@+id/tagText"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginBottom="3dp"
+             android:textSize="12dp"
+             android:textColor="@color/primaryText"
+             android:fontFamily="@font/text"
+             android:text="#love#peace"/>
+
+         <TextView
+             android:id="@+id/titleText"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textSize="16dp"
+             android:lineSpacingExtra="2dp"
+             android:textColor="@color/primaryText"
+             android:fontFamily="@font/text"
+             android:ellipsize="end"
+             android:maxLines="20"
+             android:text="Title"/>
+
+         <TextView
+             android:id="@+id/finishText"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="16dp"
+             android:layout_marginBottom="20dp"
+             android:gravity=""
+             android:textSize="10dp"
+             android:textColor="@color/disableText"
+             android:fontFamily="@font/text"
+             android:ellipsize="end"
+             android:maxLines="2"
+             android:text="위치" />
+
+      </LinearLayout>
+
+   </LinearLayout>
+
+</FrameLayout>

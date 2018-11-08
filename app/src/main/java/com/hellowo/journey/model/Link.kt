@@ -6,5 +6,7 @@ import io.realm.annotations.PrimaryKey
 open class Link(@PrimaryKey var id: String? = null,
                 var type: Int = 0,
                 var title: String? = null,
-                var url: String? = null,
-                var data: String? = null): RealmObject()
+                var properties: String? = null,
+                var data: ByteArray? = null): RealmObject() {
+    enum class Type { WEB, IMAGE, VOICE }
+}

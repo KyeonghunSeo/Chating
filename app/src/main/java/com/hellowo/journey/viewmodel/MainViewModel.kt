@@ -132,6 +132,7 @@ class MainViewModel : ViewModel() {
                     color = it.color
                     fontColor = it.fontColor
                     inCalendar = it.inCalendar
+                    folder = targetFolder.value
                 }
             }
 
