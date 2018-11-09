@@ -17,14 +17,9 @@ import kotlinx.android.synthetic.main.dialog_tag.*
 import kotlin.collections.ArrayList
 
 
-class TagDialog(val activity: Activity, timeObject: TimeObject,
+class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
                 private val onResult: (ArrayList<Tag>) -> Unit) : Dialog(activity) {
-    val items = ArrayList<Tag>()
     val realm = Realm.getDefaultInstance()
-
-    init {
-        items.addAll(timeObject.tags)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -2,7 +2,6 @@ package com.hellowo.journey.ui.activity
 
 import android.Manifest
 import android.animation.LayoutTransition
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -179,14 +178,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initBtns() {
-        menuBtn.setOnClickListener {
-            //checkExternalStoragePermission()
+        profileImage.setOnClickListener {
+            checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
 
             //startActivity(Intent(this, DrawActivity::class.java))
 
             //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
 
-            checkOsCalendarPermission()
+            //checkOsCalendarPermission()
         }
     }
 
@@ -292,7 +291,7 @@ class MainActivity : AppCompatActivity() {
                         .forEach { _ -> OsCalendarManager.getCalendarList(this) }
                 return
             }
-            RC_IMAGEPICKER, RC_FILEPICKER -> {
+            RC_IMAGE_ATTACHMENT, RC_PRFOFILE_IMAGE -> {
                 permissions.indices
                         .filter { permissions[it] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[it] == PackageManager.PERMISSION_GRANTED }
                         .forEach { _ -> showPhotoPicker(requestCode) }
@@ -312,6 +311,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         when{
+            searchView.isOpened() -> searchView.hide()
             timeObjectDetailView.isOpened() -> viewModel.targetTimeObject.value = null
             templateControlView.isExpanded -> templateControlView.collapse()
             keepView.viewMode == ViewMode.OPENED -> viewModel.targetFolder.value = null
@@ -324,7 +324,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         timeObjectDetailView.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_FILEPICKER && resultCode == RESULT_OK) {
+        if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
             if (data != null) {
                 val uri = data.data
                 try{

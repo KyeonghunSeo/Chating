@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLy"
+    android:animateLayoutChanges="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transitionDimWhite">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <EditText
+            android:id="@+id/searchInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="saerch"
+            android:layout_margin="20dp"
+            android:fontFamily="@font/regular"
+            android:textSize="18dp"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:id="@+id/searchBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:tint="@color/primaryText"
+            android:src="@drawable/search"
+            android:padding="15dp"/>
+
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp">
+    </androidx.recyclerview.widget.RecyclerView>
+</FrameLayout>

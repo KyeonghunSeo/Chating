@@ -39,7 +39,7 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="50dp"
                 android:layout_gravity="center_vertical">
 
                 <TextView
@@ -89,31 +89,12 @@
             android:background="@color/transitionDim">
         </View>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/searchView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="right"
-            android:visibility="visible"
-            app:cardBackgroundColor="@color/transparent"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="15dp">
-
-            <ImageView
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:padding="15dp"
-                android:src="@drawable/search"
-                android:tint="@color/primaryText"/>
-        </androidx.cardview.widget.CardView>
-
         <com.hellowo.journey.ui.view.KeepView
             android:id="@+id/keepView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="bottom"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/background"
             app:cardElevation="0dp"
             app:cardCornerRadius="0dp"
             android:visibility="visible">
@@ -126,32 +107,11 @@
             android:layout_height="50dp"
             android:layout_gravity="bottom|right"
             android:layout_marginRight="10dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/background"
             app:cardElevation="0dp"
             app:cardCornerRadius="15dp"
             android:visibility="gone">
         </com.hellowo.journey.ui.view.BriefingView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/menuBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom|right"
-            android:layout_marginRight="10dp"
-            app:cardBackgroundColor="@color/transparent"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="15dp">
-
-            <ImageView
-                android:id="@+id/profileImage"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:padding="12dp"
-                android:tint="@color/primaryText"
-                android:src="@drawable/user"/>
-
-        </androidx.cardview.widget.CardView>
 
         <ImageView
             android:id="@+id/keepBtn"
@@ -162,6 +122,22 @@
             android:src="@drawable/layers"
             android:padding="12dp"
             android:layout_marginLeft="10dp"/>
+
+        <ImageView
+            android:id="@+id/profileImage"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="12dp"
+            android:tint="@color/primaryText"
+            android:src="@drawable/user"/>
+
+        <com.hellowo.journey.ui.view.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right">
+        </com.hellowo.journey.ui.view.SearchView>
 
         <com.hellowo.journey.ui.view.TemplateControlView
             android:id="@+id/templateControlView"

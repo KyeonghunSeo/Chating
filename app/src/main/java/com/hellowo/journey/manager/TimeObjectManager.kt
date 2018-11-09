@@ -10,6 +10,8 @@ import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.l
 import com.hellowo.journey.model.Folder
+import com.hellowo.journey.model.Tag
+import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
@@ -93,6 +95,29 @@ object TimeObjectManager {
                 .beginGroup()
                 .equalTo("folder.id", folder.id)
                 .greaterThan("dtCreated", 0)
+                .endGroup()
+                .sort("dtCreated", Sort.DESCENDING)
+                .findAllAsync()
+    }
+
+    fun getTimeObjectList(query: String, tags: ArrayList<Tag>) : RealmResults<TimeObject> {
+        return realm.where(TimeObject::class.java)
+                .beginGroup()
+                .greaterThan("dtCreated", 0)
+                .endGroup()
+                .and()
+                .beginGroup()
+                .beginGroup()
+                .contains("title", query, Case.INSENSITIVE)
+                .endGroup()
+                .or()
+                .beginGroup()
+                .contains("description", query, Case.INSENSITIVE)
+                .endGroup()
+                .or()
+                .beginGroup()
+                .contains("location", query, Case.INSENSITIVE)
+                .endGroup()
                 .endGroup()
                 .sort("dtCreated", Sort.DESCENDING)
                 .findAllAsync()

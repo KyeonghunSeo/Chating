@@ -33,11 +33,13 @@ import com.hellowo.journey.model.Alarm
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.model.Link
+import com.hellowo.journey.model.Tag
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.MapActivity
 import com.hellowo.journey.ui.dialog.*
 import kotlinx.android.synthetic.main.view_timeobject_detail.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -438,7 +440,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             timeObject.latitude = place.latLng.latitude
             timeObject.longitude = place.latLng.longitude
             updateLocationUI()
-        }else if (requestCode == RC_IMAGEPICKER && resultCode == AppCompatActivity.RESULT_OK) {
+        }else if (requestCode == RC_IMAGE_ATTACHMENT && resultCode == AppCompatActivity.RESULT_OK) {
             if (data != null) {
                 val uri = data.data
                 try{
@@ -468,7 +470,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     fun showTagDialog() {
-        showDialog(TagDialog(MainActivity.instance!!, timeObject) {
+        val items = ArrayList<Tag>().apply { addAll(timeObject.tags) }
+        showDialog(TagDialog(MainActivity.instance!!, items) {
             timeObject.tags.clear()
             timeObject.tags.addAll(it)
             updateTagUI()
@@ -476,6 +479,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     fun openImagePicker() {
-        MainActivity.instance?.checkExternalStoragePermission(RC_IMAGEPICKER)
+        MainActivity.instance?.checkExternalStoragePermission(RC_IMAGE_ATTACHMENT)
     }
 }
