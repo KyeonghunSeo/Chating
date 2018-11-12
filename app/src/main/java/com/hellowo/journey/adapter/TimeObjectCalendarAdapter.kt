@@ -255,11 +255,10 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
             withAnimtion = false
         }
         var calendarHeight = 0f
-        val bottomPadding = weekLyBottomPadding
 
         calendarView.weekLys.forEachIndexed { index, weekLy ->
             if(index < rows) {
-                val newHeight = rowHeightArray[index] + bottomPadding
+                val newHeight = rowHeightArray[index] + weekLyBottomPadding
                 val finalHeight = Math.max(minHeight, newHeight)
                 calendarHeight += finalHeight
                 weekLy.layoutParams.height = finalHeight.toInt()
@@ -283,7 +282,6 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
             }
         }
 
-        calendarView.calendarLy.layoutParams.height = calendarHeight.toInt()
         calendarView.calendarLy.requestLayout()
     }
 

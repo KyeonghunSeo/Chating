@@ -136,10 +136,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        topShadow.visibility = View.VISIBLE
         calendarView.setOnTop { isTop ->
-            //if(dayView.isOpened() || !isTop) topShadow.visibility = View.VISIBLE
-            //else topShadow.visibility = View.GONE
+            //if(dayView.isOpened() || !isTop) topBar.elevation = dpToPx(2f)
+            //else topBar.elevation = dpToPx(0f)
         }
     }
 
@@ -148,10 +147,10 @@ class MainActivity : AppCompatActivity() {
     private fun initDayView() {
         dayView = DayView(calendarView, this@MainActivity)
         dayView.visibility = View.GONE
-        calendarLy.addView(dayView, calendarLy.indexOfChild(topShadow))
+        calendarLy.addView(dayView, calendarLy.indexOfChild(bottomShadow))
         dayView.onVisibility = { show ->
-            //if(show || !calendarView.isTop()) topShadow.visibility = View.VISIBLE
-            //else topShadow.visibility = View.GONE
+            //if(show || !calendarView.isTop()) topBar.elevation = dpToPx(0f)
+            //else topBar.elevation = dpToPx(2f)
         }
     }
 
@@ -179,13 +178,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBtns() {
         profileImage.setOnClickListener {
-            checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
+            //checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
 
             //startActivity(Intent(this, DrawActivity::class.java))
 
             //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
 
-            //checkOsCalendarPermission()
+            checkOsCalendarPermission()
         }
     }
 

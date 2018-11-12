@@ -44,7 +44,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private val scrollView = SwipeScrollView(context)
-    private val rootLy = FrameLayout(context)
     val calendarLy = LinearLayout(context)
     val weekLys = Array(6) { _ -> FrameLayout(context)}
     private val dateLys = Array(6) { _ -> LinearLayout(context)}
@@ -99,15 +98,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun createViews() {
         addView(fakeImageView)
         addView(scrollView)
-        scrollView.addView(rootLy)
-        rootLy.addView(calendarLy)
+        scrollView.addView(calendarLy)
     }
 
     private fun setLayout() {
         scrollView.setBackgroundColor(CalendarSkin.backgroundColor)
         scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-        rootLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        rootLy.setPadding(0, 0, 0 , 0)
+        calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
         weekLySideView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, dateArea.toInt())
@@ -124,7 +121,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateLy.orientation = HORIZONTAL
             dateLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
                 leftMargin = weekSideMargin
-                rightMargin = weekSideMargin
             }
             weekLy.addView(dateLy)
 
@@ -143,6 +139,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
             calendarLy.addView(weekLy)
         }
+
+        scrollView.onOverScrolled = {
+
+        }
     }
 
     private fun drawCalendar(time: Long) {
@@ -154,7 +154,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         monthCal.set(tempCal.get(Calendar.YEAR), tempCal.get(Calendar.MONTH), tempCal.get(Calendar.DATE))
         setCalendarTime0(tempCal)
 
-        todayStatus = (monthCal.get(Calendar.YEAR)*10 + monthCal.get(Calendar.MONTH)) - (todayCal.get(Calendar.YEAR)*10 + todayCal.get(Calendar.MONTH))
+        todayStatus = (monthCal.get(Calendar.YEAR)*10 + monthCal.get(Calendar.MONTH))
+            - (todayCal.get(Calendar.YEAR)*10 + todayCal.get(Calendar.MONTH))
 
         startCellNum = tempCal.get(Calendar.DAY_OF_WEEK) - 1
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
@@ -162,11 +163,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         postSelectedNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
         minCalendarHeight = height
-        minWidth = (width.toFloat() - weekSideMargin * 2) / columns
+        minWidth = (width.toFloat() - weekSideMargin) / columns
         minHeight = (minCalendarHeight - dateArea) / rows
 
-        calendarLy.layoutParams.height = minCalendarHeight
-        calendarLy.requestLayout()
         tempCal.add(Calendar.DATE, -startCellNum)
 
         for(i in 0..5) {
@@ -442,11 +441,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         val animSet = AnimatorSet()
         if(offset < 0) {
-            animSet.playTogether(ObjectAnimator.ofFloat(fakeImageView, "translationX", 0f, width.toFloat()),
-                    ObjectAnimator.ofFloat(scrollView, "translationX", -width.toFloat(), 0f))
+            animSet.playTogether(ObjectAnimator.ofFloat(fakeImageView, "translationY", 0f, height.toFloat()),
+                    ObjectAnimator.ofFloat(scrollView, "translationY", -height.toFloat(), 0f))
         }else {
-            animSet.playTogether(ObjectAnimator.ofFloat(fakeImageView, "translationX", 0f, -width.toFloat()),
-                    ObjectAnimator.ofFloat(scrollView, "translationX", width.toFloat(), 0f))
+            animSet.playTogether(ObjectAnimator.ofFloat(fakeImageView, "translationY", 0f, -height.toFloat()),
+                    ObjectAnimator.ofFloat(scrollView, "translationY", height.toFloat(), 0f))
         }/*
         if(offset < 0) {
             animSet.playTogether(ObjectAnimator.ofFloat(fakeImageView, "alpha", 1f, 0.5f),
@@ -460,10 +459,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     ObjectAnimator.ofFloat(scrollView, "translationX", width.toFloat(), 0f))
         }*/
         animSet.addListener(object : AnimatorListenerAdapter(){
-            override fun onAnimationEnd(animation: Animator?) {
-            }
+            override fun onAnimationEnd(animation: Animator?) {}
         })
-        animSet.duration = 250
+        animSet.duration = 500
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
 

@@ -9,6 +9,7 @@ import com.hellowo.journey.ui.view.TimeObjectView
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaulMargin
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaultPadding
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.iconSize
+import com.hellowo.journey.ui.view.TimeObjectView.Companion.rectRadius
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.strokeWidth
 
 object CalendarSkin {
@@ -95,7 +96,7 @@ object CalendarSkin {
                 val rect = RectF(left, 0f, right, height.toFloat())
                 canvas.drawRoundRect(rect, height / 2.5f, height / 2.5f, paint)
             }
-            else -> {
+            4 -> {
                 paint.style = Paint.Style.FILL
 
                 if(view.length > 1) {
@@ -112,6 +113,37 @@ object CalendarSkin {
                     canvas.drawRoundRect(rect, 0f, 0f, paint)
                 }else {
                     canvas.drawCircle(iconSize / 2f, height / 2f - strokeWidth, redius, paint)
+                }
+            }
+            else -> {
+                paint.style = Paint.Style.FILL
+                val edge = defaultPadding.toFloat()
+                var left = 0f
+                var right = width.toFloat()
+
+                if(!view.rightOpen) {
+                    right = width.toFloat() - edge
+                    val path = Path()
+                    path.moveTo(right, 0f)
+                    path.lineTo(right + edge, edge)
+                    path.lineTo(right + edge, height.toFloat())
+                    path.lineTo(right, height.toFloat())
+                    path.lineTo(right, 0f)
+                    path.close()
+                    canvas.drawPath(path, paint)
+                }
+
+                val rect = RectF(left, 0f, right, height.toFloat())
+                canvas.drawRoundRect(rect, rectRadius, rectRadius, paint)
+
+                val dashWidth = strokeWidth * 10
+                val offset = strokeWidth * 15
+                paint.strokeWidth = dashWidth
+                paint.color = Color.parseColor("#30FFFFFF")
+                var x = 0f
+                while (x < width + offset) {
+                    canvas.drawLine(x, -defaulMargin, x - offset, height + defaulMargin, paint)
+                    x += dashWidth * 2
                 }
             }
         }

@@ -71,10 +71,15 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         typeface = AppRes.regularFont
                         setTextColor(timeObject.fontColor)
                     }
-                    else -> {
+                    4 -> {
                         setPadding(iconSize  + defaulMargin.toInt(), 0, defaultPadding, 0)
                         typeface = AppRes.regularFont
                         setTextColor(AppRes.primaryText)
+                    }
+                    else -> {
+                        setPadding(defaultPadding, 0, defaultPadding, 0)
+                        typeface = AppRes.regularFont
+                        setTextColor(timeObject.fontColor)
                     }
                 }
             }
@@ -100,8 +105,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             TimeObject.Type.NOTE -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
-                typeface = AppRes.regularFont
-                setLineSpacing(strokeWidth, 1f)
+                typeface = AppRes.textFont
+                setLineSpacing(strokeWidth * 2, 1f)
                 setPadding(defaulMargin.toInt(), (iconSize + defaulMargin).toInt(), defaultPadding, 0)
                 setTextColor(CalendarSkin.dateColor)
             }
@@ -193,7 +198,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         TimeObject.Type.TASK -> smallTypeSize
         TimeObject.Type.NOTE -> {
             setSingleLine(false)
-            maxLines = 10
+            maxLines = 5
             gravity = Gravity.TOP
             ellipsize = TextUtils.TruncateAt.END
             val width =  mRight - mLeft - defaulMargin
