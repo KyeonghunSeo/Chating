@@ -1,4 +1,4 @@
-package com.hellowo.journey.ui.view
+package com.hellowo.journey.ui.view.base
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,7 +7,6 @@ import android.widget.ScrollView
 import com.hellowo.journey.dpToPx
 import android.view.MotionEvent.*
 import android.view.View
-import android.opengl.ETC1.getHeight
 import com.hellowo.journey.l
 
 

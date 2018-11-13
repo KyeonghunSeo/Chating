@@ -29,8 +29,8 @@ import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.ui.dialog.DatePickerDialog
 import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.ui.view.DayView
-import com.hellowo.journey.ui.view.SwipeScrollView.Companion.SWIPE_LEFT
-import com.hellowo.journey.ui.view.SwipeScrollView.Companion.SWIPE_RIGHT
+import com.hellowo.journey.ui.view.base.SwipeScrollView.Companion.SWIPE_LEFT
+import com.hellowo.journey.ui.view.base.SwipeScrollView.Companion.SWIPE_RIGHT
 import com.hellowo.journey.viewmodel.MainViewModel
 import androidx.lifecycle.Observer
 import com.hellowo.journey.manager.FolderManager

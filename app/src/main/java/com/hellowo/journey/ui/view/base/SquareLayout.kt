@@ -1,4 +1,4 @@
-package com.hellowo.journey.ui.view
+package com.hellowo.journey.ui.view.base
 
 import android.content.Context
 import android.util.AttributeSet
