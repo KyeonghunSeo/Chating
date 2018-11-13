@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="60dp"
+    android:layout_height="70dp"
+    android:clipChildren="false">
+
+    <FrameLayout
+        android:id="@+id/contentLy"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:background="@drawable/grey_rect_stroke_radius_8"
+        android:elevation="8dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/previewContainer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="3dp">
+
+                <ImageView
+                    android:id="@+id/iconImg"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/add_line"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:tint="@color/primaryText"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/bottomContainer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.75">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/almostWhite"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="12dp"
+                    android:maxLines="3"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/regular"
+                    android:text="새 할일"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+</FrameLayout>

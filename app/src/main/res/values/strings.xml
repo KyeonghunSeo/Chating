@@ -155,5 +155,6 @@
     <string name="scrap">스크랩</string>
     <string name="attachment">첨부</string>
     <string name="image">이미지</string>
+    <string name="next_month_hint">%1$s로 이동</string>
 
 </resources>

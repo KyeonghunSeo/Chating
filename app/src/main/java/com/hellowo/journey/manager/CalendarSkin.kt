@@ -120,7 +120,7 @@ object CalendarSkin {
                 val edge = defaultPadding.toFloat()
                 var left = 0f
                 var right = width.toFloat()
-
+/*
                 if(!view.rightOpen) {
                     right = width.toFloat() - edge
                     val path = Path()
@@ -132,7 +132,7 @@ object CalendarSkin {
                     path.close()
                     canvas.drawPath(path, paint)
                 }
-
+*/
                 val rect = RectF(left, 0f, right, height.toFloat())
                 canvas.drawRoundRect(rect, rectRadius, rectRadius, paint)
 

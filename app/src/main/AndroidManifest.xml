@@ -40,6 +40,7 @@
         <activity android:name=".ui.activity.MapActivity" />
         <activity android:name=".ui.activity.DrawActivity" />
         <activity android:name=".ui.activity.TrashActivity" />
+        <activity android:name=".ui.activity.TemplateEditActivity" />
         <activity
             android:theme="@style/Theme.Transparent"
             android:name=".ui.activity.ScrapActivity">

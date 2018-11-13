@@ -3,6 +3,7 @@ package com.hellowo.journey.ui.view
 import android.animation.*
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.Handler
 import android.os.Message
 import android.util.AttributeSet
@@ -37,7 +38,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val todayCal: Calendar = Calendar.getInstance()
         val dateArea = dpToPx(30f)
         val weekLyBottomPadding = dpToPx(20)
-        val weekSideMargin = dpToPx(5)
+        val weekSideMargin = dpToPx(10)
         val autoPagingThreshold = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
@@ -51,6 +52,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val dateHeaders = Array(maxCellNum) { _ ->
         DateHeaderViewHolder(LayoutInflater.from(context).inflate(R.layout.view_selected_bar, null, false))}
     private val weekLySideView = LayoutInflater.from(context).inflate(R.layout.view_weekly_side, null, false)
+    private val nextMonthHintView = LayoutInflater.from(context).inflate(R.layout.view_next_month_hint, null, false)
     private val fakeImageView = ImageView(context)
 
     inner class DateHeaderViewHolder(val container: View) {
@@ -96,8 +98,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun createViews() {
-        addView(fakeImageView)
         addView(scrollView)
+        addView(fakeImageView)
+        addView(nextMonthHintView)
         scrollView.addView(calendarLy)
     }
 
@@ -110,6 +113,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         weekLySideView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, dateArea.toInt())
         weekLySideView.alpha = 0f
         weekLySideView.translationY = dateArea
+        nextMonthHintView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        nextMonthHintView.alpha = 0f
         fakeImageView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
         for(i in 0..5) {
@@ -140,8 +145,48 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             calendarLy.addView(weekLy)
         }
 
-        scrollView.onOverScrolled = {
+        scrollView.onOverScrolled = { state, delta, isOverThreshold ->
+            val view = scrollView.getChildAt(0)
+            if(state == 0) {
+                if(isOverThreshold) {
+                    if(delta > 0) {
+                        moveMonth(-1)
+                    }else {
+                        moveMonth(1)
+                    }
+                }else {
+                    ObjectAnimator.ofFloat(view, "translationY", view.translationY, 0f).setDuration(250).start()
+                }
+                nextMonthHintView.alpha = 0f
+            }else if(state == 1){
+                view.translationY = delta
 
+                if(isOverThreshold) {
+                    if(nextMonthHintView.alpha == 0f) {
+                        nextMonthHintView.alpha = 1f
+                        tempCal.timeInMillis = monthCal.timeInMillis
+                        if(delta > 0) {
+                            tempCal.add(Calendar.MONTH, -1)
+                            nextMonthHintView.findViewById<View>(R.id.topArrow).visibility = View.VISIBLE
+                            nextMonthHintView.findViewById<View>(R.id.bottomArrow).visibility = View.GONE
+                        }else {
+                            tempCal.add(Calendar.MONTH, 1)
+                            nextMonthHintView.findViewById<View>(R.id.topArrow).visibility = View.GONE
+                            nextMonthHintView.findViewById<View>(R.id.bottomArrow).visibility = View.VISIBLE
+                        }
+                        val hint = String.format(context.getString(R.string.next_month_hint), AppRes.mDate.format(tempCal.time))
+                        nextMonthHintView.findViewById<TextView>(R.id.nextHintText).text = hint
+                    }
+                }else {
+                    nextMonthHintView.alpha = 0f
+                }
+
+                if(delta > 0) {
+                    nextMonthHintView.translationY = delta - nextMonthHintView.height
+                }else {
+                    nextMonthHintView.translationY = height + delta
+                }
+            }
         }
     }
 
@@ -164,7 +209,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
         minCalendarHeight = height
         minWidth = (width.toFloat() - weekSideMargin) / columns
-        minHeight = (minCalendarHeight - dateArea) / rows
+        minHeight = (minCalendarHeight.toFloat()) / rows
 
         tempCal.add(Calendar.DATE, -startCellNum)
 
@@ -244,7 +289,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         selectDate(cellNum,true, isSameDay(tempCal, selectedCal))
     }
 
-    private fun unselectDate(cellNum: Int, anim: Boolean) {
+    private fun unselectDate(cellNum: Int, anim: Boolean, isFinished: Boolean) {
         val dateText = dateHeaders[cellNum].dateText
         val flagImg = dateHeaders[cellNum].flagImg
         val color = getDateTextColor(cellNum)
@@ -286,6 +331,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.translationY = 0f
             flagImg.scaleY = 0f
         }
+
+        if(isFinished) {
+            onSelected?.invoke(Long.MIN_VALUE, -1, false)
+            TransitionManager.beginDelayedTransition(calendarLy, makeChangeBounceTransition())
+            weekLySideView.parent?.let {
+                (it as LinearLayout).removeView(weekLySideView)
+            }
+        }
     }
 
     var selectedWeek = 0
@@ -320,7 +373,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 animSet.start()
             }
 
-            if(selectedCellNum >= 0) { unselectDate(selectedCellNum, anim) }
+            if(selectedCellNum >= 0) { unselectDate(selectedCellNum, anim, false) }
 
             selectedCellNum = cellNum
             postSelectedNum = cellNum
@@ -434,18 +487,19 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         fakeImageView.visibility = View.VISIBLE
 
         monthCal.add(Calendar.MONTH, offset)
-        selectedCal.timeInMillis = monthCal.timeInMillis
+        selectedCal.timeInMillis = Long.MIN_VALUE
+        if(selectedCellNum >= 0) unselectDate(selectedCellNum, true, true)
         scrollView.scrollTo(0, 0)
-        autoScroll = true
-        drawCalendar(selectedCal.timeInMillis)
+        //autoScroll = true
+        drawCalendar(monthCal.timeInMillis)
 
         val animSet = AnimatorSet()
         if(offset < 0) {
             animSet.playTogether(ObjectAnimator.ofFloat(fakeImageView, "translationY", 0f, height.toFloat()),
-                    ObjectAnimator.ofFloat(scrollView, "translationY", -height.toFloat(), 0f))
+                    ObjectAnimator.ofFloat(scrollView.getChildAt(0), "translationY", -height.toFloat(), 0f))
         }else {
             animSet.playTogether(ObjectAnimator.ofFloat(fakeImageView, "translationY", 0f, -height.toFloat()),
-                    ObjectAnimator.ofFloat(scrollView, "translationY", height.toFloat(), 0f))
+                    ObjectAnimator.ofFloat(scrollView.getChildAt(0), "translationY", height.toFloat(), 0f))
         }/*
         if(offset < 0) {
             animSet.playTogether(ObjectAnimator.ofFloat(fakeImageView, "alpha", 1f, 0.5f),

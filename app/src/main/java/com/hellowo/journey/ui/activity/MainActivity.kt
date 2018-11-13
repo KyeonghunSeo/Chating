@@ -104,10 +104,18 @@ class MainActivity : AppCompatActivity() {
             briefingView.refreshTodayView(calendarView.todayStatus)
         }
         calendarView.onSelected = { time, cellNum, showDayView ->
-            if(showDayView && dayView.viewMode == ViewMode.CLOSED) {
-                dayView.show()
+            if(cellNum >= 0) {
+                if(showDayView && dayView.viewMode == ViewMode.CLOSED) {
+                    dayView.show()
+                }else {
+                    TransitionManager.beginDelayedTransition(templateSelectView, makeFromBottomSlideTransition())
+                    templateSelectView.visibility = View.VISIBLE
+                }
+                briefingView.refreshTodayView(calendarView.todayStatus)
+            }else {
+                TransitionManager.beginDelayedTransition(templateSelectView, makeFromBottomSlideTransition())
+                templateSelectView.visibility = View.INVISIBLE
             }
-            briefingView.refreshTodayView(calendarView.todayStatus)
         }
         calendarView.setOnSwiped { state ->
             if(dayView.isOpened()) {
@@ -147,7 +155,7 @@ class MainActivity : AppCompatActivity() {
     private fun initDayView() {
         dayView = DayView(calendarView, this@MainActivity)
         dayView.visibility = View.GONE
-        calendarLy.addView(dayView, calendarLy.indexOfChild(bottomShadow))
+        calendarLy.addView(dayView, calendarLy.indexOfChild(dimView))
         dayView.onVisibility = { show ->
             //if(show || !calendarView.isTop()) topBar.elevation = dpToPx(0f)
             //else topBar.elevation = dpToPx(2f)
@@ -186,6 +194,11 @@ class MainActivity : AppCompatActivity() {
 
             checkOsCalendarPermission()
         }
+
+        profileImage.setOnLongClickListener {
+            startActivity(Intent(this, TemplateEditActivity::class.java))
+            return@setOnLongClickListener true
+        }
     }
 
     private fun initObserver() {
@@ -200,7 +213,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.appUser.observe(this, Observer { appUser -> appUser?.let { updateUserUI(it) } })
 
         viewModel.templateList.observe(this, Observer { list ->
-            list?.let { templateControlView.notify(it) }
+            list?.let { templateSelectView.notify(it) }
         })
 
         viewModel.isCalendarSettingOpened.observe(this, Observer { isOpend ->
@@ -312,7 +325,7 @@ class MainActivity : AppCompatActivity() {
         when{
             searchView.isOpened() -> searchView.hide()
             timeObjectDetailView.isOpened() -> viewModel.targetTimeObject.value = null
-            templateControlView.isExpanded -> templateControlView.collapse()
+            //templateControlView.isExpanded -> templateControlView.collapse()
             keepView.viewMode == ViewMode.OPENED -> viewModel.targetFolder.value = null
             briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
             dayView.isOpened() -> dayView.hide()

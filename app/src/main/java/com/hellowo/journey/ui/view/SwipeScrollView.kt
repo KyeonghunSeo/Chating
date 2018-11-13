@@ -18,24 +18,26 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
         const val SWIPE_RIGHT = 3
     }
 
-    val swipeThreshold = dpToPx(10)
+    val swipeThreshold = dpToPx(80)
     var firstX = 0f
     var firstY = 0f
     var swipeMode = 0
     var isTop = true
     var isBottom = false
+    var currentDelta = 0f
     var topOverScrollY = 0f
     var bottomOverScrollY = 0f
     var onSwipeStateChanged: ((Int) -> Unit)? = null
     var onTop: ((Boolean) -> Unit)? = null
-    var onOverScrolled: ((Float) -> Unit)? = null
+    var onOverScrolled: ((Int, Float, Boolean) -> Unit)? = null
 
     init {
-        overScrollMode = View.OVER_SCROLL_ALWAYS
+        overScrollMode = View.OVER_SCROLL_NEVER
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         ev?.let {
+            /*
             when(ev.action) {
                 ACTION_DOWN -> {
                     firstX = it.x
@@ -61,37 +63,49 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
                 ACTION_UP -> {
                     swipeMode = 0
                 }
-            }
-            /*
-            when(ev.action) {
+            }*/
+
+            when (ev.action) {
                 ACTION_DOWN -> {
-                    firstY = it.y
                     checkBottom()
-                    if(isTop) {
-                        topOverScrollY = firstY
+
+                    if (isTop) {
+                        topOverScrollY = it.y
                     }
-                    if(isBottom) {
-                        bottomOverScrollY = firstY
+                    if (isBottom) {
+                        bottomOverScrollY = it.y
                     }
+
                     swipeMode = 1
                     onSwipeStateChanged?.invoke(swipeMode)
                 }
                 ACTION_MOVE -> {
-                    if(isTop) {
-                        if(topOverScrollY == 0f) topOverScrollY = it.y
-                        //onOverScrolled?.invoke(topOverScrollY - it.y)
-                    }else {
-                        topOverScrollY = 0f
-                    }
+                    if (swipeMode == 1) {
+                        checkBottom()
 
-                    if(isBottom){
+                        if (isTop && topOverScrollY == 0f) topOverScrollY = it.y
+                        if (isBottom && bottomOverScrollY == 0f) bottomOverScrollY = it.y
 
+                        if (isTop && it.y > topOverScrollY) {
+                            currentDelta = (it.y - topOverScrollY) * 0.4f
+                            onOverScrolled?.invoke(1, currentDelta, Math.abs(currentDelta) > swipeThreshold)
+                        } else if (isBottom && it.y < bottomOverScrollY) {
+                            currentDelta = (it.y - bottomOverScrollY) * 0.4f
+                            onOverScrolled?.invoke(1, currentDelta, Math.abs(currentDelta) > swipeThreshold)
+                        } else {
+                            if (!isTop) topOverScrollY = 0f
+                            if (!isBottom) bottomOverScrollY = 0f
+                        }
                     }
                 }
                 ACTION_UP -> {
+                    onOverScrolled?.invoke(0, currentDelta, Math.abs(currentDelta) > swipeThreshold)
                     swipeMode = 0
+                    topOverScrollY = 0f
+                    bottomOverScrollY = 0f
+                    currentDelta = 0f
                 }
-            }*/
+            }
             return@let
         }
         return super.dispatchTouchEvent(ev)
@@ -99,14 +113,13 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     override fun onScrollChanged(x: Int, y: Int, oldl: Int, oldt: Int) {
         super.onScrollChanged(x, y, oldl, oldt)
-        if(isTop && y > 0) {
+        if (isTop && y > 0) {
             isTop = false
             onTop?.invoke(false)
-        }else if(!isTop && y == 0) {
+        } else if (!isTop && y == 0) {
             isTop = true
             onTop?.invoke(true)
         }
-        checkBottom()
     }
 
     private fun checkBottom(): Boolean {
@@ -114,17 +127,5 @@ class SwipeScrollView @JvmOverloads constructor(context: Context, attrs: Attribu
         val diff = view.bottom - (height + scrollY)
         isBottom = view.bottom < height || diff == 0
         return isBottom
-    }
-
-    override fun onOverScrolled(scrollX: Int, scrollY: Int, clampedX: Boolean, clampedY: Boolean) {
-        super.onOverScrolled(scrollX, scrollY, clampedX, clampedY)
-        l("onOverScrolled $clampedY $scrollY")
-        if(scrollY <= 0 && clampedY) {
-            isTop = true
-            onTop?.invoke(true)
-        }else {
-            isTop = false
-            onTop?.invoke(false)
-        }
     }
 }

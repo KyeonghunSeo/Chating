@@ -55,7 +55,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    private fun loadTemplate() {
+    fun loadTemplate() {
         val templates = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
         if(templates.isEmpty()) {
             realm.executeTransaction {

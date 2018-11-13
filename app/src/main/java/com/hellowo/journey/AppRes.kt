@@ -195,7 +195,7 @@ object AppRes {
             mDate = if (language == "en") {
                 SimpleDateFormat("MMM")
             } else {
-                SimpleDateFormat("M")
+                SimpleDateFormat("MMM")
             }
 
             dowString = resources.getStringArray(R.array.day_of_weeks)

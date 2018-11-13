@@ -61,17 +61,8 @@
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp">
+            android:layout_marginTop="50dp">
         </com.hellowo.journey.ui.view.CalendarView>
-
-        <View
-            android:id="@+id/bottomShadow"
-            android:background="@drawable/bottom_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom">
-        </View>
 
         <View
             android:id="@+id/dimView"
@@ -113,7 +104,8 @@
             android:tint="@color/primaryText"
             android:src="@drawable/layers"
             android:padding="12dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/profileImage"
@@ -124,6 +116,15 @@
             android:tint="@color/primaryText"
             android:src="@drawable/user"/>
 
+        <com.hellowo.journey.ui.view.BottomTemplateSelectView
+            android:id="@+id/templateSelectView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_shadow"
+            android:layout_gravity="bottom"
+            android:visibility="invisible">
+        </com.hellowo.journey.ui.view.BottomTemplateSelectView>
+
         <com.hellowo.journey.ui.view.SearchView
             android:id="@+id/searchView"
             android:layout_width="50dp"
@@ -131,11 +132,6 @@
             android:layout_gravity="right"
             android:visibility="gone">
         </com.hellowo.journey.ui.view.SearchView>
-
-        <com.hellowo.journey.ui.view.TemplateControlView
-            android:id="@+id/templateControlView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
         <com.hellowo.journey.ui.view.TimeObjectDetailView
             android:id="@+id/timeObjectDetailView"

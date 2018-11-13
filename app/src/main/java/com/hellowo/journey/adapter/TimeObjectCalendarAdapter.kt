@@ -266,7 +266,8 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         }
 
         viewHolderList.forEach { holder ->
-            if(TimeObjectManager.lastUpdatedItem?.id == holder.timeObject.id) {
+            if(TimeObjectManager.lastUpdatedItem?.isValid == true
+                    && TimeObjectManager.lastUpdatedItem?.id == holder.timeObject.id) {
                 TimeObjectManager.lastUpdatedItem = null
                 holder.timeObjectViewList.forEach {
                     //val lastAlpha = if(isOutDate(it)) 1f else CalendarView.outDateAlpha

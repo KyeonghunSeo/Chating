@@ -78,7 +78,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 timeObject.color = color
                 timeObject.fontColor = fontColor
                 updateUI()
-            }, true, true, true, false)
+            }, true, false, true, false)
         }
 
         pinBtn.setOnClickListener {
