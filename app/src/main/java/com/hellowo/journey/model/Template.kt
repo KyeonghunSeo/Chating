@@ -30,7 +30,6 @@ open class Template(@PrimaryKey var id: Int = -1,
         if (style != other.style) return false
         if (inCalendar != other.inCalendar) return false
         if (tags != other.tags) return false
-        if (order != other.order) return false
 
         return true
     }

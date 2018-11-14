@@ -63,12 +63,12 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     private val newTaskList = ArrayList<TimeObject>()
     private val newNoteList = ArrayList<TimeObject>()
 
-    private val eventAdapter = EventListAdapter(context, eventList, calendarView.selectedCal) { view, timeObject, action ->
+    private val eventAdapter = EventListAdapter(context, eventList, calendarView.targetCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
         }
     }
-    private val taskAdapter = TaskListAdapter(context, taskList, calendarView.selectedCal) { view, timeObject, action ->
+    private val taskAdapter = TaskListAdapter(context, taskList, calendarView.targetCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
             1 -> {
@@ -82,7 +82,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             }
         }
     }
-    private val noteAdapter = NoteListAdapter(context, noteList, calendarView.selectedCal) { view, timeObject, action ->
+    private val noteAdapter = NoteListAdapter(context, noteList, calendarView.targetCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
         }
@@ -133,7 +133,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     fun notifyDateChanged(offset: Int) {
         setDateText()
 
-        calendarView.selectedCal.let { cal ->
+        calendarView.targetCal.let { cal ->
             startTime = getCalendarTime0(cal)
             endTime = getCalendarTime23(cal)
             timeObjectList?.removeAllChangeListeners()
@@ -262,17 +262,17 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     private fun setDateText() {
         calendarView.let {
             if(viewMode == ViewMode.OPENED) {
-                dateText.text = AppRes.date.format(it.selectedCal.time)
+                dateText.text = AppRes.date.format(it.targetCal.time)
             }else {
-                dateText.text = it.selectedCal.get(Calendar.DATE).toString()
+                dateText.text = it.targetCal.get(Calendar.DATE).toString()
             }
-            dowText.text = AppRes.simpleDow.format(it.selectedCal.time)
-            val color = it.getDateTextColor(it.postSelectedNum)
+            dowText.text = AppRes.simpleDow.format(it.targetCal.time)
+            val color = it.getDateTextColor(it.targetCellNum)
             dateText.typeface = AppRes.thinFont
             dowText.typeface = AppRes.thinFont
             dateText.setTextColor(color)
             flagImg.setColorFilter(color)
-            if(it.postSelectedNum == it.todayCellNum) {
+            if(it.targetCellNum == it.todayCellNum) {
                 flagImg.setImageResource(R.drawable.flag_today)
             }else {
                 flagImg.setImageResource(R.drawable.flag_to_bottom)
@@ -306,7 +306,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                     transiion.duration = ANIM_DUR
                     transiion.addListener(object : Transition.TransitionListener{
                         override fun onTransitionEnd(transition: Transition) {
-                            dateText.text = AppRes.date.format(calendarView.selectedCal.time)
+                            dateText.text = AppRes.date.format(calendarView.targetCal.time)
                             viewMode = ViewMode.OPENED
                             contentLy.visibility = View.VISIBLE
                             onVisibility?.invoke(true)
@@ -349,7 +349,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     fun hide() {
         timeObjectList?.removeAllChangeListeners()
         calendarView.getSelectedView().let { dateLy ->
-            dateText.text = calendarView.selectedCal.get(Calendar.DATE).toString()
+            dateText.text = calendarView.targetCal.get(Calendar.DATE).toString()
             elevation = dpToPx(15).toFloat()
             viewMode = ViewMode.ANIMATING
 

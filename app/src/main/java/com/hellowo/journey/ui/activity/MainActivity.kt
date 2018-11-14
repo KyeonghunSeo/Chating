@@ -2,12 +2,10 @@ package com.hellowo.journey.ui.activity
 
 import android.Manifest
 import android.animation.LayoutTransition
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Handler
 import android.view.DragEvent
 import android.view.View
 import android.widget.FrameLayout
@@ -45,9 +43,6 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var viewModel: MainViewModel
     lateinit var dayView: DayView
-    private val insertBtnHandler = @SuppressLint("HandlerLeak")
-    object : Handler() {
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         window.navigationBarColor = resources.getColor(R.color.transitionDimWhite)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
-            showDialog(DatePickerDialog(this@MainActivity, calendarView.selectedCal.timeInMillis) {
+            showDialog(DatePickerDialog(this@MainActivity, calendarView.targetCal.timeInMillis) {
                 calendarView.moveDate(it, true)
             }, true, true, true, false)
         }
@@ -325,10 +320,11 @@ class MainActivity : AppCompatActivity() {
         when{
             searchView.isOpened() -> searchView.hide()
             timeObjectDetailView.isOpened() -> viewModel.targetTimeObject.value = null
-            //templateControlView.isExpanded -> templateControlView.collapse()
+            templateSelectView.isExpanded -> templateSelectView.collapse()
             keepView.viewMode == ViewMode.OPENED -> viewModel.targetFolder.value = null
             briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
             dayView.isOpened() -> dayView.hide()
+            //calendarView.selectCellNum >= 0 -> calendarView.unselectDate(calendarView.selectCellNum, true)
             else -> super.onBackPressed()
         }
     }

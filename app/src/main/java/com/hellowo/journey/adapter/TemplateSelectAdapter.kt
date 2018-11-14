@@ -1,7 +1,6 @@
 package com.hellowo.journey.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +19,7 @@ import java.util.*
 class TemplateSelectAdapter(val context: Context, val items: ArrayList<Template>, val adapterInterface: (template: Template) -> Unit)
     : RecyclerView.Adapter<TemplateSelectAdapter.ViewHolder>() {
     val previewWidth = dpToPx(60f)
-    val calendar = MainActivity.instance?.getCalendarView()?.selectedCal ?: Calendar.getInstance()
+    val calendar = MainActivity.instance?.getCalendarView()?.targetCal ?: Calendar.getInstance()
     val shortText = context.getString(R.string.title)
     val longText = "TEXTTEXTTEXTTEXTTEXTTEXT"
 

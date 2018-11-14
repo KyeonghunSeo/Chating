@@ -15,7 +15,7 @@
         <color name="colorPrimaryLightAlpha">#800080ff</color>
     -->
 
-    <color name="background">#ffffff</color>
+    <color name="background">#F4F4F4</color>
     <color name="backgroundAlpha">#EEffffff</color>
     <color name="backgroundDark">#f2f2f2</color>
     <color name="backgroundDeepDark">#b4b7bc</color>
@@ -58,7 +58,7 @@
     <color name="blue">#334cd5</color>
     <color name="blue_l">#3b55e6</color>
 
-    <color name="calendarBackground">#ffffff</color>
+    <color name="calendarBackground">#F4F4F4</color>
     <color name="holiday">#fc4a1a</color>
     <color name="transitionDim">#60000000</color>
     <color name="transitionDimWhite">#ccF4F4F4</color>

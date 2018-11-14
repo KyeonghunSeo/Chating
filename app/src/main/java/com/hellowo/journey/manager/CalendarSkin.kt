@@ -22,7 +22,7 @@ object CalendarSkin {
     var greyColor: Int = 0
     var dateFont = AppRes.regularFont
     var noteFont = AppRes.textFont
-    var selectFont = AppRes.regularFont
+    var selectFont = AppRes.boldFont
 
     fun init(calendarView: CalendarView) {
         val resource = calendarView.context.resources

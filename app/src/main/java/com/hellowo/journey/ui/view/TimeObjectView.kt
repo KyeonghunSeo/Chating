@@ -21,7 +21,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val defaulMargin = dpToPx(1.5f) // 뷰간 간격
         val defaultPadding = dpToPx(4)
         val strokeWidth = dpToPx(0.5f) // 선 간격
-        val rectRadius = dpToPx(3f)
+        val rectRadius = dpToPx(0f)
         val normalTypeSize = dpToPx(17)
         val smallTypeSize = dpToPx(13)
         val bigTypeSize = dpToPx(25)

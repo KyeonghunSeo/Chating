@@ -20,7 +20,7 @@ import java.util.*
 class TemplateAdapter(val context: Context, val items: ArrayList<Template>, val adapterInterface: (template: Template) -> Unit)
     : RecyclerView.Adapter<TemplateAdapter.ViewHolder>() {
     val previewWidth = dpToPx(60f)
-    val calendar = MainActivity.instance?.getCalendarView()?.selectedCal ?: Calendar.getInstance()
+    val calendar = MainActivity.instance?.getCalendarView()?.targetCal ?: Calendar.getInstance()
     val shortText = context.getString(R.string.title)
     val longText = "TEXTTEXTTEXTTEXTTEXTTEXT"
 

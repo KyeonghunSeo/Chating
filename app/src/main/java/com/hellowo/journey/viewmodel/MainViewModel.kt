@@ -114,7 +114,7 @@ class MainViewModel : ViewModel() {
 
     fun makeNewTimeObject() {
         MainActivity.instance?.getCalendarView()?.let {
-            makeNewTimeObject(getCalendarTime0(it.selectedCal), getCalendarTime23(it.selectedCal))
+            makeNewTimeObject(getCalendarTime0(it.targetCal), getCalendarTime23(it.targetCal))
         }
     }
 
@@ -147,7 +147,7 @@ class MainViewModel : ViewModel() {
     fun saveDirectByTemplate() {
         MainActivity.instance?.getCalendarView()?.let {
             TimeObjectManager.save(makeTimeObjectByTatgetTemplate(
-                    getCalendarTime0(it.selectedCal), getCalendarTime23(it.selectedCal)))
+                    getCalendarTime0(it.targetCal), getCalendarTime23(it.targetCal)))
         }
     }
 }

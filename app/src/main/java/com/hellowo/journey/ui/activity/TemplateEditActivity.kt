@@ -38,7 +38,6 @@ class TemplateEditActivity : AppCompatActivity() {
                     }
                 }
             }, true, false, true, false)
-
         }
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)

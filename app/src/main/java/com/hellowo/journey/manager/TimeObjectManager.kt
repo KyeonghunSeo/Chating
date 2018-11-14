@@ -52,7 +52,7 @@ object TimeObjectManager {
             }
 
             if(postSelectDate >= 0) {
-                calendarView.selectDate(postSelectDate, true, false)
+                calendarView.selectDate(postSelectDate, false)
                 postSelectDate = -1
             }
 

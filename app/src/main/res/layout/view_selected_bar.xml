@@ -9,8 +9,11 @@
     <View
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/secondaryText"/>
+        android:layout_height="2dp"
+        android:layout_marginRight="3dp"
+        android:scaleX="0.2"
+        android:transformPivotX="0dp"
+        android:background="@color/primaryText"/>
 
     <View
         android:layout_width="0.5dp"
@@ -24,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:textSize="11dp"
+        android:textSize="10dp"
         android:includeFontPadding="false"
         android:transformPivotX="0dp"
         android:transformPivotY="0dp"
