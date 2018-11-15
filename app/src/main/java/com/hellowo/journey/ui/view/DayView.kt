@@ -7,6 +7,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.os.Handler
 import android.util.AttributeSet
@@ -40,9 +41,11 @@ import android.provider.CalendarContract
 import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
 import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
 import android.widget.FrameLayout
+import com.bumptech.glide.Glide
 import com.hellowo.journey.adapter.NoteListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.manager.OsCalendarManager
+import com.hellowo.journey.model.Link
 import com.hellowo.journey.util.EventListComparator
 import com.hellowo.journey.util.NoteListComparator
 
@@ -52,8 +55,8 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     : CardView(context, attrs, defStyleAttr) {
     companion object {
         const val headerTextScale = 2.5f
-        val datePosX = dpToPx(15f)
-        val datePosY = dpToPx(7f)
+        val datePosX = dpToPx(9.5f)
+        val datePosY = dpToPx(13f)
     }
     private var timeObjectList: RealmResults<TimeObject>? = null
     private val eventList = ArrayList<TimeObject>()
@@ -97,17 +100,13 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         LayoutInflater.from(context).inflate(R.layout.view_day, this, true)
         //rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         rootLy.setOnClickListener {}
-        setCardBackgroundColor(Color.WHITE)
+        setCardBackgroundColor(CalendarSkin.backgroundColor)
         initRecyclerView()
         elevation = 0f
         dateText.typeface = CalendarSkin.selectFont
         dateText.scaleY = CalendarView.selectedDateScale
         dateText.scaleX = CalendarView.selectedDateScale
         dateText.translationY = CalendarView.selectedDatePosition
-        (bar.layoutParams as FrameLayout.LayoutParams).let {
-            it.marginEnd = normalMargin.toInt()
-            it.marginStart = normalMargin.toInt()
-        }
 
         taskFinishAnimView.imageAssetsFolder = "assets/"
         taskFinishAnimView.setAnimation("success.json")
@@ -152,6 +151,16 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                     updateChange(taskAdapter, taskList, newTaskList)
                     updateChange(noteAdapter, noteList, newNoteList)
                 }
+/*
+                val imageItem = result.firstOrNull { item -> item.links.any{ it.type == Link.Type.IMAGE.ordinal } }
+
+                if(imageItem != null) {
+                    val imageLink = imageItem.links.first { it.type == Link.Type.IMAGE.ordinal }
+                    Glide.with(context).load(imageLink.data).into(headerCoverImg)
+                    headerCoverImg.setColorFilter(AppRes.resources.getColor(R.color.transitionDimWhite), PorterDuff.Mode.SRC_OVER)
+                }else {
+                    headerCoverImg.setImageBitmap(null)
+                }*/
                 l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
                 l("==========데이뷰 데이터 변경 종료=========")
             }
@@ -261,15 +270,9 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
 
     private fun setDateText() {
         calendarView.let {
-            if(viewMode == ViewMode.OPENED) {
-                dateText.text = AppRes.date.format(it.targetCal.time)
-            }else {
-                dateText.text = it.targetCal.get(Calendar.DATE).toString()
-            }
+            dateText.text = it.targetCal.get(Calendar.DATE).toString()
             dowText.text = AppRes.simpleDow.format(it.targetCal.time)
             val color = it.getDateTextColor(it.targetCellNum)
-            dateText.typeface = AppRes.thinFont
-            dowText.typeface = AppRes.thinFont
             dateText.setTextColor(color)
             flagImg.setColorFilter(color)
             if(it.targetCellNum == it.todayCellNum) {
@@ -300,13 +303,13 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.addListener(object : Animator.AnimatorListener{
                 override fun onAnimationRepeat(p0: Animator?) {}
+
                 override fun onAnimationEnd(p0: Animator?) {
                     val transiion = makeChangeBounceTransition()
                     transiion.interpolator = FastOutSlowInInterpolator()
                     transiion.duration = ANIM_DUR
                     transiion.addListener(object : Transition.TransitionListener{
                         override fun onTransitionEnd(transition: Transition) {
-                            dateText.text = AppRes.date.format(calendarView.targetCal.time)
                             viewMode = ViewMode.OPENED
                             contentLy.visibility = View.VISIBLE
                             onVisibility?.invoke(true)
@@ -336,7 +339,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                     })
                     TransitionManager.beginDelayedTransition(this@DayView, transiion)
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, mainBarHeight, 0, 0)
+                        setMargins(0, mainBarHeight, 0, mainBarHeight)
                     }
                 }
                 override fun onAnimationCancel(p0: Animator?) {}
@@ -349,7 +352,6 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     fun hide() {
         timeObjectList?.removeAllChangeListeners()
         calendarView.getSelectedView().let { dateLy ->
-            dateText.text = calendarView.targetCal.get(Calendar.DATE).toString()
             elevation = dpToPx(15).toFloat()
             viewMode = ViewMode.ANIMATING
 
@@ -383,8 +385,6 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                 override fun onTransitionStart(transition: Transition) {
                     onVisibility?.invoke(false)
                     contentLy.visibility = View.INVISIBLE
-                    val bounds = Rect()
-                    dateText.paint.getTextBounds(dateText.text.toString(), 0, dateText.text.length, bounds)
                     val animSet = AnimatorSet()
                     animSet.playTogether(ObjectAnimator.ofFloat(dateText, "alpha", 1f, 1f),
                             ObjectAnimator.ofFloat(dateText, "scaleX", dateText.scaleX, CalendarView.selectedDateScale),

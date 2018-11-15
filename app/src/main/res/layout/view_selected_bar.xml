@@ -9,10 +9,8 @@
     <View
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginRight="3dp"
-        android:scaleX="0.2"
-        android:transformPivotX="0dp"
+        android:layout_height="1dp"
+        android:scaleY="0"
         android:background="@color/primaryText"/>
 
     <View
@@ -27,12 +25,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:textSize="10dp"
+        android:textSize="16dp"
         android:includeFontPadding="false"
         android:transformPivotX="0dp"
-        android:transformPivotY="0dp"
+        android:transformPivotY="16dp"
         android:textColor="@color/primaryText"
-        android:fontFamily="@font/regular"
+        android:fontFamily="@font/digit"
         android:text="27" />
 
     <ImageView
@@ -57,7 +55,7 @@
         android:textSize="7dp"
         android:transformPivotX="8.5dp"
         android:transformPivotY="0dp"
-        android:textColor="@color/white"
+        android:textColor="@color/primaryWhiteText"
         android:fontFamily="@font/regular"
         android:text="@string/sun" />
 

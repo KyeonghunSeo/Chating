@@ -15,7 +15,7 @@
         <color name="colorPrimaryLightAlpha">#800080ff</color>
     -->
 
-    <color name="background">#F4F4F4</color>
+    <color name="background">#e0e0d7</color>
     <color name="backgroundAlpha">#EEffffff</color>
     <color name="backgroundDark">#f2f2f2</color>
     <color name="backgroundDeepDark">#b4b7bc</color>
@@ -23,12 +23,12 @@
     <color name="iconTint">#a8aaaf</color>
 <!--
     <color name="primaryText">#44464b</color> -->
-    <color name="primaryText">#414141</color>
-    <color name="secondaryText">#a8aaaf</color>
-    <color name="disableText">#cccccc</color>
-    <color name="primaryWhiteText">#FFFFFFFF</color>
-    <color name="secondaryWhiteText">#b3FFFFFF</color>
-    <color name="disableWhiteText">#80FFFFFF</color>
+    <color name="primaryText">#303029</color>
+    <color name="secondaryText">#6d6d61</color>
+    <color name="disableText">#b8b8ae</color>
+    <color name="primaryWhiteText">#e0e0d7</color>
+    <color name="secondaryWhiteText">#b3e0e0d7</color>
+    <color name="disableWhiteText">#80e0e0d7</color>
 
     <color name="test">#262228</color>
     <!--
@@ -43,9 +43,9 @@
     <color name="whiteAlpha">#f4FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="almostWhite">#F4F4F4</color>
-    <color name="red">#FF3366</color>
-    <color name="green">#67D5B5</color>
-    <color name="yellow">#FDD692</color>
+    <color name="red">#b30000</color>
+    <color name="green">#9bd4a1</color>
+    <color name="yellow">#c7bf2e</color>
     <color name="purple">#C89EC4</color>
     <color name="transparent">#00000000</color>
 
@@ -58,10 +58,10 @@
     <color name="blue">#334cd5</color>
     <color name="blue_l">#3b55e6</color>
 
-    <color name="calendarBackground">#F4F4F4</color>
-    <color name="holiday">#fc4a1a</color>
+    <color name="calendarBackground">#e0e0d7</color>
+    <color name="holiday">#b30000</color>
     <color name="transitionDim">#60000000</color>
-    <color name="transitionDimWhite">#ccF4F4F4</color>
+    <color name="transitionDimWhite">#cce0e0d7</color>
 
     <color name="lol_light_3">#a3daff</color>
     <color name="lol_light_2">#1ec0ff</color>
@@ -76,8 +76,8 @@
     </string-array>
 
     <string-array name="colors">
-        <item>#4abdac</item>
-        <item>#fc4a1a</item>
+        <item>#9bd4a1</item>
+        <item>#c7bf2e</item>
         <item>#f7b733</item>
         <item>#dfdce3</item>
 
