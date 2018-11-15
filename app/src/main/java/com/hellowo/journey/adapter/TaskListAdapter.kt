@@ -98,10 +98,10 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
         v.checkBox.setColorFilter(timeObject.color)
 
         if(timeObject.isDone()) {
-            v.checkBox.setImageResource(R.drawable.checked)
+            v.checkBox.setImageResource(R.drawable.sharp_check_box_black_48dp)
             v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }else {
-            v.checkBox.setImageResource(R.drawable.unchecked)
+            v.checkBox.setImageResource(R.drawable.sharp_check_box_outline_blank_black_48dp)
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 

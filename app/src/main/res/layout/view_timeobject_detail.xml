@@ -8,7 +8,7 @@
         android:id="@+id/backgroundLy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transitionDim"
+        android:background="@color/transitionDimWhite"
         android:alpha="0">
     </View>
 
@@ -16,6 +16,8 @@
         android:id="@+id/contentPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:elevation="20dp"
         android:layout_gravity="bottom">
 
         <FrameLayout
@@ -26,7 +28,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
+                android:background="@color/background"
                 android:layout_marginRight="40dp">
 
             </FrameLayout>
@@ -44,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="50dp"
-            android:background="@color/white">
+            android:background="@color/background">
 
             <LinearLayout
                 android:id="@+id/contentLy"
@@ -156,7 +158,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="35dp"
                             android:textColor="@color/primaryText"
-                            android:fontFamily="@font/futura_medium"
+                            android:fontFamily="@font/regular"
                             android:text="3"/>
 
                         <TextView
@@ -344,7 +346,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:background="@color/white"
             android:elevation="0dp">
 
             <androidx.cardview.widget.CardView

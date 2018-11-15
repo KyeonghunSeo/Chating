@@ -22,8 +22,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val defaultPadding = dpToPx(4)
         val strokeWidth = dpToPx(0.5f) // 선 간격
         val rectRadius = dpToPx(0f)
-        val normalTypeSize = dpToPx(17)
-        val smallTypeSize = dpToPx(13)
+        val normalTypeSize = dpToPx(20)
+        val smallTypeSize = dpToPx(14)
         val bigTypeSize = dpToPx(25)
         val iconSize = dpToPx(8)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
@@ -79,7 +79,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     else -> {
                         setPadding(defaultPadding, 0, defaultPadding, 0)
                         typeface = AppRes.regularFont
-                        setTextColor(timeObject.fontColor)
+                        setTextColor(AppRes.primaryText)
                     }
                 }
             }
@@ -107,7 +107,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                 typeface = AppRes.textFont
                 setLineSpacing(strokeWidth * 2, 1f)
-                setPadding(defaulMargin.toInt(), (iconSize + defaulMargin).toInt(), defaultPadding, 0)
+                setPadding(defaulMargin.toInt(), (defaulMargin).toInt() * 4, defaultPadding, 0)
                 setTextColor(CalendarSkin.dateColor)
             }
             TimeObject.Type.TERM -> {
@@ -198,13 +198,13 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         TimeObject.Type.TASK -> smallTypeSize
         TimeObject.Type.NOTE -> {
             setSingleLine(false)
-            maxLines = 5
+            maxLines = 7
             gravity = Gravity.TOP
             ellipsize = TextUtils.TruncateAt.END
             val width =  mRight - mLeft - defaulMargin
             measure(View.MeasureSpec.makeMeasureSpec(width.toInt(), View.MeasureSpec.EXACTLY), heightMeasureSpec)
-            //line = (paint.measureText(text.toString()) / width).toInt() + 1
-            measuredHeight + /*폰트 자체 패딩때문에 조금 여유를 줘야함*/defaultPadding
+            //l("${timeObject.title} 라인 : "+((paint.measureText(text.toString()) / width).toInt() + 1))
+            measuredHeight + /*폰트 자체 패딩때문에 조금 여유를 줘야함*/defaultPadding * 2
         }
         TimeObject.Type.STAMP -> {
             normalTypeSize

@@ -20,9 +20,9 @@ object CalendarSkin {
     var selectedDateColor: Int = 0
     var selectedBackgroundColor: Int = 0
     var greyColor: Int = 0
-    var dateFont = AppRes.regularFont
+    var dateFont = AppRes.digitFont
     var noteFont = AppRes.textFont
-    var selectFont = AppRes.boldFont
+    var selectFont = AppRes.digitBoldFont
 
     fun init(calendarView: CalendarView) {
         val resource = calendarView.context.resources
@@ -115,7 +115,7 @@ object CalendarSkin {
                     canvas.drawCircle(iconSize / 2f, height / 2f - strokeWidth, redius, paint)
                 }
             }
-            else -> {
+            5 -> { //빗금
                 paint.style = Paint.Style.FILL
                 val edge = defaultPadding.toFloat()
                 var left = 0f
@@ -145,6 +145,13 @@ object CalendarSkin {
                     canvas.drawLine(x, -defaulMargin, x - offset, height + defaulMargin, paint)
                     x += dashWidth * 2
                 }
+            }
+            else -> {
+                paint.style = Paint.Style.FILL
+                var left = 0f
+                var right = width.toFloat()
+                val rect = RectF(left, 0f, right, height.toFloat())
+                canvas.drawRoundRect(rect, rectRadius, rectRadius, paint)
             }
         }
     }
@@ -378,10 +385,10 @@ object CalendarSkin {
         paint.color = timeObject.color
         when(TimeObject.Style.values()[timeObject.style]){
             TimeObject.Style.DEFAULT -> {
-                val rect = RectF(defaulMargin,
-                        TimeObjectView.iconSize / 2f,
-                        TimeObjectView.iconSize.toFloat() + defaulMargin,
-                        TimeObjectView.iconSize / 2f + strokeWidth * 2)
+                val rect = RectF(defaulMargin * 2,
+                        strokeWidth,
+                        defaulMargin * 6,
+                        strokeWidth * 4)
                 canvas.drawRect(rect, paint)
             }
         }

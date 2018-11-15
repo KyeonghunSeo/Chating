@@ -24,7 +24,6 @@ object TimeObjectManager {
     @SuppressLint("StaticFieldLeak")
     var timeObjectCalendarAdapter: TimeObjectCalendarAdapter? = null
     var lastUpdatedItem: TimeObject? = null
-    private var postSelectDate = -1
     private var withAnim = false
 
     fun init() {
@@ -51,9 +50,8 @@ object TimeObjectManager {
                 timeObjectCalendarAdapter = it.apply { draw() }
             }
 
-            if(postSelectDate >= 0) {
-                calendarView.selectDate(postSelectDate, false)
-                postSelectDate = -1
+            if(calendarView.targetCellNum != calendarView.selectCellNum) {
+                calendarView.selectDate(calendarView.targetCellNum, false)
             }
 
             withAnim = true
@@ -242,10 +240,6 @@ object TimeObjectManager {
         timeObjectList = null
         timeObjectCalendarAdapter = null
         realm.close()
-    }
-
-    fun postSelectDate(cellNum: Int) {
-        postSelectDate = cellNum
     }
 
     fun makeNewTimeObject(start: Long, end: Long): TimeObject {

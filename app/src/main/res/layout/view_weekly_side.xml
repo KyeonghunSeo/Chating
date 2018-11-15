@@ -18,7 +18,7 @@
         android:layout_marginLeft="10dp"
         android:includeFontPadding="false"
         android:textColor="@color/primaryText"
-        android:fontFamily="@font/regular"
+        android:fontFamily="@font/digit_bold"
         android:textSize="12dp" />
 
 </FrameLayout>

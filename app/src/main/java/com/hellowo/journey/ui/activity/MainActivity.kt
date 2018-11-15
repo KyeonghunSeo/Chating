@@ -5,6 +5,7 @@ import android.animation.LayoutTransition
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initLayout() {
-        window.navigationBarColor = resources.getColor(R.color.transitionDimWhite)
+        window.navigationBarColor = resources.getColor(R.color.background)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
             showDialog(DatePickerDialog(this@MainActivity, calendarView.targetCal.timeInMillis) {
@@ -96,7 +97,6 @@ class MainActivity : AppCompatActivity() {
     private fun initCalendarView() {
         calendarView.onDrawed = { cal ->
             setDateText(cal.time)
-            briefingView.refreshTodayView(calendarView.todayStatus)
         }
         calendarView.onSelected = { time, cellNum, showDayView ->
             if(cellNum >= 0) {
@@ -107,6 +107,13 @@ class MainActivity : AppCompatActivity() {
                     templateSelectView.visibility = View.VISIBLE
                 }
                 briefingView.refreshTodayView(calendarView.todayStatus)
+                if(calendarView.todayStatus == 0) {
+                    todayText.alpha = 1f
+                    todayText.text = "Today\nBriefing"
+                }else {
+                    todayText.alpha = 0.3f
+                    todayText.text = "Today"
+                }
             }else {
                 TransitionManager.beginDelayedTransition(templateSelectView, makeFromBottomSlideTransition())
                 templateSelectView.visibility = View.INVISIBLE
@@ -166,7 +173,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initBriefingView() {
-        briefingView.setOnClickListener {
+        todayBtn.setOnClickListener {
             if(calendarView.todayStatus != 0) {
                 calendarView.moveDate(System.currentTimeMillis(), true)
             }else {
@@ -181,13 +188,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBtns() {
         profileImage.setOnClickListener {
-            //checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
+            checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
 
             //startActivity(Intent(this, DrawActivity::class.java))
 
             //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
 
-            checkOsCalendarPermission()
+            //checkOsCalendarPermission()
         }
 
         profileImage.setOnLongClickListener {
@@ -235,9 +242,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateUserUI(appUser: AppUser) {
         if(appUser.profileImg?.isNotEmpty() == true) {
-            profileImage.colorFilter = null
+            profileImage.clearColorFilter()
             Glide.with(this).load(appUser.profileImg)
-                    .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
+                    //.apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
                     .into(profileImage)
         }else {
             profileImage.setColorFilter(AppRes.primaryText)
@@ -245,7 +252,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setDateText(date: Date) {
-        monthText.text = AppRes.ymDate.format(date)
+        yearText.text = AppRes.year.format(date)
+        monthText.text = AppRes.monthEng.format(date)
     }
 
     fun onDrag(event: DragEvent) {
@@ -335,15 +343,13 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
             if (data != null) {
                 val uri = data.data
-                try{
-                    Glide.with(this).asBitmap().load(uri)
-                            .into(object : SimpleTarget<Bitmap>(){
-                                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                                    l("사진 크기 : ${resource.rowBytes} 바이트")
-                                    viewModel.saveProfileImage(resource)
-                                }
-                            })
-                }catch (e: Exception){}
+                Glide.with(this).asBitmap().load(uri)
+                        .into(object : SimpleTarget<Bitmap>(){
+                            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                                l("사진 크기 : ${resource.rowBytes} 바이트")
+                                viewModel.saveProfileImage(resource)
+                            }
+                        })
             }
         }else if(requestCode == RC_OS_CALENDAR) {
             dayView.onActivityResult(requestCode, resultCode, data)

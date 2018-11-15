@@ -32,9 +32,10 @@ object AppRes {
     lateinit var date: DateFormat
     lateinit var hour: DateFormat
     lateinit var year: DateFormat
-    var ymSimpleDate = SimpleDateFormat("yyyy.M")
-    var ymdkey: DateFormat = SimpleDateFormat("yyyyMMdd")
-    var ymdthmszkey: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
+    val monthEng = SimpleDateFormat("MMMM", Locale.ENGLISH)
+    val ymSimpleDate = SimpleDateFormat("yyyy.M")
+    val ymdkey: DateFormat = SimpleDateFormat("yyyyMMdd")
+    val ymdthmszkey: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
 
     var thinFont: Typeface = Typeface.DEFAULT
     var regularFont: Typeface = Typeface.DEFAULT
@@ -79,8 +80,8 @@ object AppRes {
         thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
         regularFont = ResourcesCompat.getFont(context, R.font.regular)!!
         boldFont = ResourcesCompat.getFont(context, R.font.bold)!!
-        digitFont = ResourcesCompat.getFont(context, R.font.futura_regular)!!
-        digitBoldFont = ResourcesCompat.getFont(context, R.font.futura_regular)!!
+        digitFont = ResourcesCompat.getFont(context, R.font.digit)!!
+        digitBoldFont = ResourcesCompat.getFont(context, R.font.digit_bold)!!
         textFont = ResourcesCompat.getFont(context, R.font.text)!!
 
         //////////////////////////////////////////////////////////////////////////날짜 포맷
