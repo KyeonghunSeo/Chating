@@ -38,13 +38,13 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var folder: Folder? = null): RealmObject() {
 
     enum class Type(val titleId: Int, val iconId: Int, val enableLongTerm: Boolean) {
-        EVENT(R.string.event, R.drawable.ic_baseline_calendar_today_24px, true),
-        TASK(R.string.task, R.drawable.ic_baseline_done_24px, false),
-        NOTE(R.string.note, R.drawable.ic_baseline_description_24px, false),
-        STAMP(R.string.stamp, R.drawable.ic_outline_class, false),
-        TERM(R.string.term, R.drawable.ic_outline_class, true),
-        MONEY(R.string.money, R.drawable.ic_outline_monetization_on, false),
-        DRAWING(R.string.drawing, R.drawable.ic_baseline_favorite_24px, false)
+        EVENT(R.string.event, R.drawable.sharp_event_black_48dp, true),
+        TASK(R.string.task, R.drawable.sharp_check_box_black_48dp, false),
+        NOTE(R.string.note, R.drawable.sharp_notes_black_48dp, false),
+        STAMP(R.string.stamp, R.drawable.sharp_star_rate_black_48dp, false),
+        TERM(R.string.term, R.drawable.sharp_date_range_black_48dp, true),
+        MONEY(R.string.money, R.drawable.sharp_money_black_48dp, false),
+        DRAWING(R.string.drawing, R.drawable.sharp_brush_black_48dp, false)
     }
 
     enum class Style {

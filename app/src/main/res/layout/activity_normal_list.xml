@@ -15,8 +15,9 @@
             android:id="@+id/backBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/error"
-            android:padding="12dp"/>
+            android:src="@drawable/sharp_clear_black_48dp"
+            android:tint="@color/primaryText"
+            android:padding="15dp"/>
 
         <TextView
             android:id="@+id/titleText"
@@ -24,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="title"
-            android:fontFamily="@font/regular"
+            android:fontFamily="@font/bold"
             android:textColor="@color/primaryText"
             android:textSize="18dp"/>
 

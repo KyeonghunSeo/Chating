@@ -23,7 +23,6 @@
                 android:id="@+id/iconImg"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/ic_baseline_alarm_24px"
                 android:tint="@color/primaryText"/>
 
             <TextView

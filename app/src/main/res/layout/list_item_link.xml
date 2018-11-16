@@ -47,7 +47,6 @@
                 android:background="@color/colorPrimary"
                 android:padding="13dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/calendar"
                 android:tint="@color/white"/>
 
             <TextView

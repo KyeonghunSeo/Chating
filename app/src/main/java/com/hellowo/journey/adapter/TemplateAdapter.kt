@@ -83,7 +83,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>, val 
         }else {
             v.previewContainer.getChildAt(0).visibility = View.GONE
             v.contentLy.setBackgroundColor(Color.TRANSPARENT)
-            v.iconImg.setImageResource(R.drawable.add_line)
+            v.iconImg.setImageResource(R.drawable.sharp_add_black_48dp)
             v.titleText.text = context.getString(R.string.make_new)
         }
     }

@@ -21,7 +21,6 @@
              android:layout_width="20dp"
              android:layout_height="20dp"
              android:visibility="gone"
-             android:src="@drawable/idea"
              android:tint="@color/primaryText"/>
 
          <View

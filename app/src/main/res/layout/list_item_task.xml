@@ -16,7 +16,7 @@
           android:layout_height="15dp"
           android:layout_gravity="center"
           android:tint="@color/primaryText"
-          android:src="@drawable/checked"/>
+          android:src="@drawable/sharp_check_box_black_48dp"/>
 
    </FrameLayout>
 
@@ -95,7 +95,6 @@
           android:layout_width="13dp"
           android:layout_height="13dp"
           android:tint="@color/secondaryText"
-          android:src="@drawable/alarm"
           android:layout_gravity="right"/>
 
    </FrameLayout>

@@ -39,11 +39,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="bottom">
 
-                <com.hellowo.journey.ui.view.base.Line
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:visibility="gone"/>
-
                 <LinearLayout
                     android:id="@+id/dateLy"
                     android:animateLayoutChanges="true"
@@ -84,13 +79,25 @@
 
             </FrameLayout>
 
-            <ImageView
-                android:id="@+id/profileImage"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:layout_gravity="right"
-                android:src="@drawable/ic_outline_account_circle"
-                android:padding="10dp"/>
+            <FrameLayout
+                android:id="@+id/todayBtn"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right|bottom">
+
+                <TextView
+                    android:id="@+id/todayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/digit_bold"
+                    android:textSize="10dp"
+                    android:text="Today"/>
+
+            </FrameLayout>
 
             <com.hellowo.journey.ui.view.base.Line
                 android:layout_width="match_parent"
@@ -146,25 +153,14 @@
                     android:src="@drawable/sharp_flag_black_48dp"
                     android:padding="15dp"/>
 
-                <FrameLayout
-                    android:id="@+id/todayBtn"
+                <ImageView
+                    android:id="@+id/profileImage"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/todayText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:includeFontPadding="false"
-                        android:layout_marginRight="3dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textColor="@color/primaryText"
-                        android:fontFamily="@font/digit_bold"
-                        android:textSize="10dp"/>
-
-                </FrameLayout>
+                    android:layout_weight="1"
+                    android:tint="@color/primaryText"
+                    android:src="@drawable/sharp_perm_identity_black_48dp"
+                    android:padding="16dp"/>
 
             </LinearLayout>
 

@@ -37,8 +37,8 @@ object AppTheme {
         secondaryText = resource.getColor(R.color.secondaryText)
         disableText = resource.getColor(R.color.disableText)
 
-        starDrawable = resource.getDrawable(R.drawable.ic_outline_star_border)
-        ideaDrawable = resource.getDrawable(R.drawable.idea)
+        starDrawable = resource.getDrawable(R.drawable.sharp_star_rate_black_48dp)
+        ideaDrawable = resource.getDrawable(R.drawable.sharp_perm_identity_black_48dp)
         hightlightCover = resource.getDrawable(R.drawable.highlightcover)
         blankDrawable = resource.getDrawable(R.drawable.blank)
 

@@ -315,7 +315,7 @@
                     android:layout_margin="5dp"
                     android:background="@drawable/primary_rect_fill_radius_1"
                     android:tint="@color/white"
-                    android:src="@drawable/check_line"
+                    android:src="@drawable/sharp_done_black_48dp"
                     android:padding="7dp"
                     android:fontFamily="@font/thin"
                     android:gravity="center"

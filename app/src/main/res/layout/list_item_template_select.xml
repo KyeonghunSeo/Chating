@@ -13,8 +13,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/bookmark_2"/>
+            android:layout_height="match_parent"/>
 
         <LinearLayout
             android:orientation="vertical"
@@ -33,7 +32,6 @@
                     android:id="@+id/iconImg"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/add_line"
                     android:layout_gravity="center"
                     android:padding="10dp"
                     android:tint="@color/primaryText"/>

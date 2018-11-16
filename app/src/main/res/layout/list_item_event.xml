@@ -148,7 +148,6 @@
                 android:layout_width="13dp"
                 android:layout_height="13dp"
                 android:tint="@color/secondaryText"
-                android:src="@drawable/alarm"
                 android:layout_gravity="right"/>
 
         </FrameLayout>
