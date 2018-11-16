@@ -113,15 +113,15 @@ class StartEndPickerDialog(private val activity: Activity, private val timeObjec
         val dtStart = calendarView.startCal.timeInMillis
         val dtEnd = calendarView.endCal.timeInMillis
         if(!timeSwitch.isChecked) {
-            startTimeTText.text = "${AppRes.date.format(dtStart)} ${AppRes.dow.format(dtStart)}"
-            startTimeYMDText.text =  "${AppRes.ymDate.format(dtStart)}"
-            endTimeTText.text = "${AppRes.date.format(dtEnd)} ${AppRes.dow.format(dtEnd)}"
-            endTimeYMDText.text =  "${AppRes.ymDate.format(dtEnd)}"
+            startTimeTText.text = "${AppDateFormat.date.format(dtStart)} ${AppDateFormat.dow.format(dtStart)}"
+            startTimeYMDText.text =  "${AppDateFormat.ymDate.format(dtStart)}"
+            endTimeTText.text = "${AppDateFormat.date.format(dtEnd)} ${AppDateFormat.dow.format(dtEnd)}"
+            endTimeYMDText.text =  "${AppDateFormat.ymDate.format(dtEnd)}"
         }else {
-            startTimeTText.text = AppRes.time.format(dtStart)
-            startTimeYMDText.text = AppRes.ymdDate.format(dtStart)
-            endTimeTText.text = AppRes.time.format(dtEnd)
-            endTimeYMDText.text = AppRes.ymdDate.format(dtEnd)
+            startTimeTText.text = AppDateFormat.time.format(dtStart)
+            startTimeYMDText.text = AppDateFormat.ymdDate.format(dtStart)
+            endTimeTText.text = AppDateFormat.time.format(dtEnd)
+            endTimeYMDText.text = AppDateFormat.ymdDate.format(dtEnd)
         }
 
         if(calendarView.startEndMode == 0) {

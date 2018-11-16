@@ -1,23 +1,20 @@
 package com.hellowo.journey.ui.view
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Paint
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.hellowo.journey.AppRes
+import com.hellowo.journey.AppDateFormat
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.callAfterViewDrawed
-import com.hellowo.journey.dpToPx
 
 class PinView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     var isPin = false
     val pinImg = ImageView(context)
-    var color = AppRes.primaryText
+    var color = AppTheme.primaryText
     var backColor = Color.WHITE
     var showPinBtn = true
 
@@ -44,7 +41,7 @@ class PinView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }else {
             if(showPinBtn) pinImg.setImageResource(R.drawable.pin)
             else pinImg.setImageBitmap(null)
-            pinImg.setColorFilter(AppRes.disableText)
+            pinImg.setColorFilter(AppTheme.disableText)
             pinImg.translationX = 0f
             pinImg.translationY = 0f
             setBackgroundColor(backColor)

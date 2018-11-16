@@ -1,13 +1,11 @@
 package com.hellowo.journey.adapter
 
-import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hellowo.journey.AppRes
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
-import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.model.Tag
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
@@ -31,13 +29,13 @@ class TagAdapter(data: OrderedRealmCollection<Tag>, val checkedItems: ArrayList<
         getItem(position)?.let { tag ->
             v.tagText.text = tag.id
             if(checkedItems.any{it.id == tag.id}) {
-                v.tagText.setTextColor(AppRes.primaryText)
-                v.hashText.setTextColor(AppRes.primaryText)
-                v.hashText.typeface = AppRes.regularFont
+                v.tagText.setTextColor(AppTheme.primaryText)
+                v.hashText.setTextColor(AppTheme.primaryText)
+                v.hashText.typeface = AppTheme.regularFont
             }else {
-                v.tagText.setTextColor(AppRes.secondaryText)
-                v.hashText.setTextColor(AppRes.secondaryText)
-                v.hashText.typeface = AppRes.thinFont
+                v.tagText.setTextColor(AppTheme.secondaryText)
+                v.hashText.setTextColor(AppTheme.secondaryText)
+                v.hashText.typeface = AppTheme.thinFont
             }
             v.deleteBtn.setOnClickListener { adapterInterface.invoke(1, tag) }
             v.setOnClickListener { adapterInterface.invoke(0, tag) }

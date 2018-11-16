@@ -10,9 +10,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.hellowo.journey.*
 import com.hellowo.journey.manager.CalendarSkin
 import com.hellowo.journey.model.TimeObject
@@ -118,8 +115,8 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
                 v.dotImg.requestLayout()
             }
             v.timeText.visibility = View.VISIBLE
-            v.timeText.text = "${AppRes.time.format(Date(timeObject.dtStart))}\n~" +
-                    "         \n${AppRes.time.format(Date(timeObject.dtEnd))}"
+            v.timeText.text = "${AppDateFormat.time.format(Date(timeObject.dtStart))}\n~" +
+                    "         \n${AppDateFormat.time.format(Date(timeObject.dtEnd))}"
         }
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }

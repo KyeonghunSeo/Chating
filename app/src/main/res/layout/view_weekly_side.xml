@@ -1,24 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="30dp">
+    android:layout_height="wrap_content"
+    android:clipChildren="false">
 
-    <View
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/secondaryText"/>
-
-    <TextView
-        android:id="@+id/weekNumText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:includeFontPadding="false"
-        android:textColor="@color/primaryText"
-        android:fontFamily="@font/digit_bold"
-        android:textSize="12dp" />
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:id="@+id/weekNumText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:textColor="@color/primaryText"
+            android:textSize="11dp" />
+
+        <com.hellowo.journey.ui.view.base.Line
+            android:layout_width="100dp"
+            android:layout_height="1dp"/>
+
+        <com.hellowo.journey.ui.view.base.Line
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom" />
+
+    </FrameLayout>
 
 </FrameLayout>

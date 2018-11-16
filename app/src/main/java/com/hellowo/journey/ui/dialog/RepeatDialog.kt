@@ -103,7 +103,7 @@ class RepeatDialog(private val activity: Activity, private val timeObject: TimeO
                 cal.get(Calendar.DATE).toString())
         monthlyWText.text = String.format(context.getString(R.string.monthly_w_interval),
                 String.format(context.getString(R.string.weekNum), cal.get(Calendar.WEEK_OF_MONTH).toString()),
-                AppRes.dow.format(date))
+                AppDateFormat.dow.format(date))
 
         monthlyCheck.setOnClickListener {
             monthOption = 0
@@ -171,13 +171,13 @@ class RepeatDialog(private val activity: Activity, private val timeObject: TimeO
             untilCheck.setImageResource(R.color.transparent)
             untilCheck.setBackgroundResource(R.drawable.normal_rect_stroke)
             untilDateText.visibility = View.GONE
-            untilText.setTextColor(AppRes.secondaryText)
+            untilText.setTextColor(AppTheme.secondaryText)
         }else {
             untilCheck.setImageResource(R.drawable.check_line)
             untilCheck.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
             untilDateText.visibility = View.VISIBLE
-            untilText.setTextColor(AppRes.primaryText)
-            untilDateText.text = AppRes.ymdDate.format(Date(dtUntil))
+            untilText.setTextColor(AppTheme.primaryText)
+            untilDateText.text = AppDateFormat.ymdDate.format(Date(dtUntil))
         }
     }
 
@@ -185,19 +185,19 @@ class RepeatDialog(private val activity: Activity, private val timeObject: TimeO
         if(monthOption == 0) {
             monthlyCheck.setImageResource(R.drawable.check_line)
             monthlyCheck.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
-            monthlyText.setTextColor(AppRes.primaryText)
+            monthlyText.setTextColor(AppTheme.primaryText)
 
             monthlyWCheck.setImageResource(R.color.transparent)
             monthlyWCheck.setBackgroundResource(R.drawable.normal_rect_stroke)
-            monthlyWText.setTextColor(AppRes.secondaryText)
+            monthlyWText.setTextColor(AppTheme.secondaryText)
         }else {
             monthlyCheck.setImageResource(R.color.transparent)
             monthlyCheck.setBackgroundResource(R.drawable.normal_rect_stroke)
-            monthlyText.setTextColor(AppRes.secondaryText)
+            monthlyText.setTextColor(AppTheme.secondaryText)
 
             monthlyWCheck.setImageResource(R.drawable.check_line)
             monthlyWCheck.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
-            monthlyWText.setTextColor(AppRes.primaryText)
+            monthlyWText.setTextColor(AppTheme.primaryText)
         }
     }
 
@@ -206,27 +206,27 @@ class RepeatDialog(private val activity: Activity, private val timeObject: TimeO
             interval = intervalEdit.text.toString().toInt()
             intervalEdit.setTextColor(Color.WHITE)
             intervalEdit.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
-            intervalEdit.typeface = AppRes.regularFont
-            intervalText.setTextColor(AppRes.primaryText)
+            intervalEdit.typeface = AppTheme.regularFont
+            intervalText.setTextColor(AppTheme.primaryText)
         }else {
             interval = 0
-            intervalEdit.setTextColor(AppRes.secondaryText)
+            intervalEdit.setTextColor(AppTheme.secondaryText)
             intervalEdit.setBackgroundResource(R.drawable.normal_rect_stroke)
-            intervalEdit.typeface = AppRes.thinFont
-            intervalText.setTextColor(AppRes.secondaryText)
+            intervalEdit.typeface = AppTheme.thinFont
+            intervalText.setTextColor(AppTheme.secondaryText)
         }
     }
 
     private fun setWeekNumLy(weekNumChecks: Array<TextView>) {
         weekNumChecks.forEachIndexed { index, textView ->
             if(weekNum[index] == '0') {
-                textView.setTextColor(AppRes.secondaryText)
+                textView.setTextColor(AppTheme.secondaryText)
                 textView.setBackgroundResource(R.drawable.normal_rect_stroke)
-                textView.typeface = AppRes.thinFont
+                textView.typeface = AppTheme.thinFont
             }else {
                 textView.setTextColor(Color.WHITE)
                 textView.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
-                textView.typeface = AppRes.regularFont
+                textView.typeface = AppTheme.regularFont
             }
         }
     }
@@ -236,11 +236,11 @@ class RepeatDialog(private val activity: Activity, private val timeObject: TimeO
             if(freq == index) {
                 textView.setTextColor(Color.WHITE)
                 textView.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
-                textView.typeface = AppRes.regularFont
+                textView.typeface = AppTheme.regularFont
             }else {
-                textView.setTextColor(AppRes.secondaryText)
+                textView.setTextColor(AppTheme.secondaryText)
                 textView.setBackgroundResource(R.color.transparent)
-                textView.typeface = AppRes.thinFont
+                textView.typeface = AppTheme.thinFont
             }
         }
 

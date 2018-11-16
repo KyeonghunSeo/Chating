@@ -13,9 +13,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.hellowo.journey.AppRes
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
-import kotlinx.android.synthetic.main.activity_map.*
 
 class MapActivity : AppCompatActivity() {
     private var location: String? = null
@@ -47,7 +46,7 @@ class MapActivity : AppCompatActivity() {
                     val title = TextView(this@MapActivity)
                     title.setTextColor(Color.BLACK)
                     title.gravity = Gravity.CENTER
-                    title.typeface = AppRes.boldFont
+                    title.typeface = AppTheme.boldFont
                     title.text = p0?.title
 /*
                     val snippet = TextView(this@MapActivity)

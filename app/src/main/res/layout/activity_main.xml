@@ -31,7 +31,7 @@
         <FrameLayout
             android:id="@+id/topBar"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="40dp">
 
             <FrameLayout
                 android:layout_width="200dp"
@@ -60,7 +60,6 @@
                         android:paddingBottom="5dp"
                         android:includeFontPadding="false"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/digit_bold"
                         android:textSize="18dp"
                         android:text="2018"/>
 
@@ -78,7 +77,6 @@
                         android:paddingLeft="5dp"
                         android:includeFontPadding="false"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/digit_bold"
                         android:textSize="16dp"
                         android:text="10월"/>
 
@@ -89,11 +87,10 @@
             <ImageView
                 android:id="@+id/profileImage"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_gravity="right"
-                android:scaleType="centerCrop"
                 android:src="@drawable/ic_outline_account_circle"
-                android:padding="14dp"/>
+                android:padding="10dp"/>
 
             <com.hellowo.journey.ui.view.base.Line
                 android:layout_width="match_parent"
@@ -124,7 +121,7 @@
                     android:layout_weight="1"
                     android:tint="@color/primaryText"
                     android:src="@drawable/sharp_inbox_black_48dp"
-                    android:padding="14dp"/>
+                    android:padding="15dp"/>
 
                 <ImageView
                     android:id="@+id/searchBtn"
@@ -133,7 +130,7 @@
                     android:layout_weight="1"
                     android:tint="@color/primaryText"
                     android:src="@drawable/sharp_search_black_48dp"
-                    android:padding="14dp"/>
+                    android:padding="15dp"/>
 
                 <View
                     android:layout_width="0dp"
@@ -147,7 +144,7 @@
                     android:layout_weight="1"
                     android:tint="@color/primaryText"
                     android:src="@drawable/sharp_flag_black_48dp"
-                    android:padding="14dp"/>
+                    android:padding="15dp"/>
 
                 <FrameLayout
                     android:id="@+id/todayBtn"
@@ -177,7 +174,7 @@
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:layout_marginBottom="50dp">
         </com.hellowo.journey.ui.view.CalendarView>
 

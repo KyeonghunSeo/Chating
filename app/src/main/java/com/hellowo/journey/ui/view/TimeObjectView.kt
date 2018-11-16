@@ -2,15 +2,18 @@ package com.hellowo.journey.ui.view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
-import android.graphics.Typeface.*
+import android.graphics.Canvas
+import android.graphics.Typeface.BOLD_ITALIC
+import android.graphics.Typeface.ITALIC
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
-import com.hellowo.journey.*
+import com.hellowo.journey.AppTheme
+import com.hellowo.journey.R
+import com.hellowo.journey.dpToPx
 import com.hellowo.journey.manager.CalendarSkin
 import com.hellowo.journey.model.TimeObject
 
@@ -22,8 +25,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val defaultPadding = dpToPx(4)
         val strokeWidth = dpToPx(0.5f) // 선 간격
         val rectRadius = dpToPx(0f)
-        val normalTypeSize = dpToPx(20)
-        val smallTypeSize = dpToPx(14)
+        val normalTypeSize = dpToPx(17)
+        val smallTypeSize = dpToPx(13)
         val bigTypeSize = dpToPx(25)
         val iconSize = dpToPx(8)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
@@ -41,7 +44,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
     init {
         includeFontPadding = false
-        //setBackgroundColor(AppRes.almostWhite)
+        //setBackgroundColor(AppTheme.almostWhite)
     }
 
     fun setLookByType() {
@@ -58,35 +61,35 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 when(timeObject.style){
                     1 -> {
                         setPadding(defaultPadding, 0, defaultPadding, 0)
-                        typeface = AppRes.thinFont
+                        typeface = AppTheme.thinFont
                         setTextColor(timeObject.color)
                     }
                     2 -> {
                         setPadding((defaulMargin * 5).toInt(), 0, defaultPadding, 0)
-                        typeface = AppRes.thinFont
-                        setTextColor(AppRes.primaryText)
+                        typeface = AppTheme.thinFont
+                        setTextColor(AppTheme.primaryText)
                     }
                     3 -> {
                         setPadding(defaultPadding, 0, defaultPadding, 0)
-                        typeface = AppRes.regularFont
+                        typeface = AppTheme.regularFont
                         setTextColor(timeObject.fontColor)
                     }
                     4 -> {
                         setPadding(iconSize  + defaulMargin.toInt(), 0, defaultPadding, 0)
-                        typeface = AppRes.regularFont
-                        setTextColor(AppRes.primaryText)
+                        typeface = AppTheme.regularFont
+                        setTextColor(AppTheme.primaryText)
                     }
                     else -> {
                         setPadding(defaultPadding, 0, defaultPadding, 0)
-                        typeface = AppRes.regularFont
-                        setTextColor(AppRes.primaryText)
+                        typeface = AppTheme.textFont
+                        setTextColor(CalendarSkin.backgroundColor)
                     }
                 }
             }
             TimeObject.Type.TASK -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-                typeface = AppRes.regularFont
+                typeface = AppTheme.textFont
                 gravity = Gravity.CENTER_VERTICAL
                 maxLines = 1
                 setSingleLine(true)
@@ -94,18 +97,18 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 when(timeObject.style){
                     1 -> {
                         setPadding(defaultPadding, 0, defaultPadding, 0)
-                        setTextColor(AppRes.primaryText)
+                        setTextColor(AppTheme.primaryText)
                     }
                     else -> {
                         setPadding(iconSize + defaultPadding, 0, defaultPadding, 0)
-                        setTextColor(AppRes.primaryText)
+                        setTextColor(AppTheme.primaryText)
                     }
                 }
             }
             TimeObject.Type.NOTE -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
-                typeface = AppRes.textFont
+                typeface = AppTheme.textFont
                 setLineSpacing(strokeWidth * 2, 1f)
                 setPadding(defaulMargin.toInt(), (defaulMargin).toInt() * 4, defaultPadding, 0)
                 setTextColor(CalendarSkin.dateColor)
@@ -119,17 +122,17 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setHorizontallyScrolling(true)
                 when(timeObject.style){
                     1 -> {
-                        setTypeface(AppRes.regularFont, ITALIC)
+                        setTypeface(AppTheme.regularFont, ITALIC)
                         gravity = Gravity.CENTER_HORIZONTAL
                         setPadding(defaultPadding, 0, defaultPadding, 0)
                         setTextColor(timeObject.color)
                     }
                     2 -> {
                         setPadding(defaulMargin.toInt(), 0, defaultPadding, 0)
-                        setTextColor(AppRes.primaryText)
+                        setTextColor(AppTheme.primaryText)
                     }
                     else -> {
-                        setTypeface(AppRes.regularFont, ITALIC)
+                        setTypeface(AppTheme.regularFont, ITALIC)
                         gravity = Gravity.CENTER
                         setPadding(defaultPadding, 0, defaultPadding, 0)
                         setTextColor(timeObject.color)
@@ -139,14 +142,14 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             TimeObject.Type.DRAWING -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + 3)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
-                setTypeface(AppRes.textFont, BOLD_ITALIC)
+                setTypeface(AppTheme.textFont, BOLD_ITALIC)
                 setLineSpacing(strokeWidth, 1f)
                 setPadding(defaultPadding, defaultPadding, defaultPadding, normalTypeSize * 2)
                 setTextColor(CalendarSkin.dateColor)
             }
             else -> {
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-                typeface = AppRes.regularFont
+                typeface = AppTheme.regularFont
                 setPadding(defaultPadding, 0, defaultPadding, 0)
             }
         }

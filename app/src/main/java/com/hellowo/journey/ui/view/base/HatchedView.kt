@@ -5,23 +5,35 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import android.widget.FrameLayout
-import com.hellowo.journey.AppRes
+import com.hellowo.journey.AppTheme
+import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
-import com.hellowo.journey.l
-import com.hellowo.journey.manager.CalendarSkin
+
 
 class HatchedView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : View(context, attrs, defStyleAttr) {
     private val strokeWidth = dpToPx(1f)
-    private val dashWidth = dpToPx(3f)
-    private val hatchAngle = dpToPx(50f)
+    private val dashWidth = dpToPx(2f)
+    private val hatchAngle = dpToPx(10f)
     val paint = Paint()
 
     init {
         paint.style = Paint.Style.STROKE
-        paint.strokeWidth = strokeWidth
-        paint.color = AppRes.disableText
+
+        val arr = context.obtainStyledAttributes(attrs, R.styleable.HatchedView)
+        val style = arr.getString(R.styleable.HatchedView_style)
+        if (style != null) {
+            when(style) {
+                "normal" -> {
+                    paint.strokeWidth = strokeWidth
+                    paint.color = AppTheme.primaryText
+                }
+            }
+        }else {
+            paint.strokeWidth = strokeWidth
+            paint.color = AppTheme.disableText
+        }
+        arr.recycle()
     }
 
     override fun onDraw(canvas: Canvas?) {

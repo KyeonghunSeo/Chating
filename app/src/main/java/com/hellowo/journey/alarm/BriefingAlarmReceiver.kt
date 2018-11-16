@@ -7,10 +7,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 
-import com.hellowo.journey.AppRes
+import com.hellowo.journey.AppDateFormat
 import com.hellowo.journey.R
 
 import androidx.core.app.NotificationCompat
+import com.hellowo.journey.AppTheme
 
 class BriefingAlarmReceiver : BroadcastReceiver() {
 
@@ -27,7 +28,7 @@ class BriefingAlarmReceiver : BroadcastReceiver() {
         val mCompatBuilder = NotificationCompat.Builder(context, context.getString(R.string.notification_default_channel))
         mCompatBuilder.setSmallIcon(R.mipmap.ic_launcher_round)
         mCompatBuilder.setTicker("ticker")
-        mCompatBuilder.color = AppRes.primaryColor
+        mCompatBuilder.color = AppTheme.primaryColor
         mCompatBuilder.setWhen(System.currentTimeMillis())
         mCompatBuilder.setContentTitle("title")
         mCompatBuilder.setContentText("contents")

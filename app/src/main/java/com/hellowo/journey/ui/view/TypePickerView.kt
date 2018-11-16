@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.hellowo.journey.AppRes
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.model.TimeObject.Type
@@ -53,7 +53,7 @@ class TypePickerView @JvmOverloads constructor(context: Context, attrs: Attribut
                 if(type.ordinal == it.type) {
                     v.rootLy.setCardBackgroundColor(it.color)
                 }else {
-                    v.rootLy.setCardBackgroundColor(AppRes.disableText)
+                    v.rootLy.setCardBackgroundColor(AppTheme.disableText)
                 }
             }
 

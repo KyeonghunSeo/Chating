@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.hellowo.journey.AppRes
+import com.hellowo.journey.AppDateFormat
 import com.hellowo.journey.R
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.TimeObject
@@ -71,7 +71,7 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
             finishTexs.append("${timeObject.location?.substringBefore("\n")}\n")
         }
         val updatedDate = Date(timeObject.dtUpdated)
-        finishTexs.append("${AppRes.ymdeDate.format(updatedDate)} ${AppRes.time.format(updatedDate)}")
+        finishTexs.append("${AppDateFormat.ymdeDate.format(updatedDate)} ${AppDateFormat.time.format(updatedDate)}")
         v.finishText.text = finishTexs.toString()
 
         v.topDivider.setBackgroundColor(timeObject.color)

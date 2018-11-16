@@ -38,7 +38,7 @@ object AlarmManager {
                 val notificationChannel = NotificationChannel(context.getString(R.string.notification_default_channel),
                         context.getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH)
                 notificationChannel.enableLights(true)
-                notificationChannel.lightColor = AppRes.primaryColor
+                notificationChannel.lightColor = AppTheme.primaryColor
                 notificationChannel.setShowBadge(true)
                 notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
                 (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(notificationChannel)
@@ -96,7 +96,7 @@ object AlarmManager {
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT -> manager.setExact(AlarmManager.RTC_WAKEUP, alarm.dtAlarm, pendingIntent)
                     else -> manager.set(AlarmManager.RTC_WAKEUP, alarm.dtAlarm, pendingIntent)
                 }
-                l("알람 등록 : ${AppRes.ymdDate.format(Date(alarm.dtAlarm))} ${AppRes.time.format(Date(alarm.dtAlarm))}")
+                l("알람 등록 : ${AppDateFormat.ymdDate.format(Date(alarm.dtAlarm))} ${AppDateFormat.time.format(Date(alarm.dtAlarm))}")
             }
         } catch (e: Exception) {
             e.printStackTrace()

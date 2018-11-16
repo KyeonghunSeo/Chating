@@ -7,6 +7,7 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hellowo.journey.*
+import com.hellowo.journey.App.Companion.resource
 import com.hellowo.journey.R
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.*
@@ -63,7 +64,7 @@ class MainViewModel : ViewModel() {
                     realm.createObject(Template::class.java, index).run {
                         title = App.context.getString(t.titleId)
                         type = t.ordinal
-                        color = AppRes.primaryText
+                        color = AppTheme.primaryText
                         order = index
                     }
                 }
@@ -78,10 +79,10 @@ class MainViewModel : ViewModel() {
         val colors = realm.where(ColorTag::class.java).sort("order", Sort.ASCENDING).findAll()
         if(colors.isEmpty()) {
             realm.executeTransaction {
-                val colorPack = AppRes.resources.getStringArray(R.array.color_pack_title)
-                val fontColor = AppRes.resources.getStringArray(R.array.font_colors)
-                val colorTitle = AppRes.resources.getStringArray(R.array.color_title)
-                val colors = AppRes.resources.getStringArray(R.array.colors)
+                val colorPack = resource.getStringArray(R.array.color_pack_title)
+                val fontColor = resource.getStringArray(R.array.font_colors)
+                val colorTitle = resource.getStringArray(R.array.color_title)
+                val colors = resource.getStringArray(R.array.colors)
                 (0 until colors.size).forEach {
                     val note = realm.createObject(ColorTag::class.java, it)
                     note.title = colorTitle[it]

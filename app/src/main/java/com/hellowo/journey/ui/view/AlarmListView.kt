@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.hellowo.journey.AppRes
+import com.hellowo.journey.AppDateFormat
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.model.Alarm
 import com.hellowo.journey.model.TimeObject
@@ -18,7 +19,7 @@ class AlarmListView @JvmOverloads constructor(context: Context, attrs: Attribute
     : RecyclerView(context, attrs, defStyleAttr) {
     var onSelected : ((Alarm) -> Unit)? = null
     val items = ArrayList<Alarm>()
-    private val alarms = AppRes.resources.getStringArray(R.array.alarms)
+    private val alarms = resources.getStringArray(R.array.alarms)
 
     init {
         layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -51,16 +52,16 @@ class AlarmListView @JvmOverloads constructor(context: Context, attrs: Attribute
             v.titleText.text = getTitle(alarm.offset)
 
             if(alarm.dtAlarm < System.currentTimeMillis()) {
-                v.iconImg.setColorFilter(AppRes.secondaryText)
-                v.titleText.setTextColor(AppRes.secondaryText)
-                v.subText.setTextColor(AppRes.secondaryText)
+                v.iconImg.setColorFilter(AppTheme.secondaryText)
+                v.titleText.setTextColor(AppTheme.secondaryText)
+                v.subText.setTextColor(AppTheme.secondaryText)
                 v.subText.text = context.getString(R.string.passed_alarm)
             }else {
-                v.iconImg.setColorFilter(AppRes.primaryText)
-                v.titleText.setTextColor(AppRes.primaryText)
-                v.subText.setTextColor(AppRes.primaryText)
+                v.iconImg.setColorFilter(AppTheme.primaryText)
+                v.titleText.setTextColor(AppTheme.primaryText)
+                v.subText.setTextColor(AppTheme.primaryText)
                 v.subText.text = String.format(context.getString(R.string.ring_alarm_at_time),
-                        AppRes.dateTime.format(Date(alarm.dtAlarm)))
+                        AppDateFormat.dateTime.format(Date(alarm.dtAlarm)))
             }
 
             v.setOnClickListener {

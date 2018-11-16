@@ -7,7 +7,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import com.hellowo.journey.AppRes
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.model.TimeObject
 import io.realm.Realm
@@ -45,7 +45,7 @@ class TimeObjectAlarmReceiver : BroadcastReceiver() {
         val mCompatBuilder = NotificationCompat.Builder(context, context.getString(R.string.notification_default_channel))
         mCompatBuilder.setSmallIcon(R.mipmap.ic_launcher_round)
         mCompatBuilder.setTicker("ticker")
-        mCompatBuilder.color = AppRes.primaryColor
+        mCompatBuilder.color = AppTheme.primaryColor
         mCompatBuilder.setWhen(System.currentTimeMillis())
         mCompatBuilder.setContentTitle(timeObject.title)
         mCompatBuilder.setContentText("contents")

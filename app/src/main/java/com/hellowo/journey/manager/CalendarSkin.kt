@@ -1,7 +1,8 @@
 package com.hellowo.journey.manager
 
 import android.graphics.*
-import com.hellowo.journey.AppRes
+import com.hellowo.journey.App.Companion.resource
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.view.CalendarView
@@ -20,9 +21,9 @@ object CalendarSkin {
     var selectedDateColor: Int = 0
     var selectedBackgroundColor: Int = 0
     var greyColor: Int = 0
-    var dateFont = AppRes.digitFont
-    var noteFont = AppRes.textFont
-    var selectFont = AppRes.digitBoldFont
+    var dateFont = AppTheme.textFont
+    var noteFont = AppTheme.textFont
+    var selectFont = AppTheme.textFont
 
     fun init(calendarView: CalendarView) {
         val resource = calendarView.context.resources
@@ -170,7 +171,7 @@ object CalendarSkin {
             }
             else -> {
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = strokeWidth
+                paint.strokeWidth = strokeWidth * 2
 
                 val centerY = (TimeObjectView.smallTypeSize - defaulMargin) / 2f - strokeWidth
                 val checkRadius = TimeObjectView.iconSize / 2.5f
@@ -338,17 +339,17 @@ object CalendarSkin {
                 (totalStampCnt - 1 downTo 0).forEach { index ->
                     view.childList?.get(index)?.let { timeObject ->
                         /*
-                        val circle = AppRes.resources.getDrawable(R.drawable.circle_fill)
+                        val circle = resource.getDrawable(R.drawable.circle_fill)
                         circle.setColorFilter(timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
                         circle.setBounds(right - size + 1, 1, right - 1, size - 1)
                         circle.draw(canvas)
                         */
-                        val stamp = AppRes.resources.getDrawable(StampManager.stamps[index])
+                        val stamp = resource.getDrawable(StampManager.stamps[index])
                         //stamp.setColorFilter(timeObject.color, PorterDuff.Mode.SRC_ATOP)
                         stamp.setBounds(right - size + margin, margin, right - margin, size - margin)
                         stamp.draw(canvas)
 /*
-                        val stroke = AppRes.resources.getDrawable(R.drawable.circle_stroke_1dp)
+                        val stroke = resource.getDrawable(R.drawable.circle_stroke_1dp)
                         stroke.setColorFilter(timeObject.color, PorterDuff.Mode.SRC_ATOP)
                         stroke.setBounds(right - size, 0, right, size)
                         stroke.draw(canvas)
@@ -358,17 +359,17 @@ object CalendarSkin {
                 }
             }else {
                 view.childList?.forEachIndexed { index, timeObject ->
-                    val circle = AppRes.resources.getDrawable(R.drawable.circle_fill)
+                    val circle = resource.getDrawable(R.drawable.circle_fill)
                     circle.setColorFilter(timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
                     circle.setBounds(left + 1, 1, left + size - 1, size - 1)
                     circle.draw(canvas)
 
-                    val stamp = AppRes.resources.getDrawable(StampManager.stamps[index])
+                    val stamp = resource.getDrawable(StampManager.stamps[index])
                     //stamp.setColorFilter(timeObject.color, PorterDuff.Mode.SRC_ATOP)
                     stamp.setBounds(left + margin, margin, left + size - margin, size - margin)
                     stamp.draw(canvas)
 /*
-                    val stroke = AppRes.resources.getDrawable(R.drawable.circle_stroke_1dp)
+                    val stroke = resource.getDrawable(R.drawable.circle_stroke_1dp)
                     stroke.setColorFilter(timeObject.color, PorterDuff.Mode.SRC_ATOP)
                     stroke.setBounds(left, 0, left + size, size)
                     stroke.draw(canvas)
@@ -404,17 +405,17 @@ object CalendarSkin {
                 var left = width - size - margin
                 val overlap = ((width - size) / (totalStampCnt))
                 (totalStampCnt - 1 downTo 0).forEach { index ->
-                    val circle = AppRes.resources.getDrawable(R.drawable.circle_fill)
+                    val circle = resource.getDrawable(R.drawable.circle_fill)
                     circle.setColorFilter(view.timeObject.color, PorterDuff.Mode.SRC_ATOP)
                     circle.setBounds(left, 0, left + size, size)
                     circle.draw(canvas)
 
-                    val stamp = AppRes.resources.getDrawable(StampManager.stamps[index])
+                    val stamp = resource.getDrawable(StampManager.stamps[index])
                     stamp.setColorFilter(view.timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
                     stamp.setBounds(left + margin, 0 + margin, left + size - margin, size - margin)
                     stamp.draw(canvas)
 
-                    val stroke = AppRes.resources.getDrawable(R.drawable.circle_stroke_1dp)
+                    val stroke = resource.getDrawable(R.drawable.circle_stroke_1dp)
                     stroke.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
                     stroke.setBounds(left - margin, -margin, left + size + margin, size + margin)
                     stroke.draw(canvas)
@@ -424,12 +425,12 @@ object CalendarSkin {
             }else {
                 var left = margin
                 view.childList?.forEachIndexed { index, timeObject ->
-                    val circle = AppRes.resources.getDrawable(R.drawable.circle_fill)
+                    val circle = resource.getDrawable(R.drawable.circle_fill)
                     circle.setColorFilter(view.timeObject.color, PorterDuff.Mode.SRC_ATOP)
                     circle.setBounds(left, 0, left + size, size)
                     circle.draw(canvas)
 
-                    val stamp = AppRes.resources.getDrawable(StampManager.stamps[index])
+                    val stamp = resource.getDrawable(StampManager.stamps[index])
                     stamp.setColorFilter(view.timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
                     stamp.setBounds(left + margin, 0 + margin, left + size - margin, size - margin)
                     stamp.draw(canvas)
@@ -443,7 +444,7 @@ object CalendarSkin {
         val margin = defaulMargin.toInt()
         val width = view.width
         val height = view.height
-        val frame = AppRes.resources.getDrawable(R.drawable.frame_2)
+        val frame = resource.getDrawable(R.drawable.frame_2)
         frame.setBounds(0, height - 245 * width / 420, width, height)
         frame.draw(canvas)
     }
@@ -524,8 +525,8 @@ object CalendarSkin {
                     it.drawLine(sX, sY, (sX + hX).toFloat(), (sY + hY).toFloat(), paint)
                 }
                 5 -> {
-                    val bitmap = BitmapFactory.decodeResource(resources, R.drawable.p1)
-                    val bitmapDrawable = BitmapDrawable(resources, bitmap)
+                    val bitmap = BitmapFactory.decodeResource(resource, R.drawable.p1)
+                    val bitmapDrawable = BitmapDrawable(resource, bitmap)
                     bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
                     bitmapDrawable.setTargetDensity(it)
                     it.drawBitmap(bitmapDrawable.bitmap, 0f, 0f, Paint())

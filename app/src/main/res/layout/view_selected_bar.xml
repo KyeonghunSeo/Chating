@@ -1,37 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <View
+    <FrameLayout
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:scaleY="0"
-        android:background="@color/primaryText"/>
+        android:layout_height="5dp">
 
-    <View
-        android:layout_width="0.5dp"
-        android:layout_height="0dp"
-        android:layout_gravity="right"
-        android:background="@color/disableText"/>
+        <com.hellowo.journey.ui.view.base.HatchedView
+            android:id="@+id/hatched"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:style="normal"/>
+<!--
+        <com.hellowo.journey.ui.view.base.Line
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+
+        <com.hellowo.journey.ui.view.base.Line
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"/>
+-->
+        <com.hellowo.journey.ui.view.base.Line
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"/>
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/dateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="13dp"
         android:gravity="center"
-        android:textSize="16dp"
+        android:textSize="11dp"
         android:includeFontPadding="false"
         android:transformPivotX="0dp"
-        android:transformPivotY="16dp"
+        android:transformPivotY="8dp"
         android:textColor="@color/primaryText"
-        android:fontFamily="@font/digit"
         android:text="27" />
+
+    <TextView
+        android:id="@+id/dowText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:gravity="center"
+        android:textSize="11dp"
+        android:includeFontPadding="false"
+        android:textColor="@color/primaryText"
+        android:text="@string/wed" />
 
     <ImageView
         android:id="@+id/flagImg"
@@ -42,21 +66,7 @@
         android:transformPivotX="8.5dp"
         android:transformPivotY="0dp"
         android:src="@drawable/flag_to_bottom"
-        android:tint="@color/primaryText"/>
-
-    <TextView
-        android:id="@+id/dowText"
-        android:layout_width="17dp"
-        android:layout_height="17dp"
-        android:layout_marginRight="3dp"
-        android:paddingTop="3dp"
-        android:layout_gravity="right"
-        android:gravity="center_horizontal"
-        android:textSize="7dp"
-        android:transformPivotX="8.5dp"
-        android:transformPivotY="0dp"
-        android:textColor="@color/primaryWhiteText"
-        android:fontFamily="@font/regular"
-        android:text="@string/sun" />
+        android:tint="@color/primaryText"
+        android:visibility="gone"/>
 
 </FrameLayout>

@@ -1,7 +1,7 @@
 package com.hellowo.journey.manager
 
 import android.annotation.SuppressLint
-import com.hellowo.journey.AppRes
+import com.hellowo.journey.AppDateFormat
 import com.hellowo.journey.alarm.AlarmManager
 import com.hellowo.journey.alarm.RegistedAlarm
 import com.hellowo.journey.adapter.TimeObjectCalendarAdapter
@@ -175,7 +175,7 @@ object TimeObjectManager {
                 }
             }
         }else {
-            val ymdKey = AppRes.ymdkey.format(Date(timeObject.dtStart))
+            val ymdKey = AppDateFormat.ymdkey.format(Date(timeObject.dtStart))
             realm.executeTransactionAsync{ realm ->
                 realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
                     it.exDates.add(ymdKey)
@@ -197,7 +197,7 @@ object TimeObjectManager {
 
     fun deleteOnly(timeObject: TimeObject) {
         val id = timeObject.id
-        val ymdKey = AppRes.ymdkey.format(Date(timeObject.dtStart))
+        val ymdKey = AppDateFormat.ymdkey.format(Date(timeObject.dtStart))
         realm.executeTransactionAsync{ realm ->
             realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
                 it.exDates.add(ymdKey)

@@ -6,9 +6,6 @@ import android.animation.ObjectAnimator
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.Rect
 import android.os.Handler
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -41,11 +38,9 @@ import android.provider.CalendarContract
 import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
 import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
 import android.widget.FrameLayout
-import com.bumptech.glide.Glide
 import com.hellowo.journey.adapter.NoteListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.manager.OsCalendarManager
-import com.hellowo.journey.model.Link
 import com.hellowo.journey.util.EventListComparator
 import com.hellowo.journey.util.NoteListComparator
 
@@ -157,7 +152,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                 if(imageItem != null) {
                     val imageLink = imageItem.links.first { it.type == Link.Type.IMAGE.ordinal }
                     Glide.with(context).load(imageLink.data).into(headerCoverImg)
-                    headerCoverImg.setColorFilter(AppRes.resources.getColor(R.color.transitionDimWhite), PorterDuff.Mode.SRC_OVER)
+                    headerCoverImg.setColorFilter(resource.getColor(R.color.transitionDimWhite), PorterDuff.Mode.SRC_OVER)
                 }else {
                     headerCoverImg.setImageBitmap(null)
                 }*/
@@ -271,7 +266,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     private fun setDateText() {
         calendarView.let {
             dateText.text = it.targetCal.get(Calendar.DATE).toString()
-            dowText.text = AppRes.simpleDow.format(it.targetCal.time)
+            dowText.text = AppDateFormat.simpleDow.format(it.targetCal.time)
             val color = it.getDateTextColor(it.targetCellNum)
             dateText.setTextColor(color)
             flagImg.setColorFilter(color)
@@ -294,7 +289,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             val location = IntArray(2)
             dateLy.getLocationInWindow(location)
             layoutParams = FrameLayout.LayoutParams(dateLy.width, dateLy.height).apply {
-                setMargins(location[0], location[1] - AppRes.statusBarHeight, 0, 0)
+                setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
             }
 
             val animSet = AnimatorSet()
@@ -339,7 +334,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                     })
                     TransitionManager.beginDelayedTransition(this@DayView, transiion)
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, mainBarHeight, 0, mainBarHeight)
+                        setMargins(0, dpToPx(40), 0, mainBarHeight)
                     }
                 }
                 override fun onAnimationCancel(p0: Animator?) {}
@@ -404,7 +399,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             })
             TransitionManager.beginDelayedTransition(this, transiion)
             layoutParams = FrameLayout.LayoutParams(dateLy.width, dateLy.height).apply {
-                setMargins(location[0], location[1] - AppRes.statusBarHeight, 0, 0)
+                setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
             }
         }
     }

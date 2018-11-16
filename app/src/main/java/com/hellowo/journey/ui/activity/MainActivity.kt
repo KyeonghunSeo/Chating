@@ -5,7 +5,6 @@ import android.animation.LayoutTransition
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
@@ -15,9 +14,6 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.hellowo.journey.*
@@ -90,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         callAfterViewDrawed(rootLy, Runnable{
             val location = IntArray(2)
             rootLy.getLocationInWindow(location)
-            AppRes.statusBarHeight = location[1]
+            AppDateFormat.statusBarHeight = location[1]
         })
     }
 
@@ -247,13 +243,15 @@ class MainActivity : AppCompatActivity() {
                     //.apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
                     .into(profileImage)
         }else {
-            profileImage.setColorFilter(AppRes.primaryText)
+            profileImage.setColorFilter(AppTheme.primaryText)
         }
     }
 
     private fun setDateText(date: Date) {
-        yearText.text = AppRes.year.format(date)
-        monthText.text = AppRes.monthEng.format(date)
+        yearText.typeface = AppTheme.textFont
+        monthText.typeface = AppTheme.textFont
+        yearText.text = AppDateFormat.year.format(date)
+        monthText.text = AppDateFormat.monthEng.format(date)
     }
 
     fun onDrag(event: DragEvent) {

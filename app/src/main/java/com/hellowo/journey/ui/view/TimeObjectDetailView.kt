@@ -28,12 +28,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.hellowo.journey.*
+import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.Alarm
-import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.model.Link
 import com.hellowo.journey.model.Tag
+import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.MapActivity
 import com.hellowo.journey.ui.dialog.*
@@ -163,12 +163,12 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             TimeObject.Type.NOTE.ordinal -> {
                 titleInput.hint = context.getString(R.string.what_do_you_think)
                 titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
-                titleInput.typeface = AppRes.textFont
+                titleInput.typeface = AppTheme.textFont
             }
             else -> {
                 titleInput.hint = context.getString(R.string.title)
                 titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 32f)
-                titleInput.typeface = AppRes.thinFont
+                titleInput.typeface = AppTheme.thinFont
             }
         }
         titleInput.setText(timeObject.title)
@@ -188,7 +188,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 timeEndLy.visibility = View.GONE
                 startSmallTimeText.visibility = View.GONE
 
-                startBigTimeText.text = "${AppRes.ymdDate.format(startCal.time)} ${AppRes.dow.format(startCal.time)}"
+                startBigTimeText.text = "${AppDateFormat.ymdDate.format(startCal.time)} ${AppDateFormat.dow.format(startCal.time)}"
             }else {
                 durationLy.visibility = View.VISIBLE
                 startSmallTimeText.visibility = View.VISIBLE
@@ -199,16 +199,16 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                     timeDivider.visibility = View.GONE
                     timeEndLy.visibility = View.GONE
 
-                    startSmallTimeText.text = AppRes.ymDate.format(startCal.time)
-                    startBigTimeText.text = "${AppRes.date.format(startCal.time)} - ${AppRes.date.format(endCal.time)}"
+                    startSmallTimeText.text = AppDateFormat.ymDate.format(startCal.time)
+                    startBigTimeText.text = "${AppDateFormat.date.format(startCal.time)} - ${AppDateFormat.date.format(endCal.time)}"
                 }else {
                     timeDivider.visibility = View.VISIBLE
                     timeEndLy.visibility = View.VISIBLE
 
-                    startSmallTimeText.text = AppRes.ymDate.format(startCal.time)
-                    startBigTimeText.text = "${AppRes.date.format(startCal.time)}"
-                    endSmallTimeText.text = AppRes.ymDate.format(endCal.time)
-                    endBigTimeText.text = "${AppRes.date.format(endCal.time)}"
+                    startSmallTimeText.text = AppDateFormat.ymDate.format(startCal.time)
+                    startBigTimeText.text = "${AppDateFormat.date.format(startCal.time)}"
+                    endSmallTimeText.text = AppDateFormat.ymDate.format(endCal.time)
+                    endBigTimeText.text = "${AppDateFormat.date.format(endCal.time)}"
                 }
             }
         }else {
@@ -218,8 +218,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 timeEndLy.visibility = View.GONE
                 startSmallTimeText.visibility = View.VISIBLE
 
-                startSmallTimeText.text = AppRes.ymdeDate.format(startCal.time)
-                startBigTimeText.text = "${AppRes.time.format(startCal.time)} - ${AppRes.time.format(endCal.time)}"
+                startSmallTimeText.text = AppDateFormat.ymdeDate.format(startCal.time)
+                startBigTimeText.text = "${AppDateFormat.time.format(startCal.time)} - ${AppDateFormat.time.format(endCal.time)}"
             }else {
                 durationLy.visibility = View.VISIBLE
                 startSmallTimeText.visibility = View.VISIBLE
@@ -227,10 +227,10 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 timeEndLy.visibility = View.VISIBLE
                 durationText.text = (getDiffDate(startCal, endCal) + 1).toString()
 
-                startSmallTimeText.text = AppRes.ymdDate.format(startCal.time)
-                startBigTimeText.text = "${AppRes.time.format(startCal.time)}"
-                endSmallTimeText.text = AppRes.ymdDate.format(endCal.time)
-                endBigTimeText.text = "${AppRes.time.format(endCal.time)}"
+                startSmallTimeText.text = AppDateFormat.ymdDate.format(startCal.time)
+                startBigTimeText.text = "${AppDateFormat.time.format(startCal.time)}"
+                endSmallTimeText.text = AppDateFormat.ymdDate.format(endCal.time)
+                endBigTimeText.text = "${AppDateFormat.time.format(endCal.time)}"
             }
         }
     }

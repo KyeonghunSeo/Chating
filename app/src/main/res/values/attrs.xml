@@ -11,4 +11,8 @@
             <flag name="responsiveWeight" value="2"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="HatchedView">
+        <attr name="style" format="string" />
+    </declare-styleable>
 </resources>

@@ -2,21 +2,16 @@ package com.hellowo.journey
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Resources
-import android.graphics.Typeface
-import android.util.TypedValue
-import android.graphics.drawable.Drawable
-import androidx.core.content.res.ResourcesCompat
+import com.hellowo.journey.App.Companion.resource
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 @SuppressLint("SimpleDateFormat")
-object AppRes {
-    lateinit var resources: Resources
-
+object AppDateFormat {
     enum class HourMode { Hour24, Hour12 }
     lateinit var dowString: Array<String>
+    lateinit var dowEngString: Array<String>
     lateinit var hourMode: HourMode
     lateinit var ymdeDate: DateFormat
     lateinit var ymdDate: DateFormat
@@ -34,56 +29,15 @@ object AppRes {
     lateinit var year: DateFormat
     val monthEng = SimpleDateFormat("MMMM", Locale.ENGLISH)
     val ymSimpleDate = SimpleDateFormat("yyyy.M")
-    val ymdkey: DateFormat = SimpleDateFormat("yyyyMMdd")
+    val ymdkey = SimpleDateFormat("yyyyMMdd")
     val ymdthmszkey: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
-
-    var thinFont: Typeface = Typeface.DEFAULT
-    var regularFont: Typeface = Typeface.DEFAULT
-    var boldFont: Typeface = Typeface.DEFAULT
-    var digitFont: Typeface = Typeface.DEFAULT
-    var digitBoldFont: Typeface = Typeface.DEFAULT
-    var textFont: Typeface = Typeface.DEFAULT
 
     @SuppressLint("ConstantLocale")
     val language = Locale.getDefault().language
 
-    var selectableItemBackground = 0
-    var almostWhite = 0
-    var primaryColor = 0
-    var primaryText = 0
-    var secondaryText = 0
-    var disableText = 0
-
     var statusBarHeight = 0
 
-    lateinit var starDrawable: Drawable
-    lateinit var ideaDrawable: Drawable
-    lateinit var hightlightCover: Drawable
-    lateinit var blankDrawable: Drawable
-
     fun init(context: Context) {
-        resources = context.resources
-        val typedValue = TypedValue()
-        context.theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)
-        selectableItemBackground = typedValue.resourceId
-        almostWhite = resources.getColor(R.color.almostWhite)
-        primaryColor = resources.getColor(R.color.colorPrimary)
-        primaryText = resources.getColor(R.color.primaryText)
-        secondaryText = resources.getColor(R.color.secondaryText)
-        disableText = resources.getColor(R.color.disableText)
-
-        starDrawable = resources.getDrawable(R.drawable.ic_outline_star_border)
-        ideaDrawable = resources.getDrawable(R.drawable.idea)
-        hightlightCover = resources.getDrawable(R.drawable.highlightcover)
-        blankDrawable = resources.getDrawable(R.drawable.blank)
-
-        thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
-        regularFont = ResourcesCompat.getFont(context, R.font.regular)!!
-        boldFont = ResourcesCompat.getFont(context, R.font.bold)!!
-        digitFont = ResourcesCompat.getFont(context, R.font.digit)!!
-        digitBoldFont = ResourcesCompat.getFont(context, R.font.digit_bold)!!
-        textFont = ResourcesCompat.getFont(context, R.font.text)!!
-
         //////////////////////////////////////////////////////////////////////////날짜 포맷
 
         val mDateFormat = android.text.format.DateFormat.getDateFormat(context)
@@ -199,7 +153,8 @@ object AppRes {
                 SimpleDateFormat("MMM")
             }
 
-            dowString = resources.getStringArray(R.array.day_of_weeks)
+            dowString = resource.getStringArray(R.array.day_of_weeks)
+            dowEngString = resource.getStringArray(R.array.day_of_weeks_eng)
             simpleDow = SimpleDateFormat("E")
 
             dow = if (language == "ko") {

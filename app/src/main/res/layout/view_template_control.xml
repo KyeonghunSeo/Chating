@@ -98,7 +98,7 @@
                 android:id="@+id/templateIconImg"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:padding="7dp"
+                android:padding="8dp"
                 android:src="@drawable/sharp_create_black_48dp"
                 android:tint="@color/primaryText"/>
 

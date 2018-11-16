@@ -37,7 +37,7 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
         }
 
         fun onItemSelected() {
-            //itemView.setBackgroundColor(AppRes.almostWhite)
+            //itemView.setBackgroundColor(AppDateFormat.almostWhite)
         }
 
         fun onItemClear() {

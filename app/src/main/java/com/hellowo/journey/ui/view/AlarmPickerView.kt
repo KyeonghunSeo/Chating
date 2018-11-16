@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.hellowo.journey.AppRes
+import com.hellowo.journey.AppDateFormat
 import com.hellowo.journey.R
 import kotlinx.android.synthetic.main.list_item_alarm_picker.view.*
 
@@ -32,7 +32,7 @@ class AlarmPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     init {
         layoutManager = GridLayoutManager(context, 4)
-        AppRes.resources.getStringArray(R.array.alarms).forEachIndexed { index, it ->
+        resources.getStringArray(R.array.alarms).forEachIndexed { index, it ->
             items.add(AlarmItem(it, offsets[index]))
         }
         adapter = PickerAdapter()

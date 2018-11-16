@@ -61,15 +61,15 @@ object RepeatManager {
                     weekNum.forEachIndexed { index, c ->
                         if(c == '1') {
                             if(isFirst) {
-                                result.append(AppRes.dowString[index])
+                                result.append(AppDateFormat.dowString[index])
                                 isFirst = false
                             }else {
-                                result.append(", ${AppRes.dowString[index]}")
+                                result.append(", ${AppDateFormat.dowString[index]}")
                             }
                         }
                     }
                 }else {
-                    result.append(AppRes.dow.format(instanceCal.time))
+                    result.append(AppDateFormat.dow.format(instanceCal.time))
                 }
                 result.append("]")
             }
@@ -79,17 +79,17 @@ object RepeatManager {
                 }else {
                     result.append(String.format(monthlyWStr,
                             String.format(weekNumStr, instanceCal.get(Calendar.WEEK_OF_MONTH).toString()),
-                            AppRes.dow.format(instanceCal.time)))
+                            AppDateFormat.dow.format(instanceCal.time)))
                 }
             }
             3 -> {
-                result.append("$yearlyStr[${AppRes.mdDate.format(instanceCal.time)}]")
+                result.append("$yearlyStr[${AppDateFormat.mdDate.format(instanceCal.time)}]")
             }
         }
 
         if(dtUntil != Long.MIN_VALUE) {
             instanceCal.timeInMillis = dtUntil
-            result.append(" - ${String.format(untilStr, AppRes.ymdDate.format(instanceCal.time))}")
+            result.append(" - ${String.format(untilStr, AppDateFormat.ymdDate.format(instanceCal.time))}")
         }
 
         return result.toString()
@@ -161,7 +161,7 @@ object RepeatManager {
     private fun checkValidInstance(result: ArrayList<TimeObject>, timeObject: TimeObject, instanceTime: Long,
                                    startTime: Long, endTime: Long, duration: Long) {
         if(instanceTime <= endTime && instanceTime + duration >= startTime
-                && !timeObject.exDates.contains(AppRes.ymdkey.format(Date(instanceTime)))) {
+                && !timeObject.exDates.contains(AppDateFormat.ymdkey.format(Date(instanceTime)))) {
             result.add(makeInstance(timeObject, duration))
         }
     }
