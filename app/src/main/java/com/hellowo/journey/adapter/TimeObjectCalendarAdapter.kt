@@ -166,7 +166,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 if(currentType.ordinal != timeObject.type) {
                     currentType = TimeObject.Type.values()[timeObject.type]
                     when(currentType) {
-                        TASK -> setTypeMargin(dpToPx(4f), currentType)
+                        //TASK -> setTypeMargin(dpToPx(4f), currentType)
                         STAMP, MONEY -> setTypeMargin(dpToPx(3f), currentType)
                         NOTE -> setTypeMargin(dpToPx(4F), currentType)
                         TERM -> addBottomMargin(dpToPx(18f))

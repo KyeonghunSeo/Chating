@@ -50,7 +50,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     fun setLookByType() {
         when(TimeObject.Type.values()[timeObject.type]) {
             TimeObject.Type.EVENT -> {
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 gravity = Gravity.CENTER_VERTICAL
                 maxLines = 1
@@ -75,14 +75,19 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         setTextColor(timeObject.fontColor)
                     }
                     4 -> {
-                        setPadding(iconSize  + defaulMargin.toInt(), 0, defaultPadding, 0)
-                        typeface = AppTheme.regularFont
-                        setTextColor(AppTheme.primaryText)
-                    }
-                    else -> {
                         setPadding(defaultPadding, 0, defaultPadding, 0)
                         typeface = AppTheme.textFont
                         setTextColor(CalendarSkin.backgroundColor)
+                    }
+                    6 -> {
+                        setPadding(iconSize  + defaulMargin.toInt(), 0, defaultPadding, 0)
+                        typeface = AppTheme.textFont
+                        setTextColor(AppTheme.primaryText)
+                    }
+                    else -> {
+                        typeface = AppTheme.textFont
+                        setPadding(iconSize + defaultPadding, 0, defaultPadding, 0)
+                        setTextColor(AppTheme.primaryText)
                     }
                 }
             }
@@ -96,7 +101,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setHorizontallyScrolling(true)
                 when(timeObject.style){
                     1 -> {
-                        setPadding(defaultPadding, 0, defaultPadding, 0)
+                        setPadding(iconSize + defaultPadding, 0, defaultPadding, 0)
                         setTextColor(AppTheme.primaryText)
                     }
                     else -> {
@@ -128,14 +133,16 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         setTextColor(timeObject.color)
                     }
                     2 -> {
-                        setPadding(defaulMargin.toInt(), 0, defaultPadding, 0)
-                        setTextColor(AppTheme.primaryText)
-                    }
-                    else -> {
                         setTypeface(AppTheme.regularFont, ITALIC)
                         gravity = Gravity.CENTER
                         setPadding(defaultPadding, 0, defaultPadding, 0)
                         setTextColor(timeObject.color)
+                    }
+                    else -> {
+                        setTypeface(AppTheme.textFont, ITALIC)
+                        gravity = Gravity.CENTER_HORIZONTAL
+                        setPadding(defaulMargin.toInt(), 0, defaultPadding, 0)
+                        setTextColor(AppTheme.primaryText)
                     }
                 }
             }
@@ -192,12 +199,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     }
 
     fun getViewHeight(): Int = when(TimeObject.Type.values()[timeObject.type]) {
-        TimeObject.Type.EVENT -> {
-            when (TimeObject.Style.values()[timeObject.style]) {
-                TimeObject.Style.SHORT -> smallTypeSize
-                else -> normalTypeSize
-            }
-        }
+        TimeObject.Type.EVENT -> smallTypeSize
         TimeObject.Type.TASK -> smallTypeSize
         TimeObject.Type.NOTE -> {
             setSingleLine(false)
@@ -209,9 +211,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             //l("${timeObject.title} 라인 : "+((paint.measureText(text.toString()) / width).toInt() + 1))
             measuredHeight + /*폰트 자체 패딩때문에 조금 여유를 줘야함*/defaultPadding * 2
         }
-        TimeObject.Type.STAMP -> {
-            normalTypeSize
-        }
+        TimeObject.Type.STAMP -> normalTypeSize
         TimeObject.Type.TERM -> {
             textSpaceWidth = paint.measureText(text.toString())
             normalTypeSize
