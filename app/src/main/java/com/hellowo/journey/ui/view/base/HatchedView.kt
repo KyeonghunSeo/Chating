@@ -14,7 +14,6 @@ class HatchedView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     : View(context, attrs, defStyleAttr) {
     private val strokeWidth = dpToPx(1f)
     private val dashWidth = dpToPx(2f)
-    private val hatchAngle = dpToPx(10f)
     val paint = Paint()
 
     init {
@@ -38,8 +37,8 @@ class HatchedView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     override fun onDraw(canvas: Canvas?) {
         var x = 0f
-        while (x < width + hatchAngle) {
-            canvas?.drawLine(x, -dashWidth, x - hatchAngle, height + dashWidth, paint)
+        while (x < width + height) {
+            canvas?.drawLine(x, -dashWidth, x - height, height + dashWidth, paint)
             x += dashWidth * 2
         }
         super.onDraw(canvas)

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
 import android.os.Message
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.DragEvent
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.hellowo.journey.*
 import com.hellowo.journey.manager.CalendarSkin
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.listener.MainDragAndDropListener
+import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.view.base.HatchedView
 import me.everything.android.ui.overscroll.IOverScrollState.*
@@ -34,7 +36,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val dateTextSize = 13f
         const val animDur = 250L
         const val columns = 7
-        const val selectedDateScale = 1.5f
+        const val selectedDateScale = 1.7f
         const val outDateAlpha = 0.4f
         val selectedDatePosition = -dpToPx(0f)
         val todayCal: Calendar = Calendar.getInstance()
@@ -44,7 +46,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val autoPagingThreshold = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
-        val monthPagingThreshold = dpToPx(80)
+        val monthPagingThreshold = dpToPx(50)
         val dowTextMargin = dpToPx(5)
     }
 
@@ -72,7 +74,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateText: TextView = container.findViewById(R.id.dateText)
         val bar: FrameLayout = container.findViewById(R.id.bar)
         val dowText: TextView = container.findViewById(R.id.dowText)
-        val hatched: HatchedView = container.findViewById(R.id.hatched)
+        val flagImg: ImageView = container.findViewById(R.id.flagImg)
         init {
             dateText.typeface = CalendarSkin.dateFont
             dowText.typeface = CalendarSkin.dateFont
@@ -88,7 +90,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private val tempCal: Calendar = Calendar.getInstance()
     private val monthCal: Calendar = Calendar.getInstance()
-    private val dow = AppDateFormat.dowEngString
+    private val dow = AppDateFormat.dowString
 
     val targetCal: Calendar = Calendar.getInstance()
     var targetCellNum = -1
@@ -395,8 +397,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             dateText.typeface = CalendarSkin.selectFont
             dateText.alpha = 1f
-            dowText.translationX = dateText.width * selectedDateScale + dowTextMargin
-            dowText.setTextColor(color)
+            dateHeaders[cellNum].flagImg.setColorFilter(color)
+            dowText.setTextColor(CalendarSkin.backgroundColor)
             dowText.text = dow[cellNum % columns]
 
             lastSelectDateAnimSet?.cancel()
@@ -437,10 +439,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun onViewEffect(cellNum: Int) {
-        /*
+
         TimeObjectManager.timeObjectCalendarAdapter?.getViews(cellNum)?.let {
             it.forEach { view ->
-                if(view.timeObject.type == TimeObject.Type.EVENT.ordinal || view.timeObject.type == TimeObject.Type.TASK.ordinal) {
+                if(!view.timeObject.inCalendar) {
                     view.ellipsize = TextUtils.TruncateAt.MARQUEE
                     view.marqueeRepeatLimit = -1
                     view.isFocusable = true
@@ -449,18 +451,18 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     }, 1000)
                 }
             }
-        }*/
+        }
     }
 
-    private fun offViewEffect(cellNum: Int) {/*
+    private fun offViewEffect(cellNum: Int) {
         TimeObjectManager.timeObjectCalendarAdapter?.getViews(cellNum)?.let {
             it.forEach { view ->
-                if(view.timeObject.type == TimeObject.Type.EVENT.ordinal || view.timeObject.type == TimeObject.Type.TASK.ordinal) {
+                if(!view.timeObject.inCalendar) {
                     view.ellipsize = null
                     view.isSelected = false
                 }
             }
-        }*/
+        }
     }
 
     fun setOnSwiped(onSwiped: ((Int) -> Unit)) {
@@ -515,7 +517,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         animSet.addListener(object : AnimatorListenerAdapter(){
             override fun onAnimationStart(animation: Animator?) {}
         })
-        animSet.duration = 500
+        animSet.duration = 300
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
 

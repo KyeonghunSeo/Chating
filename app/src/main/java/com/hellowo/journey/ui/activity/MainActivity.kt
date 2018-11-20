@@ -96,11 +96,10 @@ class MainActivity : AppCompatActivity() {
         }
         calendarView.onSelected = { time, cellNum, showDayView ->
             if(cellNum >= 0) {
-                if(showDayView && dayView.viewMode == ViewMode.CLOSED) {
+                if(showDayView && !dayView.isOpened()) {
                     dayView.show()
-                }else {
-                    TransitionManager.beginDelayedTransition(templateSelectView, makeFromBottomSlideTransition())
-                    templateSelectView.visibility = View.VISIBLE
+                }else if(dayView.isOpened()){
+                    dayView.notifyDateChanged(0)
                 }
                 briefingView.refreshTodayView(calendarView.todayStatus)
                 if(calendarView.todayStatus == 0) {
@@ -184,13 +183,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBtns() {
         profileImage.setOnClickListener {
-            checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
+            //checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
 
             //startActivity(Intent(this, DrawActivity::class.java))
 
             //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
 
-            //checkOsCalendarPermission()
+            checkOsCalendarPermission()
         }
 
         profileImage.setOnLongClickListener {

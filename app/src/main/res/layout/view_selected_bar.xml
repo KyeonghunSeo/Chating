@@ -9,27 +9,31 @@
     <FrameLayout
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="5dp">
+        android:layout_height="30dp">
 
-        <com.hellowo.journey.ui.view.base.HatchedView
-            android:id="@+id/hatched"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:style="normal"/>
-<!--
-        <com.hellowo.journey.ui.view.base.Line
-            android:layout_width="1dp"
-            android:layout_height="match_parent"/>
+        <ImageView
+            android:id="@+id/flagImg"
+            android:layout_width="17dp"
+            android:layout_height="22dp"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="right"
+            android:transformPivotX="8.5dp"
+            android:transformPivotY="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/flag_today"
+            android:tint="@color/primaryText"/>
 
-        <com.hellowo.journey.ui.view.base.Line
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"/>
--->
-        <com.hellowo.journey.ui.view.base.Line
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_gravity="bottom"/>
+        <TextView
+            android:id="@+id/dowText"
+            android:layout_width="17dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:textSize="9dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/background"
+            android:text="@string/wed"/>
 
     </FrameLayout>
 
@@ -45,28 +49,5 @@
         android:transformPivotY="8dp"
         android:textColor="@color/primaryText"
         android:text="27" />
-
-    <TextView
-        android:id="@+id/dowText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:gravity="center"
-        android:textSize="11dp"
-        android:includeFontPadding="false"
-        android:textColor="@color/primaryText"
-        android:text="@string/wed" />
-
-    <ImageView
-        android:id="@+id/flagImg"
-        android:layout_width="17dp"
-        android:layout_height="17dp"
-        android:layout_marginRight="3dp"
-        android:layout_gravity="right"
-        android:transformPivotX="8.5dp"
-        android:transformPivotY="0dp"
-        android:src="@drawable/flag_to_bottom"
-        android:tint="@color/primaryText"
-        android:visibility="gone"/>
 
 </FrameLayout>

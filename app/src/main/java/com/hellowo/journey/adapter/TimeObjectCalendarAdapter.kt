@@ -36,7 +36,6 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
     private val drawStartYOffset = CalendarView.dateArea + /*날짜와 블록 마진*/dpToPx(2f)
     private val cellBottomArray = Array(42){ _ -> drawStartYOffset}
     private val rowHeightArray = Array(6){ _ -> drawStartYOffset}
-    private val notInCalendarList = Array(42){ _ -> ArrayList<TimeObject>()}
 
     fun draw() {
         setCalendarData()
@@ -55,7 +54,6 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         viewLevelStatusMap.clear()
         cellBottomArray.fill(drawStartYOffset)
         rowHeightArray.fill(drawStartYOffset)
-        notInCalendarList.forEach { it.clear() }
         draw()
     }
 
@@ -150,7 +148,19 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 }
             }
         }else {
-            (startCellNum .. endCellNum).forEach { notInCalendarList[it].add(timeObject) }
+            (startCellNum .. endCellNum).forEach { cellNum ->
+                val holder = viewHolderList
+                        .firstOrNull { !it.timeObject.inCalendar && it.startCellNum == cellNum }
+                        ?: TimeObjectViewHolder(timeObject, cellNum, cellNum).apply { viewHolderList.add(this) }
+                val timeObjectView = holder.timeObjectViewList.firstOrNull() ?:
+
+                TimeObjectView(context, timeObject, cellNum, 1).apply {
+                    childList = ArrayList()
+                    setLookByType()
+                    holder.timeObjectViewList.add(this) }
+
+                timeObjectView.childList?.add(timeObject)
+            }
         }
     }
 
@@ -163,13 +173,13 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 val formula = timeObject.getFormula()
                 val status = viewLevelStatusMap[formula]?: ViewLevelStatus().apply { viewLevelStatusMap[formula] = this }
 
-                if(currentType.ordinal != timeObject.type) {
+                if(timeObject.inCalendar && currentType.ordinal != timeObject.type) {
                     currentType = TimeObject.Type.values()[timeObject.type]
                     when(currentType) {
                         //TASK -> setTypeMargin(dpToPx(4f), currentType)
                         STAMP, MONEY -> setTypeMargin(dpToPx(3f), currentType)
-                        NOTE -> setTypeMargin(dpToPx(4F), currentType)
-                        TERM -> addBottomMargin(dpToPx(18f))
+                        //NOTE -> setTypeMargin(dpToPx(4F), currentType)
+                        TERM -> addBottomMargin(dpToPx(10f))
                         else -> {}
                     }
                 }
@@ -182,6 +192,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                             computeMaxRowHeight()
                             computeBottomStackStartPos()
                         }
+                        else -> {}
                     }
                 }
 
@@ -209,6 +220,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                             it.mTop = drawStartYOffset
                             it.mBottom = calendarView.minHeight
                         }
+                        else -> {}
                     }
                     it.setLayout()
 
@@ -217,6 +229,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 }
             }catch (e: Exception){ e.printStackTrace() }
         }
+
         computeMaxRowHeight()
     }
 
@@ -228,13 +241,13 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
 
     private fun computeBottomLinearStartPos() {
         cellBottomArray.forEachIndexed { index, i ->
-            cellBottomArray[index] = Math.max(minHeight - weekLyBottomPadding - normalTypeSize, cellBottomArray[index])
+            cellBottomArray[index] = Math.max(minHeight - normalTypeSize, cellBottomArray[index])
         }
     }
 
     private fun computeBottomStackStartPos() {
         (0..5).forEach{ index ->
-            rowHeightArray[index] = Math.max(minHeight - weekLyBottomPadding - normalTypeSize, rowHeightArray[index])
+            rowHeightArray[index] = Math.max(minHeight - normalTypeSize, rowHeightArray[index])
         }
     }
 
@@ -258,7 +271,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
 
         calendarView.weekLys.forEachIndexed { index, weekLy ->
             if(index < rows) {
-                val newHeight = rowHeightArray[index] + weekLyBottomPadding
+                val newHeight = rowHeightArray[index]
                 val finalHeight = Math.max(minHeight, newHeight)
                 calendarHeight += finalHeight
                 weekLy.layoutParams.height = finalHeight.toInt()

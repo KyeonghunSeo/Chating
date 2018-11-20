@@ -55,25 +55,30 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         BACKGROUND, TOP_STACK, TOP_FLOW, TOP_LINEAR, MID_FLOW, BOTTOM_LINEAR, BOTTOM_STACK, OVERLAY
     }
 
-    fun getFormula(): Formula = when(Type.values()[type]) {
-        Type.EVENT -> {
-            when(Style.values()[style]) {
-                Style.SHORT -> Formula.TOP_LINEAR
-                else -> Formula.TOP_STACK
+    fun getFormula(): Formula {
+        if(inCalendar) {
+            return when(Type.values()[type]) {
+                Type.EVENT -> {
+                    when(Style.values()[style]) {
+                        Style.SHORT -> Formula.TOP_LINEAR
+                        else -> Formula.TOP_STACK
+                    }
+                }
+                Type.TASK -> {
+                    when(Style.values()[style]) {
+                        Style.LONG -> Formula.TOP_STACK
+                        else -> Formula.TOP_LINEAR
+                    }
+                }
+                Type.NOTE -> Formula.TOP_LINEAR
+                Type.STAMP -> Formula.MID_FLOW
+                Type.MONEY -> Formula.MID_FLOW
+                Type.TERM -> Formula.BOTTOM_STACK
+                Type.DRAWING -> Formula.OVERLAY
             }
+        }else {
+            return Formula.BOTTOM_LINEAR
         }
-        Type.TASK -> {
-            when(Style.values()[style]) {
-                Style.LONG -> Formula.TOP_STACK
-                else -> Formula.TOP_LINEAR
-            }
-        }
-        Type.NOTE -> Formula.TOP_LINEAR
-        Type.STAMP -> Formula.TOP_FLOW
-        Type.MONEY -> Formula.MID_FLOW
-        Type.TERM -> Formula.BOTTOM_STACK
-        Type.DRAWING -> Formula.OVERLAY
-        else -> Formula.TOP_STACK
     }
 
     fun setDateTime(a: Boolean, s: Calendar, e: Calendar) {

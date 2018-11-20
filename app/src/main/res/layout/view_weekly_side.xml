@@ -23,10 +23,6 @@
             android:textSize="11dp" />
 
         <com.hellowo.journey.ui.view.base.Line
-            android:layout_width="100dp"
-            android:layout_height="1dp"/>
-
-        <com.hellowo.journey.ui.view.base.Line
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_gravity="bottom" />
