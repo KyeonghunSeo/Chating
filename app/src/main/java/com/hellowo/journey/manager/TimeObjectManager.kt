@@ -244,7 +244,6 @@ object TimeObjectManager {
 
     fun makeNewTimeObject(start: Long, end: Long): TimeObject {
         return TimeObject().apply {
-            color = CalendarSkin.dateColor
             dtStart = start
             dtEnd = end
             timeZone = TimeZone.getDefault().id

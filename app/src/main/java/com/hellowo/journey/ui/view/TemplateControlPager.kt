@@ -99,7 +99,7 @@ class TemplateControlPager @JvmOverloads constructor(context: Context, attrs: At
             //v.setBackgroundColor(item.color)
             v.findViewById<TextView>(R.id.titleText).text = item.title
             v.findViewById<ImageView>(R.id.iconImg).setImageResource(TimeObject.Type.values()[item.type].iconId)
-            v.findViewById<ImageView>(R.id.iconImg).setColorFilter(item.color)
+            v.findViewById<ImageView>(R.id.iconImg).setColorFilter(item.getColor())
             v.setOnClickListener { MainActivity.instance?.viewModel?.makeNewTimeObject() }
             v.tag = "view$position"
             (container as ViewPager).addView(v, 0)

@@ -30,10 +30,10 @@ class TemplateEditActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         val adapter = TemplateEditAdapter(items){ action, template ->
-            showDialog(ColorPickerDialog(this@TemplateEditActivity, template.color) { color, fontColor ->
+            showDialog(ColorPickerDialog(this@TemplateEditActivity, template.colorKey) { colorKey, fontColor ->
                 realm.executeTransaction { it ->
                     realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
-                        it.color = color
+                        it.colorKey = colorKey
                         it.fontColor = fontColor
                     }
                 }

@@ -65,7 +65,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>, val 
             }
 
             timeObjectView.timeObject.type = item.type
-            timeObjectView.timeObject.color = item.color
+            timeObjectView.timeObject.colorKey = item.colorKey
             timeObjectView.timeObject.fontColor = item.fontColor
             timeObjectView.setLookByType()
             timeObjectView.mLeft = 0f

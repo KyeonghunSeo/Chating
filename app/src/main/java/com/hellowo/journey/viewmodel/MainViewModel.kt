@@ -64,7 +64,6 @@ class MainViewModel : ViewModel() {
                     realm.createObject(Template::class.java, index).run {
                         title = App.context.getString(t.titleId)
                         type = t.ordinal
-                        color = AppTheme.primaryText
                         order = index
                     }
                 }
@@ -130,7 +129,7 @@ class MainViewModel : ViewModel() {
                 targetTemplate.value?.let {
                     type = it.type
                     style = it.style
-                    color = it.color
+                    colorKey = it.colorKey
                     fontColor = it.fontColor
                     inCalendar = it.inCalendar
                     folder = targetFolder.value

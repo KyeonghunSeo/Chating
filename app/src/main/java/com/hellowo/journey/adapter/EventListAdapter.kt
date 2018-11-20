@@ -91,7 +91,7 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
             Glide.with(context).load(timeObject.links[0]?.data).into(v.imageView)
         }
 
-        v.dotImg.setColorFilter(timeObject.color)
+        v.dotImg.setColorFilter(timeObject.getColor())
 
         if(timeObject.allday || timeObject.dtStart < getCalendarTime0(currentCal)) {
             (v.dotImg.layoutParams as FrameLayout.LayoutParams).let {

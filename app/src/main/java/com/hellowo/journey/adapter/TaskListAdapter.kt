@@ -56,7 +56,7 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
         v.checkBox.setOnClickListener {
             v.checkBox.playAnimation()
         }
-        val filter = SimpleColorFilter(timeObject.color)
+        val filter = SimpleColorFilter(timeObject.getColor())
         val keyPath = KeyPath("**")
         val callback = LottieValueCallback<ColorFilter>(filter)
         v.checkBox.addValueCallback<ColorFilter>(keyPath, LottieProperty.COLOR_FILTER, callback)
@@ -95,7 +95,7 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
             v.alarmIndi.visibility = View.GONE
         }
 
-        v.checkBox.setColorFilter(timeObject.color)
+        v.checkBox.setColorFilter(timeObject.getColor())
 
         if(timeObject.isDone()) {
             v.checkBox.setImageResource(R.drawable.sharp_check_box_black_48dp)

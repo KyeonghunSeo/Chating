@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.adapter.util.SpacesItemDecoration
 import com.hellowo.journey.ui.dialog.ColorPickerDialog
@@ -18,16 +19,12 @@ import com.hellowo.journey.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.list_item_color_picker.view.*
 
 class ColorPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RecyclerView(context, attrs, defStyleAttr) {
-    var items = ArrayList<ColorTag>()
+    var items = AppTheme.colors
     var selectedPos = -1
     lateinit var onSelceted: (Int, Int) -> Unit
     lateinit var setDialog: ColorPickerDialog
 
     init {
-        MainActivity.instance?.viewModel?.colorTagList?.value?.let {
-            items.clear()
-            items.addAll(it)
-        }
         layoutManager = GridLayoutManager(context, 4)
         adapter = PickerAdapter()
         addItemDecoration(SpacesItemDecoration(dpToPx(5)))
@@ -47,13 +44,11 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val item = items[position]
             val v = holder.itemView
-            v.titleText.text = item.title
-            v.titleText.setTextColor(item.fontColor)
-            (v as CardView).setCardBackgroundColor(item.color)
+            (v as CardView).setCardBackgroundColor(item)
 
             v.setOnClickListener {
                 selectedPos = position
-                onSelceted.invoke(item.color, item.fontColor)
+                onSelceted.invoke(position, item)
                 setDialog.dismiss()
             }
         }

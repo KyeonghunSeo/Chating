@@ -76,25 +76,30 @@
     </string-array>
 
     <string-array name="colors">
-        <item>#9bd4a1</item>
-        <item>#c7bf2e</item>
-        <item>#f7b733</item>
-        <item>#dfdce3</item>
+        <item>#B71C1C</item>
+        <item>#880E4F</item>
+        <item>#4A148C</item>
+        <item>#311B92</item>
 
-        <item>#ffce00</item>
-        <item>#0375b4</item>
-        <item>#007849</item>
-        <item>#262228</item>
+        <item>#1A237E</item>
+        <item>#0D47A1</item>
+        <item>#01579B</item>
+        <item>#006064</item>
 
-        <item>#c0b283</item>
-        <item>#dcd0c0</item>
-        <item>#f4f4f4</item>
-        <item>#373737</item>
+        <item>#004D40</item>
+        <item>#1B5E20</item>
+        <item>#33691E</item>
+        <item>#827717</item>
 
-        <item>#e37222</item>
-        <item>#07889b</item>
-        <item>#66b9bf</item>
-        <item>#eeaa7b</item>
+        <item>#F57F17</item>
+        <item>#FF6F00</item>
+        <item>#E65100</item>
+        <item>#BF360C</item>
+
+        <item>#3E2723</item>
+        <item>#212121</item>
+        <item>#263238</item>
+        <item>#000000</item>
     </string-array>
 
     <string-array name="font_colors">
@@ -109,8 +114,13 @@
         <item>#FFFFFFFF</item>
 
         <item>#FFFFFFFF</item>
-        <item>#414141</item>
-        <item>#414141</item>
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
 
         <item>#FFFFFFFF</item>
@@ -120,24 +130,29 @@
     </string-array>
 
     <string-array name="color_title">
-        <item>신선한</item>
-        <item>주홍</item>
-        <item>햇살</item>
-        <item>깨끗한</item>
+        <item>Red</item>
+        <item>Pink</item>
+        <item>Purple</item>
+        <item>Deep purple</item>
 
-        <item>해바라기</item>
-        <item>별이 빛나는 밤</item>
-        <item>홍채</item>
-        <item>저녁</item>
+        <item>Indigo</item>
+        <item>Blue</item>
+        <item>Light Blue</item>
+        <item>Cyan</item>
 
-        <item>금빛</item>
-        <item>비단</item>
-        <item>종이</item>
-        <item>숯</item>
+        <item>Teal</item>
+        <item>Green</item>
+        <item>Light Green</item>
+        <item>Lime</item>
 
-        <item>귤</item>
-        <item>청록</item>
-        <item>파우더</item>
-        <item>그을음</item>
+        <item>Yellow</item>
+        <item>Amber</item>
+        <item>Orange</item>
+        <item>Deep Orange</item>
+
+        <item>Brown</item>
+        <item>Gray</item>
+        <item>Blue Gray</item>
+        <item>Black</item>
     </string-array>
 </resources>

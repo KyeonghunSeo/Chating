@@ -90,7 +90,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private val tempCal: Calendar = Calendar.getInstance()
     private val monthCal: Calendar = Calendar.getInstance()
-    private val dow = AppDateFormat.dowString
+    private val dow = AppDateFormat.dowEngString
 
     val targetCal: Calendar = Calendar.getInstance()
     var targetCellNum = -1
@@ -398,7 +398,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.typeface = CalendarSkin.selectFont
             dateText.alpha = 1f
             dateHeaders[cellNum].flagImg.setColorFilter(color)
-            dowText.setTextColor(CalendarSkin.backgroundColor)
+            dowText.setTextColor(color)
             dowText.text = dow[cellNum % columns]
 
             lastSelectDateAnimSet?.cancel()

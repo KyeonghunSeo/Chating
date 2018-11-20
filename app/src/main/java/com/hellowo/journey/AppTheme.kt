@@ -1,6 +1,7 @@
 package com.hellowo.journey
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
@@ -27,6 +28,9 @@ object AppTheme {
     lateinit var hightlightCover: Drawable
     lateinit var blankDrawable: Drawable
 
+    val colors = Array(20){0}
+    val fontColors = Array(20){0}
+
     fun init(context: Context) {
         val typedValue = TypedValue()
         context.theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)
@@ -48,5 +52,35 @@ object AppTheme {
         digitFont = ResourcesCompat.getFont(context, R.font.digit)!!
         digitBoldFont = ResourcesCompat.getFont(context, R.font.digit_bold)!!
         textFont = ResourcesCompat.getFont(context, R.font.text)!!
+
+        resource.getStringArray(R.array.colors).forEachIndexed { index, s ->
+            colors[index] = Color.parseColor(s)
+        }
+        resource.getStringArray(R.array.font_colors).forEachIndexed { index, s ->
+            fontColors[index] = Color.parseColor(s)
+        }
+    }
+
+    fun getColorKey(color: Int): Int {
+        var colorKey = 0
+        val red = color shr 16 and 0xff
+        val green = color shr 8 and 0xff
+        val blue = color and 0xff
+        var c_red: Int
+        var c_green: Int
+        var c_blue: Int
+        var min_result = Integer.MAX_VALUE
+        var result: Int
+        for (i in colors.indices) {
+            c_red = colors[i] shr 16 and 0xff
+            c_green = colors[i] shr 8 and 0xff
+            c_blue = colors[i] and 0xff
+            result = Math.abs(c_red - red) + Math.abs(c_green - green) + Math.abs(c_blue - blue)
+            if (result < min_result) {
+                colorKey = i
+                min_result = result
+            }
+        }
+        return colorKey
     }
 }

@@ -33,7 +33,7 @@ class TemplateEditAdapter(private val items: ArrayList<Template>,
         val v = holder.itemView
         val template = items[position]
         v.titleText.text = template.title
-        v.titleText.setTextColor(template.color)
+        v.titleText.setTextColor(template.getColor())
         v.setOnClickListener {
             adapterInterface.invoke(0, template)
         }

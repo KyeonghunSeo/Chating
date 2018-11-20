@@ -74,7 +74,7 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
         finishTexs.append("${AppDateFormat.ymdeDate.format(updatedDate)} ${AppDateFormat.time.format(updatedDate)}")
         v.finishText.text = finishTexs.toString()
 
-        v.topDivider.setBackgroundColor(timeObject.color)
+        v.topDivider.setBackgroundColor(timeObject.getColor())
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
         v.setOnLongClickListener {

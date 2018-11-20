@@ -9,6 +9,7 @@ import android.database.Cursor
 import android.provider.CalendarContract
 import android.text.TextUtils
 import androidx.core.app.ActivityCompat
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.model.TimeObject
 import com.pixplicity.easyprefs.library.Prefs
 import java.util.*
@@ -146,8 +147,8 @@ object OsCalendarManager {
                 id = "osInstance::${cur.getLong(INDEX_ID)}",
                 type = 0,
                 title = cur.getString(INDEX_TITLE),
-                color = if(cur.getInt(INDEX_EVENT_COLOR) != 0) cur.getInt(INDEX_EVENT_COLOR)
-                else cur.getInt(INDEX_CAL_COLOR),
+                colorKey = AppTheme.getColorKey(if(cur.getInt(INDEX_EVENT_COLOR) != 0) cur.getInt(INDEX_EVENT_COLOR)
+                else cur.getInt(INDEX_CAL_COLOR)),
                 location = cur.getString(INDEX_LOCATION),
                 description = cur.getString(INDEX_DESCRIPTION),
                 allday = cur.getInt(INDEX_ALLDAY) == 1,

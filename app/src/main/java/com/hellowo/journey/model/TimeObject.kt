@@ -1,11 +1,13 @@
 package com.hellowo.journey.model
 
 import android.graphics.Color
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.getCalendarTime0
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import java.lang.Exception
 import java.util.*
 
 
@@ -13,7 +15,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var type: Int = 0,
                       var style: Int = 0,
                       var title: String? = null,
-                      var color: Int = Color.BLACK,
+                      var colorKey: Int = -1,
                       var fontColor: Int = Color.WHITE,
                       var location: String? = null,
                       var description: String? = null,
@@ -104,12 +106,20 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         return o
     }
 
+    fun getColor() : Int {
+        return try{
+            AppTheme.colors[colorKey]
+        }catch (e: Exception){
+            AppTheme.primaryText
+        }
+    }
+
     fun copy(data: TimeObject) {
         id = data.id
         type = data.type
         style = data.style
         title = data.title
-        color = data.color
+        colorKey = data.colorKey
         fontColor = data.fontColor
         location = data.location
         description = data.description
@@ -151,7 +161,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     override fun toString(): String {
-        return "TimeObject(id=$id, type=$type, style=$style, title=$title, color=$color, fontColor=$fontColor, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, latitude=$latitude, longitude=$longitude, inCalendar=$inCalendar)"
+        return "TimeObject(id=$id, type=$type, style=$style, title=$title, colorKey=$colorKey, fontColor=$fontColor, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, latitude=$latitude, longitude=$longitude, inCalendar=$inCalendar)"
     }
 
     override fun equals(other: Any?): Boolean { // 리스트 업데이트 비교시 사용
@@ -160,7 +170,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                     && type == other.type
                     && style == other.style
                     && title == other.title
-                    && color == other.color
+                    && colorKey == other.colorKey
                     && fontColor == other.fontColor
                     && location == other.location
                     && description == other.description

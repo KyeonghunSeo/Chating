@@ -3,6 +3,7 @@ package com.hellowo.journey.ui.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.graphics.Typeface.BOLD_ITALIC
 import android.graphics.Typeface.ITALIC
 import android.text.TextUtils
@@ -105,7 +106,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     else -> {
                         setPadding(defaultPadding, 0, defaultPadding, 0)
                         typeface = AppTheme.textFont
-                        setTextColor(timeObject.color)
+                        setTextColor(timeObject.getColor())
                     }
                 }
             }
@@ -129,12 +130,24 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 }
             }
             TimeObject.Type.NOTE -> {
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
-                text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
-                typeface = AppTheme.textFont
-                setLineSpacing(strokeWidth * 2, 1f)
-                setPadding(defaulMargin.toInt(), (defaulMargin).toInt() * 4, defaultPadding, 0)
-                setTextColor(CalendarSkin.dateColor)
+                when(timeObject.style){
+                    1 -> {
+                        setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
+                        text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
+                        typeface = AppTheme.textFont
+                        setLineSpacing(strokeWidth * 2, 1f)
+                        setPadding(defaulMargin.toInt(), (defaulMargin).toInt() * 4, defaultPadding, 0)
+                        setTextColor(CalendarSkin.dateColor)
+                    }
+                    else -> {
+                        setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
+                        text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
+                        typeface = AppTheme.textFont
+                        setLineSpacing(strokeWidth * 2, 1f)
+                        setPadding(defaulMargin.toInt(), defaulMargin.toInt(), defaultPadding, 0)
+                        setTextColor(CalendarSkin.dateColor)
+                    }
+                }
             }
             TimeObject.Type.TERM -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
@@ -148,19 +161,19 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         setTypeface(AppTheme.textFont, ITALIC)
                         gravity = Gravity.CENTER_HORIZONTAL
                         setPadding(defaultPadding, 0, defaultPadding, 0)
-                        setTextColor(timeObject.color)
+                        setTextColor(timeObject.getColor())
                     }
                     2 -> {
                         setTypeface(AppTheme.textFont, ITALIC)
                         gravity = Gravity.CENTER
                         setPadding(defaultPadding, 0, defaultPadding, 0)
-                        setTextColor(timeObject.color)
+                        setTextColor(timeObject.getColor())
                     }
                     else -> {
                         setTypeface(AppTheme.textFont, ITALIC)
                         gravity = Gravity.CENTER
                         setPadding(defaultPadding, 0, defaultPadding, 0)
-                        setTextColor(timeObject.color)
+                        setTextColor(timeObject.getColor())
                     }
                 }
             }
@@ -215,7 +228,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 }
             }
         }else {
-            text = "+${childList?.size}"
+            text = "··· +${childList?.size}"
             super.onDraw(canvas)
         }
     }
@@ -246,7 +259,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 else -> normalTypeSize
             }
         }else {
-            return normalTypeSize
+            return smallTypeSize
         }
     }
 

@@ -187,7 +187,6 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
                 if(formula != currentFomula) {
                     currentFomula = formula
                     when(currentFomula) {
-                        BOTTOM_LINEAR -> computeBottomLinearStartPos()
                         BOTTOM_STACK -> {
                             computeMaxRowHeight()
                             computeBottomStackStartPos()
@@ -236,12 +235,6 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
     private fun computeMaxRowHeight() { // 1주일중 가장 높이가 높은곳 계산
         (0..5).forEach{ index ->
             rowHeightArray[index] = cellBottomArray.sliceArray(index*7..index*7+6).max() ?: 0f
-        }
-    }
-
-    private fun computeBottomLinearStartPos() {
-        cellBottomArray.forEachIndexed { index, i ->
-            cellBottomArray[index] = Math.max(minHeight - normalTypeSize, cellBottomArray[index])
         }
     }
 

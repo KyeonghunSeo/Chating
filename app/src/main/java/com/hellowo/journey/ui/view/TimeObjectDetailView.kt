@@ -77,8 +77,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
 
         colorBtn.setOnClickListener {
-            showDialog(ColorPickerDialog(MainActivity.instance!!, timeObject.color) { color, fontColor ->
-                timeObject.color = color
+            showDialog(ColorPickerDialog(MainActivity.instance!!, timeObject.getColor()) { colorKey, fontColor ->
+                timeObject.colorKey = colorKey
                 timeObject.fontColor = fontColor
                 updateUI()
             }, true, false, true, false)
@@ -135,7 +135,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun updateUI() {
-        colorBtn.setCardBackgroundColor(timeObject.color)
+        colorBtn.setCardBackgroundColor(timeObject.getColor())
         fontColorText.setColorFilter(timeObject.fontColor)
 
         updateHeaderUI()
