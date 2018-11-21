@@ -45,7 +45,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun loadTemplate() {
-        val templates = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
+        val templates = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
         if(templates.isEmpty()) {
             realm.executeTransaction {
                 TimeObject.Type.values().forEachIndexed { index, t ->
@@ -56,7 +56,7 @@ class MainViewModel : ViewModel() {
                     }
                 }
             }
-            templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
+            templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
         }else {
             templateList.value = templates
         }
