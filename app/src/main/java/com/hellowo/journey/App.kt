@@ -8,6 +8,7 @@ import android.content.res.Resources
 import com.hellowo.journey.alarm.AlarmManager
 import com.pixplicity.easyprefs.library.Prefs
 import io.realm.Realm
+import io.realm.SyncUser
 
 class App : Application() {
     companion object {
@@ -29,6 +30,9 @@ class App : Application() {
         AppDateFormat.init(this)
         AppTheme.init(this)
         Realm.init(this)
+        if(SyncUser.current() != null) {
+            Realm.setDefaultConfiguration(SyncUser.current().createConfiguration(USER_URL).build())
+        }
         AlarmManager.init(this)
     }
 }

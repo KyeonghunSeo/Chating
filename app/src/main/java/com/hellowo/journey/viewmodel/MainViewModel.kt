@@ -28,18 +28,6 @@ class MainViewModel : ViewModel() {
     val targetFolder = MutableLiveData<Folder>()
 
     init {
-        if(SyncUser.current() == null) {
-            val credentials = SyncCredentials.nickname("hellowo", false)
-            SyncUser.logInAsync(credentials, AUTH_URL, object: SyncUser.Callback<SyncUser> {
-                override fun onError(error: ObjectServerError?) {
-                    Log.e("Login error", error.toString())
-                }
-                override fun onSuccess(result: SyncUser?) {
-                    val config = SyncConfiguration.Builder(result, USER_URL).partialRealm().build()
-                    Realm.setDefaultConfiguration(config)
-                }
-            })
-        }
         loadAppUser()
         loadTemplate()
         loadColors()

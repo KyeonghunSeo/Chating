@@ -1,6 +1,6 @@
 package com.hellowo.journey
 
-const val INSTANCE_ADDRESS = "chating.us1.cloud.realm.io"
+const val INSTANCE_ADDRESS = "hellowo.de1a.cloud.realm.io"
 const val AUTH_URL = "https://$INSTANCE_ADDRESS/auth"
 const val USER_URL = "realms://$INSTANCE_ADDRESS/~/default"
 

@@ -20,7 +20,8 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
     private fun login() {
-        val credentials = SyncCredentials.nickname(nameEdit.text.toString(), false)
+        val credentials = SyncCredentials.usernamePassword(nameEdit.text.toString(),
+                passwordEdit.text.toString(), true)
         SyncUser.logInAsync(credentials, AUTH_URL, object: SyncUser.Callback<SyncUser> {
             override fun onError(error: ObjectServerError?) {
                 Log.e("Login error", error.toString())
@@ -32,9 +33,7 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
     private fun startMainActivity(result: SyncUser) {
-        val config = SyncConfiguration.Builder(result, USER_URL).partialRealm().build()
-        Realm.setDefaultConfiguration(config)
-        val mainIntent = Intent(this@WelcomeActivity, MainActivity::class.java)
-        startActivity(mainIntent)
+        Realm.setDefaultConfiguration(result.createConfiguration(USER_URL).build())
+        finish()
     }
 }

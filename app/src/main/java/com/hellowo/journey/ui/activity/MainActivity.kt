@@ -29,6 +29,7 @@ import com.hellowo.journey.ui.view.base.SwipeScrollView.Companion.SWIPE_RIGHT
 import com.hellowo.journey.viewmodel.MainViewModel
 import androidx.lifecycle.Observer
 import com.hellowo.journey.manager.FolderManager
+import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -56,6 +57,9 @@ class MainActivity : AppCompatActivity() {
         initTemplateView()
         initBtns()
         initObserver()
+        if(SyncUser.current() == null) {
+            startActivity(Intent(this, WelcomeActivity::class.java))
+        }
     }
 
     private fun playIntentAction() {
@@ -78,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         window.navigationBarColor = resources.getColor(R.color.background)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
-            showDialog(DatePickerDialog(this@MainActivity, calendarView.targetCal.timeInMillis) {
+            showDialog(DatePickerDialog(this, calendarView.targetCal.timeInMillis) {
                 calendarView.moveDate(it, true)
             }, true, true, true, false)
         }
@@ -150,7 +154,7 @@ class MainActivity : AppCompatActivity() {
     fun getCalendarView(): CalendarView = calendarView
 
     private fun initDayView() {
-        dayView = DayView(calendarView, this@MainActivity)
+        dayView = DayView(calendarView, this)
         dayView.visibility = View.GONE
         calendarLy.addView(dayView, calendarLy.indexOfChild(dimView))
         dayView.onVisibility = { show ->
