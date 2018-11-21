@@ -158,7 +158,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 //setHorizontallyScrolling(true)
                 when(timeObject.style){
                     1 -> {
-                        setTypeface(AppTheme.textFont, ITALIC)
+                        typeface = AppTheme.textFont
                         gravity = Gravity.CENTER_HORIZONTAL
                         setPadding(defaultPadding, 0, defaultPadding, 0)
                         setTextColor(timeObject.getColor())
@@ -170,7 +170,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         setTextColor(timeObject.getColor())
                     }
                     else -> {
-                        setTypeface(AppTheme.textFont, ITALIC)
+                        typeface = AppTheme.textFont
                         gravity = Gravity.CENTER
                         setPadding(defaultPadding, 0, defaultPadding, 0)
                         setTextColor(timeObject.getColor())

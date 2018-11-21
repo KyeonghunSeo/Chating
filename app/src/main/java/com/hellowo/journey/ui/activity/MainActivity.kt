@@ -32,6 +32,10 @@ import com.hellowo.journey.manager.FolderManager
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import android.view.WindowManager
+import android.os.Build
+
+
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -48,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         TimeObjectManager.init()
         instance = this
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        initTheme()
         initLayout()
         initCalendarView()
         initDayView()
@@ -78,8 +83,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun initTheme() {
+        window.navigationBarColor = AppTheme.backgroundColor
+        window.statusBarColor = AppTheme.backgroundColor
+        calendarLy.setBackgroundColor(AppTheme.backgroundColor)
+    }
+
     private fun initLayout() {
-        window.navigationBarColor = resources.getColor(R.color.background)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
             showDialog(DatePickerDialog(this, calendarView.targetCal.timeInMillis) {
@@ -369,7 +379,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         TimeObjectManager.clear()
+        super.onDestroy()
     }
 }

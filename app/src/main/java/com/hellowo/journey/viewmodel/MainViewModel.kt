@@ -28,9 +28,8 @@ class MainViewModel : ViewModel() {
     val targetFolder = MutableLiveData<Folder>()
 
     init {
-        loadAppUser()
+        //loadAppUser()
         loadTemplate()
-        loadColors()
     }
 
     private fun loadAppUser() {
@@ -45,7 +44,15 @@ class MainViewModel : ViewModel() {
     }
 
     fun loadTemplate() {
-        val templates = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
+        realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
+                .addChangeListener { result, changeSet ->
+                    if(result.isNotEmpty()) {
+                        templateList.value = result
+                    }
+                    l("loadTemplate :  ${changeSet.state}")
+                }
+        /*
+        val templates = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
         if(templates.isEmpty()) {
             realm.executeTransaction {
                 TimeObject.Type.values().forEachIndexed { index, t ->
@@ -56,36 +63,15 @@ class MainViewModel : ViewModel() {
                     }
                 }
             }
-            templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
+            templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
         }else {
             templateList.value = templates
-        }
-    }
-
-    private fun loadColors() {
-        val colors = realm.where(ColorTag::class.java).sort("order", Sort.ASCENDING).findAll()
-        if(colors.isEmpty()) {
-            realm.executeTransaction {
-                val colorPack = resource.getStringArray(R.array.color_pack_title)
-                val fontColor = resource.getStringArray(R.array.font_colors)
-                val colorTitle = resource.getStringArray(R.array.color_title)
-                val colors = resource.getStringArray(R.array.colors)
-                (0 until colors.size).forEach {
-                    val note = realm.createObject(ColorTag::class.java, it)
-                    note.title = colorTitle[it]
-                    note.color = Color.parseColor(colors[it])
-                    note.fontColor = Color.parseColor(fontColor[it])
-                    note.order = it
-                }
-            }
-            colorTagList.value = realm.where(ColorTag::class.java).sort("order", Sort.ASCENDING).findAll()
-        }else {
-            colorTagList.value = colors
-        }
+        }*/
     }
 
     override fun onCleared() {
         super.onCleared()
+        realm.removeAllChangeListeners()
         realm.close()
     }
 

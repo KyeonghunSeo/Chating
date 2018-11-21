@@ -17,20 +17,21 @@ import io.realm.RealmResults
 import io.realm.Sort
 import java.util.*
 
+@SuppressLint("StaticFieldLeak")
 object TimeObjectManager {
-    @SuppressLint("StaticFieldLeak")
     lateinit var realm: Realm
     private var timeObjectList: RealmResults<TimeObject>? = null
-    @SuppressLint("StaticFieldLeak")
+    private var withAnim = false
     var timeObjectCalendarAdapter: TimeObjectCalendarAdapter? = null
     var lastUpdatedItem: TimeObject? = null
-    private var withAnim = false
 
     fun init() {
         realm = Realm.getDefaultInstance()
     }
 
     fun setTimeObjectCalendarAdapter(calendarView: CalendarView) {
+        if(timeObjectCalendarAdapter == null) timeObjectCalendarAdapter = TimeObjectCalendarAdapter(calendarView)
+
         withAnim = false
         timeObjectList?.removeAllChangeListeners()
         timeObjectList = getTimeObjectList(calendarView.calendarStartTime, calendarView.calendarEndTime)
@@ -46,17 +47,14 @@ object TimeObjectManager {
                 l("추가된 데이터 : ${lastUpdatedItem.toString()}")
             }
 
-            timeObjectCalendarAdapter?.refresh(result, withAnim) ?: TimeObjectCalendarAdapter(result, calendarView).let {
-                timeObjectCalendarAdapter = it.apply { draw() }
-            }
-
-            if(calendarView.targetCellNum != calendarView.selectCellNum) {
-                calendarView.selectDate(calendarView.targetCellNum, false)
-            }
-
+            timeObjectCalendarAdapter?.refresh(result, withAnim)
             withAnim = true
             l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
             l("==========END timeObjectdataSetChanged=========")
+        }
+
+        if(timeObjectList?.isLoaded == false) {
+            timeObjectCalendarAdapter?.refresh(null, false)
         }
     }
 

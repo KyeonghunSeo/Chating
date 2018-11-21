@@ -17,6 +17,7 @@ object AppTheme {
     var textFont: Typeface = Typeface.DEFAULT
 
     var selectableItemBackground = 0
+    var backgroundColor = 0
     var almostWhite = 0
     var primaryColor = 0
     var primaryText = 0
@@ -35,6 +36,7 @@ object AppTheme {
         val typedValue = TypedValue()
         context.theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)
         selectableItemBackground = typedValue.resourceId
+        backgroundColor = resource.getColor(R.color.background)
         almostWhite = resource.getColor(R.color.almostWhite)
         primaryColor = resource.getColor(R.color.colorPrimary)
         primaryText = resource.getColor(R.color.primaryText)

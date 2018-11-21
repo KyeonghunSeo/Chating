@@ -112,7 +112,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private var autoScroll = true
 
     init {
-        CalendarSkin.init(this)
         createViews()
         setLayout()
         callAfterViewDrawed(this, Runnable {
@@ -253,6 +252,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
                     if(isSameDay(tempCal, targetCal)) {
                         targetCellNum = cellNum
+                        selectDate(targetCellNum, false)
                     }
                     if(isSameDay(tempCal, todayCal)) {
                         todayCellNum = cellNum

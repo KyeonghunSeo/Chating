@@ -25,9 +25,8 @@ object CalendarSkin {
     var noteFont = AppTheme.textFont
     var selectFont = AppTheme.textFont
 
-    fun init(calendarView: CalendarView) {
-        val resource = calendarView.context.resources
-        backgroundColor = resource.getColor(R.color.calendarBackground)
+    init {
+        backgroundColor = AppTheme.backgroundColor
         dateColor = resource.getColor(R.color.primaryText)
         holiDateColor = resource.getColor(R.color.holiday)
         todayDateColor = resource.getColor(R.color.primaryText)

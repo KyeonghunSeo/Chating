@@ -22,7 +22,7 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
-class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, private val calendarView: CalendarView) {
+class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
     private val viewHolderList = ArrayList<TimeObjectViewHolder>()
     private val viewLevelStatusMap = HashMap<TimeObject.Formula, ViewLevelStatus>()
     private val context = calendarView.context
@@ -37,15 +37,14 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
     private val cellBottomArray = Array(42){ _ -> drawStartYOffset}
     private val rowHeightArray = Array(6){ _ -> drawStartYOffset}
 
-    fun draw() {
+    fun draw(items : RealmResults<TimeObject>?) {
         setCalendarData()
-        makeTimeObjectViewHolder()
+        makeTimeObjectViewHolder(items)
         calculateTimeObjectViewsPosition()
         drawTimeObjectViewOnCalendarView()
     }
 
-    fun refresh(result: RealmResults<TimeObject>, anim: Boolean) {
-        items = result
+    fun refresh(items: RealmResults<TimeObject>?, anim: Boolean) {
         withAnimtion = anim
         viewHolderList.forEach { holder ->
             holder.timeObjectViewList.forEach { (it.parent as FrameLayout).removeView(it) }
@@ -54,7 +53,7 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         viewLevelStatusMap.clear()
         cellBottomArray.fill(drawStartYOffset)
         rowHeightArray.fill(drawStartYOffset)
-        draw()
+        draw(items)
     }
 
     private fun setCalendarData() {
@@ -65,8 +64,8 @@ class TimeObjectCalendarAdapter(private var items : RealmResults<TimeObject>, pr
         calStartTime = calendarView.calendarStartTime
     }
 
-    private fun makeTimeObjectViewHolder() {
-        items.forEach{ timeObject ->
+    private fun makeTimeObjectViewHolder(items : RealmResults<TimeObject>?) {
+        items?.forEach{ timeObject ->
             try{
                 if(timeObject.repeat.isNullOrEmpty()) {
                     makeTimeObjectView(timeObject)
