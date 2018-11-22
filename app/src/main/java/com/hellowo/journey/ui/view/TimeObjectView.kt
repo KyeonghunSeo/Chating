@@ -249,7 +249,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     val width =  mRight - mLeft - defaulMargin
                     measure(View.MeasureSpec.makeMeasureSpec(width.toInt(), View.MeasureSpec.EXACTLY), heightMeasureSpec)
                     //l("${timeObject.title} 라인 : "+((paint.measureText(text.toString()) / width).toInt() + 1))
-                    measuredHeight + /*폰트 자체 패딩때문에 조금 여유를 줘야함*/defaultPadding * 2
+                    (measuredHeight + /*폰트 자체 패딩때문에 조금 여유를 줘야함*/defaulMargin).toInt()
                 }
                 TimeObject.Type.STAMP -> stampSize
                 TimeObject.Type.TERM -> {

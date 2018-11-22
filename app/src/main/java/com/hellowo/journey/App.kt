@@ -30,9 +30,6 @@ class App : Application() {
         AppDateFormat.init(this)
         AppTheme.init(this)
         Realm.init(this)
-        if(SyncUser.current() != null) {
-            Realm.setDefaultConfiguration(SyncUser.current().createConfiguration(USER_URL).build())
-        }
         AlarmManager.init(this)
     }
 }

@@ -15,7 +15,7 @@
             android:id="@+id/backBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/sharp_clear_black_48dp"
+            android:src="@drawable/sharp_navigate_before_black_48dp"
             android:tint="@color/primaryText"
             android:padding="15dp"/>
 
@@ -30,6 +30,10 @@
             android:textSize="18dp"/>
 
     </LinearLayout>
+
+    <com.hellowo.journey.ui.view.base.Line
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

@@ -116,7 +116,8 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                     if(event.x > 0 && event.x < touchEventView.width &&
                             event.y > 0 && event.y < touchEventView.height){
                         if(clickFlag) {
-                            if(!isExpanded) MainActivity.instance?.viewModel?.makeNewTimeObject()
+                            //if(!isExpanded) MainActivity.instance?.viewModel?.makeNewTimeObject()
+                            if(!isExpanded) expand()
                         }else {
                             collapse()
                         }

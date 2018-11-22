@@ -17,6 +17,7 @@ const val ID = "id"
 const val TIME = "time"
 
 const val RC_PERMISSIONS = 0
+const val RC_LOGIN = 1
 const val RC_PRFOFILE_IMAGE = 9090
 const val RC_LOCATION = 9091
 const val RC_OS_CALENDAR = 9092

@@ -34,6 +34,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import android.view.WindowManager
 import android.os.Build
+import io.realm.Realm
+import io.realm.RealmAsyncTask
+
+
 
 
 
@@ -45,13 +49,23 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var viewModel: MainViewModel
     lateinit var dayView: DayView
+    private var realm: Realm? = null
+    private var realmAsyncTask: RealmAsyncTask? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        TimeObjectManager.init()
         instance = this
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        if(SyncUser.current() == null) {
+            startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
+        }else {
+            initMain()
+        }
+    }
+
+    private fun initMain() {
+        initRealm()
         initTheme()
         initLayout()
         initCalendarView()
@@ -62,9 +76,26 @@ class MainActivity : AppCompatActivity() {
         initTemplateView()
         initBtns()
         initObserver()
-        if(SyncUser.current() == null) {
-            startActivity(Intent(this, WelcomeActivity::class.java))
-        }
+    }
+
+    private fun initRealm() {
+        viewModel.loading.value = true
+        val config = SyncUser.current()
+                .createConfiguration(USER_URL)
+                .waitForInitialRemoteData().build()
+        Realm.setDefaultConfiguration(config)
+        realmAsyncTask = Realm.getInstanceAsync(config, object : Realm.Callback() {
+            override fun onSuccess(realm: Realm) {
+                if (isDestroyed) {
+                    realm.close()
+                } else {
+                    l("Realm 데이터베이스 준비 완료")
+                    this@MainActivity.realm = realm
+                    viewModel.loading.value = false
+                    viewModel.init()
+                }
+            }
+        })
     }
 
     private fun playIntentAction() {
@@ -351,7 +382,9 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         timeObjectDetailView.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
+        if(requestCode == RC_LOGIN && resultCode == RESULT_OK) {
+            initMain()
+        }else if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
             if (data != null) {
                 val uri = data.data
                 Glide.with(this).asBitmap().load(uri)
@@ -368,18 +401,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+        super.onResume()
         isShowing = true
         playIntentAction()
-        super.onResume()
     }
 
     override fun onStop() {
-        isShowing = false
         super.onStop()
+        isShowing = false
     }
 
     override fun onDestroy() {
-        TimeObjectManager.clear()
         super.onDestroy()
+        TimeObjectManager.clear()
+        realm?.removeAllChangeListeners()
+        realm?.close()
+        realm = null
+        realmAsyncTask?.cancel()
     }
 }

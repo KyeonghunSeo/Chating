@@ -16,7 +16,6 @@ import io.realm.*
 import java.util.*
 
 class MainViewModel : ViewModel() {
-    val realm = Realm.getDefaultInstance()
     val loading = MutableLiveData<Boolean>()
     val targetTimeObject = MutableLiveData<TimeObject?>()
     val targetView = MutableLiveData<View?>()
@@ -27,12 +26,15 @@ class MainViewModel : ViewModel() {
     val isCalendarSettingOpened = MutableLiveData<Boolean>()
     val targetFolder = MutableLiveData<Folder>()
 
-    init {
+    init {}
+
+    fun init() {
         //loadAppUser()
         loadTemplate()
     }
 
     private fun loadAppUser() {
+        val realm = Realm.getDefaultInstance()
         val user = realm.where(AppUser::class.java).findFirst()
         if(user == null) {
             realm.executeTransaction {
@@ -41,15 +43,17 @@ class MainViewModel : ViewModel() {
         }else {
             appUser.value = user
         }
+        realm.close()
     }
 
     fun loadTemplate() {
+        val realm = Realm.getDefaultInstance()
         realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
                 .addChangeListener { result, changeSet ->
+                    l("loadTemplate : ${result.isLoaded} ${changeSet.state}")
                     if(result.isNotEmpty()) {
                         templateList.value = result
                     }
-                    l("loadTemplate :  ${changeSet.state}")
                 }
         /*
         val templates = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
@@ -67,19 +71,20 @@ class MainViewModel : ViewModel() {
         }else {
             templateList.value = templates
         }*/
+        realm.close()
     }
 
     override fun onCleared() {
         super.onCleared()
-        realm.removeAllChangeListeners()
-        realm.close()
     }
 
     fun saveProfileImage(resource: Bitmap) {
+        val realm = Realm.getDefaultInstance()
         realm.executeTransaction {
             appUser.value?.profileImg = bitmapToByteArray(resource)
             appUser.value = appUser.value
         }
+        realm.close()
     }
 
     fun clearTargetTimeObject() {
@@ -107,14 +112,17 @@ class MainViewModel : ViewModel() {
                     fontColor = it.fontColor
                     inCalendar = it.inCalendar
                     folder = targetFolder.value
+                    tags.addAll(it.tags)
                 }
             }
 
     fun setTargetTimeObjectById(id: String?) {
         id?.let {
+            val realm = Realm.getDefaultInstance()
             targetTimeObject.value = realm.where(TimeObject::class.java)
                     .equalTo("id", it)
                     .findFirst()
+            realm.close()
         }
     }
 

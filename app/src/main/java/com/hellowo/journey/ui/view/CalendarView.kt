@@ -114,10 +114,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     init {
         createViews()
         setLayout()
-        callAfterViewDrawed(this, Runnable {
-            drawCalendar(System.currentTimeMillis())
-            selectDate(todayCellNum, false)
-        })
+        callAfterViewDrawed(this, Runnable { drawCalendar(System.currentTimeMillis()) })
     }
 
     private fun createViews() {

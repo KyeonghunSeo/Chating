@@ -15,51 +15,53 @@ import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
+import java.lang.Exception
 import java.util.*
 
 @SuppressLint("StaticFieldLeak")
 object TimeObjectManager {
-    lateinit var realm: Realm
     private var timeObjectList: RealmResults<TimeObject>? = null
     private var withAnim = false
     var timeObjectCalendarAdapter: TimeObjectCalendarAdapter? = null
     var lastUpdatedItem: TimeObject? = null
 
-    fun init() {
-        realm = Realm.getDefaultInstance()
-    }
+    fun init() {}
 
     fun setTimeObjectCalendarAdapter(calendarView: CalendarView) {
         if(timeObjectCalendarAdapter == null) timeObjectCalendarAdapter = TimeObjectCalendarAdapter(calendarView)
 
         withAnim = false
         timeObjectList?.removeAllChangeListeners()
-        timeObjectList = getTimeObjectList(calendarView.calendarStartTime, calendarView.calendarEndTime)
-        timeObjectList?.addChangeListener { result, changeSet ->
-            l("==========START timeObjectdataSetChanged=========")
-            l("result.isLoaded ${result.isLoaded}")
-            l("changeSet ${changeSet.isCompleteResult}")
-            l("데이터 : ${result.size} 개")
-            val t = System.currentTimeMillis()
+        timeObjectList = getTimeObjectList(calendarView.calendarStartTime, calendarView.calendarEndTime).apply {
+            try{
+                addChangeListener { result, changeSet ->
+                    l("==========START timeObjectdataSetChanged=========")
+                    l("result.isLoaded ${result.isLoaded}")
+                    l("changeSet ${changeSet.isCompleteResult}")
+                    l("데이터 : ${result.size} 개")
+                    val t = System.currentTimeMillis()
 
-            changeSet.insertionRanges.firstOrNull()?.let {
-                lastUpdatedItem = result[it.startIndex]
-                l("추가된 데이터 : ${lastUpdatedItem.toString()}")
-            }
+                    changeSet.insertionRanges.firstOrNull()?.let {
+                        lastUpdatedItem = result[it.startIndex]
+                        l("추가된 데이터 : ${lastUpdatedItem.toString()}")
+                    }
 
-            timeObjectCalendarAdapter?.refresh(result, withAnim)
-            withAnim = true
-            l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
-            l("==========END timeObjectdataSetChanged=========")
-        }
+                    timeObjectCalendarAdapter?.refresh(result, withAnim)
+                    withAnim = true
+                    l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
+                    l("==========END timeObjectdataSetChanged=========")
+                }
 
-        if(timeObjectList?.isLoaded == false) {
-            timeObjectCalendarAdapter?.refresh(null, false)
+                if(isLoaded == false) {
+                    timeObjectCalendarAdapter?.refresh(null, false)
+                }
+            }catch (e: Exception){e.printStackTrace()}
         }
     }
 
     fun getTimeObjectList(startTime: Long, endTime: Long) : RealmResults<TimeObject> {
-        return realm.where(TimeObject::class.java)
+        val realm = Realm.getDefaultInstance()
+        val result = realm.where(TimeObject::class.java)
                 .beginGroup()
                 .isNull("folder")
                 .greaterThan("dtCreated", 0)
@@ -84,20 +86,26 @@ object TimeObjectManager {
                 .endGroup()
                 .sort("dtStart", Sort.ASCENDING)
                 .findAllAsync()
+        realm.close()
+        return result
     }
 
     fun getTimeObjectList(folder: Folder) : RealmResults<TimeObject> {
-        return realm.where(TimeObject::class.java)
+        val realm = Realm.getDefaultInstance()
+        val result = realm.where(TimeObject::class.java)
                 .beginGroup()
                 .equalTo("folder.id", folder.id)
                 .greaterThan("dtCreated", 0)
                 .endGroup()
                 .sort("dtCreated", Sort.DESCENDING)
                 .findAllAsync()
+        realm.close()
+        return result
     }
 
     fun getTimeObjectList(query: String, tags: ArrayList<Tag>) : RealmResults<TimeObject> {
-        return realm.where(TimeObject::class.java)
+        val realm = Realm.getDefaultInstance()
+        val result = realm.where(TimeObject::class.java)
                 .beginGroup()
                 .greaterThan("dtCreated", 0)
                 .endGroup()
@@ -117,10 +125,13 @@ object TimeObjectManager {
                 .endGroup()
                 .sort("dtCreated", Sort.DESCENDING)
                 .findAllAsync()
+        realm.close()
+        return result
     }
 
     fun save(timeObject: TimeObject) {
-        realm.executeTransactionAsync{ realm ->
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction{ realm ->
             if(timeObject.id.isNullOrEmpty()) {
                 timeObject.id = UUID.randomUUID().toString()
                 timeObject.dtCreated = System.currentTimeMillis()
@@ -157,12 +168,14 @@ object TimeObjectManager {
             timeObject.dtUpdated = System.currentTimeMillis()
             realm.insertOrUpdate(timeObject)
         }
+        realm.close()
     }
 
     fun done(timeObject: TimeObject) {
+        val realm = Realm.getDefaultInstance()
         val id = timeObject.id
         if(timeObject.repeat.isNullOrEmpty()) {
-            realm.executeTransactionAsync{ realm ->
+            realm.executeTransaction{ realm ->
                 realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
                     if(it.dtDone == Long.MIN_VALUE) {
                         it.dtDone = System.currentTimeMillis()
@@ -174,7 +187,7 @@ object TimeObjectManager {
             }
         }else {
             val ymdKey = AppDateFormat.ymdkey.format(Date(timeObject.dtStart))
-            realm.executeTransactionAsync{ realm ->
+            realm.executeTransaction{ realm ->
                 realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
                     it.exDates.add(ymdKey)
                     it.dtUpdated = System.currentTimeMillis()
@@ -191,26 +204,30 @@ object TimeObjectManager {
                 }
             }
         }
+        realm.close()
     }
 
     fun deleteOnly(timeObject: TimeObject) {
+        val realm = Realm.getDefaultInstance()
         val id = timeObject.id
         val ymdKey = AppDateFormat.ymdkey.format(Date(timeObject.dtStart))
-        realm.executeTransactionAsync{ realm ->
+        realm.executeTransaction{ realm ->
             realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
                 it.exDates.add(ymdKey)
                 it.dtUpdated = System.currentTimeMillis()
             }
         }
+        realm.close()
     }
 
     fun deleteAfter(timeObject: TimeObject) {
+        val realm = Realm.getDefaultInstance()
         val id = timeObject.id
         val cal = Calendar.getInstance()
         cal.timeInMillis = timeObject.dtStart
 
         cal.add(Calendar.DATE, -1)
-        realm.executeTransactionAsync{ realm ->
+        realm.executeTransaction{ realm ->
             realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
                 val dtUntil = getCalendarTime23(cal)
                 if(dtUntil < it.dtStart) { // 기한보다 작으면 완전히 제거
@@ -221,23 +238,25 @@ object TimeObjectManager {
                 }
             }
         }
+        realm.close()
     }
 
     fun delete(timeObject: TimeObject) {
+        val realm = Realm.getDefaultInstance()
         val id = timeObject.id
-        realm.executeTransactionAsync{ realm ->
+        realm.executeTransaction{ realm ->
             realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
                 it.dtCreated = -1
                 it.dtUpdated = System.currentTimeMillis()
             }
         }
+        realm.close()
     }
 
     fun clear() {
         timeObjectList?.removeAllChangeListeners()
         timeObjectList = null
         timeObjectCalendarAdapter = null
-        realm.close()
     }
 
     fun makeNewTimeObject(start: Long, end: Long): TimeObject {
@@ -249,13 +268,17 @@ object TimeObjectManager {
     }
 
     fun getTimeObjectById(id: String): TimeObject? {
-        return realm.where(TimeObject::class.java)
+        val realm = Realm.getDefaultInstance()
+        val result =  realm.where(TimeObject::class.java)
                 .equalTo("id", id)
                 .findFirst()
+        realm.close()
+        return result
     }
 
     fun reorder(list: List<TimeObject>) {
-        realm.executeTransactionAsync{ realm ->
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction{ realm ->
             list.forEachIndexed { index, timeObject ->
                 realm.where(TimeObject::class.java).equalTo("id", timeObject.id).findFirst()?.let {
                     it.ordering = index
@@ -263,6 +286,7 @@ object TimeObjectManager {
                 }
             }
         }
+        realm.close()
     }
 
 }

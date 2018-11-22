@@ -5,10 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.hellowo.journey.App
 import com.hellowo.journey.R
 import com.hellowo.journey.model.Template
+import com.hellowo.journey.model.TimeObject
 import io.realm.Realm
-import kotlinx.android.synthetic.main.list_item_template.view.*
+import kotlinx.android.synthetic.main.list_item_edit_template.view.*
 import java.util.*
 
 class TemplateEditAdapter(private val items: ArrayList<Template>,
@@ -27,15 +29,39 @@ class TemplateEditAdapter(private val items: ArrayList<Template>,
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
-            = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_template, parent, false))
+            = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_edit_template, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val v = holder.itemView
         val template = items[position]
+        v.typeImg.setImageResource(TimeObject.Type.values()[template.type].iconId)
+        v.typeText.text = App.context.getString(TimeObject.Type.values()[template.type].titleId)
         v.titleText.text = template.title
-        v.titleText.setTextColor(template.getColor())
-        v.setOnClickListener {
+
+        v.colorImg.setColorFilter(template.getColor())
+        v.colorBtn.setOnClickListener {
             adapterInterface.invoke(0, template)
+        }
+
+        if(template.tags.isNotEmpty()) {
+            v.tagText.text = template.tags.joinToString("") { "#${it.id}" }
+        }else {
+            v.tagText.text = App.context.getString(R.string.no_tag)
+        }
+        v.tagBtn.setOnClickListener {
+            adapterInterface.invoke(1, template)
+        }
+
+        v.inCalendarBtn.setOnClickListener {
+            adapterInterface.invoke(2, template)
+        }
+
+        if(template.inCalendar) {
+            v.inCalendarSwitch.isChecked = true
+            v.styleBtn.visibility = View.VISIBLE
+        } else {
+            v.inCalendarSwitch.isChecked = false
+            v.styleBtn.visibility = View.GONE
         }
     }
 
@@ -51,7 +77,7 @@ class TemplateEditAdapter(private val items: ArrayList<Template>,
 
         override fun isLongPressDragEnabled(): Boolean = true
 
-        override fun isItemViewSwipeEnabled(): Boolean = false
+        override fun isItemViewSwipeEnabled(): Boolean = true
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
             val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
@@ -64,7 +90,9 @@ class TemplateEditAdapter(private val items: ArrayList<Template>,
             return true
         }
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            adapterInterface.invoke(-1, items[viewHolder.adapterPosition])
+        }
 
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
             // We only want the active item to change

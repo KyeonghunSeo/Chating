@@ -139,9 +139,7 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
             return false
         }
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-        }
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
 
         override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                                  dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {

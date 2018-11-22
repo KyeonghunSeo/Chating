@@ -166,5 +166,9 @@
     <string name="attachment">첨부</string>
     <string name="image">이미지</string>
     <string name="next_month_hint">%1$s로 이동</string>
+    <string name="template">템플릿</string>
+    <string name="edit_template">템플릿 편집</string>
+    <string name="show_calendar">달력에 표시하기</string>
+    <string name="delete_template">이 템플릿을 삭제하시겠습니까?</string>
 
 </resources>
