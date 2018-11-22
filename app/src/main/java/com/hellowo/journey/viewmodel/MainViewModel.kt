@@ -48,14 +48,6 @@ class MainViewModel : ViewModel() {
 
     fun loadTemplate() {
         val realm = Realm.getDefaultInstance()
-        realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
-                .addChangeListener { result, changeSet ->
-                    l("loadTemplate : ${result.isLoaded} ${changeSet.state}")
-                    if(result.isNotEmpty()) {
-                        templateList.value = result
-                    }
-                }
-        /*
         val templates = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
         if(templates.isEmpty()) {
             realm.executeTransaction {
@@ -70,7 +62,7 @@ class MainViewModel : ViewModel() {
             templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
         }else {
             templateList.value = templates
-        }*/
+        }
         realm.close()
     }
 

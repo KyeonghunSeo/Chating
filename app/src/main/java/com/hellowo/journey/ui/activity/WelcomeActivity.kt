@@ -22,7 +22,7 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
     private fun login() {
-        val credentials = SyncCredentials.usernamePassword(nameEdit.text.toString(),
+        val credentials = SyncCredentials.usernamePassword(emailEdit.text.toString(),
                 passwordEdit.text.toString(), false)
         SyncUser.logInAsync(credentials, AUTH_URL, object: SyncUser.Callback<SyncUser> {
             override fun onError(error: ObjectServerError?) {

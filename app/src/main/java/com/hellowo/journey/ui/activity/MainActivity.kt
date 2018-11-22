@@ -82,7 +82,9 @@ class MainActivity : AppCompatActivity() {
         viewModel.loading.value = true
         val config = SyncUser.current()
                 .createConfiguration(USER_URL)
-                .waitForInitialRemoteData().build()
+                .fullSynchronization()
+                .waitForInitialRemoteData()
+                .build()
         Realm.setDefaultConfiguration(config)
         realmAsyncTask = Realm.getInstanceAsync(config, object : Realm.Callback() {
             override fun onSuccess(realm: Realm) {
@@ -244,6 +246,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initObserver() {
+        viewModel.loading.observe(this, Observer {
+            if(it as Boolean) progressBar.visibility = View.VISIBLE else progressBar.visibility = View.GONE
+        })
+
         viewModel.targetTimeObject.observe(this, Observer { timeObject ->
             if(timeObject != null) {
                 timeObjectDetailView.show(timeObject)

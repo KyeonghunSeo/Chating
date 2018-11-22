@@ -54,6 +54,7 @@
         </activity>
 
         <receiver android:name="com.hellowo.journey.alarm.BriefingAlarmReceiver"/>
+        <receiver android:name="com.hellowo.journey.alarm.TimeObjectAlarmReceiver"/>
         <service android:name="com.hellowo.journey.alarm.NotiService" />
     </application>
 
