@@ -179,7 +179,7 @@ object RepeatManager {
         val options = arrayOf(
                 String.format(activity.getString(R.string.apply_only), typeName),
                 String.format(activity.getString(R.string.apply_after), typeName, typeName))
-        showDialog(CustomDialog(activity, title, sub, options) { result, option ->
+        showDialog(CustomDialog(activity, title, sub, options) { result, option, _ ->
             if(result) {
                 when(option) {
                     0 -> {
@@ -207,7 +207,7 @@ object RepeatManager {
                 String.format(activity.getString(R.string.apply_only), typeName),
                 String.format(activity.getString(R.string.apply_after), typeName, typeName),
                 activity.getString(R.string.apply_all))
-        showDialog(CustomDialog(activity, title, sub, options) { result, option ->
+        showDialog(CustomDialog(activity, title, sub, options) { result, option, _ ->
             if(result) {
                 when(option) {
                     0 -> TimeObjectManager.deleteOnly(timeObject)

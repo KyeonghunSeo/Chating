@@ -3,19 +3,22 @@ package com.hellowo.journey.ui.activity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.adapter.TemplateEditAdapter
 import com.hellowo.journey.adapter.util.TemplateDiffCallback
-import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.l
 import com.hellowo.journey.model.Tag
 import com.hellowo.journey.model.Template
+import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.showDialog
 import com.hellowo.journey.ui.dialog.ColorPickerDialog
 import com.hellowo.journey.ui.dialog.CustomDialog
 import com.hellowo.journey.ui.dialog.TagDialog
+import com.hellowo.journey.ui.dialog.TypePickerDialog
 import io.realm.OrderedCollectionChangeSet
 import io.realm.Realm
 import io.realm.RealmResults
@@ -23,7 +26,7 @@ import io.realm.Sort
 import kotlinx.android.synthetic.main.activity_normal_list.*
 import java.util.*
 
-class TemplateEditActivity : AppCompatActivity() {
+class TemplateEditActivity : BaseActivity() {
     private val realm = Realm.getDefaultInstance()
     private var templateList : RealmResults<Template>? = null
     private val items = ArrayList<Template>()
@@ -32,23 +35,25 @@ class TemplateEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_normal_list)
+        initTheme(rootLy)
 
         titleText.text = getString(R.string.edit_template)
         backBtn.setOnClickListener { finish() }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = TemplateEditAdapter(items){ action, template ->
+        val adapter = TemplateEditAdapter(this, items){ action, template ->
             when(action) {
                 -1 -> {
-                    showDialog(CustomDialog(this@TemplateEditActivity, template.title ?: ""
-                            , getString(R.string.delete_template), null) { result, _ ->
+                    showDialog(CustomDialog(this@TemplateEditActivity,
+                            template.title ?: "" ,
+                            getString(R.string.delete_template), null) { result, _, _ ->
                         if(result) {
                             realm.executeTransaction { _ ->
                                 realm.where(Template::class.java).equalTo("id", template.id)
                                         .findFirst()?.deleteFromRealm()
                             }
                         }else {
-                            (recyclerView.adapter as TemplateEditAdapter).notifyDataSetChanged()
+                            (recyclerView.adapter as TemplateEditAdapter).notifyItemChanged(items.indexOf(template))
                         }
                     }, true, true, true, false)
                 }
@@ -60,7 +65,7 @@ class TemplateEditActivity : AppCompatActivity() {
                                 it.fontColor = fontColor
                             }
                         }
-                    }, true, false, true, false)
+                    }, true, true, true, false)
                 }
                 1 -> {
                     val items = ArrayList<Tag>().apply { addAll(template.tags) }
@@ -79,6 +84,31 @@ class TemplateEditActivity : AppCompatActivity() {
                             it.inCalendar = !it.inCalendar
                         }
                     }
+                }
+                3 -> {
+                    val dialog = CustomDialog(this@TemplateEditActivity,
+                            getString(R.string.template_title),
+                            null, null) { result, _, title ->
+                        if(result) {
+                            realm.executeTransaction { _ ->
+                                realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
+                                    it.title = title
+                                }
+                            }
+                        }
+                    }
+                    showDialog(dialog, true, true, true, false)
+                    dialog.showInput(getString(R.string.template_title), template.title ?: "")
+                }
+                4 -> {
+                    showDialog(TypePickerDialog(this@TemplateEditActivity, TimeObject.Type.values()[template.type]) { type ->
+                        realm.executeTransaction { it ->
+                            realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
+                                it.type = type.ordinal
+                                it.style = 0
+                            }
+                        }
+                    }, true, true, true, false)
                 }
             }
 

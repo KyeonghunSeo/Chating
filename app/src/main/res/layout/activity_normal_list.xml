@@ -31,14 +31,14 @@
 
     </LinearLayout>
 
-    <com.hellowo.journey.ui.view.base.Line
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="20dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
     </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

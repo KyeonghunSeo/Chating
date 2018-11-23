@@ -39,14 +39,13 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var ordering: Int = Int.MIN_VALUE,
                       var folder: Folder? = null): RealmObject() {
 
-    enum class Type(val titleId: Int, val iconId: Int, val enableLongTerm: Boolean) {
-        EVENT(R.string.event, R.drawable.sharp_event_black_48dp, true),
-        TASK(R.string.task, R.drawable.sharp_check_box_black_48dp, false),
-        NOTE(R.string.note, R.drawable.sharp_notes_black_48dp, false),
-        STAMP(R.string.stamp, R.drawable.sharp_star_rate_black_48dp, false),
-        TERM(R.string.term, R.drawable.sharp_date_range_black_48dp, true),
-        MONEY(R.string.money, R.drawable.sharp_money_black_48dp, false),
-        DRAWING(R.string.drawing, R.drawable.sharp_brush_black_48dp, false)
+    enum class Type(val titleId: Int, val subTextId: Int, val iconId: Int, val enableLongTerm: Boolean) {
+        EVENT(R.string.event, R.string.event_sub,  R.drawable.sharp_event_black_48dp, true),
+        TASK(R.string.task, R.string.task_sub, R.drawable.sharp_check_box_black_48dp, false),
+        NOTE(R.string.note, R.string.note_sub, R.drawable.sharp_notes_black_48dp, false),
+        STAMP(R.string.stamp, R.string.stamp_sub, R.drawable.sharp_star_rate_black_48dp, false),
+        TERM(R.string.term, R.string.term_sub, R.drawable.sharp_date_range_black_48dp, true),
+        MONEY(R.string.money, R.string.money_sub, R.drawable.sharp_money_black_48dp, false)
     }
 
     enum class Style {
@@ -76,7 +75,6 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                 Type.STAMP -> Formula.MID_FLOW
                 Type.MONEY -> Formula.MID_FLOW
                 Type.TERM -> Formula.BOTTOM_STACK
-                Type.DRAWING -> Formula.OVERLAY
             }
         }else {
             return Formula.BOTTOM_LINEAR

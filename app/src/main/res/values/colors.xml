@@ -1,28 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#303029</color>
-    <color name="colorPrimaryDark">#0375b4</color>
-    <color name="colorAccent">#303029</color>
-    <color name="colorPrimaryAlpha">#60286da8</color>
+    <color name="colorPrimaryDark">#303029</color>
+    <color name="colorAccent">#303029</color>>
 
-    <!--
-        <color name="colorPrimary">#0080ff</color>
-        <color name="colorPrimaryDark">#03a6ff</color>
-        <color name="colorAccent">#434957</color>
-        <color name="colorPrimaryLight">#1ec0ff</color>
-        <color name="colorText">#03a6ff</color>
-        <color name="colorPrimaryAlpha">#800080ff</color>
-        <color name="colorPrimaryLightAlpha">#800080ff</color>
-    -->
-
-    <color name="background">#e0e0d7</color>
-    <color name="backgroundAlpha">#EEffffff</color>
-    <color name="backgroundDark">#f2f2f2</color>
+    <color name="background">#ffffff</color>
+    <color name="backgroundDark">#F4F4F4</color>
     <color name="backgroundDeepDark">#b4b7bc</color>
-    <color name="backgroundDarkAlpha">#EEf2f2f2</color>
     <color name="iconTint">#a8aaaf</color>
-<!--
-    <color name="primaryText">#44464b</color> -->
+
     <color name="primaryText">#303029</color>
     <color name="secondaryText">#6d6d61</color>
     <color name="disableText">#b8b8ae</color>
@@ -30,15 +16,28 @@
     <color name="secondaryWhiteText">#b3e0e0d7</color>
     <color name="disableWhiteText">#80e0e0d7</color>
 
-    <color name="test">#262228</color>
-    <!--
-    <color name="primaryText">#de000000</color>
-    <color name="secondaryText">#89000000</color>
-    <color name="disableText">#60000000</color>
-    <color name="primaryWhiteText">#FFFFFFFF</color>
-    <color name="secondaryWhiteText">#b3FFFFFF</color>
-    <color name="disableWhiteText">#80FFFFFF</color>
-     -->
+    <color name="calendarBackground">#e0e0d7</color>
+    <color name="holiday">#b30000</color>
+    <color name="transitionDim">#60000000</color>
+    <color name="transitionDimWhite">#cce0e0d7</color>
+
+    <color name="t1_background">#e0e0d7</color>
+    <color name="t1_backgroundDark">#f2f2f2</color>
+    <color name="t1_backgroundDeepDark">#b4b7bc</color>
+    <color name="t1_iconTint">#a8aaaf</color>
+
+    <color name="t1_primaryText">#303029</color>
+    <color name="t1_secondaryText">#6d6d61</color>
+    <color name="t1_disableText">#b8b8ae</color>
+    <color name="t1_primaryWhiteText">#e0e0d7</color>
+    <color name="t1_secondaryWhiteText">#b3e0e0d7</color>
+    <color name="t1_disableWhiteText">#80e0e0d7</color>
+
+    <color name="t1_calendarBackground">#e0e0d7</color>
+    <color name="t1_holiday">#b30000</color>
+    <color name="t1_transitionDim">#60000000</color>
+    <color name="t1_transitionDimWhite">#cce0e0d7</color>
+
     <color name="black">#000000</color>
     <color name="whiteAlpha">#f4FFFFFF</color>
     <color name="white">#FFFFFF</color>
@@ -58,23 +57,38 @@
     <color name="blue">#334cd5</color>
     <color name="blue_l">#3b55e6</color>
 
-    <color name="calendarBackground">#e0e0d7</color>
-    <color name="holiday">#b30000</color>
-    <color name="transitionDim">#60000000</color>
-    <color name="transitionDimWhite">#cce0e0d7</color>
-
     <color name="lol_light_3">#a3daff</color>
     <color name="lol_light_2">#1ec0ff</color>
     <color name="lol_primary">#0080ff</color>
     <color name="lol_light">#03a6ff</color>
 
-    <string-array name="color_pack_title">
-        <item>유쾌한 전문가</item>
-        <item>미술관에서</item>
-        <item>은은한 음색</item>
-        <item>현대적인 깔끔함</item>
+    <string-array name="colors">
+        <item>#b30000</item>
+        <item>#f7323f</item>
+        <item>#e95e72</item>
+        <item>#fd92a3</item>
+        <item>#FF6AE8</item>
+
+        <item>#004e34</item>
+        <item>#48b134</item>
+        <item>#20824d</item>
+        <item>#ff9e16</item>
+        <item>#f5d926</item>
+
+        <item>#334cd5</item>
+        <item>#0080ff</item>
+        <item>#25afd6</item>
+        <item>#540c65</item>
+        <item>#00EDFF</item>
+
+        <item>#836b65</item>
+        <item>#5a3531</item>
+        <item>#5e6767</item>
+        <item>#293434</item>
+        <item>#a17cdd</item>
     </string-array>
 
+    <!--
     <string-array name="colors">
         <item>#B71C1C</item>
         <item>#880E4F</item>
@@ -100,13 +114,13 @@
         <item>#212121</item>
         <item>#263238</item>
         <item>#000000</item>
-    </string-array>
+    </string-array>-->
 
     <string-array name="font_colors">
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
-        <item>#414141</item>
+        <item>#FFFFFFFF</item>
 
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>

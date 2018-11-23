@@ -54,6 +54,31 @@
                     android:text="sub"/>
 
                 <LinearLayout
+                    android:id="@+id/inputLy"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone"
+                    android:background="@drawable/normal_rect_stroke">
+
+                    <EditText
+                        android:id="@+id/input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:textSize="16dp"
+                        android:imeOptions="actionDone"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColorHint="@color/disableText"
+                        android:background="@color/transparent"
+                        android:fontFamily="@font/regular"/>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/optionLy"
                     android:orientation="vertical"
                     android:layout_marginTop="20dp"
@@ -99,11 +124,9 @@
 
         </FrameLayout>
 
-
-        <View
+        <com.hellowo.journey.ui.view.base.Line
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/grey"/>
+            android:layout_height="1dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -121,11 +144,10 @@
                 android:fontFamily="@font/thin"
                 android:text="@string/cancel"/>
 
-            <View
+            <com.hellowo.journey.ui.view.base.Line
                 android:id="@+id/bottomDivider"
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="@color/grey"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/confirmBtn"

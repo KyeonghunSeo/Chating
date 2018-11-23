@@ -2,10 +2,12 @@ package com.hellowo.journey.ui.dialog
 
 import android.app.Activity
 import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import kotlinx.android.synthetic.main.dialog_color_picker.*
 
@@ -27,6 +29,7 @@ class ColorPickerDialog(activity: Activity, private val color: Int,
     }
 
     private fun setLayout() {
+        rootLy.setBackgroundColor(Color.WHITE)
         colorPicker.onSelceted = onResult
         colorPicker.setDialog = this
     }

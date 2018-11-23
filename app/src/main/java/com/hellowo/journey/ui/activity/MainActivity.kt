@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
 import android.widget.FrameLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.transition.TransitionManager
@@ -32,16 +31,10 @@ import com.hellowo.journey.manager.FolderManager
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
-import android.view.WindowManager
-import android.os.Build
 import io.realm.Realm
 import io.realm.RealmAsyncTask
 
-
-
-
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     companion object {
         var instance: MainActivity? = null
         var isShowing = false
@@ -55,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initTheme(rootLy)
         instance = this
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         if(SyncUser.current() == null) {
@@ -66,7 +60,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initMain() {
         initRealm()
-        initTheme()
         initLayout()
         initCalendarView()
         initDayView()
@@ -95,6 +88,7 @@ class MainActivity : AppCompatActivity() {
                     this@MainActivity.realm = realm
                     viewModel.loading.value = false
                     viewModel.init()
+                    calendarView.moveDate(System.currentTimeMillis(), true)
                 }
             }
         })
@@ -116,13 +110,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initTheme() {
-        window.navigationBarColor = AppTheme.backgroundColor
-        window.statusBarColor = AppTheme.backgroundColor
-        calendarLy.setBackgroundColor(AppTheme.backgroundColor)
-    }
-
     private fun initLayout() {
+        calendarLy.setBackgroundColor(AppTheme.backgroundColor)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
             showDialog(DatePickerDialog(this, calendarView.targetCal.timeInMillis) {
@@ -299,7 +288,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setDateText(date: Date) {
         yearText.typeface = AppTheme.textFont
-        monthText.typeface = AppTheme.textFont
+        monthText.typeface = AppTheme.digitBoldFont
         yearText.text = AppDateFormat.year.format(date)
         monthText.text = AppDateFormat.monthEng.format(date)
     }

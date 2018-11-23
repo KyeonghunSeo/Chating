@@ -10,24 +10,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
+import com.hellowo.journey.dpToPx
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.model.TimeObject.Type
 import kotlinx.android.synthetic.main.list_item_type_picker.view.*
 
-class TypePickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RecyclerView(context, attrs, defStyleAttr) {
-    var timeObject: TimeObject? = null
+class TypePickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : RecyclerView(context, attrs, defStyleAttr) {
     var selectedPos = -1
     var onSelected : ((Type) -> Unit)? = null
+    var mode = 0
 
     init {
         layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         adapter = PickerAdapter()
-    }
-
-    fun setTypeObject(timeObject: TimeObject) {
-        this.timeObject = timeObject
-        selectedPos = timeObject.type
-        adapter?.notifyDataSetChanged()
     }
 
     inner class PickerAdapter : RecyclerView.Adapter<ViewHolder>() {
@@ -35,8 +31,8 @@ class TypePickerView @JvmOverloads constructor(context: Context, attrs: Attribut
 
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {
-                itemView.titleText.setTextColor(Color.WHITE)
-                itemView.iconImg.setColorFilter(Color.WHITE)
+                itemView.titleText.typeface = AppTheme.boldFont
+                itemView.subText.typeface = AppTheme.thinFont
             }
         }
 
@@ -46,23 +42,22 @@ class TypePickerView @JvmOverloads constructor(context: Context, attrs: Attribut
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val type = Type.values()[position]
             val v = holder.itemView
-            v.titleText.text = context.getString(type.titleId)
-            v.iconImg.setImageResource(type.iconId)
 
-            timeObject?.let {
-                if(type.ordinal == it.type) {
-                    v.rootLy.setCardBackgroundColor(it.getColor())
-                }else {
-                    v.rootLy.setCardBackgroundColor(AppTheme.disableText)
-                }
+            if(mode == 0) {
+                v.layoutParams.width = dpToPx(100)
+                v.layoutParams.height = dpToPx(100)
+                v.subText.visibility = View.GONE
+            }else {
+                v.layoutParams.width = dpToPx(180)
+                v.layoutParams.height = dpToPx(180)
+                v.subText.visibility = View.VISIBLE
             }
 
+            v.titleText.text = context.getString(type.titleId)
+            v.subText.text = context.getString(type.subTextId)
+            v.typeImg.setImageResource(type.iconId)
+
             v.setOnClickListener {
-                timeObject?.type = type.ordinal
-                if(selectedPos >= 0) {
-                    notifyItemChanged(selectedPos)
-                }
-                notifyItemChanged(position)
                 selectedPos = position
                 onSelected?.invoke(type)
             }

@@ -48,21 +48,19 @@ class MainViewModel : ViewModel() {
 
     fun loadTemplate() {
         val realm = Realm.getDefaultInstance()
-        val templates = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
-        if(templates.isEmpty()) {
-            realm.executeTransaction {
-                TimeObject.Type.values().forEachIndexed { index, t ->
-                    realm.createObject(Template::class.java, index).run {
-                        title = App.context.getString(t.titleId)
-                        type = t.ordinal
-                        order = index
-                    }
+        realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
+                .addChangeListener { result, changeSet ->
+                    templateList.value = result
+        }/*
+        realm.executeTransaction {
+            TimeObject.Type.values().forEachIndexed { index, t ->
+                realm.createObject(Template::class.java, index).run {
+                    title = App.context.getString(t.titleId)
+                    type = t.ordinal
+                    order = index
                 }
             }
-            templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
-        }else {
-            templateList.value = templates
-        }
+        }*/
         realm.close()
     }
 

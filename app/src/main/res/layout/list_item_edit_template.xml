@@ -1,160 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipChildren="false">
 
-    <FrameLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/contentLy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/normal_rect_stroke"
-        android:padding="15dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="0dp">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="15dp">
 
             <LinearLayout
-                android:id="@+id/typeBtn"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:id="@+id/typeImg"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:tint="@color/primaryText"/>
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/typeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14dp"
+                    android:id="@+id/titleText"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:textSize="18dp"
+                    android:maxLines="3"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="@font/regular"/>
+                    android:fontFamily="@font/bold"
+                    android:text="새 할일"/>
+
+                <LinearLayout
+                    android:id="@+id/typeBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14dp"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/regular"
+                        android:text="@string/type"/>
+
+                    <ImageView
+                        android:id="@+id/typeImg"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginRight="3dp"
+                        android:tint="@color/primaryText"
+                        android:src="@drawable/sharp_calendar_today_black_48dp"/>
+
+                    <TextView
+                        android:id="@+id/typeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/regular"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/colorBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14dp"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/regular"
+                        android:text="@string/color"/>
+
+                    <ImageView
+                        android:id="@+id/colorImg"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/circle_fill"
+                        android:tint="@color/primaryText"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tagBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14dp"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/regular"
+                        android:text="@string/tag"/>
+
+                    <TextView
+                        android:id="@+id/tagText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/regular"
+                        android:text="@string/no_tag"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/inCalendarBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14dp"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/regular"
+                        android:text="@string/show_calendar"/>
+
+                    <ImageView
+                        android:id="@+id/inCalendarImg"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="3dp"
+                        android:src="@drawable/pin"/>
+
+                    <TextView
+                        android:id="@+id/inCalendarText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/regular"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/styleBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14dp"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/regular"
+                        android:text="@string/style"/>
+
+                    <FrameLayout
+                        android:id="@+id/previewContainer"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp">
+
+                    </FrameLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/titleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:maxLines="3"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/regular"
-                android:text="새 할일"/>
+        </FrameLayout>
 
-            <com.hellowo.journey.ui.view.base.Line
-                android:layout_width="match_parent"
-                android:layout_height="1dp" />
-
-            <LinearLayout
-                android:id="@+id/colorBtn"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="14dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/regular"
-                    android:text="@string/color"/>
-
-                <ImageView
-                    android:id="@+id/colorImg"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/circle_fill"
-                    android:tint="@color/primaryText"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/tagBtn"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="14dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/regular"
-                    android:text="@string/tag"/>
-
-                <TextView
-                    android:id="@+id/tagText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/regular"
-                    android:text="@string/no_tag"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/inCalendarBtn"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="14dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/regular"
-                    android:text="@string/show_calendar"/>
-
-                <Switch
-                    android:id="@+id/inCalendarSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/styleBtn"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="14dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/regular"
-                    android:text="@string/style"/>
-
-                <FrameLayout
-                    android:id="@+id/previewContainer"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp">
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </FrameLayout>
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

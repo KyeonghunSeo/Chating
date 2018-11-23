@@ -177,14 +177,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     }
                 }
             }
-            TimeObject.Type.DRAWING -> {
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + 3)
-                text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
-                setTypeface(AppTheme.textFont, BOLD_ITALIC)
-                setLineSpacing(strokeWidth, 1f)
-                setPadding(defaultPadding, defaultPadding, defaultPadding, normalTypeSize * 2)
-                setTextColor(CalendarSkin.dateColor)
-            }
             else -> {
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 typeface = AppTheme.regularFont
@@ -220,10 +212,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     TimeObject.Type.TERM -> {
                         super.onDraw(canvas)
                         CalendarSkin.drawTerm(canvas, this)
-                    }
-                    TimeObject.Type.DRAWING -> {
-                        super.onDraw(canvas)
-                        CalendarSkin.drawDrawing(canvas, this)
                     }
                 }
             }

@@ -25,7 +25,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     lateinit var setDialog: ColorPickerDialog
 
     init {
-        layoutManager = GridLayoutManager(context, 4)
+        layoutManager = GridLayoutManager(context, 5)
         adapter = PickerAdapter()
         addItemDecoration(SpacesItemDecoration(dpToPx(5)))
     }
@@ -34,8 +34,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         override fun getItemCount(): Int = items.size
 
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
-            init {
-            }
+            init {}
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int)
@@ -45,7 +44,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             val item = items[position]
             val v = holder.itemView
             (v as CardView).setCardBackgroundColor(item)
-
             v.setOnClickListener {
                 selectedPos = position
                 onSelceted.invoke(position, item)

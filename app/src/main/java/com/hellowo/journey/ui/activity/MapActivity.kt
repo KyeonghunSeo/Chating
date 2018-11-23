@@ -15,8 +15,9 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
+import kotlinx.android.synthetic.main.activity_map.*
 
-class MapActivity : AppCompatActivity() {
+class MapActivity : BaseActivity() {
     private var location: String? = null
     private var lat: Double = 0.toDouble()
     private var lng: Double = 0.toDouble()
@@ -24,6 +25,7 @@ class MapActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
+        initTheme(rootLy)
 
         location = intent.getStringExtra("location")
         lat = intent.getDoubleExtra("lat", 0.0)

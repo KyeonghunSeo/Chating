@@ -1,19 +1,22 @@
 package com.hellowo.journey.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.App
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.model.Template
 import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.ui.view.TimeObjectView
 import io.realm.Realm
 import kotlinx.android.synthetic.main.list_item_edit_template.view.*
 import java.util.*
 
-class TemplateEditAdapter(private val items: ArrayList<Template>,
+class TemplateEditAdapter(val context: Context, private val items: ArrayList<Template>,
                           private val adapterInterface: (action: Int, template: Template) -> Unit)
     : RecyclerView.Adapter<TemplateEditAdapter.ViewHolder>() {
 
@@ -26,7 +29,12 @@ class TemplateEditAdapter(private val items: ArrayList<Template>,
 
     override fun getItemCount(): Int = items.size
 
-    inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container)
+    inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
+        init {
+            itemView.previewContainer.addView(TimeObjectView(context, TimeObject(), 0, 0), 0)
+            itemView.contentLy.setCardBackgroundColor(AppTheme.backgroundColor)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_edit_template, parent, false))
@@ -34,9 +42,13 @@ class TemplateEditAdapter(private val items: ArrayList<Template>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val v = holder.itemView
         val template = items[position]
+
+        v.titleText.text = template.title
+        v.titleText.setOnClickListener { adapterInterface.invoke(3, template) }
+
         v.typeImg.setImageResource(TimeObject.Type.values()[template.type].iconId)
         v.typeText.text = App.context.getString(TimeObject.Type.values()[template.type].titleId)
-        v.titleText.text = template.title
+        v.typeBtn.setOnClickListener { adapterInterface.invoke(4, template) }
 
         v.colorImg.setColorFilter(template.getColor())
         v.colorBtn.setOnClickListener {
@@ -45,22 +57,24 @@ class TemplateEditAdapter(private val items: ArrayList<Template>,
 
         if(template.tags.isNotEmpty()) {
             v.tagText.text = template.tags.joinToString("") { "#${it.id}" }
+            v.tagText.setTextColor(AppTheme.primaryText)
         }else {
             v.tagText.text = App.context.getString(R.string.no_tag)
+            v.tagText.setTextColor(AppTheme.disableText)
         }
-        v.tagBtn.setOnClickListener {
-            adapterInterface.invoke(1, template)
-        }
+        v.tagBtn.setOnClickListener { adapterInterface.invoke(1, template) }
 
-        v.inCalendarBtn.setOnClickListener {
-            adapterInterface.invoke(2, template)
-        }
+        v.inCalendarBtn.setOnClickListener { adapterInterface.invoke(2, template) }
 
         if(template.inCalendar) {
-            v.inCalendarSwitch.isChecked = true
+            v.inCalendarImg.setColorFilter(AppTheme.primaryText)
+            v.inCalendarText.text = App.context.getString(R.string.show)
+            v.inCalendarText.setTextColor(AppTheme.primaryText)
             v.styleBtn.visibility = View.VISIBLE
         } else {
-            v.inCalendarSwitch.isChecked = false
+            v.inCalendarImg.setColorFilter(AppTheme.disableText)
+            v.inCalendarText.text = App.context.getString(R.string.hide)
+            v.inCalendarText.setTextColor(AppTheme.disableText)
             v.styleBtn.visibility = View.GONE
         }
     }

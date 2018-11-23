@@ -12,11 +12,12 @@ import com.hellowo.journey.l
 import io.realm.*
 import kotlinx.android.synthetic.main.activity_welcome.*
 
-class WelcomeActivity : AppCompatActivity() {
+class WelcomeActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
+        initTheme(rootLy)
         loginBtn.setOnClickListener { login() }
         SyncUser.current()?.let { startMainActivity(it) }
     }

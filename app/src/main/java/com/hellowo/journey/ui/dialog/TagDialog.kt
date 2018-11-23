@@ -53,7 +53,7 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
                 }
                 1 -> {
                     showDialog(CustomDialog(activity, context.getString(R.string.delete_tag),
-                            context.getString(R.string.delete_tag_sub), null) { result, _ ->
+                            context.getString(R.string.delete_tag_sub), null) { result, _, _ ->
                         if(result) {
                             deleteTag(tag)
                         }

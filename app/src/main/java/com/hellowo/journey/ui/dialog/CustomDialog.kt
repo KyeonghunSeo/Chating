@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.TextView
 import com.hellowo.journey.R
 import com.hellowo.journey.startDialogShowAnimation
@@ -12,7 +13,7 @@ import kotlinx.android.synthetic.main.dialog_custom.*
 
 
 class CustomDialog(activity: Activity, private val title: String, private val sub: String?,
-                   private val options: Array<String>?, private val onResult: (Boolean, Int) -> Unit) : Dialog(activity) {
+                   private val options: Array<String>?, private val onResult: (Boolean, Int, String?) -> Unit) : Dialog(activity) {
 
     init {}
 
@@ -47,7 +48,7 @@ class CustomDialog(activity: Activity, private val title: String, private val su
                         textview.visibility = View.VISIBLE
                         textview.text = options[index]
                         textview.setOnClickListener {
-                            onResult.invoke(true, index)
+                            onResult.invoke(true, index, null)
                             dismiss()
                         }
                     }
@@ -60,12 +61,24 @@ class CustomDialog(activity: Activity, private val title: String, private val su
         }
 
         confirmBtn.setOnClickListener {
-            onResult.invoke(true, 0)
+            onResult.invoke(true, 0, input.text.toString())
             dismiss()
         }
 
         cancelBtn.setOnClickListener {
+            onResult.invoke(false, 0, null)
             dismiss()
+        }
+    }
+
+    fun showInput(hint: String, text: String) {
+        inputLy.visibility = View.VISIBLE
+        input.hint = hint
+        input.setText(text)
+        input.setSelection(text.length)
+        input.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == IME_ACTION_DONE) { confirmBtn.callOnClick() }
+            return@setOnEditorActionListener false
         }
     }
 
