@@ -38,7 +38,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val columns = 7
         const val selectedDateScale = 1.7f
         const val outDateAlpha = 0.4f
-        val selectedDatePosition = -dpToPx(0f)
         val todayCal: Calendar = Calendar.getInstance()
         val dateArea = dpToPx(30f)
         val weekLyBottomPadding = dpToPx(20)
@@ -65,7 +64,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     inner class WeekViewHolder(val container: View) {
         val weekNumText: TextView = container.findViewById(R.id.weekNumText)
         init {
-            weekNumText.typeface = CalendarSkin.dateFont
+            weekNumText.typeface = CalendarSkin.selectFont
             container.visibility = View.GONE
         }
     }
@@ -74,7 +73,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateText: TextView = container.findViewById(R.id.dateText)
         val bar: FrameLayout = container.findViewById(R.id.bar)
         val dowText: TextView = container.findViewById(R.id.dowText)
-        val flagImg: ImageView = container.findViewById(R.id.flagImg)
+        val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
             dateText.typeface = CalendarSkin.dateFont
             dowText.typeface = CalendarSkin.dateFont
@@ -90,7 +89,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private val tempCal: Calendar = Calendar.getInstance()
     private val monthCal: Calendar = Calendar.getInstance()
-    private val dow = AppDateFormat.dowEngString
+    private val dow = AppDateFormat.dowString
 
     val targetCal: Calendar = Calendar.getInstance()
     var targetCellNum = -1
@@ -331,9 +330,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             it.playTogether(
                     ObjectAnimator.ofFloat(bar, "alpha", 1f, 0f),
                     ObjectAnimator.ofFloat(dowText, "alpha", 1f, 0f),
-                    ObjectAnimator.ofFloat(dateText, "scaleX", selectedDateScale, 1f),
-                    ObjectAnimator.ofFloat(dateText, "scaleY", selectedDateScale, 1f),
-                    ObjectAnimator.ofFloat(dateText, "translationY", selectedDatePosition, 0f))
+                    ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleX", selectedDateScale, 1f),
+                    ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleY", selectedDateScale, 1f))
             it.interpolator = FastOutSlowInInterpolator()
             it.duration = animDur
             it.start()
@@ -396,7 +394,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             dateText.typeface = CalendarSkin.selectFont
             dateText.alpha = 1f
-            dateHeaders[cellNum].flagImg.setColorFilter(color)
             dowText.setTextColor(color)
             dowText.text = dow[cellNum % columns]
 
@@ -408,9 +405,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 it.playTogether(
                         ObjectAnimator.ofFloat(bar, "alpha", 0f, 1f),
                         ObjectAnimator.ofFloat(dowText, "alpha", 0f, 1f),
-                        ObjectAnimator.ofFloat(dateText, "scaleX", 1f, selectedDateScale),
-                        ObjectAnimator.ofFloat(dateText, "scaleY", 1f, selectedDateScale),
-                        ObjectAnimator.ofFloat(dateText, "translationY", 0f, selectedDatePosition))
+                        ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleX", 1f, selectedDateScale),
+                        ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleY", 1f, selectedDateScale))
                 it.interpolator = FastOutSlowInInterpolator()
                 it.duration = animDur
                 it.start()
@@ -432,9 +428,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun restoreDateHeader(holder: DateHeaderViewHolder) {
         holder.bar.alpha = 0f
         holder.dowText.alpha = 0f
-        holder.dateText.scaleX = 1f
-        holder.dateText.scaleY = 1f
-        holder.dateText.translationY = 0f
+        holder.dateLy.scaleX = 1f
+        holder.dateLy.scaleY = 1f
     }
 
     private fun onViewEffect(cellNum: Int) {

@@ -11,44 +11,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/flagImg"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="3dp"
-            android:transformPivotX="8.5dp"
-            android:transformPivotY="0dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/flag_today"
-            android:tint="@color/primaryText"
-            android:visibility="gone"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/dateLy"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:transformPivotX="0dp"
+        android:transformPivotY="10dp">
+
+        <TextView
+            android:id="@+id/dateText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textSize="11dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/primaryText"
+            android:text="27" />
 
         <TextView
             android:id="@+id/dowText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="5dp"
-            android:textSize="8dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:textSize="5dp"
+            android:paddingTop="4dp"
             android:includeFontPadding="false"
             android:textColor="@color/primaryText"
             android:text="@string/wed"/>
 
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/dateText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:textSize="11dp"
-        android:includeFontPadding="false"
-        android:transformPivotX="0dp"
-        android:transformPivotY="3.5dp"
-        android:textColor="@color/primaryText"
-        android:text="27" />
+    </LinearLayout>
 
 </FrameLayout>

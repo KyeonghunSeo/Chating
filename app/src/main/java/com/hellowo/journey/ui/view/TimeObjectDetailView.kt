@@ -340,8 +340,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {
                 backgroundLy.setBackgroundColor(AppTheme.primaryText)
-                statusBarDim(MainActivity.instance!!)
-                ObjectAnimator.ofFloat(backgroundLy, "alpha",0f, 0.7f).start()
+                ObjectAnimator.ofFloat(backgroundLy, "alpha",0f, 0.6f).start()
                 backgroundLy.setOnClickListener {
                     MainActivity.instance?.viewModel?.targetTimeObject?.value = null
                 }
@@ -371,8 +370,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {
-                statusBarUnDim(MainActivity.instance!!)
-                ObjectAnimator.ofFloat(backgroundLy, "alpha",0.7f, 0f).start()
+                ObjectAnimator.ofFloat(backgroundLy, "alpha",0.6f, 0f).start()
                 hideKeyPad(windowToken, titleInput)
             }
         })

@@ -10,7 +10,6 @@
         android:id="@+id/backgroundLy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transitionDimWhite"
         android:alpha="0">
     </View>
 
@@ -99,7 +98,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:padding="8dp"
-                android:src="@drawable/sharp_create_black_48dp"
+                android:src="@drawable/sharp_add_circle_outline_black_48dp"
                 android:tint="@color/primaryText"/>
 
             <TextView

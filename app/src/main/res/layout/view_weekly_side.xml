@@ -8,23 +8,22 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/weekNumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
             android:includeFontPadding="false"
             android:textColor="@color/primaryText"
-            android:textSize="11dp" />
+            android:textSize="14dp" />
 
         <com.hellowo.journey.ui.view.base.Line
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
             android:layout_gravity="bottom" />
 
     </FrameLayout>

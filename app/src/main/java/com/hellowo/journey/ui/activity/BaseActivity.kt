@@ -13,8 +13,8 @@ open class BaseActivity : AppCompatActivity() {
 
     fun initTheme(rootLy: View) {
         rootLy.setBackgroundColor(AppTheme.backgroundColor)
-        window.navigationBarColor = AppTheme.backgroundColor
-        window.statusBarColor = AppTheme.backgroundColor
+        window.navigationBarColor = AppTheme.primaryText
+        window.statusBarColor = AppTheme.primaryText
     }
 
     fun setGlobalFont(view: View?) {

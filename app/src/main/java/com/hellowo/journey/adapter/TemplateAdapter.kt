@@ -24,7 +24,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>, val 
     val shortText = context.getString(R.string.title)
     val longText = "TEXTTEXTTEXTTEXTTEXTTEXT"
 
-    override fun getItemCount(): Int = (items.size + 1) * 100
+    override fun getItemCount(): Int = (items.size + 1)
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {

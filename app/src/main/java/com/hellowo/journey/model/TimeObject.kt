@@ -51,7 +51,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         TERM(R.string.term, R.string.term_sub,
                 R.drawable.sharp_date_range_black_48dp, true, 3),
         MONEY(R.string.money, R.string.money_sub,
-                R.drawable.sharp_money_black_48dp, false, 3)
+                R.drawable.sharp_local_atm_black_48dp, false, 3)
     }
 
     enum class Style {

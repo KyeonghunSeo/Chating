@@ -205,11 +205,12 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
 
         listLy.visibility = View.VISIBLE
         controllView.elevation = dpToPx(5f)
+        backgroundLy.setBackgroundColor(AppTheme.primaryText)
 
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f),
                 ObjectAnimator.ofFloat(listLy, "translationY", height.toFloat(), 0f),
-                ObjectAnimator.ofFloat(backgroundLy, "alpha",0f, 1f))
+                ObjectAnimator.ofFloat(backgroundLy, "alpha",0f, 0.6f))
         animSet.duration = ANIM_DUR
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
@@ -224,12 +225,12 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f),
                 ObjectAnimator.ofFloat(listLy, "translationY", 0f, height.toFloat()),
-                ObjectAnimator.ofFloat(backgroundLy, "alpha",1f, 0f))
+                ObjectAnimator.ofFloat(backgroundLy, "alpha",0.6f, 0f))
         animSet.addListener(object : Animator.AnimatorListener{
             override fun onAnimationRepeat(p0: Animator?) {}
             override fun onAnimationEnd(p0: Animator?) { restoreViews() }
             override fun onAnimationCancel(p0: Animator?) { }
-            override fun onAnimationStart(p0: Animator?) {}
+            override fun onAnimationStart(p0: Animator?) { }
         })
         animSet.duration = ANIM_DUR
         animSet.interpolator = FastOutSlowInInterpolator()

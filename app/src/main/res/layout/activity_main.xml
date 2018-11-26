@@ -151,7 +151,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:tint="@color/primaryText"
-                    android:src="@drawable/sharp_flag_black_48dp"
+                    android:src="@drawable/sharp_wallpaper_black_48dp"
                     android:padding="15dp"/>
 
                 <ImageView

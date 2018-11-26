@@ -92,15 +92,8 @@ object CalendarSkin {
                 val edge = defaultPadding.toFloat()
                 var left = 0f
                 var right = width.toFloat()
-                if(view.leftOpen) {
-                    left = edge
-                }
-                if(view.rightOpen) {
-                    right = width.toFloat() - defaultPadding
-                }
-
                 val rect = RectF(left, 0f, right, height.toFloat())
-                canvas.drawRoundRect(rect, height / 2.5f, height / 2.5f, paint)
+                canvas.drawRoundRect(rect, height / 2f, height / 2f, paint)
             }
             4 -> { // 기본 꽉찬 블럭
                 paint.style = Paint.Style.FILL

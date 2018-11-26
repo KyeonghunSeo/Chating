@@ -41,8 +41,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     //var line = 0
 
     init {
-        includeFontPadding = false
-        //setBackgroundColor(AppTheme.almostWhite)
     }
 
     fun setLookByType() {
@@ -61,6 +59,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
         when(TimeObject.Type.values()[timeObject.type]) {
             TimeObject.Type.EVENT -> {
+                typeface = AppTheme.textFont
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 gravity = Gravity.CENTER_VERTICAL
@@ -70,7 +69,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 //isHorizontalFadingEdgeEnabled = true
                 when(timeObject.style){
                     1 -> {
-                        typeface = AppTheme.textFont
                         if(length > 1) {
                             gravity = Gravity.CENTER
                             setPadding(defaultPadding, 0, defaultPadding, 0)
@@ -81,27 +79,22 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     }
                     2 -> {
                         setPadding((defaulMargin * 5).toInt(), 0, defaultPadding, 0)
-                        typeface = AppTheme.thinFont
                         setTextColor(AppTheme.primaryText)
                     }
                     3 -> {
                         setPadding(defaultPadding, 0, defaultPadding, 0)
-                        typeface = AppTheme.regularFont
-                        setTextColor(timeObject.fontColor)
+                        setTextColor(AppTheme.primaryText)
                     }
                     4 -> {
                         setPadding(defaultPadding, 0, defaultPadding, 0)
-                        typeface = AppTheme.textFont
                         setTextColor(CalendarSkin.backgroundColor)
                     }
                     6 -> {
                         setPadding(iconSize  + defaulMargin.toInt(), 0, defaultPadding, 0)
-                        typeface = AppTheme.textFont
                         setTextColor(AppTheme.primaryText)
                     }
                     else -> {
                         setPadding(defaultPadding, 0, defaultPadding, 0)
-                        typeface = AppTheme.textFont
                         setTextColor(timeObject.getColor())
                     }
                 }
@@ -212,7 +205,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 }
             }
         }else {
-            text = "··· +${childList?.size}"
             super.onDraw(canvas)
         }
     }
@@ -262,6 +254,22 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val lp = FrameLayout.LayoutParams(w.toInt(), (mBottom - mTop - defaulMargin).toInt())
         lp.setMargins(0, mTop.toInt(), 0, 0)
         layoutParams = lp
+    }
+
+    fun setNotInCalendarText() {
+        childList?.let { list ->
+            val s = StringBuilder("..")
+            (0 until TimeObject.Type.values().size).forEach { type ->
+                val count = list.filter { it.type == type }.size
+                if(count > 0) {
+                    s.append(" ${context.getString(TimeObject.Type.values()[type].titleId)}$count,")
+                }
+            }
+            if(s.endsWith(',')) {
+                s.deleteCharAt(s.length - 1)
+            }
+            text = s
+        }
     }
 
 }

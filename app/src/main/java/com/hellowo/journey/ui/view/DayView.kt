@@ -101,7 +101,6 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         dateText.typeface = CalendarSkin.selectFont
         dateText.scaleY = CalendarView.selectedDateScale
         dateText.scaleX = CalendarView.selectedDateScale
-        dateText.translationY = CalendarView.selectedDatePosition
 
         taskFinishAnimView.imageAssetsFolder = "assets/"
         taskFinishAnimView.setAnimation("success.json")
@@ -165,7 +164,6 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             startPagingEffectAnimation(offset, contentLy, null)
             val animSet = AnimatorSet()
             animSet.playTogether(
-                    ObjectAnimator.ofFloat(flagImg, "scaleY", 0f, headerTextScale),
                     ObjectAnimator.ofFloat(dowText, "scaleY", 0f, headerTextScale))
             animSet.duration = 500
             animSet.interpolator = FastOutSlowInInterpolator()
@@ -269,12 +267,6 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             dowText.text = AppDateFormat.dowEngString[it.targetCellNum % 7]
             val color = it.getDateTextColor(it.targetCellNum)
             dateText.setTextColor(color)
-            flagImg.setColorFilter(color)
-            if(it.targetCellNum == it.todayCellNum) {
-                flagImg.setImageResource(R.drawable.flag_today)
-            }else {
-                flagImg.setImageResource(R.drawable.flag_to_bottom)
-            }
         }
     }
 
@@ -323,10 +315,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                                     ObjectAnimator.ofFloat(dateText, "translationY", dateText.translationY, datePosY),
                                     ObjectAnimator.ofFloat(dowText, "scaleX", dowText.scaleX, headerTextScale),
                                     ObjectAnimator.ofFloat(dowText, "scaleY", dowText.scaleY, headerTextScale),
-                                    ObjectAnimator.ofFloat(dowText, "translationX", dowText.translationX, -bigMargin),
-                                    ObjectAnimator.ofFloat(flagImg, "scaleX", flagImg.scaleX, headerTextScale),
-                                    ObjectAnimator.ofFloat(flagImg, "scaleY", flagImg.scaleY, headerTextScale),
-                                    ObjectAnimator.ofFloat(flagImg, "translationX", flagImg.translationX, -bigMargin))
+                                    ObjectAnimator.ofFloat(dowText, "translationX", dowText.translationX, -bigMargin))
                             animSet.duration = ANIM_DUR
                             animSet.interpolator = FastOutSlowInInterpolator()
                             animSet.start()
@@ -388,10 +377,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                             ObjectAnimator.ofFloat(dateText, "translationY", dateText.translationY, 0f),
                             ObjectAnimator.ofFloat(dowText, "scaleX", dowText.scaleX, 1f),
                             ObjectAnimator.ofFloat(dowText, "scaleY", dowText.scaleY, 1f),
-                            ObjectAnimator.ofFloat(dowText, "translationX", dowText.translationX, 0f),
-                            ObjectAnimator.ofFloat(flagImg, "scaleX", flagImg.scaleX, 1f),
-                            ObjectAnimator.ofFloat(flagImg, "scaleY", flagImg.scaleY, 1f),
-                            ObjectAnimator.ofFloat(flagImg, "translationX", flagImg.translationX, 0f))
+                            ObjectAnimator.ofFloat(dowText, "translationX", dowText.translationX, 0f))
                     animSet.duration = ANIM_DUR
                     animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.start()

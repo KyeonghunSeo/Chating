@@ -209,6 +209,9 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
                         BOTTOM_LINEAR -> {
                             it.mTop = cellBottomArray[it.cellNum]
                             it.mBottom = it.mTop + it.getViewHeight()
+                            if(!it.timeObject.inCalendar) {
+                                it.setNotInCalendarText()
+                            }
                         }
                         BOTTOM_STACK -> {
                             it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
