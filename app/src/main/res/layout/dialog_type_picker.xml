@@ -27,7 +27,6 @@
         android:id="@+id/typePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="20dp"
         android:paddingLeft="20dp"

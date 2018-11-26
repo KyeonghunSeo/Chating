@@ -15,15 +15,12 @@ import com.hellowo.journey.model.Tag
 import com.hellowo.journey.model.Template
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.showDialog
-import com.hellowo.journey.ui.dialog.ColorPickerDialog
-import com.hellowo.journey.ui.dialog.CustomDialog
-import com.hellowo.journey.ui.dialog.TagDialog
-import com.hellowo.journey.ui.dialog.TypePickerDialog
+import com.hellowo.journey.ui.dialog.*
 import io.realm.OrderedCollectionChangeSet
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
-import kotlinx.android.synthetic.main.activity_normal_list.*
+import kotlinx.android.synthetic.main.activity_edit_template.*
 import java.util.*
 
 class TemplateEditActivity : BaseActivity() {
@@ -34,11 +31,26 @@ class TemplateEditActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_normal_list)
+        setContentView(R.layout.activity_edit_template)
         initTheme(rootLy)
 
         titleText.text = getString(R.string.edit_template)
         backBtn.setOnClickListener { finish() }
+        addBtn.setOnClickListener { _ ->
+            showDialog(TypePickerDialog(this@TemplateEditActivity, TimeObject.Type.EVENT) { type ->
+                realm.executeTransaction { it ->
+                    val id = realm.where(Template::class.java).max("id")?.toInt()?.plus(1)
+                    id?.let {
+                        val order = realm.where(Template::class.java).max("order")?.toInt()?.plus(1)
+                        val template = realm.createObject(Template::class.java, id)
+                        template.title = getString(type.titleId)
+                        template.order = order ?: 0
+                        template.type = type.ordinal
+                    }
+                }
+                recyclerView.post { recyclerView.smoothScrollToPosition(items.size - 1) }
+            }, true, true, true, false)
+        }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         val adapter = TemplateEditAdapter(this, items){ action, template ->
@@ -106,6 +118,16 @@ class TemplateEditActivity : BaseActivity() {
                             realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
                                 it.type = type.ordinal
                                 it.style = 0
+                            }
+                        }
+                    }, true, true, true, false)
+                }
+                5 -> {
+                    showDialog(StylePickerDialog(this@TemplateEditActivity, template.colorKey,
+                            template.type, template.style) { style ->
+                        realm.executeTransaction { it ->
+                            realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
+                                it.style = style
                             }
                         }
                     }, true, true, true, false)

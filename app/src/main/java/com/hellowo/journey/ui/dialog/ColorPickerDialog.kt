@@ -30,8 +30,10 @@ class ColorPickerDialog(activity: Activity, private val color: Int,
 
     private fun setLayout() {
         rootLy.setBackgroundColor(Color.WHITE)
-        colorPicker.onSelceted = onResult
-        colorPicker.setDialog = this
+        colorPicker.onSelceted = { colorKey, color ->
+            onResult.invoke(colorKey, color)
+            dismiss()
+        }
     }
 
 }

@@ -21,13 +21,23 @@
 
         <TextView
             android:id="@+id/titleText"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:text="title"
             android:fontFamily="@font/bold"
             android:textColor="@color/primaryText"
             android:textSize="18dp"/>
+
+        <ImageView
+            android:id="@+id/addBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:src="@drawable/sharp_add_black_48dp"
+            android:tint="@color/primaryText"
+            android:padding="15dp"/>
 
     </LinearLayout>
 

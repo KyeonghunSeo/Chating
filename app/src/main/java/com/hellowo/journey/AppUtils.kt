@@ -250,23 +250,23 @@ fun loadBitmapFromView(v: View): Bitmap {
 fun ClosedRange<Int>.random() =
         Random().nextInt((endInclusive + 1) - start) +  start
 
-fun statusBarWhite(activity: Activity) {
+fun statusBarUnDim(activity: Activity) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         val window = activity.window
         var flags = window.peekDecorView().systemUiVisibility
         flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         window.peekDecorView().systemUiVisibility = flags
-        window.statusBarColor = ContextCompat.getColor(activity, R.color.almostWhite)
+        window.statusBarColor = AppTheme.backgroundColor
     }
 }
 
-fun statusBarBlackAlpah(activity: Activity) {
+fun statusBarDim(activity: Activity) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         val window = activity.window
         var flags = window.peekDecorView().systemUiVisibility
         flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-        //window.peekDecorView().systemUiVisibility = flags
-        //window.statusBarColor = ContextCompat.getColor(activity, R.color.transitionDim)
+        window.peekDecorView().systemUiVisibility = flags
+        window.statusBarColor = AppTheme.primaryText
     }
 }
 

@@ -14,10 +14,10 @@ import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.ui.view.CalendarView.Companion.weekLyBottomPadding
 import com.hellowo.journey.ui.view.TimeObjectView
-import com.hellowo.journey.ui.view.TimeObjectView.Companion.normalTypeSize
 import io.realm.RealmResults
 import com.hellowo.journey.model.TimeObject.Type.*
 import com.hellowo.journey.model.TimeObject.Formula.*
+import com.hellowo.journey.ui.view.TimeObjectView.Companion.blockTypeSize
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -239,7 +239,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
 
     private fun computeBottomStackStartPos() {
         (0..5).forEach{ index ->
-            rowHeightArray[index] = Math.max(minHeight - normalTypeSize, rowHeightArray[index])
+            rowHeightArray[index] = Math.max(minHeight - blockTypeSize, rowHeightArray[index])
         }
     }
 
@@ -297,7 +297,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
     private fun showInsertAnimation(view: TimeObjectView, lastAlpha: Float) {
         val animSet = AnimatorSet()
         animSet.playTogether(
-                ObjectAnimator.ofFloat(view, "translationY", TimeObjectView.normalTypeSize.toFloat(), 0f),
+                ObjectAnimator.ofFloat(view, "translationY", blockTypeSize.toFloat(), 0f),
                 ObjectAnimator.ofFloat(view, "alpha", 0f, lastAlpha))
         animSet.duration = 500
         animSet.interpolator = FastOutSlowInInterpolator()

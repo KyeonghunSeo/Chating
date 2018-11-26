@@ -1,9 +1,13 @@
 package com.hellowo.journey.adapter
 
 import android.content.Context
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.FrameLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.App
@@ -31,7 +35,12 @@ class TemplateEditAdapter(val context: Context, private val items: ArrayList<Tem
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
-            itemView.previewContainer.addView(TimeObjectView(context, TimeObject(), 0, 0), 0)
+            val timeObjectView = TimeObjectView(context, TimeObject(), 0, 0)
+            timeObjectView.timeObject.title = context.getString(R.string.contents_example)
+            timeObjectView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
+                gravity = Gravity.CENTER_VERTICAL
+            }
+            itemView.previewContainer.addView(timeObjectView, 0)
             itemView.contentLy.setCardBackgroundColor(AppTheme.backgroundColor)
         }
     }
@@ -43,6 +52,7 @@ class TemplateEditAdapter(val context: Context, private val items: ArrayList<Tem
         val v = holder.itemView
         val template = items[position]
 
+        v.titleText.hint = context.getString(R.string.template_title)
         v.titleText.text = template.title
         v.titleText.setOnClickListener { adapterInterface.invoke(3, template) }
 
@@ -77,6 +87,28 @@ class TemplateEditAdapter(val context: Context, private val items: ArrayList<Tem
             v.inCalendarText.setTextColor(AppTheme.disableText)
             v.styleBtn.visibility = View.GONE
         }
+
+        (v.previewContainer.getChildAt(0) as TimeObjectView).let {
+            it.timeObject.type = template.type
+            it.timeObject.style = template.style
+            it.timeObject.colorKey = template.colorKey
+            it.setLookByType()
+
+            when(it.timeObject.type) {
+                2 -> {
+                    it.layoutParams.height = WRAP_CONTENT
+                }
+                else -> {
+                    it.layoutParams.height = TimeObjectView.blockTypeSize
+                }
+            }
+
+            it.textSpaceWidth = it.paint.measureText(it.text.toString())
+            it.requestLayout()
+            it.invalidate()
+        }
+
+        v.styleBtn.setOnClickListener { adapterInterface.invoke(5, template) }
     }
 
     private fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {

@@ -179,11 +179,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 STATE_DRAG_START_SIDE -> {
                     tempCal.timeInMillis = monthCal.timeInMillis
                     tempCal.add(Calendar.MONTH, -1)
+                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).typeface = AppTheme.digitBoldFont
                     nextMonthHintView.findViewById<TextView>(R.id.nextHintText).text = AppDateFormat.monthEng.format(tempCal.time)
                 }
                 STATE_DRAG_END_SIDE -> {
                     tempCal.timeInMillis = monthCal.timeInMillis
                     tempCal.add(Calendar.MONTH, 1)
+                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).typeface = AppTheme.digitBoldFont
                     nextMonthHintView.findViewById<TextView>(R.id.nextHintText).text = AppDateFormat.monthEng.format(tempCal.time)
                 }
                 STATE_BOUNCE_BACK -> {

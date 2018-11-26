@@ -4,8 +4,6 @@ import android.graphics.*
 import com.hellowo.journey.App.Companion.resource
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
-import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.ui.view.TimeObjectView
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaulMargin
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaultPadding
@@ -21,9 +19,8 @@ object CalendarSkin {
     var selectedDateColor: Int = 0
     var selectedBackgroundColor: Int = 0
     var greyColor: Int = 0
-    var dateFont = AppTheme.textFont
-    var noteFont = AppTheme.textFont
-    var selectFont = AppTheme.textFont
+    var dateFont = AppTheme.regularFont
+    var selectFont = AppTheme.boldFont
 
     init {
         backgroundColor = AppTheme.backgroundColor
@@ -43,7 +40,7 @@ object CalendarSkin {
         when(view.timeObject.style){
             1 -> { // 동그란 점 시작
                 paint.style = Paint.Style.FILL
-                val centerY = (TimeObjectView.smallTypeSize - strokeWidth) / 2f - strokeWidth
+                val centerY = (TimeObjectView.blockTypeSize - strokeWidth) / 2f - strokeWidth
                 val radius = defaulMargin
                 val centerX = iconSize / 2.5f + defaulMargin
                 canvas.drawCircle(centerX, centerY, radius, paint)
@@ -168,10 +165,10 @@ object CalendarSkin {
                 val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
                 canvas.drawRect(rect, paint)
 
-                val dashWidth = strokeWidth * 2
+                val dashWidth = strokeWidth * 4
                 var x = 0f
                 paint.strokeWidth = TimeObjectView.strokeWidth * 2
-                paint.alpha = 40
+                paint.alpha = 50
                 while (x < width + height) {
                     canvas.drawLine(x, -defaulMargin, x - height, height + defaulMargin, paint)
                     x += dashWidth * 2
@@ -192,7 +189,7 @@ object CalendarSkin {
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = strokeWidth * 2
 
-                val centerY = (TimeObjectView.smallTypeSize - strokeWidth) / 2f - strokeWidth
+                val centerY = (TimeObjectView.blockTypeSize - strokeWidth) / 2f - strokeWidth
                 val checkRadius = iconSize / 2.5f
                 val centerX = checkRadius + defaulMargin
                 val rect = RectF(centerX - checkRadius, centerY - checkRadius, centerX + checkRadius, centerY + checkRadius)
@@ -213,7 +210,7 @@ object CalendarSkin {
             else -> {
                 paint.strokeWidth = strokeWidth * 2
 
-                val centerY = (TimeObjectView.smallTypeSize - strokeWidth) / 2f - strokeWidth
+                val centerY = (TimeObjectView.blockTypeSize - strokeWidth) / 2f - strokeWidth
                 val checkRadius = TimeObjectView.iconSize / 2.5f
                 val centerX = checkRadius + defaulMargin
                 val rect = RectF(centerX - checkRadius, centerY - checkRadius, centerX + checkRadius, centerY + checkRadius)
@@ -524,7 +521,7 @@ object CalendarSkin {
                     paint.strokeWidth = strokeWidth.toFloat()
                     paint.color = color
                     paint.isAntiAlias = true
-                    val center = smallTypeSize / 2f
+                    val center = blockTypeSize / 2f
                     val rect = RectF(center - circleRadius, center - circleRadius, center + circleRadius, center + circleRadius)
                     it.drawRoundRect(rect, radius, radius, paint)
                 }

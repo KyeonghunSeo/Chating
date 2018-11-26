@@ -22,7 +22,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     var items = AppTheme.colors
     var selectedPos = -1
     lateinit var onSelceted: (Int, Int) -> Unit
-    lateinit var setDialog: ColorPickerDialog
 
     init {
         layoutManager = GridLayoutManager(context, 5)
@@ -47,7 +46,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             v.setOnClickListener {
                 selectedPos = position
                 onSelceted.invoke(position, item)
-                setDialog.dismiss()
             }
         }
     }

@@ -42,7 +42,6 @@ class MainActivity : BaseActivity() {
 
     lateinit var viewModel: MainViewModel
     lateinit var dayView: DayView
-    private var realm: Realm? = null
     private var realmAsyncTask: RealmAsyncTask? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,9 +84,8 @@ class MainActivity : BaseActivity() {
                     realm.close()
                 } else {
                     l("Realm 데이터베이스 준비 완료")
-                    this@MainActivity.realm = realm
                     viewModel.loading.value = false
-                    viewModel.init()
+                    viewModel.init(realm)
                     calendarView.moveDate(System.currentTimeMillis(), true)
                 }
             }
@@ -111,8 +109,12 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initLayout() {
+        todayText.typeface = AppTheme.digitBoldFont
+        yearText.typeface = AppTheme.digitBoldFont
+        monthText.typeface = AppTheme.digitBoldFont
         calendarLy.setBackgroundColor(AppTheme.backgroundColor)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        todayBtn.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
             showDialog(DatePickerDialog(this, calendarView.targetCal.timeInMillis) {
                 calendarView.moveDate(it, true)
@@ -139,10 +141,8 @@ class MainActivity : BaseActivity() {
                 }
                 briefingView.refreshTodayView(calendarView.todayStatus)
                 if(calendarView.todayStatus == 0) {
-                    todayText.alpha = 1f
-                    todayText.text = "Today\nBriefing"
+                    todayText.text = "Today's Briefing"
                 }else {
-                    todayText.alpha = 0.3f
                     todayText.text = "Today"
                 }
             }else {
@@ -287,8 +287,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setDateText(date: Date) {
-        yearText.typeface = AppTheme.textFont
-        monthText.typeface = AppTheme.digitBoldFont
         yearText.text = AppDateFormat.year.format(date)
         monthText.text = AppDateFormat.monthEng.format(date)
     }
@@ -409,9 +407,6 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         TimeObjectManager.clear()
-        realm?.removeAllChangeListeners()
-        realm?.close()
-        realm = null
         realmAsyncTask?.cancel()
     }
 }

@@ -17,7 +17,6 @@
         android:textSize="30dp"
         android:gravity="center"
         android:text="@string/selected"
-        android:fontFamily="@font/digit_bold"
         android:textColor="@color/disableText"/>
 
 </FrameLayout>

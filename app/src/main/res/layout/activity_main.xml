@@ -81,9 +81,11 @@
 
             <FrameLayout
                 android:id="@+id/todayBtn"
-                android:layout_width="80dp"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_gravity="right|bottom">
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right|bottom"
+                android:animateLayoutChanges="true">
 
                 <TextView
                     android:id="@+id/todayText"
@@ -93,7 +95,6 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="@font/digit_bold"
                     android:textSize="10dp"
                     android:text="Today"/>
 

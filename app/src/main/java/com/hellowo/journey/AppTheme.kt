@@ -53,8 +53,8 @@ object AppTheme {
         thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
         regularFont = ResourcesCompat.getFont(context, R.font.regular)!!
         boldFont = ResourcesCompat.getFont(context, R.font.bold)!!
-        digitFont = ResourcesCompat.getFont(context, R.font.digit)!!
-        digitBoldFont = ResourcesCompat.getFont(context, R.font.digit_bold)!!
+        digitFont = ResourcesCompat.getFont(context, R.font.bold)!!
+        digitBoldFont = ResourcesCompat.getFont(context, R.font.bold)!!
         textFont = ResourcesCompat.getFont(context, R.font.text)!!
 
         resource.getStringArray(R.array.colors).forEachIndexed { index, s ->

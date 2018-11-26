@@ -3,8 +3,6 @@ package com.hellowo.journey.ui.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Typeface.BOLD_ITALIC
 import android.graphics.Typeface.ITALIC
 import android.text.TextUtils
 import android.util.TypedValue
@@ -17,7 +15,6 @@ import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
 import com.hellowo.journey.manager.CalendarSkin
 import com.hellowo.journey.model.TimeObject
-import java.lang.StringBuilder
 
 @SuppressLint("ViewConstructor")
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
@@ -28,8 +25,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val strokeWidth = dpToPx(0.5f) // 선 간격
         val rectRadius = dpToPx(0f)
         val stampSize = dpToPx(24)
-        val normalTypeSize = dpToPx(20)
-        val smallTypeSize = dpToPx(15)
+        val blockTypeSize = dpToPx(17)
         val iconSize = dpToPx(8)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
     }
@@ -226,9 +222,12 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             return when(TimeObject.Type.values()[timeObject.type]) {
                 TimeObject.Type.EVENT -> {
                     textSpaceWidth = paint.measureText(text.toString())
-                    smallTypeSize
+                    blockTypeSize
                 }
-                TimeObject.Type.TASK -> smallTypeSize
+                TimeObject.Type.TASK -> {
+                    textSpaceWidth = paint.measureText(text.toString())
+                    blockTypeSize
+                }
                 TimeObject.Type.NOTE -> {
                     setSingleLine(false)
                     maxLines = 7
@@ -242,12 +241,12 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 TimeObject.Type.STAMP -> stampSize
                 TimeObject.Type.TERM -> {
                     textSpaceWidth = paint.measureText(text.toString())
-                    smallTypeSize
+                    blockTypeSize
                 }
-                else -> normalTypeSize
+                else -> blockTypeSize
             }
         }else {
-            return smallTypeSize
+            return blockTypeSize
         }
     }
 

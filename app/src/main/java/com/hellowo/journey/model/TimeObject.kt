@@ -39,13 +39,19 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var ordering: Int = Int.MIN_VALUE,
                       var folder: Folder? = null): RealmObject() {
 
-    enum class Type(val titleId: Int, val subTextId: Int, val iconId: Int, val enableLongTerm: Boolean) {
-        EVENT(R.string.event, R.string.event_sub,  R.drawable.sharp_event_black_48dp, true),
-        TASK(R.string.task, R.string.task_sub, R.drawable.sharp_check_box_black_48dp, false),
-        NOTE(R.string.note, R.string.note_sub, R.drawable.sharp_notes_black_48dp, false),
-        STAMP(R.string.stamp, R.string.stamp_sub, R.drawable.sharp_star_rate_black_48dp, false),
-        TERM(R.string.term, R.string.term_sub, R.drawable.sharp_date_range_black_48dp, true),
-        MONEY(R.string.money, R.string.money_sub, R.drawable.sharp_money_black_48dp, false)
+    enum class Type(val titleId: Int, val subTextId: Int, val iconId: Int, val enableLongTerm: Boolean, val styleCount: Int) {
+        EVENT(R.string.event, R.string.event_sub,
+                R.drawable.sharp_event_black_48dp, true, 5),
+        TASK(R.string.task, R.string.task_sub,
+                R.drawable.sharp_check_box_black_48dp, false, 3),
+        NOTE(R.string.note, R.string.note_sub,
+                R.drawable.sharp_notes_black_48dp, false, 3),
+        STAMP(R.string.stamp, R.string.stamp_sub,
+                R.drawable.sharp_star_rate_black_48dp, false, 3),
+        TERM(R.string.term, R.string.term_sub,
+                R.drawable.sharp_date_range_black_48dp, true, 3),
+        MONEY(R.string.money, R.string.money_sub,
+                R.drawable.sharp_money_black_48dp, false, 3)
     }
 
     enum class Style {
@@ -59,18 +65,8 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     fun getFormula(): Formula {
         if(inCalendar) {
             return when(Type.values()[type]) {
-                Type.EVENT -> {
-                    when(Style.values()[style]) {
-                        Style.SHORT -> Formula.TOP_LINEAR
-                        else -> Formula.TOP_STACK
-                    }
-                }
-                Type.TASK -> {
-                    when(Style.values()[style]) {
-                        Style.LONG -> Formula.TOP_STACK
-                        else -> Formula.TOP_LINEAR
-                    }
-                }
+                Type.EVENT -> Formula.TOP_STACK
+                Type.TASK -> Formula.TOP_STACK
                 Type.NOTE -> Formula.TOP_LINEAR
                 Type.STAMP -> Formula.MID_FLOW
                 Type.MONEY -> Formula.MID_FLOW

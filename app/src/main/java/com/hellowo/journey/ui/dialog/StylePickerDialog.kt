@@ -10,10 +10,10 @@ import androidx.transition.TransitionManager
 import com.hellowo.journey.R
 import com.hellowo.journey.makeChangeBounceTransition
 import com.hellowo.journey.model.TimeObject
-import kotlinx.android.synthetic.main.dialog_type_picker.*
+import kotlinx.android.synthetic.main.dialog_style_picker.*
 
-class TypePickerDialog(activity: Activity, private val type: TimeObject.Type,
-                       private val onResult: (TimeObject.Type) -> Unit) : Dialog(activity) {
+class StylePickerDialog(activity: Activity, private val colorKey: Int, private val type: Int,
+                        private val style: Int, private val onResult: (Int) -> Unit) : Dialog(activity) {
 
     init {}
 
@@ -21,7 +21,7 @@ class TypePickerDialog(activity: Activity, private val type: TimeObject.Type,
         super.onCreate(savedInstanceState)
         window.attributes.windowAnimations = R.style.DialogAnimation
         window.attributes.gravity = Gravity.BOTTOM
-        setContentView(R.layout.dialog_type_picker)
+        setContentView(R.layout.dialog_style_picker)
         setLayout()
         setOnShowListener {
             window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -30,21 +30,13 @@ class TypePickerDialog(activity: Activity, private val type: TimeObject.Type,
 
     private fun setLayout() {
         rootLy.setBackgroundColor(Color.WHITE)
-        detailBtn.setOnClickListener {
-            if(typePicker.mode == 0) {
-                typePicker.mode = 1
-                detailBtn.text = context.getString(R.string.simple)
-            }else {
-                typePicker.mode = 0
-                detailBtn.text = context.getString(R.string.detail)
-            }
-            TransitionManager.beginDelayedTransition(typePicker, makeChangeBounceTransition())
-            typePicker.adapter?.notifyDataSetChanged()
-        }
-        typePicker.onSelected = { type ->
-            onResult.invoke(type)
+        stylePicker.type = type
+        stylePicker.colorKey = colorKey
+        stylePicker.onSelected = { style ->
+            onResult.invoke(style)
             dismiss()
         }
+        stylePicker.adapter?.notifyDataSetChanged()
     }
 
 }

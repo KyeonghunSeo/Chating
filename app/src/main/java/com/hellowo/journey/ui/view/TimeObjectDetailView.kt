@@ -1,15 +1,14 @@
 package com.hellowo.journey.ui.view
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Bitmap
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -28,7 +27,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.hellowo.journey.*
 import com.hellowo.journey.manager.RepeatManager
@@ -180,6 +178,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     val startCal = Calendar.getInstance()
     val endCal = Calendar.getInstance()
 
+    @SuppressLint("SetTextI18n")
     private fun updateDateUI() {
         startCal.timeInMillis = timeObject.dtStart
         endCal.timeInMillis = timeObject.dtEnd
@@ -231,9 +230,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 durationText.text = (getDiffDate(startCal, endCal) + 1).toString()
 
                 startSmallTimeText.text = AppDateFormat.ymdDate.format(startCal.time)
-                startBigTimeText.text = "${AppDateFormat.time.format(startCal.time)}"
+                startBigTimeText.text = AppDateFormat.time.format(startCal.time)
                 endSmallTimeText.text = AppDateFormat.ymdDate.format(endCal.time)
-                endBigTimeText.text = "${AppDateFormat.time.format(endCal.time)}"
+                endBigTimeText.text = AppDateFormat.time.format(endCal.time)
             }
         }
     }
@@ -340,7 +339,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {
-                ObjectAnimator.ofFloat(backgroundLy, "alpha",0f, 1f).start()
+                backgroundLy.setBackgroundColor(AppTheme.primaryText)
+                statusBarDim(MainActivity.instance!!)
+                ObjectAnimator.ofFloat(backgroundLy, "alpha",0f, 0.7f).start()
                 backgroundLy.setOnClickListener {
                     MainActivity.instance?.viewModel?.targetTimeObject?.value = null
                 }
@@ -370,7 +371,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
             override fun onTransitionStart(transition: Transition) {
-                ObjectAnimator.ofFloat(backgroundLy, "alpha",1f, 0f).start()
+                statusBarUnDim(MainActivity.instance!!)
+                ObjectAnimator.ofFloat(backgroundLy, "alpha",0.7f, 0f).start()
                 hideKeyPad(windowToken, titleInput)
             }
         })

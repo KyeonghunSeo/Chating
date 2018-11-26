@@ -173,11 +173,12 @@
     <string name="template_title">템플릿 이름</string>
     <string name="show">표시</string>
     <string name="hide">숨김</string>
-    <string name="event_sub">미팅, 약속, 기념일 등 계획된 모든 일들을 시간 순서에 따라 기록할 수 있습니다.</string>
-    <string name="task_sub">이메일 보내기, 빨래하기 등 기한이 정해진 일들을 적고 진행상황을 기록할 수 있습니다.</string>
-    <string name="note_sub">그날의 기분이나 떠오르는 아이디어, 좋은 글귀, 일상적인 메모 등 무엇이든 자유롭게 기록할 수 있습니다.</string>
-    <string name="stamp_sub">헬스장에 간 날, 칭찬받은 날 등 무엇인가 반복되는 일들을 예쁜 도장으로 간단하게 표시 할 수 있습니다.</string>
-    <string name="term_sub">휴가, 시험기간 등 대략적인 계획이나 긴 기간 동안의 대표되는 일정을 기록할 수 있습니다.</string>
-    <string name="money_sub">수입/지출 내역을 기록하고 관리할 수 있습니다.</string>
+    <string name="event_sub">미팅, 약속, 기념일 등 시간에 관련된 모든 일을 계획하고 관리 할 수 있습니다.</string>
+    <string name="task_sub">공과금 내기, 빨래하기, 우유사기 등 기한이 정해진 일들을 적고 진행상황을 기록할 수 있습니다.</string>
+    <string name="note_sub">떠오르는 아이디어, 그날의 기분, 일상적인 메모 등 무엇이든 자유롭게 기록할 수 있습니다.</string>
+    <string name="stamp_sub">운동한 날, 병원간 날 등 주기적으로 관리하고 싶은 일들을 예쁜 도장으로 간단하게 표시 할 수 있습니다.</string>
+    <string name="term_sub">휴가, 시험기간 등 특정 기간 동안의 대표되는 일이나 대략적인 큰 계획들을 기록할 수 있습니다.</string>
+    <string name="money_sub">수입/지출 내역을 손쉽게 기록하고 관리할 수 있습니다.</string>
+    <string name="contents_example">기록이 곧 여정이다.</string>
 
 </resources>

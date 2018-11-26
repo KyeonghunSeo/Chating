@@ -1,14 +1,10 @@
 package com.hellowo.journey.viewmodel
 
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hellowo.journey.*
-import com.hellowo.journey.App.Companion.resource
-import com.hellowo.journey.R
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.*
 import com.hellowo.journey.ui.activity.MainActivity
@@ -26,9 +22,12 @@ class MainViewModel : ViewModel() {
     val isCalendarSettingOpened = MutableLiveData<Boolean>()
     val targetFolder = MutableLiveData<Folder>()
 
+    var realm: Realm? = null
+
     init {}
 
-    fun init() {
+    fun init(realm: Realm) {
+        this.realm = realm
         //loadAppUser()
         loadTemplate()
     }
@@ -66,6 +65,9 @@ class MainViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
+        realm?.removeAllChangeListeners()
+        realm?.close()
+        realm = null
     }
 
     fun saveProfileImage(resource: Bitmap) {
