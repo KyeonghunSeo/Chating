@@ -5,6 +5,7 @@ import com.hellowo.journey.App.Companion.resource
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.ui.view.TimeObjectView
+import com.hellowo.journey.ui.view.TimeObjectView.Companion.checkSize
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaulMargin
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaultPadding
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.iconSize
@@ -14,7 +15,8 @@ import com.hellowo.journey.ui.view.TimeObjectView.Companion.strokeWidth
 object CalendarSkin {
     var backgroundColor: Int = 0
     var dateColor: Int = 0
-    var holiDateColor: Int = 0
+    var sundayColor: Int = 0
+    var saturdayColor: Int = 0
     var todayDateColor: Int = 0
     var selectedDateColor: Int = 0
     var selectedBackgroundColor: Int = 0
@@ -25,7 +27,8 @@ object CalendarSkin {
     init {
         backgroundColor = AppTheme.backgroundColor
         dateColor = resource.getColor(R.color.primaryText)
-        holiDateColor = resource.getColor(R.color.holiday)
+        sundayColor = resource.getColor(R.color.holiday)
+        saturdayColor = resource.getColor(R.color.blue)
         todayDateColor = resource.getColor(R.color.primaryText)
         selectedDateColor = resource.getColor(R.color.primaryText)
         selectedBackgroundColor = resource.getColor(R.color.grey)
@@ -179,47 +182,49 @@ object CalendarSkin {
         paint.color = view.timeObject.getColor()
         when(view.timeObject.style) {
             1 -> {
-                paint.style = Paint.Style.STROKE
-                paint.strokeWidth = strokeWidth * 2
-
-                val centerY = (TimeObjectView.blockTypeSize - strokeWidth) / 2f - strokeWidth
-                val checkRadius = iconSize / 2.5f
-                val centerX = checkRadius + defaulMargin
-                val rect = RectF(centerX - checkRadius, centerY - checkRadius, centerX + checkRadius, centerY + checkRadius)
+                val centerY = height / 2f
                 if(view.timeObject.isDone()) {
                     view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                    canvas.drawCircle(centerX, centerY, checkRadius, paint)
-                    paint.style = Paint.Style.STROKE
-                    paint.color = CalendarSkin.backgroundColor
-                    canvas.drawLine(centerX - checkRadius * 0.65f, centerY,
-                            centerX - checkRadius * 0.25f, centerY + checkRadius * 0.5f, paint)
-                    canvas.drawLine(centerX - checkRadius * 0.25f, centerY + checkRadius * 0.5f,
-                            centerX + checkRadius * 0.65f, centerY - checkRadius * 0.5f, paint)
+                    val check = resource.getDrawable(R.drawable.sharp_check_circle_black_48dp)
+                    check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+                    check.setBounds(0, (centerY - checkSize / 2f).toInt(), checkSize, (centerY + checkSize / 2f).toInt())
+                    check.draw(canvas)
                 }else {
-                    canvas.drawRect(rect, paint)
+                    val check = resource.getDrawable(R.drawable.sharp_check_circle_outline_black_48dp)
+                    check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+                    check.setBounds(0, (centerY - checkSize / 2f).toInt(), checkSize, (centerY + checkSize / 2f).toInt())
+                    check.draw(canvas)
                 }
+
+                if(view.length > 1) {
+                    canvas.drawRect(0f, height - strokeWidth * 2, width.toFloat(), height.toFloat(), paint)
+                    canvas.drawRect(width - strokeWidth * 2, height - strokeWidth * 10,
+                            width.toFloat(), height.toFloat(), paint)
+                }
+
                 paint.style = Paint.Style.FILL
             }
             else -> {
-                paint.strokeWidth = strokeWidth * 2
-
-                val centerY = (TimeObjectView.blockTypeSize - strokeWidth) / 2f - strokeWidth
-                val checkRadius = TimeObjectView.iconSize / 2.5f
-                val centerX = checkRadius + defaulMargin
-                val rect = RectF(centerX - checkRadius, centerY - checkRadius, centerX + checkRadius, centerY + checkRadius)
+                val centerY = height / 2f
                 if(view.timeObject.isDone()) {
                     view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                    canvas.drawRect(rect, paint)
-                    paint.style = Paint.Style.STROKE
-                    paint.color = CalendarSkin.backgroundColor
-                    canvas.drawLine(centerX - checkRadius * 0.65f, centerY,
-                            centerX - checkRadius * 0.25f, centerY + checkRadius * 0.5f, paint)
-                    canvas.drawLine(centerX - checkRadius * 0.25f, centerY + checkRadius * 0.5f,
-                            centerX + checkRadius * 0.65f, centerY - checkRadius * 0.5f, paint)
+                    val check = resource.getDrawable(R.drawable.sharp_check_box_black_48dp)
+                    check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+                    check.setBounds(0, (centerY - checkSize / 2f).toInt(), checkSize, (centerY + checkSize / 2f).toInt())
+                    check.draw(canvas)
                 }else {
-                    paint.style = Paint.Style.STROKE
-                    canvas.drawRect(rect, paint)
+                    val check = resource.getDrawable(R.drawable.sharp_check_box_outline_blank_black_48dp)
+                    check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+                    check.setBounds(0, (centerY - checkSize / 2f).toInt(), checkSize, (centerY + checkSize / 2f).toInt())
+                    check.draw(canvas)
                 }
+
+                if(view.length > 1) {
+                    canvas.drawRect(0f, height - strokeWidth * 1.5f, width.toFloat(), height.toFloat(), paint)
+                    canvas.drawRect(width - strokeWidth * 1.5f, height - strokeWidth * 10,
+                            width.toFloat(), height.toFloat(), paint)
+                }
+
                 paint.style = Paint.Style.FILL
             }
         }

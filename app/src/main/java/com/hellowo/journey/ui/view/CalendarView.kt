@@ -20,14 +20,11 @@ import com.hellowo.journey.*
 import com.hellowo.journey.manager.CalendarSkin
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.listener.MainDragAndDropListener
-import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
-import com.hellowo.journey.ui.view.base.HatchedView
 import me.everything.android.ui.overscroll.IOverScrollState.*
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.ScrollViewOverScrollDecorAdapter
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
@@ -62,10 +59,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val fakeImageView = ImageView(context)
 
     inner class WeekViewHolder(val container: View) {
+        val contentLy: FrameLayout = container.findViewById(R.id.contentLy)
         val weekNumText: TextView = container.findViewById(R.id.weekNumText)
         init {
             weekNumText.typeface = CalendarSkin.selectFont
-            container.visibility = View.GONE
+            contentLy.visibility = View.GONE
         }
     }
 
@@ -76,7 +74,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
             dateText.typeface = CalendarSkin.dateFont
-            dowText.typeface = CalendarSkin.dateFont
+            dowText.typeface = CalendarSkin.selectFont
             dowText.alpha = 0f
             bar.alpha = 0f
         }
@@ -85,7 +83,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private var lastSelectDateAnimSet: AnimatorSet? = null
     private var lastUnSelectDateAnimSet: AnimatorSet? = null
     private var lastSelectWeekAnimSet: AnimatorSet? = null
-    private var lastUnSelectWeekAnimSet: AnimatorSet? = null
 
     private val tempCal: Calendar = Calendar.getInstance()
     private val monthCal: Calendar = Calendar.getInstance()
@@ -143,7 +140,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateLy.orientation = HORIZONTAL
             dateLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
                 leftMargin = weekSideMargin
-                rightMargin = weekSideMargin
             }
             weekLy.addView(dateLy)
 
@@ -228,13 +224,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         monthCal.set(tempCal.get(Calendar.YEAR), tempCal.get(Calendar.MONTH), tempCal.get(Calendar.DATE))
         setCalendarTime0(tempCal)
 
-        startCellNum = tempCal.get(Calendar.DAY_OF_WEEK) - 1
+        startCellNum = tempCal.get(Calendar.DAY_OF_WEEK) - AppStatus.startDayOfWeek
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
         todayCellNum = -1
         targetCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
         minCalendarHeight = height
-        minWidth = (width.toFloat() - weekSideMargin * 2) / columns
+        minWidth = (width.toFloat() - weekSideMargin) / columns
         minHeight = (minCalendarHeight.toFloat() - dateArea) / rows
 
         tempCal.add(Calendar.DATE, -startCellNum)
@@ -290,14 +286,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun getDateTextColor(cellNum: Int) : Int {
         return if(cellNum == todayCellNum) {
-            if(cellNum % columns == 0) {
+            if(cellNum % columns == AppStatus.sundayPos) {
                 CalendarSkin.todayDateColor
             }else {
                 CalendarSkin.todayDateColor
             }
         }else {
-            if(cellNum % columns == 0) {
-                CalendarSkin.holiDateColor
+            if(cellNum % columns == AppStatus.sundayPos) {
+                CalendarSkin.sundayColor
             }else {
                 CalendarSkin.dateColor
             }
@@ -348,22 +344,19 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val week = "${targetCal.get(Calendar.YEAR)}${targetCal.get(Calendar.WEEK_OF_YEAR)}".toInt()
             val weekIndex = cellNum / columns
             var isChangeWeek = false
-            if(week != selectedWeek) {
+            if(week != selectedWeek || weekIndex != selectedWeekIndex) {
                 l("Week 선택 : $week")
                 isChangeWeek = true
                 TransitionManager.beginDelayedTransition(calendarLy, makeChangeBounceTransition())
 
-                if(selectedWeekIndex != -1 && selectedWeekIndex != weekIndex) { // Week 해제
-                    weekViews[selectedWeekIndex].container.visibility = View.GONE
-                    lastUnSelectWeekAnimSet?.cancel()
-                    lastUnSelectWeekAnimSet = AnimatorSet()
-                    lastUnSelectWeekAnimSet?.let {}
+                if(selectedWeekIndex != -1 && weekIndex != selectedWeekIndex) {
+                    weekViews[selectedWeekIndex].contentLy.visibility = View.GONE
                 }
 
                 selectedWeekIndex = weekIndex
                 selectedWeek = week
                 val weekView = weekViews[selectedWeekIndex]
-                weekView.container.visibility = View.VISIBLE
+                weekView.contentLy.visibility = View.VISIBLE
                 weekView.weekNumText.text =
                         String.format(context.getString(R.string.weekNum), targetCal.get(Calendar.WEEK_OF_YEAR).toString())
 
@@ -395,7 +388,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.typeface = CalendarSkin.selectFont
             dateText.alpha = 1f
             dowText.setTextColor(color)
-            dowText.text = dow[cellNum % columns]
+            dowText.text = dow[targetCal.get(Calendar.DAY_OF_WEEK) - 1]
 
             lastSelectDateAnimSet?.cancel()
             lastSelectDateAnimSet = AnimatorSet()

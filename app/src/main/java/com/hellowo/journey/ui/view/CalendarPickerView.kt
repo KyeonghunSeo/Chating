@@ -194,7 +194,7 @@ class CalendarPickerView @JvmOverloads constructor(context: Context, attrs: Attr
             dateText.setTextColor(CalendarSkin.dateColor)
         }else {
             if(cellNum % columns == 0) {
-                dateText.setTextColor(CalendarSkin.holiDateColor)
+                dateText.setTextColor(CalendarSkin.sundayColor)
             }else {
                 dateText.setTextColor(CalendarSkin.dateColor)
             }

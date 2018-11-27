@@ -62,7 +62,7 @@
     <string name="delete">삭제</string>
     <string name="start">시작</string>
     <string name="end">종료</string>
-    <string name="weekNum">%1$s weeks</string>
+    <string name="weekNum">%1$s 주차</string>
     <string name="setting">설정</string>
     <string name="add_option">다른 정보 추가</string>
     <string name="what_do_you_think">무슨 생각을 하고계신가요?</string>
@@ -180,5 +180,6 @@
     <string name="term_sub">휴가, 시험기간 등 특정 기간 동안의 대표되는 일이나 대략적인 큰 계획들을 기록할 수 있습니다.</string>
     <string name="money_sub">수입/지출 내역을 손쉽게 기록하고 관리할 수 있습니다.</string>
     <string name="contents_example">기록이 곧 여정이다.</string>
+    <string name="add_new">새로입력</string>
 
 </resources>

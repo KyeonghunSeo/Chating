@@ -156,8 +156,8 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             }
         })
         TransitionManager.beginDelayedTransition(this, transiion)
-        layoutParams.height = dpToPx(50)
-        layoutParams.width = dpToPx(50)
+        layoutParams.height = dpToPx(0)
+        layoutParams.width = dpToPx(0)
         requestLayout()
     }
 

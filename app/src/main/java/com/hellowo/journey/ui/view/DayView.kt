@@ -50,8 +50,8 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     : CardView(context, attrs, defStyleAttr) {
     companion object {
         const val headerTextScale = 2.5f
-        val datePosX = dpToPx(9.5f)
-        val datePosY = dpToPx(13f)
+        val datePosX = dpToPx(10f)
+        val datePosY = dpToPx(7f)
     }
     private var timeObjectList: RealmResults<TimeObject>? = null
     private val eventList = ArrayList<TimeObject>()
@@ -71,10 +71,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             0 -> onItemClick(view, timeObject)
             1 -> {
                 if(!timeObject.isDone() && taskList.filter { !it.isDone() }.size == 1) {
-                    taskFinishAnimView.visibility = View.VISIBLE
-                    taskFinishAnimView.playAnimation()
                 }else {
-                    taskFinishAnimView.visibility = View.GONE
                 }
                 TimeObjectManager.done(timeObject)
             }
@@ -99,8 +96,9 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         initRecyclerView()
         elevation = 0f
         dateText.typeface = CalendarSkin.selectFont
-        dateText.scaleY = CalendarView.selectedDateScale
-        dateText.scaleX = CalendarView.selectedDateScale
+        dowText.typeface = CalendarSkin.selectFont
+        dateLy.scaleY = CalendarView.selectedDateScale
+        dateLy.scaleX = CalendarView.selectedDateScale
 
         taskFinishAnimView.imageAssetsFolder = "assets/"
         taskFinishAnimView.setAnimation("success.json")
@@ -264,9 +262,10 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     private fun setDateText() {
         calendarView.let {
             dateText.text = it.targetCal.get(Calendar.DATE).toString()
-            dowText.text = AppDateFormat.dowEngString[it.targetCellNum % 7]
+            dowText.text = AppDateFormat.dowString[it.targetCal.get(Calendar.DAY_OF_WEEK) - 1]
             val color = it.getDateTextColor(it.targetCellNum)
             dateText.setTextColor(color)
+            dowText.setTextColor(color)
         }
     }
 
@@ -277,15 +276,15 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
 
         setDateText()
 
-        calendarView.getSelectedView().let { dateLy ->
+        calendarView.getSelectedView().let { dateCell ->
             val location = IntArray(2)
-            dateLy.getLocationInWindow(location)
-            layoutParams = FrameLayout.LayoutParams(dateLy.width, dateLy.height).apply {
+            dateCell.getLocationInWindow(location)
+            layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
                 setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
             }
 
             val animSet = AnimatorSet()
-            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView, "elevation", 0f, dpToPx(15).toFloat()))
+            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView, "elevation", 0f, dpToPx(10).toFloat()))
             animSet.duration = 150
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.addListener(object : Animator.AnimatorListener{
@@ -307,15 +306,12 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                         override fun onTransitionStart(transition: Transition) {
                             notifyDateChanged(0)
                             val animSet = AnimatorSet()
-                            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView, "elevation", dpToPx(15).toFloat(), 0f),
+                            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView, "elevation", dpToPx(10).toFloat(), 0f),
                                     ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f),
-                                    ObjectAnimator.ofFloat(dateText, "scaleX", dateText.scaleX, headerTextScale),
-                                    ObjectAnimator.ofFloat(dateText, "scaleY", dateText.scaleY, headerTextScale),
-                                    ObjectAnimator.ofFloat(dateText, "translationX", dateText.translationX, datePosX),
-                                    ObjectAnimator.ofFloat(dateText, "translationY", dateText.translationY, datePosY),
-                                    ObjectAnimator.ofFloat(dowText, "scaleX", dowText.scaleX, headerTextScale),
-                                    ObjectAnimator.ofFloat(dowText, "scaleY", dowText.scaleY, headerTextScale),
-                                    ObjectAnimator.ofFloat(dowText, "translationX", dowText.translationX, -bigMargin))
+                                    ObjectAnimator.ofFloat(dateLy, "scaleX", dateLy.scaleX, headerTextScale),
+                                    ObjectAnimator.ofFloat(dateLy, "scaleY", dateLy.scaleY, headerTextScale),
+                                    ObjectAnimator.ofFloat(dateLy, "translationX", dateLy.translationX, datePosX),
+                                    ObjectAnimator.ofFloat(dateLy, "translationY", dateLy.translationY, datePosY))
                             animSet.duration = ANIM_DUR
                             animSet.interpolator = FastOutSlowInInterpolator()
                             animSet.start()
@@ -335,12 +331,12 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
 
     fun hide() {
         timeObjectList?.removeAllChangeListeners()
-        calendarView.getSelectedView().let { dateLy ->
+        calendarView.getSelectedView().let { dateCell ->
             elevation = dpToPx(15).toFloat()
             viewMode = ViewMode.ANIMATING
 
             val location = IntArray(2)
-            dateLy.getLocationInWindow(location)
+            dateCell.getLocationInWindow(location)
             val transiion = makeChangeBounceTransition()
             transiion.interpolator = FastOutSlowInInterpolator()
             transiion.duration = ANIM_DUR
@@ -370,21 +366,18 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                     onVisibility?.invoke(false)
                     contentLy.visibility = View.INVISIBLE
                     val animSet = AnimatorSet()
-                    animSet.playTogether(ObjectAnimator.ofFloat(dateText, "alpha", 1f, 1f),
-                            ObjectAnimator.ofFloat(dateText, "scaleX", dateText.scaleX, CalendarView.selectedDateScale),
-                            ObjectAnimator.ofFloat(dateText, "scaleY", dateText.scaleY, CalendarView.selectedDateScale),
-                            ObjectAnimator.ofFloat(dateText, "translationX", dateText.translationX, 0f),
-                            ObjectAnimator.ofFloat(dateText, "translationY", dateText.translationY, 0f),
-                            ObjectAnimator.ofFloat(dowText, "scaleX", dowText.scaleX, 1f),
-                            ObjectAnimator.ofFloat(dowText, "scaleY", dowText.scaleY, 1f),
-                            ObjectAnimator.ofFloat(dowText, "translationX", dowText.translationX, 0f))
+                    animSet.playTogether(
+                            ObjectAnimator.ofFloat(dateLy, "scaleX", dateLy.scaleX, CalendarView.selectedDateScale),
+                            ObjectAnimator.ofFloat(dateLy, "scaleY", dateLy.scaleY, CalendarView.selectedDateScale),
+                            ObjectAnimator.ofFloat(dateLy, "translationX", dateLy.translationX, 0f),
+                            ObjectAnimator.ofFloat(dateLy, "translationY", dateLy.translationY, 0f))
                     animSet.duration = ANIM_DUR
                     animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.start()
                 }
             })
             TransitionManager.beginDelayedTransition(this, transiion)
-            layoutParams = FrameLayout.LayoutParams(dateLy.width, dateLy.height).apply {
+            layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
                 setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
             }
         }

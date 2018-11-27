@@ -18,14 +18,6 @@ open class Template(@PrimaryKey var id: Int = -1,
                     var tags: RealmList<Tag> = RealmList(),
                     var order: Int = 0): RealmObject() {
 
-    fun getColor() : Int {
-        return try{
-            AppTheme.colors[colorKey]
-        }catch (e: Exception){
-            AppTheme.primaryText
-        }
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

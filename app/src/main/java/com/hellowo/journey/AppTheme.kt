@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import androidx.core.content.res.ResourcesCompat
 import com.hellowo.journey.App.Companion.resource
+import java.lang.Exception
 
 object AppTheme {
     var thinFont: Typeface = Typeface.DEFAULT
@@ -62,6 +63,22 @@ object AppTheme {
         }
         resource.getStringArray(R.array.font_colors).forEachIndexed { index, s ->
             fontColors[index] = Color.parseColor(s)
+        }
+    }
+
+    fun getColor(colorKey: Int) : Int {
+        return try{
+            AppTheme.colors[colorKey]
+        }catch (e: Exception){
+            AppTheme.primaryText
+        }
+    }
+
+    fun getFontColor(colorKey: Int) : Int {
+        return try{
+            AppTheme.fontColors[colorKey]
+        }catch (e: Exception){
+            Color.WHITE
         }
     }
 

@@ -63,8 +63,8 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     fun getFormula(): Formula {
-        if(inCalendar) {
-            return when(Type.values()[type]) {
+        return if(inCalendar) {
+            when(Type.values()[type]) {
                 Type.EVENT -> Formula.TOP_STACK
                 Type.TASK -> Formula.TOP_STACK
                 Type.NOTE -> Formula.TOP_LINEAR
@@ -73,7 +73,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                 Type.TERM -> Formula.BOTTOM_STACK
             }
         }else {
-            return Formula.BOTTOM_LINEAR
+            Formula.BOTTOM_LINEAR
         }
     }
 
@@ -100,13 +100,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         return o
     }
 
-    fun getColor() : Int {
-        return try{
-            AppTheme.colors[colorKey]
-        }catch (e: Exception){
-            AppTheme.primaryText
-        }
-    }
+    fun getColor() : Int = AppTheme.getColor(colorKey)
 
     fun copy(data: TimeObject) {
         id = data.id

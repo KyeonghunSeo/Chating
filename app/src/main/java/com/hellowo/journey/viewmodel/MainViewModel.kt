@@ -83,6 +83,15 @@ class MainViewModel : ViewModel() {
         targetTimeObject.value = null
     }
 
+    fun makeNewTimeObject(type: Int) {
+        MainActivity.instance?.getCalendarView()?.let {
+            targetTimeObject.value = TimeObjectManager.makeNewTimeObject(
+                    getCalendarTime0(it.targetCal), getCalendarTime23(it.targetCal)).apply {
+                this.type = type
+            }
+        }
+    }
+
     fun makeNewTimeObject() {
         MainActivity.instance?.getCalendarView()?.let {
             makeNewTimeObject(getCalendarTime0(it.targetCal), getCalendarTime23(it.targetCal))

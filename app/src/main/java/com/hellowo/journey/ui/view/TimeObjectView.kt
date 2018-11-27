@@ -27,6 +27,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val stampSize = dpToPx(24)
         val blockTypeSize = dpToPx(17)
         val iconSize = dpToPx(8)
+        val checkSize = dpToPx(10)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
     }
     var mLeft = 0f
@@ -83,7 +84,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     }
                     3 -> {
                         setPadding(defaultPadding, 0, defaultPadding, 0)
-                        setTextColor(AppTheme.primaryText)
+                        setTextColor(AppTheme.getFontColor(timeObject.colorKey))
                     }
                     4 -> {
                         setPadding(defaultPadding, 0, defaultPadding, 0)
@@ -113,7 +114,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         setTextColor(AppTheme.primaryText)
                     }
                     else -> {
-                        setPadding(iconSize + defaultPadding, 0, defaultPadding, 0)
+                        setPadding((checkSize + defaulMargin).toInt(), 0, defaultPadding, 0)
                         setTextColor(AppTheme.primaryText)
                     }
                 }

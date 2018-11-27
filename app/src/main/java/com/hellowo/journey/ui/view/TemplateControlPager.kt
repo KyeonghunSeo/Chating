@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.model.Template
 import com.hellowo.journey.model.TimeObject
@@ -99,7 +100,7 @@ class TemplateControlPager @JvmOverloads constructor(context: Context, attrs: At
             //v.setBackgroundColor(item.color)
             v.findViewById<TextView>(R.id.titleText).text = item.title
             v.findViewById<ImageView>(R.id.iconImg).setImageResource(TimeObject.Type.values()[item.type].iconId)
-            v.findViewById<ImageView>(R.id.iconImg).setColorFilter(item.getColor())
+            v.findViewById<ImageView>(R.id.iconImg).setColorFilter(AppTheme.getColor(item.colorKey))
             v.setOnClickListener { MainActivity.instance?.viewModel?.makeNewTimeObject() }
             v.tag = "view$position"
             (container as ViewPager).addView(v, 0)

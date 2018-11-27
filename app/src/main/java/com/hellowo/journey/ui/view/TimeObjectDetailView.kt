@@ -10,9 +10,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
@@ -31,10 +34,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.hellowo.journey.*
 import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.manager.TimeObjectManager
-import com.hellowo.journey.model.Alarm
-import com.hellowo.journey.model.Link
-import com.hellowo.journey.model.Tag
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.*
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.MapActivity
 import com.hellowo.journey.ui.dialog.*
@@ -58,6 +58,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         initTitle()
         initDateTime()
         initMemo()
+        initStyle()
     }
 
     private fun initControllBtn() {
@@ -80,6 +81,14 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 timeObject.fontColor = fontColor
                 updateUI()
             }, true, false, true, false)
+        }
+
+        previewContainer.setOnClickListener {
+            showDialog(StylePickerDialog(MainActivity.instance!!, timeObject.colorKey,
+                    timeObject.type, timeObject.style) { style ->
+                timeObject.style = style
+                updateStyleUI()
+            }, true, true, true, false)
         }
 
         pinBtn.setOnClickListener {
@@ -132,6 +141,14 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         })
     }
 
+    private fun initStyle() {
+        val timeObjectView = TimeObjectView(context, TimeObject(), 0, 0)
+        timeObjectView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        previewContainer.addView(timeObjectView, 0)
+    }
+
     private fun updateUI() {
         colorBtn.setCardBackgroundColor(timeObject.getColor())
         fontColorText.setColorFilter(timeObject.fontColor)
@@ -144,6 +161,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         updateAlarmUI()
         updateLocationUI()
         updateMemoUI()
+        updateStyleUI()
     }
 
     private fun updateHeaderUI() {
@@ -281,6 +299,28 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }else {
             memoInput.setText(timeObject.description)
             memoLy.visibility = View.VISIBLE
+        }
+    }
+
+    private fun updateStyleUI() {
+        (previewContainer.getChildAt(0) as TimeObjectView).let {
+            it.timeObject.type = timeObject.type
+            it.timeObject.style = timeObject.style
+            it.timeObject.colorKey = timeObject.colorKey
+            it.setLookByType()
+
+            when(it.timeObject.type) {
+                2 -> {
+                    it.layoutParams.height = WRAP_CONTENT
+                }
+                else -> {
+                    it.layoutParams.height = TimeObjectView.blockTypeSize
+                }
+            }
+
+            it.textSpaceWidth = it.paint.measureText(it.text.toString())
+            it.requestLayout()
+            it.invalidate()
         }
     }
 

@@ -5,7 +5,6 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Handler
 import android.os.Message
 import android.util.AttributeSet
@@ -14,25 +13,21 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.*
 import com.hellowo.journey.adapter.TemplateAdapter
 import com.hellowo.journey.model.Template
-import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
-import com.hellowo.journey.ui.activity.TemplateEditActivity
-import com.hellowo.journey.ui.dialog.TypePickerDialog
 import com.pixplicity.easyprefs.library.Prefs
-import kotlinx.android.synthetic.main.view_template_control.view.*
+import kotlinx.android.synthetic.main.view_template_control_ver1.view.*
 
-class TemplateControlView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+class TemplateControlViewVer1 @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
     private val itemWidth = dpToPx(90)
     private val collapseSize = dpToPx(36)
     private val scrolOffset = dpToPx(5)
-    val layoutManager = GridLayoutManager(context, 3)
+    val layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
     val items = ArrayList<Template>()
     var selectedPosition = 0
     var selectFlag = false
@@ -64,9 +59,43 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_template_control, this, true)
+        LayoutInflater.from(context).inflate(R.layout.view_template_control_ver1, this, true)
         controllView.radius = collapseSize / 2f
         recyclerView.layoutManager = layoutManager
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            val yOffset = dpToPx(60f)
+            val scaleOffset = 0.1f
+            val zOffset = dpToPx(10)
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                scrollXdelta += dx
+                (0 until layoutManager.childCount).forEach {
+                    layoutManager.getChildAt(it)?.let { view ->
+                        val location = IntArray(2)
+                        view.getLocationInWindow(location)
+                        val distanseScalse = Math.abs(location[0] + (view.width / 2) - width / 2) / (width / 2).toFloat()
+                        view.translationY = yOffset * distanseScalse
+                        view.scaleX = 1 - scaleOffset * distanseScalse
+                        view.scaleY = 1 - scaleOffset * distanseScalse
+                        view.findViewById<FrameLayout>(R.id.contentLy).elevation = zOffset * (1 - distanseScalse)
+                    }
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if(newState == 0) {
+                    if(selectFlag) {
+                        selectFlag = false
+                    }else {
+                        findAndSelectCenterItem()
+                    }
+                }else {
+                    startScrolling()
+                }
+            }
+        })
         recyclerView.adapter = TemplateAdapter(context, items) {
             selectItem(it)
             MainActivity.instance?.viewModel?.makeNewTimeObject()
@@ -117,6 +146,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                         if(event.x > touchEventView.width / 2 + itemWidth / 2){
                             autoScrollSpeed = ((event.x - (touchEventView.width / 2 + itemWidth / 2)) / (itemWidth / 2) + 0.5f)
                             if(autoScrollFlag <= 0) {
+                                startScrolling()
                                 autoScrollFlag = 1
                                 handler.removeMessages(1)
                                 handler.sendEmptyMessage(1)
@@ -124,6 +154,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                         }else if(event.x < touchEventView.width / 2 - itemWidth / 2){
                             autoScrollSpeed = (((touchEventView.width / 2 - itemWidth / 2) - event.x) / (itemWidth / 2) + 0.5f)
                             if(autoScrollFlag >= 0) {
+                                startScrolling()
                                 autoScrollFlag = -1
                                 handler.removeMessages(1)
                                 handler.sendEmptyMessage(1)
@@ -134,10 +165,19 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
 
                         when {
                             event.y < -touchEventView.height * 1.5 -> {
+                                selectedText.text = context.getString(R.string.add_direct)
+                                selectedTopArrow.visibility = View.VISIBLE
+                                selectedLy.translationY = -dpToPx(10f)
                             }
                             event.y < 0 -> {
+                                selectedText.text = context.getString(R.string.add)
+                                selectedTopArrow.visibility = View.GONE
+                                selectedLy.translationY = 0f
                             }
                             else -> {
+                                selectedText.text = context.getString(R.string.selected)
+                                selectedTopArrow.visibility = View.GONE
+                                selectedLy.translationY = 0f
                             }
                         }
                     }
@@ -151,15 +191,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             return@setOnTouchListener false
         }
 
-        editTemplateBtn.setOnClickListener { MainActivity.instance?.let {
-            it.startActivity(Intent(it, TemplateEditActivity::class.java)) }}
-
-        addNewBtn.setOnClickListener { MainActivity.instance?.let {
-            showDialog(TypePickerDialog(it, TimeObject.Type.EVENT) { type ->
-                collapse()
-                it.viewModel.makeNewTimeObject(type.ordinal)
-            }, true, true, true, false) }}
-
         touchEventView.setOnClickListener{}
 
         callAfterViewDrawed(this, Runnable{ restoreViews() })
@@ -168,11 +199,13 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     private fun expand() {
         vibrate(context)
 
+        if(scrollXdelta == 0) {
+            setScrollCenterSelectedItem()
+        }
+
         listLy.visibility = View.VISIBLE
         controllView.elevation = dpToPx(5f)
         backgroundLy.setBackgroundColor(AppTheme.backgroundColor)
-        backgroundLy.setOnClickListener { collapse() }
-        backgroundLy.isClickable = true
 
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f),
@@ -197,10 +230,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             override fun onAnimationRepeat(p0: Animator?) {}
             override fun onAnimationEnd(p0: Animator?) { restoreViews() }
             override fun onAnimationCancel(p0: Animator?) { }
-            override fun onAnimationStart(p0: Animator?) {
-                backgroundLy.setOnClickListener(null)
-                backgroundLy.isClickable = false
-            }
+            override fun onAnimationStart(p0: Animator?) { }
         })
         animSet.duration = ANIM_DUR
         animSet.interpolator = FastOutSlowInInterpolator()
@@ -219,6 +249,30 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         }
     }
 
+    private fun findAndSelectCenterItem() {
+        selectFlag = true
+        selectedLy.visibility = View.VISIBLE
+        ObjectAnimator.ofFloat(selectedLy, "alpha",0f, 1f).start()
+        var delta = Int.MAX_VALUE
+        var sIndex = 0
+        (0 until layoutManager.childCount).forEach {
+            layoutManager.getChildAt(it)?.let { view ->
+                val location = IntArray(2)
+                view.getLocationInWindow(location)
+                val d = width / 2 - (location[0] + itemWidth / 2)
+                if(Math.abs(d) < Math.abs(delta)) {
+                    delta = d
+                    sIndex = it
+                }
+            }
+        }
+        recyclerView.smoothScrollBy(delta * -1, 0)
+        selectedPosition = (layoutManager.findFirstVisibleItemPosition() + sIndex) % (items.size + 1)
+        if(selectedPosition < items.size) {
+            selectItem(items[selectedPosition])
+        }
+    }
+
     private fun selectItem(template: Template) {
         Prefs.putInt("last_template_id", template.id)
         selectedPosition = items.indexOf(template)
@@ -227,16 +281,33 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     private fun setControlView(template: Template) {
+        //controllBackground.setBackgroundColor(template.color)
+        //templateIconImg.setColorFilter(template.fontColor)
+        templateNameText.text = template.title
+    }
+
+    private fun setScrollCenterSelectedItem() {
+        recyclerView.scrollBy(-(width / 2 - itemWidth / 2), 0)
+    }
+
+    private fun startScrolling() {
+        if(selectedLy.alpha == 1f) {
+            ObjectAnimator.ofFloat(selectedLy, "alpha",1f, 0f).start()
+        }
     }
 
     private fun endScrolling() {
         if(autoScrollFlag != 0) {
             autoScrollFlag = 0
             handler.removeMessages(1)
+            findAndSelectCenterItem()
         }
     }
 
     private fun restoreViews() {
         listLy.visibility = View.INVISIBLE
+        selectedLy.alpha = 1f
+        selectedLy.translationY = 0f
+        selectedTopArrow.visibility = View.GONE
     }
 }

@@ -28,6 +28,7 @@ class App : Application() {
                 .setUseDefaultSharedPreference(true)
                 .build()
         AppDateFormat.init(this)
+        AppStatus.init(this)
         AppTheme.init(this)
         Realm.init(this)
         AlarmManager.init(this)

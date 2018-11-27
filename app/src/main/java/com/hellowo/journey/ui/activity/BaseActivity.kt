@@ -1,6 +1,7 @@
 package com.hellowo.journey.ui.activity
 
 import android.app.ProgressDialog
+import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -13,8 +14,8 @@ open class BaseActivity : AppCompatActivity() {
 
     fun initTheme(rootLy: View) {
         rootLy.setBackgroundColor(AppTheme.backgroundColor)
-        window.navigationBarColor = AppTheme.primaryText
-        window.statusBarColor = AppTheme.primaryText
+        window.navigationBarColor = AppTheme.backgroundColor
+        window.statusBarColor = AppTheme.backgroundColor
     }
 
     fun setGlobalFont(view: View?) {

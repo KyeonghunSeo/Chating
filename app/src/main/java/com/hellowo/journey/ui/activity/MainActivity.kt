@@ -121,6 +121,9 @@ class MainActivity : BaseActivity() {
             }, true, true, true, false)
         }
         dimView.setOnDragListener(MainDragAndDropListener)
+
+        searchBtn.setOnClickListener { searchView.show() }
+
         callAfterViewDrawed(rootLy, Runnable{
             val location = IntArray(2)
             rootLy.getLocationInWindow(location)
@@ -229,7 +232,6 @@ class MainActivity : BaseActivity() {
         }
 
         profileImage.setOnLongClickListener {
-            startActivity(Intent(this, TemplateEditActivity::class.java))
             return@setOnLongClickListener true
         }
     }
@@ -287,8 +289,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setDateText(date: Date) {
-        yearText.text = AppDateFormat.year.format(date)
-        monthText.text = AppDateFormat.monthEng.format(date)
+        yearText.text = AppDateFormat.ymDate.format(date)
+        monthText.text = AppDateFormat.mDate.format(date)
+        monthText.visibility = View.GONE
     }
 
     fun onDrag(event: DragEvent) {
