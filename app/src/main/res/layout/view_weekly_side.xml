@@ -22,11 +22,6 @@
             android:textColor="@color/primaryText"
             android:textSize="14dp" />
 
-        <com.hellowo.journey.ui.view.base.Line
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_gravity="bottom" />
-
     </FrameLayout>
 
 </FrameLayout>

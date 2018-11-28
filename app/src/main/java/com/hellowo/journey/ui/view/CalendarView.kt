@@ -8,6 +8,7 @@ import android.os.Message
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.DragEvent
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -34,7 +35,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val animDur = 250L
         const val columns = 7
         const val selectedDateScale = 1.7f
-        const val outDateAlpha = 0.4f
+        const val outDateAlpha = 0.2f
         val todayCal: Calendar = Calendar.getInstance()
         val dateArea = dpToPx(30f)
         val weekLyBottomPadding = dpToPx(10)
@@ -75,7 +76,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         init {
             dateText.typeface = CalendarSkin.dateFont
             dowText.typeface = CalendarSkin.selectFont
-            dowText.alpha = 0f
             bar.alpha = 0f
         }
     }
@@ -175,13 +175,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 STATE_DRAG_START_SIDE -> {
                     tempCal.timeInMillis = monthCal.timeInMillis
                     tempCal.add(Calendar.MONTH, -1)
-                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).typeface = AppTheme.digitBoldFont
+                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).typeface = AppTheme.serifBoldFont
                     nextMonthHintView.findViewById<TextView>(R.id.nextHintText).text = AppDateFormat.mDate.format(tempCal.time)
                 }
                 STATE_DRAG_END_SIDE -> {
                     tempCal.timeInMillis = monthCal.timeInMillis
                     tempCal.add(Calendar.MONTH, 1)
-                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).typeface = AppTheme.digitBoldFont
+                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).typeface = AppTheme.serifBoldFont
                     nextMonthHintView.findViewById<TextView>(R.id.nextHintText).text = AppDateFormat.mDate.format(tempCal.time)
                 }
                 STATE_BOUNCE_BACK -> {
@@ -315,6 +315,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         dateText.typeface = CalendarSkin.dateFont
         dateText.alpha = alpha
+        dowText.visibility = View.GONE
+        (dateHeaders[cellNum].dateLy.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.CENTER_HORIZONTAL
 
         selectCellNum = -1
         offViewEffect(cellNum)
@@ -326,7 +328,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 override fun onAnimationCancel(animation: Animator?) { restoreDateHeader(dateHeaders[cellNum]) } })
             it.playTogether(
                     ObjectAnimator.ofFloat(bar, "alpha", 1f, 0f),
-                    ObjectAnimator.ofFloat(dowText, "alpha", 1f, 0f),
                     ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleX", selectedDateScale, 1f),
                     ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleY", selectedDateScale, 1f))
             it.interpolator = FastOutSlowInInterpolator()
@@ -341,6 +342,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun selectDate(cellNum: Int, showDayView: Boolean) {
         if(!showDayView) {
             l("날짜선택 : ${AppDateFormat.ymdDate.format(Date(cellTimeMills[cellNum]))}")
+            TransitionManager.beginDelayedTransition(calendarLy, makeChangeBounceTransition())
             targetCal.timeInMillis = cellTimeMills[cellNum]
             val week = "${targetCal.get(Calendar.YEAR)}${targetCal.get(Calendar.WEEK_OF_YEAR)}".toInt()
             val weekIndex = cellNum / columns
@@ -348,7 +350,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             if(week != selectedWeek || weekIndex != selectedWeekIndex) {
                 l("Week 선택 : $week")
                 isChangeWeek = true
-                TransitionManager.beginDelayedTransition(calendarLy, makeChangeBounceTransition())
 
                 if(selectedWeekIndex != -1 && weekIndex != selectedWeekIndex) {
                     weekViews[selectedWeekIndex].contentLy.visibility = View.GONE
@@ -390,6 +391,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.alpha = 1f
             dowText.setTextColor(color)
             dowText.text = dow[targetCal.get(Calendar.DAY_OF_WEEK) - 1]
+            dowText.visibility = View.VISIBLE
+            (dateHeaders[cellNum].dateLy.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.NO_GRAVITY
 
             lastSelectDateAnimSet?.cancel()
             lastSelectDateAnimSet = AnimatorSet()
@@ -398,7 +401,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     override fun onAnimationCancel(animation: Animator?) { restoreDateHeader(dateHeaders[cellNum]) } })
                 it.playTogether(
                         ObjectAnimator.ofFloat(bar, "alpha", 0f, 1f),
-                        ObjectAnimator.ofFloat(dowText, "alpha", 0f, 1f),
                         ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleX", 1f, selectedDateScale),
                         ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleY", 1f, selectedDateScale))
                 it.interpolator = FastOutSlowInInterpolator()
@@ -421,7 +423,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun restoreDateHeader(holder: DateHeaderViewHolder) {
         holder.bar.alpha = 0f
-        holder.dowText.alpha = 0f
         holder.dateLy.scaleX = 1f
         holder.dateLy.scaleY = 1f
     }

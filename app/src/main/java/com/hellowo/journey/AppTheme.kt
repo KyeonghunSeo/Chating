@@ -13,8 +13,8 @@ object AppTheme {
     var thinFont: Typeface = Typeface.DEFAULT
     var regularFont: Typeface = Typeface.DEFAULT
     var boldFont: Typeface = Typeface.DEFAULT
-    var digitFont: Typeface = Typeface.DEFAULT
-    var digitBoldFont: Typeface = Typeface.DEFAULT
+    var serifRegularFont: Typeface = Typeface.DEFAULT
+    var serifBoldFont: Typeface = Typeface.DEFAULT
     var textFont: Typeface = Typeface.DEFAULT
 
     var selectableItemBackground = 0
@@ -54,8 +54,8 @@ object AppTheme {
         thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
         regularFont = ResourcesCompat.getFont(context, R.font.regular)!!
         boldFont = ResourcesCompat.getFont(context, R.font.bold)!!
-        digitFont = ResourcesCompat.getFont(context, R.font.bold)!!
-        digitBoldFont = ResourcesCompat.getFont(context, R.font.bold)!!
+        serifRegularFont = ResourcesCompat.getFont(context, R.font.regular_s)!!
+        serifBoldFont = ResourcesCompat.getFont(context, R.font.bold_s)!!
         textFont = ResourcesCompat.getFont(context, R.font.text)!!
 
         resource.getStringArray(R.array.colors).forEachIndexed { index, s ->

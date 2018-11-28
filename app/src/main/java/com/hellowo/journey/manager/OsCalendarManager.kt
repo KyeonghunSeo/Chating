@@ -146,6 +146,7 @@ object OsCalendarManager {
         val block = TimeObject(
                 id = "osInstance::${cur.getLong(INDEX_ID)}",
                 type = 0,
+                style = 3,
                 title = cur.getString(INDEX_TITLE),
                 colorKey = AppTheme.getColorKey(if(cur.getInt(INDEX_EVENT_COLOR) != 0) cur.getInt(INDEX_EVENT_COLOR)
                 else cur.getInt(INDEX_CAL_COLOR)),

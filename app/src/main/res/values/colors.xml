@@ -9,9 +9,9 @@
     <color name="backgroundDeepDark">#b4b7bc</color>
     <color name="iconTint">#a8aaaf</color>
 
-    <color name="primaryText">#303029</color>
-    <color name="secondaryText">#6d6d61</color>
-    <color name="disableText">#b8b8ae</color>
+    <color name="primaryText">#212931</color>
+    <color name="secondaryText">#435969</color>
+    <color name="disableText">#e7f0ed</color>
     <color name="primaryWhiteText">#e0e0d7</color>
     <color name="secondaryWhiteText">#b3e0e0d7</color>
     <color name="disableWhiteText">#80e0e0d7</color>
@@ -117,11 +117,11 @@
     </string-array>-->
 
     <string-array name="font_colors">
-        <item>#60000000</item>
-        <item>#60000000</item>
-        <item>#60000000</item>
-        <item>#60000000</item>
-        <item>#60000000</item>
+        <item>#90000000</item>
+        <item>#90000000</item>
+        <item>#90000000</item>
+        <item>#90000000</item>
+        <item>#90000000</item>
 
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
@@ -132,13 +132,13 @@
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
-        <item>#60000000</item>
+        <item>#90000000</item>
         <item>#FFFFFFFF</item>
 
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
-        <item>#60000000</item>
+        <item>#90000000</item>
         <item>#FFFFFFFF</item>
     </string-array>
 

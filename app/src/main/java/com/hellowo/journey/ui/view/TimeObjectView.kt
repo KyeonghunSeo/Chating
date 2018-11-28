@@ -13,6 +13,7 @@ import android.widget.TextView
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
+import com.hellowo.journey.l
 import com.hellowo.journey.manager.CalendarSkin
 import com.hellowo.journey.model.TimeObject
 
@@ -20,9 +21,9 @@ import com.hellowo.journey.model.TimeObject
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
     companion object {
         var standardTextSize = 9f
-        val defaulMargin = dpToPx(1.5f) // 뷰간 간격
-        val defaultPadding = dpToPx(4)
+        val defaulMargin = dpToPx(1f) // 뷰간 간격
         val strokeWidth = dpToPx(0.5f) // 선 간격
+        val defaultPadding = dpToPx(4)
         val rectRadius = dpToPx(0f)
         val stampSize = dpToPx(24)
         val blockTypeSize = dpToPx(17)
@@ -244,6 +245,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     }
 
     fun setLayout() {
+        val m = (defaulMargin / 2).toInt()
         var w = mRight - mLeft - defaulMargin
         /*
         if(leftOpen) {
@@ -253,13 +255,13 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         if(rightOpen) w += defaultPadding
         */
         val lp = FrameLayout.LayoutParams(w.toInt(), (mBottom - mTop - defaulMargin).toInt())
-        lp.setMargins(0, mTop.toInt(), 0, 0)
+        lp.setMargins(m, mTop.toInt(), m, 0)
         layoutParams = lp
     }
 
     fun setNotInCalendarText() {
         childList?.let { list ->
-            val s = StringBuilder("..")
+            val s = StringBuilder("+")
             (0 until TimeObject.Type.values().size).forEach { type ->
                 val count = list.filter { it.type == type }.size
                 if(count > 0) {

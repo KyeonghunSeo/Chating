@@ -125,13 +125,16 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:tint="@color/primaryText"
-                    android:src="@drawable/sharp_wallpaper_black_48dp"
+                    android:src="@drawable/sharp_photo_filter_black_48dp"
                     android:padding="15dp"/>
 
-                <View
+                <ImageView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:tint="@color/primaryText"
+                    android:src="@drawable/outline_edit_black_48dp"
+                    android:padding="15dp"/>
 
                 <ImageView
                     android:id="@+id/searchBtn"

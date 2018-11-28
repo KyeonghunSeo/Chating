@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionManager
 import com.hellowo.journey.*
 import com.hellowo.journey.adapter.TemplateAdapter
 import com.hellowo.journey.model.Template
@@ -69,6 +70,8 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     init {
         LayoutInflater.from(context).inflate(R.layout.view_template_control, this, true)
         controllView.radius = collapseSize / 2f
+        controllView.alpha = 0f
+        listLy.visibility = View.GONE
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = TemplateAdapter(context, items) {
             selectItem(it)
@@ -87,13 +90,11 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                 MotionEvent.ACTION_UP -> {
                     handler.removeMessages(0)
                     handler.removeMessages(1)
-                    if(event.x > 0 && event.x < touchEventView.width &&
-                            event.y > 0 && event.y < touchEventView.height){
+                    if(event.x > 0 && event.x < touchEventView.width && event.y > 0 && event.y < touchEventView.height){
                         if(clickFlag) {
-                            //if(!isExpanded) MainActivity.instance?.viewModel?.makeNewTimeObject()
                             if(!isExpanded) expand()
                         }else {
-                            collapse()
+                            if(isExpanded) collapse()
                         }
                     }else {
                         if(clickFlag) {
@@ -174,7 +175,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     private fun expand() {
         vibrate(context)
 
-        listLy.visibility = View.VISIBLE
         controllView.elevation = dpToPx(5f)
         backgroundLy.setBackgroundColor(AppTheme.backgroundColor)
         backgroundLy.setOnClickListener { collapse() }
@@ -182,11 +182,14 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
 
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f),
-                ObjectAnimator.ofFloat(listLy, "translationY", height.toFloat(), 0f),
-                ObjectAnimator.ofFloat(backgroundLy, "alpha",0f, 0.9f))
+                ObjectAnimator.ofFloat(backgroundLy, "alpha",0f, 0.9f),
+                ObjectAnimator.ofFloat(controllView, "alpha",0f, 1f))
         animSet.duration = ANIM_DUR
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
+
+        TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
+        listLy.visibility = View.VISIBLE
 
         isExpanded = true
     }
@@ -197,8 +200,8 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
 
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f),
-                ObjectAnimator.ofFloat(listLy, "translationY", 0f, height.toFloat()),
-                ObjectAnimator.ofFloat(backgroundLy, "alpha",0.9f, 0f))
+                ObjectAnimator.ofFloat(backgroundLy, "alpha",0.9f, 0f),
+                ObjectAnimator.ofFloat(controllView, "alpha",1f, 0f))
         animSet.addListener(object : Animator.AnimatorListener{
             override fun onAnimationRepeat(p0: Animator?) {}
             override fun onAnimationEnd(p0: Animator?) { restoreViews() }
@@ -211,6 +214,10 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         animSet.duration = ANIM_DUR
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
+
+        TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
+        listLy.visibility = View.GONE
+
         isExpanded = false
     }
 

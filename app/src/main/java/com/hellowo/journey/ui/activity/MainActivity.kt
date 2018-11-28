@@ -109,9 +109,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initLayout() {
-        todayText.typeface = AppTheme.digitBoldFont
-        yearText.typeface = AppTheme.digitBoldFont
-        monthText.typeface = AppTheme.digitBoldFont
+        todayText.typeface = AppTheme.boldFont
+        yearText.typeface = AppTheme.boldFont
+        monthText.typeface = AppTheme.boldFont
         calendarLy.setBackgroundColor(AppTheme.backgroundColor)
         topBar.setBackgroundColor(AppTheme.backgroundColor)
         bottomBar.setBackgroundColor(AppTheme.backgroundColor)

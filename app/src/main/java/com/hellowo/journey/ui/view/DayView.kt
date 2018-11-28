@@ -75,6 +75,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                 if(!timeObject.isDone() && taskList.filter { !it.isDone() }.size == 1) {
                 }else {
                 }
+                vibrate(context)
                 TimeObjectManager.done(timeObject)
             }
         }
