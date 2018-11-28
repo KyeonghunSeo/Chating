@@ -197,9 +197,7 @@ object CalendarSkin {
                 }
 
                 if(view.length > 1) {
-                    canvas.drawRect(0f, height - strokeWidth * 2, width.toFloat(), height.toFloat(), paint)
-                    canvas.drawRect(width - strokeWidth * 2, height - strokeWidth * 10,
-                            width.toFloat(), height.toFloat(), paint)
+                    canvas.drawRect(0f, height - strokeWidth * 1.5f, width.toFloat(), height.toFloat(), paint)
                 }
 
                 paint.style = Paint.Style.FILL
@@ -221,8 +219,7 @@ object CalendarSkin {
 
                 if(view.length > 1) {
                     canvas.drawRect(0f, height - strokeWidth * 1.5f, width.toFloat(), height.toFloat(), paint)
-                    canvas.drawRect(width - strokeWidth * 1.5f, height - strokeWidth * 10,
-                            width.toFloat(), height.toFloat(), paint)
+                    //canvas.drawRect(width - strokeWidth * 1.5f, height - strokeWidth * 10, width.toFloat(), height.toFloat(), paint)
                 }
 
                 paint.style = Paint.Style.FILL

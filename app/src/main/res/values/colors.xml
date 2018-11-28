@@ -63,29 +63,29 @@
     <color name="lol_light">#03a6ff</color>
 
     <string-array name="colors">
-        <item>#b30000</item>
-        <item>#f7323f</item>
-        <item>#e95e72</item>
-        <item>#fd92a3</item>
-        <item>#FF6AE8</item>
+        <item>#ff9ff3</item>
+        <item>#ffca57</item>
+        <item>#ff6b6b</item>
+        <item>#4ddbfb</item>
+        <item>#1cd1a1</item>
 
-        <item>#004e34</item>
-        <item>#48b134</item>
-        <item>#20824d</item>
-        <item>#ff9e16</item>
-        <item>#f5d926</item>
+        <item>#f368e0</item>
+        <item>#ff9f43</item>
+        <item>#ee5353</item>
+        <item>#539fff</item>
+        <item>#10ac84</item>
 
-        <item>#334cd5</item>
-        <item>#0080ff</item>
-        <item>#25afd6</item>
-        <item>#540c65</item>
-        <item>#00EDFF</item>
+        <item>#00d2d3</item>
+        <item>#54a0ff</item>
+        <item>#5f27cd</item>
+        <item>#c8d6e5</item>
+        <item>#576574</item>
 
-        <item>#836b65</item>
-        <item>#5a3531</item>
-        <item>#5e6767</item>
-        <item>#293434</item>
-        <item>#a17cdd</item>
+        <item>#00a3a4</item>
+        <item>#2e86de</item>
+        <item>#341e97</item>
+        <item>#8395a7</item>
+        <item>#212f3e</item>
     </string-array>
 
     <!--
@@ -117,6 +117,13 @@
     </string-array>-->
 
     <string-array name="font_colors">
+        <item>#60000000</item>
+        <item>#60000000</item>
+        <item>#60000000</item>
+        <item>#60000000</item>
+        <item>#60000000</item>
+
+        <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
@@ -125,21 +132,13 @@
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
+        <item>#60000000</item>
         <item>#FFFFFFFF</item>
 
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
+        <item>#60000000</item>
         <item>#FFFFFFFF</item>
     </string-array>
 

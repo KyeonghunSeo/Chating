@@ -37,8 +37,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val outDateAlpha = 0.4f
         val todayCal: Calendar = Calendar.getInstance()
         val dateArea = dpToPx(30f)
-        val weekLyBottomPadding = dpToPx(20)
-        val weekSideMargin = dpToPx(10)
+        val weekLyBottomPadding = dpToPx(10)
+        val weekSideMargin = dpToPx(0)
         val autoPagingThreshold = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
@@ -123,6 +123,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun setLayout() {
         scrollView.setBackgroundColor(CalendarSkin.backgroundColor)
         scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        scrollView.isVerticalScrollBarEnabled = false
         calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         calendarLy.setPadding(0, 0, 0, autoScrollOffset)
         calendarLy.orientation = LinearLayout.VERTICAL
@@ -175,13 +176,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     tempCal.timeInMillis = monthCal.timeInMillis
                     tempCal.add(Calendar.MONTH, -1)
                     nextMonthHintView.findViewById<TextView>(R.id.nextHintText).typeface = AppTheme.digitBoldFont
-                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).text = AppDateFormat.monthEng.format(tempCal.time)
+                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).text = AppDateFormat.mDate.format(tempCal.time)
                 }
                 STATE_DRAG_END_SIDE -> {
                     tempCal.timeInMillis = monthCal.timeInMillis
                     tempCal.add(Calendar.MONTH, 1)
                     nextMonthHintView.findViewById<TextView>(R.id.nextHintText).typeface = AppTheme.digitBoldFont
-                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).text = AppDateFormat.monthEng.format(tempCal.time)
+                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).text = AppDateFormat.mDate.format(tempCal.time)
                 }
                 STATE_BOUNCE_BACK -> {
                     if(nextMonthHintView.alpha == 1f) {
@@ -204,10 +205,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 nextMonthHintView.alpha = alpha
                 when {
                     offset > 0 -> {
-                        nextMonthHintView.translationY = offset - nextMonthHintView.height
+                        nextMonthHintView.translationY = offset - nextMonthHintView.height * 2
                     }
                     offset < 0 -> {
-                        nextMonthHintView.translationY = height + offset - weekLyBottomPadding
+                        nextMonthHintView.translationY = height + offset + nextMonthHintView.height
                     }
                     else -> {}
                 }

@@ -17,6 +17,6 @@
         android:textSize="30dp"
         android:gravity="center"
         android:text="@string/selected"
-        android:textColor="@color/disableText"/>
+        android:textColor="@color/almostWhite"/>
 
 </FrameLayout>

@@ -52,6 +52,8 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         const val headerTextScale = 2.5f
         val datePosX = dpToPx(10f)
         val datePosY = dpToPx(7f)
+        val startZ = dpToPx(10f)
+        val endZ = dpToPx(2f)
     }
     private var timeObjectList: RealmResults<TimeObject>? = null
     private val eventList = ArrayList<TimeObject>()
@@ -99,6 +101,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         dowText.typeface = CalendarSkin.selectFont
         dateLy.scaleY = CalendarView.selectedDateScale
         dateLy.scaleX = CalendarView.selectedDateScale
+        bar.visibility = View.GONE
 
         taskFinishAnimView.imageAssetsFolder = "assets/"
         taskFinishAnimView.setAnimation("success.json")
@@ -284,7 +287,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             }
 
             val animSet = AnimatorSet()
-            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView, "elevation", 0f, dpToPx(10).toFloat()))
+            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView, "elevation", 0f, startZ))
             animSet.duration = 150
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.addListener(object : Animator.AnimatorListener{
@@ -306,7 +309,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                         override fun onTransitionStart(transition: Transition) {
                             notifyDateChanged(0)
                             val animSet = AnimatorSet()
-                            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView, "elevation", dpToPx(10).toFloat(), 0f),
+                            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView, "elevation", startZ, endZ),
                                     ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f),
                                     ObjectAnimator.ofFloat(dateLy, "scaleX", dateLy.scaleX, headerTextScale),
                                     ObjectAnimator.ofFloat(dateLy, "scaleY", dateLy.scaleY, headerTextScale),
@@ -332,7 +335,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     fun hide() {
         timeObjectList?.removeAllChangeListeners()
         calendarView.getSelectedView().let { dateCell ->
-            elevation = dpToPx(15).toFloat()
+            elevation = startZ
             viewMode = ViewMode.ANIMATING
 
             val location = IntArray(2)
@@ -344,7 +347,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                 override fun onTransitionEnd(transition: Transition) {
                     val animSet = AnimatorSet()
                     animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
-                            "elevation", dpToPx(15).toFloat(), 0f).setDuration(ANIM_DUR),
+                            "elevation", startZ, 0f).setDuration(ANIM_DUR),
                             ObjectAnimator.ofFloat(this@DayView, "alpha", 1f, 0.85f).setDuration(ANIM_DUR))
                     animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.addListener(object : Animator.AnimatorListener{

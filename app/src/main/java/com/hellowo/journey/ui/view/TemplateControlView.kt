@@ -35,7 +35,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     val layoutManager = GridLayoutManager(context, 3)
     val items = ArrayList<Template>()
     var selectedPosition = 0
-    var selectFlag = false
     var clickFlag = false
     var autoScrollFlag = 0
     var autoScrollSpeed = 0f
@@ -45,7 +44,11 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     object : Handler() {
         override fun handleMessage(msg: Message) {
             when(msg.what) {
-                0 -> expand()
+                0 -> {
+                    vibrate(context)
+                    clickFlag = false
+                    addNew()
+                }
                 1 -> {
                     when {
                         autoScrollFlag > 0 -> {
@@ -154,15 +157,18 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         editTemplateBtn.setOnClickListener { MainActivity.instance?.let {
             it.startActivity(Intent(it, TemplateEditActivity::class.java)) }}
 
-        addNewBtn.setOnClickListener { MainActivity.instance?.let {
-            showDialog(TypePickerDialog(it, TimeObject.Type.EVENT) { type ->
-                collapse()
-                it.viewModel.makeNewTimeObject(type.ordinal)
-            }, true, true, true, false) }}
+        addNewBtn.setOnClickListener { addNew() }
 
         touchEventView.setOnClickListener{}
 
         callAfterViewDrawed(this, Runnable{ restoreViews() })
+    }
+
+    private fun addNew() {
+        MainActivity.instance?.let { showDialog(TypePickerDialog(it, TimeObject.Type.EVENT) { type ->
+                collapse()
+                it.viewModel.makeNewTimeObject(type.ordinal)
+            }, true, true, true, false)}
     }
 
     private fun expand() {

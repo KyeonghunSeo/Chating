@@ -31,7 +31,8 @@
         <FrameLayout
             android:id="@+id/topBar"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:elevation="2dp">
 
             <FrameLayout
                 android:layout_width="200dp"
@@ -55,7 +56,7 @@
                         android:paddingBottom="5dp"
                         android:includeFontPadding="false"
                         android:textColor="@color/primaryText"
-                        android:textSize="18dp"
+                        android:textSize="16dp"
                         android:text="2018"/>
 
                     <TextView
@@ -78,7 +79,7 @@
                 android:id="@+id/todayBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="15dp"
                 android:layout_gravity="right|bottom"
                 android:animateLayoutChanges="true">
 
@@ -95,23 +96,14 @@
 
             </FrameLayout>
 
-            <com.hellowo.journey.ui.view.base.Line
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="bottom"/>
-
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_gravity="bottom">
-
-            <com.hellowo.journey.ui.view.base.Line
-                android:layout_width="match_parent"
-                android:layout_height="1dp" />
+            android:layout_gravity="bottom"
+            android:elevation="10dp">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -174,9 +166,7 @@
         <View
             android:id="@+id/dimView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0"
-            android:background="@color/transitionDim">
+            android:layout_height="match_parent">
         </View>
 
         <com.hellowo.journey.ui.view.KeepView
@@ -207,7 +197,8 @@
         <com.hellowo.journey.ui.view.TemplateControlView
             android:id="@+id/templateSelectView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:elevation="10dp">
         </com.hellowo.journey.ui.view.TemplateControlView>
 
         <com.hellowo.journey.ui.view.SearchView
@@ -218,13 +209,13 @@
             android:visibility="visible">
         </com.hellowo.journey.ui.view.SearchView>
 
-        <com.hellowo.journey.ui.view.TimeObjectDetailView
-            android:id="@+id/timeObjectDetailView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </com.hellowo.journey.ui.view.TimeObjectDetailView>
-
     </FrameLayout>
+
+    <com.hellowo.journey.ui.view.TimeObjectDetailView
+        android:id="@+id/timeObjectDetailView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.hellowo.journey.ui.view.TimeObjectDetailView>
 
     <ProgressBar
         android:id="@+id/progressBar"

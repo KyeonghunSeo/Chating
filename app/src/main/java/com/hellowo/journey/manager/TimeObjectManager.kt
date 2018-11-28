@@ -51,10 +51,6 @@ object TimeObjectManager {
                     l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
                     l("==========END timeObjectdataSetChanged=========")
                 }
-
-                if(isLoaded == false) {
-                    timeObjectCalendarAdapter?.refresh(null, false)
-                }
             }catch (e: Exception){e.printStackTrace()}
         }
     }

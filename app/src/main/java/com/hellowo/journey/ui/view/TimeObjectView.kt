@@ -42,11 +42,12 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     //var line = 0
 
     init {
+        includeFontPadding = false
     }
 
     fun setLookByType() {
         if(!timeObject.inCalendar) {
-            setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
+            setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 2)
             gravity = Gravity.CENTER_VERTICAL
             maxLines = 1
             setSingleLine(true)
@@ -102,6 +103,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             }
             TimeObject.Type.TASK -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
+                setTextColor(timeObject.getColor())
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 typeface = AppTheme.textFont
                 gravity = Gravity.CENTER_VERTICAL
@@ -111,11 +113,9 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 when(timeObject.style){
                     1 -> {
                         setPadding(iconSize + defaultPadding, 0, defaultPadding, 0)
-                        setTextColor(AppTheme.primaryText)
                     }
                     else -> {
                         setPadding((checkSize + defaulMargin).toInt(), 0, defaultPadding, 0)
-                        setTextColor(AppTheme.primaryText)
                     }
                 }
             }
@@ -263,10 +263,10 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             (0 until TimeObject.Type.values().size).forEach { type ->
                 val count = list.filter { it.type == type }.size
                 if(count > 0) {
-                    s.append(" ${context.getString(TimeObject.Type.values()[type].titleId)}$count,")
+                    s.append(" ${context.getString(TimeObject.Type.values()[type].titleId)} $count /")
                 }
             }
-            if(s.endsWith(',')) {
+            if(s.endsWith('/')) {
                 s.deleteCharAt(s.length - 1)
             }
             text = s

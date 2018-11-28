@@ -113,6 +113,8 @@ class MainActivity : BaseActivity() {
         yearText.typeface = AppTheme.digitBoldFont
         monthText.typeface = AppTheme.digitBoldFont
         calendarLy.setBackgroundColor(AppTheme.backgroundColor)
+        topBar.setBackgroundColor(AppTheme.backgroundColor)
+        bottomBar.setBackgroundColor(AppTheme.backgroundColor)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         todayBtn.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->

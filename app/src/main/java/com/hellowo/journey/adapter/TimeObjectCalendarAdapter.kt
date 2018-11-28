@@ -266,7 +266,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
 
         calendarView.weekLys.forEachIndexed { index, weekLy ->
             if(index < rows) {
-                val newHeight = rowHeightArray[index]
+                val newHeight = rowHeightArray[index] + weekLyBottomPadding
                 val finalHeight = Math.max(minHeight, newHeight)
                 calendarHeight += finalHeight
                 weekLy.layoutParams.height = finalHeight.toInt()
