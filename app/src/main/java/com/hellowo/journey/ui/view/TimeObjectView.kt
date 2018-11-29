@@ -3,6 +3,7 @@ package com.hellowo.journey.ui.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Typeface.ITALIC
 import android.text.TextUtils
 import android.util.TypedValue
@@ -21,13 +22,14 @@ import com.hellowo.journey.model.TimeObject
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
     companion object {
         var standardTextSize = 9f
+        var fontTopPadding = dpToPx(1)
         val defaulMargin = dpToPx(1f) // 뷰간 간격
-        val strokeWidth = dpToPx(0.5f) // 선 간격
+        val strokeWidth = dpToPx(1f) // 선
         val defaultPadding = dpToPx(4)
-        val rectRadius = dpToPx(0f)
-        val stampSize = dpToPx(24)
+        val rectRadius = dpToPx(2f)
+        val stampSize = dpToPx(17)
         val blockTypeSize = dpToPx(17)
-        val iconSize = dpToPx(8)
+        val iconSize = dpToPx(5)
         val checkSize = dpToPx(10)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
     }
@@ -67,38 +69,28 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 gravity = Gravity.CENTER_VERTICAL
                 maxLines = 1
-                //setSingleLine(true)
-                //setHorizontallyScrolling(true)
-                //isHorizontalFadingEdgeEnabled = true
+                setSingleLine(true)
+                setHorizontallyScrolling(true)
                 when(timeObject.style){
-                    1 -> {
-                        if(length > 1) {
-                            gravity = Gravity.CENTER
-                            setPadding(defaultPadding, 0, defaultPadding, 0)
-                        }else {
-                            setPadding(iconSize + defaultPadding, 0, defaultPadding, 0)
-                        }
-                        setTextColor(AppTheme.primaryText)
+                    0, 1 -> {
+                        isHorizontalFadingEdgeEnabled = true
+                        setPadding((checkSize + defaulMargin).toInt(), fontTopPadding, defaultPadding, 0)
+                        setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
-                    2 -> {
-                        setPadding((defaulMargin * 5).toInt(), 0, defaultPadding, 0)
-                        setTextColor(AppTheme.primaryText)
+                    2, 4, 7 -> {
+                        isHorizontalFadingEdgeEnabled = false
+                        setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
+                        setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
-                    3 -> {
-                        setPadding(defaultPadding, 0, defaultPadding, 0)
+                    3, 5, 6 -> {
+                        isHorizontalFadingEdgeEnabled = false
+                        setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                         setTextColor(AppTheme.getFontColor(timeObject.colorKey))
                     }
-                    4 -> {
-                        setPadding(defaultPadding, 0, defaultPadding, 0)
-                        setTextColor(CalendarSkin.backgroundColor)
-                    }
-                    6 -> {
-                        setPadding(iconSize  + defaulMargin.toInt(), 0, defaultPadding, 0)
-                        setTextColor(AppTheme.primaryText)
-                    }
-                    else -> {
-                        setPadding(defaultPadding, 0, defaultPadding, 0)
-                        setTextColor(timeObject.getColor())
+                    8, 9 -> {
+                        isHorizontalFadingEdgeEnabled = true
+                        setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
+                        setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
                 }
             }
@@ -109,14 +101,15 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 typeface = AppTheme.textFont
                 gravity = Gravity.CENTER_VERTICAL
                 maxLines = 1
-                //setSingleLine(true)
-                //setHorizontallyScrolling(true)
+                setSingleLine(true)
+                setHorizontallyScrolling(true)
+                isHorizontalFadingEdgeEnabled = true
                 when(timeObject.style){
                     1 -> {
-                        setPadding(iconSize + defaultPadding, 0, defaultPadding, 0)
+                        setPadding((checkSize + defaulMargin).toInt(), fontTopPadding, defaultPadding, 0)
                     }
                     else -> {
-                        setPadding((checkSize + defaulMargin).toInt(), 0, defaultPadding, 0)
+                        setPadding((checkSize + defaulMargin).toInt(), fontTopPadding, defaultPadding, 0)
                     }
                 }
             }
@@ -127,7 +120,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                         typeface = AppTheme.textFont
                         setLineSpacing(strokeWidth * 2, 1f)
-                        setPadding(defaulMargin.toInt(), (defaulMargin).toInt() * 4, defaultPadding, 0)
+                        setPadding(defaulMargin.toInt(), (defaulMargin).toInt() * 4, defaultPadding, defaultPadding)
                         setTextColor(CalendarSkin.dateColor)
                     }
                     else -> {
@@ -135,7 +128,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                         typeface = AppTheme.textFont
                         setLineSpacing(strokeWidth * 2, 1f)
-                        setPadding(defaulMargin.toInt(), defaulMargin.toInt(), defaultPadding, 0)
+                        setPadding(defaulMargin.toInt(), defaulMargin.toInt(), defaultPadding, defaultPadding)
                         setTextColor(CalendarSkin.dateColor)
                     }
                 }
@@ -151,19 +144,19 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     1 -> {
                         typeface = AppTheme.textFont
                         gravity = Gravity.CENTER_HORIZONTAL
-                        setPadding(defaultPadding, 0, defaultPadding, 0)
+                        setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                         setTextColor(timeObject.getColor())
                     }
                     2 -> {
                         setTypeface(AppTheme.textFont, ITALIC)
                         gravity = Gravity.CENTER
-                        setPadding(defaultPadding, 0, defaultPadding, 0)
+                        setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                         setTextColor(timeObject.getColor())
                     }
                     else -> {
                         typeface = AppTheme.textFont
                         gravity = Gravity.CENTER
-                        setPadding(defaultPadding, 0, defaultPadding, 0)
+                        setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                         setTextColor(timeObject.getColor())
                     }
                 }
@@ -222,6 +215,14 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     textSpaceWidth = paint.measureText(text.toString())
                     blockTypeSize
                 }
+                TimeObject.Type.STAMP -> {
+                    val width =  mRight - mLeft - defaulMargin
+                    val margin = defaulMargin.toInt()
+                    val size = stampSize - defaulMargin
+                    val totalStampCnt = childList?.size ?: 0
+                    val rows = ((size * totalStampCnt + margin * (totalStampCnt - 1)) / width + 1).toInt()
+                    (stampSize * rows)
+                }
                 TimeObject.Type.NOTE -> {
                     setSingleLine(false)
                     maxLines = 7
@@ -230,9 +231,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     val width =  mRight - mLeft - defaulMargin
                     measure(View.MeasureSpec.makeMeasureSpec(width.toInt(), View.MeasureSpec.EXACTLY), heightMeasureSpec)
                     //l("${timeObject.title} 라인 : "+((paint.measureText(text.toString()) / width).toInt() + 1))
-                    (measuredHeight + /*폰트 자체 패딩때문에 조금 여유를 줘야함*/defaulMargin).toInt()
+                    measuredHeight
                 }
-                TimeObject.Type.STAMP -> stampSize
                 TimeObject.Type.TERM -> {
                     textSpaceWidth = paint.measureText(text.toString())
                     blockTypeSize

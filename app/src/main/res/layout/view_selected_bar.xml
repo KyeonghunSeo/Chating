@@ -12,15 +12,17 @@
         android:alpha="0.1"/>
 
     <View
-        android:layout_width="1px"
-        android:layout_height="match_parent"
+        android:layout_width="2px"
+        android:layout_height="5dp"
         android:background="@color/primaryText"
+        android:layout_gravity="right"
         android:alpha="0.1"/>
 
     <FrameLayout
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="1dp"
+        android:background="@color/primaryText">
 
     </FrameLayout>
 
@@ -30,8 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:transformPivotX="0dp"
         android:transformPivotY="10dp"
         android:layout_gravity="center_horizontal">
@@ -41,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:textSize="11dp"
+            android:textSize="10dp"
             android:includeFontPadding="false"
             android:textColor="@color/primaryText"
             android:text="27" />
@@ -52,8 +54,8 @@
             android:layout_height="match_parent"
             android:gravity="top"
             android:layout_marginLeft="2dp"
-            android:textSize="7dp"
-            android:paddingTop="3.7dp"
+            android:textSize="4dp"
+            android:paddingTop="5dp"
             android:includeFontPadding="false"
             android:textColor="@color/primaryText"
             android:text="@string/wed"

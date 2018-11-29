@@ -41,9 +41,9 @@ open class TimeObject(@PrimaryKey var id: String? = null,
 
     enum class Type(val titleId: Int, val subTextId: Int, val iconId: Int, val enableLongTerm: Boolean, val styleCount: Int) {
         EVENT(R.string.event, R.string.event_sub,
-                R.drawable.sharp_event_black_48dp, true, 5),
+                R.drawable.sharp_event_black_48dp, true, 10),
         TASK(R.string.task, R.string.task_sub,
-                R.drawable.sharp_check_box_black_48dp, false, 3),
+                R.drawable.sharp_check_box_black_48dp, false, 10),
         NOTE(R.string.note, R.string.note_sub,
                 R.drawable.sharp_notes_black_48dp, false, 3),
         STAMP(R.string.stamp, R.string.stamp_sub,
@@ -67,8 +67,8 @@ open class TimeObject(@PrimaryKey var id: String? = null,
             when(Type.values()[type]) {
                 Type.EVENT -> Formula.TOP_STACK
                 Type.TASK -> Formula.TOP_STACK
+                Type.STAMP -> Formula.TOP_FLOW
                 Type.NOTE -> Formula.TOP_LINEAR
-                Type.STAMP -> Formula.MID_FLOW
                 Type.MONEY -> Formula.MID_FLOW
                 Type.TERM -> Formula.BOTTOM_STACK
             }

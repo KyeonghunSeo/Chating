@@ -389,8 +389,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             dateText.typeface = CalendarSkin.selectFont
             dateText.alpha = 1f
+            bar.setBackgroundColor(color)
             dowText.setTextColor(color)
-            dowText.text = dow[targetCal.get(Calendar.DAY_OF_WEEK) - 1]
+            //dowText.text = dow[targetCal.get(Calendar.DAY_OF_WEEK) - 1]
+            dowText.text = AppDateFormat.dow.format(targetCal.time)
             dowText.visibility = View.VISIBLE
             (dateHeaders[cellNum].dateLy.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.NO_GRAVITY
 

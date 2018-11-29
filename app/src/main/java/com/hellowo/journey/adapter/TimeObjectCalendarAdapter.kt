@@ -176,8 +176,8 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
                     currentType = TimeObject.Type.values()[timeObject.type]
                     when(currentType) {
                         //TASK -> setTypeMargin(dpToPx(4f), currentType)
-                        STAMP, MONEY -> setTypeMargin(dpToPx(3f), currentType)
-                        //NOTE -> setTypeMargin(dpToPx(4F), currentType)
+                        //STAMP, MONEY -> setTypeMargin(dpToPx(3f), currentType)
+                        NOTE -> setTypeMargin(dpToPx(3f), currentType)
                         TERM -> addBottomMargin(dpToPx(10f))
                         else -> {}
                     }

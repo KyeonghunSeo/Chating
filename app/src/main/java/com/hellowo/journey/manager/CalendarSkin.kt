@@ -1,6 +1,7 @@
 package com.hellowo.journey.manager
 
 import android.graphics.*
+import android.view.Gravity
 import com.hellowo.journey.App.Companion.resource
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
@@ -10,6 +11,7 @@ import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaulMargin
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaultPadding
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.iconSize
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.rectRadius
+import com.hellowo.journey.ui.view.TimeObjectView.Companion.stampSize
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.strokeWidth
 
 object CalendarSkin {
@@ -41,29 +43,47 @@ object CalendarSkin {
         val height = view.height
         paint.color = view.timeObject.getColor()
         when(view.timeObject.style){
-            1 -> { // 동그란 점 시작
-                paint.style = Paint.Style.FILL
-                val centerY = (TimeObjectView.blockTypeSize - strokeWidth) / 2f - strokeWidth
-                val radius = defaulMargin
-                val centerX = iconSize / 2.5f + defaulMargin
+            0 -> { // 동그란 점 시작
+                val radius = defaulMargin * 1.5f
+                val centerX = checkSize / 2f
+                val centerY = height / 2f
+
                 canvas.drawCircle(centerX, centerY, radius, paint)
+                view.gravity = Gravity.CENTER_VERTICAL
 
                 if(view.length > 1) {
-                    canvas.drawRect(centerX, centerY - strokeWidth,
-                            width / 2f - view.textSpaceWidth / 2, centerY + strokeWidth, paint)
-                    canvas.drawRect(width / 2f + view.textSpaceWidth / 2,
-                            centerY - strokeWidth, width.toFloat(), centerY + strokeWidth, paint)
-                    canvas.drawRect(width - strokeWidth * 2, centerY - strokeWidth * 4,
-                            width.toFloat(), centerY + strokeWidth * 4, paint)
+                    canvas.drawRect(checkSize + defaulMargin + view.textSpaceWidth + defaultPadding,
+                            centerY - strokeWidth / 2, width.toFloat(), centerY + strokeWidth / 2, paint)
+                    canvas.drawRect(width - strokeWidth, centerY - strokeWidth * 2,
+                            width.toFloat(), centerY + strokeWidth * 2, paint)
                 }
             }
-            2 -> { // 블럭
-                paint.style = Paint.Style.FILL
-                val edge = defaultPadding.toFloat()
-                var left = 0f
-                var right = width.toFloat() - defaultPadding
+            1 -> { // 네모난 점 시작
+                val radius = defaulMargin
+                val centerX = checkSize / 2f
+                val centerY = height / 2f
 
-                // 화살표 모양
+                canvas.drawRect(centerX - iconSize / 2, centerY - radius,
+                        centerX + iconSize / 2, centerY + radius, paint)
+
+                if(view.length > 1) {
+                    canvas.drawRect(checkSize + defaulMargin + view.textSpaceWidth + defaultPadding,
+                            centerY - strokeWidth / 2, width.toFloat(), centerY + strokeWidth / 2, paint)
+                    canvas.drawRect(width - strokeWidth, centerY - strokeWidth * 2,
+                            width.toFloat(), centerY + strokeWidth * 2, paint)
+                }
+            }
+            2 -> { // round stroke
+                paint.isAntiAlias = true
+                paint.style = Paint.Style.STROKE
+                val strokeWidth = defaulMargin
+                paint.strokeWidth = strokeWidth
+                val rect = RectF(strokeWidth / 2, strokeWidth / 2,
+                        width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2)
+                canvas.drawRoundRect(rect, height / 2f, height / 2f, paint)
+                paint.style = Paint.Style.FILL
+
+                /*  // 화살표 모양
                 if(view.leftOpen) {
                     left = edge
                     val path = Path()
@@ -85,85 +105,47 @@ object CalendarSkin {
                     path.lineTo(right, 0f)
                     path.close()
                     canvas.drawPath(path, paint)
-                }
-
-                val rect = RectF(left, 0f, right, height.toFloat())
-                canvas.drawRoundRect(rect, TimeObjectView.rectRadius, TimeObjectView.rectRadius, paint)
+                }*/
             }
-            3 -> {// 동글뱅이
-                paint.style = Paint.Style.FILL
-                val edge = defaultPadding.toFloat()
-                var left = 0f
-                var right = width.toFloat()
-                val rect = RectF(left, 0f, right, height.toFloat())
+            3 -> { // round fill
+                paint.isAntiAlias = true
+                val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
                 canvas.drawRoundRect(rect, height / 2f, height / 2f, paint)
             }
-            4 -> { // 기본 꽉찬 블럭
+            4 -> { // rect stroke
+                paint.style = Paint.Style.STROKE
+                paint.strokeWidth = strokeWidth
+                val rect = RectF(strokeWidth / 2, strokeWidth / 2,
+                        width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2)
+                canvas.drawRect(rect, paint)
                 paint.style = Paint.Style.FILL
-                var left = 0f
-                var right = width.toFloat()
-                val rect = RectF(left, 0f, right, height.toFloat())
-                canvas.drawRoundRect(rect, rectRadius, rectRadius, paint)
             }
-            5 -> { //빗금
-                paint.style = Paint.Style.FILL
-                val edge = defaultPadding.toFloat()
-                var left = 0f
-                var right = width.toFloat()
-/*
-                if(!view.rightOpen) {
-                    right = width.toFloat() - edge
-                    val path = Path()
-                    path.moveTo(right, 0f)
-                    path.lineTo(right + edge, edge)
-                    path.lineTo(right + edge, height.toFloat())
-                    path.lineTo(right, height.toFloat())
-                    path.lineTo(right, 0f)
-                    path.close()
-                    canvas.drawPath(path, paint)
-                }
-*/
-                val rect = RectF(left, 0f, right, height.toFloat())
+            5 -> { // rect fill
+                val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
+                canvas.drawRect(rect, paint)
+            }
+            6 -> { // round hatched
+                val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
                 canvas.drawRoundRect(rect, rectRadius, rectRadius, paint)
 
-                val dashWidth = strokeWidth * 10
-                val offset = strokeWidth * 15
-                paint.strokeWidth = dashWidth
+                val dashWidth = strokeWidth * 6
+                paint.strokeWidth = strokeWidth * 5
                 paint.color = Color.parseColor("#30FFFFFF")
                 var x = 0f
-                while (x < width + offset) {
-                    canvas.drawLine(x, -defaulMargin, x - offset, height + defaulMargin, paint)
+                while (x < width + height) {
+                    canvas.drawLine(x, -defaulMargin, x - height, height + defaulMargin, paint)
                     x += dashWidth * 2
                 }
             }
-            6 -> { // 작은 직사각형
-                paint.style = Paint.Style.FILL
-
-                if(view.length > 1) {
-                    paint.alpha = 100
-                    val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
-                    canvas.drawRoundRect(rect, defaulMargin, defaulMargin, paint)
-                }
-
-                paint.alpha = 255
-                val redius = defaulMargin
-                if(view.timeObject.allday) {
-                    val rect = RectF(iconSize / 2f - redius, height / 2f - redius * 2.6f,
-                            iconSize / 2f + redius, height / 2f + redius * 2.4f)
-                    canvas.drawRoundRect(rect, 0f, 0f, paint)
-                }else {
-                    canvas.drawCircle(iconSize / 2f, height / 2f - strokeWidth, redius, paint)
-                }
-            }
-            else -> {
+            7 -> { // rect hatched
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = TimeObjectView.strokeWidth * 4
+                paint.strokeWidth = strokeWidth * 2
                 val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
                 canvas.drawRect(rect, paint)
 
-                val dashWidth = strokeWidth * 4
+                val dashWidth = strokeWidth * 2
                 var x = 0f
-                paint.strokeWidth = TimeObjectView.strokeWidth * 2
+                paint.strokeWidth = strokeWidth
                 paint.alpha = 50
                 while (x < width + height) {
                     canvas.drawLine(x, -defaulMargin, x - height, height + defaulMargin, paint)
@@ -171,6 +153,14 @@ object CalendarSkin {
                 }
                 paint.alpha = 255
                 paint.style = Paint.Style.FILL
+            }
+            8 -> { // rect fill
+                val rect = RectF(0f, 0f, width.toFloat(), strokeWidth)
+                canvas.drawRect(rect, paint)
+            }
+            9 -> { // rect fill
+                val rect = RectF(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat())
+                canvas.drawRect(rect, paint)
             }
         }
     }
@@ -351,10 +341,33 @@ object CalendarSkin {
 
     fun drawStamp(canvas: Canvas, view: TimeObjectView) {
         val margin = defaulMargin.toInt()
-        var left = margin
-        val width = view.width - defaultPadding - left
-        val size = view.height - defaultPadding
-        val totalStampCnt = view.childList?.size ?: 0
+        val size = (stampSize - defaulMargin).toInt()
+        var top = 0
+        var left = 0
+        view.childList?.forEachIndexed { index, timeObject ->
+            /*
+            val circle = resource.getDrawable(R.drawable.circle_fill)
+            circle.setColorFilter(CalendarSkin.backgroundColor, PorterDuff.Mode.SRC_ATOP)
+            circle.setBounds(left + 1, top + 1, left + size - 1, top + size - 1)
+            circle.draw(canvas)
+*/
+            val stamp = resource.getDrawable(StampManager.stamps[index])
+            stamp.setColorFilter(timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+            stamp.setBounds(left + margin, top + margin, left + size - margin, top + size - margin)
+            stamp.draw(canvas)
+
+            val stroke = resource.getDrawable(R.drawable.circle_stroke_1px)
+            stroke.setColorFilter(timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+            stroke.setBounds(left, top, left + size, top + size)
+            stroke.draw(canvas)
+
+            left += size + margin
+            if(left + size >= view.width) {
+                top += stampSize
+                left = 0
+            }
+        }
+        /*
         if(totalStampCnt > 0) {
             if(size * totalStampCnt + (margin * (totalStampCnt - 1)) > width) {
                 var right = left + width
@@ -400,6 +413,7 @@ object CalendarSkin {
                 }
             }
         }
+        */
     }
 
     fun drawNote(canvas: Canvas, view: TimeObjectView) {
