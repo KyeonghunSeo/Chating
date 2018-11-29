@@ -29,8 +29,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val rectRadius = dpToPx(2f)
         val stampSize = dpToPx(17)
         val blockTypeSize = dpToPx(17)
-        val iconSize = dpToPx(5)
-        val checkSize = dpToPx(10)
+        val dotSize = dpToPx(4)
+        val checkSize = dpToPx(9)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
     }
     var mLeft = 0f
@@ -55,7 +55,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             maxLines = 1
             setSingleLine(true)
             setHorizontallyScrolling(true)
-            isHorizontalFadingEdgeEnabled = true
+            //isHorizontalFadingEdgeEnabled = true /*성능이슈*/
             typeface = AppTheme.textFont
             setTextColor(AppTheme.primaryText)
             setPadding(defaultPadding, 0, defaultPadding, 0)
@@ -73,22 +73,18 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setHorizontallyScrolling(true)
                 when(timeObject.style){
                     0, 1 -> {
-                        isHorizontalFadingEdgeEnabled = true
-                        setPadding((checkSize + defaulMargin).toInt(), fontTopPadding, defaultPadding, 0)
+                        setPadding((checkSize + defaulMargin * 2).toInt(), fontTopPadding, defaultPadding, 0)
                         setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
                     2, 4, 7 -> {
-                        isHorizontalFadingEdgeEnabled = false
                         setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                         setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
                     3, 5, 6 -> {
-                        isHorizontalFadingEdgeEnabled = false
                         setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                         setTextColor(AppTheme.getFontColor(timeObject.colorKey))
                     }
                     8, 9 -> {
-                        isHorizontalFadingEdgeEnabled = true
                         setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                         setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
@@ -96,20 +92,25 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             }
             TimeObject.Type.TASK -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
-                setTextColor(timeObject.getColor())
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 typeface = AppTheme.textFont
                 gravity = Gravity.CENTER_VERTICAL
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
-                isHorizontalFadingEdgeEnabled = true
+                setPadding((checkSize + defaulMargin * 2).toInt(), fontTopPadding, defaultPadding, 0)
                 when(timeObject.style){
-                    1 -> {
-                        setPadding((checkSize + defaulMargin).toInt(), fontTopPadding, defaultPadding, 0)
+                    0, 1 -> {
+                        setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
-                    else -> {
-                        setPadding((checkSize + defaulMargin).toInt(), fontTopPadding, defaultPadding, 0)
+                    2, 4, 7 -> {
+                        setTextColor(AppTheme.getColor(timeObject.colorKey))
+                    }
+                    3, 5, 6 -> {
+                        setTextColor(AppTheme.getFontColor(timeObject.colorKey))
+                    }
+                    8, 9 -> {
+                        setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
                 }
             }

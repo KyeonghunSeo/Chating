@@ -75,8 +75,8 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = TemplateAdapter(context, items) {
             selectItem(it)
+            collapse()
             MainActivity.instance?.viewModel?.makeNewTimeObject()
-            postDelayed({collapse()}, 0)
         }
 
         touchEventView.setOnTouchListener { view, event ->
@@ -104,13 +104,10 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                                     collapse()
                                 }
                                 event.y < 0 -> {
-                                    endScrolling()
                                     MainActivity.instance?.viewModel?.makeNewTimeObject()
                                     collapse()
                                 }
-                                else -> {
-                                    endScrolling()
-                                }
+                                else -> {}
                             }
                         }
                     }
@@ -132,17 +129,12 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                                 handler.removeMessages(1)
                                 handler.sendEmptyMessage(1)
                             }
-                        }else {
-                            endScrolling()
-                        }
+                        }else { }
 
                         when {
-                            event.y < -touchEventView.height * 1.5 -> {
-                            }
-                            event.y < 0 -> {
-                            }
-                            else -> {
-                            }
+                            event.y < -touchEventView.height * 1.5 -> { }
+                            event.y < 0 -> { }
+                            else -> { }
                         }
                     }
                 }
@@ -235,18 +227,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     private fun selectItem(template: Template) {
         Prefs.putInt("last_template_id", template.id)
         selectedPosition = items.indexOf(template)
-        setControlView(template)
         MainActivity.instance?.viewModel?.targetTemplate?.value = template
-    }
-
-    private fun setControlView(template: Template) {
-    }
-
-    private fun endScrolling() {
-        if(autoScrollFlag != 0) {
-            autoScrollFlag = 0
-            handler.removeMessages(1)
-        }
     }
 
     private fun restoreViews() {

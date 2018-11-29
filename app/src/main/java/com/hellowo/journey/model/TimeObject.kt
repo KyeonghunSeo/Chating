@@ -66,8 +66,8 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         return if(inCalendar) {
             when(Type.values()[type]) {
                 Type.EVENT -> Formula.TOP_STACK
-                Type.TASK -> Formula.TOP_STACK
                 Type.STAMP -> Formula.TOP_FLOW
+                Type.TASK -> Formula.TOP_LINEAR
                 Type.NOTE -> Formula.TOP_LINEAR
                 Type.MONEY -> Formula.MID_FLOW
                 Type.TERM -> Formula.BOTTOM_STACK

@@ -10,18 +10,18 @@ class CalendarComparator : Comparator<TimeObjectCalendarAdapter.TimeObjectViewHo
             l.timeObject.getFormula() > r.timeObject.getFormula() -> 1
             else -> {
                 when{
-                    l.timeObject.type < r.timeObject.type -> -1
-                    l.timeObject.type > r.timeObject.type -> 1
+                    l.startCellNum < r.startCellNum -> -1
+                    l.startCellNum > r.startCellNum -> 1
                     else -> {
+                        val lLength = l.endCellNum - l.startCellNum
+                        val rLength = r.endCellNum - r.startCellNum
                         when{
-                            l.startCellNum < r.startCellNum -> -1
-                            l.startCellNum > r.startCellNum -> 1
+                            lLength > rLength -> -1
+                            lLength < rLength -> 1
                             else -> {
-                                val lLength = l.endCellNum - l.startCellNum
-                                val rLength = r.endCellNum - r.startCellNum
                                 when{
-                                    lLength > rLength -> -1
-                                    lLength < rLength -> 1
+                                    l.timeObject.type < r.timeObject.type -> -1
+                                    l.timeObject.type > r.timeObject.type -> 1
                                     else -> {
                                         when(l.timeObject.type) {
                                             TimeObject.Type.EVENT.ordinal -> {
