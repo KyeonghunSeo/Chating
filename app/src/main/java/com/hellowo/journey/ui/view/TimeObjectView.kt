@@ -17,6 +17,8 @@ import com.hellowo.journey.dpToPx
 import com.hellowo.journey.l
 import com.hellowo.journey.manager.CalendarSkin
 import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.TimeObject.Type.*
+import com.hellowo.journey.model.TimeObject.Style.*
 
 @SuppressLint("ViewConstructor")
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
@@ -63,7 +65,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         }
 
         when(TimeObject.Type.values()[timeObject.type]) {
-            TimeObject.Type.EVENT -> {
+            EVENT -> {
                 typeface = AppTheme.textFont
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
@@ -71,26 +73,27 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
-                when(timeObject.style){
-                    0, 1 -> {
+                when(TimeObject.Style.values()[timeObject.style]){
+                    DOT, HYPHEN -> {
                         setPadding((checkSize + defaulMargin * 2).toInt(), fontTopPadding, defaultPadding, 0)
                         setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
-                    2, 4, 7 -> {
+                    ROUND_STROKE, RECT_STROKE, HATCHED -> {
                         setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                         setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
-                    3, 5, 6 -> {
+                    ROUND_FILL, RECT_FILL, CANDY -> {
                         setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                         setTextColor(AppTheme.getFontColor(timeObject.colorKey))
                     }
-                    8, 9 -> {
+                    TOP_LINE, BOTTOM_LINE -> {
                         setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                         setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
+                    else -> {}
                 }
             }
-            TimeObject.Type.TASK -> {
+            TASK -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 typeface = AppTheme.textFont
@@ -114,27 +117,35 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     }
                 }
             }
-            TimeObject.Type.NOTE -> {
+            NOTE -> {
                 when(timeObject.style){
+                    0, 2 -> {
+                        setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
+                        text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
+                        typeface = AppTheme.textFont
+                        setLineSpacing(defaulMargin, 1f)
+                        setPadding(defaultPadding, defaultPadding, defaultPadding, defaultPadding)
+                        setTextColor(timeObject.getColor())
+                    }
                     1 -> {
                         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                         typeface = AppTheme.textFont
-                        setLineSpacing(strokeWidth * 2, 1f)
-                        setPadding(defaulMargin.toInt(), (defaulMargin).toInt() * 4, defaultPadding, defaultPadding)
-                        setTextColor(CalendarSkin.dateColor)
+                        setLineSpacing(defaulMargin, 1f)
+                        setPadding((defaultPadding + defaulMargin * 3).toInt(), defaultPadding, defaultPadding, defaultPadding)
+                        setTextColor(timeObject.getColor())
                     }
                     else -> {
                         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                         typeface = AppTheme.textFont
-                        setLineSpacing(strokeWidth * 2, 1f)
-                        setPadding(defaulMargin.toInt(), defaulMargin.toInt(), defaultPadding, defaultPadding)
-                        setTextColor(CalendarSkin.dateColor)
+                        setLineSpacing(defaulMargin, 1f)
+                        setPadding(defaultPadding, defaultPadding, defaultPadding, defaultPadding)
+                        setTextColor(timeObject.getColor())
                     }
                 }
             }
-            TimeObject.Type.TERM -> {
+            TERM -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 gravity = Gravity.CENTER_HORIZONTAL
@@ -176,25 +187,25 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             canvas?.let {
                 paint.isAntiAlias = true
                 when(TimeObject.Type.values()[timeObject.type]) {
-                    TimeObject.Type.EVENT -> {
+                    EVENT -> {
                         CalendarSkin.drawEvent(canvas, this)
                         super.onDraw(canvas)
                     }
-                    TimeObject.Type.TASK -> {
+                    TASK -> {
                         CalendarSkin.drawTask(canvas, this)
                         super.onDraw(canvas)
                     }
-                    TimeObject.Type.STAMP -> {
+                    STAMP -> {
                         CalendarSkin.drawStamp(canvas, this)
                     }
-                    TimeObject.Type.NOTE -> {
+                    NOTE -> {
                         CalendarSkin.drawNote(canvas, this)
                         super.onDraw(canvas)
                     }
-                    TimeObject.Type.MONEY -> {
+                    MONEY -> {
                         CalendarSkin.drawMoney(canvas, this)
                     }
-                    TimeObject.Type.TERM -> {
+                    TERM -> {
                         super.onDraw(canvas)
                         CalendarSkin.drawTerm(canvas, this)
                     }

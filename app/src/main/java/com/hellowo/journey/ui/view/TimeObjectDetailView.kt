@@ -62,13 +62,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun initControllBtn() {
-        confirmBtn.setOnClickListener {
-            confirm()
-        }
+        confirmBtn.setOnClickListener { confirm() }
 
-        deleteBtn.setOnClickListener {
-            delete()
-        }
+        deleteBtn.setOnClickListener { delete() }
 
         addOptionBtn.setOnClickListener {
             showDialog(MoreOptionDialog(MainActivity.instance!!,this@TimeObjectDetailView),
@@ -80,12 +76,12 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 timeObject.colorKey = colorKey
                 timeObject.fontColor = fontColor
                 updateUI()
-            }, true, false, true, false)
+            }, true, true, true, false)
         }
 
         previewContainer.setOnClickListener {
             showDialog(StylePickerDialog(MainActivity.instance!!, timeObject.colorKey,
-                    timeObject.type, timeObject.style) { style ->
+                    timeObject.type, timeObject.title ?: "") { style ->
                 timeObject.style = style
                 updateStyleUI()
             }, true, true, true, false)
@@ -94,6 +90,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         pinBtn.setOnClickListener {
             timeObject.inCalendar = !timeObject.inCalendar
             updateHeaderUI()
+            updateStyleUI()
         }
     }
 
@@ -107,6 +104,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 timeObject.title = titleInput.text.toString()
+                if(timeObject.inCalendar) updateStyleUI()
             }
             override fun afterTextChanged(p0: Editable?) {}
         })
@@ -303,24 +301,30 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun updateStyleUI() {
-        (previewContainer.getChildAt(0) as TimeObjectView).let {
-            it.timeObject.type = timeObject.type
-            it.timeObject.style = timeObject.style
-            it.timeObject.colorKey = timeObject.colorKey
-            it.setLookByType()
+        if(timeObject.inCalendar) {
+            previewContainer.visibility = View.VISIBLE
+            (previewContainer.getChildAt(0) as TimeObjectView).let {
+                it.timeObject.title = timeObject.title
+                it.timeObject.type = timeObject.type
+                it.timeObject.style = timeObject.style
+                it.timeObject.colorKey = timeObject.colorKey
+                it.setLookByType()
 
-            when(it.timeObject.type) {
-                2 -> {
-                    it.layoutParams.height = WRAP_CONTENT
+                when(it.timeObject.type) {
+                    2 -> {
+                        it.layoutParams.height = WRAP_CONTENT
+                    }
+                    else -> {
+                        it.layoutParams.height = TimeObjectView.blockTypeSize
+                    }
                 }
-                else -> {
-                    it.layoutParams.height = TimeObjectView.blockTypeSize
-                }
+
+                it.textSpaceWidth = it.paint.measureText(it.text.toString())
+                it.requestLayout()
+                it.invalidate()
             }
-
-            it.textSpaceWidth = it.paint.measureText(it.text.toString())
-            it.requestLayout()
-            it.invalidate()
+        }else {
+            previewContainer.visibility = View.GONE
         }
     }
 

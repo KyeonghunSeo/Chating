@@ -45,7 +45,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         TASK(R.string.task, R.string.task_sub,
                 R.drawable.sharp_check_box_black_48dp, false, 10),
         NOTE(R.string.note, R.string.note_sub,
-                R.drawable.sharp_notes_black_48dp, false, 3),
+                R.drawable.sharp_notes_black_48dp, false, 7),
         STAMP(R.string.stamp, R.string.stamp_sub,
                 R.drawable.sharp_star_rate_black_48dp, false, 3),
         TERM(R.string.term, R.string.term_sub,
@@ -55,7 +55,8 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     enum class Style {
-        DEFAULT, SHORT, LONG, INDICATOR
+        DEFAULT, DOT, HYPHEN, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE,
+        MEMO, RECT_DASH, RECT_OPENSIDE
     }
 
     enum class Formula {

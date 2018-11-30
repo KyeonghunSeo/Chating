@@ -123,8 +123,7 @@ class TemplateEditActivity : BaseActivity() {
                     }, true, true, true, false)
                 }
                 5 -> {
-                    showDialog(StylePickerDialog(this@TemplateEditActivity, template.colorKey,
-                            template.type, template.style) { style ->
+                    showDialog(StylePickerDialog(this@TemplateEditActivity, template.colorKey, template.type, "") { style ->
                         realm.executeTransaction { it ->
                             realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
                                 it.style = style

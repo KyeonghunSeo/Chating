@@ -5,7 +5,9 @@ import android.view.Gravity
 import com.hellowo.journey.App.Companion.resource
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
+import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.view.TimeObjectView
+import com.hellowo.journey.ui.view.TimeObjectView.Companion.blockTypeSize
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.checkSize
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaulMargin
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaultPadding
@@ -13,6 +15,7 @@ import com.hellowo.journey.ui.view.TimeObjectView.Companion.dotSize
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.rectRadius
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.stampSize
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.strokeWidth
+import com.hellowo.journey.model.TimeObject.Style.*
 
 object CalendarSkin {
     var backgroundColor: Int = 0
@@ -42,8 +45,8 @@ object CalendarSkin {
         val width = view.width
         val height = view.height
         paint.color = view.timeObject.getColor()
-        when(view.timeObject.style){
-            0 -> { // 동그란 점 시작
+        when(TimeObject.Style.values()[view.timeObject.style]){
+            DOT -> {
                 val radius = defaulMargin * 1.5f
                 val centerX = (checkSize + defaulMargin) / 2f
                 val centerY = height / 2f
@@ -51,7 +54,7 @@ object CalendarSkin {
                 view.gravity = Gravity.CENTER_VERTICAL
                 if(view.length > 1) drawWhiteSpaceLine(view, centerY, paint, canvas)
             }
-            1 -> { // 네모난 점 시작
+            HYPHEN -> {
                 val radius = defaulMargin
                 val centerX = (checkSize + defaulMargin) / 2f
                 val centerY = height / 2f
@@ -59,7 +62,7 @@ object CalendarSkin {
                         centerX + dotSize / 2, centerY + radius, paint)
                 if(view.length > 1) drawWhiteSpaceLine(view, centerY, paint, canvas)
             }
-            2 -> { // round stroke
+            ROUND_STROKE -> {
                 paint.isAntiAlias = true
                 paint.style = Paint.Style.STROKE
                 val strokeWidth = defaulMargin
@@ -93,12 +96,12 @@ object CalendarSkin {
                     canvas.drawPath(path, paint)
                 }*/
             }
-            3 -> { // round fill
+            ROUND_FILL -> {
                 paint.isAntiAlias = true
                 val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
                 canvas.drawRoundRect(rect, height / 2f, height / 2f, paint)
             }
-            4 -> { // rect stroke
+            RECT_STROKE -> {
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = strokeWidth
                 val rect = RectF(strokeWidth / 2, strokeWidth / 2,
@@ -106,11 +109,11 @@ object CalendarSkin {
                 canvas.drawRect(rect, paint)
                 paint.style = Paint.Style.FILL
             }
-            5 -> { // rect fill
+            RECT_FILL -> {
                 val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
                 canvas.drawRect(rect, paint)
             }
-            6 -> { // round hatched
+            CANDY -> {
                 val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
                 canvas.drawRoundRect(rect, rectRadius, rectRadius, paint)
 
@@ -123,7 +126,7 @@ object CalendarSkin {
                     x += dashWidth * 2
                 }
             }
-            7 -> { // rect hatched
+            HATCHED -> {
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = strokeWidth * 2
                 val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
@@ -140,11 +143,11 @@ object CalendarSkin {
                 paint.alpha = 255
                 paint.style = Paint.Style.FILL
             }
-            8 -> { // top line
+            TOP_LINE -> { // top line
                 val rect = RectF(0f, 0f, width.toFloat(), strokeWidth)
                 canvas.drawRect(rect, paint)
             }
-            9 -> { // bottom line
+            BOTTOM_LINE -> { // bottom line
                 val rect = RectF(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat())
                 canvas.drawRect(rect, paint)
             }
@@ -276,6 +279,110 @@ object CalendarSkin {
             check.setBounds(defaulMargin.toInt(), (centerY - checkSize / 2f).toInt(),
                     checkSize + defaulMargin.toInt(), (centerY + checkSize / 2f).toInt())
             check.draw(canvas)
+        }
+    }
+
+    fun drawNote(canvas: Canvas, view: TimeObjectView) {
+        val timeObject = view.timeObject
+        val paint = view.paint
+        val width = view.width
+        val height = view.height
+        paint.color = timeObject.getColor()
+        when(timeObject.style){
+            0 -> {}
+            1 -> { // 동그란 점 시작
+                val radius = defaulMargin
+                val centerX = defaultPadding
+                val centerY = blockTypeSize / 2f - radius
+                canvas.drawCircle(centerX.toFloat(), centerY, radius, paint)
+                view.gravity = Gravity.CENTER_VERTICAL
+            }
+            2 -> { // 좌우 감싸기
+                val strokeWidth = strokeWidth / 2
+                canvas.drawRect(0f, 0f, defaultPadding.toFloat(), strokeWidth, paint)
+                canvas.drawRect(0f, height.toFloat() - strokeWidth, defaultPadding.toFloat(), height.toFloat(), paint)
+
+                canvas.drawRect(0f, 0f, strokeWidth, defaultPadding.toFloat(), paint)
+                canvas.drawRect(width - strokeWidth, 0f, width.toFloat(), defaultPadding.toFloat(), paint)
+
+                canvas.drawRect(0f, (height - defaultPadding).toFloat(), strokeWidth, height.toFloat(), paint)
+                canvas.drawRect(width - strokeWidth, (height - defaultPadding).toFloat(), width.toFloat(), height.toFloat(), paint)
+            }
+            3 -> { // 상하단 감싸기
+                val strokeWidth = strokeWidth / 2
+                canvas.drawRect(0f, 0f, width.toFloat(), strokeWidth, paint)
+                canvas.drawRect(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat(), paint)
+
+                canvas.drawRect(0f, 0f, strokeWidth, defaultPadding.toFloat(), paint)
+                canvas.drawRect(width - strokeWidth, 0f, width.toFloat(), defaultPadding.toFloat(), paint)
+
+                canvas.drawRect(0f, (height - defaultPadding).toFloat(), strokeWidth, height.toFloat(), paint)
+                canvas.drawRect(width - strokeWidth, (height - defaultPadding).toFloat(), width.toFloat(), height.toFloat(), paint)
+            }
+            4 -> { // rect stroke
+                paint.style = Paint.Style.STROKE
+                paint.strokeWidth = strokeWidth
+                val rect = RectF(0f, 0f,
+                        width.toFloat(), height.toFloat())
+                canvas.drawRect(rect, paint)
+                paint.style = Paint.Style.FILL
+            }
+            5 -> { // 쪽지 모양
+                paint.strokeWidth = strokeWidth
+                val left = 0f
+                val top = 0f
+                val right = width.toFloat()
+                val bottom = height.toFloat()
+                val edge = defaultPadding
+
+                var path = Path()
+                path.moveTo(left, top)
+                path.lineTo(right, top)
+                path.lineTo(right, bottom - edge)
+                path.lineTo(right - edge, bottom - edge)
+                path.lineTo(right - edge, bottom)
+                path.lineTo(left, bottom)
+                path.lineTo(left, top)
+                paint.style = Paint.Style.FILL
+                paint.alpha = 30
+                canvas.drawPath(path, paint)
+
+                path = Path()
+                path.moveTo(right, bottom - edge)
+                path.lineTo(right - edge, bottom - edge)
+                path.lineTo(right - edge, bottom)
+                path.lineTo(right, bottom - edge)
+                paint.style = Paint.Style.STROKE
+                paint.alpha = 30
+                canvas.drawPath(path, paint)
+
+                path = Path()
+                path.moveTo(right - edge, bottom - edge)
+                path.lineTo(right - edge * 2, bottom)
+                path.lineTo(right - edge, bottom)
+                path.lineTo(right - edge, bottom - edge)
+                path.close()
+                paint.style = Paint.Style.FILL
+                paint.alpha = 100
+                canvas.drawPath(path, paint)
+            }
+            6 -> { // rect hatched
+                paint.style = Paint.Style.STROKE
+                paint.strokeWidth = strokeWidth * 2
+                val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
+                canvas.drawRect(rect, paint)
+
+                val dashWidth = strokeWidth * 2
+                var x = 0f
+                paint.strokeWidth = strokeWidth
+                paint.alpha = 50
+                while (x < width + height) {
+                    canvas.drawLine(x, -defaulMargin, x - height, height + defaulMargin, paint)
+                    x += dashWidth * 2
+                }
+                paint.alpha = 255
+                paint.style = Paint.Style.FILL
+            }
         }
     }
 
@@ -429,7 +536,7 @@ object CalendarSkin {
                 left = 0
             }
         }
-        /*
+        /* 겹치기
         if(totalStampCnt > 0) {
             if(size * totalStampCnt + (margin * (totalStampCnt - 1)) > width) {
                 var right = left + width
@@ -454,43 +561,9 @@ object CalendarSkin {
                         right -= overlap
                     }
                 }
-            }else {
-                view.childList?.forEachIndexed { index, timeObject ->
-                    val circle = resource.getDrawable(R.drawable.circle_fill)
-                    circle.setColorFilter(CalendarSkin.backgroundColor, PorterDuff.Mode.SRC_ATOP)
-                    circle.setBounds(left + 1, 1, left + size - 1, size - 1)
-                    circle.draw(canvas)
-
-                    val stamp = resource.getDrawable(StampManager.stamps[index])
-                    stamp.setColorFilter(timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
-                    stamp.setBounds(left + margin, margin, left + size - margin, size - margin)
-                    stamp.draw(canvas)
-
-                    val stroke = resource.getDrawable(R.drawable.circle_stroke_1dp)
-                    stroke.setColorFilter(timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
-                    stroke.setBounds(left, 0, left + size, size)
-                    stroke.draw(canvas)
-
-                    left += size + margin
-                }
             }
         }
         */
-    }
-
-    fun drawNote(canvas: Canvas, view: TimeObjectView) {
-        val timeObject = view.timeObject
-        val paint = view.paint
-        paint.color = timeObject.getColor()
-        when(timeObject.style){
-            1 -> {
-                val rect = RectF(defaulMargin, strokeWidth,
-                        defaulMargin * 5,
-                        strokeWidth * 3)
-                canvas.drawRect(rect, paint)
-            }
-            else -> {}
-        }
     }
 
     fun drawMoney(canvas: Canvas, view: TimeObjectView) {
@@ -538,64 +611,7 @@ object CalendarSkin {
         }
     }
 
-    /* 메모 모양
-                setPadding(defaultPadding * 2, defaultPadding * 2, defaultPadding * 2, defaultPadding * 2)
-                    setSingleLine(false)
-                    maxLines = 4
-                    setTextColor(color)
-                    gravity = Gravity.TOP
-                    ellipsize = TextUtils.TruncateAt.END
-
-                    paint.strokeWidth = strokeWidth
-                    paint.color = color
-
-                    val left = defaultPadding.toFloat()
-                    val top = defaultPadding.toFloat()
-                    val right = width.toFloat() - defaultPadding
-                    val bottom = height.toFloat() - defaultPadding
-
-                    var path = Path()
-                    path.moveTo(left, top)
-                    path.lineTo(right, top)
-                    path.lineTo(right, bottom - circleRadius)
-                    path.lineTo(right - circleRadius, bottom - circleRadius)
-                    path.lineTo(right - circleRadius, bottom)
-                    path.lineTo(left, bottom)
-                    path.lineTo(left, top)
-                    paint.style = Paint.Style.FILL
-                    paint.alpha = 30
-                    it.drawPath(path, paint)
-
-                    path = Path()
-                    path.moveTo(right, bottom - circleRadius)
-                    path.lineTo(right - circleRadius, bottom - circleRadius)
-                    path.lineTo(right - circleRadius, bottom)
-                    path.lineTo(right, bottom - circleRadius)
-                    paint.style = Paint.Style.STROKE
-                    paint.alpha = 30
-                    it.drawPath(path, paint)
-
-                    path = Path()
-                    path.moveTo(right - circleRadius, bottom - circleRadius)
-                    path.lineTo(right - circleRadius * 2, bottom)
-                    path.lineTo(right - circleRadius, bottom)
-                    path.lineTo(right - circleRadius, bottom - circleRadius)
-                    path.close()
-                    paint.style = Paint.Style.FILL
-                    paint.alpha = 100
-                    it.drawPath(path, paint)
-
-
-                3 -> {
-                    val paint = Paint()
-                    paint.style = Paint.Style.STROKE
-                    paint.strokeWidth = strokeWidth.toFloat()
-                    paint.color = color
-                    paint.isAntiAlias = true
-                    val center = blockTypeSize / 2f
-                    val rect = RectF(center - circleRadius, center - circleRadius, center + circleRadius, center + circleRadius)
-                    it.drawRoundRect(rect, radius, radius, paint)
-                }
+    /*
                 4 -> { // 시계
                     val paint = Paint()
                     paint.style = Paint.Style.TOP_STACK
@@ -613,7 +629,7 @@ object CalendarSkin {
                     paint.color = Color.WHITE
                     it.drawLine(sX, sY, (sX + hX).toFloat(), (sY + hY).toFloat(), paint)
                 }
-                5 -> {
+                5 -> { // 타일 모드
                     val bitmap = BitmapFactory.decodeResource(resource, R.drawable.p1)
                     val bitmapDrawable = BitmapDrawable(resource, bitmap)
                     bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)

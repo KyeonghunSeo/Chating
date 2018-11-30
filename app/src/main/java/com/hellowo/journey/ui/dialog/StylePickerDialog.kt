@@ -13,7 +13,7 @@ import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.dialog_style_picker.*
 
 class StylePickerDialog(activity: Activity, private val colorKey: Int, private val type: Int,
-                        private val style: Int, private val onResult: (Int) -> Unit) : Dialog(activity) {
+                        private val title: String, private val onResult: (Int) -> Unit) : Dialog(activity) {
 
     init {}
 
@@ -32,6 +32,7 @@ class StylePickerDialog(activity: Activity, private val colorKey: Int, private v
         rootLy.setBackgroundColor(Color.WHITE)
         stylePicker.type = type
         stylePicker.colorKey = colorKey
+        if(title.isNotEmpty()) stylePicker.title = title
         stylePicker.onSelected = { style ->
             onResult.invoke(style)
             dismiss()

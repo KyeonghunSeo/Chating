@@ -127,7 +127,7 @@ object TimeObjectManager {
 
     fun save(timeObject: TimeObject) {
         val realm = Realm.getDefaultInstance()
-        realm.executeTransaction{ realm ->
+        realm.executeTransaction{ _ ->
             if(timeObject.id.isNullOrEmpty()) {
                 timeObject.id = UUID.randomUUID().toString()
                 timeObject.dtCreated = System.currentTimeMillis()
@@ -141,7 +141,6 @@ object TimeObjectManager {
 
             if(timeObject.alarms.isNotEmpty()) {
                 timeObject.alarms.sortBy { it.dtAlarm }
-
                 var registedAlarm = realm.where(RegistedAlarm::class.java)
                         .equalTo("timeObjectId", timeObject.id).findFirst()
 
@@ -157,7 +156,6 @@ object TimeObjectManager {
                         }
                     }
                 }
-
                 registedAlarm?.let { AlarmManager.registTimeObjectAlarm(timeObject, it) }
             }
 

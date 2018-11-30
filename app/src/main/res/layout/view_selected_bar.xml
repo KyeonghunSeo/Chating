@@ -5,16 +5,14 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <View
+    <com.hellowo.journey.ui.view.base.Line
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/primaryText"
         android:alpha="0.1"/>
 
-    <View
+    <com.hellowo.journey.ui.view.base.Line
         android:layout_width="2px"
         android:layout_height="5dp"
-        android:background="@color/primaryText"
         android:layout_gravity="right"
         android:alpha="0.1"/>
 

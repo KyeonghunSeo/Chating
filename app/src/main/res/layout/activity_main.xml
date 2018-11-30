@@ -95,10 +95,9 @@
 
             </FrameLayout>
 
-            <View
+            <com.hellowo.journey.ui.view.base.Line
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/primaryText"
                 android:layout_gravity="bottom"
                 android:alpha="0.1"/>
 

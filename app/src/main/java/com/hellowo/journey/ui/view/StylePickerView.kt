@@ -28,6 +28,7 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     var onSelected : ((Int) -> Unit)? = null
     var type = 0
     var colorKey = 0
+    var title = context.getString(R.string.contents_example)
 
     init {
         layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -41,7 +42,6 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             init {
                 itemView.layoutParams.height = dpToPx(110)
                 val timeObjectView = TimeObjectView(context, TimeObject(), 0, 0)
-                timeObjectView.timeObject.title = context.getString(R.string.contents_example)
                 timeObjectView.scaleX = 1.5f
                 timeObjectView.scaleY = 1.5f
                 timeObjectView.pivotX = 0.5f
@@ -59,6 +59,7 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             val v = holder.itemView
 
             (v.previewContainer.getChildAt(0) as TimeObjectView).let {
+                it.timeObject.title = title
                 it.timeObject.type = type
                 it.timeObject.style = position
                 it.timeObject.colorKey = colorKey
