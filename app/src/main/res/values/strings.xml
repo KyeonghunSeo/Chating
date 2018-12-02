@@ -179,7 +179,7 @@
     <string name="stamp_sub">운동한 날, 병원간 날 등 주기적으로 관리하고 싶은 일들을 예쁜 도장으로 간단하게 표시 할 수 있습니다.</string>
     <string name="term_sub">휴가, 시험기간 등 특정 기간 동안의 대표되는 일이나 대략적인 큰 계획들을 기록할 수 있습니다.</string>
     <string name="money_sub">수입/지출 내역을 손쉽게 기록하고 관리할 수 있습니다.</string>
-    <string name="contents_example">기록이 곧 여정이다.</string>
+    <string name="contents_example">Title</string>
     <string name="add_new">새로입력</string>
 
 </resources>

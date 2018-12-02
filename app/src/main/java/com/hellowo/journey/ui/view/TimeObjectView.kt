@@ -31,9 +31,10 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val rectRadius = dpToPx(2f)
         val stampSize = dpToPx(17)
         val blockTypeSize = dpToPx(17)
-        val dotSize = dpToPx(4)
+        val dotSize = dpToPx(2)
         val checkSize = dpToPx(9)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        val defaultTextColor = Color.parseColor("#90000000")
     }
     var mLeft = 0f
     var mTop = 0f
@@ -73,24 +74,17 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
+                setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                 when(TimeObject.Style.values()[timeObject.style]){
-                    DOT, HYPHEN -> {
-                        setPadding((checkSize + defaulMargin * 2).toInt(), fontTopPadding, defaultPadding, 0)
-                        setTextColor(AppTheme.getColor(timeObject.colorKey))
-                    }
-                    ROUND_STROKE, RECT_STROKE, HATCHED -> {
-                        setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
+                    ROUND_STROKE, RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
                         setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
                     ROUND_FILL, RECT_FILL, CANDY -> {
-                        setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                         setTextColor(AppTheme.getFontColor(timeObject.colorKey))
                     }
-                    TOP_LINE, BOTTOM_LINE -> {
-                        setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
-                        setTextColor(AppTheme.getColor(timeObject.colorKey))
+                    else -> {
+                        setTextColor(defaultTextColor)
                     }
-                    else -> {}
                 }
             }
             TASK -> {
@@ -102,20 +96,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
                 setPadding((checkSize + defaulMargin * 2).toInt(), fontTopPadding, defaultPadding, 0)
-                when(timeObject.style){
-                    0, 1 -> {
-                        setTextColor(AppTheme.getColor(timeObject.colorKey))
-                    }
-                    2, 4, 7 -> {
-                        setTextColor(AppTheme.getColor(timeObject.colorKey))
-                    }
-                    3, 5, 6 -> {
-                        setTextColor(AppTheme.getFontColor(timeObject.colorKey))
-                    }
-                    8, 9 -> {
-                        setTextColor(AppTheme.getColor(timeObject.colorKey))
-                    }
-                }
+                setTextColor(AppTheme.getColor(timeObject.colorKey))
+                when(timeObject.style){}
             }
             NOTE -> {
                 when(timeObject.style){
@@ -219,15 +201,15 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     fun getViewHeight(): Int {
         if(timeObject.inCalendar) {
             return when(TimeObject.Type.values()[timeObject.type]) {
-                TimeObject.Type.EVENT -> {
+                EVENT -> {
                     textSpaceWidth = paint.measureText(text.toString())
                     blockTypeSize
                 }
-                TimeObject.Type.TASK -> {
+                TASK -> {
                     textSpaceWidth = paint.measureText(text.toString())
                     blockTypeSize
                 }
-                TimeObject.Type.STAMP -> {
+                STAMP -> {
                     val width =  mRight - mLeft - defaulMargin
                     val margin = defaulMargin.toInt()
                     val size = stampSize - defaulMargin
@@ -235,9 +217,9 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     val rows = ((size * totalStampCnt + margin * (totalStampCnt - 1)) / width + 1).toInt()
                     (stampSize * rows)
                 }
-                TimeObject.Type.NOTE -> {
+                NOTE -> {
                     setSingleLine(false)
-                    maxLines = 7
+                    maxLines = 5
                     gravity = Gravity.TOP
                     ellipsize = TextUtils.TruncateAt.END
                     val width =  mRight - mLeft - defaulMargin
@@ -245,7 +227,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     //l("${timeObject.title} 라인 : "+((paint.measureText(text.toString()) / width).toInt() + 1))
                     measuredHeight
                 }
-                TimeObject.Type.TERM -> {
+                TERM -> {
                     textSpaceWidth = paint.measureText(text.toString())
                     blockTypeSize
                 }

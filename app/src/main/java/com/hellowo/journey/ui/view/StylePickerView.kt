@@ -24,7 +24,6 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     : RecyclerView(context, attrs, defStyleAttr) {
 
     val cal = Calendar.getInstance()
-    var selectedPos = -1
     var onSelected : ((Int) -> Unit)? = null
     var type = 0
     var colorKey = 0
@@ -36,15 +35,14 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     inner class StyleAdapter : RecyclerView.Adapter<ViewHolder>() {
-        override fun getItemCount(): Int = Type.values()[type].styleCount
+        override fun getItemCount(): Int = Type.values()[type].styles.size
 
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {
-                itemView.layoutParams.height = dpToPx(110)
+                itemView.layoutParams.height = dpToPx(130)
                 val timeObjectView = TimeObjectView(context, TimeObject(), 0, 0)
                 timeObjectView.scaleX = 1.5f
                 timeObjectView.scaleY = 1.5f
-                timeObjectView.pivotX = 0.5f
                 timeObjectView.layoutParams = FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
                     gravity = Gravity.CENTER_VERTICAL
                 }
@@ -57,11 +55,12 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val v = holder.itemView
+            val style = Type.values()[type].styles[position].ordinal
 
             (v.previewContainer.getChildAt(0) as TimeObjectView).let {
                 it.timeObject.title = title
                 it.timeObject.type = type
-                it.timeObject.style = position
+                it.timeObject.style = style
                 it.timeObject.colorKey = colorKey
                 it.setLookByType()
 
@@ -88,8 +87,7 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
 
             v.setOnClickListener {
-                selectedPos = position
-                onSelected?.invoke(position)
+                onSelected?.invoke(style)
             }
         }
     }

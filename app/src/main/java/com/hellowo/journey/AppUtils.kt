@@ -25,6 +25,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.Transition
@@ -155,16 +156,15 @@ fun makeFromBottomSlideTransition() : Transition {
     return transition
 }
 
-fun makeFadeInTransition() : Transition {
+fun makeFadeTransition() : Transition {
     val transition = Fade()
-    transition.mode = Fade.MODE_IN
     transition.duration = 250
     transition.interpolator = FastOutSlowInInterpolator()
     return transition
 }
 
 fun makeChangeBounceTransition() : Transition {
-    val transition = androidx.transition.ChangeBounds()
+    val transition = ChangeBounds()
     transition.duration = 250
     transition.interpolator = FastOutSlowInInterpolator()
     return transition

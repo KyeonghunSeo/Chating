@@ -20,6 +20,7 @@ import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
@@ -370,60 +371,43 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         setData(timeObject)
         updateUI()
 
-        val t1 = makeFromBottomSlideTransition()
-        t1.addTarget(contentPanel)
-
         val transitionSet = TransitionSet()
+        val t1 = makeFromBottomSlideTransition()
+        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
+        t1.addTarget(contentPanel)
+        t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)
-        transitionSet.addListener(object : Transition.TransitionListener{
-            override fun onTransitionEnd(transition: Transition) {
-                //contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-            }
-            override fun onTransitionResume(transition: Transition) {}
-            override fun onTransitionPause(transition: Transition) {}
-            override fun onTransitionCancel(transition: Transition) {}
-            override fun onTransitionStart(transition: Transition) {
-                backgroundLy.setBackgroundColor(AppTheme.primaryText)
-                ObjectAnimator.ofFloat(backgroundLy, "alpha",0f, 0.6f).start()
-                backgroundLy.setOnClickListener {
-                    MainActivity.instance?.viewModel?.targetTimeObject?.value = null
-                }
-                backgroundLy.isClickable = true
-            }
-        })
+        transitionSet.addTransition(t2)
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
+        backgroundLy.visibility = View.VISIBLE
+        backgroundLy.setBackgroundColor(AppTheme.primaryText)
+        backgroundLy.setOnClickListener { MainActivity.instance?.viewModel?.targetTimeObject?.value = null }
+        backgroundLy.isClickable = true
         contentPanel.visibility = View.VISIBLE
-
         if(timeObject.id.isNullOrEmpty()) {
-            //showTitleKeyPad()
+            showTitleKeyPad()
         }
     }
 
     fun hide() {
         l("=======HIDE DetailView=======")
         viewMode = ViewMode.CLOSED
-        val t1 = makeFromBottomSlideTransition()
-        t1.addTarget(contentPanel)
 
         val transitionSet = TransitionSet()
+        val t1 = makeFromBottomSlideTransition()
+        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
+        t1.addTarget(contentPanel)
+        t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)
-        transitionSet.addListener(object : Transition.TransitionListener{
-            override fun onTransitionEnd(transition: Transition) {}
-            override fun onTransitionResume(transition: Transition) {}
-            override fun onTransitionPause(transition: Transition) {}
-            override fun onTransitionCancel(transition: Transition) {}
-            override fun onTransitionStart(transition: Transition) {
-                ObjectAnimator.ofFloat(backgroundLy, "alpha",0.6f, 0f).start()
-                hideKeyPad(windowToken, titleInput)
-            }
-        })
+        transitionSet.addTransition(t2)
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
-        //contentLy.layoutTransition.disableTransitionType(LayoutTransition.CHANGING)
-        contentPanel.visibility = View.INVISIBLE
+        backgroundLy.visibility = View.INVISIBLE
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
+        contentPanel.visibility = View.INVISIBLE
+        hideKeyPad(windowToken, titleInput)
     }
 
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED

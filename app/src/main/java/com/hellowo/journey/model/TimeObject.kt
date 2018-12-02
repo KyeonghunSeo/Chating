@@ -7,6 +7,7 @@ import com.hellowo.journey.getCalendarTime0
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import com.hellowo.journey.model.TimeObject.Style.*
 import java.lang.Exception
 import java.util.*
 
@@ -39,24 +40,31 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var ordering: Int = Int.MIN_VALUE,
                       var folder: Folder? = null): RealmObject() {
 
-    enum class Type(val titleId: Int, val subTextId: Int, val iconId: Int, val enableLongTerm: Boolean, val styleCount: Int) {
+    enum class Type(val titleId: Int, val subTextId: Int, val iconId: Int, val enableLongTerm: Boolean, val styles: Array<Style>) {
         EVENT(R.string.event, R.string.event_sub,
-                R.drawable.sharp_event_black_48dp, true, 10),
+                R.drawable.sharp_event_black_48dp, true,
+                arrayOf(DEFAULT, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
         TASK(R.string.task, R.string.task_sub,
-                R.drawable.sharp_check_box_black_48dp, false, 10),
+                R.drawable.sharp_check_box_black_48dp, false,
+                arrayOf(DEFAULT, TOP_LINE, BOTTOM_LINE, ROUND_CHECK, ROUND_CHECK_TOP_LINE, ROUND_CHECK_BOTTOM_LINE)),
         NOTE(R.string.note, R.string.note_sub,
-                R.drawable.sharp_notes_black_48dp, false, 7),
+                R.drawable.sharp_notes_black_48dp, false,
+                arrayOf(DEFAULT, DOT, HYPHEN, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
         STAMP(R.string.stamp, R.string.stamp_sub,
-                R.drawable.sharp_star_rate_black_48dp, false, 3),
+                R.drawable.sharp_star_rate_black_48dp, false,
+                arrayOf(DEFAULT, DOT, HYPHEN, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
         TERM(R.string.term, R.string.term_sub,
-                R.drawable.sharp_date_range_black_48dp, true, 3),
+                R.drawable.sharp_date_range_black_48dp, true,
+                arrayOf(DEFAULT, DOT, HYPHEN, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
         MONEY(R.string.money, R.string.money_sub,
-                R.drawable.sharp_local_atm_black_48dp, false, 3)
+                R.drawable.sharp_local_atm_black_48dp, false,
+                arrayOf(DEFAULT, DOT, HYPHEN, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
     }
 
     enum class Style {
-        DEFAULT, DOT, HYPHEN, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE,
-        MEMO, RECT_DASH, RECT_OPENSIDE
+        DEFAULT, DOT, HYPHEN, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, TOP_LINE, BOTTOM_LINE, RECT_DASH, RECT_OPENSIDE,
+        ROUND_CHECK, ROUND_CHECK_TOP_LINE, ROUND_CHECK_BOTTOM_LINE,
+        CANDY, HATCHED, MEMO,
     }
 
     enum class Formula {

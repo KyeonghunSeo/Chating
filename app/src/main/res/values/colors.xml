@@ -9,9 +9,9 @@
     <color name="backgroundDeepDark">#b4b7bc</color>
     <color name="iconTint">#a8aaaf</color>
 
-    <color name="primaryText">#212931</color>
-    <color name="secondaryText">#435969</color>
-    <color name="disableText">#e7f0ed</color>
+    <color name="primaryText">#222328</color>
+    <color name="secondaryText">#3a405b</color>
+    <color name="disableText">#a1a6bb</color>
     <color name="primaryWhiteText">#e0e0d7</color>
     <color name="secondaryWhiteText">#b3e0e0d7</color>
     <color name="disableWhiteText">#80e0e0d7</color>
