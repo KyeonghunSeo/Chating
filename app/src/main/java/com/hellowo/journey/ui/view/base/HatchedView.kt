@@ -37,8 +37,8 @@ class HatchedView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     override fun onDraw(canvas: Canvas?) {
         var x = 0f
-        while (x < width + height) {
-            canvas?.drawLine(x, -dashWidth, x - height, height + dashWidth, paint)
+        while (x < width + height * 2) {
+            canvas?.drawLine(x, -dashWidth, x - height * 2, height + dashWidth, paint)
             x += dashWidth * 2
         }
         super.onDraw(canvas)

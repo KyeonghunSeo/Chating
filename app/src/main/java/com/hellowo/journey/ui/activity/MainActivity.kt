@@ -122,8 +122,7 @@ class MainActivity : BaseActivity() {
                 calendarView.moveDate(it, true)
             }, true, true, true, false)
         }
-        dimView.setOnDragListener(MainDragAndDropListener)
-
+        calendarLy.setOnDragListener(MainDragAndDropListener)
         searchBtn.setOnClickListener { searchView.show() }
 
         callAfterViewDrawed(rootLy, Runnable{
@@ -193,11 +192,11 @@ class MainActivity : BaseActivity() {
     private fun initDayView() {
         dayView = DayView(calendarView, this)
         dayView.visibility = View.GONE
-        calendarLy.addView(dayView, calendarLy.indexOfChild(dimView))
         dayView.onVisibility = { show ->
             //if(show || !calendarView.isTop()) topBar.elevation = dpToPx(0f)
             //else topBar.elevation = dpToPx(2f)
         }
+        calendarLy.addView(dayView, calendarLy.indexOfChild(calendarLy))
     }
 
     private fun initDetailView() {
@@ -205,7 +204,10 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initKeepView() {
-        keepBtn.setOnClickListener { viewModel.targetFolder.value = FolderManager.getPrimaryFolder() }
+        keepBtn.setOnClickListener {
+            if(viewModel.targetFolder.value == null) viewModel.targetFolder.value = FolderManager.getPrimaryFolder()
+            else viewModel.targetFolder.value = null
+        }
     }
 
     private fun initBriefingView() {
@@ -230,7 +232,9 @@ class MainActivity : BaseActivity() {
 
             //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
 
-            checkOsCalendarPermission()
+            //checkOsCalendarPermission()
+
+            profileView.show()
         }
 
         profileImage.setOnLongClickListener {
@@ -270,10 +274,13 @@ class MainActivity : BaseActivity() {
 
         viewModel.targetFolder.observe(this, Observer { folder ->
             if (folder != null) {
+                keepBtn.setImageResource(R.drawable.sharp_calendar_black_48dp)
                 if (keepView.viewMode == ViewMode.CLOSED) {
                     keepView.show()
                 }
             } else {
+
+                keepBtn.setImageResource(R.drawable.sharp_inbox_black_48dp)
                 keepView.hide()
             }
         })
@@ -366,6 +373,7 @@ class MainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         when{
+            profileView.isOpened() -> profileView.hide()
             searchView.isOpened() -> searchView.hide()
             timeObjectDetailView.isOpened() -> viewModel.targetTimeObject.value = null
             templateSelectView.isExpanded -> templateSelectView.collapse()

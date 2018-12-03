@@ -94,27 +94,32 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         }
     }
 
+    private fun scrollToCurrentFolder() {
+
+    }
+
     fun show() {
         viewMode = ViewMode.ANIMATING
-        val transiion = makeChangeBounceTransition()
+        val transiion = makeFromBottomSlideTransition()
         transiion.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
                 viewMode = ViewMode.OPENED
+                scrollToCurrentFolder()
             }
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}
             override fun onTransitionCancel(transition: Transition) {}
-            override fun onTransitionStart(transition: Transition) { notifyDataChanged() }
+            override fun onTransitionStart(transition: Transition) {}
         })
         TransitionManager.beginDelayedTransition(this@KeepView, transiion)
-        layoutParams.height = MATCH_PARENT
-        requestLayout()
+        visibility = View.VISIBLE
+        notifyDataChanged()
     }
 
     fun hide() {
         timeObjectList?.removeAllChangeListeners()
         viewMode = ViewMode.ANIMATING
-        val transiion = makeChangeBounceTransition()
+        val transiion = makeFromBottomSlideTransition()
         transiion.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
                 viewMode = ViewMode.CLOSED
@@ -125,7 +130,6 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             override fun onTransitionStart(transition: Transition) {}
         })
         TransitionManager.beginDelayedTransition(this, transiion)
-        layoutParams.height = 0
-        requestLayout()
+        visibility = View.INVISIBLE
     }
 }

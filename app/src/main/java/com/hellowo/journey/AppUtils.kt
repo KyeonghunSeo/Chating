@@ -156,6 +156,14 @@ fun makeFromBottomSlideTransition() : Transition {
     return transition
 }
 
+fun makeFromRightSlideTransition() : Transition {
+    val transition = Slide()
+    transition.slideEdge = Gravity.RIGHT
+    transition.duration = 250
+    transition.interpolator = FastOutSlowInInterpolator()
+    return transition
+}
+
 fun makeFadeTransition() : Transition {
     val transition = Fade()
     transition.duration = 250

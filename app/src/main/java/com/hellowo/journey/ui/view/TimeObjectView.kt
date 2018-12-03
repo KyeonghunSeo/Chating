@@ -32,7 +32,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val stampSize = dpToPx(17)
         val blockTypeSize = dpToPx(17)
         val dotSize = dpToPx(2)
-        val checkSize = dpToPx(9)
+        val checkSize = dpToPx(11)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         val defaultTextColor = Color.parseColor("#90000000")
     }
@@ -132,7 +132,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 gravity = Gravity.CENTER_HORIZONTAL
                 maxLines = 1
-                //setSingleLine(true)
+                setSingleLine(true)
                 //setHorizontallyScrolling(true)
                 when(timeObject.style){
                     1 -> {

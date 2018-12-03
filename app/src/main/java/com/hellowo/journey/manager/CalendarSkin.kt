@@ -196,8 +196,7 @@ object CalendarSkin {
             4 -> { // rect stroke
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = strokeWidth
-                val rect = RectF(0f, 0f,
-                        width.toFloat(), height.toFloat())
+                val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
                 canvas.drawRect(rect, paint)
                 paint.style = Paint.Style.FILL
             }
@@ -268,51 +267,25 @@ object CalendarSkin {
         paint.color = view.timeObject.getColor()
         canvas.translate(view.scrollX.toFloat(), 0f)
         when(view.timeObject.style){
-            1 -> { // 양쪽 얇은 화살표
-                val periodLine = (strokeWidth * 1.5).toInt()
-                val rectl = RectF(periodLine.toFloat(),
+            1 -> { // 양쪽 얇은 화살
+                val periodLine = (strokeWidth * 3).toInt()
+                val rectl = RectF(0f,
                         height / 2f - periodLine / 2,
-                        view.width / 2 - view.textSpaceWidth / 2 - defaulMargin,
+                        width / 2 - view.textSpaceWidth / 2 - defaultPadding,
                         height / 2f + periodLine / 2)
                 canvas.drawRect(rectl, paint)
 
-                val rectr = RectF(view.width / 2 + view.textSpaceWidth / 2 + defaulMargin,
+                val rectr = RectF(width / 2 + view.textSpaceWidth / 2 + defaultPadding,
                         height / 2f - periodLine / 2,
-                        view.width - periodLine.toFloat(),
+                        width.toFloat(),
                         height / 2f + periodLine / 2)
                 canvas.drawRect(rectr, paint)
 
-                val arrowSize = periodLine * 5
+                canvas.drawRect(0f, height / 2f - periodLine * 2,
+                        periodLine.toFloat(), height / 2f + periodLine * 2, paint)
 
-                if(!view.leftOpen) {
-                    val a = Point(0, height / 2)
-                    val b = Point(arrowSize, height / 2 - arrowSize)
-                    val c = Point(arrowSize, height / 2  + arrowSize)
-
-                    val leftArrow = Path()
-                    leftArrow.fillType = Path.FillType.EVEN_ODD
-                    leftArrow.moveTo(a.x.toFloat(), a.y.toFloat())
-                    leftArrow.lineTo(b.x.toFloat(), b.y.toFloat())
-                    leftArrow.lineTo(c.x.toFloat(), c.y.toFloat())
-                    leftArrow.lineTo(a.x.toFloat(), a.y.toFloat())
-                    leftArrow.close()
-                    canvas.drawPath(leftArrow, paint)
-                }
-
-                if(!view.rightOpen) {
-                    val e = Point(width, height / 2)
-                    val f = Point(width - arrowSize, height / 2 - arrowSize)
-                    val g = Point(width - arrowSize, height / 2  + arrowSize)
-
-                    val rightArrow = Path()
-                    rightArrow.fillType = Path.FillType.EVEN_ODD
-                    rightArrow.moveTo(e.x.toFloat(), e.y.toFloat())
-                    rightArrow.lineTo(f.x.toFloat(), f.y.toFloat())
-                    rightArrow.lineTo(g.x.toFloat(), g.y.toFloat())
-                    rightArrow.lineTo(e.x.toFloat(), e.y.toFloat())
-                    rightArrow.close()
-                    canvas.drawPath(rightArrow, paint)
-                }
+                canvas.drawRect(width - periodLine.toFloat(), height / 2f - periodLine * 2,
+                        width.toFloat(), height / 2f + periodLine * 2, paint)
             }
             2 -> { // 두꺼운 화살표
                 paint.alpha = 150
@@ -361,24 +334,46 @@ object CalendarSkin {
                 paint.alpha = 255
             }
             else -> {
-                val periodLine = (strokeWidth * 3).toInt()
-                val rectl = RectF(0f,
+                val periodLine = (strokeWidth * 1.5).toInt()
+                val rectl = RectF(periodLine.toFloat(),
                         height / 2f - periodLine / 2,
-                        width / 2 - view.textSpaceWidth / 2 - defaultPadding,
+                        view.width / 2 - view.textSpaceWidth / 2 - defaulMargin,
                         height / 2f + periodLine / 2)
                 canvas.drawRect(rectl, paint)
 
-                val rectr = RectF(width / 2 + view.textSpaceWidth / 2 + defaultPadding,
+                val rectr = RectF(view.width / 2 + view.textSpaceWidth / 2 + defaulMargin,
                         height / 2f - periodLine / 2,
-                        width.toFloat(),
+                        view.width - periodLine.toFloat(),
                         height / 2f + periodLine / 2)
                 canvas.drawRect(rectr, paint)
 
-                canvas.drawRect(0f, height / 2f - periodLine * 2,
-                        periodLine.toFloat(), height / 2f + periodLine * 2, paint)
+                val arrowSize = periodLine * 2
 
-                canvas.drawRect(width - periodLine.toFloat(), height / 2f - periodLine * 2,
-                        width.toFloat(), height / 2f + periodLine * 2, paint)
+                val a = Point(0, height / 2)
+                val b = Point(arrowSize, height / 2 - arrowSize)
+                val c = Point(arrowSize, height / 2  + arrowSize)
+
+                val leftArrow = Path()
+                leftArrow.fillType = Path.FillType.EVEN_ODD
+                leftArrow.moveTo(a.x.toFloat(), a.y.toFloat())
+                leftArrow.lineTo(b.x.toFloat(), b.y.toFloat())
+                leftArrow.lineTo(c.x.toFloat(), c.y.toFloat())
+                leftArrow.lineTo(a.x.toFloat(), a.y.toFloat())
+                leftArrow.close()
+                canvas.drawPath(leftArrow, paint)
+
+                val e = Point(width, height / 2)
+                val f = Point(width - arrowSize, height / 2 - arrowSize)
+                val g = Point(width - arrowSize, height / 2  + arrowSize)
+
+                val rightArrow = Path()
+                rightArrow.fillType = Path.FillType.EVEN_ODD
+                rightArrow.moveTo(e.x.toFloat(), e.y.toFloat())
+                rightArrow.lineTo(f.x.toFloat(), f.y.toFloat())
+                rightArrow.lineTo(g.x.toFloat(), g.y.toFloat())
+                rightArrow.lineTo(e.x.toFloat(), e.y.toFloat())
+                rightArrow.close()
+                canvas.drawPath(rightArrow, paint)
             }
         }
     }
