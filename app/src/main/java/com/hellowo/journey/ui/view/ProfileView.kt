@@ -1,73 +1,93 @@
 package com.hellowo.journey.ui.view
 
-import android.animation.ObjectAnimator
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.View
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.transition.Transition
+import androidx.core.app.ActivityCompat
+import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
+import com.bumptech.glide.Glide
 import com.hellowo.journey.*
+import com.hellowo.journey.manager.OsCalendarManager
+import com.hellowo.journey.model.AppUser
+import com.hellowo.journey.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.view_profile.view.*
 
-class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {
+class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : FrameLayout(context, attrs, defStyleAttr) {
     companion object
 
     var viewMode = ViewMode.CLOSED
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_profile, this, true)
-    }
+        contentLy.visibility = View.INVISIBLE
 
-    fun show() {
-        if(viewMode == ViewMode.CLOSED) {
-            viewMode = ViewMode.ANIMATING
-            val transiion = makeChangeBounceTransition()
-            transiion.interpolator = FastOutSlowInInterpolator()
-            transiion.duration = ANIM_DUR
-            transiion.addListener(object : Transition.TransitionListener{
-                override fun onTransitionEnd(transition: Transition) {
-                    viewMode = ViewMode.OPENED
-                }
-                override fun onTransitionResume(transition: Transition) {}
-                override fun onTransitionPause(transition: Transition) {}
-                override fun onTransitionCancel(transition: Transition) {}
-                override fun onTransitionStart(transition: Transition) {
-                    ObjectAnimator.ofFloat(backgroundLy, "alpha",0f, 1f).start()
-                    backgroundLy.setOnClickListener {  }
-                    backgroundLy.isClickable = true
-                }
-
-            })
-            TransitionManager.beginDelayedTransition(this@ProfileView, transiion)
-            contentLy.layoutParams = FrameLayout.LayoutParams(dpToPx(300), MATCH_PARENT)
-            contentLy.requestLayout()
+        profileImage.setOnClickListener {
+            MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
         }
     }
 
-    fun hide() {
-        viewMode = ViewMode.ANIMATING
-        val transiion = makeChangeBounceTransition()
-        transiion.interpolator = FastOutSlowInInterpolator()
-        transiion.duration = ANIM_DUR
-        transiion.addListener(object : Transition.TransitionListener{
-            override fun onTransitionEnd(transition: Transition) {
-                viewMode = ViewMode.CLOSED
+    fun updateUserUI(appUser: AppUser) {
+        if(appUser.profileImg?.isNotEmpty() == true) {
+            profileImage.clearColorFilter()
+            Glide.with(this).load(appUser.profileImg)
+                    //.apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
+                    .into(profileImage)
+        }else {
+            profileImage.setColorFilter(AppTheme.primaryText)
+        }
+    }
+
+    private fun checkOsCalendarPermission() {
+        MainActivity.instance?.let {
+            if (ActivityCompat.checkSelfPermission(it, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(it, arrayOf(Manifest.permission.READ_CALENDAR), RC_PERMISSIONS)
+            } else {
+                OsCalendarManager.getCalendarList(it)
             }
-            override fun onTransitionResume(transition: Transition) {}
-            override fun onTransitionPause(transition: Transition) {}
-            override fun onTransitionCancel(transition: Transition) {}
-            override fun onTransitionStart(transition: Transition) {
-                ObjectAnimator.ofFloat(backgroundLy, "alpha",1f, 0f).start()
-                backgroundLy.setOnClickListener(null)
-                backgroundLy.isClickable = false}
-        })
-        TransitionManager.beginDelayedTransition(this, transiion)
-        contentLy.layoutParams = FrameLayout.LayoutParams(dpToPx(50), dpToPx(50))
-        contentLy.requestLayout()
+        }
+    }
+
+    fun show() {
+        viewMode = ViewMode.OPENED
+        val transitionSet = TransitionSet()
+        val t1 = makeFromRightSlideTransition()
+        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
+        t1.addTarget(contentLy)
+        t2.addTarget(backgroundLy)
+        transitionSet.addTransition(t1)
+        transitionSet.addTransition(t2)
+        TransitionManager.beginDelayedTransition(this, transitionSet)
+
+        backgroundLy.visibility = View.VISIBLE
+        backgroundLy.setBackgroundColor(AppTheme.primaryText)
+        backgroundLy.setOnClickListener { hide() }
+        backgroundLy.isClickable = true
+        contentLy.visibility = View.VISIBLE
+    }
+
+    fun hide() {
+        viewMode = ViewMode.CLOSED
+        val transitionSet = TransitionSet()
+        val t1 = makeFromRightSlideTransition()
+        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
+        t1.addTarget(contentLy)
+        t2.addTarget(backgroundLy)
+        transitionSet.addTransition(t1)
+        transitionSet.addTransition(t2)
+        TransitionManager.beginDelayedTransition(this, transitionSet)
+
+        backgroundLy.visibility = View.INVISIBLE
+        backgroundLy.setOnClickListener(null)
+        backgroundLy.isClickable = false
+        contentLy.visibility = View.INVISIBLE
     }
 
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED

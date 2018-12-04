@@ -247,7 +247,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
                     if(isSameDay(tempCal, targetCal)) {
                         targetCellNum = cellNum
-                        selectDate(targetCellNum, false)
                     }
                     if(isSameDay(tempCal, todayCal)) {
                         todayCellNum = cellNum
@@ -278,7 +277,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         TimeObjectManager.setTimeObjectCalendarAdapter(this)
-        scrollView.post { scrollView.scrollTo(0, 0) }
+
+        if(targetCellNum != selectCellNum) selectDate(targetCellNum, false)
+        else scrollView.post { scrollView.scrollTo(0, 0) }
+
         onDrawed?.invoke(monthCal)
 
         l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")

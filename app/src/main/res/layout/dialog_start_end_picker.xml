@@ -198,7 +198,7 @@
                         android:id="@+id/calBtn"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/sharp_calendar_today_black_48dp"
+                        android:src="@drawable/sharp_calendar_black_48dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:padding="15dp"/>
 

@@ -36,8 +36,7 @@
                     android:id="@+id/typeImg"
                     android:layout_width="17dp"
                     android:layout_height="17dp"
-                    android:tint="@color/primaryText"
-                    android:src="@drawable/sharp_calendar_today_black_48dp"/>
+                    android:tint="@color/primaryText"/>
 
             </FrameLayout>
 

@@ -85,7 +85,7 @@ class MainActivity : BaseActivity() {
                 } else {
                     l("Realm 데이터베이스 준비 완료")
                     viewModel.loading.value = false
-                    viewModel.init(realm)
+                    viewModel.init(realm, SyncUser.current())
                     calendarView.moveDate(System.currentTimeMillis(), true)
                 }
             }
@@ -122,8 +122,7 @@ class MainActivity : BaseActivity() {
                 calendarView.moveDate(it, true)
             }, true, true, true, false)
         }
-        dimView.setOnDragListener(MainDragAndDropListener)
-
+        calendarLy.setOnDragListener(MainDragAndDropListener)
         searchBtn.setOnClickListener { searchView.show() }
 
         callAfterViewDrawed(rootLy, Runnable{
@@ -193,11 +192,11 @@ class MainActivity : BaseActivity() {
     private fun initDayView() {
         dayView = DayView(calendarView, this)
         dayView.visibility = View.GONE
-        calendarLy.addView(dayView, calendarLy.indexOfChild(dimView))
         dayView.onVisibility = { show ->
             //if(show || !calendarView.isTop()) topBar.elevation = dpToPx(0f)
             //else topBar.elevation = dpToPx(2f)
         }
+        calendarLy.addView(dayView, calendarLy.indexOfChild(calendarLy))
     }
 
     private fun initDetailView() {
@@ -205,7 +204,10 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initKeepView() {
-        keepBtn.setOnClickListener { viewModel.targetFolder.value = FolderManager.getPrimaryFolder() }
+        keepBtn.setOnClickListener {
+            if(viewModel.targetFolder.value == null) viewModel.targetFolder.value = FolderManager.getPrimaryFolder()
+            else viewModel.targetFolder.value = null
+        }
     }
 
     private fun initBriefingView() {
@@ -224,13 +226,8 @@ class MainActivity : BaseActivity() {
 
     private fun initBtns() {
         profileImage.setOnClickListener {
-            //checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
-
-            //startActivity(Intent(this, DrawActivity::class.java))
-
             //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
-
-            checkOsCalendarPermission()
+            profileView.show()
         }
 
         profileImage.setOnLongClickListener {
@@ -270,24 +267,19 @@ class MainActivity : BaseActivity() {
 
         viewModel.targetFolder.observe(this, Observer { folder ->
             if (folder != null) {
+                keepBtn.setImageResource(R.drawable.sharp_calendar_black_48dp)
                 if (keepView.viewMode == ViewMode.CLOSED) {
                     keepView.show()
                 }
             } else {
+                keepBtn.setImageResource(R.drawable.sharp_inbox_black_48dp)
                 keepView.hide()
             }
         })
     }
 
     private fun updateUserUI(appUser: AppUser) {
-        if(appUser.profileImg?.isNotEmpty() == true) {
-            profileImage.clearColorFilter()
-            Glide.with(this).load(appUser.profileImg)
-                    //.apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
-                    .into(profileImage)
-        }else {
-            profileImage.setColorFilter(AppTheme.primaryText)
-        }
+        profileView.updateUserUI(appUser)
     }
 
     private fun setDateText(date: Date) {
@@ -330,14 +322,6 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun checkOsCalendarPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CALENDAR), RC_PERMISSIONS)
-        } else {
-            OsCalendarManager.getCalendarList(this)
-        }
-    }
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             RC_PERMISSIONS -> {
@@ -366,6 +350,7 @@ class MainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         when{
+            profileView.isOpened() -> profileView.hide()
             searchView.isOpened() -> searchView.hide()
             timeObjectDetailView.isOpened() -> viewModel.targetTimeObject.value = null
             templateSelectView.isExpanded -> templateSelectView.collapse()

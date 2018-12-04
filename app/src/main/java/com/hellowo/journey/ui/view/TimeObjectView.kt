@@ -32,7 +32,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val stampSize = dpToPx(17)
         val blockTypeSize = dpToPx(17)
         val dotSize = dpToPx(2)
-        val checkSize = dpToPx(9)
+        val checkSize = dpToPx(10)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         val defaultTextColor = Color.parseColor("#90000000")
     }
@@ -76,7 +76,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setHorizontallyScrolling(true)
                 setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                 when(TimeObject.Style.values()[timeObject.style]){
-                    ROUND_STROKE, RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
+                    ROUND_STROKE, RECT_STROKE, HATCHED -> {
                         setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
                     ROUND_FILL, RECT_FILL, CANDY -> {
@@ -95,26 +95,25 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
-                setPadding((checkSize + defaulMargin * 2).toInt(), fontTopPadding, defaultPadding, 0)
                 setTextColor(AppTheme.getColor(timeObject.colorKey))
-                when(timeObject.style){}
+                setPadding((checkSize + defaulMargin * 2).toInt(), fontTopPadding, defaultPadding, 0)
             }
             NOTE -> {
-                when(timeObject.style){
-                    0, 2 -> {
-                        setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
-                        text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
-                        typeface = AppTheme.textFont
-                        setLineSpacing(defaulMargin, 1f)
-                        setPadding(defaultPadding, defaultPadding, defaultPadding, defaultPadding)
-                        setTextColor(timeObject.getColor())
-                    }
-                    1 -> {
+                when(TimeObject.Style.values()[timeObject.style]){
+                    DOT -> {
                         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                         typeface = AppTheme.textFont
                         setLineSpacing(defaulMargin, 1f)
                         setPadding((defaultPadding + defaulMargin * 3).toInt(), defaultPadding, defaultPadding, defaultPadding)
+                        setTextColor(timeObject.getColor())
+                    }
+                    HYPHEN -> {
+                        setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
+                        text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
+                        typeface = AppTheme.textFont
+                        setLineSpacing(defaulMargin, 1f)
+                        setPadding(defaultPadding, (defaultPadding + defaulMargin * 2).toInt(), defaultPadding, defaultPadding)
                         setTextColor(timeObject.getColor())
                     }
                     else -> {
@@ -132,7 +131,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 gravity = Gravity.CENTER_HORIZONTAL
                 maxLines = 1
-                //setSingleLine(true)
+                setSingleLine(true)
                 //setHorizontallyScrolling(true)
                 when(timeObject.style){
                     1 -> {

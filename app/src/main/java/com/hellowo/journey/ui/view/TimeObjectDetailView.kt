@@ -370,7 +370,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         viewMode = ViewMode.OPENED
         setData(timeObject)
         updateUI()
-
         val transitionSet = TransitionSet()
         val t1 = makeFromBottomSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
@@ -393,7 +392,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     fun hide() {
         l("=======HIDE DetailView=======")
         viewMode = ViewMode.CLOSED
-
         val transitionSet = TransitionSet()
         val t1 = makeFromBottomSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }

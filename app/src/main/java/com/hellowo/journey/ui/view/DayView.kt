@@ -103,11 +103,11 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         dateLy.scaleY = CalendarView.selectedDateScale
         dateLy.scaleX = CalendarView.selectedDateScale
         bar.visibility = View.GONE
-
+/*
         taskFinishAnimView.imageAssetsFolder = "assets/"
         taskFinishAnimView.setAnimation("success.json")
         taskFinishAnimView.visibility = View.GONE
-
+*/
         contentLy.visibility = View.INVISIBLE
     }
 
@@ -293,7 +293,6 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.addListener(object : Animator.AnimatorListener{
                 override fun onAnimationRepeat(p0: Animator?) {}
-
                 override fun onAnimationEnd(p0: Animator?) {
                     val transiion = makeChangeBounceTransition()
                     transiion.interpolator = FastOutSlowInInterpolator()

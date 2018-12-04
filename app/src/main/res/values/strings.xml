@@ -62,7 +62,7 @@
     <string name="delete">삭제</string>
     <string name="start">시작</string>
     <string name="end">종료</string>
-    <string name="weekNum">%1$s 주차</string>
+    <string name="weekNum">%1$s주</string>
     <string name="setting">설정</string>
     <string name="add_option">다른 정보 추가</string>
     <string name="what_do_you_think">무슨 생각을 하고계신가요?</string>

@@ -9,7 +9,6 @@ import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.*
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.*
-import java.util.*
 
 class MainViewModel : ViewModel() {
     val loading = MutableLiveData<Boolean>()
@@ -26,31 +25,30 @@ class MainViewModel : ViewModel() {
 
     init {}
 
-    fun init(realm: Realm) {
+    fun init(realm: Realm, syncUser: SyncUser) {
         this.realm = realm
-        //loadAppUser()
+        loadAppUser(syncUser)
         loadTemplate()
     }
 
-    private fun loadAppUser() {
-        val realm = Realm.getDefaultInstance()
-        val user = realm.where(AppUser::class.java).findFirst()
-        if(user == null) {
-            realm.executeTransaction {
-                appUser.value = realm.createObject(AppUser::class.java, UUID.randomUUID().toString())
+    private fun loadAppUser(syncUser: SyncUser) {
+        realm?.where(AppUser::class.java)?.findAllAsync()?.addChangeListener { result, _ ->
+            if(result.size > 0) {
+                appUser.value = result[0]
+            }else {
+                realm?.executeTransaction {
+                    realm?.createObject(AppUser::class.java, syncUser.identity)
+                }
             }
-        }else {
-            appUser.value = user
         }
-        realm.close()
     }
 
-    fun loadTemplate() {
-        val realm = Realm.getDefaultInstance()
-        realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
-                .addChangeListener { result, changeSet ->
+    private fun loadTemplate() {
+        realm?.where(Template::class.java)?.sort("order", Sort.ASCENDING)?.findAllAsync()
+                ?.addChangeListener { result, _ ->
                     templateList.value = result
-        }/*
+        }
+        /*
         realm.executeTransaction {
             TimeObject.Type.values().forEachIndexed { index, t ->
                 realm.createObject(Template::class.java, index).run {
@@ -60,7 +58,6 @@ class MainViewModel : ViewModel() {
                 }
             }
         }*/
-        realm.close()
     }
 
     override fun onCleared() {
@@ -71,12 +68,10 @@ class MainViewModel : ViewModel() {
     }
 
     fun saveProfileImage(resource: Bitmap) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
+        realm?.executeTransaction {
             appUser.value?.profileImg = bitmapToByteArray(resource)
             appUser.value = appUser.value
         }
-        realm.close()
     }
 
     fun clearTargetTimeObject() {

@@ -7,14 +7,14 @@
 
     <com.hellowo.journey.ui.view.base.Line
         android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:alpha="0.1"/>
+        android:layout_height="1px"
+        android:alpha="0.0"/>
 
     <com.hellowo.journey.ui.view.base.Line
-        android:layout_width="2px"
+        android:layout_width="1px"
         android:layout_height="5dp"
         android:layout_gravity="right"
-        android:alpha="0.1"/>
+        android:alpha="0.0"/>
 
     <FrameLayout
         android:id="@+id/bar"
@@ -30,8 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:transformPivotX="0dp"
         android:transformPivotY="10dp"
         android:layout_gravity="center_horizontal">

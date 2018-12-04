@@ -132,12 +132,6 @@
                             android:nestedScrollingEnabled="false">
                         </androidx.recyclerview.widget.RecyclerView>
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/taskFinishAnimView"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_gravity="right|bottom"
-                            android:layout_margin="16dp"/>
                     </FrameLayout>
 
                 </LinearLayout>
