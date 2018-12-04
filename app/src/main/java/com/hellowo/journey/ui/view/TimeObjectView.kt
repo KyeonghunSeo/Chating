@@ -76,7 +76,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setHorizontallyScrolling(true)
                 setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
                 when(TimeObject.Style.values()[timeObject.style]){
-                    ROUND_STROKE, RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
+                    ROUND_STROKE, RECT_STROKE, HATCHED -> {
                         setTextColor(AppTheme.getColor(timeObject.colorKey))
                     }
                     ROUND_FILL, RECT_FILL, CANDY -> {
@@ -95,13 +95,12 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
-                setPadding((checkSize + defaulMargin * 2).toInt(), fontTopPadding, defaultPadding, 0)
                 setTextColor(AppTheme.getColor(timeObject.colorKey))
-                when(timeObject.style){}
+                setPadding((checkSize + defaulMargin * 2).toInt(), fontTopPadding, defaultPadding, 0)
             }
             NOTE -> {
                 when(timeObject.style){
-                    0, 2 -> {
+                    0 -> {
                         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                         typeface = AppTheme.textFont
@@ -109,7 +108,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         setPadding(defaultPadding, defaultPadding, defaultPadding, defaultPadding)
                         setTextColor(timeObject.getColor())
                     }
-                    1 -> {
+                    1, 2 -> {
                         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                         typeface = AppTheme.textFont
