@@ -18,7 +18,7 @@ import android.widget.LinearLayout.HORIZONTAL
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
 import com.hellowo.journey.*
-import com.hellowo.journey.manager.CalendarSkin
+import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.ui.activity.MainActivity
@@ -63,7 +63,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val contentLy: FrameLayout = container.findViewById(R.id.contentLy)
         val weekNumText: TextView = container.findViewById(R.id.weekNumText)
         init {
-            weekNumText.typeface = CalendarSkin.selectFont
+            weekNumText.typeface = CalendarManager.selectFont
             contentLy.visibility = View.GONE
         }
     }
@@ -74,9 +74,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dowText: TextView = container.findViewById(R.id.dowText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
-            dateText.typeface = CalendarSkin.dateFont
-            dowText.typeface = CalendarSkin.selectFont
+            dateText.typeface = CalendarManager.dateFont
+            dowText.typeface = CalendarManager.selectFont
             bar.alpha = 0f
+            dowText.visibility = View.GONE
         }
     }
 
@@ -86,7 +87,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private val tempCal: Calendar = Calendar.getInstance()
     private val monthCal: Calendar = Calendar.getInstance()
-    private val dow = AppDateFormat.dowString
 
     val targetCal: Calendar = Calendar.getInstance()
     var targetCellNum = -1
@@ -121,7 +121,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun setLayout() {
-        scrollView.setBackgroundColor(CalendarSkin.backgroundColor)
+        scrollView.setBackgroundColor(CalendarManager.backgroundColor)
         scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         scrollView.isVerticalScrollBarEnabled = false
         calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
@@ -290,15 +290,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun getDateTextColor(cellNum: Int) : Int {
         return if(cellNum == todayCellNum) {
             if(cellNum % columns == AppStatus.sundayPos) {
-                CalendarSkin.todayDateColor
+                CalendarManager.todayDateColor
             }else {
-                CalendarSkin.todayDateColor
+                CalendarManager.todayDateColor
             }
         }else {
             if(cellNum % columns == AppStatus.sundayPos) {
-                CalendarSkin.sundayColor
+                CalendarManager.sundayColor
             }else {
-                CalendarSkin.dateColor
+                CalendarManager.dateColor
             }
         }
     }
@@ -315,7 +315,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val color = getDateTextColor(cellNum)
         val alpha = if(cellNum in startCellNum..endCellNum) 1f else outDateAlpha
 
-        dateText.typeface = CalendarSkin.dateFont
+        dateText.typeface = CalendarManager.dateFont
         dateText.alpha = alpha
         dowText.visibility = View.GONE
         (dateHeaders[cellNum].dateLy.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.CENTER_HORIZONTAL
@@ -389,7 +389,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dowText = dateHeaders[cellNum].dowText
             val color = getDateTextColor(cellNum)
 
-            dateText.typeface = CalendarSkin.selectFont
+            dateText.typeface = CalendarManager.selectFont
             dateText.alpha = 1f
             bar.setBackgroundColor(color)
             dowText.setTextColor(color)

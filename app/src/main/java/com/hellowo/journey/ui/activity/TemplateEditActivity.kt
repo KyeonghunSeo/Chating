@@ -33,8 +33,6 @@ class TemplateEditActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_template)
         initTheme(rootLy)
-
-        titleText.text = getString(R.string.edit_template)
         backBtn.setOnClickListener { finish() }
         addBtn.setOnClickListener { _ ->
             showDialog(TypePickerDialog(this@TemplateEditActivity, TimeObject.Type.EVENT) { type ->

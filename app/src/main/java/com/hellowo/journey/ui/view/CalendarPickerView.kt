@@ -14,7 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.journey.*
-import com.hellowo.journey.manager.CalendarSkin
+import com.hellowo.journey.manager.CalendarManager
 import kotlinx.android.synthetic.main.view_calendar_picker.view.*
 import java.util.*
 
@@ -191,12 +191,12 @@ class CalendarPickerView @JvmOverloads constructor(context: Context, attrs: Attr
     private fun setDateTextColor(cellNum: Int) {
         val dateText = dateTexts[cellNum]
         if(cellNum == selectedCellNum) {
-            dateText.setTextColor(CalendarSkin.dateColor)
+            dateText.setTextColor(CalendarManager.dateColor)
         }else {
             if(cellNum % columns == 0) {
-                dateText.setTextColor(CalendarSkin.sundayColor)
+                dateText.setTextColor(CalendarManager.sundayColor)
             }else {
-                dateText.setTextColor(CalendarSkin.dateColor)
+                dateText.setTextColor(CalendarManager.dateColor)
             }
         }
     }

@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import com.hellowo.journey.*
 import com.hellowo.journey.adapter.TemplateAdapter
 import com.hellowo.journey.model.Template
@@ -70,13 +72,12 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     init {
         LayoutInflater.from(context).inflate(R.layout.view_template_control, this, true)
         controllView.radius = collapseSize / 2f
-        controllView.alpha = 0f
-        listLy.visibility = View.GONE
+        listLy.visibility = View.INVISIBLE
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = TemplateAdapter(context, items) {
             selectItem(it)
-            collapse()
             MainActivity.instance?.viewModel?.makeNewTimeObject()
+            collapseNoAnim()
         }
 
         touchEventView.setOnTouchListener { view, event ->
@@ -166,50 +167,57 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
 
     private fun expand() {
         vibrate(context)
+        val transitionSet = TransitionSet()
+        val t1 = makeFromBottomSlideTransition()
+        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
+        t1.addTarget(listLy)
+        t2.addTarget(backgroundLy)
+        t2.addTarget(controllView)
+        transitionSet.addTransition(t1)
+        transitionSet.addTransition(t2)
+        TransitionManager.beginDelayedTransition(this, transitionSet)
 
-        controllView.elevation = dpToPx(5f)
-        backgroundLy.setBackgroundColor(AppTheme.backgroundColor)
+        backgroundLy.visibility = View.VISIBLE
+        backgroundLy.setBackgroundColor(AppTheme.primaryText)
         backgroundLy.setOnClickListener { collapse() }
         backgroundLy.isClickable = true
-
-        val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f),
-                ObjectAnimator.ofFloat(backgroundLy, "alpha",0f, 0.9f),
-                ObjectAnimator.ofFloat(controllView, "alpha",0f, 1f))
-        animSet.duration = ANIM_DUR
-        animSet.interpolator = FastOutSlowInInterpolator()
-        animSet.start()
-
-        TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
+        controllView.elevation = dpToPx(5f)
         listLy.visibility = View.VISIBLE
-
+        controllView.visibility = View.VISIBLE
+        ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f).start()
         isExpanded = true
     }
 
     fun collapse() {
-        controllView.elevation = 0f
         autoScrollFlag = 0
+        controllView.elevation = 0f
+        val transitionSet = TransitionSet()
+        val t1 = makeFromBottomSlideTransition()
+        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
+        t1.addTarget(listLy)
+        t2.addTarget(backgroundLy)
+        t2.addTarget(controllView)
+        transitionSet.addTransition(t1)
+        transitionSet.addTransition(t2)
+        TransitionManager.beginDelayedTransition(this, transitionSet)
 
-        val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f),
-                ObjectAnimator.ofFloat(backgroundLy, "alpha",0.9f, 0f),
-                ObjectAnimator.ofFloat(controllView, "alpha",1f, 0f))
-        animSet.addListener(object : Animator.AnimatorListener{
-            override fun onAnimationRepeat(p0: Animator?) {}
-            override fun onAnimationEnd(p0: Animator?) { restoreViews() }
-            override fun onAnimationCancel(p0: Animator?) { }
-            override fun onAnimationStart(p0: Animator?) {
-                backgroundLy.setOnClickListener(null)
-                backgroundLy.isClickable = false
-            }
-        })
-        animSet.duration = ANIM_DUR
-        animSet.interpolator = FastOutSlowInInterpolator()
-        animSet.start()
+        backgroundLy.visibility = View.INVISIBLE
+        backgroundLy.setOnClickListener(null)
+        backgroundLy.isClickable = false
+        listLy.visibility = View.INVISIBLE
+        controllView.visibility = View.INVISIBLE
+        ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f).start()
+        isExpanded = false
+    }
 
-        TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
-        listLy.visibility = View.GONE
-
+    fun collapseNoAnim() {
+        autoScrollFlag = 0
+        controllView.elevation = 0f
+        templateIconImg.rotation = 0f
+        backgroundLy.setOnClickListener(null)
+        backgroundLy.isClickable = false
+        listLy.visibility = View.INVISIBLE
+        controllView.visibility = View.INVISIBLE
         isExpanded = false
     }
 
@@ -231,6 +239,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     private fun restoreViews() {
-        listLy.visibility = View.INVISIBLE
+
     }
 }

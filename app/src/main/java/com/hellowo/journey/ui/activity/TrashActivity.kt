@@ -6,7 +6,7 @@ import com.hellowo.journey.R
 import com.hellowo.journey.ui.view.InkView
 import kotlinx.android.synthetic.main.activity_draw.*
 
-class TrashActivity : AppCompatActivity() {
+class TrashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_draw)

@@ -11,7 +11,7 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.bumptech.glide.Glide
 import com.hellowo.journey.*
-import com.hellowo.journey.manager.CalendarSkin
+import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.manager.RepeatManager
 import kotlinx.android.synthetic.main.list_item_event.view.*
@@ -45,7 +45,7 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
         val timeObject = items[position]
         val v = holder.itemView
 
-        v.frontLy.setBackgroundColor(CalendarSkin.backgroundColor)
+        v.frontLy.setBackgroundColor(CalendarManager.backgroundColor)
 
         if(timeObject.tags.isNotEmpty()) {
             v.tagText.visibility = View.VISIBLE

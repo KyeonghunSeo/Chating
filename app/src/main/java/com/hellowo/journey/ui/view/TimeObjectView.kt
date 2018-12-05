@@ -14,8 +14,7 @@ import android.widget.TextView
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
-import com.hellowo.journey.l
-import com.hellowo.journey.manager.CalendarSkin
+import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.model.TimeObject.Type.*
 import com.hellowo.journey.model.TimeObject.Style.*
@@ -96,7 +95,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
                 setTextColor(AppTheme.getColor(timeObject.colorKey))
-                setPadding((checkSize + defaulMargin * 2).toInt(), fontTopPadding, defaultPadding, 0)
+                setPadding((checkSize + defaulMargin * 3).toInt(), fontTopPadding, defaultPadding, 0)
             }
             NOTE -> {
                 when(TimeObject.Style.values()[timeObject.style]){
@@ -169,26 +168,26 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 paint.isAntiAlias = true
                 when(TimeObject.Type.values()[timeObject.type]) {
                     EVENT -> {
-                        CalendarSkin.drawEvent(canvas, this)
+                        CalendarManager.drawEvent(canvas, this)
                         super.onDraw(canvas)
                     }
                     TASK -> {
-                        CalendarSkin.drawTask(canvas, this)
+                        CalendarManager.drawTask(canvas, this)
                         super.onDraw(canvas)
                     }
                     STAMP -> {
-                        CalendarSkin.drawStamp(canvas, this)
+                        CalendarManager.drawStamp(canvas, this)
                     }
                     NOTE -> {
-                        CalendarSkin.drawNote(canvas, this)
+                        CalendarManager.drawNote(canvas, this)
                         super.onDraw(canvas)
                     }
                     MONEY -> {
-                        CalendarSkin.drawMoney(canvas, this)
+                        CalendarManager.drawMoney(canvas, this)
                     }
                     TERM -> {
                         super.onDraw(canvas)
-                        CalendarSkin.drawTerm(canvas, this)
+                        CalendarManager.drawTerm(canvas, this)
                     }
                 }
             }

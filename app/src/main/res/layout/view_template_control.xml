@@ -11,7 +11,8 @@
         android:id="@+id/backgroundLy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0">
+        android:alpha="0.6"
+        android:visibility="invisible">
     </View>
 
     <FrameLayout
@@ -88,7 +89,8 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="8dp"
         app:cardBackgroundColor="@color/background"
-        app:cardElevation="0dp">
+        app:cardElevation="0dp"
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/templateIconImg"

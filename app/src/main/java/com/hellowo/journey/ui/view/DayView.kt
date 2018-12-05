@@ -24,7 +24,7 @@ import com.hellowo.journey.adapter.EventListAdapter
 import com.hellowo.journey.adapter.TaskListAdapter
 import com.hellowo.journey.util.TaskListComparator
 import com.hellowo.journey.manager.TimeObjectManager
-import com.hellowo.journey.manager.CalendarSkin
+import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.OrderedCollectionChangeSet
@@ -37,6 +37,7 @@ import android.os.Looper
 import android.provider.CalendarContract
 import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
 import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
+import android.view.Gravity
 import android.widget.FrameLayout
 import com.hellowo.journey.adapter.NoteListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
@@ -50,10 +51,10 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     : CardView(context, attrs, defStyleAttr) {
     companion object {
         const val headerTextScale = 2.5f
-        val datePosX = dpToPx(10f)
+        val datePosX = dpToPx(7f)
         val datePosY = dpToPx(7f)
         val startZ = dpToPx(10f)
-        val endZ = dpToPx(2f)
+        val endZ = dpToPx(0f)
     }
     private var timeObjectList: RealmResults<TimeObject>? = null
     private val eventList = ArrayList<TimeObject>()
@@ -95,13 +96,16 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         LayoutInflater.from(context).inflate(R.layout.view_day, this, true)
         //rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         rootLy.setOnClickListener {}
-        setCardBackgroundColor(CalendarSkin.backgroundColor)
+        setCardBackgroundColor(CalendarManager.backgroundColor)
         initRecyclerView()
         elevation = 0f
-        dateText.typeface = CalendarSkin.selectFont
-        dowText.typeface = CalendarSkin.selectFont
+        radius = 0f
+        dateText.typeface = CalendarManager.selectFont
+        dowText.typeface = CalendarManager.selectFont
+        dateLy.clipChildren = false
         dateLy.scaleY = CalendarView.selectedDateScale
         dateLy.scaleX = CalendarView.selectedDateScale
+        (dateLy.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.NO_GRAVITY
         bar.visibility = View.GONE
 /*
         taskFinishAnimView.imageAssetsFolder = "assets/"
@@ -165,8 +169,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         if(offset != 0) {
             startPagingEffectAnimation(offset, contentLy, null)
             val animSet = AnimatorSet()
-            animSet.playTogether(
-                    ObjectAnimator.ofFloat(dowText, "scaleY", 0f, headerTextScale))
+            animSet.playTogether()
             animSet.duration = 500
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.start()
@@ -266,7 +269,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     private fun setDateText() {
         calendarView.let {
             dateText.text = it.targetCal.get(Calendar.DATE).toString()
-            dowText.text = AppDateFormat.dowString[it.targetCal.get(Calendar.DAY_OF_WEEK) - 1]
+            dowText.text = AppDateFormat.dow.format(it.targetCal.time)
             val color = it.getDateTextColor(it.targetCellNum)
             dateText.setTextColor(color)
             dowText.setTextColor(color)

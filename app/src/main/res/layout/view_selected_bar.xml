@@ -56,8 +56,7 @@
             android:paddingTop="5dp"
             android:includeFontPadding="false"
             android:textColor="@color/primaryText"
-            android:text="@string/wed"
-            android:visibility="gone"/>
+            android:text="@string/wed"/>
 
     </LinearLayout>
 

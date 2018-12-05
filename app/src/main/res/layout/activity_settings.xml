@@ -25,30 +25,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:text="@string/edit_template"
+            android:text="@string/setting"
             android:fontFamily="@font/bold"
             android:textColor="@color/primaryText"
             android:textSize="18dp"/>
 
-        <ImageView
-            android:id="@+id/addBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="right"
-            android:src="@drawable/sharp_add_black_48dp"
-            android:tint="@color/primaryText"
-            android:padding="15dp"/>
-
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="20dp"
-        android:clipChildren="false"
-        android:clipToPadding="false">
-    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

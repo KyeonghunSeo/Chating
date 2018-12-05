@@ -10,7 +10,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hellowo.journey.*
-import com.hellowo.journey.manager.CalendarSkin
+import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.dialog_start_end_picker.*
 import java.util.*
@@ -125,21 +125,21 @@ class StartEndPickerDialog(private val activity: Activity, private val timeObjec
         }
 
         if(calendarView.startEndMode == 0) {
-            startText.setTextColor(CalendarSkin.selectedDateColor)
-            startTimeTText.setTextColor(CalendarSkin.selectedDateColor)
-            startTimeYMDText.setTextColor(CalendarSkin.selectedDateColor)
+            startText.setTextColor(CalendarManager.selectedDateColor)
+            startTimeTText.setTextColor(CalendarManager.selectedDateColor)
+            startTimeYMDText.setTextColor(CalendarManager.selectedDateColor)
 
-            endText.setTextColor(CalendarSkin.selectedBackgroundColor)
-            endTimeTText.setTextColor(CalendarSkin.selectedBackgroundColor)
-            endTimeYMDText.setTextColor(CalendarSkin.selectedBackgroundColor)
+            endText.setTextColor(CalendarManager.selectedBackgroundColor)
+            endTimeTText.setTextColor(CalendarManager.selectedBackgroundColor)
+            endTimeYMDText.setTextColor(CalendarManager.selectedBackgroundColor)
         }else {
-            startText.setTextColor(CalendarSkin.selectedBackgroundColor)
-            startTimeTText.setTextColor(CalendarSkin.selectedBackgroundColor)
-            startTimeYMDText.setTextColor(CalendarSkin.selectedBackgroundColor)
+            startText.setTextColor(CalendarManager.selectedBackgroundColor)
+            startTimeTText.setTextColor(CalendarManager.selectedBackgroundColor)
+            startTimeYMDText.setTextColor(CalendarManager.selectedBackgroundColor)
 
-            endText.setTextColor(CalendarSkin.selectedDateColor)
-            endTimeTText.setTextColor(CalendarSkin.selectedDateColor)
-            endTimeYMDText.setTextColor(CalendarSkin.selectedDateColor)
+            endText.setTextColor(CalendarManager.selectedDateColor)
+            endTimeTText.setTextColor(CalendarManager.selectedDateColor)
+            endTimeYMDText.setTextColor(CalendarManager.selectedDateColor)
         }
     }
 

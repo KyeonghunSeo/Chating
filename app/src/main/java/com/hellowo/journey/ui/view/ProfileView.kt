@@ -2,6 +2,7 @@ package com.hellowo.journey.ui.view
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.hellowo.journey.*
 import com.hellowo.journey.manager.OsCalendarManager
 import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.ui.activity.MainActivity
+import com.hellowo.journey.ui.activity.SettingsActivity
 import kotlinx.android.synthetic.main.view_profile.view.*
 
 class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -32,6 +34,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         profileImage.setOnClickListener {
             MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
         }
+        settingsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, SettingsActivity::class.java)) } }
     }
 
     fun updateUserUI(appUser: AppUser) {

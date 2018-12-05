@@ -2,8 +2,10 @@ package com.hellowo.journey.ui.activity
 
 import android.app.ProgressDialog
 import android.graphics.Color
+import android.os.Build
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +16,13 @@ open class BaseActivity : AppCompatActivity() {
 
     fun initTheme(rootLy: View) {
         rootLy.setBackgroundColor(AppTheme.backgroundColor)
-        window.navigationBarColor = AppTheme.backgroundColor
-        window.statusBarColor = AppTheme.backgroundColor
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            var flags = window.peekDecorView().systemUiVisibility
+            flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            window.peekDecorView().systemUiVisibility = flags
+            window.statusBarColor = AppTheme.almostWhite
+            window.navigationBarColor = AppTheme.almostWhite
+        }
     }
 
     fun setGlobalFont(view: View?) {

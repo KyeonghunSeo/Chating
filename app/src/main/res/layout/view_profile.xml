@@ -8,7 +8,7 @@
         android:id="@+id/backgroundLy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:alpha="0.6">
     </View>
 
@@ -43,6 +43,7 @@
             android:layout_gravity="bottom">
 
             <LinearLayout
+                android:id="@+id/settingsBtn"
                 android:orientation="horizontal"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

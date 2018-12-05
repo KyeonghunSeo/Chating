@@ -46,10 +46,10 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        initTheme(rootLy)
         instance = this
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        setContentView(R.layout.activity_main)
+        initTheme(rootLy)
         if(SyncUser.current() == null) {
             startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
         }else {
@@ -83,10 +83,9 @@ class MainActivity : BaseActivity() {
                 if (isDestroyed) {
                     realm.close()
                 } else {
-                    l("Realm 데이터베이스 준비 완료")
+                    l("Realm 준비 완료")
                     viewModel.loading.value = false
                     viewModel.init(realm, SyncUser.current())
-                    calendarView.moveDate(System.currentTimeMillis(), true)
                 }
             }
         })
@@ -116,7 +115,7 @@ class MainActivity : BaseActivity() {
         topBar.setBackgroundColor(AppTheme.backgroundColor)
         bottomBar.setBackgroundColor(AppTheme.backgroundColor)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        todayBtn.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        //todayBtn.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
             showDialog(DatePickerDialog(this, calendarView.targetCal.timeInMillis) {
                 calendarView.moveDate(it, true)
@@ -124,7 +123,6 @@ class MainActivity : BaseActivity() {
         }
         calendarLy.setOnDragListener(MainDragAndDropListener)
         searchBtn.setOnClickListener { searchView.show() }
-
         callAfterViewDrawed(rootLy, Runnable{
             val location = IntArray(2)
             rootLy.getLocationInWindow(location)

@@ -18,7 +18,7 @@ import com.hellowo.journey.ui.view.TimeObjectView.Companion.stampSize
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.strokeWidth
 import com.hellowo.journey.model.TimeObject.Style.*
 
-object CalendarSkin {
+object CalendarManager {
     var backgroundColor: Int = 0
     var dateColor: Int = 0
     var sundayColor: Int = 0
@@ -382,7 +382,7 @@ object CalendarSkin {
         view.childList?.forEachIndexed { index, timeObject ->
             /*
             val circle = resource.getDrawable(R.drawable.circle_fill)
-            circle.setColorFilter(CalendarSkin.backgroundColor, PorterDuff.Mode.SRC_ATOP)
+            circle.setColorFilter(CalendarManager.backgroundColor, PorterDuff.Mode.SRC_ATOP)
             circle.setBounds(left + 1, top + 1, left + size - 1, top + size - 1)
             circle.draw(canvas)
 */
@@ -410,7 +410,7 @@ object CalendarSkin {
                 (totalStampCnt - 1 downTo 0).forEach { index ->
                     view.childList?.get(index)?.let { timeObject ->
                         val circle = resource.getDrawable(R.drawable.circle_fill)
-                        circle.setColorFilter(CalendarSkin.backgroundColor, PorterDuff.Mode.SRC_ATOP)
+                        circle.setColorFilter(CalendarManager.backgroundColor, PorterDuff.Mode.SRC_ATOP)
                         circle.setBounds(right - size + 1, 1, right - 1, size - 1)
                         circle.draw(canvas)
 
@@ -493,8 +493,8 @@ object CalendarSkin {
         }else {
             val check = resource.getDrawable(R.drawable.sharp_check_circle_outline_black_48dp)
             check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
-            check.setBounds(defaulMargin.toInt(), (centerY - checkSize / 2f).toInt(),
-                    checkSize + defaulMargin.toInt(), (centerY + checkSize / 2f).toInt())
+            check.setBounds(defaulMargin.toInt() * 2, (centerY - checkSize / 2f).toInt(),
+                    checkSize + defaulMargin.toInt() * 2, (centerY + checkSize / 2f).toInt())
             check.draw(canvas)
         }
     }
@@ -510,8 +510,8 @@ object CalendarSkin {
         }else {
             val check = resource.getDrawable(R.drawable.sharp_check_box_outline_blank_black_48dp)
             check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
-            check.setBounds(defaulMargin.toInt(), (centerY - checkSize / 2f).toInt(),
-                    checkSize + defaulMargin.toInt(), (centerY + checkSize / 2f).toInt())
+            check.setBounds(defaulMargin.toInt() * 2, (centerY - checkSize / 2f).toInt(),
+                    checkSize + defaulMargin.toInt() * 2, (centerY + checkSize / 2f).toInt())
             check.draw(canvas)
         }
     }
