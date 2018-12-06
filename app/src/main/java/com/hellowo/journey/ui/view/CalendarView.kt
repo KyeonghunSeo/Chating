@@ -22,6 +22,7 @@ import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.ui.activity.MainActivity
+import io.realm.SyncUser
 import me.everything.android.ui.overscroll.IOverScrollState.*
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.ScrollViewOverScrollDecorAdapter
@@ -276,7 +277,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         }
 
-        TimeObjectManager.setTimeObjectCalendarAdapter(this)
+        if(SyncUser.current() != null) TimeObjectManager.setTimeObjectCalendarAdapter(this)
 
         if(targetCellNum != selectCellNum) selectDate(targetCellNum, false)
         else scrollView.post { scrollView.scrollTo(0, 0) }

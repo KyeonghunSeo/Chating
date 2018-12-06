@@ -179,7 +179,8 @@
             android:layout_marginTop="@dimen/extra_margin"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_gravity="bottom|center_horizontal"/>
+            android:layout_gravity="bottom|center_horizontal"
+            android:visibility="gone"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/loginBtn"

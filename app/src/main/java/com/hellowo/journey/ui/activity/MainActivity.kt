@@ -50,24 +50,12 @@ class MainActivity : BaseActivity() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         setContentView(R.layout.activity_main)
         initTheme(rootLy)
+        initMain()
         if(SyncUser.current() == null) {
             startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
         }else {
-            initMain()
+            initRealm()
         }
-    }
-
-    private fun initMain() {
-        initRealm()
-        initLayout()
-        initCalendarView()
-        initDayView()
-        initDetailView()
-        initKeepView()
-        initBriefingView()
-        initTemplateView()
-        initBtns()
-        initObserver()
     }
 
     private fun initRealm() {
@@ -77,18 +65,31 @@ class MainActivity : BaseActivity() {
                 .fullSynchronization()
                 .waitForInitialRemoteData()
                 .build()
-        Realm.setDefaultConfiguration(config)
         realmAsyncTask = Realm.getInstanceAsync(config, object : Realm.Callback() {
             override fun onSuccess(realm: Realm) {
                 if (isDestroyed) {
                     realm.close()
                 } else {
                     l("Realm 준비 완료")
+                    Realm.setDefaultConfiguration(config)
                     viewModel.loading.value = false
                     viewModel.init(realm, SyncUser.current())
+                    calendarView.moveDate(System.currentTimeMillis(), true)
                 }
             }
         })
+    }
+
+    private fun initMain() {
+        initLayout()
+        initCalendarView()
+        initDayView()
+        initDetailView()
+        initKeepView()
+        initBriefingView()
+        initTemplateView()
+        initBtns()
+        initObserver()
     }
 
     private fun playIntentAction() {
@@ -363,8 +364,12 @@ class MainActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         timeObjectDetailView.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == RC_LOGIN && resultCode == RESULT_OK) {
-            initMain()
+        if(requestCode == RC_LOGIN) {
+            if(resultCode == RESULT_OK) {
+                viewModel.loading.value = false
+                viewModel.init(Realm.getDefaultInstance(), SyncUser.current())
+                calendarView.moveDate(System.currentTimeMillis(), true)
+            } else finish()
         }else if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
             if (data != null) {
                 val uri = data.data

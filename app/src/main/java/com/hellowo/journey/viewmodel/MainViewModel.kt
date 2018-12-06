@@ -33,15 +33,14 @@ class MainViewModel : ViewModel() {
     }
 
     private fun loadAppUser(syncUser: SyncUser) {
-        realm?.let {
-            l("[loadAppUser]")
+        realm?.let { it ->
             it.where(AppUser::class.java).findAllAsync().addChangeListener { result, _ ->
                 if(result.size > 0) {
                     appUser.value = result[0]
                 }else {
                     l("[새로운 유저 생성]")
                     realm?.executeTransaction {
-                        realm?.createObject(AppUser::class.java, syncUser.identity)
+                        it.createObject(AppUser::class.java, syncUser.identity)
                     }
                 }
             }
@@ -50,10 +49,8 @@ class MainViewModel : ViewModel() {
 
     private fun loadTemplate() {
         realm?.let {
-            l("[loadTemplate]")
             it.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
                     .addChangeListener { result, _ ->
-                        l("[]" + result.isValid)
                         templateList.value = result
                     }
         }
