@@ -29,7 +29,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val defaultPadding = dpToPx(4)
         val rectRadius = dpToPx(2f)
         val stampSize = dpToPx(17)
-        val blockTypeSize = dpToPx(17)
+        val blockTypeSize = dpToPx(15)
         val dotSize = dpToPx(2)
         val checkSize = dpToPx(10)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
@@ -148,7 +148,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     else -> {
                         typeface = AppTheme.textFont
                         gravity = Gravity.CENTER
-                        setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
+                        setPadding(defaultPadding * 2, fontTopPadding, defaultPadding * 2, 0)
                         setTextColor(timeObject.getColor())
                     }
                 }

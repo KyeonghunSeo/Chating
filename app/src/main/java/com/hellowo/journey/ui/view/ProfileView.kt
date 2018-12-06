@@ -38,6 +38,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     fun updateUserUI(appUser: AppUser) {
+        l("[프로필 뷰 갱신]")
         if(appUser.profileImg?.isNotEmpty() == true) {
             profileImage.clearColorFilter()
             Glide.with(this).load(appUser.profileImg)

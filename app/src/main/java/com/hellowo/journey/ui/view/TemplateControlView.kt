@@ -42,7 +42,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     var autoScrollFlag = 0
     var autoScrollSpeed = 0f
     var isExpanded = false
-    var scrollXdelta = 0
     private val handler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message) {
@@ -210,26 +209,23 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         isExpanded = false
     }
 
-    fun collapseNoAnim() {
+    private fun collapseNoAnim() {
         autoScrollFlag = 0
         controllView.elevation = 0f
         templateIconImg.rotation = 0f
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
+        backgroundLy.visibility = View.INVISIBLE
         listLy.visibility = View.INVISIBLE
         controllView.visibility = View.INVISIBLE
         isExpanded = false
     }
 
     fun notify(it: List<Template>) {
+        l("[템플릿 뷰 갱신]")
         items.clear()
         items.addAll(it)
-        scrollXdelta = 0
-        it.firstOrNull { it.id == Prefs.getInt("last_template_id", 0) }?.let {
-            selectItem(it)
-            recyclerView.adapter?.notifyDataSetChanged()
-            recyclerView.scrollToPosition((items.size + 1) * 50 + selectedPosition)
-        }
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 
     private fun selectItem(template: Template) {

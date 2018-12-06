@@ -311,9 +311,30 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         var order = 0
         for (i in view.cellNum until view.cellNum + view.length) {
             val s = StringBuilder(status.status[i])
+
             if(i == view.cellNum) {
+                var findPosition = false
                 order = s.indexOf("0") // 빈공간 찾기
                 if(order == -1) order = s.length // 빈공간이 없으면 가장 마지막 순서
+
+                if(view.length > 1) {
+                    if(view.timeObject.type == TimeObject.Type.TERM.ordinal) {
+                    }
+                    while(!findPosition) {
+                        var breakPoint = false
+                        for (j in view.cellNum until view.cellNum + view.length) {
+                            if(order < status.status[j].length && status.status[j][order] == '1') {
+                                breakPoint = true
+                                break
+                            }
+                        }
+                        if(breakPoint) {
+                            order++
+                        }else {
+                            findPosition = true
+                        }
+                    }
+                }
             }
 
             if(order >= s.length) {
