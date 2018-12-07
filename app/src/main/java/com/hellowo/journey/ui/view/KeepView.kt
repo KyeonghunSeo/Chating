@@ -17,15 +17,22 @@ import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.hellowo.journey.*
 import com.hellowo.journey.adapter.EventListAdapter
+import com.hellowo.journey.adapter.FolderAdapter
 import com.hellowo.journey.adapter.TimeObjectListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.Folder
+import com.hellowo.journey.model.Template
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
+import com.hellowo.journey.ui.dialog.CustomDialog
+import com.hellowo.journey.ui.dialog.TypePickerDialog
 import io.realm.OrderedCollectionChangeSet
+import io.realm.Realm
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.activity_edit_template.*
 import kotlinx.android.synthetic.main.view_keep.view.*
+import java.util.*
 
 class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {
     companion object
@@ -44,6 +51,34 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             }
         }
     }
+    private val folderItems = ArrayList<Folder>()
+    private val folderAdapter = FolderAdapter(context, folderItems) { action, folder ->
+        when(action) {
+            0 -> {
+                MainActivity.instance?.viewModel?.targetFolder?.value = folder
+                notifyDataChanged()
+
+            }
+            1 -> {
+                val dialog = CustomDialog(MainActivity.instance!!,
+                        context.getString(R.string.create_folder), null, null) { result, _, title ->
+                    if(result) {
+                        Realm.getDefaultInstance().use { realm ->
+                            realm.executeTransaction {
+                                realm.createObject(Folder::class.java, UUID.randomUUID().toString()).apply {
+                                    name = title
+                                    order = realm.where(Folder::class.java).max("order")?.toInt()?.plus(1) ?: 0
+                                }
+                            }
+                        }
+                        folderListView.post { folderListView.smoothScrollToPosition(folderItems.size) }
+                    }
+                }
+                showDialog(dialog, true, true, true, false)
+                dialog.showInput(context.getString(R.string.enter_folder_name), "")
+            }
+        }
+    }
     private var layout = 0
 
     init {
@@ -51,6 +86,10 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
+
+        folderListView.layoutManager = LinearLayoutManager(context)
+        folderListView.adapter = folderAdapter
+        folderAdapter.itemTouchHelper?.attachToRecyclerView(folderListView)
 
         layoutBtn.setOnClickListener {
             TransitionManager.beginDelayedTransition(recyclerView, makeChangeBounceTransition())
@@ -94,8 +133,12 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         }
     }
 
-    private fun scrollToCurrentFolder() {
-
+    fun notifyFolderDataChanged() {
+        MainActivity.instance?.viewModel?.folderList?.value?.let { list ->
+            folderItems.clear()
+            folderItems.addAll(list)
+            folderAdapter.notifyDataSetChanged()
+        }
     }
 
     fun show() {
@@ -104,7 +147,6 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         transiion.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
                 viewMode = ViewMode.OPENED
-                scrollToCurrentFolder()
             }
             override fun onTransitionResume(transition: Transition) {}
             override fun onTransitionPause(transition: Transition) {}

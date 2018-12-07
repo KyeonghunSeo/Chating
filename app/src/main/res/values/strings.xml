@@ -161,7 +161,7 @@
     <string name="no_tag">태그없음</string>
     <string name="delete_tag">태그 삭제</string>
     <string name="delete_tag_sub">정말 이 태그를 삭제할까요?</string>
-    <string name="keep">보관함</string>
+    <string name="keep">보관</string>
     <string name="scrap">스크랩</string>
     <string name="attachment">첨부</string>
     <string name="image">이미지</string>
@@ -181,5 +181,7 @@
     <string name="money_sub">수입/지출 내역을 손쉽게 기록하고 관리할 수 있습니다.</string>
     <string name="contents_example">Title</string>
     <string name="add_new">새로입력</string>
+    <string name="create_folder">폴더 생성</string>
+    <string name="enter_folder_name">폴더 이름을 입력해주세요</string>
 
 </resources>

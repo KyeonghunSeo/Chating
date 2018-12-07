@@ -25,7 +25,7 @@ class WelcomeActivity : BaseActivity() {
 
     private fun login() {
         val credentials = SyncCredentials.usernamePassword(emailEdit.text.toString(),
-                passwordEdit.text.toString(), false)
+                passwordEdit.text.toString(), nameEdit.text.isNotBlank())
         SyncUser.logInAsync(credentials, AUTH_URL, object: SyncUser.Callback<SyncUser> {
             override fun onError(error: ObjectServerError?) {
                 l("[로그인 실패]"+error?.errorCode?.intValue())
