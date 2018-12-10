@@ -1,18 +1,24 @@
 package com.hellowo.journey.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Canvas
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.hellowo.journey.AppDateFormat
 import com.hellowo.journey.R
 import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.model.Link
 import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.list_item_time_object.view.*
+import org.json.JSONObject
 import java.util.*
+
 
 class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
                             val adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit)
@@ -74,7 +80,29 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
         finishTexs.append("${AppDateFormat.ymdeDate.format(updatedDate)} ${AppDateFormat.time.format(updatedDate)}")
         v.finishText.text = finishTexs.toString()
 
-        v.topDivider.setBackgroundColor(timeObject.getColor())
+        if(timeObject.links.any { it.type == Link.Type.WEB.ordinal }){
+            val link = timeObject.links.first{ it.type == Link.Type.WEB.ordinal }
+            val properties = JSONObject(link.properties)
+            val url = properties.getString("url")
+            val imageurl = properties.getString("imageurl")
+            val favicon = properties.getString("favicon")
+
+            v.linkText.text = link.title
+            if(!imageurl.isNullOrBlank())
+                Glide.with(context).load(imageurl).into(v.linkImg)
+            else if(!favicon.isNullOrBlank())
+                Glide.with(context).load(favicon).into(v.linkImg)
+            else {
+                Glide.with(context).load(R.drawable.sharp_language_black_48dp).into(v.linkImg)
+            }
+
+            v.linkLy.visibility = View.VISIBLE
+            v.linkLy.setOnClickListener {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            }
+        }else {
+            v.linkLy.visibility = View.GONE
+        }
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
         v.setOnLongClickListener {

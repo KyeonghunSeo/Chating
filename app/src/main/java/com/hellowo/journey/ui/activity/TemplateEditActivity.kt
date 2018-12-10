@@ -46,7 +46,7 @@ class TemplateEditActivity : BaseActivity() {
                         template.type = type.ordinal
                     }
                 }
-                recyclerView.post { recyclerView.smoothScrollToPosition(items.size - 1) }
+                recyclerView.post { recyclerView.smoothScrollToPosition(items.size) }
             }, true, true, true, false)
         }
 
@@ -97,8 +97,7 @@ class TemplateEditActivity : BaseActivity() {
                 }
                 3 -> {
                     val dialog = CustomDialog(this@TemplateEditActivity,
-                            getString(R.string.template_title),
-                            null, null) { result, _, title ->
+                            getString(R.string.template_title), null, null) { result, _, title ->
                         if(result) {
                             realm.executeTransaction { _ ->
                                 realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
@@ -135,7 +134,7 @@ class TemplateEditActivity : BaseActivity() {
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
 
-        templateList = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
+        templateList = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
         templateList?.addChangeListener { result, changeSet ->
             if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
                 items.clear()

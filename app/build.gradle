@@ -32,7 +32,7 @@ realm {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
     implementation 'com.google.android.gms:play-services-places:16.0.0'
 
@@ -53,6 +53,8 @@ dependencies {
     implementation 'me.everything:overscroll-decor-android:1.0.4'
     //utils
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
+    implementation 'org.jsoup:jsoup:1.11.3'
+    implementation 'io.github.ponnamkarthik:richlinkpreview:1.0.9'
 }
 
 

@@ -33,49 +33,6 @@
             android:layout_marginTop="@dimen/normal_margin"
             android:layout_marginBottom="@dimen/normal_margin"/>
 
-        <FrameLayout
-            android:id="@+id/profileLy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normal_margin"
-            android:layout_marginBottom="@dimen/normal_margin">
-
-            <ImageView
-                android:id="@+id/profileImage"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:tint="@color/iconTint"/>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
-                android:layout_gravity="bottom|center_horizontal">
-
-                <TextView
-                    android:id="@+id/maleBtn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:textColor="@color/disableText"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:textSize="15dp"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:id="@+id/femaleBtn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:textColor="@color/disableText"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:textSize="15dp"
-                    android:gravity="center"/>
-
-            </LinearLayout>
-
-        </FrameLayout>
-
         <EditText
             android:id="@+id/emailEdit"
             android:layout_width="match_parent"
@@ -143,34 +100,6 @@
                 android:layout_marginRight="3dp"/>
 
         </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/locationLy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/locationText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/normal_margin"
-                android:paddingRight="@dimen/normal_margin"
-                android:inputType="text"
-                android:maxLines="1"
-                android:lines="1"
-                android:scrollHorizontally="true"
-                android:ellipsize="end"
-                android:textSize="15dp"
-                android:gravity="center_vertical"/>
-
-            <View
-                android:id="@+id/locationBtn"
-                android:layout_gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:foreground="?android:attr/selectableItemBackground" />
-
-        </FrameLayout>
 
         <ProgressBar
             android:id="@+id/progressBar"

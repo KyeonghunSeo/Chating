@@ -27,7 +27,6 @@ import com.hellowo.journey.ui.view.base.SwipeScrollView.Companion.SWIPE_LEFT
 import com.hellowo.journey.ui.view.base.SwipeScrollView.Companion.SWIPE_RIGHT
 import com.hellowo.journey.viewmodel.MainViewModel
 import androidx.lifecycle.Observer
-import com.hellowo.journey.manager.FolderManager
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -132,10 +131,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initCalendarView() {
-        calendarView.onDrawed = { cal ->
-            setDateText(cal.time)
-        }
         calendarView.onSelected = { time, cellNum, showDayView ->
+            viewModel.targetTime.value = time
             if(cellNum >= 0) {
                 if(showDayView && !dayView.isOpened()) {
                     dayView.show()
@@ -204,7 +201,7 @@ class MainActivity : BaseActivity() {
 
     private fun initKeepView() {
         keepBtn.setOnClickListener {
-            if(viewModel.targetFolder.value == null) viewModel.targetFolder.value = FolderManager.getPrimaryFolder()
+            if(viewModel.targetFolder.value == null) viewModel.setTargetFolder()
             else viewModel.targetFolder.value = null
         }
     }
@@ -264,6 +261,8 @@ class MainActivity : BaseActivity() {
             }
         })
 
+        viewModel.folderList.observe(this, Observer { _ -> keepView.notifyFolderDataChanged() })
+
         viewModel.targetFolder.observe(this, Observer { folder ->
             if (folder != null) {
                 keepBtn.setImageResource(R.drawable.sharp_calendar_black_48dp)
@@ -275,6 +274,8 @@ class MainActivity : BaseActivity() {
                 keepView.hide()
             }
         })
+
+        viewModel.targetTime.observe(this, Observer { time -> setDateText(Date(time)) })
     }
 
     private fun updateUserUI(appUser: AppUser) {

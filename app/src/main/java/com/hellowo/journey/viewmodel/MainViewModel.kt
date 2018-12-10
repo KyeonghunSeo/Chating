@@ -5,10 +5,12 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hellowo.journey.*
+import com.hellowo.journey.R
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.*
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.*
+import java.util.*
 
 class MainViewModel : ViewModel() {
     val loading = MutableLiveData<Boolean>()
@@ -16,20 +18,25 @@ class MainViewModel : ViewModel() {
     val targetView = MutableLiveData<View?>()
     val appUser = MutableLiveData<AppUser?>()
     val targetTemplate = MutableLiveData<Template>()
-    val templateList = MutableLiveData<List<Template>>()
+    val templateList = MutableLiveData<RealmResults<Template>>()
     val colorTagList = MutableLiveData<List<ColorTag>>()
     val isCalendarSettingOpened = MutableLiveData<Boolean>()
     val targetFolder = MutableLiveData<Folder>()
+    val folderList = MutableLiveData<RealmResults<Folder>>()
+    val targetTime = MutableLiveData<Long>()
 
     var realm: Realm? = null
     private var timeObjectList: RealmResults<TimeObject>? = null
 
-    init {}
+    init {
+        targetTime.value = System.currentTimeMillis()
+    }
 
     fun init(realm: Realm, syncUser: SyncUser) {
         this.realm = realm
         loadAppUser(syncUser)
         loadTemplate()
+        loadFolder()
     }
 
     private fun loadAppUser(syncUser: SyncUser) {
@@ -48,22 +55,22 @@ class MainViewModel : ViewModel() {
     }
 
     private fun loadTemplate() {
-        realm?.let {
-            it.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
-                    .addChangeListener { result, _ ->
-                        templateList.value = result
-                    }
-        }
-        /*
-        realm.executeTransaction {
-            TimeObject.Type.values().forEachIndexed { index, t ->
-                realm.createObject(Template::class.java, index).run {
-                    title = App.context.getString(t.titleId)
-                    type = t.ordinal
-                    order = index
-                }
+        realm?.let { it ->
+            templateList.value = it.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
+            templateList.value?.addChangeListener { result, _ ->
+                templateList.value = result
             }
-        }*/
+            return@let
+        }
+    }
+
+    private fun loadFolder() {
+        realm?.let { it ->
+            folderList.value = it.where(Folder::class.java).sort("order", Sort.ASCENDING).findAll()
+            folderList.value?.addChangeListener { result, _ ->
+                folderList.value = result
+            }
+        }
     }
 
     override fun onCleared() {
@@ -85,24 +92,18 @@ class MainViewModel : ViewModel() {
     }
 
     fun makeNewTimeObject(type: Int) {
-        MainActivity.instance?.getCalendarView()?.let {
-            targetTimeObject.value = TimeObjectManager.makeNewTimeObject(
-                    getCalendarTime0(it.targetCal), getCalendarTime23(it.targetCal)).apply {
-                this.type = type
-            }
-        }
+        val timeObject = makeTimeObjectByTatgetTemplate(getCalendarTime0(targetTime.value!!), getCalendarTime23(targetTime.value!!))
+        timeObject.type = type
+        targetTimeObject.value = timeObject
     }
 
     fun makeNewTimeObject() {
-        MainActivity.instance?.getCalendarView()?.let {
-            makeNewTimeObject(getCalendarTime0(it.targetCal), getCalendarTime23(it.targetCal))
-        }
+        targetTimeObject.value = makeTimeObjectByTatgetTemplate(
+                getCalendarTime0(targetTime.value!!), getCalendarTime23(targetTime.value!!))
     }
 
     fun makeNewTimeObject(startTime: Long, endTime: Long) {
-        MainActivity.instance?.getCalendarView()?.let {
-            targetTimeObject.value = makeTimeObjectByTatgetTemplate(startTime, endTime)
-        }
+        targetTimeObject.value = makeTimeObjectByTatgetTemplate(startTime, endTime)
     }
 
     fun makeTimeObjectByTatgetTemplate(startTime: Long, endTime: Long) =
@@ -113,9 +114,10 @@ class MainViewModel : ViewModel() {
                     colorKey = it.colorKey
                     fontColor = it.fontColor
                     inCalendar = it.inCalendar
-                    folder = targetFolder.value
                     tags.addAll(it.tags)
+                    return@let
                 }
+                folder = targetFolder.value
             }
 
     fun setTargetTimeObjectById(id: String?) {
@@ -133,5 +135,19 @@ class MainViewModel : ViewModel() {
             TimeObjectManager.save(makeTimeObjectByTatgetTemplate(
                     getCalendarTime0(it.targetCal), getCalendarTime23(it.targetCal)))
         }
+    }
+
+    fun setTargetFolder() {
+        var folder = folderList.value?.firstOrNull()
+        if(folder == null) {
+            l("[새 폴더 생성]")
+            realm?.executeTransaction {
+                folder = it.createObject(Folder::class.java, UUID.randomUUID().toString()).apply {
+                    name = App.context.getString(R.string.keep)
+                    order = 0
+                }
+            }
+        }
+        targetFolder.value = folder
     }
 }

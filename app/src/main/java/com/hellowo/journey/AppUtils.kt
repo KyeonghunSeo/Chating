@@ -71,6 +71,24 @@ fun setCalendarTime23 (cal: Calendar) {
     cal.set(Calendar.MILLISECOND, 999)
 }
 
+fun getCalendarTime0 (time: Long) : Long {
+    tempCal.timeInMillis = time
+    tempCal.set(Calendar.HOUR_OF_DAY, 0)
+    tempCal.set(Calendar.MINUTE, 0)
+    tempCal.set(Calendar.SECOND, 0)
+    tempCal.set(Calendar.MILLISECOND, 0)
+    return tempCal.timeInMillis
+}
+
+fun getCalendarTime23 (time: Long) : Long  {
+    tempCal.timeInMillis = time
+    tempCal.set(Calendar.HOUR_OF_DAY, 23)
+    tempCal.set(Calendar.MINUTE, 59)
+    tempCal.set(Calendar.SECOND, 59)
+    tempCal.set(Calendar.MILLISECOND, 999)
+    return tempCal.timeInMillis
+}
+
 fun getCalendarTime0 (cal: Calendar) : Long {
     tempCal.timeInMillis = cal.timeInMillis
     tempCal.set(Calendar.HOUR_OF_DAY, 0)

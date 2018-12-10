@@ -8,13 +8,13 @@
     <com.hellowo.journey.ui.view.base.Line
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:alpha="0.0"/>
+        android:alpha="0.1"/>
 
     <com.hellowo.journey.ui.view.base.Line
         android:layout_width="1px"
-        android:layout_height="5dp"
+        android:layout_height="match_parent"
         android:layout_gravity="right"
-        android:alpha="0.0"/>
+        android:alpha="0.1"/>
 
     <FrameLayout
         android:id="@+id/bar"

@@ -62,9 +62,18 @@
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/folderListView"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:clipChildren="false">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
         android:layout_marginTop="40dp">
     </androidx.recyclerview.widget.RecyclerView>
+
 </FrameLayout>
