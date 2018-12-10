@@ -183,5 +183,11 @@
     <string name="add_new">새로입력</string>
     <string name="create_folder">폴더 생성</string>
     <string name="enter_folder_name">폴더 이름을 입력해주세요</string>
+    <string name="scrap_in_today">오늘 %1$s</string>
+    <string name="scrap_in_folder">보관함에 스크랩</string>
+    <string name="scrap_in_calendar">달력에 스크랩</string>
+    <string name="select_date">날짜 선택</string>
+    <string name="invalid_info">잘못된 정보입니다</string>
+    <string name="saved">저장되었습니다</string>
 
 </resources>

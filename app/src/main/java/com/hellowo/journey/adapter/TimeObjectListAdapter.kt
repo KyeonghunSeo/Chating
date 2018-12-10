@@ -1,18 +1,28 @@
 package com.hellowo.journey.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Canvas
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.hellowo.journey.AppDateFormat
 import com.hellowo.journey.R
+import com.hellowo.journey.l
 import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.model.Link
 import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.list_item_time_object.view.*
 import java.util.*
+import com.leocardz.link.preview.library.SourceContent
+import com.leocardz.link.preview.library.LinkPreviewCallback
+import com.leocardz.link.preview.library.TextCrawler
+import org.json.JSONObject
+
 
 class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
                             val adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit)
@@ -74,7 +84,31 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
         finishTexs.append("${AppDateFormat.ymdeDate.format(updatedDate)} ${AppDateFormat.time.format(updatedDate)}")
         v.finishText.text = finishTexs.toString()
 
-        v.topDivider.setBackgroundColor(timeObject.getColor())
+        if(timeObject.links.any { it.type == Link.Type.WEB.ordinal }){
+            val link = timeObject.links.first{ it.type == Link.Type.WEB.ordinal }
+            val url = JSONObject(link.properties).getString("url")
+
+            v.linkLy.visibility = View.VISIBLE
+            // Create an instance of the TextCrawler to parse your url into a preview.
+            val textCrawler = TextCrawler()
+            val linkPreviewCallback = object : LinkPreviewCallback {
+                override fun onPre() {
+                }
+                override fun onPos(sourceContent: SourceContent, result: Boolean) {
+                    v.linkText.text = sourceContent.title
+                    if(sourceContent.images.isNotEmpty()) {
+                        l("링크 이미지 : " +sourceContent.images[0])
+                        Glide.with(context).load(sourceContent.images[0]).into(v.linkImg)
+                    }
+                }
+            }
+            textCrawler.makePreview( linkPreviewCallback, url)
+            v.linkLy.setOnClickListener {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            }
+        }else {
+            v.linkLy.visibility = View.GONE
+        }
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
         v.setOnLongClickListener {

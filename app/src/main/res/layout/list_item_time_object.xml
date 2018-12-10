@@ -2,14 +2,16 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical">
 
    <LinearLayout
        android:orientation="vertical"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_marginLeft="21dp"
-       android:layout_marginRight="16dp">
+       android:layout_margin="5dp"
+       android:background="@color/background"
+       android:padding="10dp">
 
       <LinearLayout
           android:orientation="vertical"
@@ -22,14 +24,6 @@
              android:layout_height="20dp"
              android:visibility="gone"
              android:tint="@color/primaryText"/>
-
-         <View
-             android:id="@+id/topDivider"
-             android:layout_width="10dp"
-             android:layout_height="1dp"
-             android:layout_marginBottom="10dp"
-             android:visibility="visible"
-             android:background="@color/primaryText"/>
 
          <TextView
              android:id="@+id/tagText"
@@ -53,6 +47,32 @@
              android:maxLines="20"
              android:text="Title"/>
 
+         <androidx.cardview.widget.CardView
+             android:id="@+id/linkLy"
+             android:layout_width="100dp"
+             android:layout_height="100dp"
+             app:cardCornerRadius="0dp"
+             app:cardElevation="10dp">
+
+            <ImageView
+                android:id="@+id/linkImg"
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
+
+            <TextView
+                android:id="@+id/linkText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:lineSpacingExtra="2dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/text"
+                android:ellipsize="end"
+                android:maxLines="20"
+                android:text="Title"/>
+
+         </androidx.cardview.widget.CardView>
+
          <TextView
              android:id="@+id/finishText"
              android:layout_width="wrap_content"
@@ -64,8 +84,7 @@
              android:textColor="@color/disableText"
              android:fontFamily="@font/text"
              android:ellipsize="end"
-             android:maxLines="2"
-             android:text="위치" />
+             android:maxLines="2"/>
 
       </LinearLayout>
 
