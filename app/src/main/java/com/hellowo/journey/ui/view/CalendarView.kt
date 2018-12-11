@@ -40,7 +40,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val todayCal: Calendar = Calendar.getInstance()
         val dateArea = dpToPx(30f)
         val weekLyBottomPadding = dpToPx(10)
-        val weekSideMargin = dpToPx(0)
+        val weekSideMargin = dpToPx(10)
         val autoPagingThreshold = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
@@ -142,6 +142,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateLy.orientation = HORIZONTAL
             dateLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
                 leftMargin = weekSideMargin
+                rightMargin = weekSideMargin
             }
             weekLy.addView(dateLy)
 
@@ -232,7 +233,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         targetCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
         minCalendarHeight = height
-        minWidth = (width.toFloat() - weekSideMargin) / columns
+        minWidth = (width.toFloat() - weekSideMargin*2) / columns
         minHeight = (minCalendarHeight.toFloat() - dateArea) / rows
 
         tempCal.add(Calendar.DATE, -startCellNum)
@@ -257,7 +258,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val dateText = dateHeaders[cellNum].dateText
                     val color = getDateTextColor(cellNum)
                     val alpha = if(cellNum in startCellNum..endCellNum) 1f else outDateAlpha
-                    dateText.text = tempCal.get(Calendar.DATE).toString()
+                    dateText.text = String.format("%02d", tempCal.get(Calendar.DATE))
                     dateText.alpha = alpha
                     dateText.setTextColor(color)
                     //dateHeaders[cellNum].bar.setBackgroundColor(color)

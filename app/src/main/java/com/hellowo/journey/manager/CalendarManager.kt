@@ -32,7 +32,7 @@ object CalendarManager {
 
     init {
         backgroundColor = AppTheme.backgroundColor
-        dateColor = resource.getColor(R.color.primaryText)
+        dateColor = resource.getColor(R.color.secondaryText)
         sundayColor = resource.getColor(R.color.holiday)
         saturdayColor = resource.getColor(R.color.blue)
         todayDateColor = resource.getColor(R.color.primaryText)

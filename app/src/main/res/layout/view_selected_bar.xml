@@ -6,15 +6,22 @@
     android:clipChildren="false">
 
     <com.hellowo.journey.ui.view.base.Line
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:alpha="0.1"/>
+        android:layout_width="1dp"
+        android:layout_height="match_parent"/>
 
     <com.hellowo.journey.ui.view.base.Line
-        android:layout_width="1px"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <com.hellowo.journey.ui.view.base.Line
+        android:layout_width="1dp"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:alpha="0.1"/>
+        android:layout_gravity="right"/>
+
+    <com.hellowo.journey.ui.view.base.Line
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"/>
 
     <FrameLayout
         android:id="@+id/bar"

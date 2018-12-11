@@ -134,7 +134,7 @@ class TemplateEditActivity : BaseActivity() {
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
 
-        templateList = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
+        templateList = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
         templateList?.addChangeListener { result, changeSet ->
             if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
                 items.clear()
