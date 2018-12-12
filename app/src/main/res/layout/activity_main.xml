@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="1.5dp"
+                    android:layout_marginTop="2dp"
                     android:layout_marginLeft="5dp"
                     android:includeFontPadding="false"
                     android:textColor="@color/secondaryText"
@@ -58,7 +58,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="-4dp"
                     android:includeFontPadding="false"
-                    android:textColor="@color/secondaryText"
+                    android:textColor="@color/primaryText"
                     android:textSize="32dp"
                     android:text="10월"/>
 

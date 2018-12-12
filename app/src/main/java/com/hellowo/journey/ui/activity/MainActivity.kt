@@ -5,6 +5,7 @@ import android.animation.LayoutTransition
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
@@ -27,11 +28,13 @@ import com.hellowo.journey.ui.view.base.SwipeScrollView.Companion.SWIPE_LEFT
 import com.hellowo.journey.ui.view.base.SwipeScrollView.Companion.SWIPE_RIGHT
 import com.hellowo.journey.viewmodel.MainViewModel
 import androidx.lifecycle.Observer
+import com.google.firebase.storage.FirebaseStorage
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import io.realm.Realm
 import io.realm.RealmAsyncTask
+import java.io.ByteArrayOutputStream
 
 class MainActivity : BaseActivity() {
     companion object {
@@ -111,9 +114,9 @@ class MainActivity : BaseActivity() {
         todayText.typeface = AppTheme.boldFont
         yearText.typeface = AppTheme.boldFont
         monthText.typeface = AppTheme.boldFont
-        calendarLy.setBackgroundColor(AppTheme.backgroundDarkColor)
-        topBar.setBackgroundColor(AppTheme.backgroundDarkColor)
-        bottomBar.setBackgroundColor(AppTheme.backgroundColor)
+        calendarLy.setBackgroundColor(AppTheme.backgroundColor)
+        topBar.setBackgroundColor(AppTheme.backgroundColor)
+        bottomBar.setBackgroundColor(AppTheme.backgroundDarkColor)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         //todayBtn.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
@@ -375,11 +378,29 @@ class MainActivity : BaseActivity() {
         }else if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
             if (data != null) {
                 val uri = data.data
+                showProgressDialog(null)
                 Glide.with(this).asBitmap().load(uri)
                         .into(object : SimpleTarget<Bitmap>(){
                             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                                 l("사진 크기 : ${resource.rowBytes} 바이트")
-                                viewModel.saveProfileImage(resource)
+                                val ref = FirebaseStorage.getInstance().reference.child("${viewModel.appUser.value?.id}/profileImg.jpg")
+                                val baos = ByteArrayOutputStream()
+                                resource.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                                val uploadTask = ref.putBytes(baos.toByteArray())
+                                uploadTask.addOnFailureListener {
+                                    hideProgressDialog()
+                                }.addOnSuccessListener { _ ->
+                                    ref.downloadUrl.addOnCompleteListener {
+                                        l("다운로드 url : ${it.result.toString()}")
+                                        viewModel.saveProfileImage(it.result.toString())
+                                        hideProgressDialog()
+                                    }
+                                }
+
+                            }
+                            override fun onLoadFailed(errorDrawable: Drawable?) {
+                                super.onLoadFailed(errorDrawable)
+                                hideProgressDialog()
                             }
                         })
             }

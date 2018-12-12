@@ -41,15 +41,15 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var folder: Folder? = null): RealmObject() {
 
     enum class Type(val titleId: Int, val subTextId: Int, val iconId: Int, val enableLongTerm: Boolean, val styles: Array<Style>) {
+        NOTE(R.string.note, R.string.note_sub,
+                R.drawable.sharp_notes_black_48dp, false,
+                arrayOf(DEFAULT, DOT, HYPHEN, RECT_STROKE, RECT_OPENSIDE, HATCHED, MEMO)),
         EVENT(R.string.event, R.string.event_sub,
                 R.drawable.sharp_event_black_48dp, true,
                 arrayOf(DEFAULT, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, CANDY, HATCHED)),
         TASK(R.string.task, R.string.task_sub,
                 R.drawable.sharp_check_box_black_48dp, false,
                 arrayOf(DEFAULT, RECT_STROKE, BOTTOM_LINE, ROUND_CHECK, ROUND_STROKE, ROUND_CHECK_BOTTOM_LINE)),
-        NOTE(R.string.note, R.string.note_sub,
-                R.drawable.sharp_notes_black_48dp, false,
-                arrayOf(DEFAULT, DOT, HYPHEN, RECT_STROKE, RECT_OPENSIDE, HATCHED, MEMO)),
         STAMP(R.string.stamp, R.string.stamp_sub,
                 R.drawable.sharp_star_rate_black_48dp, false,
                 arrayOf(DEFAULT, DOT, HYPHEN, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
@@ -75,7 +75,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
             when(Type.values()[type]) {
                 Type.EVENT -> Formula.TOP_STACK
                 Type.STAMP -> Formula.TOP_FLOW
-                Type.TASK -> Formula.TOP_LINEAR
+                Type.TASK -> Formula.TOP_STACK
                 Type.NOTE -> Formula.TOP_LINEAR
                 Type.MONEY -> Formula.MID_FLOW
                 Type.TERM -> Formula.BOTTOM_STACK

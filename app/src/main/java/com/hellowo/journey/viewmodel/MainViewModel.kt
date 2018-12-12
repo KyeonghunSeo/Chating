@@ -80,9 +80,9 @@ class MainViewModel : ViewModel() {
         realm = null
     }
 
-    fun saveProfileImage(resource: Bitmap) {
+    fun saveProfileImage(profileImgUrl: String) {
         realm?.executeTransaction {
-            appUser.value?.profileImg = bitmapToByteArray(resource)
+            appUser.value?.profileImgUrl = profileImgUrl
             appUser.value = appUser.value
         }
     }

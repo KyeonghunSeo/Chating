@@ -36,7 +36,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val animDur = 250L
         const val columns = 7
         const val selectedDateScale = 1f
-        const val outDateAlpha = 0.1f
+        const val outDateAlpha = 0f
         val todayCal: Calendar = Calendar.getInstance()
         val dateArea = dpToPx(30f)
         val weekLyBottomPadding = dpToPx(10)
@@ -145,12 +145,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     gravity = Gravity.BOTTOM
                 }
             }
-            view.setBackgroundColor(AppTheme.disableText)
+            view.setBackgroundColor(AppTheme.lineColor)
         }
 
         columnDividers.forEachIndexed { index, view ->
             view.layoutParams = FrameLayout.LayoutParams(lineWidth, MATCH_PARENT)
-            view.setBackgroundColor(AppTheme.disableText)
+            view.setBackgroundColor(AppTheme.lineColor)
         }
 
         for(i in 0..5) {
@@ -315,11 +315,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun getDateTextColor(cellNum: Int) : Int {
-        return if(cellNum == todayCellNum) {
+        return if(cellNum == selectCellNum) {
             if(cellNum % columns == AppStatus.sundayPos) {
-                CalendarManager.todayDateColor
+                CalendarManager.sundayColor
             }else {
-                CalendarManager.todayDateColor
+                CalendarManager.selectedDateColor
             }
         }else {
             if(cellNum % columns == AppStatus.sundayPos) {
@@ -336,19 +336,19 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun unselectDate(cellNum: Int) {
+        selectCellNum = -1
         val bar = dateHeaders[cellNum].bar
         val dowText = dateHeaders[cellNum].dowText
         val dateText = dateHeaders[cellNum].dateText
-        val color = getDateTextColor(cellNum)
         val alpha = if(cellNum in startCellNum..endCellNum) 1f else outDateAlpha
+        val color = getDateTextColor(cellNum)
 
         dateText.typeface = CalendarManager.dateFont
         dateText.alpha = alpha
+        dateText.setTextColor(color)
         dowText.visibility = View.GONE
 
-        selectCellNum = -1
         offViewEffect(cellNum)
-
         lastUnSelectDateAnimSet?.cancel()
         lastUnSelectDateAnimSet = AnimatorSet()
         lastUnSelectDateAnimSet?.let {
@@ -417,6 +417,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             dateText.typeface = CalendarManager.selectFont
             dateText.alpha = 1f
+            dateText.setTextColor(color)
             bar.setBackgroundColor(color)
             dowText.setTextColor(color)
             dowText.text = AppDateFormat.simpleDow.format(targetCal.time)

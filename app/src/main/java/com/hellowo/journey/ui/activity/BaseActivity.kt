@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.hellowo.journey.AppTheme
+import com.hellowo.journey.R
 
 open class BaseActivity : AppCompatActivity() {
     var progressDialog: ProgressDialog? = null
@@ -21,7 +22,7 @@ open class BaseActivity : AppCompatActivity() {
             flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             window.peekDecorView().systemUiVisibility = flags
             window.statusBarColor = AppTheme.backgroundDarkColor
-            window.navigationBarColor = AppTheme.backgroundColor
+            window.navigationBarColor = AppTheme.backgroundDarkColor
         }
     }
 
@@ -41,11 +42,12 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun showProgressDialog(msg: String) {
+    fun showProgressDialog(msg: String?) {
         hideProgressDialog()
         progressDialog = ProgressDialog(this)
         progressDialog?.let {
-            it.setMessage(msg)
+            if(msg.isNullOrEmpty()) it.setMessage(getString(R.string.plz_wait))
+            else it.setMessage(msg)
             it.setCancelable(false)
             it.show()
         }

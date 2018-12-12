@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#303029</color>
-    <color name="colorPrimaryDark">#303029</color>
-    <color name="colorAccent">#303029</color>>
+    <color name="colorPrimary">#222328</color>
+    <color name="colorPrimaryDark">#222328</color>
+    <color name="colorAccent">#222328</color>
 
-    <color name="background">#fffefe</color>
-    <color name="backgroundDark">#fffefe</color>
+    <color name="background">#ffffff</color>
+    <color name="backgroundDark">#f0f2f7</color>
     <color name="backgroundDeepDark">#b4b7bc</color>
     <color name="iconTint">#3a405b</color>
 
-    <color name="primaryText">#222328</color>
-    <color name="secondaryText">#3a405b</color>
-    <color name="disableText">#e4e7ef</color>
+    <color name="primaryText">#3a405b</color>
+    <color name="secondaryText">#a1a6bb</color>
+    <color name="disableText">#b9bed1</color>
     <color name="primaryWhiteText">#e0e0d7</color>
     <color name="secondaryWhiteText">#b3e0e0d7</color>
     <color name="disableWhiteText">#80e0e0d7</color>
@@ -20,6 +20,7 @@
     <color name="holiday">#b30000</color>
     <color name="transitionDim">#60000000</color>
     <color name="transitionDimWhite">#ccffffff</color>
+    <color name="line">#e4e7ef</color>
 
     <color name="t1_background">#e0e0d7</color>
     <color name="t1_backgroundDark">#f2f2f2</color>
