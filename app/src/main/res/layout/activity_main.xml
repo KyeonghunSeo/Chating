@@ -29,63 +29,60 @@
         <FrameLayout
             android:id="@+id/topBar"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="50dp">
 
-            <FrameLayout
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="bottom">
+            <LinearLayout
+                android:id="@+id/dateLy"
+                android:animateLayoutChanges="true"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:id="@+id/dateLy"
-                    android:animateLayoutChanges="true"
-                    android:orientation="horizontal"
+                <TextView
+                    android:id="@+id/yearText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="1.5dp"
+                    android:layout_marginLeft="5dp"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/secondaryText"
+                    android:rotation="90"
+                    android:textSize="11dp"
+                    android:text="2018"/>
 
-                    <TextView
-                        android:id="@+id/yearText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/primaryText"
-                        android:textSize="16dp"
-                        android:text="2018"/>
+                <TextView
+                    android:id="@+id/monthText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="-4dp"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="32dp"
+                    android:text="10월"/>
 
-                    <TextView
-                        android:id="@+id/monthText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="5dp"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/primaryText"
-                        android:textSize="16dp"
-                        android:text="10월"/>
 
-                </LinearLayout>
-
-            </FrameLayout>
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/profileImage"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="right"
-                android:tint="@color/primaryText"
+                android:tint="@color/iconTint"
                 android:src="@drawable/sharp_perm_identity_black_48dp"
                 android:padding="10dp"/>
 
-            <com.hellowo.journey.ui.view.base.Line
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/secondaryText"
                 android:layout_gravity="bottom"
-                android:alpha="0.1"/>
+                android:alpha="1"
+                android:visibility="gone"/>
 
         </FrameLayout>
 
@@ -93,8 +90,8 @@
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:elevation="10dp">
+            android:elevation="5dp"
+            android:layout_gravity="bottom">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -114,7 +111,7 @@
                         android:includeFontPadding="false"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:textColor="@color/primaryText"
+                        android:textColor="@color/secondaryText"
                         android:textSize="10dp"
                         android:text="Today"/>
 
@@ -125,7 +122,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:tint="@color/primaryText"
+                    android:tint="@color/iconTint"
                     android:src="@drawable/sharp_photo_filter_black_48dp"
                     android:padding="15dp"/>
 
@@ -133,7 +130,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:tint="@color/primaryText"
+                    android:tint="@color/iconTint"
                     android:src="@drawable/outline_edit_black_48dp"
                     android:padding="15dp"/>
 
@@ -142,7 +139,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:tint="@color/primaryText"
+                    android:tint="@color/iconTint"
                     android:src="@drawable/sharp_search_black_48dp"
                     android:padding="15dp"/>
 
@@ -151,7 +148,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:tint="@color/primaryText"
+                    android:tint="@color/iconTint"
                     android:src="@drawable/sharp_inbox_black_48dp"
                     android:padding="15dp"/>
 
@@ -163,7 +160,7 @@
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="50dp"
             android:layout_marginBottom="50dp">
         </com.hellowo.journey.ui.view.CalendarView>
 

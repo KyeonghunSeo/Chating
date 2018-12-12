@@ -5,50 +5,60 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <com.hellowo.journey.ui.view.base.Line
-        android:layout_width="1dp"
-        android:layout_height="match_parent"/>
-
-    <com.hellowo.journey.ui.view.base.Line
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-
-    <com.hellowo.journey.ui.view.base.Line
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="right"/>
-
-    <com.hellowo.journey.ui.view.base.Line
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_gravity="bottom"/>
-
     <FrameLayout
         android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/primaryText">
-
     </FrameLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <View
+        android:id="@+id/leftLine"
+        android:layout_width="@dimen/line_size"
+        android:layout_height="match_parent"
+        android:background="@color/disableText"
+        android:alpha="0"/>
+
+    <View
+        android:id="@+id/topLine"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_size"
+        android:background="@color/disableText"
+        android:alpha="0"/>
+
+    <View
+        android:id="@+id/rightLine"
+        android:layout_width="@dimen/line_size"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:background="@color/disableText"
+        android:alpha="0"/>
+
+    <View
+        android:id="@+id/bottomLine"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_size"
+        android:layout_gravity="bottom"
+        android:background="@color/disableText"
+        android:alpha="0"/>
 
     <LinearLayout
         android:id="@+id/dateLy"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:transformPivotX="0dp"
-        android:transformPivotY="10dp"
-        android:layout_gravity="center_horizontal">
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="5dp">
 
         <TextView
             android:id="@+id/dateText"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textSize="10dp"
+            android:textSize="9dp"
             android:includeFontPadding="false"
             android:textColor="@color/primaryText"
             android:text="27" />
@@ -58,9 +68,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="top"
-            android:layout_marginLeft="1dp"
-            android:textSize="4dp"
-            android:paddingTop="5dp"
+            android:layout_marginLeft="2dp"
+            android:textSize="9dp"
             android:includeFontPadding="false"
             android:textColor="@color/primaryText"
             android:text="@string/wed"/>

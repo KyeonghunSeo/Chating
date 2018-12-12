@@ -39,7 +39,7 @@ object AppTheme {
         context.theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)
         selectableItemBackground = typedValue.resourceId
         backgroundColor = resource.getColor(R.color.background)
-        backgroundDarkColor = resource.getColor(R.color.disableText)
+        backgroundDarkColor = resource.getColor(R.color.backgroundDark)
         almostWhite = resource.getColor(R.color.almostWhite)
         primaryColor = resource.getColor(R.color.colorPrimary)
         primaryText = resource.getColor(R.color.primaryText)
@@ -56,7 +56,7 @@ object AppTheme {
         boldFont = ResourcesCompat.getFont(context, R.font.bold)!!
         serifRegularFont = ResourcesCompat.getFont(context, R.font.regular_s)!!
         serifBoldFont = ResourcesCompat.getFont(context, R.font.bold_s)!!
-        textFont = ResourcesCompat.getFont(context, R.font.text)!!
+        textFont = ResourcesCompat.getFont(context, R.font.regular)!!
 
         resource.getStringArray(R.array.colors).forEachIndexed { index, s ->
             colors[index] = Color.parseColor(s)

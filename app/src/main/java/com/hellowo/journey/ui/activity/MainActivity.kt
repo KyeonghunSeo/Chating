@@ -111,8 +111,8 @@ class MainActivity : BaseActivity() {
         todayText.typeface = AppTheme.boldFont
         yearText.typeface = AppTheme.boldFont
         monthText.typeface = AppTheme.boldFont
-        calendarLy.setBackgroundColor(AppTheme.backgroundColor)
-        topBar.setBackgroundColor(AppTheme.backgroundColor)
+        calendarLy.setBackgroundColor(AppTheme.backgroundDarkColor)
+        topBar.setBackgroundColor(AppTheme.backgroundDarkColor)
         bottomBar.setBackgroundColor(AppTheme.backgroundColor)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         //todayBtn.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
@@ -261,16 +261,18 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        viewModel.folderList.observe(this, Observer { _ -> keepView.notifyFolderDataChanged() })
+        viewModel.folderList.observe(this, Observer { list ->
+            keepView.notifyFolderDataChanged()
+            if(list.size > 1) keepBtn.setImageResource(R.drawable.sharp_all_inbox_black_48dp)
+            else keepBtn.setImageResource(R.drawable.sharp_inbox_black_48dp)
+        })
 
         viewModel.targetFolder.observe(this, Observer { folder ->
             if (folder != null) {
-                keepBtn.setImageResource(R.drawable.sharp_calendar_black_48dp)
                 if (keepView.viewMode == ViewMode.CLOSED) {
                     keepView.show()
                 }
             } else {
-                keepBtn.setImageResource(R.drawable.sharp_inbox_black_48dp)
                 keepView.hide()
             }
         })
@@ -283,9 +285,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setDateText(date: Date) {
-        yearText.text = AppDateFormat.ymDate.format(date)
-        monthText.text = AppDateFormat.mDate.format(date)
-        monthText.visibility = View.GONE
+        yearText.text = AppDateFormat.year.format(date)
+        monthText.text = String.format("%02d", date.month + 1)
     }
 
     fun onDrag(event: DragEvent) {

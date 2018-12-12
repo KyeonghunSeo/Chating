@@ -35,28 +35,31 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val dateTextSize = 13f
         const val animDur = 250L
         const val columns = 7
-        const val selectedDateScale = 1.7f
-        const val outDateAlpha = 0.2f
+        const val selectedDateScale = 1f
+        const val outDateAlpha = 0.1f
         val todayCal: Calendar = Calendar.getInstance()
         val dateArea = dpToPx(30f)
         val weekLyBottomPadding = dpToPx(10)
-        val weekSideMargin = dpToPx(10)
+        val calendarPadding = dpToPx(15)
         val autoPagingThreshold = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val monthPagingThreshold = dpToPx(50)
         val dowTextMargin = dpToPx(5)
+        val lineWidth = 1
     }
 
     private val scrollView = ScrollView(context)
     val calendarLy = LinearLayout(context)
     val weekLys = Array(6) { _ -> FrameLayout(context)}
+    val columnDividers = Array(8 * 6) { _ -> View(context)}
+    val rowDividers = Array(7) { _ -> View(context)}
     private val dateLys = Array(6) { _ -> LinearLayout(context)}
     val dateCells = Array(maxCellNum) { _ -> FrameLayout(context)}
     private val dateHeaders = Array(maxCellNum) { _ ->
         DateHeaderViewHolder(LayoutInflater.from(context).inflate(R.layout.view_selected_bar, null, false))}
-    private val weekViews = Array(6) { _ ->
-        WeekViewHolder(LayoutInflater.from(context).inflate(R.layout.view_weekly_side, null, false))}
+    //private val weekViews = Array(6) { _ ->
+    //    WeekViewHolder(LayoutInflater.from(context).inflate(R.layout.view_weekly_side, null, false))}
     private val nextMonthHintView = LayoutInflater.from(context).inflate(R.layout.view_next_month_hint, null, false)
     private val fakeImageView = ImageView(context)
 
@@ -74,6 +77,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val bar: FrameLayout = container.findViewById(R.id.bar)
         val dowText: TextView = container.findViewById(R.id.dowText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
+        val leftLine: View = container.findViewById(R.id.leftLine)
+        val topLine: View = container.findViewById(R.id.topLine)
+        val rightLine: View = container.findViewById(R.id.rightLine)
+        val bottomLine: View = container.findViewById(R.id.bottomLine)
         init {
             dateText.typeface = CalendarManager.dateFont
             dowText.typeface = CalendarManager.selectFont
@@ -100,7 +107,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var onSelected: ((Long, Int, Boolean) -> Unit)? = null
     var startCellNum = 0
     var endCellNum = 0
-    var minCalendarHeight = 0
+    var minCalendarHeight = 0f
     var minWidth = 0f
     var minHeight = 0f
     var rows = 0
@@ -122,16 +129,29 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun setLayout() {
-        scrollView.setBackgroundColor(CalendarManager.backgroundColor)
         scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         scrollView.isVerticalScrollBarEnabled = false
         calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(0, 0, 0, autoScrollOffset)
+        calendarLy.setPadding(calendarPadding, calendarPadding, calendarPadding, calendarPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
         nextMonthHintView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         nextMonthHintView.alpha = 0f
         fakeImageView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+
+        rowDividers.forEachIndexed { index, view ->
+            view.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, lineWidth).apply {
+                if(index == 6) {
+                    gravity = Gravity.BOTTOM
+                }
+            }
+            view.setBackgroundColor(AppTheme.disableText)
+        }
+
+        columnDividers.forEachIndexed { index, view ->
+            view.layoutParams = FrameLayout.LayoutParams(lineWidth, MATCH_PARENT)
+            view.setBackgroundColor(AppTheme.disableText)
+        }
 
         for(i in 0..5) {
             val weekLy = weekLys[i]
@@ -140,9 +160,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dateLy = dateLys[i]
             dateLy.clipChildren = false
             dateLy.orientation = HORIZONTAL
-            dateLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                leftMargin = weekSideMargin
-                rightMargin = weekSideMargin
+            dateLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+            weekLy.addView(rowDividers[i])
+            if(i == 5) {
+                weekLy.addView(rowDividers[6])
+            }
+            for (j in 0..7){
+                weekLy.addView(columnDividers[i*8 + j])
             }
             weekLy.addView(dateLy)
 
@@ -159,7 +183,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 dateCell.addView(dateHeaders[cellNum].container)
                 dateLy.addView(dateCell)
             }
-            calendarLy.addView(weekViews[i].container)
+            //calendarLy.addView(weekViews[i].container)
             calendarLy.addView(weekLy)
         }
 
@@ -232,9 +256,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         todayCellNum = -1
         targetCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height
-        minWidth = (width.toFloat() - weekSideMargin*2) / columns
-        minHeight = (minCalendarHeight.toFloat() - dateArea) / rows
+        minCalendarHeight = (height.toFloat() - calendarPadding * 2)
+        minWidth = (width.toFloat() - calendarPadding * 2) / columns
+        minHeight = minCalendarHeight / rows
 
         tempCal.add(Calendar.DATE, -startCellNum)
 
@@ -270,9 +294,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         setCalendarTime23(tempCal)
                         calendarEndTime = tempCal.timeInMillis
                     }
-
                     tempCal.add(Calendar.DATE, 1)
+                    columnDividers[i*8 + j].translationX = minWidth * j
                 }
+                columnDividers[i*8 + 7].translationX = minWidth * 7 - lineWidth
             }else {
                 weekLy.visibility = View.GONE
             }
@@ -320,7 +345,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         dateText.typeface = CalendarManager.dateFont
         dateText.alpha = alpha
         dowText.visibility = View.GONE
-        (dateHeaders[cellNum].dateLy.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.CENTER_HORIZONTAL
 
         selectCellNum = -1
         offViewEffect(cellNum)
@@ -354,7 +378,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             if(week != selectedWeek || weekIndex != selectedWeekIndex) {
                 l("Week 선택 : $week")
                 isChangeWeek = true
-
+/*
                 if(selectedWeekIndex != -1 && weekIndex != selectedWeekIndex) {
                     weekViews[selectedWeekIndex].contentLy.visibility = View.GONE
                 }
@@ -378,7 +402,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     it.interpolator = FastOutSlowInInterpolator()
                     it.duration = animDur
                     it.start()
-                }
+                }*/
             }
 
             if(selectCellNum >= 0) unselectDate(selectCellNum)
@@ -395,10 +419,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.alpha = 1f
             bar.setBackgroundColor(color)
             dowText.setTextColor(color)
-            //dowText.text = dow[targetCal.get(Calendar.DAY_OF_WEEK) - 1]
-            dowText.text = AppDateFormat.dow.format(targetCal.time)
+            dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
             dowText.visibility = View.VISIBLE
-            (dateHeaders[cellNum].dateLy.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.NO_GRAVITY
 
             lastSelectDateAnimSet?.cancel()
             lastSelectDateAnimSet = AnimatorSet()
@@ -579,7 +601,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun onDrag(event: DragEvent) {
-        var cellX = ((event.x - weekSideMargin) / minWidth).toInt()
+        var cellX = ((event.x - calendarPadding) / minWidth).toInt()
         if(cellX < 0) cellX = 0
         val yPos = event.y - top - AppDateFormat.statusBarHeight
         val yCalPos = yPos + scrollView.scrollY

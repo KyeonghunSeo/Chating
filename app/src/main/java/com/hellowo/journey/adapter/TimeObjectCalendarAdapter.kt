@@ -195,7 +195,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
                 }
 
                 viewHolder.timeObjectViewList.forEach {
-                    it.mLeft = (minWidth * (it.cellNum % columns)) + CalendarView.weekSideMargin
+                    it.mLeft = (minWidth * (it.cellNum % columns)) + CalendarView.calendarPadding
                     it.mRight = it.mLeft + (minWidth * it.length).toInt()
                     when(formula) {
                         TOP_STACK -> {

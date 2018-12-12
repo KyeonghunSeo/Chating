@@ -31,12 +31,12 @@ object CalendarManager {
     var selectFont = AppTheme.boldFont
 
     init {
-        backgroundColor = AppTheme.backgroundColor
+        backgroundColor = AppTheme.backgroundDarkColor
         dateColor = resource.getColor(R.color.secondaryText)
         sundayColor = resource.getColor(R.color.holiday)
         saturdayColor = resource.getColor(R.color.blue)
-        todayDateColor = resource.getColor(R.color.primaryText)
-        selectedDateColor = resource.getColor(R.color.primaryText)
+        todayDateColor = resource.getColor(R.color.secondaryText)
+        selectedDateColor = resource.getColor(R.color.secondaryText)
         selectedBackgroundColor = resource.getColor(R.color.grey)
         greyColor = resource.getColor(R.color.grey)
     }
