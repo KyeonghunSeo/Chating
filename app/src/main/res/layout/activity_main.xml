@@ -91,7 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:elevation="5dp"
-            android:layout_gravity="bottom">
+            android:layout_gravity="bottom"
+            android:visibility="gone">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -163,6 +164,31 @@
             android:layout_marginTop="50dp"
             android:layout_marginBottom="50dp">
         </com.hellowo.journey.ui.view.CalendarView>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="bottom">
+
+            <ImageView
+                android:id="@+id/prevBtn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:tint="@color/iconTint"
+                android:src="@drawable/sharp_navigate_before_black_48dp"
+                android:padding="10dp"/>
+
+            <ImageView
+                android:id="@+id/nextBtn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:tint="@color/iconTint"
+                android:src="@drawable/sharp_navigate_next_black_48dp"
+                android:padding="10dp"/>
+
+        </LinearLayout>
 
         <com.hellowo.journey.ui.view.KeepView
             android:id="@+id/keepView"

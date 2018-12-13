@@ -8,49 +8,15 @@
     <FrameLayout
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/primaryText">
+        android:layout_height="match_parent"
+        android:background="@drawable/primary_rect_stroke_1dp_alpha">
     </FrameLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <View
-        android:id="@+id/leftLine"
-        android:layout_width="@dimen/line_size"
-        android:layout_height="match_parent"
-        android:background="@color/disableText"
-        android:alpha="0"/>
-
-    <View
-        android:id="@+id/topLine"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_size"
-        android:background="@color/disableText"
-        android:alpha="0"/>
-
-    <View
-        android:id="@+id/rightLine"
-        android:layout_width="@dimen/line_size"
-        android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:background="@color/disableText"
-        android:alpha="0"/>
-
-    <View
-        android:id="@+id/bottomLine"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_size"
-        android:layout_gravity="bottom"
-        android:background="@color/disableText"
-        android:alpha="0"/>
 
     <LinearLayout
         android:id="@+id/dateLy"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginLeft="4dp">
 

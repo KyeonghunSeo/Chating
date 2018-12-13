@@ -77,10 +77,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val bar: FrameLayout = container.findViewById(R.id.bar)
         val dowText: TextView = container.findViewById(R.id.dowText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
-        val leftLine: View = container.findViewById(R.id.leftLine)
-        val topLine: View = container.findViewById(R.id.topLine)
-        val rightLine: View = container.findViewById(R.id.rightLine)
-        val bottomLine: View = container.findViewById(R.id.bottomLine)
         init {
             dateText.typeface = CalendarManager.dateFont
             dowText.typeface = CalendarManager.selectFont
@@ -370,15 +366,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun selectDate(cellNum: Int, showDayView: Boolean) {
         if(!showDayView) {
             l("날짜선택 : ${AppDateFormat.ymdDate.format(Date(cellTimeMills[cellNum]))}")
-            TransitionManager.beginDelayedTransition(calendarLy, makeChangeBounceTransition())
-            targetCal.timeInMillis = cellTimeMills[cellNum]
+            targetCal.timeInMillis = cellTimeMills[cellNum]/*
             val week = "${targetCal.get(Calendar.YEAR)}${targetCal.get(Calendar.WEEK_OF_YEAR)}".toInt()
             val weekIndex = cellNum / columns
             var isChangeWeek = false
             if(week != selectedWeek || weekIndex != selectedWeekIndex) {
                 l("Week 선택 : $week")
                 isChangeWeek = true
-/*
+
                 if(selectedWeekIndex != -1 && weekIndex != selectedWeekIndex) {
                     weekViews[selectedWeekIndex].contentLy.visibility = View.GONE
                 }
@@ -402,9 +397,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     it.interpolator = FastOutSlowInInterpolator()
                     it.duration = animDur
                     it.start()
-                }*/
+                }
             }
-
+*/
             if(selectCellNum >= 0) unselectDate(selectCellNum)
 
             selectCellNum = cellNum
@@ -418,7 +413,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.typeface = CalendarManager.selectFont
             dateText.alpha = 1f
             dateText.setTextColor(color)
-            bar.setBackgroundColor(color)
             dowText.setTextColor(color)
             dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
             dowText.visibility = View.VISIBLE
@@ -437,7 +431,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 it.start()
             }
 
-            if(autoScroll || isChangeWeek) {
+            if(autoScroll /*|| isChangeWeek*/) {
                 autoScroll = false
                 scrollView.post { scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top - dateArea.toInt()) }
             }
@@ -489,12 +483,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun setOnTop(onTop: ((Boolean) -> Unit)) {
         //scrollView.onTop = onTop
-    }
-
-    fun moveDate(offset: Int, isAutoScroll: Boolean) {
-        targetCal.add(Calendar.DATE, offset)
-        autoScroll = isAutoScroll
-        drawCalendar(targetCal.timeInMillis)
     }
 
     fun moveDate(time: Long, isAutoScroll: Boolean) {

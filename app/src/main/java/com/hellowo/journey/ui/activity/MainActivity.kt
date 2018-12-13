@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
@@ -29,6 +30,7 @@ import com.hellowo.journey.ui.view.base.SwipeScrollView.Companion.SWIPE_RIGHT
 import com.hellowo.journey.viewmodel.MainViewModel
 import androidx.lifecycle.Observer
 import com.google.firebase.storage.FirebaseStorage
+import com.theartofdev.edmodo.cropper.CropImage
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -232,6 +234,24 @@ class MainActivity : BaseActivity() {
         profileImage.setOnLongClickListener {
             return@setOnLongClickListener true
         }
+
+        prevBtn.setOnClickListener {
+            if(dayView.isOpened()) {
+                calendarView.targetCal.add(Calendar.DATE, -1)
+            }else {
+                calendarView.targetCal.add(Calendar.MONTH, -1)
+            }
+            calendarView.moveDate(calendarView.targetCal.timeInMillis, true)
+        }
+
+        nextBtn.setOnClickListener {
+            if(dayView.isOpened()) {
+                calendarView.targetCal.add(Calendar.DATE, 1)
+            }else {
+                calendarView.targetCal.add(Calendar.MONTH, 1)
+            }
+            calendarView.moveDate(calendarView.targetCal.timeInMillis, true)
+        }
     }
 
     private fun initObserver() {
@@ -376,8 +396,11 @@ class MainActivity : BaseActivity() {
                 calendarView.moveDate(System.currentTimeMillis(), true)
             } else finish()
         }else if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
-            if (data != null) {
-                val uri = data.data
+            data?.let { CropImage.activity(data.data).setAspectRatio(1, 1).start(this) }
+        }else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == RESULT_OK) {
+                val uri = result.uri
                 showProgressDialog(null)
                 Glide.with(this).asBitmap().load(uri)
                         .into(object : SimpleTarget<Bitmap>(){
@@ -403,6 +426,8 @@ class MainActivity : BaseActivity() {
                                 hideProgressDialog()
                             }
                         })
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                result.error.printStackTrace()
             }
         }else if(requestCode == RC_OS_CALENDAR) {
             dayView.onActivityResult(requestCode, resultCode, data)

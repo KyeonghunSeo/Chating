@@ -70,7 +70,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_template_control, this, true)
-        controllView.radius = collapseSize / 2f
         listLy.visibility = View.INVISIBLE
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = TemplateAdapter(context, items) {
@@ -129,7 +128,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                                 handler.removeMessages(1)
                                 handler.sendEmptyMessage(1)
                             }
-                        }else { }
+                        }else {}
 
                         when {
                             event.y < -touchEventView.height * 1.5 -> { }
@@ -171,31 +170,26 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
         t1.addTarget(listLy)
         t2.addTarget(backgroundLy)
-        t2.addTarget(controllView)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
         backgroundLy.visibility = View.VISIBLE
-        backgroundLy.setBackgroundColor(AppTheme.primaryText)
+        backgroundLy.setBackgroundColor(AppTheme.backgroundColor)
         backgroundLy.setOnClickListener { collapse() }
         backgroundLy.isClickable = true
-        controllView.elevation = dpToPx(5f)
         listLy.visibility = View.VISIBLE
-        controllView.visibility = View.VISIBLE
         ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f).start()
         isExpanded = true
     }
 
     fun collapse() {
         autoScrollFlag = 0
-        controllView.elevation = 0f
         val transitionSet = TransitionSet()
         val t1 = makeFromBottomSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
         t1.addTarget(listLy)
         t2.addTarget(backgroundLy)
-        t2.addTarget(controllView)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         TransitionManager.beginDelayedTransition(this, transitionSet)
@@ -204,20 +198,17 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
         listLy.visibility = View.INVISIBLE
-        controllView.visibility = View.INVISIBLE
         ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f).start()
         isExpanded = false
     }
 
     private fun collapseNoAnim() {
         autoScrollFlag = 0
-        controllView.elevation = 0f
         templateIconImg.rotation = 0f
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
         backgroundLy.visibility = View.INVISIBLE
         listLy.visibility = View.INVISIBLE
-        controllView.visibility = View.INVISIBLE
         isExpanded = false
     }
 
