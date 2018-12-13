@@ -24,7 +24,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     companion object {
         var standardTextSize = 8f
         var fontTopPadding = dpToPx(0)
-        val defaulMargin = dpToPx(1f) // 뷰간 간격
+        val defaulMargin = dpToPx(0.5f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
         val defaultPadding = dpToPx(3)
         val rectRadius = dpToPx(2f)

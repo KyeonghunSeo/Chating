@@ -2,10 +2,16 @@ package com.hellowo.journey
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import androidx.core.content.res.ResourcesCompat
+import com.google.android.material.shape.CutCornerTreatment
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapePathModel
+import com.google.android.material.shape.TriangleEdgeTreatment
 import com.hellowo.journey.App.Companion.resource
 import java.lang.Exception
 
@@ -65,6 +71,11 @@ object AppTheme {
         }
         resource.getStringArray(R.array.font_colors).forEachIndexed { index, s ->
             fontColors[index] = Color.parseColor(s)
+        }
+
+        val shapePathModel = ShapePathModel().apply {
+            setAllCorners(CutCornerTreatment(dpToPx(5f)))
+            setAllEdges(TriangleEdgeTreatment(dpToPx(5f), true))
         }
     }
 

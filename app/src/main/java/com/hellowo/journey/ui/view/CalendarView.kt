@@ -1,6 +1,9 @@
 package com.hellowo.journey.ui.view
 
-import android.animation.*
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
@@ -16,16 +19,12 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.*
 import android.widget.LinearLayout.HORIZONTAL
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.transition.TransitionManager
 import com.hellowo.journey.*
+import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.manager.TimeObjectManager
-import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.SyncUser
-import me.everything.android.ui.overscroll.IOverScrollState.*
-import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
-import me.everything.android.ui.overscroll.adapters.ScrollViewOverScrollDecorAdapter
 import java.util.*
 
 
@@ -151,8 +150,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         for(i in 0..5) {
             val weekLy = weekLys[i]
-            weekLy.clipChildren = false
-
             val dateLy = dateLys[i]
             dateLy.clipChildren = false
             dateLy.orientation = HORIZONTAL
@@ -181,60 +178,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
             //calendarLy.addView(weekViews[i].container)
             calendarLy.addView(weekLy)
-        }
-
-        setOverscrollDecor()
-    }
-
-    private fun setOverscrollDecor() {
-        val decor = VerticalOverScrollBounceEffectDecorator(ScrollViewOverScrollDecorAdapter(scrollView),
-                1.7f, // Default is 3
-                VerticalOverScrollBounceEffectDecorator.DEFAULT_TOUCH_DRAG_MOVE_RATIO_BCK,
-                VerticalOverScrollBounceEffectDecorator.DEFAULT_DECELERATE_FACTOR)
-        decor.setOverScrollStateListener { decor, oldState, newState ->
-            when (newState) {
-                STATE_IDLE -> {}
-                STATE_DRAG_START_SIDE -> {
-                    tempCal.timeInMillis = monthCal.timeInMillis
-                    tempCal.add(Calendar.MONTH, -1)
-                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).typeface = AppTheme.serifBoldFont
-                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).text = AppDateFormat.mDate.format(tempCal.time)
-                }
-                STATE_DRAG_END_SIDE -> {
-                    tempCal.timeInMillis = monthCal.timeInMillis
-                    tempCal.add(Calendar.MONTH, 1)
-                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).typeface = AppTheme.serifBoldFont
-                    nextMonthHintView.findViewById<TextView>(R.id.nextHintText).text = AppDateFormat.mDate.format(tempCal.time)
-                }
-                STATE_BOUNCE_BACK -> {
-                    if(nextMonthHintView.alpha == 1f) {
-                        if (oldState == STATE_DRAG_START_SIDE) {
-                            moveMonth(-1)
-                        } else {
-                            moveMonth(1)
-                        }
-                    }
-                    nextMonthHintView.alpha = 0f
-                }
-            }
-        }
-        decor.setOverScrollUpdateListener { decor, state, offset ->
-            if(state != STATE_BOUNCE_BACK) {
-                val alpha = Math.min(1f, Math.abs(offset) / monthPagingThreshold)
-                if(nextMonthHintView.alpha != 1f && alpha == 1f) {
-                    vibrate(context)
-                }
-                nextMonthHintView.alpha = alpha
-                when {
-                    offset > 0 -> {
-                        nextMonthHintView.translationY = offset - nextMonthHintView.height * 2
-                    }
-                    offset < 0 -> {
-                        nextMonthHintView.translationY = height + offset + nextMonthHintView.height
-                    }
-                    else -> {}
-                }
-            }
         }
     }
 

@@ -89,7 +89,8 @@
         android:padding="10dp"
         android:clipToPadding="false">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
             android:id="@+id/decoBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -106,15 +107,15 @@
                 android:src="@drawable/sharp_photo_filter_black_48dp"
                 android:tint="@color/primaryText"/>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
             android:id="@+id/addBtn"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
             app:cardBackgroundColor="@color/primaryText"
-            app:cardCornerRadius="0dp"
             app:cardElevation="8dp">
 
             <ImageView
@@ -125,9 +126,10 @@
                 android:src="@drawable/sharp_add_black_48dp"
                 android:tint="@color/white"/>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -143,7 +145,7 @@
                 android:src="@drawable/sharp_create_black_48dp"
                 android:tint="@color/primaryText"/>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </FrameLayout>
 

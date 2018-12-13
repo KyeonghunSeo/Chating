@@ -29,7 +29,7 @@
         <FrameLayout
             android:id="@+id/topBar"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="55dp">
 
             <LinearLayout
                 android:id="@+id/dateLy"
@@ -81,8 +81,7 @@
                 android:layout_marginRight="15dp"
                 android:background="@color/secondaryText"
                 android:layout_gravity="bottom"
-                android:alpha="1"
-                android:visibility="gone"/>
+                android:alpha="1"/>
 
         </FrameLayout>
 
@@ -90,9 +89,8 @@
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:elevation="5dp"
             android:layout_gravity="bottom"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -161,7 +159,7 @@
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="55dp"
             android:layout_marginBottom="50dp">
         </com.hellowo.journey.ui.view.CalendarView>
 
@@ -194,7 +192,8 @@
             android:id="@+id/keepView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
             android:layout_gravity="bottom"
             app:cardBackgroundColor="@color/background"
             app:cardElevation="0dp"
