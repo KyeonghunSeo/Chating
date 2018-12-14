@@ -169,7 +169,7 @@ fun setTime1HourInterval(startCal: Calendar, endCal: Calendar) {
 fun makeFromBottomSlideTransition() : Transition {
     val transition = Slide()
     transition.slideEdge = Gravity.BOTTOM
-    transition.duration = 250
+    transition.duration = 200
     transition.interpolator = FastOutSlowInInterpolator()
     return transition
 }
@@ -177,21 +177,21 @@ fun makeFromBottomSlideTransition() : Transition {
 fun makeFromRightSlideTransition() : Transition {
     val transition = Slide()
     transition.slideEdge = Gravity.RIGHT
-    transition.duration = 250
+    transition.duration = 200
     transition.interpolator = FastOutSlowInInterpolator()
     return transition
 }
 
 fun makeFadeTransition() : Transition {
     val transition = Fade()
-    transition.duration = 250
+    transition.duration = 200
     transition.interpolator = FastOutSlowInInterpolator()
     return transition
 }
 
 fun makeChangeBounceTransition() : Transition {
     val transition = ChangeBounds()
-    transition.duration = 250
+    transition.duration = 200
     transition.interpolator = FastOutSlowInInterpolator()
     return transition
 }

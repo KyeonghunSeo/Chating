@@ -39,7 +39,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val todayCal: Calendar = Calendar.getInstance()
         val dateArea = dpToPx(30f)
         val weekLyBottomPadding = dpToPx(10)
-        val calendarPadding = dpToPx(15)
+        val calendarPadding = dpToPx(10)
         val autoPagingThreshold = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
@@ -140,12 +140,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     gravity = Gravity.BOTTOM
                 }
             }
-            view.setBackgroundColor(AppTheme.lineColor)
+            view.setBackgroundColor(AppTheme.backgroundColor)
         }
 
         columnDividers.forEachIndexed { index, view ->
             view.layoutParams = FrameLayout.LayoutParams(lineWidth, MATCH_PARENT)
-            view.setBackgroundColor(AppTheme.lineColor)
+            view.setBackgroundColor(AppTheme.backgroundColor)
         }
 
         for(i in 0..5) {
@@ -162,6 +162,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 weekLy.addView(columnDividers[i*8 + j])
             }
             weekLy.addView(dateLy)
+
 
             for (j in 0..6){
                 val cellNum = i*7 + j

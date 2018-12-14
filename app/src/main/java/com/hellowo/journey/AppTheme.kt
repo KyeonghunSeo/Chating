@@ -72,11 +72,6 @@ object AppTheme {
         resource.getStringArray(R.array.font_colors).forEachIndexed { index, s ->
             fontColors[index] = Color.parseColor(s)
         }
-
-        val shapePathModel = ShapePathModel().apply {
-            setAllCorners(CutCornerTreatment(dpToPx(5f)))
-            setAllEdges(TriangleEdgeTreatment(dpToPx(5f), true))
-        }
     }
 
     fun getColor(colorKey: Int) : Int {

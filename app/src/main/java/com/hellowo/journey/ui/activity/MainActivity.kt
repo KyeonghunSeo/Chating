@@ -152,8 +152,8 @@ class MainActivity : BaseActivity() {
                     todayText.text = "Today"
                 }
             }else {
-                TransitionManager.beginDelayedTransition(templateSelectView, makeFromBottomSlideTransition())
-                templateSelectView.visibility = View.INVISIBLE
+                TransitionManager.beginDelayedTransition(templateControlView, makeFromBottomSlideTransition())
+                templateControlView.visibility = View.INVISIBLE
             }
         }
         calendarView.setOnSwiped { state ->
@@ -206,10 +206,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initKeepView() {
-        keepBtn.setOnClickListener {
-            if(viewModel.targetFolder.value == null) viewModel.setTargetFolder()
-            else viewModel.targetFolder.value = null
-        }
+
     }
 
     private fun initBriefingView() {
@@ -271,7 +268,7 @@ class MainActivity : BaseActivity() {
         viewModel.appUser.observe(this, Observer { appUser -> appUser?.let { updateUserUI(it) } })
 
         viewModel.templateList.observe(this, Observer { list ->
-            list?.let { templateSelectView.notify(it) }
+            list?.let { templateControlView.notify(it) }
         })
 
         viewModel.isCalendarSettingOpened.observe(this, Observer { isOpend ->
@@ -287,16 +284,16 @@ class MainActivity : BaseActivity() {
 
         viewModel.folderList.observe(this, Observer { list ->
             keepView.notifyFolderDataChanged()
-            if(list.size > 1) keepBtn.setImageResource(R.drawable.sharp_all_inbox_black_48dp)
-            else keepBtn.setImageResource(R.drawable.sharp_inbox_black_48dp)
         })
 
         viewModel.targetFolder.observe(this, Observer { folder ->
             if (folder != null) {
+                templateControlView.hideDecoBtn()
                 if (keepView.viewMode == ViewMode.CLOSED) {
                     keepView.show()
                 }
             } else {
+                templateControlView.showDecoBtn()
                 keepView.hide()
             }
         })
@@ -378,8 +375,8 @@ class MainActivity : BaseActivity() {
             profileView.isOpened() -> profileView.hide()
             searchView.isOpened() -> searchView.hide()
             timeObjectDetailView.isOpened() -> viewModel.targetTimeObject.value = null
-            templateSelectView.isExpanded -> templateSelectView.collapse()
-            keepView.viewMode == ViewMode.OPENED -> viewModel.targetFolder.value = null
+            templateControlView.isExpanded -> templateControlView.collapse()
+            keepView.isOpened() -> viewModel.targetFolder.value = null
             briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
             dayView.isOpened() -> dayView.hide()
             //calendarView.selectCellNum >= 0 -> calendarView.unselectDate(calendarView.selectCellNum, true)

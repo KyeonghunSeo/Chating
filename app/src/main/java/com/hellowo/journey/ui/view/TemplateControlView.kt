@@ -2,6 +2,7 @@ package com.hellowo.journey.ui.view
 
 import android.animation.Animator
 import android.animation.AnimatorSet
+import android.animation.LayoutTransition.CHANGING
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
@@ -70,6 +71,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_template_control, this, true)
+        controlLy.layoutTransition.enableTransitionType(CHANGING)
         listLy.visibility = View.INVISIBLE
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = TemplateAdapter(context, items) {
@@ -227,5 +229,13 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
 
     private fun restoreViews() {
 
+    }
+
+    fun hideDecoBtn() {
+        decoBtn.visibility = View.GONE
+    }
+
+    fun showDecoBtn() {
+        decoBtn.visibility = View.VISIBLE
     }
 }

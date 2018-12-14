@@ -82,72 +82,54 @@
 
     </FrameLayout>
     
-    <FrameLayout
-        android:layout_width="150dp"
+    <LinearLayout
+        android:id="@+id/controlLy"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:padding="10dp"
+        android:layout_gravity="bottom|right"
+        android:animateLayoutChanges="true"
+        android:padding="5dp"
         android:clipToPadding="false">
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.MaterialComponents.CardView"
+        <androidx.cardview.widget.CardView
             android:id="@+id/decoBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_marginRight="43dp"
-            app:cardBackgroundColor="@color/background"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            app:cardBackgroundColor="@color/primaryText"
             app:cardCornerRadius="0dp"
-            app:cardElevation="5dp">
+            app:cardElevation="3dp">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp"
+                android:padding="15dp"
                 android:src="@drawable/sharp_photo_filter_black_48dp"
-                android:tint="@color/primaryText"/>
+                android:tint="@color/white"/>
 
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.MaterialComponents.CardView"
+        <androidx.cardview.widget.CardView
             android:id="@+id/addBtn"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
             app:cardBackgroundColor="@color/primaryText"
-            app:cardElevation="8dp">
+            app:cardCornerRadius="0dp"
+            app:cardElevation="3dp">
 
             <ImageView
                 android:id="@+id/templateIconImg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp"
-                android:src="@drawable/sharp_add_black_48dp"
+                android:padding="15dp"
+                android:src="@drawable/outline_edit_black_48dp"
                 android:tint="@color/white"/>
 
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.MaterialComponents.CardView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="43dp"
-            app:cardBackgroundColor="@color/background"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="5dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:src="@drawable/sharp_create_black_48dp"
-                android:tint="@color/primaryText"/>
-
-        </com.google.android.material.card.MaterialCardView>
-
-    </FrameLayout>
+    </LinearLayout>
 
     <View
         android:id="@+id/touchEventView"

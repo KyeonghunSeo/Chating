@@ -31,7 +31,7 @@ object CalendarManager {
     var selectFont = AppTheme.boldFont
 
     init {
-        backgroundColor = AppTheme.backgroundDarkColor
+        backgroundColor = AppTheme.backgroundColor
         dateColor = resource.getColor(R.color.secondaryText)
         sundayColor = resource.getColor(R.color.holiday)
         saturdayColor = resource.getColor(R.color.blue)

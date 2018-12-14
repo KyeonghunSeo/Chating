@@ -54,6 +54,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private val tags = ArrayList<Tag>()
 
     init {
+        setBackgroundColor(AppTheme.backgroundDarkColor)
         LayoutInflater.from(context).inflate(R.layout.view_saerch, this, true)
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
         recyclerView.adapter = adapter

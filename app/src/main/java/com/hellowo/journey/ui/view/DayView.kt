@@ -325,7 +325,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                     })
                     TransitionManager.beginDelayedTransition(this@DayView, transiion)
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, dpToPx(40), 0, mainBarHeight)
+                        setMargins(0, dpToPx(60), 0, mainBarHeight)
                     }
                 }
                 override fun onAnimationCancel(p0: Animator?) {}

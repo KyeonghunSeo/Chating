@@ -29,14 +29,16 @@
         <FrameLayout
             android:id="@+id/topBar"
             android:layout_width="match_parent"
-            android:layout_height="55dp">
+            android:layout_height="60dp">
 
             <LinearLayout
                 android:id="@+id/dateLy"
                 android:animateLayoutChanges="true"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingRight="10dp"
+                android:background="?android:attr/selectableItemBackground">
 
                 <TextView
                     android:id="@+id/yearText"
@@ -74,15 +76,6 @@
                 android:src="@drawable/sharp_perm_identity_black_48dp"
                 android:padding="10dp"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@color/secondaryText"
-                android:layout_gravity="bottom"
-                android:alpha="1"/>
-
         </FrameLayout>
 
         <FrameLayout
@@ -90,48 +83,12 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <FrameLayout
-                    android:id="@+id/todayBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/todayText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:includeFontPadding="false"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textColor="@color/secondaryText"
-                        android:textSize="10dp"
-                        android:text="Today"/>
-
-                </FrameLayout>
-
-                <ImageView
-                    android:id="@+id/decorationBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:tint="@color/iconTint"
-                    android:src="@drawable/sharp_photo_filter_black_48dp"
-                    android:padding="15dp"/>
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:tint="@color/iconTint"
-                    android:src="@drawable/outline_edit_black_48dp"
-                    android:padding="15dp"/>
 
                 <ImageView
                     android:id="@+id/searchBtn"
@@ -142,15 +99,6 @@
                     android:src="@drawable/sharp_search_black_48dp"
                     android:padding="15dp"/>
 
-                <ImageView
-                    android:id="@+id/keepBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:tint="@color/iconTint"
-                    android:src="@drawable/sharp_inbox_black_48dp"
-                    android:padding="15dp"/>
-
             </LinearLayout>
 
         </FrameLayout>
@@ -159,47 +107,63 @@
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="55dp"
-            android:layout_marginBottom="50dp">
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp">
         </com.hellowo.journey.ui.view.CalendarView>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_gravity="bottom">
+            android:layout_gravity="bottom|center_horizontal">
 
             <ImageView
                 android:id="@+id/prevBtn"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:tint="@color/iconTint"
                 android:src="@drawable/sharp_navigate_before_black_48dp"
-                android:padding="10dp"/>
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="15dp"/>
+
+            <FrameLayout
+                android:id="@+id/todayBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:id="@+id/todayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:fontFamily="@font/bold"
+                    android:textColor="@color/primaryText"
+                    android:textSize="10dp"
+                    android:text="Today"/>
+
+            </FrameLayout>
 
             <ImageView
                 android:id="@+id/nextBtn"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:tint="@color/iconTint"
                 android:src="@drawable/sharp_navigate_next_black_48dp"
-                android:padding="10dp"/>
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="15dp"/>
 
         </LinearLayout>
 
         <com.hellowo.journey.ui.view.KeepView
             android:id="@+id/keepView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="bottom"
-            app:cardBackgroundColor="@color/background"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="0dp"
-            android:visibility="invisible">
-
+            app:cardElevation="10dp"
+            app:cardCornerRadius="0dp">
         </com.hellowo.journey.ui.view.KeepView>
 
         <com.hellowo.journey.ui.view.BriefingView
@@ -215,7 +179,7 @@
         </com.hellowo.journey.ui.view.BriefingView>
 
         <com.hellowo.journey.ui.view.TemplateControlView
-            android:id="@+id/templateSelectView"
+            android:id="@+id/templateControlView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="10dp">

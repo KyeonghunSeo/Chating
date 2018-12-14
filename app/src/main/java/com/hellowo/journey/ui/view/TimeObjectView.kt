@@ -116,7 +116,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         setTextColor(timeObject.getColor())
                     }
                     else -> {
-                        setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
+                        setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
                         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                         typeface = AppTheme.textFont
                         setLineSpacing(defaulMargin, 1f)
@@ -161,7 +161,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         }
     }
 
-    @SuppressLint("DrawAllocation", "SetTextI18n")
     override fun onDraw(canvas: Canvas?) {
         if(timeObject.inCalendar) {
             canvas?.let {
