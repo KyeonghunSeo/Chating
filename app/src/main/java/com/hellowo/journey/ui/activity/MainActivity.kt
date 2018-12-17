@@ -237,6 +237,7 @@ class MainActivity : BaseActivity() {
             if(dayView.isOpened()) {
                 calendarView.targetCal.add(Calendar.DATE, -1)
             }else {
+                calendarView.targetCal.set(Calendar.DATE, 1)
                 calendarView.targetCal.add(Calendar.MONTH, -1)
             }
             calendarView.moveDate(calendarView.targetCal.timeInMillis, true)
@@ -246,6 +247,7 @@ class MainActivity : BaseActivity() {
             if(dayView.isOpened()) {
                 calendarView.targetCal.add(Calendar.DATE, 1)
             }else {
+                calendarView.targetCal.set(Calendar.DATE, 1)
                 calendarView.targetCal.add(Calendar.MONTH, 1)
             }
             calendarView.moveDate(calendarView.targetCal.timeInMillis, true)

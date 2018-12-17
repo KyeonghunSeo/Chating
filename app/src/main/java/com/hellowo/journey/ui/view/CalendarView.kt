@@ -245,9 +245,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         if(SyncUser.current() != null) TimeObjectManager.setTimeObjectCalendarAdapter(this)
 
-        if(targetCellNum != selectCellNum) selectDate(targetCellNum, false)
-        else scrollView.post { scrollView.scrollTo(0, 0) }
-
+        selectDate(targetCellNum, false)
+        scrollView.post { scrollView.scrollTo(0, 0) }
         onDrawed?.invoke(monthCal)
 
         l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
