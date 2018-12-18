@@ -121,12 +121,12 @@ class MainViewModel : ViewModel() {
             }
 
     fun setTargetTimeObjectById(id: String?) {
-        id?.let {
-            val realm = Realm.getDefaultInstance()
-            targetTimeObject.value = realm.where(TimeObject::class.java)
-                    .equalTo("id", it)
-                    .findFirst()
-            realm.close()
+        realm?.let { realm ->
+            id?.let {
+                targetTimeObject.value = realm.where(TimeObject::class.java)
+                        .equalTo("id", it)
+                        .findFirst()
+            }
         }
     }
 
