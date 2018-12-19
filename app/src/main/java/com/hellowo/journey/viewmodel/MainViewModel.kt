@@ -13,6 +13,7 @@ import io.realm.*
 import java.util.*
 
 class MainViewModel : ViewModel() {
+    val realm = MutableLiveData<Realm>()
     val loading = MutableLiveData<Boolean>()
     val targetTimeObject = MutableLiveData<TimeObject?>()
     val targetView = MutableLiveData<View?>()
@@ -25,28 +26,41 @@ class MainViewModel : ViewModel() {
     val folderList = MutableLiveData<RealmResults<Folder>>()
     val targetTime = MutableLiveData<Long>()
 
-    var realm: Realm? = null
+    private var realmAsyncTask: RealmAsyncTask? = null
     private var timeObjectList: RealmResults<TimeObject>? = null
 
     init {
         targetTime.value = System.currentTimeMillis()
     }
 
-    fun init(realm: Realm, syncUser: SyncUser) {
-        this.realm = realm
-        loadAppUser(syncUser)
-        loadTemplate()
-        loadFolder()
+    fun initRealm(syncUser: SyncUser) {
+        loading.value = true
+        val config = SyncUser.current()
+                .createConfiguration(USER_URL)
+                .fullSynchronization()
+                .waitForInitialRemoteData()
+                .build()
+        realmAsyncTask = Realm.getInstanceAsync(config, object : Realm.Callback() {
+            override fun onSuccess(db: Realm) {
+                l("Realm 준비 완료")
+                Realm.setDefaultConfiguration(config)
+                realm.value = db
+                loading.value = false
+                loadAppUser(syncUser)
+                loadTemplate()
+                loadFolder()
+            }
+        })
     }
 
     private fun loadAppUser(syncUser: SyncUser) {
-        realm?.let { it ->
-            it.where(AppUser::class.java).findAllAsync().addChangeListener { result, _ ->
+        realm.value?.let { realm ->
+            realm.where(AppUser::class.java).findAllAsync().addChangeListener { result, _ ->
                 if(result.size > 0) {
                     appUser.value = result[0]
                 }else {
                     l("[새로운 유저 생성]")
-                    realm?.executeTransaction {
+                    realm.executeTransaction {
                         it.createObject(AppUser::class.java, syncUser.identity)
                     }
                 }
@@ -55,8 +69,8 @@ class MainViewModel : ViewModel() {
     }
 
     private fun loadTemplate() {
-        realm?.let { it ->
-            templateList.value = it.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
+        realm.value?.let { realm ->
+            templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
             templateList.value?.addChangeListener { result, _ ->
                 templateList.value = result
             }
@@ -65,26 +79,43 @@ class MainViewModel : ViewModel() {
     }
 
     private fun loadFolder() {
-        realm?.let { it ->
-            folderList.value = it.where(Folder::class.java).sort("order", Sort.ASCENDING).findAll()
+        realm.value?.let { realm ->
+            folderList.value = realm.where(Folder::class.java).sort("order", Sort.ASCENDING).findAll()
             folderList.value?.addChangeListener { result, _ ->
                 folderList.value = result
             }
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        realm?.removeAllChangeListeners()
-        realm?.close()
-        realm = null
-    }
-
     fun saveProfileImage(profileImgUrl: String) {
-        realm?.executeTransaction {
+        realm.value?.executeTransaction {
             appUser.value?.profileImgUrl = profileImgUrl
             appUser.value = appUser.value
         }
+    }
+
+    fun setTargetTimeObjectById(id: String?) {
+        realm.value?.let { realm ->
+            id?.let {
+                targetTimeObject.value = realm.where(TimeObject::class.java)
+                        .equalTo("id", it)
+                        .findFirst()
+            }
+        }
+    }
+
+    fun setTargetFolder() {
+        var folder = folderList.value?.firstOrNull()
+        if(folder == null) {
+            l("[새 폴더 생성]")
+            realm.value?.executeTransaction { realm ->
+                folder = realm.createObject(Folder::class.java, UUID.randomUUID().toString()).apply {
+                    name = App.context.getString(R.string.keep)
+                    order = 0
+                }
+            }
+        }
+        targetFolder.value = folder
     }
 
     fun clearTargetTimeObject() {
@@ -120,16 +151,6 @@ class MainViewModel : ViewModel() {
                 folder = targetFolder.value
             }
 
-    fun setTargetTimeObjectById(id: String?) {
-        realm?.let { realm ->
-            id?.let {
-                targetTimeObject.value = realm.where(TimeObject::class.java)
-                        .equalTo("id", it)
-                        .findFirst()
-            }
-        }
-    }
-
     fun saveDirectByTemplate() {
         MainActivity.instance?.getCalendarView()?.let {
             TimeObjectManager.save(makeTimeObjectByTatgetTemplate(
@@ -137,17 +158,12 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun setTargetFolder() {
-        var folder = folderList.value?.firstOrNull()
-        if(folder == null) {
-            l("[새 폴더 생성]")
-            realm?.executeTransaction {
-                folder = it.createObject(Folder::class.java, UUID.randomUUID().toString()).apply {
-                    name = App.context.getString(R.string.keep)
-                    order = 0
-                }
-            }
-        }
-        targetFolder.value = folder
+    override fun onCleared() {
+        super.onCleared()
+        realm.value?.removeAllChangeListeners()
+        realm.value?.close()
+        realm.value = null
+        realmAsyncTask?.cancel()
     }
+
 }

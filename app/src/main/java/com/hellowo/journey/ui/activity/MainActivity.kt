@@ -46,7 +46,7 @@ class MainActivity : BaseActivity() {
 
     lateinit var viewModel: MainViewModel
     lateinit var dayView: DayView
-    private var realmAsyncTask: RealmAsyncTask? = null
+    private var reservedIntentAction: Runnable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,30 +58,8 @@ class MainActivity : BaseActivity() {
         if(SyncUser.current() == null) {
             startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
         }else {
-            initRealm()
+            viewModel.initRealm(SyncUser.current())
         }
-    }
-
-    private fun initRealm() {
-        viewModel.loading.value = true
-        val config = SyncUser.current()
-                .createConfiguration(USER_URL)
-                .fullSynchronization()
-                .waitForInitialRemoteData()
-                .build()
-        realmAsyncTask = Realm.getInstanceAsync(config, object : Realm.Callback() {
-            override fun onSuccess(realm: Realm) {
-                if (isDestroyed) {
-                    realm.close()
-                } else {
-                    l("Realm 준비 완료")
-                    Realm.setDefaultConfiguration(config)
-                    viewModel.loading.value = false
-                    viewModel.init(realm, SyncUser.current())
-                    calendarView.moveDate(System.currentTimeMillis(), true)
-                }
-            }
-        })
     }
 
     private fun initMain() {
@@ -97,8 +75,12 @@ class MainActivity : BaseActivity() {
     }
 
     private fun playIntentAction() {
-        playAction(intent.getIntExtra("action", 0), intent.getBundleExtra("bundle"))
-        intent.removeExtra("action")
+        if(viewModel.realm.value != null) {
+            playAction(intent.getIntExtra("action", 0), intent.getBundleExtra("bundle"))
+            intent.removeExtra("action")
+        }else {
+            reservedIntentAction = Runnable { playIntentAction() }
+        }
     }
 
     fun playAction(action: Int, bundle: Bundle?) {
@@ -255,6 +237,14 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initObserver() {
+        viewModel.realm.observe(this, Observer { realm ->
+            if(realm != null) {
+                calendarView.moveDate(System.currentTimeMillis(), true)
+                reservedIntentAction?.run()
+                reservedIntentAction = null
+            }
+        })
+
         viewModel.loading.observe(this, Observer {
             if(it as Boolean) progressBar.visibility = View.VISIBLE else progressBar.visibility = View.GONE
         })
@@ -391,9 +381,7 @@ class MainActivity : BaseActivity() {
         timeObjectDetailView.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RC_LOGIN) {
             if(resultCode == RESULT_OK) {
-                viewModel.loading.value = false
-                viewModel.init(Realm.getDefaultInstance(), SyncUser.current())
-                calendarView.moveDate(System.currentTimeMillis(), true)
+                viewModel.initRealm(SyncUser.current())
             } else finish()
         }else if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
             data?.let { CropImage.activity(data.data).setAspectRatio(1, 1).start(this) }
@@ -448,6 +436,5 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         TimeObjectManager.clear()
-        realmAsyncTask?.cancel()
     }
 }

@@ -9,27 +9,37 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
+import com.hellowo.journey.USER_URL
+import com.hellowo.journey.l
 import com.hellowo.journey.model.TimeObject
 import io.realm.Realm
+import io.realm.SyncUser
 import java.lang.Exception
 
 class TimeObjectAlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
+        l("TimeObjectAlarmReceiver onReceive()")
         try{
-            val realm = Realm.getDefaultInstance()
-            realm.where(TimeObject::class.java)
-                    .equalTo("id", intent.getStringExtra("timeObjectId"))
-                    .findFirst()?.let {
-                        val timeObject = realm.copyFromRealm(it)
-                        realm.where(RegistedAlarm::class.java)
-                                .equalTo("timeObjectId", timeObject.id).findFirst()?.let { registedAlarm ->
-                                    showNotification(context, timeObject)
-                                    AlarmManager.unRegistTimeObjectAlarm(registedAlarm.requestCode)
-                                    AlarmManager.registTimeObjectAlarm(timeObject, registedAlarm)
-                                }
-                    }
-            realm.close()
+            val config = SyncUser.current()
+                    .createConfiguration(USER_URL)
+                    .fullSynchronization()
+                    .build()
+            Realm.getInstanceAsync(config, object : Realm.Callback() {
+                override fun onSuccess(realm: Realm) {
+                    realm.where(TimeObject::class.java)
+                            .equalTo("id", intent.getStringExtra("timeObjectId"))
+                            .findFirst()?.let {
+                                val timeObject = realm.copyFromRealm(it)
+                                realm.where(RegistedAlarm::class.java)
+                                        .equalTo("timeObjectId", timeObject.id).findFirst()?.let { registedAlarm ->
+                                            showNotification(context, timeObject)
+                                            AlarmManager.unRegistTimeObjectAlarm(registedAlarm.requestCode)
+                                            AlarmManager.registTimeObjectAlarm(timeObject, registedAlarm)
+                                        }}
+                    realm.close()
+                }
+            })
         }catch (e: Exception){
             e.printStackTrace()
         }

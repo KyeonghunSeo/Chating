@@ -166,6 +166,13 @@ fun setTime1HourInterval(startCal: Calendar, endCal: Calendar) {
     }
 }
 
+fun getTimeOnDate(date: Long, time: Long) : Long {
+    tempCal.timeInMillis = date
+    tempCal2.timeInMillis = time
+    copyHourMinSecMill(tempCal, tempCal2)
+    return tempCal.timeInMillis
+}
+
 fun makeFromBottomSlideTransition() : Transition {
     val transition = Slide()
     transition.slideEdge = Gravity.BOTTOM
