@@ -24,14 +24,14 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     companion object {
         var standardTextSize = 8f
         var fontTopPadding = dpToPx(0)
-        val defaulMargin = dpToPx(0.5f) // 뷰간 간격
+        val defaulMargin = dpToPx(1f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
-        val defaultPadding = dpToPx(3)
+        val defaultPadding = dpToPx(2)
+        val leftPadding = dpToPx(8)
         val rectRadius = dpToPx(2f)
         val stampSize = dpToPx(17)
         val blockTypeSize = dpToPx(14)
-        val dotSize = dpToPx(2)
-        val checkSize = dpToPx(10)
+        val dotSize = dpToPx(3)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         val defaultTextColor = Color.parseColor("#90000000")
     }
@@ -44,6 +44,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     var rightOpen = false
     var textSpaceWidth = 0f
     var childList: ArrayList<TimeObject>? = null
+    var paintColor = AppTheme.backgroundColor
+    var fontColor = AppTheme.primaryText
     //var line = 0
 
     init {
@@ -65,7 +67,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         }
 
         when(TimeObject.Type.values()[timeObject.type]) {
-            EVENT -> {
+            EVENT, TASK -> {
                 typeface = AppTheme.textFont
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
@@ -73,38 +75,31 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
-                setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
+                setPadding((leftPadding + defaulMargin).toInt(), fontTopPadding, defaultPadding, 0)
                 when(TimeObject.Style.values()[timeObject.style]){
                     ROUND_STROKE, RECT_STROKE, HATCHED -> {
-                        setTextColor(AppTheme.getColor(timeObject.colorKey))
+                        paintColor = AppTheme.getColor(timeObject.colorKey)
+                        fontColor = AppTheme.getColor(timeObject.colorKey)
                     }
                     ROUND_FILL, RECT_FILL, CANDY -> {
-                        setTextColor(AppTheme.getFontColor(timeObject.colorKey))
+                        paintColor = AppTheme.getColor(timeObject.colorKey)
+                        fontColor = AppTheme.getFontColor(timeObject.colorKey)
                     }
                     else -> {
-                        setTextColor(defaultTextColor)
+                        paintColor = AppTheme.getColor(timeObject.colorKey)
+                        fontColor = AppTheme.primaryText
                     }
                 }
-            }
-            TASK -> {
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
-                text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-                typeface = AppTheme.textFont
-                gravity = Gravity.CENTER_VERTICAL
-                maxLines = 1
-                setSingleLine(true)
-                setHorizontallyScrolling(true)
-                setTextColor(AppTheme.getColor(timeObject.colorKey))
-                setPadding((checkSize + defaulMargin * 3).toInt(), fontTopPadding, defaultPadding, 0)
+                setTextColor(fontColor)
             }
             NOTE -> {
+                setPadding((leftPadding + defaulMargin).toInt(), defaulMargin.toInt(), defaultPadding, defaultPadding)
                 when(TimeObject.Style.values()[timeObject.style]){
                     DOT -> {
                         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                         typeface = AppTheme.textFont
                         setLineSpacing(defaulMargin, 1f)
-                        setPadding((defaultPadding + defaulMargin * 3).toInt(), defaultPadding, defaultPadding, defaultPadding)
                         setTextColor(timeObject.getColor())
                     }
                     HYPHEN -> {
@@ -112,7 +107,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                         typeface = AppTheme.textFont
                         setLineSpacing(defaulMargin, 1f)
-                        setPadding(defaultPadding, (defaultPadding + defaulMargin * 2).toInt(), defaultPadding, defaultPadding)
                         setTextColor(timeObject.getColor())
                     }
                     else -> {
@@ -120,7 +114,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                         typeface = AppTheme.textFont
                         setLineSpacing(defaulMargin, 1f)
-                        setPadding(defaultPadding, defaultPadding, defaultPadding, defaultPadding)
                         setTextColor(timeObject.getColor())
                     }
                 }
@@ -166,12 +159,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             canvas?.let {
                 paint.isAntiAlias = true
                 when(TimeObject.Type.values()[timeObject.type]) {
-                    EVENT -> {
-                        CalendarManager.drawEvent(canvas, this)
-                        super.onDraw(canvas)
-                    }
-                    TASK -> {
-                        CalendarManager.drawTask(canvas, this)
+                    EVENT, TASK -> {
+                        CalendarManager.drawBasicShape(canvas, this)
                         super.onDraw(canvas)
                     }
                     STAMP -> {
@@ -237,6 +226,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
     fun setLayout() {
         var w = mRight - mLeft - defaulMargin
+        var h = mBottom - mTop - defaulMargin
+        val m = (defaulMargin / 2).toInt()
         /*
         if(leftOpen) {
             w += defaultPadding
@@ -244,8 +235,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         }
         if(rightOpen) w += defaultPadding
         */
-        val lp = FrameLayout.LayoutParams(w.toInt(), (mBottom - mTop - defaulMargin).toInt())
-        lp.setMargins(defaulMargin.toInt(), mTop.toInt(), 0, 0)
+        val lp = FrameLayout.LayoutParams(w.toInt(), h.toInt())
+        lp.setMargins(m, mTop.toInt() + m, 0, 0)
         layoutParams = lp
     }
 

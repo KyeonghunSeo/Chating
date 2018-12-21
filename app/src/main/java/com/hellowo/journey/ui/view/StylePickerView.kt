@@ -64,18 +64,18 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
                 it.timeObject.colorKey = colorKey
                 it.setLookByType()
 
-                when(it.timeObject.type) {
-                    2 -> { // 노트
+                when(TimeObject.Type.values()[it.timeObject.type]) {
+                    Type.NOTE -> { // 노트
                         it.layoutParams.width = dpToPx(60)
                         it.layoutParams.height = WRAP_CONTENT
                     }
-                    4 -> { // 기간
+                    Type.TERM -> { // 기간
                         it.layoutParams.width = dpToPx(120)
-                        it.layoutParams.height = TimeObjectView.blockTypeSize
+                        it.layoutParams.height = (TimeObjectView.blockTypeSize - TimeObjectView.defaulMargin).toInt()
                     }
                     else -> {
                         it.layoutParams.width = dpToPx(60)
-                        it.layoutParams.height = TimeObjectView.blockTypeSize
+                        it.layoutParams.height = (TimeObjectView.blockTypeSize - TimeObjectView.defaulMargin).toInt()
                     }
                 }
                 v.layoutParams.width = (it.layoutParams.width * 1.5f + dpToPx(41)).toInt()

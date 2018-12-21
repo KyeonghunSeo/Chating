@@ -49,7 +49,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                 arrayOf(DEFAULT, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, CANDY, HATCHED)),
         TASK(R.string.task, R.string.task_sub,
                 R.drawable.sharp_check_box_black_48dp, false,
-                arrayOf(DEFAULT, RECT_STROKE, BOTTOM_LINE, ROUND_CHECK, ROUND_STROKE, ROUND_CHECK_BOTTOM_LINE)),
+                arrayOf(DEFAULT, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, CANDY, HATCHED)),
         STAMP(R.string.stamp, R.string.stamp_sub,
                 R.drawable.sharp_star_rate_black_48dp, false,
                 arrayOf(DEFAULT, DOT, HYPHEN, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
@@ -63,7 +63,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
 
     enum class Style {
         DEFAULT, DOT, HYPHEN, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, TOP_LINE, BOTTOM_LINE, RECT_DASH, RECT_OPENSIDE,
-        ROUND_CHECK, ROUND_CHECK_BOTTOM_LINE, CANDY, HATCHED, MEMO,
+        CANDY, HATCHED, MEMO,
     }
 
     enum class Formula {

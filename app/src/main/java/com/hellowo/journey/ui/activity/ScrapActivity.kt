@@ -27,7 +27,7 @@ import com.hellowo.journey.ui.dialog.DatePickerDialog
 import io.github.ponnamkarthik.richlinkpreview.MetaData
 import io.github.ponnamkarthik.richlinkpreview.ResponseListener
 import io.github.ponnamkarthik.richlinkpreview.RichPreview
-
+import io.realm.SyncUser
 
 
 class ScrapActivity : Activity() {
@@ -63,8 +63,6 @@ class ScrapActivity : Activity() {
                             contentLy.visibility = View.VISIBLE
                             linkLy.visibility = View.VISIBLE
                             progressBar.visibility = View.GONE
-                            l(metaData.imageurl)
-                            l(metaData.favicon)
                             if(!metaData.imageurl.isNullOrBlank())
                                 Glide.with(this@ScrapActivity).load(metaData.imageurl).into(linkImg)
                             else if(!metaData.favicon.isNullOrBlank())
@@ -89,20 +87,29 @@ class ScrapActivity : Activity() {
                     progressBar.visibility = View.GONE
                 }
 
-                realm = Realm.getDefaultInstance()
-                val items = ArrayList<Folder>()
-                items.addAll(realm.where(Folder::class.java).sort("order", Sort.ASCENDING).findAll())
-                folderListView.layoutManager = LinearLayoutManager(this, HORIZONTAL, false)
-                folderListView.adapter = FolderAdapter(this, items) { action, folder ->
-                    saveTimeObject(makeTimeObject(folder, Long.MIN_VALUE))
-                }
+                val config = SyncUser.current()
+                        .createConfiguration(USER_URL)
+                        .fullSynchronization()
+                        .build()
+                Realm.getInstanceAsync(config, object : Realm.Callback() {
+                    override fun onSuccess(db: Realm) {
+                        Realm.setDefaultConfiguration(config)
+                        realm = db
+                        val items = ArrayList<Folder>()
+                        items.addAll(realm.where(Folder::class.java).sort("order", Sort.ASCENDING).findAll())
+                        folderListView.layoutManager = LinearLayoutManager(this@ScrapActivity, HORIZONTAL, false)
+                        folderListView.adapter = FolderAdapter(this@ScrapActivity, items) { action, folder ->
+                            saveTimeObject(makeTimeObject(folder, Long.MIN_VALUE))
+                        }
 
-                saveTodayBtn.setOnClickListener { saveTimeObject(makeTimeObject(null, System.currentTimeMillis())) }
-                selectDateBtn.setOnClickListener {
-                    showDialog(DatePickerDialog(this, System.currentTimeMillis()) {
-                        saveTimeObject(makeTimeObject(null, it))
-                    }, true, true, true, false)
-                }
+                        saveTodayBtn.setOnClickListener { saveTimeObject(makeTimeObject(null, System.currentTimeMillis())) }
+                        selectDateBtn.setOnClickListener { _ ->
+                            showDialog(DatePickerDialog(this@ScrapActivity, System.currentTimeMillis()) {
+                                saveTimeObject(makeTimeObject(null, it))
+                            }, true, true, true, false)
+                        }
+                    }
+                })
             }
         } else {
             Toast.makeText(this, R.string.invalid_info, Toast.LENGTH_SHORT).show()

@@ -1,15 +1,13 @@
 package com.hellowo.journey.manager
 
 import android.graphics.*
-import android.view.Gravity
 import com.hellowo.journey.App.Companion.resource
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
-import com.hellowo.journey.l
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.view.TimeObjectView
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.blockTypeSize
-import com.hellowo.journey.ui.view.TimeObjectView.Companion.checkSize
+import com.hellowo.journey.ui.view.TimeObjectView.Companion.leftPadding
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaulMargin
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaultPadding
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.dotSize
@@ -41,11 +39,11 @@ object CalendarManager {
         greyColor = resource.getColor(R.color.grey)
     }
 
-    fun drawEvent(canvas: Canvas, view: TimeObjectView) {
+    fun drawBasicShape(canvas: Canvas, view: TimeObjectView) {
         val paint = view.paint
         val width = view.width
         val height = view.height
-        paint.color = view.timeObject.getColor()
+        paint.color = view.paintColor
         when(TimeObject.Style.values()[view.timeObject.style]){
             RECT_FILL -> {
                 canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
@@ -107,61 +105,15 @@ object CalendarManager {
                 canvas.drawRect(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat(), paint)
             }
             else -> {
-                canvas.drawRect(0f, 0f, dotSize.toFloat(), height.toFloat(), paint)
-                paint.alpha = 30
-                canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
-                paint.alpha = 255
+                if(view.length > 1) {
+                    paint.alpha = 25
+                    canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+                }
             }
         }
-    }
-
-    fun drawTask(canvas: Canvas, view: TimeObjectView) {
-        val paint = view.paint
-        val width = view.width
-        val height = view.height
-        paint.color = view.timeObject.getColor()
-        when(TimeObject.Style.values()[view.timeObject.style]){
-            RECT_STROKE -> {
-                paint.style = Paint.Style.STROKE
-                paint.strokeWidth = strokeWidth
-                canvas.drawRect(strokeWidth / 2, strokeWidth / 2,
-                        width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2, paint)
-                paint.style = Paint.Style.FILL
-                val centerY = height / 2f
-                drawRectCheckBox(view, centerY, canvas)
-            }
-            BOTTOM_LINE -> {
-                val strokeWidth = strokeWidth.toInt()
-                canvas.drawRect(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat(), paint)
-                val centerY = height / 2f
-                drawRectCheckBox(view, centerY, canvas)
-            }
-            ROUND_CHECK -> {
-                val centerY = height / 2f
-                drawRoundCheckBox(view, centerY, canvas)
-            }
-            ROUND_STROKE -> {
-                paint.isAntiAlias = true
-                paint.style = Paint.Style.STROKE
-                val strokeWidth = defaulMargin
-                paint.strokeWidth = strokeWidth
-                canvas.drawRoundRect(strokeWidth / 2, strokeWidth / 2,
-                        width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2,
-                        height / 2f, height / 2f, paint)
-                paint.style = Paint.Style.FILL
-                val centerY = height / 2f
-                drawRoundCheckBox(view, centerY, canvas)
-            }
-            ROUND_CHECK_BOTTOM_LINE -> {
-                val strokeWidth = strokeWidth.toInt()
-                canvas.drawRect(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat(), paint)
-                val centerY = height / 2f
-                drawRoundCheckBox(view, centerY, canvas)
-            }
-            else -> {
-                val centerY = height / 2f
-                drawRectCheckBox(view, centerY, canvas)
-            }
+        when(TimeObject.Type.values()[view.timeObject.type]) {
+            TimeObject.Type.EVENT -> drawDot(view, paint, canvas)
+            TimeObject.Type.TASK -> drawCheckBox(view, paint, canvas)
         }
     }
 
@@ -173,7 +125,8 @@ object CalendarManager {
         paint.color = timeObject.getColor()
         when(TimeObject.Style.values()[view.timeObject.style]){
             DOT -> { // 동그란 점 시작
-                drawDot(paint, canvas)
+                drawDot(view,
+                        paint, canvas)
             }
             HYPHEN -> { // 하이픈
                 canvas.drawRect(defaultPadding.toFloat(), defaulMargin * 2,
@@ -254,6 +207,7 @@ object CalendarManager {
                 paint.alpha = 255
             }
         }
+        drawHyphen(view, paint, canvas)
     }
 
     fun drawTerm(canvas: Canvas, view: TimeObjectView) {
@@ -477,9 +431,41 @@ object CalendarManager {
         }
     }
 
-    private fun drawDot(paint: Paint, canvas: Canvas) {
+    private fun drawDot(view: TimeObjectView, paint: Paint, canvas: Canvas) {
         val radius = dotSize / 2f
-        canvas.drawCircle(defaultPadding.toFloat(), blockTypeSize / 2f - radius, radius, paint)
+        val centerY = (blockTypeSize - defaulMargin) / 2
+        paint.color = view.fontColor
+        canvas.drawCircle(leftPadding.toFloat() / 2f + defaulMargin, centerY, radius, paint)
+    }
+
+    private fun drawCheckBox(view: TimeObjectView, paint: Paint, canvas: Canvas) {
+        val radius = dotSize / 2f
+        val centerY = (blockTypeSize - defaulMargin) / 2
+        paint.color = view.fontColor
+
+        if(view.timeObject.isDone()) {
+            canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
+                    centerY - radius,
+                    leftPadding.toFloat() / 2f + defaulMargin + radius,
+                    centerY + radius, paint)
+        }else {
+            paint.style = Paint.Style.STROKE
+            paint.strokeWidth = strokeWidth / 2f
+            canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
+                    centerY - radius,
+                    leftPadding.toFloat() / 2f + defaulMargin + radius,
+                    centerY + radius, paint)
+        }
+        paint.style = Paint.Style.FILL
+    }
+
+    private fun drawHyphen(view: TimeObjectView, paint: Paint, canvas: Canvas) {
+        val radius = dotSize / 2f
+        val centerY = (blockTypeSize - defaulMargin) / 2
+        canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
+                centerY - strokeWidth / 2f,
+                leftPadding.toFloat() / 2f + defaulMargin + radius,
+                centerY + strokeWidth / 2f, paint)
     }
 
     private fun drawRoundCheckBox(view: TimeObjectView, centerY: Float, canvas: Canvas) {
@@ -487,14 +473,14 @@ object CalendarManager {
             view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             val check = resource.getDrawable(R.drawable.sharp_check_circle_black_48dp)
             check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
-            check.setBounds(defaulMargin.toInt() * 2, (centerY - checkSize / 2f).toInt(),
-                    checkSize + defaulMargin.toInt() * 2, (centerY + checkSize / 2f).toInt())
+            check.setBounds(defaulMargin.toInt() * 2, (centerY - leftPadding / 2f).toInt(),
+                    leftPadding + defaulMargin.toInt() * 2, (centerY + leftPadding / 2f).toInt())
             check.draw(canvas)
         }else {
             val check = resource.getDrawable(R.drawable.sharp_check_circle_outline_black_48dp)
             check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
-            check.setBounds(defaulMargin.toInt() * 2, (centerY - checkSize / 2f).toInt(),
-                    checkSize + defaulMargin.toInt() * 2, (centerY + checkSize / 2f).toInt())
+            check.setBounds(defaulMargin.toInt() * 2, (centerY - leftPadding / 2f).toInt(),
+                    leftPadding + defaulMargin.toInt() * 2, (centerY + leftPadding / 2f).toInt())
             check.draw(canvas)
         }
     }
@@ -504,32 +490,21 @@ object CalendarManager {
             view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             val check = resource.getDrawable(R.drawable.sharp_check_box_black_48dp)
             check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
-            check.setBounds(defaulMargin.toInt() * 2, (centerY - checkSize / 2f).toInt(),
-                    checkSize + defaulMargin.toInt() * 2, (centerY + checkSize / 2f).toInt())
+            check.setBounds(defaulMargin.toInt() * 2, (centerY - leftPadding / 2f).toInt(),
+                    leftPadding + defaulMargin.toInt() * 2, (centerY + leftPadding / 2f).toInt())
             check.draw(canvas)
         }else {
             val check = resource.getDrawable(R.drawable.sharp_check_box_outline_blank_black_48dp)
             check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
-            check.setBounds(defaulMargin.toInt() * 2, (centerY - checkSize / 2f).toInt(),
-                    checkSize + defaulMargin.toInt() * 2, (centerY + checkSize / 2f).toInt())
-            check.draw(canvas)
-        }
-    }
-
-    private fun drawCheckBox(view: TimeObjectView, centerY: Float, canvas: Canvas) {
-        if(view.timeObject.isDone()) {
-            view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            val check = resource.getDrawable(R.drawable.sharp_done_black_48dp)
-            check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
-            check.setBounds(defaulMargin.toInt(), (centerY - checkSize / 2f).toInt(),
-                    checkSize + defaulMargin.toInt(), (centerY + checkSize / 2f).toInt())
+            check.setBounds(defaulMargin.toInt() * 2, (centerY - leftPadding / 2f).toInt(),
+                    leftPadding + defaulMargin.toInt() * 2, (centerY + leftPadding / 2f).toInt())
             check.draw(canvas)
         }
     }
 
     private fun drawWhiteSpaceLine(view: TimeObjectView, centerY: Float, paint: Paint, canvas: Canvas) {
         if(view.length > 1) {
-            canvas.drawRect(checkSize + defaulMargin + view.textSpaceWidth + defaultPadding,
+            canvas.drawRect(leftPadding + defaulMargin + view.textSpaceWidth + defaultPadding,
                     centerY - strokeWidth / 2, view.width.toFloat(), centerY + strokeWidth / 2, paint)
             canvas.drawRect(view.width - strokeWidth, centerY - strokeWidth * 2,
                     view.width.toFloat(), centerY + strokeWidth * 2, paint)
