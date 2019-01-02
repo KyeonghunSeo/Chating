@@ -432,7 +432,7 @@ object CalendarManager {
     }
 
     private fun drawDot(view: TimeObjectView, paint: Paint, canvas: Canvas) {
-        val radius = dotSize / 2f
+        val radius = dotSize / 3f
         val centerY = (blockTypeSize - defaulMargin) / 2
         paint.color = view.fontColor
         canvas.drawCircle(leftPadding.toFloat() / 2f + defaulMargin, centerY, radius, paint)

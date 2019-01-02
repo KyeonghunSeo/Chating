@@ -26,6 +26,9 @@ import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.SyncUser
 import java.util.*
+import com.hellowo.journey.util.KoreanLunarCalendar
+
+
 
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
@@ -61,6 +64,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     //    WeekViewHolder(LayoutInflater.from(context).inflate(R.layout.view_weekly_side, null, false))}
     private val nextMonthHintView = LayoutInflater.from(context).inflate(R.layout.view_next_month_hint, null, false)
     private val fakeImageView = ImageView(context)
+    private val lunarCalendar = KoreanLunarCalendar.getInstance()
 
     inner class WeekViewHolder(val container: View) {
         val contentLy: FrameLayout = container.findViewById(R.id.contentLy)
@@ -75,10 +79,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateText: TextView = container.findViewById(R.id.dateText)
         val bar: FrameLayout = container.findViewById(R.id.bar)
         val dowText: TextView = container.findViewById(R.id.dowText)
+        val lunarText: TextView = container.findViewById(R.id.lunarText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
             dateText.typeface = CalendarManager.dateFont
             dowText.typeface = CalendarManager.selectFont
+            lunarText.typeface = CalendarManager.selectFont
             bar.alpha = 0f
             dowText.visibility = View.GONE
         }
@@ -222,7 +228,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val dateText = dateHeaders[cellNum].dateText
                     val color = getDateTextColor(cellNum)
                     val alpha = if(cellNum in startCellNum..endCellNum) 1f else outDateAlpha
-                    dateText.text = String.format("%02d", tempCal.get(Calendar.DATE))
+                    //dateText.text = String.format("%02d", tempCal.get(Calendar.DATE))
+                    dateText.text = String.format("%d", tempCal.get(Calendar.DATE))
+
+                    lunarCalendar.setSolarDate(tempCal.get(Calendar.YEAR),
+                            tempCal.get(Calendar.MONTH) + 1,
+                            tempCal.get(Calendar.DATE))
+                    dateHeaders[cellNum].lunarText.text = lunarCalendar.lunarSimpleFormat
                     dateText.alpha = alpha
                     dateText.setTextColor(color)
                     //dateHeaders[cellNum].bar.setBackgroundColor(color)

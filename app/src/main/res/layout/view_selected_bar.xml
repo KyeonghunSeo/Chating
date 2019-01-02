@@ -40,6 +40,16 @@
             android:textColor="@color/primaryText"
             android:text="@string/wed"/>
 
+        <TextView
+            android:id="@+id/lunarText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:layout_marginLeft="2dp"
+            android:textSize="7dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/primaryText"/>
+
     </LinearLayout>
 
 </FrameLayout>

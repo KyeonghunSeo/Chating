@@ -299,7 +299,8 @@ class MainActivity : BaseActivity() {
 
     private fun setDateText(date: Date) {
         yearText.text = AppDateFormat.year.format(date)
-        monthText.text = String.format("%02d", date.month + 1)
+        //monthText.text = String.format("%02d", date.month + 1)
+        monthText.text = AppDateFormat.monthEng.format(date)
     }
 
     fun onDrag(event: DragEvent) {
