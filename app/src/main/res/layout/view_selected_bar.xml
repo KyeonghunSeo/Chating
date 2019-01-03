@@ -8,45 +8,50 @@
     <FrameLayout
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/primary_rect_stroke_1dp_alpha">
+        android:layout_height="1dp"
+        android:background="@color/primaryText">
     </FrameLayout>
 
     <LinearLayout
         android:id="@+id/dateLy"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="3dp"
         android:layout_marginLeft="4dp">
 
-        <TextView
-            android:id="@+id/dateText"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="9dp"
-            android:includeFontPadding="false"
-            android:textColor="@color/primaryText"
-            android:text="27" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/dateText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="10dp"
+                android:includeFontPadding="false"
+                android:textColor="@color/primaryText"
+                android:text="27" />
+
+            <TextView
+                android:id="@+id/dowText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:layout_marginLeft="2dp"
+                android:textSize="10dp"
+                android:includeFontPadding="false"
+                android:textColor="@color/primaryText"
+                android:text="@string/wed"/>
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/dowText"
+            android:id="@+id/holiText"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="top"
-            android:layout_marginLeft="2dp"
-            android:textSize="9dp"
-            android:includeFontPadding="false"
-            android:textColor="@color/primaryText"
-            android:text="@string/wed"/>
-
-        <TextView
-            android:id="@+id/lunarText"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:layout_marginLeft="2dp"
-            android:textSize="7dp"
+            android:textSize="8dp"
             android:includeFontPadding="false"
             android:textColor="@color/primaryText"/>
 

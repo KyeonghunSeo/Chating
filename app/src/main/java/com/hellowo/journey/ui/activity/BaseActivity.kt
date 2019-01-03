@@ -21,8 +21,8 @@ open class BaseActivity : AppCompatActivity() {
             var flags = window.peekDecorView().systemUiVisibility
             flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             window.peekDecorView().systemUiVisibility = flags
-            window.statusBarColor = AppTheme.backgroundDarkColor
-            window.navigationBarColor = AppTheme.backgroundDarkColor
+            window.statusBarColor = AppTheme.backgroundColor
+            window.navigationBarColor = AppTheme.backgroundColor
         }
     }
 

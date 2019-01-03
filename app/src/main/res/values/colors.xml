@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3a405b</color>
-    <color name="colorPrimaryDark">#3a405b</color>
-    <color name="colorAccent">#3a405b</color>
-    <color name="colorPrimaryAlpha">#503a405b</color>
+    <color name="colorPrimary">#1e262c</color>
+    <color name="colorPrimaryDark">#1e262c</color>
+    <color name="colorAccent">#1e262c</color>
+    <color name="colorPrimaryAlpha">#501e262c</color>
 
     <color name="background">#ffffff</color>
-    <color name="backgroundDark">#F4F4F4</color>
-    <color name="backgroundDeepDark">#b4b7bc</color>
-    <color name="iconTint">#3a405b</color>
+    <color name="backgroundDark">#d1d5d8</color>
+    <color name="backgroundDeepDark">#c1c5c7</color>
+    <color name="iconTint">#484b4d</color>
 
-    <color name="primaryText">#3a405b</color>
-    <color name="secondaryText">#a1a6bb</color>
-    <color name="disableText">#b9bed1</color>
+    <color name="primaryText">#1e262c</color>
+    <color name="secondaryText">#484b4d</color>
+    <color name="disableText">#6f7274</color>
     <color name="primaryWhiteText">#e0e0d7</color>
     <color name="secondaryWhiteText">#b3e0e0d7</color>
 

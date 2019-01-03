@@ -22,6 +22,7 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.journey.*
 import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.manager.CalendarManager
+import com.hellowo.journey.manager.HolidayManager
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.SyncUser
@@ -79,12 +80,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateText: TextView = container.findViewById(R.id.dateText)
         val bar: FrameLayout = container.findViewById(R.id.bar)
         val dowText: TextView = container.findViewById(R.id.dowText)
-        val lunarText: TextView = container.findViewById(R.id.lunarText)
+        val holiText: TextView = container.findViewById(R.id.holiText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
             dateText.typeface = CalendarManager.dateFont
             dowText.typeface = CalendarManager.selectFont
-            lunarText.typeface = CalendarManager.selectFont
+            holiText.typeface = CalendarManager.selectFont
             bar.alpha = 0f
             dowText.visibility = View.GONE
         }
@@ -146,7 +147,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     gravity = Gravity.BOTTOM
                 }
             }
-            view.setBackgroundColor(AppTheme.backgroundColor)
+            view.setBackgroundColor(AppTheme.almostWhite)
         }
 
         columnDividers.forEachIndexed { index, view ->
@@ -225,20 +226,30 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         //dateLy.setBackgroundResource(R.drawable.grey_rect_fill_radius_2)
                     }
 
-                    val dateText = dateHeaders[cellNum].dateText
-                    val color = getDateTextColor(cellNum)
-                    val alpha = if(cellNum in startCellNum..endCellNum) 1f else outDateAlpha
-                    //dateText.text = String.format("%02d", tempCal.get(Calendar.DATE))
-                    dateText.text = String.format("%d", tempCal.get(Calendar.DATE))
-
                     lunarCalendar.setSolarDate(tempCal.get(Calendar.YEAR),
                             tempCal.get(Calendar.MONTH) + 1,
                             tempCal.get(Calendar.DATE))
-                    dateHeaders[cellNum].lunarText.text = lunarCalendar.lunarSimpleFormat
+
+                    val holi = HolidayManager.getHoliday(
+                            String.format("%02d%02d", tempCal.get(Calendar.MONTH) + 1, tempCal.get(Calendar.DATE)),
+                            lunarCalendar.lunarKey)
+                    val holiText = dateHeaders[cellNum].holiText
+                    val dateText = dateHeaders[cellNum].dateText
+                    val dowText = dateHeaders[cellNum].dowText
+                    val color = getDateTextColor(cellNum, !holi.isNullOrEmpty())
+                    val alpha = if(cellNum in startCellNum..endCellNum) 1f else outDateAlpha
+                    dateText.text = String.format("%d", tempCal.get(Calendar.DATE))
                     dateText.alpha = alpha
                     dateText.setTextColor(color)
-                    //dateHeaders[cellNum].bar.setBackgroundColor(color)
-                    //dateHeaders[cellNum].bar.alpha = alpha
+                    holiText.setTextColor(color)
+                    dowText.setTextColor(color)
+
+                    if(holi.isNullOrEmpty()) {
+                        holiText.text = ""
+                    }else {
+                        holiText.text = holi
+                    }
+                    holiText.alpha = alpha
 
                     if(cellNum == 0) {
                         calendarStartTime = tempCal.timeInMillis
@@ -265,19 +276,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         l("==========END drawCalendar=========")
     }
 
-    fun getDateTextColor(cellNum: Int) : Int {
-        return if(cellNum == selectCellNum) {
-            if(cellNum % columns == AppStatus.sundayPos) {
-                CalendarManager.sundayColor
-            }else {
-                CalendarManager.selectedDateColor
-            }
+    fun getDateTextColor(cellNum: Int, isHoli: Boolean) : Int {
+        return if(isHoli || cellNum % columns == AppStatus.sundayPos) {
+            CalendarManager.sundayColor
         }else {
-            if(cellNum % columns == AppStatus.sundayPos) {
-                CalendarManager.sundayColor
-            }else {
-                CalendarManager.dateColor
-            }
+            CalendarManager.dateColor
         }
     }
 
@@ -292,11 +295,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dowText = dateHeaders[cellNum].dowText
         val dateText = dateHeaders[cellNum].dateText
         val alpha = if(cellNum in startCellNum..endCellNum) 1f else outDateAlpha
-        val color = getDateTextColor(cellNum)
 
         dateText.typeface = CalendarManager.dateFont
         dateText.alpha = alpha
-        dateText.setTextColor(color)
         dowText.visibility = View.GONE
 
         offViewEffect(cellNum)
@@ -363,12 +364,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val bar = dateHeaders[cellNum].bar
             val dateText = dateHeaders[cellNum].dateText
             val dowText = dateHeaders[cellNum].dowText
-            val color = getDateTextColor(cellNum)
 
             dateText.typeface = CalendarManager.selectFont
             dateText.alpha = 1f
-            dateText.setTextColor(color)
-            dowText.setTextColor(color)
             dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
             dowText.visibility = View.VISIBLE
 

@@ -23,9 +23,6 @@ import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.adapter.EventListAdapter
 import com.hellowo.journey.adapter.TaskListAdapter
 import com.hellowo.journey.util.TaskListComparator
-import com.hellowo.journey.manager.TimeObjectManager
-import com.hellowo.journey.manager.CalendarManager
-import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.OrderedCollectionChangeSet
 import io.realm.RealmResults
@@ -41,8 +38,9 @@ import android.view.Gravity
 import android.widget.FrameLayout
 import com.hellowo.journey.adapter.NoteListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
-import com.hellowo.journey.manager.OsCalendarManager
+import com.hellowo.journey.manager.*
 import com.hellowo.journey.util.EventListComparator
+import com.hellowo.journey.util.KoreanLunarCalendar
 import com.hellowo.journey.util.NoteListComparator
 
 
@@ -270,9 +268,24 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         calendarView.let {
             dateText.text = String.format("%02d", it.targetCal.get(Calendar.DATE))
             dowText.text = AppDateFormat.dow.format(it.targetCal.time)
-            val color = it.getDateTextColor(it.targetCellNum)
+
+            val lunarCalendar = KoreanLunarCalendar.getInstance()
+            lunarCalendar.setSolarDate(it.targetCal.get(Calendar.YEAR),
+                    it.targetCal.get(Calendar.MONTH) + 1,
+                    it.targetCal.get(Calendar.DATE))
+
+            val holi = HolidayManager.getHoliday(
+                    String.format("%02d%02d", it.targetCal.get(Calendar.MONTH) + 1, it.targetCal.get(Calendar.DATE)),
+                    lunarCalendar.lunarKey)
+
+            val color = it.getDateTextColor(it.targetCellNum, !holi.isNullOrEmpty())
             dateText.setTextColor(color)
             dowText.setTextColor(color)
+            if(holi.isNullOrEmpty()) {
+                holiText.text = ""
+            }else {
+                holiText.text = holi
+            }
         }
     }
 

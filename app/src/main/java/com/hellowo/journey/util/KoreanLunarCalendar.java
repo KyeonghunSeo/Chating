@@ -429,6 +429,11 @@ public class KoreanLunarCalendar {
 
         return isoStr;
     }
+
+    public String getLunarKey() {
+        String isoStr = String.format("%02d%02d", lunarMonth, lunarDay);
+        return isoStr;
+    }
     
     public String getLunarIsoFormat() {
     	String isoStr = String.format("%04d-%02d-%02d", lunarYear, lunarMonth, lunarDay);

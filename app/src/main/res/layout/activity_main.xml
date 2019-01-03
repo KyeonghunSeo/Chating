@@ -24,80 +24,44 @@
     <FrameLayout
         android:id="@+id/calendarLy"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp">
 
         <FrameLayout
             android:id="@+id/topBar"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="58dp">
 
             <LinearLayout
                 android:id="@+id/dateLy"
                 android:animateLayoutChanges="true"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingRight="10dp"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
                 android:background="?android:attr/selectableItemBackground">
-
-                <TextView
-                    android:id="@+id/yearText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginLeft="5dp"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/secondaryText"
-                    android:rotation="90"
-                    android:textSize="11dp"
-                    android:text="2018"/>
 
                 <TextView
                     android:id="@+id/monthText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="-4dp"
+                    android:layout_marginLeft="-0dp"
                     android:includeFontPadding="false"
                     android:textColor="@color/primaryText"
-                    android:textSize="32dp"
+                    android:textSize="25dp"
                     android:text="10월"/>
 
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/profileImage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="right"
-                android:tint="@color/iconTint"
-                android:src="@drawable/sharp_perm_identity_black_48dp"
-                android:padding="10dp"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/searchBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:tint="@color/iconTint"
-                    android:src="@drawable/sharp_search_black_48dp"
-                    android:padding="15dp"/>
+                <TextView
+                    android:id="@+id/yearText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/primaryText"
+                    android:textSize="14dp"
+                    android:text="2018"/>
 
             </LinearLayout>
 
@@ -107,8 +71,8 @@
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="60dp">
+            android:layout_marginTop="58dp"
+            android:layout_marginBottom="50dp">
         </com.hellowo.journey.ui.view.CalendarView>
 
         <LinearLayout
@@ -157,15 +121,6 @@
 
         </LinearLayout>
 
-        <com.hellowo.journey.ui.view.KeepView
-            android:id="@+id/keepView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            app:cardElevation="10dp"
-            app:cardCornerRadius="0dp">
-        </com.hellowo.journey.ui.view.KeepView>
-
         <com.hellowo.journey.ui.view.BriefingView
             android:id="@+id/briefingView"
             android:layout_width="50dp"
@@ -178,32 +133,99 @@
             android:visibility="gone">
         </com.hellowo.journey.ui.view.BriefingView>
 
-        <com.hellowo.journey.ui.view.TemplateControlView
-            android:id="@+id/templateControlView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="10dp">
-        </com.hellowo.journey.ui.view.TemplateControlView>
-
     </FrameLayout>
+
+    <com.hellowo.journey.ui.view.TemplateControlView
+        android:id="@+id/templateControlView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.hellowo.journey.ui.view.TemplateControlView>
+
+    <com.hellowo.journey.ui.view.KeepView
+        android:id="@+id/keepView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="0dp">
+    </com.hellowo.journey.ui.view.KeepView>
 
     <com.hellowo.journey.ui.view.SearchView
         android:id="@+id/searchView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_gravity="center">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
     </com.hellowo.journey.ui.view.SearchView>
 
     <com.hellowo.journey.ui.view.ProfileView
         android:id="@+id/profileView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
     </com.hellowo.journey.ui.view.ProfileView>
+
+    <FrameLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:elevation="8dp"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/calendarBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tint="@color/iconTint"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/sharp_calendar_black_48dp"
+                android:padding="15dp"/>
+
+            <ImageView
+                android:id="@+id/keepBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tint="@color/iconTint"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/sharp_inbox_black_48dp"
+                android:padding="15dp"/>
+
+            <ImageView
+                android:id="@+id/searchBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tint="@color/iconTint"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/sharp_search_black_48dp"
+                android:padding="15dp"/>
+
+            <ImageView
+                android:id="@+id/profileBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tint="@color/iconTint"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/sharp_perm_identity_black_48dp"
+                android:padding="15dp"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
 
     <com.hellowo.journey.ui.view.TimeObjectDetailView
         android:id="@+id/timeObjectDetailView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:elevation="8dp">
     </com.hellowo.journey.ui.view.TimeObjectDetailView>
 
     <ProgressBar

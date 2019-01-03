@@ -2,6 +2,7 @@ package com.hellowo.journey.ui.activity
 
 import android.Manifest
 import android.animation.LayoutTransition
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -100,7 +101,7 @@ class MainActivity : BaseActivity() {
         monthText.typeface = AppTheme.boldFont
         calendarLy.setBackgroundColor(AppTheme.backgroundColor)
         topBar.setBackgroundColor(AppTheme.backgroundColor)
-        bottomBar.setBackgroundColor(AppTheme.backgroundDarkColor)
+        bottomBar.setBackgroundColor(AppTheme.backgroundColor)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         //todayBtn.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
@@ -206,12 +207,13 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initBtns() {
-        profileImage.setOnClickListener {
+        profileBtn.setOnClickListener {
             //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
             profileView.show()
         }
 
-        profileImage.setOnLongClickListener {
+        profileBtn.setOnLongClickListener {
+            profileView.checkOsCalendarPermission()
             return@setOnLongClickListener true
         }
 
@@ -297,10 +299,11 @@ class MainActivity : BaseActivity() {
         profileView.updateUserUI(appUser)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setDateText(date: Date) {
-        yearText.text = AppDateFormat.year.format(date)
+        yearText.text = ". ${AppDateFormat.year.format(date)}"
         //monthText.text = String.format("%02d", date.month + 1)
-        monthText.text = AppDateFormat.monthEng.format(date)
+        monthText.text = AppDateFormat.mDate.format(date)
     }
 
     fun onDrag(event: DragEvent) {
