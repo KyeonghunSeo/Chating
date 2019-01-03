@@ -25,32 +25,41 @@ class MainViewModel : ViewModel() {
     val targetFolder = MutableLiveData<Folder>()
     val folderList = MutableLiveData<RealmResults<Folder>>()
     val targetTime = MutableLiveData<Long>()
+    val currentTab = MutableLiveData<Int>()
 
     private var realmAsyncTask: RealmAsyncTask? = null
     private var timeObjectList: RealmResults<TimeObject>? = null
 
     init {
         targetTime.value = System.currentTimeMillis()
+        currentTab.value = 0
     }
 
-    fun initRealm(syncUser: SyncUser) {
-        loading.value = true
-        val config = SyncUser.current()
-                .createConfiguration(USER_URL)
-                .fullSynchronization()
-                .waitForInitialRemoteData()
-                .build()
-        realmAsyncTask = Realm.getInstanceAsync(config, object : Realm.Callback() {
-            override fun onSuccess(db: Realm) {
-                l("Realm 준비 완료")
-                Realm.setDefaultConfiguration(config)
-                realm.value = db
-                loading.value = false
-                loadAppUser(syncUser)
-                loadTemplate()
-                loadFolder()
-            }
-        })
+    fun initRealm(syncUser: SyncUser?) {
+        if(syncUser == null) {
+            realm.value = Realm.getDefaultInstance()
+            loading.value = false
+            loadTemplate()
+            loadFolder()
+        }else {
+            loading.value = true
+            val config = SyncUser.current()
+                    .createConfiguration(USER_URL)
+                    .fullSynchronization()
+                    .waitForInitialRemoteData()
+                    .build()
+            realmAsyncTask = Realm.getInstanceAsync(config, object : Realm.Callback() {
+                override fun onSuccess(db: Realm) {
+                    l("Realm 준비 완료")
+                    Realm.setDefaultConfiguration(config)
+                    realm.value = db
+                    loading.value = false
+                    loadAppUser(syncUser)
+                    loadTemplate()
+                    loadFolder()
+                }
+            })
+        }
     }
 
     private fun loadAppUser(syncUser: SyncUser) {

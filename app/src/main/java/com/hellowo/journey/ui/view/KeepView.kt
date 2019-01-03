@@ -103,14 +103,6 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             recyclerView.adapter?.notifyDataSetChanged()
         }
 
-        keepBtn.setOnClickListener {
-            MainActivity.instance?.viewModel?.let { viewModel ->
-                if(viewModel.targetFolder.value == null) viewModel.setTargetFolder()
-                else viewModel.targetFolder.value = null
-            }
-        }
-
-        contentLy.visibility = View.GONE
         setCardBackgroundColor(AppTheme.backgroundColor)
     }
 
@@ -145,9 +137,6 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     fun notifyFolderDataChanged() {
         MainActivity.instance?.viewModel?.folderList?.value?.let { list ->
-            if(list.size > 1) keepBtn.setImageResource(R.drawable.sharp_all_inbox_black_48dp)
-            else keepBtn.setImageResource(R.drawable.sharp_inbox_black_48dp)
-
             folderItems.clear()
             folderItems.addAll(list)
             folderAdapter.notifyDataSetChanged()
@@ -155,43 +144,14 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     fun show() {
-        viewMode = ViewMode.ANIMATING
-        val transiion = makeChangeBounceTransition()
-        transiion.addListener(object : Transition.TransitionListener{
-            override fun onTransitionEnd(transition: Transition) {
-                contentLy.visibility = View.VISIBLE
-                viewMode = ViewMode.OPENED
-            }
-            override fun onTransitionResume(transition: Transition) {}
-            override fun onTransitionPause(transition: Transition) {}
-            override fun onTransitionCancel(transition: Transition) {}
-            override fun onTransitionStart(transition: Transition) {}
-        })
-        TransitionManager.beginDelayedTransition(this@KeepView, transiion)
-        layoutParams.width = MATCH_PARENT
-        layoutParams.height = MATCH_PARENT
-        requestLayout()
+        visibility = View.VISIBLE
+        viewMode = ViewMode.OPENED
         notifyDataChanged()
     }
 
     fun hide() {
-        timeObjectList?.removeAllChangeListeners()
-        viewMode = ViewMode.ANIMATING
-        val transiion = makeChangeBounceTransition()
-        transiion.addListener(object : Transition.TransitionListener{
-            override fun onTransitionEnd(transition: Transition) {}
-            override fun onTransitionResume(transition: Transition) {}
-            override fun onTransitionPause(transition: Transition) {}
-            override fun onTransitionCancel(transition: Transition) {}
-            override fun onTransitionStart(transition: Transition) {
-                contentLy.visibility = View.GONE
-                viewMode = ViewMode.CLOSED
-            }
-        })
-        TransitionManager.beginDelayedTransition(this, transiion)
-        layoutParams.width = dpToPx(50)
-        layoutParams.height = dpToPx(50)
-        requestLayout()
+        visibility = View.GONE
+        viewMode = ViewMode.CLOSED
     }
 
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED

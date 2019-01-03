@@ -56,11 +56,13 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         initTheme(rootLy)
         initMain()
+        viewModel.initRealm(SyncUser.current())
+        /*
         if(SyncUser.current() == null) {
             startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
         }else {
             viewModel.initRealm(SyncUser.current())
-        }
+        }*/
     }
 
     private fun initMain() {
@@ -207,13 +209,25 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initBtns() {
+        calendarBtn.setOnClickListener {
+            if(viewModel.currentTab.value != 0) viewModel.currentTab.value = 0
+        }
+
+        keepBtn.setOnClickListener {
+            if(viewModel.currentTab.value != 1) viewModel.currentTab.value = 1
+        }
+
+        searchBtn.setOnClickListener {
+            if(viewModel.currentTab.value != 2) viewModel.currentTab.value = 2
+        }
+
         profileBtn.setOnClickListener {
-            //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
-            profileView.show()
+            if(viewModel.currentTab.value != 3) viewModel.currentTab.value = 3
         }
 
         profileBtn.setOnLongClickListener {
             profileView.checkOsCalendarPermission()
+            //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
             return@setOnLongClickListener true
         }
 
@@ -277,6 +291,8 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.folderList.observe(this, Observer { list ->
+            if(list.size > 1) keepBtn.setImageResource(R.drawable.sharp_all_inbox_black_48dp)
+            else keepBtn.setImageResource(R.drawable.sharp_inbox_black_48dp)
             keepView.notifyFolderDataChanged()
         })
 
@@ -293,6 +309,42 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.targetTime.observe(this, Observer { time -> setDateText(Date(time)) })
+
+        viewModel.currentTab.observe(this, Observer { index -> updateUI(index)})
+    }
+
+    private fun updateUI(index: Int) {
+        calendarBtn.setColorFilter(AppTheme.disableText)
+        keepBtn.setColorFilter(AppTheme.disableText)
+        searchBtn.setColorFilter(AppTheme.disableText)
+        profileBtn.setColorFilter(AppTheme.disableText)
+
+        when(index) {
+            0 -> {
+                calendarBtn.setColorFilter(AppTheme.primaryColor)
+                if(keepView.isOpened()) viewModel.targetFolder.value = null
+                if(searchView.isOpened()) searchView.hide()
+                if(profileView.isOpened()) profileView.hide()
+            }
+            1 -> {
+                keepBtn.setColorFilter(AppTheme.primaryColor)
+                viewModel.setTargetFolder()
+                if(searchView.isOpened()) searchView.hide()
+                if(profileView.isOpened()) profileView.hide()
+            }
+            2 -> {
+                searchBtn.setColorFilter(AppTheme.primaryColor)
+                if(keepView.isOpened()) viewModel.targetFolder.value = null
+                searchView.show()
+                if(profileView.isOpened()) profileView.hide()
+            }
+            3 -> {
+                profileBtn.setColorFilter(AppTheme.primaryColor)
+                if(keepView.isOpened()) viewModel.targetFolder.value = null
+                if(searchView.isOpened()) searchView.hide()
+                profileView.show()
+            }
+        }
     }
 
     private fun updateUserUI(appUser: AppUser) {

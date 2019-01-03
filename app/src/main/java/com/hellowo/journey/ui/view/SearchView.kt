@@ -54,15 +54,11 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private val tags = ArrayList<Tag>()
 
     init {
-        setBackgroundColor(AppTheme.backgroundDarkColor)
+        setBackgroundColor(AppTheme.backgroundColor)
         LayoutInflater.from(context).inflate(R.layout.view_saerch, this, true)
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
-
-        searchBtn.setOnClickListener {
-            show()
-        }
 
         searchInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -123,43 +119,13 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     fun show() {
-        viewMode = ViewMode.ANIMATING
-        val transiion = makeChangeBounceTransition()
-        transiion.addListener(object : Transition.TransitionListener{
-            override fun onTransitionEnd(transition: Transition) {
-                viewMode = ViewMode.OPENED
-            }
-            override fun onTransitionResume(transition: Transition) {}
-            override fun onTransitionPause(transition: Transition) {}
-            override fun onTransitionCancel(transition: Transition) {}
-            override fun onTransitionStart(transition: Transition) { notifyDataChanged() }
-        })
-        TransitionManager.beginDelayedTransition(this@SearchView, transiion)
-        layoutParams.height = MATCH_PARENT
-        layoutParams.width = MATCH_PARENT
-        requestLayout()
+        visibility = View.VISIBLE
+        viewMode = ViewMode.OPENED
     }
 
     fun hide() {
-        timeObjectList?.removeAllChangeListeners()
-        viewMode = ViewMode.ANIMATING
-        val transiion = makeChangeBounceTransition()
-        transiion.addListener(object : Transition.TransitionListener{
-            override fun onTransitionEnd(transition: Transition) {
-                viewMode = ViewMode.CLOSED
-            }
-            override fun onTransitionResume(transition: Transition) {}
-            override fun onTransitionPause(transition: Transition) {}
-            override fun onTransitionCancel(transition: Transition) {}
-            override fun onTransitionStart(transition: Transition) {
-                searchInput.setText("")
-                hideKeyPad(windowToken, searchInput)
-            }
-        })
-        TransitionManager.beginDelayedTransition(this, transiion)
-        layoutParams.height = dpToPx(0)
-        layoutParams.width = dpToPx(0)
-        requestLayout()
+        visibility = View.GONE
+        viewMode = ViewMode.CLOSED
     }
 
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED

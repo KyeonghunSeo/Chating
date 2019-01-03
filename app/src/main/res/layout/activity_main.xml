@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
                 android:background="?android:attr/selectableItemBackground">
 
@@ -138,13 +138,15 @@
     <com.hellowo.journey.ui.view.TemplateControlView
         android:id="@+id/templateControlView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp">
     </com.hellowo.journey.ui.view.TemplateControlView>
 
     <com.hellowo.journey.ui.view.KeepView
         android:id="@+id/keepView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
         android:visibility="gone"
         app:cardElevation="0dp"
         app:cardCornerRadius="0dp">
@@ -154,6 +156,7 @@
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
         android:visibility="gone">
     </com.hellowo.journey.ui.view.SearchView>
 
@@ -161,6 +164,7 @@
         android:id="@+id/profileView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
         android:visibility="gone">
     </com.hellowo.journey.ui.view.ProfileView>
 
@@ -169,7 +173,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:elevation="8dp"
+        android:elevation="4dp"
         android:visibility="visible">
 
         <LinearLayout
@@ -225,7 +229,7 @@
         android:id="@+id/timeObjectDetailView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="8dp">
+        android:elevation="4dp">
     </com.hellowo.journey.ui.view.TimeObjectDetailView>
 
     <ProgressBar

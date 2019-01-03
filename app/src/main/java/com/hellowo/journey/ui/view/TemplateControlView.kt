@@ -80,7 +80,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             collapseNoAnim()
         }
 
-        touchEventView.setOnTouchListener { view, event ->
+        addBtn.setOnTouchListener { view, event ->
             when(event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     if(!isExpanded) {
@@ -91,7 +91,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                 MotionEvent.ACTION_UP -> {
                     handler.removeMessages(0)
                     handler.removeMessages(1)
-                    if(event.x > 0 && event.x < touchEventView.width && event.y > 0 && event.y < touchEventView.height){
+                    if(event.x > 0 && event.x < addBtn.width && event.y > 0 && event.y < addBtn.height){
                         if(clickFlag) {
                             if(!isExpanded) expand()
                         }else {
@@ -100,7 +100,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                     }else {
                         if(clickFlag) {
                             when {
-                                event.y < -touchEventView.height * 1.5 -> {
+                                event.y < -addBtn.height * 1.5 -> {
                                     MainActivity.instance?.viewModel?.saveDirectByTemplate()
                                     collapse()
                                 }
@@ -116,15 +116,15 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                 }
                 MotionEvent.ACTION_MOVE -> {
                     if(clickFlag) {
-                        if(event.x > touchEventView.width / 2 + itemWidth / 2){
-                            autoScrollSpeed = ((event.x - (touchEventView.width / 2 + itemWidth / 2)) / (itemWidth / 2) + 0.5f)
+                        if(event.x > addBtn.width / 2 + itemWidth / 2){
+                            autoScrollSpeed = ((event.x - (addBtn.width / 2 + itemWidth / 2)) / (itemWidth / 2) + 0.5f)
                             if(autoScrollFlag <= 0) {
                                 autoScrollFlag = 1
                                 handler.removeMessages(1)
                                 handler.sendEmptyMessage(1)
                             }
-                        }else if(event.x < touchEventView.width / 2 - itemWidth / 2){
-                            autoScrollSpeed = (((touchEventView.width / 2 - itemWidth / 2) - event.x) / (itemWidth / 2) + 0.5f)
+                        }else if(event.x < addBtn.width / 2 - itemWidth / 2){
+                            autoScrollSpeed = (((addBtn.width / 2 - itemWidth / 2) - event.x) / (itemWidth / 2) + 0.5f)
                             if(autoScrollFlag >= 0) {
                                 autoScrollFlag = -1
                                 handler.removeMessages(1)
@@ -133,7 +133,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                         }else {}
 
                         when {
-                            event.y < -touchEventView.height * 1.5 -> { }
+                            event.y < -addBtn.height * 1.5 -> { }
                             event.y < 0 -> { }
                             else -> { }
                         }
@@ -152,8 +152,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             it.startActivity(Intent(it, TemplateEditActivity::class.java)) }}
 
         addNewBtn.setOnClickListener { addNew() }
-
-        touchEventView.setOnClickListener{}
 
         callAfterViewDrawed(this, Runnable{ restoreViews() })
     }
@@ -236,6 +234,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     fun showDecoBtn() {
-        decoBtn.visibility = View.VISIBLE
+        decoBtn.visibility = View.GONE
     }
 }

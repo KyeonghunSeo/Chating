@@ -29,8 +29,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_profile, this, true)
-        contentLy.visibility = View.INVISIBLE
-
         profileImage.setOnClickListener {
             MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
         }
@@ -60,38 +58,13 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     fun show() {
+        visibility = View.VISIBLE
         viewMode = ViewMode.OPENED
-        val transitionSet = TransitionSet()
-        val t1 = makeFromRightSlideTransition()
-        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
-        t1.addTarget(contentLy)
-        t2.addTarget(backgroundLy)
-        transitionSet.addTransition(t1)
-        transitionSet.addTransition(t2)
-        TransitionManager.beginDelayedTransition(this, transitionSet)
-
-        backgroundLy.visibility = View.VISIBLE
-        backgroundLy.setBackgroundColor(AppTheme.primaryText)
-        backgroundLy.setOnClickListener { hide() }
-        backgroundLy.isClickable = true
-        contentLy.visibility = View.VISIBLE
     }
 
     fun hide() {
+        visibility = View.GONE
         viewMode = ViewMode.CLOSED
-        val transitionSet = TransitionSet()
-        val t1 = makeFromRightSlideTransition()
-        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
-        t1.addTarget(contentLy)
-        t2.addTarget(backgroundLy)
-        transitionSet.addTransition(t1)
-        transitionSet.addTransition(t2)
-        TransitionManager.beginDelayedTransition(this, transitionSet)
-
-        backgroundLy.visibility = View.INVISIBLE
-        backgroundLy.setOnClickListener(null)
-        backgroundLy.isClickable = false
-        contentLy.visibility = View.INVISIBLE
     }
 
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED

@@ -147,7 +147,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     gravity = Gravity.BOTTOM
                 }
             }
-            view.setBackgroundColor(AppTheme.almostWhite)
+            view.setBackgroundColor(AppTheme.backgroundColor)
         }
 
         columnDividers.forEachIndexed { index, view ->
@@ -177,6 +177,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 //dateCell.setBackgroundResource(AppDateFormat.selectableItemBackground)
                 dateCell.setOnClickListener { onDateClick(cellNum) }
                 dateCell.setOnLongClickListener {
+                    onDateClick(cellNum)
                     MainDragAndDropListener.start(it, MainDragAndDropListener.DragMode.INSERT)
                     return@setOnLongClickListener true
                 }
@@ -266,7 +267,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         }
 
-        if(SyncUser.current() != null) TimeObjectManager.setTimeObjectCalendarAdapter(this)
+        //if(SyncUser.current() != null) TimeObjectManager.setTimeObjectCalendarAdapter(this)
+        TimeObjectManager.setTimeObjectCalendarAdapter(this)
 
         selectDate(targetCellNum, false)
         scrollView.post { scrollView.scrollTo(0, 0) }
