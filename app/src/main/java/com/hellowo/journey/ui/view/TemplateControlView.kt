@@ -31,6 +31,7 @@ import com.hellowo.journey.ui.activity.TemplateEditActivity
 import com.hellowo.journey.ui.dialog.TypePickerDialog
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.view_template_control.view.*
+import kotlin.math.exp
 
 class TemplateControlView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
     private val itemWidth = dpToPx(90)
@@ -80,72 +81,12 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             collapseNoAnim()
         }
 
-        addBtn.setOnTouchListener { view, event ->
-            when(event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    if(!isExpanded) {
-                        handler.sendEmptyMessageDelayed(0, 200)
-                        clickFlag = true
-                    }
-                }
-                MotionEvent.ACTION_UP -> {
-                    handler.removeMessages(0)
-                    handler.removeMessages(1)
-                    if(event.x > 0 && event.x < addBtn.width && event.y > 0 && event.y < addBtn.height){
-                        if(clickFlag) {
-                            if(!isExpanded) expand()
-                        }else {
-                            if(isExpanded) collapse()
-                        }
-                    }else {
-                        if(clickFlag) {
-                            when {
-                                event.y < -addBtn.height * 1.5 -> {
-                                    MainActivity.instance?.viewModel?.saveDirectByTemplate()
-                                    collapse()
-                                }
-                                event.y < 0 -> {
-                                    MainActivity.instance?.viewModel?.makeNewTimeObject()
-                                    collapse()
-                                }
-                                else -> {}
-                            }
-                        }
-                    }
-                    clickFlag = false
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    if(clickFlag) {
-                        if(event.x > addBtn.width / 2 + itemWidth / 2){
-                            autoScrollSpeed = ((event.x - (addBtn.width / 2 + itemWidth / 2)) / (itemWidth / 2) + 0.5f)
-                            if(autoScrollFlag <= 0) {
-                                autoScrollFlag = 1
-                                handler.removeMessages(1)
-                                handler.sendEmptyMessage(1)
-                            }
-                        }else if(event.x < addBtn.width / 2 - itemWidth / 2){
-                            autoScrollSpeed = (((addBtn.width / 2 - itemWidth / 2) - event.x) / (itemWidth / 2) + 0.5f)
-                            if(autoScrollFlag >= 0) {
-                                autoScrollFlag = -1
-                                handler.removeMessages(1)
-                                handler.sendEmptyMessage(1)
-                            }
-                        }else {}
-
-                        when {
-                            event.y < -addBtn.height * 1.5 -> { }
-                            event.y < 0 -> { }
-                            else -> { }
-                        }
-                    }
-                }
-                MotionEvent.ACTION_CANCEL -> {
-                    handler.removeMessages(0)
-                    handler.removeMessages(1)
-                    clickFlag = false
-                }
+        addBtn.setOnClickListener {
+            if(isExpanded) {
+                collapse()
+            }else {
+                expand()
             }
-            return@setOnTouchListener false
         }
 
         editTemplateBtn.setOnClickListener { MainActivity.instance?.let {
@@ -180,6 +121,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         backgroundLy.isClickable = true
         listLy.visibility = View.VISIBLE
         ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f).start()
+        elevation = dpToPx(10f)
         isExpanded = true
     }
 
@@ -199,6 +141,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         backgroundLy.isClickable = false
         listLy.visibility = View.INVISIBLE
         ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f).start()
+        elevation = dpToPx(0f)
         isExpanded = false
     }
 
@@ -209,6 +152,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         backgroundLy.isClickable = false
         backgroundLy.visibility = View.INVISIBLE
         listLy.visibility = View.INVISIBLE
+        elevation = dpToPx(0f)
         isExpanded = false
     }
 

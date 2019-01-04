@@ -22,8 +22,7 @@ import com.hellowo.journey.model.TimeObject.Style.*
 @SuppressLint("ViewConstructor")
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
     companion object {
-        var standardTextSize = 8f
-        var fontTopPadding = dpToPx(0)
+        var standardTextSize = 9f
         val defaulMargin = dpToPx(1f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
         val defaultPadding = dpToPx(2)
@@ -49,7 +48,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     //var line = 0
 
     init {
-        includeFontPadding = false
+        //includeFontPadding = false
     }
 
     fun setLookByType() {
@@ -75,9 +74,9 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
-                setPadding((leftPadding + defaulMargin).toInt(), fontTopPadding, defaultPadding, 0)
+                setPadding((leftPadding + defaulMargin).toInt(), 0, defaultPadding, 0)
                 when(TimeObject.Style.values()[timeObject.style]){
-                    ROUND_STROKE, RECT_STROKE, HATCHED -> {
+                    ROUND_STROKE, RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
                         paintColor = AppTheme.getColor(timeObject.colorKey)
                         fontColor = AppTheme.getColor(timeObject.colorKey)
                     }
@@ -87,36 +86,33 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     }
                     else -> {
                         paintColor = AppTheme.getColor(timeObject.colorKey)
-                        fontColor = AppTheme.primaryText
+                        fontColor = AppTheme.getColor(timeObject.colorKey)
                     }
                 }
                 setTextColor(fontColor)
             }
             NOTE -> {
-                setPadding((leftPadding + defaulMargin).toInt(), defaulMargin.toInt(), defaultPadding, defaultPadding)
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
+                text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
+                typeface = AppTheme.textFont
+                setLineSpacing(defaulMargin, 1f)
+                setPadding((leftPadding + defaulMargin).toInt(), (defaulMargin * 3).toInt(), defaultPadding, (defaulMargin * 4).toInt())
                 when(TimeObject.Style.values()[timeObject.style]){
-                    DOT -> {
-                        setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
-                        text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
-                        typeface = AppTheme.textFont
-                        setLineSpacing(defaulMargin, 1f)
-                        setTextColor(timeObject.getColor())
+                    RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
+                        paintColor = AppTheme.getColor(timeObject.colorKey)
+                        fontColor = AppTheme.getColor(timeObject.colorKey)
                     }
-                    HYPHEN -> {
-                        setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
-                        text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
-                        typeface = AppTheme.textFont
-                        setLineSpacing(defaulMargin, 1f)
-                        setTextColor(timeObject.getColor())
+                    RECT_FILL, CANDY -> {
+                        paintColor = AppTheme.getColor(timeObject.colorKey)
+                        fontColor = AppTheme.getFontColor(timeObject.colorKey)
                     }
                     else -> {
-                        setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
-                        text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
-                        typeface = AppTheme.textFont
-                        setLineSpacing(defaulMargin, 1f)
-                        setTextColor(timeObject.getColor())
+                        paintColor = AppTheme.getColor(timeObject.colorKey)
+                        fontColor = AppTheme.primaryText
                     }
                 }
+                setTextColor(fontColor)
+
             }
             TERM -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
@@ -129,19 +125,19 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     1 -> {
                         typeface = AppTheme.textFont
                         gravity = Gravity.CENTER_HORIZONTAL
-                        setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
+                        setPadding(defaultPadding, 0, defaultPadding, 0)
                         setTextColor(timeObject.getColor())
                     }
                     2 -> {
                         setTypeface(AppTheme.textFont, ITALIC)
                         gravity = Gravity.CENTER
-                        setPadding(defaultPadding, fontTopPadding, defaultPadding, 0)
+                        setPadding(defaultPadding, 0, defaultPadding, 0)
                         setTextColor(timeObject.getColor())
                     }
                     else -> {
                         typeface = AppTheme.textFont
                         gravity = Gravity.CENTER
-                        setPadding(defaultPadding * 2, fontTopPadding, defaultPadding * 2, 0)
+                        setPadding(defaultPadding * 2, 0, defaultPadding * 2, 0)
                         setTextColor(timeObject.getColor())
                     }
                 }
@@ -159,16 +155,12 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             canvas?.let {
                 paint.isAntiAlias = true
                 when(TimeObject.Type.values()[timeObject.type]) {
-                    EVENT, TASK -> {
+                    EVENT, TASK, NOTE -> {
                         CalendarManager.drawBasicShape(canvas, this)
                         super.onDraw(canvas)
                     }
                     STAMP -> {
                         CalendarManager.drawStamp(canvas, this)
-                    }
-                    NOTE -> {
-                        CalendarManager.drawNote(canvas, this)
-                        super.onDraw(canvas)
                     }
                     MONEY -> {
                         CalendarManager.drawMoney(canvas, this)

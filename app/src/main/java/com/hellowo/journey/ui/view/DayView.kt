@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Handler
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -48,9 +49,9 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                                         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
     companion object {
-        const val headerTextScale = 2.5f
-        val datePosX = dpToPx(7f)
-        val datePosY = dpToPx(7f)
+        const val headerTextScale = 2.3f
+        val datePosX = dpToPx(11f)
+        val datePosY = -dpToPx(8f)
         val startZ = dpToPx(10f)
         val endZ = dpToPx(0f)
     }
@@ -103,6 +104,8 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         dateLy.clipChildren = false
         dateLy.scaleY = CalendarView.selectedDateScale
         dateLy.scaleX = CalendarView.selectedDateScale
+        dateLy.pivotX = 0f
+        dateLy.pivotY = 0f
         (dateLy.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.NO_GRAVITY
         bar.visibility = View.GONE
 /*
@@ -266,7 +269,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
 
     private fun setDateText() {
         calendarView.let {
-            dateText.text = String.format("%02d", it.targetCal.get(Calendar.DATE))
+            dateText.text = String.format("%01d", it.targetCal.get(Calendar.DATE))
             dowText.text = AppDateFormat.dow.format(it.targetCal.time)
 
             val lunarCalendar = KoreanLunarCalendar.getInstance()
@@ -281,6 +284,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             val color = it.getDateTextColor(it.targetCellNum, !holi.isNullOrEmpty())
             dateText.setTextColor(color)
             dowText.setTextColor(color)
+            holiText.setTextColor(color)
             if(holi.isNullOrEmpty()) {
                 holiText.text = ""
             }else {
@@ -338,7 +342,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                     })
                     TransitionManager.beginDelayedTransition(this@DayView, transiion)
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, dpToPx(60), 0, mainBarHeight)
+                        setMargins(0, dpToPx(50), 0, mainBarHeight)
                     }
                 }
                 override fun onAnimationCancel(p0: Animator?) {}

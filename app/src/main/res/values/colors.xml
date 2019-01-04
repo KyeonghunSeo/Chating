@@ -121,11 +121,11 @@
     </string-array>-->
 
     <string-array name="font_colors">
-        <item>#90000000</item>
-        <item>#90000000</item>
-        <item>#90000000</item>
-        <item>#90000000</item>
-        <item>#90000000</item>
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
 
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>

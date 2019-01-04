@@ -30,10 +30,10 @@ object CalendarManager {
 
     init {
         backgroundColor = AppTheme.backgroundColor
-        dateColor = resource.getColor(R.color.secondaryText)
+        dateColor = resource.getColor(R.color.primaryText)
         sundayColor = resource.getColor(R.color.holiday)
         saturdayColor = resource.getColor(R.color.blue)
-        todayDateColor = resource.getColor(R.color.secondaryText)
+        todayDateColor = resource.getColor(R.color.primaryText)
         selectedDateColor = resource.getColor(R.color.primaryText)
         selectedBackgroundColor = resource.getColor(R.color.grey)
         greyColor = resource.getColor(R.color.grey)
@@ -47,6 +47,7 @@ object CalendarManager {
         when(TimeObject.Style.values()[view.timeObject.style]){
             RECT_FILL -> {
                 canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+                paint.color = view.fontColor
             }
             RECT_STROKE -> {
                 paint.style = Paint.Style.STROKE
@@ -68,6 +69,7 @@ object CalendarManager {
             ROUND_FILL -> {
                 paint.isAntiAlias = true
                 canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), height / 2f, height / 2f, paint)
+                paint.color = view.fontColor
             }
             CANDY -> {
                 canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), rectRadius, rectRadius, paint)
@@ -79,6 +81,7 @@ object CalendarManager {
                     canvas.drawLine(x, -defaulMargin, x - height, height + defaulMargin, paint)
                     x += dashWidth * 2
                 }
+                paint.color = view.fontColor
             }
             HATCHED -> {
                 paint.style = Paint.Style.STROKE
@@ -114,6 +117,7 @@ object CalendarManager {
         when(TimeObject.Type.values()[view.timeObject.type]) {
             TimeObject.Type.EVENT -> drawDot(view, paint, canvas)
             TimeObject.Type.TASK -> drawCheckBox(view, paint, canvas)
+            TimeObject.Type.NOTE -> drawHyphen(view, paint, canvas)
         }
     }
 
@@ -124,25 +128,6 @@ object CalendarManager {
         val height = view.height
         paint.color = timeObject.getColor()
         when(TimeObject.Style.values()[view.timeObject.style]){
-            DOT -> { // 동그란 점 시작
-                drawDot(view,
-                        paint, canvas)
-            }
-            HYPHEN -> { // 하이픈
-                canvas.drawRect(defaultPadding.toFloat(), defaulMargin * 2,
-                        (defaultPadding + dotSize).toFloat(), defaulMargin * 3, paint)
-            }
-            RECT_OPENSIDE -> { // 상하단 감싸기
-                val strokeWidth = strokeWidth / 2
-                canvas.drawRect(0f, 0f, width.toFloat(), strokeWidth, paint)
-                canvas.drawRect(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat(), paint)
-
-                canvas.drawRect(0f, 0f, strokeWidth, defaultPadding.toFloat(), paint)
-                canvas.drawRect(width - strokeWidth, 0f, width.toFloat(), defaultPadding.toFloat(), paint)
-
-                canvas.drawRect(0f, (height - defaultPadding).toFloat(), strokeWidth, height.toFloat(), paint)
-                canvas.drawRect(width - strokeWidth, (height - defaultPadding).toFloat(), width.toFloat(), height.toFloat(), paint)
-            }
             RECT_STROKE -> { // rect stroke
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = strokeWidth
@@ -166,46 +151,7 @@ object CalendarManager {
                 paint.alpha = 255
                 paint.style = Paint.Style.FILL
             }
-            MEMO -> { // memo
-                paint.strokeWidth = strokeWidth
-                val left = 0f
-                val top = 0f
-                val right = width.toFloat()
-                val bottom = height.toFloat()
-                val edge = defaultPadding
 
-                var path = Path()
-                path.moveTo(left, top)
-                path.lineTo(right, top)
-                path.lineTo(right, bottom - edge)
-                path.lineTo(right - edge, bottom - edge)
-                path.lineTo(right - edge, bottom)
-                path.lineTo(left, bottom)
-                path.lineTo(left, top)
-                paint.style = Paint.Style.FILL
-                paint.alpha = 30
-                canvas.drawPath(path, paint)
-
-                path = Path()
-                path.moveTo(right, bottom - edge)
-                path.lineTo(right - edge, bottom - edge)
-                path.lineTo(right - edge, bottom)
-                path.lineTo(right, bottom - edge)
-                paint.style = Paint.Style.FILL
-                paint.alpha = 255
-                canvas.drawPath(path, paint)
-
-                path = Path()
-                path.moveTo(right - edge, bottom - edge)
-                path.lineTo(right - edge * 2, bottom)
-                path.lineTo(right - edge, bottom)
-                path.lineTo(right - edge, bottom - edge)
-                path.close()
-                paint.style = Paint.Style.FILL
-                paint.alpha = 50
-                canvas.drawPath(path, paint)
-                paint.alpha = 255
-            }
         }
         drawHyphen(view, paint, canvas)
     }
@@ -434,38 +380,36 @@ object CalendarManager {
     private fun drawDot(view: TimeObjectView, paint: Paint, canvas: Canvas) {
         val radius = dotSize / 3f
         val centerY = (blockTypeSize - defaulMargin) / 2
-        paint.color = view.fontColor
         canvas.drawCircle(leftPadding.toFloat() / 2f + defaulMargin, centerY, radius, paint)
     }
 
     private fun drawCheckBox(view: TimeObjectView, paint: Paint, canvas: Canvas) {
         val radius = dotSize / 2f
+        val sWidth = strokeWidth / 1.5f
         val centerY = (blockTypeSize - defaulMargin) / 2
-        paint.color = view.fontColor
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = sWidth
+        canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
+                centerY - radius,
+                leftPadding.toFloat() / 2f + defaulMargin + radius,
+                centerY + radius, paint)
 
+        paint.style = Paint.Style.FILL
         if(view.timeObject.isDone()) {
             canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
                     centerY - radius,
                     leftPadding.toFloat() / 2f + defaulMargin + radius,
                     centerY + radius, paint)
-        }else {
-            paint.style = Paint.Style.STROKE
-            paint.strokeWidth = strokeWidth / 2f
-            canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
-                    centerY - radius,
-                    leftPadding.toFloat() / 2f + defaulMargin + radius,
-                    centerY + radius, paint)
         }
-        paint.style = Paint.Style.FILL
     }
 
     private fun drawHyphen(view: TimeObjectView, paint: Paint, canvas: Canvas) {
         val radius = dotSize / 2f
-        val centerY = (blockTypeSize - defaulMargin) / 2
+        val centerY = blockTypeSize / 2f
         canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
-                centerY - strokeWidth / 2f,
+                centerY - strokeWidth / 2.5f,
                 leftPadding.toFloat() / 2f + defaulMargin + radius,
-                centerY + strokeWidth / 2f, paint)
+                centerY + strokeWidth / 2.5f, paint)
     }
 
     private fun drawRoundCheckBox(view: TimeObjectView, centerY: Float, canvas: Canvas) {
@@ -560,5 +504,60 @@ object CalendarManager {
                     bitmapDrawable.setTargetDensity(it)
                     it.drawBitmap(bitmapDrawable.bitmap, 0f, 0f, Paint())
                 }
+
+                MEMO -> { // memo
+                paint.strokeWidth = strokeWidth
+                val left = 0f
+                val top = 0f
+                val right = width.toFloat()
+                val bottom = height.toFloat()
+                val edge = defaultPadding
+
+                var path = Path()
+                path.moveTo(left, top)
+                path.lineTo(right, top)
+                path.lineTo(right, bottom - edge)
+                path.lineTo(right - edge, bottom - edge)
+                path.lineTo(right - edge, bottom)
+                path.lineTo(left, bottom)
+                path.lineTo(left, top)
+                paint.style = Paint.Style.FILL
+                paint.alpha = 30
+                canvas.drawPath(path, paint)
+
+                path = Path()
+                path.moveTo(right, bottom - edge)
+                path.lineTo(right - edge, bottom - edge)
+                path.lineTo(right - edge, bottom)
+                path.lineTo(right, bottom - edge)
+                paint.style = Paint.Style.FILL
+                paint.alpha = 255
+                canvas.drawPath(path, paint)
+
+                path = Path()
+                path.moveTo(right - edge, bottom - edge)
+                path.lineTo(right - edge * 2, bottom)
+                path.lineTo(right - edge, bottom)
+                path.lineTo(right - edge, bottom - edge)
+                path.close()
+                paint.style = Paint.Style.FILL
+                paint.alpha = 50
+                canvas.drawPath(path, paint)
+                paint.alpha = 255
+            }
+
+            RECT_DASH -> {
+                paint.style = Paint.Style.STROKE
+                paint.strokeWidth = strokeWidth
+                val path = Path()
+                path.addRect(strokeWidth / 2, strokeWidth / 2,
+                        width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2, Path.Direction.CW)
+                val dashPath = DashPathEffect(floatArrayOf(dotSize.toFloat(), defaulMargin * 2), 0f)
+                paint.pathEffect = dashPath
+                canvas.drawPath(path, paint)
+                paint.pathEffect = null
+                paint.style = Paint.Style.FILL
+            }
+
                 */
 }

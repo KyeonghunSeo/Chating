@@ -37,14 +37,14 @@ class TemplateEditActivity : BaseActivity() {
         addBtn.setOnClickListener { _ ->
             showDialog(TypePickerDialog(this@TemplateEditActivity, TimeObject.Type.EVENT) { type ->
                 realm.executeTransaction { it ->
-                    val id = realm.where(Template::class.java).max("id")?.toInt()?.plus(1)
-                    id?.let {
-                        val order = realm.where(Template::class.java).max("order")?.toInt()?.plus(1)
-                        val template = realm.createObject(Template::class.java, id)
-                        template.title = getString(type.titleId)
-                        template.order = order ?: 0
-                        template.type = type.ordinal
+                    var id = realm.where(Template::class.java).max("id")?.toInt()?.plus(1)
+                    if(id == null) {
+                        id = 0
                     }
+                    val template = realm.createObject(Template::class.java, id)
+                    template.title = getString(type.titleId)
+                    template.order = id
+                    template.type = type.ordinal
                 }
                 recyclerView.post { recyclerView.smoothScrollToPosition(items.size) }
             }, true, true, true, false)

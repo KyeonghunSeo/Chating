@@ -353,9 +353,10 @@ class MainActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun setDateText(date: Date) {
-        yearText.text = ". ${AppDateFormat.year.format(date)}"
+        //yearText.text = " ${AppDateFormat.year.format(date)}"
         //monthText.text = String.format("%02d", date.month + 1)
-        monthText.text = AppDateFormat.mDate.format(date)
+        yearText.text = ""
+        monthText.text = AppDateFormat.ymDate.format(date)
     }
 
     fun onDrag(event: DragEvent) {

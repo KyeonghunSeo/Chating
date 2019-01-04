@@ -38,9 +38,9 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:gravity="bottom"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
@@ -50,7 +50,7 @@
                     android:layout_marginLeft="-0dp"
                     android:includeFontPadding="false"
                     android:textColor="@color/primaryText"
-                    android:textSize="25dp"
+                    android:textSize="22dp"
                     android:text="10월"/>
 
                 <TextView
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
                     android:includeFontPadding="false"
-                    android:textColor="@color/primaryText"
+                    android:textColor="@color/disableText"
                     android:textSize="14dp"
                     android:text="2018"/>
 
@@ -135,13 +135,6 @@
 
     </FrameLayout>
 
-    <com.hellowo.journey.ui.view.TemplateControlView
-        android:id="@+id/templateControlView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="50dp">
-    </com.hellowo.journey.ui.view.TemplateControlView>
-
     <com.hellowo.journey.ui.view.KeepView
         android:id="@+id/keepView"
         android:layout_width="match_parent"
@@ -151,6 +144,12 @@
         app:cardElevation="0dp"
         app:cardCornerRadius="0dp">
     </com.hellowo.journey.ui.view.KeepView>
+
+    <com.hellowo.journey.ui.view.TemplateControlView
+        android:id="@+id/templateControlView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.hellowo.journey.ui.view.TemplateControlView>
 
     <com.hellowo.journey.ui.view.SearchView
         android:id="@+id/searchView"

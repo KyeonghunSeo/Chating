@@ -177,7 +177,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 //dateCell.setBackgroundResource(AppDateFormat.selectableItemBackground)
                 dateCell.setOnClickListener { onDateClick(cellNum) }
                 dateCell.setOnLongClickListener {
-                    onDateClick(cellNum)
+                    if(selectCellNum != cellNum) onDateClick(cellNum)
                     MainDragAndDropListener.start(it, MainDragAndDropListener.DragMode.INSERT)
                     return@setOnLongClickListener true
                 }
@@ -369,7 +369,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             dateText.typeface = CalendarManager.selectFont
             dateText.alpha = 1f
-            dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
+            dowText.text = AppDateFormat.dow.format(targetCal.time)
             dowText.visibility = View.VISIBLE
 
             lastSelectDateAnimSet?.cancel()

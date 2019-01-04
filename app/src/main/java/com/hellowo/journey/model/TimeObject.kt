@@ -43,27 +43,26 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     enum class Type(val titleId: Int, val subTextId: Int, val iconId: Int, val enableLongTerm: Boolean, val styles: Array<Style>) {
         NOTE(R.string.note, R.string.note_sub,
                 R.drawable.sharp_notes_black_48dp, false,
-                arrayOf(DEFAULT, DOT, HYPHEN, RECT_STROKE, RECT_OPENSIDE, HATCHED, MEMO)),
+                arrayOf(DEFAULT, RECT_STROKE, RECT_FILL, HATCHED, TOP_LINE, BOTTOM_LINE)),
         EVENT(R.string.event, R.string.event_sub,
                 R.drawable.sharp_event_black_48dp, true,
-                arrayOf(DEFAULT, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, CANDY, HATCHED)),
+                arrayOf(DEFAULT, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
         TASK(R.string.task, R.string.task_sub,
                 R.drawable.sharp_check_box_black_48dp, false,
-                arrayOf(DEFAULT, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, CANDY, HATCHED)),
+                arrayOf(DEFAULT, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
         STAMP(R.string.stamp, R.string.stamp_sub,
                 R.drawable.sharp_star_rate_black_48dp, false,
-                arrayOf(DEFAULT, DOT, HYPHEN, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
+                arrayOf(DEFAULT, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
         TERM(R.string.term, R.string.term_sub,
                 R.drawable.sharp_date_range_black_48dp, true,
-                arrayOf(DEFAULT, DOT, HYPHEN, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
+                arrayOf(DEFAULT, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
         MONEY(R.string.money, R.string.money_sub,
                 R.drawable.sharp_local_atm_black_48dp, false,
-                arrayOf(DEFAULT, DOT, HYPHEN, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
+                arrayOf(DEFAULT, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE))
     }
 
     enum class Style {
-        DEFAULT, DOT, HYPHEN, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, TOP_LINE, BOTTOM_LINE, RECT_DASH, RECT_OPENSIDE,
-        CANDY, HATCHED, MEMO,
+        DEFAULT, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE
     }
 
     enum class Formula {
@@ -190,6 +189,4 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     fun isDone(): Boolean = dtDone != Long.MIN_VALUE
-
-
 }
