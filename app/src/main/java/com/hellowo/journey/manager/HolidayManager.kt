@@ -14,7 +14,7 @@ object HolidayManager {
     private fun setHolidaysKR() {
         solarHolidays.clear()
         lunarHolidays.clear()
-        solarHolidays["0101"] = "신정"
+        solarHolidays["0101"] = "새해첫날"
         solarHolidays["0301"] = "3.1절"
         solarHolidays["0505"] = "어린이날"
         solarHolidays["0606"] = "현충일"
@@ -22,13 +22,13 @@ object HolidayManager {
         solarHolidays["1003"] = "개천절"
         solarHolidays["1009"] = "한글날"
         solarHolidays["1225"] = "크리스마스"
-        lunarHolidays["1230"] = "설날"
+        lunarHolidays["1230"] = "공휴일"
         lunarHolidays["0101"] = "설날"
-        lunarHolidays["0102"] = "설날"
+        lunarHolidays["0102"] = "공휴일"
         lunarHolidays["0408"] = "석가탄신일"
-        lunarHolidays["0814"] = "추석"
+        lunarHolidays["0814"] = "공휴일"
         lunarHolidays["0815"] = "추석"
-        lunarHolidays["0816"] = "추석"
+        lunarHolidays["0816"] = "공휴일"
     }
 
     fun getHoliday(solarKey: String, lunarKey: String): String? {

@@ -237,18 +237,22 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val holiText = dateHeaders[cellNum].holiText
                     val dateText = dateHeaders[cellNum].dateText
                     val dowText = dateHeaders[cellNum].dowText
+                    val bar = dateHeaders[cellNum].bar
                     val color = getDateTextColor(cellNum, !holi.isNullOrEmpty())
                     val alpha = if(cellNum in startCellNum..endCellNum) 1f else outDateAlpha
-                    dateText.text = String.format("%d", tempCal.get(Calendar.DATE))
+                    dateText.text = String.format("%02d", tempCal.get(Calendar.DATE))
                     dateText.alpha = alpha
                     dateText.setTextColor(color)
                     holiText.setTextColor(color)
                     dowText.setTextColor(color)
+                    bar.setBackgroundColor(color)
 
-                    if(holi.isNullOrEmpty()) {
-                        holiText.text = ""
-                    }else {
+                    if(!holi.isNullOrEmpty()) {
                         holiText.text = holi
+                    }else if(lunarCalendar.lunarDay == 1 || lunarCalendar.lunarDay == 10 || lunarCalendar.lunarDay == 20) {
+                        holiText.text = lunarCalendar.lunarSimpleFormat
+                    }else {
+                        holiText.text = ""
                     }
                     holiText.alpha = alpha
 

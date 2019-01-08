@@ -189,5 +189,9 @@
     <string name="select_date">날짜 선택</string>
     <string name="invalid_info">잘못된 정보입니다</string>
     <string name="saved">저장되었습니다</string>
+    <string name="today">오늘</string>
+    <string name="todays_briefing">오늘의 브리핑</string>
+    <string name="go_today">오늘로 이동</string>
+    <string name="schedule">스케줄</string>
 
 </resources>

@@ -96,7 +96,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                 typeface = AppTheme.textFont
                 setLineSpacing(defaulMargin, 1f)
-                setPadding((leftPadding + defaulMargin).toInt(), (defaulMargin * 3).toInt(), defaultPadding, (defaulMargin * 4).toInt())
+                setPadding((leftPadding + defaulMargin).toInt(), (defaulMargin * 3).toInt(), defaultPadding, 0)
                 when(TimeObject.Style.values()[timeObject.style]){
                     RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
                         paintColor = AppTheme.getColor(timeObject.colorKey)
@@ -203,7 +203,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     val width =  mRight - mLeft - defaulMargin
                     measure(View.MeasureSpec.makeMeasureSpec(width.toInt(), View.MeasureSpec.EXACTLY), heightMeasureSpec)
                     //l("${timeObject.title} 라인 : "+((paint.measureText(text.toString()) / width).toInt() + 1))
-                    measuredHeight
+                    measuredHeight + (defaulMargin * 2).toInt()
                 }
                 TERM -> {
                     textSpaceWidth = paint.measureText(text.toString())

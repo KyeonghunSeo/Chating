@@ -8,6 +8,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
@@ -25,8 +26,6 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_briefing, this, true)
-        rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-
         alarmSwitch.setOnCheckedChangeListener { compoundButton, check ->
             if(check) {
                 AlarmManager.unRegistBrifingAlarm()
@@ -105,24 +104,15 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun refreshTodayView(todayOffset: Int) {
-        todayText.text = CalendarView.todayCal.get(Calendar.DATE).toString()
-        val animSet = AnimatorSet()
+        //todayText.text = CalendarView.todayCal.get(Calendar.DATE).toString()
+        TransitionManager.beginDelayedTransition(this, makeFromTopSlideTransition())
         when {
-            todayOffset > 0 -> {
-                animSet.playTogether(ObjectAnimator.ofFloat(todayImg, "rotation", todayImg.rotation, 15f),
-                        ObjectAnimator.ofFloat(todayText, "rotation",todayText.rotation, 15f))
-            }
-            todayOffset < 0 -> {
-                animSet.playTogether(ObjectAnimator.ofFloat(todayImg, "rotation", todayImg.rotation, -15f),
-                        ObjectAnimator.ofFloat(todayText, "rotation",todayText.rotation, -15f))
+            todayOffset != 0 -> {
+                flagLy.visibility = View.GONE
             }
             else -> {
-                animSet.playTogether(ObjectAnimator.ofFloat(todayImg, "rotation", todayImg.rotation, 0f),
-                        ObjectAnimator.ofFloat(todayText, "rotation",todayText.rotation, 0f))
+                flagLy.visibility = View.VISIBLE
             }
         }
-        animSet.interpolator = FastOutSlowInInterpolator()
-        animSet.duration = CalendarView.animDur
-        animSet.start()
     }
 }

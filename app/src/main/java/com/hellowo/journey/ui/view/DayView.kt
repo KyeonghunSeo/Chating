@@ -49,11 +49,16 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                                         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
     companion object {
-        const val headerTextScale = 2.3f
-        val datePosX = dpToPx(11f)
-        val datePosY = -dpToPx(8f)
+        const val headerTextScale = 5f
+        val datePosX = dpToPx(10f)
+        val datePosY = -dpToPx(10f)
+        val dowPosX = -dpToPx(2f)
+        val dowPosY = dpToPx(3f)
+        val holiPosX = dpToPx(12.5f)
+        val holiPosY = -dpToPx(7f)
         val startZ = dpToPx(10f)
         val endZ = dpToPx(0f)
+        val subScale = 0.35f
     }
     private var timeObjectList: RealmResults<TimeObject>? = null
     private val eventList = ArrayList<TimeObject>()
@@ -101,11 +106,16 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         radius = 0f
         dateText.typeface = CalendarManager.selectFont
         dowText.typeface = CalendarManager.selectFont
+        holiText.typeface = CalendarManager.selectFont
         dateLy.clipChildren = false
         dateLy.scaleY = CalendarView.selectedDateScale
         dateLy.scaleX = CalendarView.selectedDateScale
         dateLy.pivotX = 0f
         dateLy.pivotY = 0f
+        dowText.pivotX = 0f
+        dowText.pivotY = 0f
+        holiText.pivotX = 0f
+        holiText.pivotY = 0f
         (dateLy.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.NO_GRAVITY
         bar.visibility = View.GONE
 /*
@@ -132,7 +142,6 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
 
     fun notifyDateChanged(offset: Int) {
         setDateText()
-
         calendarView.targetCal.let { cal ->
             startTime = getCalendarTime0(cal)
             endTime = getCalendarTime23(cal)
@@ -269,7 +278,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
 
     private fun setDateText() {
         calendarView.let {
-            dateText.text = String.format("%01d", it.targetCal.get(Calendar.DATE))
+            dateText.text = String.format("%02d", it.targetCal.get(Calendar.DATE))
             dowText.text = AppDateFormat.dow.format(it.targetCal.time)
 
             val lunarCalendar = KoreanLunarCalendar.getInstance()
@@ -285,10 +294,13 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             dateText.setTextColor(color)
             dowText.setTextColor(color)
             holiText.setTextColor(color)
-            if(holi.isNullOrEmpty()) {
-                holiText.text = ""
-            }else {
+
+            if(!holi.isNullOrEmpty()) {
                 holiText.text = holi
+            }else if(lunarCalendar.lunarDay == 1 || lunarCalendar.lunarDay == 10 || lunarCalendar.lunarDay == 20) {
+                holiText.text = lunarCalendar.lunarSimpleFormat
+            }else {
+                holiText.text = ""
             }
         }
     }
@@ -333,8 +345,16 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                                     ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f),
                                     ObjectAnimator.ofFloat(dateLy, "scaleX", dateLy.scaleX, headerTextScale),
                                     ObjectAnimator.ofFloat(dateLy, "scaleY", dateLy.scaleY, headerTextScale),
+                                    ObjectAnimator.ofFloat(dowText, "scaleX", 1f, subScale),
+                                    ObjectAnimator.ofFloat(dowText, "scaleY", 1f, subScale),
+                                    ObjectAnimator.ofFloat(holiText, "scaleX", 1f, subScale),
+                                    ObjectAnimator.ofFloat(holiText, "scaleY", 1f, subScale),
                                     ObjectAnimator.ofFloat(dateLy, "translationX", dateLy.translationX, datePosX),
-                                    ObjectAnimator.ofFloat(dateLy, "translationY", dateLy.translationY, datePosY))
+                                    ObjectAnimator.ofFloat(dateLy, "translationY", dateLy.translationY, datePosY),
+                                    ObjectAnimator.ofFloat(dowText, "translationX", 0f, dowPosX),
+                                    ObjectAnimator.ofFloat(dowText, "translationY", 0f, dowPosY),
+                                    ObjectAnimator.ofFloat(holiText, "translationX", 0f, holiPosX),
+                                    ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY))
                             animSet.duration = ANIM_DUR
                             animSet.interpolator = FastOutSlowInInterpolator()
                             animSet.start()
@@ -392,8 +412,16 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                     animSet.playTogether(
                             ObjectAnimator.ofFloat(dateLy, "scaleX", dateLy.scaleX, CalendarView.selectedDateScale),
                             ObjectAnimator.ofFloat(dateLy, "scaleY", dateLy.scaleY, CalendarView.selectedDateScale),
+                            ObjectAnimator.ofFloat(dowText, "scaleX", subScale, 1f),
+                            ObjectAnimator.ofFloat(dowText, "scaleY", subScale, 1f),
+                            ObjectAnimator.ofFloat(holiText, "scaleX", subScale, 1f),
+                            ObjectAnimator.ofFloat(holiText, "scaleY", subScale, 1f),
                             ObjectAnimator.ofFloat(dateLy, "translationX", dateLy.translationX, 0f),
-                            ObjectAnimator.ofFloat(dateLy, "translationY", dateLy.translationY, 0f))
+                            ObjectAnimator.ofFloat(dateLy, "translationY", dateLy.translationY, 0f),
+                            ObjectAnimator.ofFloat(dowText, "translationX", dowPosX, 0f),
+                            ObjectAnimator.ofFloat(dowText, "translationY", dowPosY, 0f),
+                            ObjectAnimator.ofFloat(holiText, "translationX", holiPosX, 0f),
+                            ObjectAnimator.ofFloat(holiText, "translationY", holiPosY, 0f))
                     animSet.duration = ANIM_DUR
                     animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.start()

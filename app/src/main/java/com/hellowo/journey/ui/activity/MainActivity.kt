@@ -132,9 +132,13 @@ class MainActivity : BaseActivity() {
                 }
                 briefingView.refreshTodayView(calendarView.todayStatus)
                 if(calendarView.todayStatus == 0) {
-                    todayText.text = "Today's Briefing"
+                    todayText.text = getString(R.string.todays_briefing)
+                    todayText.setTextColor(AppTheme.primaryColor)
+                    todayBtn.cardElevation = dpToPx(1f)
                 }else {
-                    todayText.text = "Today"
+                    todayText.text = getString(R.string.go_today)
+                    todayText.setTextColor(AppTheme.disableText)
+                    todayBtn.cardElevation = dpToPx(0f)
                 }
             }else {
                 TransitionManager.beginDelayedTransition(templateControlView, makeFromBottomSlideTransition())
@@ -182,6 +186,8 @@ class MainActivity : BaseActivity() {
         dayView.onVisibility = { show ->
             //if(show || !calendarView.isTop()) topBar.elevation = dpToPx(0f)
             //else topBar.elevation = dpToPx(2f)
+            if(show) calendarBtn.setImageResource(R.drawable.sharp_calendar_black_48dp)
+            else calendarBtn.setImageResource(R.drawable.sharp_event_black_48dp)
         }
         calendarLy.addView(dayView, calendarLy.indexOfChild(calendarLy))
     }
@@ -210,7 +216,11 @@ class MainActivity : BaseActivity() {
 
     private fun initBtns() {
         calendarBtn.setOnClickListener {
-            if(viewModel.currentTab.value != 0) viewModel.currentTab.value = 0
+            if(viewModel.currentTab.value == 0) {
+                if(dayView.isOpened()) dayView.hide()
+                else dayView.show()
+            }
+            else viewModel.currentTab.value = 0
         }
 
         keepBtn.setOnClickListener {

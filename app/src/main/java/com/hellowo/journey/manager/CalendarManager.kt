@@ -378,7 +378,7 @@ object CalendarManager {
     }
 
     private fun drawDot(view: TimeObjectView, paint: Paint, canvas: Canvas) {
-        val radius = dotSize / 3f
+        val radius = dotSize / 2.5f
         val centerY = (blockTypeSize - defaulMargin) / 2
         canvas.drawCircle(leftPadding.toFloat() / 2f + defaulMargin, centerY, radius, paint)
     }
@@ -405,11 +405,11 @@ object CalendarManager {
 
     private fun drawHyphen(view: TimeObjectView, paint: Paint, canvas: Canvas) {
         val radius = dotSize / 2f
-        val centerY = blockTypeSize / 2f
+        val centerY = blockTypeSize / 1.9f
         canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
-                centerY - strokeWidth / 2.5f,
+                centerY - strokeWidth / 2.0f,
                 leftPadding.toFloat() / 2f + defaulMargin + radius,
-                centerY + strokeWidth / 2.5f, paint)
+                centerY + strokeWidth / 2.0f, paint)
     }
 
     private fun drawRoundCheckBox(view: TimeObjectView, centerY: Float, canvas: Canvas) {

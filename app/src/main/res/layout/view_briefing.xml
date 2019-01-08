@@ -2,20 +2,21 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rootLy"
-    android:animateLayoutChanges="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <FrameLayout
+        android:id="@+id/flagLy"
         android:background="?android:attr/selectableItemBackground"
         android:layout_width="50dp"
         android:layout_height="50dp">
 
         <ImageView
             android:id="@+id/todayImg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/flag_today"
             android:tint="@color/primaryText"/>
 
         <TextView
@@ -27,8 +28,7 @@
             android:textSize="11dp"
             android:gravity="center"
             android:textColor="@color/primaryText"
-            android:fontFamily="@font/regular"
-            android:text="31"/>
+            android:fontFamily="@font/regular"/>
 
     </FrameLayout>
 
