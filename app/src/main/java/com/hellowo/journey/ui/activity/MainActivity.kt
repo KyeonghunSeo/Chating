@@ -189,7 +189,7 @@ class MainActivity : BaseActivity() {
             if(show) calendarBtn.setImageResource(R.drawable.sharp_calendar_black_48dp)
             else calendarBtn.setImageResource(R.drawable.sharp_event_black_48dp)
         }
-        calendarLy.addView(dayView, calendarLy.indexOfChild(calendarLy))
+        calendarLy.addView(dayView, calendarLy.indexOfChild(calendarView) + 1)
     }
 
     private fun initDetailView() {
@@ -218,7 +218,7 @@ class MainActivity : BaseActivity() {
         calendarBtn.setOnClickListener {
             if(viewModel.currentTab.value == 0) {
                 if(dayView.isOpened()) dayView.hide()
-                else dayView.show()
+                else if(dayView.viewMode == ViewMode.CLOSED) dayView.show()
             }
             else viewModel.currentTab.value = 0
         }

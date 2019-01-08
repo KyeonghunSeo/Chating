@@ -175,7 +175,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
                 if(timeObject.inCalendar && currentType.ordinal != timeObject.type) {
                     currentType = TimeObject.Type.values()[timeObject.type]
                     when(currentType) {
-                        //TASK -> setTypeMargin(dpToPx(4f), currentType)
+                        //TASK -> setTypeMargin(dpToPx(0f), currentType)
                         //STAMP, MONEY -> setTypeMargin(dpToPx(3f), currentType)
                         //NOTE -> setTypeMargin(dpToPx(3f), currentType)
                         TERM -> addBottomMargin(dpToPx(10f))
@@ -251,7 +251,11 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
     }
 
     private fun setTypeMargin(margin: Float, type: TimeObject.Type) {
-        viewHolderList.filter { it.timeObject.type == type.ordinal }.distinctBy { it.startCellNum }.forEach {
+        viewHolderList.asSequence()
+                .filter { it.timeObject.type == type.ordinal }
+                .distinctBy { it.startCellNum }
+                .toList()
+                .forEach {
             if(cellBottomArray[it.startCellNum] > drawStartYOffset) cellBottomArray[it.startCellNum] += margin
         }
     }

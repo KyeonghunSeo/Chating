@@ -94,11 +94,6 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
         v.dotImg.setColorFilter(timeObject.getColor())
 
         if(timeObject.allday || timeObject.dtStart < getCalendarTime0(currentCal)) {
-            (v.dotImg.layoutParams as FrameLayout.LayoutParams).let {
-                it.height = dotSize * 2
-                it.topMargin = dotTopMargin - dotSize / 2
-                v.dotImg.requestLayout()
-            }
             tempCal.timeInMillis = timeObject.dtStart
             val totalDate = getDiffDate(timeObject.dtStart, timeObject.dtEnd) + 1
             val toDateNum = getDiffDate(tempCal, currentCal)
@@ -109,14 +104,21 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
                 v.timeText.visibility = View.GONE
             }
         }else {
-            (v.dotImg.layoutParams as FrameLayout.LayoutParams).let {
-                it.height = dotSize
-                it.topMargin = dotTopMargin
-                v.dotImg.requestLayout()
-            }
             v.timeText.visibility = View.VISIBLE
-            v.timeText.text = "${AppDateFormat.time.format(Date(timeObject.dtStart))}\n~" +
-                    "         \n${AppDateFormat.time.format(Date(timeObject.dtEnd))}"
+            v.timeText.text = "${AppDateFormat.time.format(Date(timeObject.dtStart))} ~ " +
+                    "${AppDateFormat.time.format(Date(timeObject.dtEnd))}"
+        }
+
+        if(position == 0) {
+            v.upperTimeLine.visibility = View.GONE
+        }else {
+            v.upperTimeLine.visibility = View.VISIBLE
+        }
+
+        if(position == items.size - 1) {
+            v.bottomTimeLine.visibility = View.GONE
+        }else {
+            v.bottomTimeLine.visibility = View.VISIBLE
         }
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }

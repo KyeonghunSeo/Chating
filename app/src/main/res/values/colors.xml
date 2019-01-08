@@ -43,7 +43,7 @@
     <color name="t1_transitionDimWhite">#cce0e0d7</color>
 
     <color name="black">#000000</color>
-    <color name="whiteAlpha">#f4FFFFFF</color>
+    <color name="whiteAlpha">#f0FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="almostWhite">#F4F4F4</color>
     <color name="red">#b30000</color>

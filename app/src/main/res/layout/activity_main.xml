@@ -71,14 +71,14 @@
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="58dp"
-            android:layout_marginBottom="50dp">
+            android:layout_marginTop="58dp">
         </com.hellowo.journey.ui.view.CalendarView>
 
         <FrameLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="@color/whiteAlpha"
             android:layout_gravity="bottom">
 
             <LinearLayout

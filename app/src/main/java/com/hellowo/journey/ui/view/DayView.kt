@@ -50,8 +50,8 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     : CardView(context, attrs, defStyleAttr) {
     companion object {
         const val headerTextScale = 5f
-        val datePosX = dpToPx(10f)
-        val datePosY = -dpToPx(10f)
+        val datePosX = dpToPx(9f)
+        val datePosY = -dpToPx(13f)
         val dowPosX = -dpToPx(2f)
         val dowPosY = dpToPx(3f)
         val holiPosX = dpToPx(12.5f)
@@ -362,7 +362,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                     })
                     TransitionManager.beginDelayedTransition(this@DayView, transiion)
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, dpToPx(50), 0, mainBarHeight)
+                        setMargins(0, dpToPx(50), 0, 0)
                     }
                 }
                 override fun onAnimationCancel(p0: Animator?) {}

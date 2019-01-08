@@ -62,6 +62,13 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
         v.checkBox.addValueCallback<ColorFilter>(keyPath, LottieProperty.COLOR_FILTER, callback)
         */
 
+        if(timeObject.tags.isNotEmpty()) {
+            v.tagText.visibility = View.VISIBLE
+            v.tagText.text = timeObject.tags.joinToString("") { "#${it.id}" }
+        }else {
+            v.tagText.visibility = View.GONE
+        }
+
         v.titleText.text = if(timeObject.title.isNullOrBlank()) {
             context.getString(R.string.untitle)
         }else {
@@ -114,6 +121,7 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
     }
 
     fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        /* 완료된거 안움직이는 로직
         val target = items[fromPosition]
         if(!target.isDone()) {
             val limitIndex = items.indexOf(items.last { !it.isDone() })
@@ -124,6 +132,10 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
             }
         }
         return false
+        */
+        Collections.swap(items, fromPosition, toPosition)
+        notifyItemMoved(fromPosition, toPosition)
+        return true
     }
 
     inner class SimpleItemTouchHelperCallback(private val mAdapter: TaskListAdapter) : ItemTouchHelper.Callback() {
@@ -171,7 +183,8 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
                 }
             }else if(reordering && actionState == ItemTouchHelper.ACTION_STATE_IDLE){
                 reordering = false
-                TimeObjectManager.reorder(items.filter { !it.isDone() })
+                //TimeObjectManager.reorder(items.filter { !it.isDone() })
+                TimeObjectManager.reorder(items)
             }
 
             super.onSelectedChanged(viewHolder, actionState)

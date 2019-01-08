@@ -22,38 +22,34 @@
         android:layout_height="wrap_content"
         android:background="@color/background">
 
-        <TextView
-            android:id="@+id/timeText"
-            android:layout_width="46dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="9dp"
-            android:gravity="right"
-            android:textColor="@color/primaryText"
-            android:fontFamily="@font/thin"
-            android:text="4시 ~ 5시"/>
-
         <FrameLayout
-            android:layout_width="6dp"
+            android:layout_width="10dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="64dp">
+            android:layout_marginLeft="24dp">
 
             <View
-                android:layout_width="0.7dp"
-                android:layout_height="match_parent"
+                android:id="@+id/upperTimeLine"
+                android:layout_width="2dp"
+                android:layout_height="20.5dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@color/disableText"/>
+                android:background="@color/almostWhite"/>
+
+            <View
+                android:id="@+id/bottomTimeLine"
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="29.5dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/almostWhite"/>
 
             <ImageView
                 android:id="@+id/dotImg"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="19dp"
+                android:layout_marginTop="19.5dp"
                 android:tint="@color/disableText"
-                android:src="@drawable/grey_rect_fill_radius_4"/>
+                android:src="@drawable/circle_fill"/>
 
         </FrameLayout>
 
@@ -62,15 +58,16 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="right"
-            android:layout_margin="14.5dp"/>
+            android:layout_margin="14.5dp"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14.5dp"
-            android:layout_marginBottom="14.5dp"
-            android:layout_marginLeft="82dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:layout_marginLeft="48dp"
             android:layout_marginRight="80dp">
 
             <LinearLayout
@@ -79,13 +76,26 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/timeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="3dp"
+                    android:textSize="12dp"
+                    android:gravity="right"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/regular"
+                    android:text="4시 ~ 5시"/>
+
+                <TextView
                     android:id="@+id/tagText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12dp"
+                    android:layout_marginTop="2dp"
                     android:layout_marginBottom="3dp"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="@font/thin"
+                    android:fontFamily="@font/regular"
                     android:text="#love#peace"/>
 
                 <TextView
@@ -94,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="@font/thin"
+                    android:fontFamily="@font/regular"
                     android:text="titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle"/>
 
             </LinearLayout>

@@ -12,5 +12,8 @@ class ListDiffCallback(private val oldList: List<TimeObject>, private val newLis
     override fun getNewListSize(): Int = newList.size
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean
-            = oldList[oldItemPosition] == newList[newItemPosition]
+            = oldList[oldItemPosition] == newList[newItemPosition] &&
+            !((oldItemPosition == 0 && newItemPosition != 0 || oldItemPosition != 0 && newItemPosition == 0)
+             || (oldItemPosition == oldList.size - 1 && newItemPosition != newList.size - 1
+                    || oldItemPosition != oldList.size - 1 && newItemPosition == newList.size - 1))
 }
