@@ -42,7 +42,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val outDateAlpha = 0f
         val todayCal: Calendar = Calendar.getInstance()
         val dateArea = dpToPx(30f)
-        val weekLyBottomPadding = dpToPx(10)
+        val weekLyBottomPadding = dpToPx(20)
         val calendarPadding = dpToPx(10)
         val autoPagingThreshold = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
@@ -291,8 +291,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun onDateClick(cellNum: Int) {
-        tempCal.timeInMillis = cellTimeMills[cellNum]
-        selectDate(cellNum, selectCellNum == cellNum)
+        if(cellNum in startCellNum..endCellNum) {
+            tempCal.timeInMillis = cellTimeMills[cellNum]
+            selectDate(cellNum, selectCellNum == cellNum)
+        }
     }
 
     fun unselectDate(cellNum: Int) {

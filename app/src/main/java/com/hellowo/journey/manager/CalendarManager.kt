@@ -110,7 +110,7 @@ object CalendarManager {
             else -> {
                 if(view.length > 1) {
                     paint.alpha = 25
-                    canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+                    canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), rectRadius, rectRadius, paint)
                     paint.alpha = 255
                 }
             }

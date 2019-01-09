@@ -282,14 +282,14 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
                     && TimeObjectManager.lastUpdatedItem?.id == holder.timeObject.id) {
                 TimeObjectManager.lastUpdatedItem = null
                 holder.timeObjectViewList.forEach {
-                    val lastAlpha = if(isOutDate(it)) 1f else 0.1f
+                    val lastAlpha = if(isOutDate(it)) 1f else 0.0f
                     it.alpha = 0f
                     calendarView.dateCells[it.cellNum].addView(it)
                     it.post { showInsertAnimation(it, lastAlpha) }
                 }
             }else {
                 holder.timeObjectViewList.forEach {
-                    it.alpha = if(isOutDate(it)) 1f else 0.1f
+                    it.alpha = if(isOutDate(it)) 1f else 0.0f
                     calendarView.dateCells[it.cellNum].addView(it)
                 }
             }

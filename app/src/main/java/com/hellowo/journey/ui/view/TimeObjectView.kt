@@ -27,7 +27,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val strokeWidth = dpToPx(1f) // 선
         val defaultPadding = dpToPx(2)
         val leftPadding = dpToPx(9)
-        val rectRadius = dpToPx(2f)
+        val rectRadius = dpToPx(1.5f)
         val stampSize = dpToPx(17)
         val blockTypeSize = dpToPx(16)
         val dotSize = dpToPx(3)
