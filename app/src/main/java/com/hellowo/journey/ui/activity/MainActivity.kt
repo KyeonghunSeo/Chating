@@ -133,12 +133,8 @@ class MainActivity : BaseActivity() {
                 briefingView.refreshTodayView(calendarView.todayStatus)
                 if(calendarView.todayStatus == 0) {
                     todayText.text = getString(R.string.todays_briefing)
-                    todayText.setTextColor(AppTheme.primaryColor)
-                    todayBtn.cardElevation = dpToPx(1f)
                 }else {
-                    todayText.text = getString(R.string.go_today)
-                    todayText.setTextColor(AppTheme.disableText)
-                    todayBtn.cardElevation = dpToPx(0f)
+                    todayText.text = getString(R.string.today)
                 }
             }else {
                 TransitionManager.beginDelayedTransition(templateControlView, makeFromBottomSlideTransition())

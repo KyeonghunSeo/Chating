@@ -26,10 +26,10 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val defaulMargin = dpToPx(1f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
         val defaultPadding = dpToPx(2)
-        val leftPadding = dpToPx(8)
-        val rectRadius = dpToPx(1f)
+        val leftPadding = dpToPx(9)
+        val rectRadius = dpToPx(2f)
         val stampSize = dpToPx(17)
-        val blockTypeSize = dpToPx(15)
+        val blockTypeSize = dpToPx(16)
         val dotSize = dpToPx(3)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         val defaultTextColor = Color.parseColor("#90000000")
@@ -96,7 +96,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
                 typeface = AppTheme.textFont
                 setLineSpacing(defaulMargin, 1f)
-                setPadding((leftPadding + defaulMargin).toInt(), (defaulMargin * 3).toInt(), defaultPadding, 0)
+                setPadding((leftPadding + defaulMargin).toInt(), (defaulMargin * 2).toInt(), defaultPadding, 0)
                 when(TimeObject.Style.values()[timeObject.style]){
                     RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
                         paintColor = AppTheme.getColor(timeObject.colorKey)
@@ -108,7 +108,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     }
                     else -> {
                         paintColor = AppTheme.getColor(timeObject.colorKey)
-                        fontColor = AppTheme.primaryText
+                        fontColor = AppTheme.getColor(timeObject.colorKey)
                     }
                 }
                 setTextColor(fontColor)
@@ -203,7 +203,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     val width =  mRight - mLeft - defaulMargin
                     measure(View.MeasureSpec.makeMeasureSpec(width.toInt(), View.MeasureSpec.EXACTLY), heightMeasureSpec)
                     //l("${timeObject.title} 라인 : "+((paint.measureText(text.toString()) / width).toInt() + 1))
-                    measuredHeight + (defaulMargin * 2).toInt()
+                    measuredHeight + (defaulMargin * 3).toInt()
                 }
                 TERM -> {
                     textSpaceWidth = paint.measureText(text.toString())

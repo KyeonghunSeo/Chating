@@ -8,7 +8,7 @@
    <FrameLayout
        android:id="@+id/checkArea"
        android:layout_width="48dp"
-       android:layout_height="48dp">
+       android:layout_height="38dp">
 
       <ImageView
           android:id="@+id/checkBox"
@@ -25,8 +25,8 @@
        android:orientation="vertical"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_marginTop="14dp"
-       android:layout_marginBottom="14dp"
+       android:layout_marginTop="9dp"
+       android:layout_marginBottom="9dp"
        android:layout_marginLeft="48dp"
        android:layout_marginRight="120dp">
 

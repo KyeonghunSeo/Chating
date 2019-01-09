@@ -158,7 +158,8 @@ class RepeatDialog(private val activity: Activity, private val timeObject: TimeO
 
     private fun makeRepeatData() : String {
         jsonObject.put("freq", freq)
-        val i = intervalEdit.text.toString().toInt()
+        val i = if(intervalEdit.text.isNotEmpty()) intervalEdit.text.toString().toInt()
+        else 1
         interval = if(i > 1) i else 1
         jsonObject.put("interval", interval)
         jsonObject.put("weekNum", weekNum.toString())

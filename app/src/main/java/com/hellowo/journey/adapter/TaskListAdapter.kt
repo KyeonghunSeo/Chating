@@ -29,11 +29,6 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
-            /*
-            container.checkBox.imageAssetsFolder = "assets/"
-            container.checkBox.setAnimation("checked_done.json")
-            container.checkBox.visibility = View.GONE
-            */
         }
 
         fun onItemSelected() {
@@ -51,16 +46,6 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val timeObject = items[position]
         val v = holder.itemView
-
-        /*
-        v.checkBox.setOnClickListener {
-            v.checkBox.playAnimation()
-        }
-        val filter = SimpleColorFilter(timeObject.getColor())
-        val keyPath = KeyPath("**")
-        val callback = LottieValueCallback<ColorFilter>(filter)
-        v.checkBox.addValueCallback<ColorFilter>(keyPath, LottieProperty.COLOR_FILTER, callback)
-        */
 
         if(timeObject.tags.isNotEmpty()) {
             v.tagText.visibility = View.VISIBLE
@@ -106,10 +91,10 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
 
         if(timeObject.isDone()) {
             v.checkBox.setImageResource(R.drawable.sharp_check_box_black_48dp)
-            v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            //v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }else {
             v.checkBox.setImageResource(R.drawable.sharp_check_box_outline_blank_black_48dp)
-            v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
+            //v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
