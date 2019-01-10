@@ -621,7 +621,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
                 DragEvent.ACTION_DROP -> {
                     if(MainDragAndDropListener.dragMode == MainDragAndDropListener.DragMode.INSERT) {
-                        MainActivity.instance?.viewModel?.makeNewTimeObject(startDragTime, endDragTime)
+                        if(endDragTime < startDragTime) {
+                            val t = startDragTime
+                            startDragTime = endDragTime
+                            endDragTime = t
+                        }
+                        MainActivity.instance?.expandControlView(startDragTime, endDragTime)
                     }
                 }
             }

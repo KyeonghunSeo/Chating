@@ -52,6 +52,8 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
         val timeObject = items[position]
         val v = holder.itemView
 
+        v.topDivider.setBackgroundColor(timeObject.getColor())
+
         if(timeObject.tags.isNotEmpty()) {
             v.tagText.visibility = View.VISIBLE
             v.tagText.text = timeObject.tags.joinToString("") { "#${it.id}" }
@@ -65,16 +67,19 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
             timeObject.title
         }
 
+        if(timeObject.location.isNullOrBlank()) {
+            v.locationText.visibility = View.GONE
+        }else {
+            v.locationText.visibility = View.VISIBLE
+            v.locationText.text = timeObject.location
+        }
+
         val finishTexs = StringBuilder()
 
-        if(!timeObject.location.isNullOrBlank()) {
-            finishTexs.append("${timeObject.location?.substringBefore("\n")}\n")
-        }
         val updatedDate = Date(timeObject.dtUpdated)
-        finishTexs.append("${AppDateFormat.ymdeDate.format(updatedDate)} ${AppDateFormat.time.format(updatedDate)}")
+        finishTexs.append("${context.getString(R.string.last_modify)} : " +
+                "${AppDateFormat.ymdeDate.format(updatedDate)} ${AppDateFormat.time.format(updatedDate)}")
         v.finishText.text = finishTexs.toString()
-
-        v.topDivider.setBackgroundColor(timeObject.getColor())
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
         v.setOnLongClickListener {

@@ -15,13 +15,76 @@
         android:visibility="invisible">
     </View>
 
+    <LinearLayout
+        android:id="@+id/dateLy"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/startDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/bold"
+                android:textSize="28dp"
+                android:text="2018"/>
+
+            <TextView
+                android:id="@+id/endDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/bold"
+                android:textSize="28dp"
+                android:text="2019"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/durationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/bold"
+            android:textSize="80dp"
+            android:text=""/>
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/listLy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="160dp"
+        android:layout_marginBottom="140dp"
+        android:clipChildren="false">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:clipChildren="false">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </FrameLayout>
+    
+    <LinearLayout
+        android:id="@+id/controlLy"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="150dp"
-        android:clipChildren="false">
+        android:layout_gravity="bottom">
 
         <LinearLayout
             android:id="@+id/addNewBtn"
@@ -72,26 +135,6 @@
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:clipChildren="false">
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </FrameLayout>
-    
-    <LinearLayout
-        android:id="@+id/controlLy"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:layout_gravity="bottom|right"
-        android:animateLayoutChanges="true"
-        android:clipToPadding="false">
-
         <androidx.cardview.widget.CardView
             android:id="@+id/decoBtn"
             android:layout_width="50dp"
@@ -111,26 +154,27 @@
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/addBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="25dp"
-            app:cardBackgroundColor="@color/primaryText"
-            app:cardCornerRadius="25dp"
-            app:cardElevation="8dp">
-
-            <ImageView
-                android:id="@+id/templateIconImg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="13dp"
-                android:src="@drawable/sharp_add_black_48dp"
-                android:tint="@color/white"/>
-
-        </androidx.cardview.widget.CardView>
-
     </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/addBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="75dp"
+        app:cardBackgroundColor="@color/primaryText"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="8dp">
+
+        <ImageView
+            android:id="@+id/templateIconImg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="13dp"
+            android:src="@drawable/sharp_add_black_48dp"
+            android:tint="@color/white"/>
+
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

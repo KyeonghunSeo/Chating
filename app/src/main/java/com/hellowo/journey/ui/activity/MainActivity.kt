@@ -98,7 +98,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initLayout() {
-        todayText.typeface = AppTheme.boldFont
         yearText.typeface = AppTheme.boldFont
         monthText.typeface = AppTheme.boldFont
         calendarLy.setBackgroundColor(AppTheme.backgroundColor)
@@ -131,11 +130,6 @@ class MainActivity : BaseActivity() {
                     dayView.notifyDateChanged(0)
                 }
                 briefingView.refreshTodayView(calendarView.todayStatus)
-                if(calendarView.todayStatus == 0) {
-                    todayText.text = getString(R.string.todays_briefing)
-                }else {
-                    todayText.text = getString(R.string.today)
-                }
             }else {
                 TransitionManager.beginDelayedTransition(templateControlView, makeFromBottomSlideTransition())
                 templateControlView.visibility = View.INVISIBLE
@@ -197,13 +191,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initBriefingView() {
-        todayBtn.setOnClickListener {
-            if(calendarView.todayStatus != 0) {
-                calendarView.moveDate(System.currentTimeMillis(), true)
-            }else {
-                briefingView.show()
-            }
-        }
     }
 
     private fun initTemplateView() {
@@ -304,12 +291,10 @@ class MainActivity : BaseActivity() {
 
         viewModel.targetFolder.observe(this, Observer { folder ->
             if (folder != null) {
-                templateControlView.hideDecoBtn()
                 if (keepView.viewMode == ViewMode.CLOSED) {
                     keepView.show()
                 }
             } else {
-                templateControlView.showDecoBtn()
                 keepView.hide()
             }
         })
@@ -423,6 +408,10 @@ class MainActivity : BaseActivity() {
         try {
             startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), requestCode)
         } catch (ex: android.content.ActivityNotFoundException) { ex.printStackTrace() }
+    }
+
+    fun expandControlView(dtStart: Long, dtEnd: Long) {
+        templateControlView.expand(dtStart, dtEnd)
     }
 
     override fun onBackPressed() {

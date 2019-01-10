@@ -256,7 +256,7 @@ class RepeatDialog(private val activity: Activity, private val timeObject: TimeO
             }
             1 -> {
                 intervalLy.visibility = View.VISIBLE
-                intervalText.text = String.format(context.getString(R.string.weekly_interval), "")
+                intervalText.text = String.format(context.getString(R.string.weekly_interval), "", " ")
 
                 weeklyLy.visibility = View.VISIBLE
                 monthlyLy.visibility = View.GONE

@@ -379,7 +379,7 @@ object CalendarManager {
     }
 
     private fun drawDot(view: TimeObjectView, paint: Paint, canvas: Canvas) {
-        val radius = dotSize / 2.0f
+        val radius = dotSize / 2.3f
         val centerY = (blockTypeSize - defaulMargin) / 2
         canvas.drawCircle(leftPadding.toFloat() / 2f + defaulMargin, centerY, radius, paint)
     }
@@ -399,6 +399,8 @@ object CalendarManager {
         paint.style = Paint.Style.FILL
         if(view.timeObject.isDone()) {
             //view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            /*canvas.drawLine(leftPadding.toFloat() / 2f + defaulMargin + radius, centerY - radius,
+                    leftPadding.toFloat() / 2f + defaulMargin - radius, centerY + radius, paint)*/
             canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
                     centerY - radius,
                     leftPadding.toFloat() / 2f + defaulMargin + radius,
@@ -409,12 +411,12 @@ object CalendarManager {
     }
 
     private fun drawHyphen(view: TimeObjectView, paint: Paint, canvas: Canvas) {
-        val radius = dotSize / 2f
+        val radius = dotSize / 2.3f
         val centerY = blockTypeSize / 2.1f
         canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
-                centerY - strokeWidth / 2.0f,
+                centerY - strokeWidth / 1.8f,
                 leftPadding.toFloat() / 2f + defaulMargin + radius,
-                centerY + strokeWidth / 2.0f, paint)
+                centerY + strokeWidth / 1.8f, paint)
     }
 
     private fun drawRectCheckBox(view: TimeObjectView, centerY: Float, canvas: Canvas) {

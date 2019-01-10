@@ -27,10 +27,10 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val strokeWidth = dpToPx(1f) // 선
         val defaultPadding = dpToPx(2)
         val leftPadding = dpToPx(9)
-        val rectRadius = dpToPx(1.5f)
+        val rectRadius = dpToPx(1f)
         val stampSize = dpToPx(17)
         val blockTypeSize = dpToPx(16)
-        val dotSize = dpToPx(3)
+        val dotSize = dpToPx(4)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         val defaultTextColor = Color.parseColor("#90000000")
     }
@@ -92,11 +92,12 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setTextColor(fontColor)
             }
             NOTE -> {
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
-                text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.empty_note)
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
+                text = if(!timeObject.title.isNullOrBlank()) timeObject.title?.replace(System.getProperty("line.separator"), " ")
+                else context.getString(R.string.empty_note)
                 typeface = AppTheme.textFont
                 setLineSpacing(defaulMargin, 1f)
-                setPadding((leftPadding + defaulMargin).toInt(), (defaulMargin * 2).toInt(), defaultPadding, 0)
+                setPadding((leftPadding + defaulMargin).toInt(), (defaulMargin * 3).toInt(), defaultPadding, 0)
                 when(TimeObject.Style.values()[timeObject.style]){
                     RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
                         paintColor = AppTheme.getColor(timeObject.colorKey)
@@ -203,7 +204,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     val width =  mRight - mLeft - defaulMargin
                     measure(View.MeasureSpec.makeMeasureSpec(width.toInt(), View.MeasureSpec.EXACTLY), heightMeasureSpec)
                     //l("${timeObject.title} 라인 : "+((paint.measureText(text.toString()) / width).toInt() + 1))
-                    measuredHeight + (defaulMargin * 3).toInt()
+                    measuredHeight + (defaulMargin * 4).toInt()
                 }
                 TERM -> {
                     textSpaceWidth = paint.measureText(text.toString())

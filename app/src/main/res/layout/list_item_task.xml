@@ -59,23 +59,12 @@
       </LinearLayout>
 
       <TextView
-          android:id="@+id/repeatText"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="10dp"
-          android:textSize="12dp"
-          android:textColor="@color/secondaryText"
-          android:fontFamily="@font/thin"
-          android:maxLines="1"
-          android:text="반복" />
-
-      <TextView
           android:id="@+id/locationText"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginTop="10dp"
           android:textSize="12dp"
-          android:textColor="@color/secondaryText"
+          android:textColor="@color/primaryText"
           android:fontFamily="@font/thin"
           android:ellipsize="end"
           android:maxLines="2"
@@ -87,7 +76,7 @@
           android:layout_height="wrap_content"
           android:layout_marginTop="10dp"
           android:textSize="12dp"
-          android:textColor="@color/secondaryText"
+          android:textColor="@color/primaryText"
           android:fontFamily="@font/thin"
           android:ellipsize="end"
           android:maxLines="5"

@@ -1,8 +1,5 @@
 package com.hellowo.journey.ui.view
 
-import android.animation.Animator
-import android.animation.AnimatorSet
-import android.animation.LayoutTransition.CHANGING
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,14 +8,10 @@ import android.os.Handler
 import android.os.Message
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
-import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
@@ -31,70 +24,57 @@ import com.hellowo.journey.ui.activity.TemplateEditActivity
 import com.hellowo.journey.ui.dialog.TypePickerDialog
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.view_template_control.view.*
-import kotlin.math.exp
+import java.util.*
 
 class TemplateControlView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
-    private val itemWidth = dpToPx(90)
-    private val collapseSize = dpToPx(36)
-    private val scrolOffset = dpToPx(5)
-    val layoutManager = GridLayoutManager(context, 3)
+    private val startCal = Calendar.getInstance()
+    private val endCal = Calendar.getInstance()
+    val layoutManager = LinearLayoutManager(context)
     val items = ArrayList<Template>()
     var selectedPosition = 0
-    var clickFlag = false
     var autoScrollFlag = 0
-    var autoScrollSpeed = 0f
     var isExpanded = false
-    private val handler = @SuppressLint("HandlerLeak")
-    object : Handler() {
-        override fun handleMessage(msg: Message) {
-            when(msg.what) {
-                0 -> {
-                    vibrate(context)
-                    clickFlag = false
-                    addNew()
-                }
-                1 -> {
-                    when {
-                        autoScrollFlag > 0 -> {
-                            recyclerView.scrollBy((scrolOffset * autoScrollSpeed).toInt(), 0)
-                            this.sendEmptyMessageDelayed(1, 1)
-                        }
-                        autoScrollFlag < 0 -> {
-                            recyclerView.scrollBy((-scrolOffset * autoScrollSpeed).toInt(), 0)
-                            this.sendEmptyMessageDelayed(1, 1)
-                        }
-                    }
-                }
-                else -> {}
-            }
-        }
-    }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_template_control, this, true)
-        controlLy.layoutTransition.enableTransitionType(CHANGING)
-        listLy.visibility = View.INVISIBLE
+        dateLy.visibility = View.GONE
+        listLy.visibility = View.GONE
+        controlLy.visibility = View.GONE
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = TemplateAdapter(context, items) {
+        recyclerView.adapter = TemplateAdapter(context, items, startCal, endCal) {
             selectItem(it)
-            MainActivity.instance?.viewModel?.makeNewTimeObject()
+            MainActivity.instance?.viewModel?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
             collapseNoAnim()
         }
 
-        addBtn.setOnClickListener {
+        addBtn.setOnClickListener { _ ->
             if(isExpanded) {
                 collapse()
             }else {
-                expand()
+                MainActivity.instance?.viewModel?.targetTime?.value?.let { expand(it, it) }
             }
         }
 
-        editTemplateBtn.setOnClickListener { MainActivity.instance?.let {
+        editTemplateBtn.setOnClickListener { _ ->
+            MainActivity.instance?.let {
             it.startActivity(Intent(it, TemplateEditActivity::class.java)) }}
 
         addNewBtn.setOnClickListener { addNew() }
 
         callAfterViewDrawed(this, Runnable{ restoreViews() })
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setDate(dtStart: Long, dtEnd: Long) {
+        startCal.timeInMillis = dtStart
+        endCal.timeInMillis = dtEnd
+        startDateText.text = AppDateFormat.mdeDate.format(startCal.time)
+        if(isSameDay(startCal, endCal)) {
+            endDateText.text = ""
+        }else {
+            endDateText.text = "  ~ ${AppDateFormat.mdeDate.format(endCal.time)}"
+        }
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 
     private fun addNew() {
@@ -104,22 +84,26 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             }, true, true, true, false)}
     }
 
-    private fun expand() {
-        vibrate(context)
+    fun expand(dtStart: Long, dtEnd: Long) {
+        setDate(dtStart, dtEnd)
         val transitionSet = TransitionSet()
-        val t1 = makeFromBottomSlideTransition()
+        val t1 = makeFromRightSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
         t1.addTarget(listLy)
         t2.addTarget(backgroundLy)
+        t2.addTarget(dateLy)
+        t2.addTarget(controlLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
-        backgroundLy.visibility = View.VISIBLE
         backgroundLy.setBackgroundColor(AppTheme.backgroundColor)
         backgroundLy.setOnClickListener { collapse() }
         backgroundLy.isClickable = true
+        backgroundLy.visibility = View.VISIBLE
+        dateLy.visibility = View.VISIBLE
         listLy.visibility = View.VISIBLE
+        controlLy.visibility = View.VISIBLE
         ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f).start()
         elevation = dpToPx(11f)
         isExpanded = true
@@ -128,18 +112,22 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     fun collapse() {
         autoScrollFlag = 0
         val transitionSet = TransitionSet()
-        val t1 = makeFromBottomSlideTransition()
+        val t1 = makeFromRightSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
         t1.addTarget(listLy)
         t2.addTarget(backgroundLy)
+        t2.addTarget(dateLy)
+        t2.addTarget(controlLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
-        backgroundLy.visibility = View.INVISIBLE
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
-        listLy.visibility = View.INVISIBLE
+        backgroundLy.visibility = View.GONE
+        dateLy.visibility = View.GONE
+        listLy.visibility = View.GONE
+        controlLy.visibility = View.GONE
         ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f).start()
         elevation = dpToPx(0f)
         isExpanded = false
@@ -150,8 +138,10 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         templateIconImg.rotation = 0f
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
-        backgroundLy.visibility = View.INVISIBLE
-        listLy.visibility = View.INVISIBLE
+        backgroundLy.visibility = View.GONE
+        dateLy.visibility = View.GONE
+        listLy.visibility = View.GONE
+        controlLy.visibility = View.GONE
         elevation = dpToPx(0f)
         isExpanded = false
     }

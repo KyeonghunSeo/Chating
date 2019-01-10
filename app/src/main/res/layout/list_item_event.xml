@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical">
@@ -110,23 +111,12 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/repeatText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:textSize="12dp"
-                android:textColor="@color/secondaryText"
-                android:fontFamily="@font/thin"
-                android:maxLines="1"
-                android:text="반복" />
-
-            <TextView
                 android:id="@+id/locationText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:textSize="12dp"
-                android:textColor="@color/secondaryText"
+                android:textColor="@color/primaryText"
                 android:fontFamily="@font/thin"
                 android:ellipsize="end"
                 android:maxLines="2"
@@ -136,9 +126,9 @@
                 android:id="@+id/memoText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:textSize="12dp"
-                android:textColor="@color/secondaryText"
+                android:textColor="@color/primaryText"
                 android:fontFamily="@font/thin"
                 android:ellipsize="end"
                 android:maxLines="5"

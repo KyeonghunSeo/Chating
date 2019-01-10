@@ -22,8 +22,11 @@ import com.hellowo.journey.model.Template
 import com.hellowo.journey.ui.activity.MainActivity
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.view_template_control_ver1.view.*
+import java.util.*
 
 class TemplateControlViewVer1 @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+    private val startCal = Calendar.getInstance()
+    private val endCal = Calendar.getInstance()
     private val itemWidth = dpToPx(90)
     private val collapseSize = dpToPx(36)
     private val scrolOffset = dpToPx(5)
@@ -96,7 +99,7 @@ class TemplateControlViewVer1 @JvmOverloads constructor(context: Context, attrs:
                 }
             }
         })
-        recyclerView.adapter = TemplateAdapter(context, items) {
+        recyclerView.adapter = TemplateAdapter(context, items, startCal, endCal) {
             selectItem(it)
             MainActivity.instance?.viewModel?.makeNewTimeObject()
             postDelayed({collapse()}, 0)

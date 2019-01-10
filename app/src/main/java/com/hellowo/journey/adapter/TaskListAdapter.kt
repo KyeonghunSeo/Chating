@@ -54,18 +54,17 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
             v.tagText.visibility = View.GONE
         }
 
-        v.titleText.text = if(timeObject.title.isNullOrBlank()) {
-            context.getString(R.string.untitle)
+        val title = StringBuilder()
+        if(timeObject.title.isNullOrBlank()) {
+            title.append(context.getString(R.string.untitle))
         }else {
-            timeObject.title
+            title.append(timeObject.title?.trim())
         }
 
-        if(timeObject.repeat.isNullOrBlank()) {
-            v.repeatText.visibility = View.GONE
-        }else {
-            v.repeatText.visibility = View.VISIBLE
-            v.repeatText.text = RepeatManager.makeRepeatText(timeObject)
+        if(!timeObject.repeat.isNullOrBlank()) {
+            title.append(" (${ RepeatManager.makeRepeatText(timeObject)})")
         }
+        v.titleText.text = title
 
         if(timeObject.location.isNullOrBlank()) {
             v.locationText.visibility = View.GONE

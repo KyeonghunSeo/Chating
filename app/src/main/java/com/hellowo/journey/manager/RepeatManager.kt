@@ -12,11 +12,11 @@ object RepeatManager {
     private val instanceCal = Calendar.getInstance()
     private val dailyStr = "${App.context.getString(R.string.daily)} ${App.context.getString(R.string.repeat)}"
     private val dailyIntervalStr = App.context.getString(R.string.daily_interval)
-    private val weeklyStr = "${App.context.getString(R.string.weekly)} ${App.context.getString(R.string.repeat)}"
+    private val weeklyStr = "${App.context.getString(R.string.weekly)} %s ${App.context.getString(R.string.repeat)}"
     private val weeklyIntervalStr = App.context.getString(R.string.weekly_interval)
     private val monthlyStr = App.context.getString(R.string.monthly_interval)
     private val monthlyWStr = App.context.getString(R.string.monthly_w_interval)
-    private val yearlyStr = "${App.context.getString(R.string.yearly)} ${App.context.getString(R.string.repeat)}"
+    private val yearlyStr = "${App.context.getString(R.string.yearly)} %s ${App.context.getString(R.string.repeat)}"
     private val weekNumStr = App.context.getString(R.string.weekNum)
     private val untilStr = App.context.getString(R.string.until)
 
@@ -49,29 +49,29 @@ object RepeatManager {
                 }
             }
             1 -> {
-                if(interval > 1) {
-                    result.append(String.format(weeklyIntervalStr, interval))
-                }else {
-                    result.append(weeklyStr)
-                }
+                val dowBuilder = StringBuilder()
 
-                result.append("[")
                 if(weekNum != "0000000") {
                     var isFirst = true
                     weekNum.forEachIndexed { index, c ->
                         if(c == '1') {
                             if(isFirst) {
-                                result.append(AppDateFormat.dowString[index])
+                                dowBuilder.append(AppDateFormat.dowString[index])
                                 isFirst = false
                             }else {
-                                result.append(", ${AppDateFormat.dowString[index]}")
+                                dowBuilder.append(", ${AppDateFormat.dowString[index]}")
                             }
                         }
                     }
                 }else {
-                    result.append(AppDateFormat.dow.format(instanceCal.time))
+                    dowBuilder.append(AppDateFormat.dow.format(instanceCal.time))
                 }
-                result.append("]")
+
+                if(interval > 1) {
+                    result.append(String.format(weeklyIntervalStr, interval, " $dowBuilder "))
+                }else {
+                    result.append(String.format(weeklyStr, dowBuilder))
+                }
             }
             2 -> {
                 if(monthOption == 0) {
@@ -83,7 +83,7 @@ object RepeatManager {
                 }
             }
             3 -> {
-                result.append("$yearlyStr[${AppDateFormat.mdDate.format(instanceCal.time)}]")
+                result.append(String.format(yearlyStr, AppDateFormat.mdDate.format(instanceCal.time)))
             }
         }
 

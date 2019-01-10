@@ -84,7 +84,6 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:background="@color/whiteAlpha"
                 android:gravity="center_horizontal"
                 android:layout_height="50dp">
 
@@ -106,44 +105,10 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/todayBtn"
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="10dp"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="1dp">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/todayText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:includeFontPadding="false"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:fontFamily="@font/bold"
-                            android:textColor="@color/secondaryText"
-                            android:textSize="10dp"
-                            android:text="Today"/>
-
-                        <ImageView
-                            android:id="@+id/briefingImg"
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_marginRight="8dp"
-                            android:layout_gravity="right"
-                            android:src="@drawable/flag_today"
-                            android:tint="@color/secondaryText"/>
-
-                    </FrameLayout>
-
-                </androidx.cardview.widget.CardView>
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="30dp">
+                </View>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/nextBtn"
@@ -169,14 +134,12 @@
 
         <com.hellowo.journey.ui.view.BriefingView
             android:id="@+id/briefingView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="10dp"
-            app:cardBackgroundColor="@color/background"
-            app:cardElevation="0dp"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="10dp"
             app:cardCornerRadius="15dp"
-            android:visibility="visible">
+            app:cardElevation="1dp">
         </com.hellowo.journey.ui.view.BriefingView>
 
     </FrameLayout>

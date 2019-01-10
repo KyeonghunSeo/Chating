@@ -120,7 +120,7 @@
     <string name="yearly">매년</string>
 
     <string name="daily_interval">%1$s일 간격으로 반복</string>
-    <string name="weekly_interval">%1$s주 간격으로 반복</string>
+    <string name="weekly_interval">%1$s주 간격으로%2$s반복</string>
     <string name="monthly_interval">매월 %1$s일 반복</string>
     <string name="monthly_w_interval">매월 %1$s %2$s 반복</string>
     <string name="advanced_setting">고급 설정</string>
@@ -194,5 +194,7 @@
     <string name="go_today">오늘로 이동</string>
     <string name="schedule">스케줄</string>
     <string name="todo">할일</string>
+    <string name="last_modify">작성시간</string>
+    <string name="only_single_day">여러날에 걸쳐 입력할 수 없습니다</string>
 
 </resources>
