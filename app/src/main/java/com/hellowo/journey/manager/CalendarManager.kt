@@ -4,6 +4,7 @@ import android.graphics.*
 import com.hellowo.journey.App.Companion.resource
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
+import com.hellowo.journey.l
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.view.TimeObjectView
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.blockTypeSize
@@ -232,13 +233,20 @@ object CalendarManager {
             }
             else -> {
                 val periodLine = (strokeWidth * 1.5).toInt()
+
+                var textLPos = view.width / 2 - view.textSpaceWidth / 2 - defaulMargin
+                if(textLPos < view.paddingLeft) textLPos = view.paddingLeft.toFloat()
+
+                var textRPos = view.width / 2 + view.textSpaceWidth / 2 + defaulMargin
+                if(textRPos > view.width - view.paddingRight) textRPos = view.width - view.paddingRight.toFloat()
+
                 val rectl = RectF(periodLine.toFloat(),
                         height / 2f - periodLine / 2,
-                        view.width / 2 - view.textSpaceWidth / 2 - defaulMargin,
+                        textLPos,
                         height / 2f + periodLine / 2)
                 canvas.drawRect(rectl, paint)
 
-                val rectr = RectF(view.width / 2 + view.textSpaceWidth / 2 + defaulMargin,
+                val rectr = RectF(textRPos,
                         height / 2f - periodLine / 2,
                         view.width - periodLine.toFloat(),
                         height / 2f + periodLine / 2)

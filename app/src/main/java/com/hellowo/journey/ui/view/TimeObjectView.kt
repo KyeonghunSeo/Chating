@@ -138,7 +138,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     else -> {
                         typeface = AppTheme.textFont
                         gravity = Gravity.CENTER
-                        setPadding(defaultPadding * 2, 0, defaultPadding * 2, 0)
+                        setPadding(defaultPadding * 4, 0, defaultPadding * 4, 0)
                         setTextColor(timeObject.getColor())
                     }
                 }
