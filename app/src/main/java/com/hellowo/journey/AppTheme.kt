@@ -59,12 +59,12 @@ object AppTheme {
         hightlightCover = resource.getDrawable(R.drawable.highlightcover)
         blankDrawable = resource.getDrawable(R.drawable.blank)
 
-        thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
-        regularFont = ResourcesCompat.getFont(context, R.font.regular)!!
-        boldFont = ResourcesCompat.getFont(context, R.font.bold)!!
+        thinFont = ResourcesCompat.getFont(context, R.font.thin_s)!!
+        regularFont = ResourcesCompat.getFont(context, R.font.regular_s)!!
+        boldFont = ResourcesCompat.getFont(context, R.font.bold_s)!!
         serifRegularFont = ResourcesCompat.getFont(context, R.font.regular_s)!!
         serifBoldFont = ResourcesCompat.getFont(context, R.font.bold_s)!!
-        textFont = ResourcesCompat.getFont(context, R.font.regular)!!
+        textFont = ResourcesCompat.getFont(context, R.font.regular_s)!!
 
         resource.getStringArray(R.array.colors).forEachIndexed { index, s ->
             colors[index] = Color.parseColor(s)
