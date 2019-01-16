@@ -30,6 +30,7 @@ import com.hellowo.journey.ui.view.base.SwipeScrollView.Companion.SWIPE_LEFT
 import com.hellowo.journey.ui.view.base.SwipeScrollView.Companion.SWIPE_RIGHT
 import com.hellowo.journey.viewmodel.MainViewModel
 import androidx.lifecycle.Observer
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.theartofdev.edmodo.cropper.CropImage
 import io.realm.SyncUser
@@ -57,6 +58,12 @@ class MainActivity : BaseActivity() {
         initTheme(rootLy)
         initMain()
         viewModel.initRealm(SyncUser.current())
+
+        if(FirebaseAuth.getInstance().currentUser == null) {
+            startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
+        }else {
+            FirebaseAuth.getInstance().signOut()
+        }
         /*
         if(SyncUser.current() == null) {
             startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
