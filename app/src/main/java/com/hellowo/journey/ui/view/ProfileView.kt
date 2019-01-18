@@ -14,11 +14,13 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.hellowo.journey.*
 import com.hellowo.journey.manager.OsCalendarManager
 import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.SettingsActivity
+import com.hellowo.journey.ui.dialog.OsCalendarDialog
 import kotlinx.android.synthetic.main.view_profile.view.*
 
 class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -33,6 +35,11 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
         }
         settingsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, SettingsActivity::class.java)) } }
+        FirebaseAuth.getInstance().currentUser?.photoUrl?.let {
+            Glide.with(this).load(it)
+                    //.apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
+                    .into(profileImage)
+        }
     }
 
     fun updateUserUI(appUser: AppUser) {
@@ -52,7 +59,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             if (ActivityCompat.checkSelfPermission(it, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(it, arrayOf(Manifest.permission.READ_CALENDAR), RC_PERMISSIONS)
             } else {
-                OsCalendarManager.getCalendarList(it)
+                showDialog(OsCalendarDialog(it), true, true, true, false)
             }
         }
     }

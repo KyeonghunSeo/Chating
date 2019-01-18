@@ -8,7 +8,7 @@
 
         <!-- enable window content transitions -->
         <item name="android:windowActivityTransitions">true</item>
-        <item name="android:fontFamily">@font/regular</item>
+        <!-- <item name="android:fontFamily">@font/regular_s</item>  폰트 일괄 적용 앱내에서 해야함..-->
 
         <!-- specify enter and exit transitions
         <item name="android:windowEnterTransition">@transition/explode</item>

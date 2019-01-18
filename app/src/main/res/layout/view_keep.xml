@@ -37,7 +37,6 @@
                         android:includeFontPadding="false"
                         android:textColor="@color/primaryText"
                         android:textSize="18dp"
-                        android:fontFamily="@font/text"
                         android:text="Keep"/>
 
                 </LinearLayout>

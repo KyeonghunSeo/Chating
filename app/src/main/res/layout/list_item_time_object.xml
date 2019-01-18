@@ -32,7 +32,6 @@
              android:layout_marginBottom="3dp"
              android:textSize="12dp"
              android:textColor="@color/primaryText"
-             android:fontFamily="@font/text"
              android:text="#love#peace"/>
 
          <TextView
@@ -42,7 +41,6 @@
              android:textSize="16dp"
              android:lineSpacingExtra="2dp"
              android:textColor="@color/primaryText"
-             android:fontFamily="@font/text"
              android:ellipsize="end"
              android:maxLines="20"
              android:text="Title"/>
@@ -72,7 +70,6 @@
                    android:textSize="16dp"
                    android:lineSpacingExtra="2dp"
                    android:textColor="@color/primaryText"
-                   android:fontFamily="@font/text"
                    android:ellipsize="end"
                    android:maxLines="20"
                    android:text="Title"/>
@@ -90,7 +87,6 @@
              android:gravity=""
              android:textSize="10dp"
              android:textColor="@color/disableText"
-             android:fontFamily="@font/text"
              android:ellipsize="end"
              android:maxLines="2"/>
 

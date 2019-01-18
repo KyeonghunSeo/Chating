@@ -32,7 +32,13 @@ class WelcomeActivity : BaseActivity() {
         setContentView(R.layout.activity_welcome)
         initTheme(rootLy)
         loginBtn.setOnClickListener { signInWithGoogle() }
-        callAfterViewDrawed(rootLy, Runnable{ startShow() })
+        callAfterViewDrawed(rootLy, Runnable{
+            if(FirebaseAuth.getInstance().currentUser == null) {
+                startShow()
+            }else {
+                startInitSettingLy()
+            }
+        })
     }
 
     private fun startShow() {
@@ -72,12 +78,7 @@ class WelcomeActivity : BaseActivity() {
         }, 9000)
     }
 
-    var scriptNum = 0
-
     private fun startInitSettingLy() {
-        prevBtn.setOnClickListener { setScript() }
-        nextBtn.setOnClickListener { setScript() }
-
         val handler =  Handler()
         handler.postDelayed({
             val animSet = AnimatorSet()
@@ -90,6 +91,8 @@ class WelcomeActivity : BaseActivity() {
         }, 0)
 
         handler.postDelayed({
+            loginLy.visibility = View.GONE
+            setScript()
             val animSet = AnimatorSet()
             animSet.playTogether(
                     ObjectAnimator.ofFloat(initSettingLy, "alpha", 0f, 1f),
@@ -100,7 +103,13 @@ class WelcomeActivity : BaseActivity() {
         }, 1000)
     }
 
+    var doubleTabFlag = true
+    var scriptNum = 0
+    var maxCount = 0
+
+
     private fun setScript() {
+        val user = FirebaseAuth.getInstance().currentUser
         val optionsTexts = arrayOf<TextView>(
                 optionsLy.findViewById(R.id.option1Text),
                 optionsLy.findViewById(R.id.option2Text),
@@ -108,23 +117,84 @@ class WelcomeActivity : BaseActivity() {
                 optionsLy.findViewById(R.id.option4Text),
                 optionsLy.findViewById(R.id.option5Text))
 
-        when(scriptNum) {
+        l("프로필 사진 "+user?.photoUrl)
 
+        when(scriptNum) {
+            0 -> {
+                optionTitleText.text = String.format(getString(R.string.init_setting_script_0), user?.displayName)
+                maxCount = 0
+                prevBtn.visibility = View.GONE
+                setNextBtn()
+            }
+            1 -> {
+                optionTitleText.text = String.format(getString(R.string.init_setting_script_1), user?.displayName)
+                maxCount = 0
+                setPrevBtn()
+                setNextBtn()
+            }
         }
 
-        TransitionManager.beginDelayedTransition(optionsLy, makeFromBottomSlideTransition())
-        optionsTexts.forEach { it.visibility = View.GONE }
 
-        optionsLy.postDelayed({
-            TransitionManager.beginDelayedTransition(optionsLy, makeFromBottomSlideTransition())
-            optionsTexts.forEach { it.visibility = View.VISIBLE }
-        }, 500)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            progressBar.setProgress(50, true)
+            progressBar.setProgress((scriptNum / 7f * 100).toInt(), true)
         }else {
-            progressBar.progress = 50
+            progressBar.progress = (scriptNum / 7f * 100).toInt()
         }
+    }
+
+    private fun setPrevBtn() {
+        prevBtn.visibility = View.VISIBLE
+        prevBtn.setOnClickListener {
+            if(doubleTabFlag) {
+                doubleTabFlag = false
+                hideScript()
+                initSettingLy.postDelayed({
+                    scriptNum--
+                    setScript()
+                    showScript()
+                }, 1000)
+            }
+        }
+    }
+
+    private fun setNextBtn() {
+        nextBtn.setOnClickListener {
+            if(doubleTabFlag) {
+                doubleTabFlag = false
+                hideScript()
+                initSettingLy.postDelayed({
+                    scriptNum++
+                    setScript()
+                    showScript()
+                }, 1000)
+            }
+        }
+    }
+
+    private fun showScript() {
+        doubleTabFlag = true
+        val animSet = AnimatorSet()
+        animSet.playTogether(
+                ObjectAnimator.ofFloat(optionTitleText, "alpha", 0f, 1f),
+                ObjectAnimator.ofFloat(optionTitleText, "translationY", dpToPx(15f), 0f),
+                ObjectAnimator.ofFloat(optionsLy, "alpha", 0f, 1f),
+                ObjectAnimator.ofFloat(optionsLy, "translationY", dpToPx(15f), 0f))
+        animSet.duration = 500
+        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.start()
+    }
+
+    private fun hideScript() {
+        val animSet = AnimatorSet()
+        animSet.playTogether(
+                ObjectAnimator.ofFloat(optionTitleText, "alpha", 1f, 0f),
+                ObjectAnimator.ofFloat(optionTitleText, "translationY", 0f, dpToPx(15f)),
+                ObjectAnimator.ofFloat(optionsLy, "alpha", 1f, 0f),
+                ObjectAnimator.ofFloat(optionsLy, "translationY", 0f, dpToPx(15f)))
+        animSet.duration = 500
+        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.start()
     }
 
     private fun loginRealm(account: GoogleSignInAccount) {
@@ -159,16 +229,16 @@ class WelcomeActivity : BaseActivity() {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this) { task ->
+                    hideProgressDialog()
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         l("signInWithCredential:success")
                         val user = mAuth.currentUser
+                        startInitSettingLy()
                     } else {
                         // If sign in fails, display a message to the user.
                         l("signInWithCredential:failure")
                     }
-                    hideProgressDialog()
-                    startInitSettingLy()
                 }
     }
 

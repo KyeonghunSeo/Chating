@@ -21,15 +21,16 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.Transition
 import com.hellowo.journey.ui.view.CalendarView
+import com.hellowo.journey.ui.view.base.Line
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -361,6 +362,43 @@ fun setTextBoldUnderBar(originText: String, textView: TextView, color: Int, text
         ss.setSpan(ForegroundColorSpan(color), index, it.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
     textView.text = ss
+}
+
+fun setGlobalTheme(view: View?) {
+    if (view != null) {
+        if (view is ViewGroup) {
+            val vg = view as ViewGroup?
+            val vgCnt = vg!!.childCount
+            for (i in 0 until vgCnt) {
+                val v = vg.getChildAt(i)
+                when (v) {
+                    is TextView -> {
+                        when(v.typeface){
+                            Typeface.DEFAULT -> v.typeface = AppTheme.regularFont
+                            AppTheme.bFont -> v.typeface = AppTheme.boldFont
+                            AppTheme.tFont -> v.typeface = AppTheme.thinFont
+                        }
+                    }
+                    is EditText -> {
+                        when(v.typeface){
+                            Typeface.DEFAULT -> v.typeface = AppTheme.regularFont
+                            AppTheme.bFont -> v.typeface = AppTheme.boldFont
+                            AppTheme.tFont -> v.typeface = AppTheme.thinFont
+                        }
+                    }
+                    is Button -> {
+                        when(v.typeface){
+                            Typeface.DEFAULT -> v.typeface = AppTheme.regularFont
+                            AppTheme.bFont -> v.typeface = AppTheme.boldFont
+                            AppTheme.tFont -> v.typeface = AppTheme.thinFont
+                        }
+                    }
+                    is Line -> v.setBackgroundColor(AppTheme.primaryText)
+                }
+                setGlobalTheme(v)
+            }
+        }
+    }
 }
 
 

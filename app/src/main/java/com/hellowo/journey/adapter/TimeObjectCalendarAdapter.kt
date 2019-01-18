@@ -177,7 +177,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
                     when(currentType) {
                         //TASK -> setTypeMargin(dpToPx(0f), currentType)
                         //STAMP, MONEY -> setTypeMargin(dpToPx(3f), currentType)
-                        NOTE -> setTypeMargin(dpToPx(2f), currentType)
+                        //NOTE -> setTypeMargin(dpToPx(1f), currentType)
                         TERM -> addBottomMargin(dpToPx(10f))
                         else -> {}
                     }
@@ -278,18 +278,19 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         }
 
         viewHolderList.forEach { holder ->
+            var lastAlpha = if(holder.timeObject.isDone()) 0.3f else 1f
             if(TimeObjectManager.lastUpdatedItem?.isValid == true
                     && TimeObjectManager.lastUpdatedItem?.id == holder.timeObject.id) {
                 TimeObjectManager.lastUpdatedItem = null
                 holder.timeObjectViewList.forEach {
-                    val lastAlpha = if(isOutDate(it)) 1f else 0.0f
+                    lastAlpha = if(isDateInMonth(it)) lastAlpha else 0.0f
                     it.alpha = 0f
                     calendarView.dateCells[it.cellNum].addView(it)
                     it.post { showInsertAnimation(it, lastAlpha) }
                 }
             }else {
                 holder.timeObjectViewList.forEach {
-                    it.alpha = if(isOutDate(it)) 1f else 0.0f
+                    it.alpha = if(isDateInMonth(it)) lastAlpha else 0.0f
                     calendarView.dateCells[it.cellNum].addView(it)
                 }
             }
@@ -298,8 +299,8 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         calendarView.calendarLy.requestLayout()
     }
 
-    private fun isOutDate(view: TimeObjectView) = view.cellNum in calendarView.startCellNum..calendarView.endCellNum ||
-            view.cellNum + view.length - 1 in calendarView.startCellNum..calendarView.endCellNum
+    private fun isDateInMonth(view: TimeObjectView) = view.cellNum in calendarView.startCellNum..calendarView.endCellNum
+            || view.cellNum + view.length - 1 in calendarView.startCellNum..calendarView.endCellNum
 
     private fun showInsertAnimation(view: TimeObjectView, lastAlpha: Float) {
         val animSet = AnimatorSet()

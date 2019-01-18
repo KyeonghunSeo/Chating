@@ -26,7 +26,7 @@ object CalendarManager {
     var selectedDateColor: Int = 0
     var selectedBackgroundColor: Int = 0
     var greyColor: Int = 0
-    var dateFont = AppTheme.boldFont
+    var dateFont = AppTheme.regularFont
     var selectFont = AppTheme.boldFont
 
     init {
@@ -47,12 +47,12 @@ object CalendarManager {
         paint.color = view.paintColor
         when(TimeObject.Style.values()[view.timeObject.style]){
             RECT_FILL -> {
-                canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), rectRadius, rectRadius, paint)
+                canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
                 paint.color = view.fontColor
             }
             RECT_STROKE -> {
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = strokeWidth
+                paint.strokeWidth = strokeWidth * 0.5f
                 canvas.drawRect(strokeWidth / 2, strokeWidth / 2,
                         width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2, paint)
                 paint.style = Paint.Style.FILL
@@ -60,8 +60,7 @@ object CalendarManager {
             ROUND_STROKE -> {
                 paint.isAntiAlias = true
                 paint.style = Paint.Style.STROKE
-                val strokeWidth = defaulMargin
-                paint.strokeWidth = strokeWidth
+                paint.strokeWidth = strokeWidth * 0.5f
                 canvas.drawRoundRect(strokeWidth / 2, strokeWidth / 2,
                         width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2,
                         height / 2f, height / 2f, paint)
@@ -86,12 +85,11 @@ object CalendarManager {
             }
             HATCHED -> {
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = strokeWidth * 2
+                paint.strokeWidth = strokeWidth
                 canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
 
                 val dashWidth = strokeWidth * 2
                 var x = 0f
-                paint.strokeWidth = strokeWidth
                 paint.alpha = 50
                 while (x < width + height) {
                     canvas.drawLine(x, -defaulMargin, x - height, height + defaulMargin, paint)
@@ -101,11 +99,11 @@ object CalendarManager {
                 paint.style = Paint.Style.FILL
             }
             TOP_LINE -> {
-                val strokeWidth = strokeWidth.toInt()
-                canvas.drawRect(0f, 0f, width.toFloat(), strokeWidth.toFloat(), paint)
+                val strokeWidth = strokeWidth * 0.5f
+                canvas.drawRect(0f, 0f, width.toFloat(), strokeWidth, paint)
             }
             BOTTOM_LINE -> {
-                val strokeWidth = strokeWidth.toInt()
+                val strokeWidth = strokeWidth * 0.5f
                 canvas.drawRect(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat(), paint)
             }
             else -> {
@@ -396,17 +394,9 @@ object CalendarManager {
         val radius = dotSize / 2f
         val sWidth = strokeWidth / 1.5f
         val centerY = (blockTypeSize - defaulMargin) / 2
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = sWidth
 
-        canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
-                centerY - radius,
-                leftPadding.toFloat() / 2f + defaulMargin + radius,
-                centerY + radius, paint)
-
-        paint.style = Paint.Style.FILL
         if(view.timeObject.isDone()) {
-            //view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             /*canvas.drawLine(leftPadding.toFloat() / 2f + defaulMargin + radius, centerY - radius,
                     leftPadding.toFloat() / 2f + defaulMargin - radius, centerY + radius, paint)*/
             canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
@@ -414,8 +404,14 @@ object CalendarManager {
                     leftPadding.toFloat() / 2f + defaulMargin + radius,
                     centerY + radius, paint)
         }else {
-
+            paint.style = Paint.Style.STROKE
+            paint.strokeWidth = sWidth
+            canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
+                    centerY - radius,
+                    leftPadding.toFloat() / 2f + defaulMargin + radius,
+                    centerY + radius, paint)
         }
+        paint.style = Paint.Style.FILL
     }
 
     private fun drawHyphen(view: TimeObjectView, paint: Paint, canvas: Canvas) {

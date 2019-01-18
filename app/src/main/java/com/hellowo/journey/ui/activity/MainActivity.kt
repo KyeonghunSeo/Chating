@@ -62,7 +62,7 @@ class MainActivity : BaseActivity() {
         if(FirebaseAuth.getInstance().currentUser == null) {
             startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
         }else {
-            FirebaseAuth.getInstance().signOut()
+            //startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
         }
         /*
         if(SyncUser.current() == null) {
@@ -107,9 +107,6 @@ class MainActivity : BaseActivity() {
     private fun initLayout() {
         yearText.typeface = AppTheme.boldFont
         monthText.typeface = AppTheme.boldFont
-        calendarLy.setBackgroundColor(AppTheme.backgroundColor)
-        topBar.setBackgroundColor(AppTheme.backgroundColor)
-        bottomBar.setBackgroundColor(AppTheme.backgroundColor)
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         //todayBtn.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
@@ -423,14 +420,11 @@ class MainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         when{
-            profileView.isOpened() -> profileView.hide()
-            searchView.isOpened() -> searchView.hide()
             timeObjectDetailView.isOpened() -> viewModel.targetTimeObject.value = null
             templateControlView.isExpanded -> templateControlView.collapse()
-            keepView.isOpened() -> viewModel.targetFolder.value = null
-            briefingView.viewMode == ViewMode.OPENED -> briefingView.hide()
+            viewModel.currentTab.value != 0 -> viewModel.currentTab.value = 0
             dayView.isOpened() -> dayView.hide()
-            //calendarView.selectCellNum >= 0 -> calendarView.unselectDate(calendarView.selectCellNum, true)
+
             else -> super.onBackPressed()
         }
     }

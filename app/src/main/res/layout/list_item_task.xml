@@ -5,98 +5,113 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical">
 
-   <FrameLayout
-       android:id="@+id/checkArea"
-       android:layout_width="48dp"
-       android:layout_height="38dp">
-
-      <ImageView
-          android:id="@+id/checkBox"
-          android:layout_width="15dp"
-          android:layout_height="15dp"
-          android:layout_marginLeft="21dp"
-          android:layout_gravity="center_vertical"
-          android:tint="@color/primaryText"
-          android:src="@drawable/sharp_check_box_black_48dp"/>
-
-   </FrameLayout>
-
    <LinearLayout
-       android:orientation="vertical"
+       android:id="@+id/backLy"
+       android:orientation="horizontal"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="9dp"
-       android:layout_marginBottom="9dp"
-       android:layout_marginLeft="48dp"
-       android:layout_marginRight="120dp">
-
-      <LinearLayout
-          android:orientation="vertical"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:gravity="center_vertical">
-
-         <TextView
-             android:id="@+id/tagText"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textSize="12dp"
-             android:layout_marginTop="2dp"
-             android:layout_marginBottom="3dp"
-             android:textColor="@color/primaryText"
-             android:fontFamily="@font/regular"
-             android:text="#love#peace"/>
-
-         <TextView
-             android:id="@+id/titleText"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textSize="16dp"
-             android:textColor="@color/primaryText"
-             android:fontFamily="@font/regular"
-             android:text="title"/>
-
-      </LinearLayout>
-
-      <TextView
-          android:id="@+id/locationText"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="10dp"
-          android:textSize="12dp"
-          android:textColor="@color/primaryText"
-          android:fontFamily="@font/thin"
-          android:ellipsize="end"
-          android:maxLines="2"
-          android:text="위치" />
-
-      <TextView
-          android:id="@+id/memoText"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="10dp"
-          android:textSize="12dp"
-          android:textColor="@color/primaryText"
-          android:fontFamily="@font/thin"
-          android:ellipsize="end"
-          android:maxLines="5"
-          android:text="메모" />
+       android:layout_height="match_parent">
 
    </LinearLayout>
 
    <FrameLayout
-       android:layout_width="100dp"
+       android:id="@+id/frontLy"
+       android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_gravity="right"
-       android:layout_marginTop="15dp"
-       android:layout_marginRight="20dp">
+       android:background="@color/background">
 
-      <ImageView
-          android:id="@+id/alarmIndi"
-          android:layout_width="13dp"
-          android:layout_height="13dp"
-          android:tint="@color/secondaryText"
-          android:layout_gravity="right"/>
+      <FrameLayout
+          android:id="@+id/checkArea"
+          android:layout_width="48dp"
+          android:layout_height="38dp">
+
+         <ImageView
+             android:id="@+id/checkBox"
+             android:layout_width="15dp"
+             android:layout_height="15dp"
+             android:layout_marginLeft="21dp"
+             android:layout_gravity="center_vertical"
+             android:tint="@color/primaryText"
+             android:src="@drawable/sharp_check_box_black_48dp"/>
+
+      </FrameLayout>
+
+      <LinearLayout
+          android:id="@+id/contentLy"
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="9dp"
+          android:layout_marginBottom="9dp"
+          android:layout_marginLeft="48dp"
+          android:layout_marginRight="120dp">
+
+         <LinearLayout
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tagText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="3dp"
+                android:textColor="@color/primaryText"
+                android:text="#love#peace"/>
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="@color/primaryText"
+                android:text="title"/>
+
+         </LinearLayout>
+
+         <TextView
+             android:id="@+id/locationText"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="10dp"
+             android:textSize="12dp"
+             android:textColor="@color/primaryText"
+             android:fontFamily="@font/thin"
+             android:ellipsize="end"
+             android:maxLines="2"
+             android:text="위치" />
+
+         <TextView
+             android:id="@+id/memoText"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="10dp"
+             android:textSize="12dp"
+             android:textColor="@color/primaryText"
+             android:fontFamily="@font/thin"
+             android:ellipsize="end"
+             android:maxLines="5"
+             android:text="메모" />
+
+      </LinearLayout>
+
+      <FrameLayout
+          android:layout_width="100dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="right"
+          android:layout_marginTop="15dp"
+          android:layout_marginRight="20dp">
+
+         <ImageView
+             android:id="@+id/alarmIndi"
+             android:layout_width="13dp"
+             android:layout_height="13dp"
+             android:tint="@color/secondaryText"
+             android:layout_gravity="right"/>
+
+      </FrameLayout>
 
    </FrameLayout>
 

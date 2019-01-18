@@ -11,11 +11,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
+import com.hellowo.journey.setGlobalTheme
 
 open class BaseActivity : AppCompatActivity() {
     var progressDialog: ProgressDialog? = null
 
     fun initTheme(rootLy: View) {
+        setGlobalTheme(rootLy)
         rootLy.setBackgroundColor(AppTheme.backgroundColor)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             var flags = window.peekDecorView().systemUiVisibility
@@ -26,22 +28,6 @@ open class BaseActivity : AppCompatActivity() {
             window.peekDecorView().systemUiVisibility = flags
             window.statusBarColor = AppTheme.backgroundColor
             window.navigationBarColor = AppTheme.backgroundColor
-        }
-    }
-
-    fun setGlobalFont(view: View?) {
-        if (view != null) {
-            if (view is ViewGroup) {
-                val vg = view as ViewGroup?
-                val vgCnt = vg!!.childCount
-                for (i in 0 until vgCnt) {
-                    val v = vg.getChildAt(i)
-                    if (v is TextView) {
-                        v.typeface = AppTheme.regularFont
-                    }
-                    setGlobalFont(v)
-                }
-            }
         }
     }
 

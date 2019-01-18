@@ -40,7 +40,6 @@
              android:layout_marginBottom="3dp"
              android:textSize="12dp"
              android:textColor="@color/primaryText"
-             android:fontFamily="@font/regular"
              android:text="#love#peace"/>
 
          <TextView
@@ -50,7 +49,6 @@
              android:textSize="14dp"
              android:lineSpacingExtra="2dp"
              android:textColor="@color/primaryText"
-             android:fontFamily="@font/regular"
              android:ellipsize="end"
              android:maxLines="20"
              android:text="Title"/>
@@ -75,7 +73,7 @@
              android:layout_marginBottom="20dp"
              android:gravity=""
              android:textSize="12dp"
-             android:textColor="@color/primaryText"
+             android:textColor="@color/disableText"
              android:fontFamily="@font/thin"
              android:ellipsize="end"
              android:maxLines="2"

@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.manager.RepeatManager
+import com.hellowo.journey.setGlobalTheme
 import kotlinx.android.synthetic.main.list_item_task.view.*
 import java.util.*
 
@@ -29,6 +31,9 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
+            setGlobalTheme(container)
+            container.backLy.setBackgroundColor(AppTheme.backgroundDarkColor)
+            container.frontLy.setBackgroundColor(AppTheme.backgroundColor)
         }
 
         fun onItemSelected() {
@@ -90,10 +95,14 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
 
         if(timeObject.isDone()) {
             v.checkBox.setImageResource(R.drawable.sharp_check_box_black_48dp)
-            //v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            v.checkBox.alpha = 0.3f
+            v.contentLy.alpha = 0.3f
+            v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }else {
             v.checkBox.setImageResource(R.drawable.sharp_check_box_outline_blank_black_48dp)
-            //v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
+            v.checkBox.alpha = 1f
+            v.contentLy.alpha = 1f
+            v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
@@ -148,10 +157,7 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
         override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                                  dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
             if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                // Fade out the view as it is swiped out of the parent's bounds
-                val alpha = ALPHA_FULL - Math.abs(dX) / viewHolder.itemView.width.toFloat()
-                viewHolder.itemView.alpha = alpha
-                viewHolder.itemView.translationX = dX
+                viewHolder.itemView.frontLy.translationX = dX
             } else {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }

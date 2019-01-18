@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.bumptech.glide.Glide
 import com.hellowo.journey.*
@@ -34,7 +33,11 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
     override fun getItemCount(): Int = items.size
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
-        init {}
+        init {
+            setGlobalTheme(container)
+            container.backLy.setBackgroundColor(AppTheme.backgroundDarkColor)
+            container.frontLy.setBackgroundColor(AppTheme.backgroundColor)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)

@@ -66,13 +66,19 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
 
     @SuppressLint("SetTextI18n")
     private fun setDate(dtStart: Long, dtEnd: Long) {
-        startCal.timeInMillis = dtStart
-        endCal.timeInMillis = dtEnd
-        startDateText.text = AppDateFormat.mdeDate.format(startCal.time)
-        if(isSameDay(startCal, endCal)) {
+        val folder = MainActivity.instance?.viewModel?.targetFolder?.value
+        if(folder != null) {
+            startDateText.text = folder.name
             endDateText.text = ""
         }else {
-            endDateText.text = "  ~ ${AppDateFormat.mdeDate.format(endCal.time)}"
+            startCal.timeInMillis = dtStart
+            endCal.timeInMillis = dtEnd
+            startDateText.text = AppDateFormat.mdeDate.format(startCal.time)
+            if(isSameDay(startCal, endCal)) {
+                endDateText.text = ""
+            }else {
+                endDateText.text = "  ~ ${AppDateFormat.mdeDate.format(endCal.time)}"
+            }
         }
         recyclerView.adapter?.notifyDataSetChanged()
     }

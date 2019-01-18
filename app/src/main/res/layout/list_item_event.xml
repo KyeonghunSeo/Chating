@@ -11,9 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.hellowo.journey.ui.view.base.HatchedView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+
 
     </LinearLayout>
 
@@ -85,7 +83,6 @@
                     android:textSize="12dp"
                     android:gravity="right"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="@font/regular"
                     android:text="4시 ~ 5시"/>
 
                 <TextView
@@ -96,7 +93,6 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="3dp"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="@font/regular"
                     android:text="#love#peace"/>
 
                 <TextView
@@ -105,7 +101,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="@font/regular"
                     android:text="titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle"/>
 
             </LinearLayout>

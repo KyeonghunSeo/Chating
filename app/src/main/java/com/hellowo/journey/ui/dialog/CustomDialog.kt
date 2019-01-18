@@ -8,7 +8,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.TextView
 import com.hellowo.journey.R
-import com.hellowo.journey.startDialogShowAnimation
+import com.hellowo.journey.setGlobalTheme
 import kotlinx.android.synthetic.main.dialog_custom.*
 
 
@@ -21,6 +21,7 @@ class CustomDialog(activity: Activity, private val title: String, private val su
         super.onCreate(savedInstanceState)
         window.attributes.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_custom)
+        setGlobalTheme(rootLy)
         setLayout()
         setOnShowListener {}
     }

@@ -8,7 +8,7 @@
     <FrameLayout
         android:id="@+id/todayBtn"
         android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:background="?android:attr/selectableItemBackground">
 
         <TextView

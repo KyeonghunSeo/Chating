@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.view_briefing.view.*
 import java.util.*
 
 class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : CardView(context, attrs, defStyleAttr) {
+    : FrameLayout(context, attrs, defStyleAttr) {
     var viewMode = ViewMode.CLOSED
 
     init {
@@ -52,7 +52,6 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     transiion.duration = 200
                     transiion.addListener(object : Transition.TransitionListener{
                         override fun onTransitionEnd(transition: Transition) {
-                            radius = 0f
                             viewMode = ViewMode.OPENED
                         }
                         override fun onTransitionResume(transition: Transition) {}
@@ -81,8 +80,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             override fun onTransitionEnd(transition: Transition) {
                 val animSet = AnimatorSet()
                 animSet.playTogether(
-                        ObjectAnimator.ofFloat(this@BriefingView, "elevation", elevation, dpToPx(1f)),
-                        ObjectAnimator.ofFloat(this@BriefingView, "radius", radius, dpToPx(15f)))
+                        ObjectAnimator.ofFloat(this@BriefingView, "elevation", elevation, dpToPx(1f)))
                 animSet.duration = 200
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.addListener(object : Animator.AnimatorListener{
@@ -112,14 +110,24 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
         when {
             todayOffset != 0 -> {
                 todayText.text = context.getString(R.string.go_today)
+                todayText.setTextColor(AppTheme.secondaryText)
                 briefingImg.visibility = View.GONE
                 todayBtn.setOnClickListener {
                     MainActivity.instance?.getCalendarView()?.moveDate(System.currentTimeMillis(), true) }
             }
             else -> {
-                todayText.text = context.getString(R.string.todays_briefing)
-                briefingImg.visibility = View.VISIBLE
-                todayBtn.setOnClickListener { show() }
+                todayText.text = context.getString(R.string.today)
+                todayText.setTextColor(AppTheme.secondaryText)
+                briefingImg.visibility = View.GONE
+                todayBtn.setOnClickListener { _ ->
+                    MainActivity.instance?.dayView?.let {
+                        if(it.isOpened()) {
+                            it.hide()
+                        }else if(it.viewMode == ViewMode.CLOSED){
+                            it.show()
+                        }
+                    }
+                }
             }
         }
     }

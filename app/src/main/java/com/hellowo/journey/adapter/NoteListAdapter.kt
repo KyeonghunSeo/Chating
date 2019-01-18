@@ -11,6 +11,7 @@ import com.hellowo.journey.AppDateFormat
 import com.hellowo.journey.R
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.setGlobalTheme
 import kotlinx.android.synthetic.main.list_item_note.view.*
 import java.util.*
 
@@ -29,11 +30,7 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
-            /*
-            container.checkBox.imageAssetsFolder = "assets/"
-            container.checkBox.setAnimation("checked_done.json")
-            container.checkBox.visibility = View.GONE
-            */
+            setGlobalTheme(container)
         }
 
         fun onItemSelected() {
@@ -77,8 +74,7 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
         val finishTexs = StringBuilder()
 
         val updatedDate = Date(timeObject.dtUpdated)
-        finishTexs.append("${context.getString(R.string.last_modify)} : " +
-                "${AppDateFormat.ymdeDate.format(updatedDate)} ${AppDateFormat.time.format(updatedDate)}")
+        finishTexs.append("${AppDateFormat.ymdeDate.format(updatedDate)} ${AppDateFormat.time.format(updatedDate)}")
         v.finishText.text = finishTexs.toString()
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }

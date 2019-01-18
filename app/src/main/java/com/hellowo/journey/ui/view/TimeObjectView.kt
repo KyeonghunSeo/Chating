@@ -59,7 +59,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             setSingleLine(true)
             setHorizontallyScrolling(true)
             //isHorizontalFadingEdgeEnabled = true /*성능이슈*/
-            typeface = AppTheme.textFont
+            typeface = AppTheme.regularFont
             setTextColor(AppTheme.primaryText)
             setPadding(defaultPadding, 0, defaultPadding, 0)
             return
@@ -67,7 +67,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
         when(TimeObject.Type.values()[timeObject.type]) {
             EVENT, TASK -> {
-                typeface = AppTheme.textFont
+                typeface = AppTheme.regularFont
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 gravity = Gravity.CENTER_VERTICAL
@@ -95,7 +95,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title?.replace(System.getProperty("line.separator"), " ")
                 else context.getString(R.string.empty_note)
-                typeface = AppTheme.textFont
+                typeface = AppTheme.regularFont
                 setLineSpacing(defaulMargin, 1f)
                 setPadding((leftPadding + defaulMargin).toInt(), (defaulMargin * 3).toInt(), defaultPadding, 0)
                 when(TimeObject.Style.values()[timeObject.style]){
@@ -113,7 +113,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     }
                 }
                 setTextColor(fontColor)
-
             }
             TERM -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
@@ -124,19 +123,19 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 //setHorizontallyScrolling(true)
                 when(timeObject.style){
                     1 -> {
-                        typeface = AppTheme.textFont
+                        typeface = AppTheme.regularFont
                         gravity = Gravity.CENTER_HORIZONTAL
                         setPadding(defaultPadding, 0, defaultPadding, 0)
                         setTextColor(timeObject.getColor())
                     }
                     2 -> {
-                        setTypeface(AppTheme.textFont, ITALIC)
+                        setTypeface(AppTheme.regularFont, ITALIC)
                         gravity = Gravity.CENTER
                         setPadding(defaultPadding, 0, defaultPadding, 0)
                         setTextColor(timeObject.getColor())
                     }
                     else -> {
-                        typeface = AppTheme.textFont
+                        typeface = AppTheme.regularFont
                         gravity = Gravity.CENTER
                         setPadding(defaultPadding * 4, 0, defaultPadding * 4, 0)
                         setTextColor(timeObject.getColor())

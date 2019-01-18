@@ -55,7 +55,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         val dowPosX = -dpToPx(2f)
         val dowPosY = dpToPx(3f)
         val holiPosX = dpToPx(12.5f)
-        val holiPosY = -dpToPx(7f)
+        val holiPosY = -dpToPx(6.5f)
         val startZ = dpToPx(10f)
         val endZ = dpToPx(0f)
         val subScale = 0.35f
@@ -200,13 +200,31 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         e.sortWith(EventListComparator())
         t.sortWith(TaskListComparator())
         n.sortWith(NoteListComparator())
+
+        if(e.isNotEmpty()) {
+            eventLy.visibility = View.VISIBLE
+        }else {
+            eventLy.visibility = View.GONE
+        }
+
+        if(t.isNotEmpty()) {
+            taskLy.visibility = View.VISIBLE
+        }else {
+            taskLy.visibility = View.GONE
+        }
+
+        if(n.isNotEmpty()) {
+            noteLy.visibility = View.VISIBLE
+        }else {
+            noteLy.visibility = View.GONE
+        }
     }
 
     private fun collocateData(data: RealmResults<TimeObject>, e: ArrayList<TimeObject>,
                               t: ArrayList<TimeObject>, n: ArrayList<TimeObject>) {
         data.forEach { timeObject ->
             when(TimeObject.Type.values()[timeObject.type]) {
-                TimeObject.Type.EVENT -> {
+                TimeObject.Type.EVENT, TimeObject.Type.TERM -> {
                     try{
                         if(timeObject.repeat.isNullOrEmpty()) {
                             e.add(timeObject.makeCopyObject())
@@ -362,7 +380,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
                     })
                     TransitionManager.beginDelayedTransition(this@DayView, transiion)
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, dpToPx(50), 0, 0)
+                        setMargins(0, dpToPx(50), 0, dpToPx(40))
                     }
                 }
                 override fun onAnimationCancel(p0: Animator?) {}

@@ -181,12 +181,10 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             TimeObject.Type.NOTE.ordinal -> {
                 titleInput.hint = context.getString(R.string.what_do_you_think)
                 titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
-                titleInput.typeface = AppTheme.textFont
             }
             else -> {
-                titleInput.hint = context.getString(R.string.title)
-                titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 32f)
-                titleInput.typeface = AppTheme.thinFont
+                titleInput.hint = context.getString(R.string.enter_title)
+                titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 28f)
             }
         }
         titleInput.setText(timeObject.title)

@@ -14,7 +14,7 @@
         <FrameLayout
             android:id="@+id/headerLy"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="70dp"
             android:clipChildren="false">
 
             <ImageView
@@ -42,61 +42,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:text="@string/schedule"
+                            android:textColor="@color/disableText"
+                            android:textSize="12dp"
+                            android:fontFamily="@font/bold_s"
+                            android:textStyle="italic"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/line"/>
+
+                    </LinearLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/eventListView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false">
                     </androidx.recyclerview.widget.RecyclerView>
-
-                    <FrameLayout
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <FrameLayout
-                            android:layout_width="52dp"
-                            android:layout_height="40dp">
-
-                            <View
-                                android:layout_width="0.7dp"
-                                android:layout_height="18.5dp"
-                                android:layout_gravity="center_horizontal"
-                                android:background="@color/disableText"/>
-
-                            <ImageView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:layout_marginTop="18.5dp"
-                                android:layout_gravity="center_horizontal"
-                                android:tint="@color/disableText"
-                                android:src="@drawable/circle_fill"/>
-
-                        </FrameLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="50dp"
-                            android:layout_marginRight="16dp">
-
-                            <TextView
-                                android:id="@+id/eventEmptyText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="14dp"
-                                android:lineSpacingExtra="2dp"
-                                android:textColor="@color/disableText"
-                                android:fontFamily="@font/text"
-                                android:textStyle="italic"
-                                android:ellipsize="end"
-                                android:maxLines="2"
-                                android:text="@string/empty_event_past"/>
-
-                        </LinearLayout>
-
-                    </FrameLayout>
 
                 </LinearLayout>
 
@@ -106,18 +82,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:gravity="center_vertical">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/taskListView"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:nestedScrollingEnabled="false">
-                        </androidx.recyclerview.widget.RecyclerView>
+                            android:layout_marginRight="10dp"
+                            android:text="@string/task"
+                            android:textColor="@color/disableText"
+                            android:textSize="12dp"
+                            android:fontFamily="@font/bold_s"
+                            android:textStyle="italic"/>
 
-                    </FrameLayout>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/line"/>
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/taskListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false">
+                    </androidx.recyclerview.widget.RecyclerView>
 
                 </LinearLayout>
 
@@ -127,6 +122,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:gravity="center_vertical">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/line"/>
+
+                    </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/noteListView"

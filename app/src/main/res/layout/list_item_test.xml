@@ -30,7 +30,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textColor="@color/primaryText"
-                android:fontFamily="@font/text"
                 android:text="title"/>
 
             <TextView

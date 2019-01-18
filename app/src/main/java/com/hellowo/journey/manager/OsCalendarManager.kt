@@ -27,6 +27,7 @@ object OsCalendarManager {
 
     private const val INDEX_CALENDAR_DISPLAY_NAME = 1
     private const val INDEX_CALENDAR_COLOR = 2
+    private const val INDEX_CALENDAR_ACCOUNT_NAME = 4
 
     private val CALENDAR_PROJECTION = arrayOf(
             CalendarContract.Calendars._ID,
@@ -60,7 +61,7 @@ object OsCalendarManager {
 
     init {}
 
-    class OsCalendar(val id: Long, val title: String, val color: Int) {
+    class OsCalendar(val id: Long, val title: String, val color: Int, val accountName: String) {
         override fun toString(): String {
             return "OsCalendar(id=$id, title='$title', color=$color)"
         }
@@ -81,7 +82,8 @@ object OsCalendarManager {
                     cur.moveToNext()
                     val osCalendar = OsCalendar(cur.getLong(INDEX_ID),
                             cur.getString(INDEX_CALENDAR_DISPLAY_NAME),
-                            cur.getInt(INDEX_CALENDAR_COLOR))
+                            cur.getInt(INDEX_CALENDAR_COLOR),
+                            cur.getString(INDEX_CALENDAR_ACCOUNT_NAME))
                     categoryList.add(osCalendar)
                 }
             }
@@ -96,32 +98,29 @@ object OsCalendarManager {
         if(checkPermission(context)) {
             val cr = context.contentResolver
             val selection: String
-            val selectionArgs: Array<String>
+            val selectionArgs: Array<String>?
             val cur: Cursor?
 
             val osCalendarIds = Prefs.getStringSet("osCalendarIds", HashSet<String>())
-            //if (osCalendarIds.size > 0) {
-            if (true) {
+            if (osCalendarIds.size > 0) {
                 val categoryQuery = osCalendarIds.joinToString(" OR ") { "(${CalendarContract.Instances.CALENDAR_ID}=$it)" }
 
-                if (TextUtils.isEmpty(keyWord)) {/*
-                selection = "(" + CalendarContract.Instances.VISIBLE + " = ?)" + " AND (" + categoryQuery + ")"
-                selectionArgs = arrayOf("1")*/
-
-                    selection = "(" + CalendarContract.Instances.VISIBLE + " = ?)"
-                    selectionArgs = arrayOf("1")
+                if (TextUtils.isEmpty(keyWord)) {
+                    selection = categoryQuery
+                    selectionArgs = null
                 } else {
-                    selection = ("(" + CalendarContract.Instances.VISIBLE + " = ?) AND ((" +
-                            CalendarContract.Instances.TITLE + " LIKE ?) OR (" + CalendarContract.Instances.DESCRIPTION + " LIKE ?))"
+                    selection = ("((" + CalendarContract.Instances.TITLE + " LIKE ?) OR ("
+                            + CalendarContract.Instances.DESCRIPTION + " LIKE ?))"
                             + " AND (" + categoryQuery + ")")
-                    selectionArgs = arrayOf("1", "%$keyWord%", "%$keyWord%")
+                    selectionArgs = arrayOf("%$keyWord%", "%$keyWord%")
                 }
 
                 val builder = CalendarContract.Instances.CONTENT_URI.buildUpon()
                 ContentUris.appendId(builder, startMillis)
                 ContentUris.appendId(builder, endMillis)
 
-                cur = cr.query(builder.build(), INSTANCE_PROJECTION, selection, selectionArgs, CalendarContract.Instances.BEGIN + " asc")
+                cur = cr.query(builder.build(), INSTANCE_PROJECTION, selection, selectionArgs,
+                        CalendarContract.Instances.BEGIN + " asc")
 
                 if (cur != null && cur.count > 0) {
                     while (!cur.isLast) {

@@ -16,12 +16,12 @@ import com.hellowo.journey.App.Companion.resource
 import java.lang.Exception
 
 object AppTheme {
+    var rFont: Typeface = Typeface.DEFAULT
+    var bFont: Typeface = Typeface.DEFAULT
+    var tFont: Typeface = Typeface.DEFAULT
     var thinFont: Typeface = Typeface.DEFAULT
     var regularFont: Typeface = Typeface.DEFAULT
     var boldFont: Typeface = Typeface.DEFAULT
-    var serifRegularFont: Typeface = Typeface.DEFAULT
-    var serifBoldFont: Typeface = Typeface.DEFAULT
-    var textFont: Typeface = Typeface.DEFAULT
 
     var selectableItemBackground = 0
     var backgroundColor = 0
@@ -59,12 +59,12 @@ object AppTheme {
         hightlightCover = resource.getDrawable(R.drawable.highlightcover)
         blankDrawable = resource.getDrawable(R.drawable.blank)
 
+        rFont = ResourcesCompat.getFont(context, R.font.regular)!!
+        bFont = ResourcesCompat.getFont(context, R.font.bold)!!
+        tFont = ResourcesCompat.getFont(context, R.font.thin)!!
         thinFont = ResourcesCompat.getFont(context, R.font.thin_s)!!
         regularFont = ResourcesCompat.getFont(context, R.font.regular_s)!!
         boldFont = ResourcesCompat.getFont(context, R.font.bold_s)!!
-        serifRegularFont = ResourcesCompat.getFont(context, R.font.regular_s)!!
-        serifBoldFont = ResourcesCompat.getFont(context, R.font.bold_s)!!
-        textFont = ResourcesCompat.getFont(context, R.font.regular_s)!!
 
         resource.getStringArray(R.array.colors).forEachIndexed { index, s ->
             colors[index] = Color.parseColor(s)

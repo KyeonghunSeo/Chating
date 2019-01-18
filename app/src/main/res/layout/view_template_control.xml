@@ -11,7 +11,7 @@
         android:id="@+id/backgroundLy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.9"
+        android:alpha="0.93"
         android:visibility="invisible">
     </View>
 
@@ -20,8 +20,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="20dp">
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -32,7 +32,7 @@
                 android:id="@+id/startDateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/primaryText"
+                android:textColor="@color/secondaryText"
                 android:fontFamily="@font/bold"
                 android:textSize="28dp"
                 android:text="2018"/>
@@ -41,8 +41,8 @@
                 android:id="@+id/endDateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:textColor="@color/primaryText"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/secondaryText"
                 android:fontFamily="@font/bold"
                 android:textSize="28dp"
                 android:text="2019"/>
@@ -53,7 +53,7 @@
             android:id="@+id/durationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/secondaryText"
             android:fontFamily="@font/bold"
             android:textSize="80dp"
             android:text=""/>
@@ -62,18 +62,17 @@
 
     <FrameLayout
         android:id="@+id/listLy"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="bottom|right"
         android:layout_marginTop="160dp"
         android:layout_marginBottom="140dp"
         android:clipChildren="false">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:clipChildren="false">
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -143,7 +142,7 @@
             android:visibility="gone"
             app:cardBackgroundColor="@color/primaryText"
             app:cardCornerRadius="0dp"
-            app:cardElevation="3dp">
+            app:cardElevation="8dp">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -162,8 +161,8 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom|right"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="75dp"
-        app:cardBackgroundColor="@color/primaryText"
+        android:layout_marginBottom="65dp"
+        app:cardBackgroundColor="@color/background"
         app:cardCornerRadius="25dp"
         app:cardElevation="8dp">
 
@@ -173,7 +172,8 @@
             android:layout_height="match_parent"
             android:padding="13dp"
             android:src="@drawable/sharp_add_black_48dp"
-            android:tint="@color/white"/>
+            android:background="@drawable/circle_stroke_1px"
+            android:tint="@color/secondaryText"/>
 
     </androidx.cardview.widget.CardView>
 

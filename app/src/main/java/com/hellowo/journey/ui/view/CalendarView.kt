@@ -84,8 +84,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
             dateText.typeface = CalendarManager.dateFont
-            dowText.typeface = CalendarManager.selectFont
-            holiText.typeface = CalendarManager.selectFont
+            dowText.typeface = CalendarManager.dateFont
+            holiText.typeface = CalendarManager.dateFont
             bar.alpha = 0f
             dowText.visibility = View.GONE
         }
@@ -169,7 +169,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 weekLy.addView(columnDividers[i*8 + j])
             }
             weekLy.addView(dateLy)
-
 
             for (j in 0..6){
                 val cellNum = i*7 + j
@@ -302,9 +301,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val bar = dateHeaders[cellNum].bar
         val dowText = dateHeaders[cellNum].dowText
         val dateText = dateHeaders[cellNum].dateText
+        val holiText = dateHeaders[cellNum].holiText
         val alpha = if(cellNum in startCellNum..endCellNum) 1f else outDateAlpha
 
         dateText.typeface = CalendarManager.dateFont
+        dowText.typeface = CalendarManager.dateFont
+        holiText.typeface = CalendarManager.dateFont
         dateText.alpha = alpha
         dowText.visibility = View.GONE
 
@@ -372,8 +374,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val bar = dateHeaders[cellNum].bar
             val dateText = dateHeaders[cellNum].dateText
             val dowText = dateHeaders[cellNum].dowText
+            val holiText = dateHeaders[cellNum].holiText
 
             dateText.typeface = CalendarManager.selectFont
+            dowText.typeface = CalendarManager.selectFont
+            holiText.typeface = CalendarManager.selectFont
             dateText.alpha = 1f
             dowText.text = AppDateFormat.dow.format(targetCal.time)
             dowText.visibility = View.VISIBLE

@@ -83,7 +83,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="20dp"
             android:foreground="?android:attr/selectableItemBackground"
-            android:background="@drawable/primary_rect_stroke_1dp">
+            android:background="@drawable/normal_rect_stroke">
 
             <ImageView
                 android:layout_width="50dp"
@@ -120,19 +120,19 @@
             android:layout_height="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="20dp"/>
 
         <TextView
             android:id="@+id/optionTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="50dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="70dp"
             android:textColor="@color/primaryText"
             android:textSize="22dp"
             android:text="@string/app_name"
-            android:fontFamily="@font/bold_s"/>
+            android:fontFamily="@font/regular_s"/>
 
         <LinearLayout
             android:id="@+id/optionsLy"
@@ -204,7 +204,7 @@
                 android:paddingRight="30dp"
                 android:gravity="center"
                 android:background="?android:attr/selectableItemBackground"
-                android:textColor="@color/disableText"
+                android:textColor="@color/secondaryText"
                 android:textSize="18dp"
                 android:text="@string/prev"
                 android:fontFamily="@font/bold_s"/>
@@ -218,9 +218,9 @@
                 android:gravity="center"
                 android:layout_gravity="right"
                 android:background="?android:attr/selectableItemBackground"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/primaryText"
                 android:textSize="18dp"
-                android:text="@string/confirm"
+                android:text="@string/next"
                 android:fontFamily="@font/bold_s"/>
 
         </FrameLayout>
