@@ -13,63 +13,54 @@
         <FrameLayout
             android:id="@+id/topBar"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="58dp">
 
-            <FrameLayout
-                android:layout_width="200dp"
+            <LinearLayout
+                android:animateLayoutChanges="true"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="bottom">
+                android:layout_gravity="center_vertical"
+                android:gravity="bottom"
+                android:layout_marginLeft="15dp"
+                android:background="?android:attr/selectableItemBackground">
 
-                <LinearLayout
-                    android:animateLayoutChanges="true"
-                    android:orientation="horizontal"
+                <TextView
+                    android:id="@+id/folderTitleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_marginLeft="-0dp"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="20dp"
+                    android:text="10월"/>
 
-                    <TextView
-                        android:id="@+id/yearText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/primaryText"
-                        android:textSize="18dp"
-                        android:text="Keep"/>
-
-                </LinearLayout>
-
-            </FrameLayout>
-
-            <ImageView
-                android:id="@+id/layoutBtn"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:layout_gravity="right"
-                android:tint="@color/primaryText"
-                android:src="@drawable/sharp_dashboard_black_48dp"
-                android:padding="10dp"
-                android:layout_marginLeft="10dp"/>
+            </LinearLayout>
 
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/folderListView"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
-            android:clipChildren="false">
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
         </androidx.recyclerview.widget.RecyclerView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="58dp"
+            android:layout_marginBottom="40dp">
         </androidx.recyclerview.widget.RecyclerView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="40dp"
+            android:background="@color/almostWhite"/>
 
     </FrameLayout>
 

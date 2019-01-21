@@ -23,6 +23,7 @@ import com.hellowo.journey.*
 import com.hellowo.journey.adapter.EventListAdapter
 import com.hellowo.journey.adapter.TimeObjectListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
+import com.hellowo.journey.manager.OsCalendarManager
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.Folder
 import com.hellowo.journey.model.Tag
@@ -76,22 +77,42 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
                         .showSoftInput(searchInput, 0)
             }
         }
+
+        tagInput.setOnClickListener { _ ->
+            showDialog(TagDialog(MainActivity.instance!!, tags) { _ ->
+                if(tags.isNotEmpty()) {
+                    tagInput.text = tags.joinToString("") { "#${it.id}" }
+                }else {
+                    tagInput.text = ""
+                }
+                notifyDataChanged()
+            }, true, true, true, false)
+        }
+
+        clearBtn.setOnClickListener { clear() }
     }
 
     fun notifyDataChanged() {
-        if(searchInput.text.toString().isNotEmpty()) {
+        if(searchInput.text.toString().isNotEmpty() || tags.isNotEmpty()) {
             timeObjectList?.removeAllChangeListeners()
             timeObjectList = TimeObjectManager.getTimeObjectList(searchInput.text.toString(), tags)
             timeObjectList?.addChangeListener { result, changeSet ->
                 l("==========서치뷰 데이터 변경 시작=========")
                 val t = System.currentTimeMillis()
+                adapter.query = searchInput.text.toString()
                 if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
                     items.clear()
                     result.forEach { items.add(it.makeCopyObject()) }
+                    if(tags.isEmpty()) {
+                        OsCalendarManager.searchEvents(context, searchInput.text.toString()).forEach { items.add(it) }
+                    }
                     adapter.notifyDataSetChanged()
                 }else if(changeSet.state == OrderedCollectionChangeSet.State.UPDATE) {
                     newItmes.clear()
                     result.forEach { newItmes.add(it.makeCopyObject()) }
+                    if(tags.isEmpty()) {
+                        OsCalendarManager.searchEvents(context, searchInput.text.toString()).forEach { items.add(it) }
+                    }
                     Thread {
                         val diffResult = DiffUtil.calculateDiff(ListDiffCallback(items, newItmes))
                         items.clear()
@@ -110,12 +131,10 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
     }
 
-    fun showTagDialog() {
-        showDialog(TagDialog(MainActivity.instance!!, tags) {
-            tags.clear()
-            tags.addAll(it)
-            notifyDataChanged()
-        }, true, true, true, false)
+    private fun clear() {
+        tags.clear()
+        tagInput.text = ""
+        searchInput.setText("")
     }
 
     fun show() {
@@ -124,6 +143,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     fun hide() {
+        clear()
         visibility = View.GONE
         viewMode = ViewMode.CLOSED
     }

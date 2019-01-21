@@ -3,10 +3,16 @@ package com.hellowo.journey.adapter
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
+import android.graphics.Color
 import android.net.Uri
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.TextUtils
+import android.text.style.BackgroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,6 +24,8 @@ import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.list_item_time_object.view.*
 import org.json.JSONObject
 import java.util.*
+import java.util.regex.Pattern
+import kotlin.collections.HashMap
 
 
 class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
@@ -25,6 +33,7 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var itemTouchHelper: ItemTouchHelper? = null
+    var query: String? = null
 
     init {
         val callback = SimpleItemTouchHelperCallback(this)
@@ -65,10 +74,14 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
             v.tagText.visibility = View.GONE
         }
 
-        v.titleText.text = if(timeObject.title.isNullOrBlank()) {
-            context.getString(R.string.empty_note)
+        if(timeObject.title.isNullOrBlank()) {
+            v.titleText.text = context.getString(R.string.empty_note)
         }else {
-            timeObject.title
+            if(!query.isNullOrEmpty()){
+                highlightQuery(v.titleText, timeObject.title!!)
+            }else {
+                v.titleText.text = timeObject.title
+            }
         }
 
         val finishTexs = StringBuilder()
@@ -109,6 +122,28 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
             itemTouchHelper?.startDrag(holder)
             return@setOnLongClickListener false
         }
+    }
+
+    private fun highlightQuery(textView: TextView, text: String) {
+        val highlightMap = HashMap<Int, Int>()
+        val pattern = Pattern.compile(query)
+        val matcher = pattern.matcher(text)
+        val startPos = 0
+        while (matcher.find()) {
+            var urlStr = matcher.group()
+            if (urlStr.startsWith("(") && urlStr.endsWith(")")) {
+                urlStr = urlStr.substring(1, urlStr.length - 1)
+            }
+            val start = text.indexOf(urlStr, startPos)
+            val end = start + urlStr.length
+            highlightMap[start] = end
+        }
+        val sb = SpannableStringBuilder()
+        sb.append(text)
+        for (start in highlightMap.keys) {
+            sb.setSpan(BackgroundColorSpan(Color.parseColor("#50f9d073")), start, highlightMap[start]!!, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        textView.text = sb
     }
 
     fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {

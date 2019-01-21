@@ -101,26 +101,36 @@ object TimeObjectManager {
 
     fun getTimeObjectList(query: String, tags: ArrayList<Tag>) : RealmResults<TimeObject> {
         val realm = Realm.getDefaultInstance()
-        val result = realm.where(TimeObject::class.java)
+        val q = realm.where(TimeObject::class.java)
                 .beginGroup()
                 .greaterThan("dtCreated", 0)
                 .endGroup()
-                .and()
-                .beginGroup()
-                .beginGroup()
-                .contains("title", query, Case.INSENSITIVE)
-                .endGroup()
-                .or()
-                .beginGroup()
-                .contains("description", query, Case.INSENSITIVE)
-                .endGroup()
-                .or()
-                .beginGroup()
-                .contains("location", query, Case.INSENSITIVE)
-                .endGroup()
-                .endGroup()
-                .sort("dtCreated", Sort.DESCENDING)
-                .findAllAsync()
+
+        if(tags.isEmpty() || query.isNotEmpty()) {
+            q.and()
+                    .beginGroup()
+                    .beginGroup()
+                    .contains("title", query, Case.INSENSITIVE)
+                    .endGroup()
+                    .or()
+                    .beginGroup()
+                    .contains("description", query, Case.INSENSITIVE)
+                    .endGroup()
+                    .or()
+                    .beginGroup()
+                    .contains("location", query, Case.INSENSITIVE)
+                    .endGroup()
+                    .endGroup()
+        }
+
+        tags.forEach {
+            q.and()
+                    .beginGroup()
+                    .equalTo("tags.id", it.id)
+                    .endGroup()
+        }
+
+        val result = q.sort("dtCreated", Sort.DESCENDING).findAllAsync()
         realm.close()
         return result
     }

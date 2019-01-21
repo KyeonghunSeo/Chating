@@ -385,7 +385,7 @@ object CalendarManager {
     }
 
     private fun drawDot(view: TimeObjectView, paint: Paint, canvas: Canvas) {
-        val radius = dotSize / 2.3f
+        val radius = dotSize / 2.7f
         val centerY = (blockTypeSize - defaulMargin) / 2
         canvas.drawCircle(leftPadding.toFloat() / 2f + defaulMargin, centerY, radius, paint)
     }
@@ -418,9 +418,9 @@ object CalendarManager {
         val radius = dotSize / 2.3f
         val centerY = blockTypeSize / 2.1f
         canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
-                centerY - strokeWidth / 1.8f,
+                centerY - strokeWidth / 2.0f,
                 leftPadding.toFloat() / 2f + defaulMargin + radius,
-                centerY + strokeWidth / 1.8f, paint)
+                centerY + strokeWidth / 2.0f, paint)
     }
 
     private fun drawRectCheckBox(view: TimeObjectView, centerY: Float, canvas: Canvas) {

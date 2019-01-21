@@ -7,27 +7,77 @@
     android:layout_height="match_parent"
     android:layout_margin="20dp">
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/searchInput"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:tint="@color/primaryText"
+                android:src="@drawable/sharp_search_black_48dp"
+                android:padding="15dp"/>
+
+            <EditText
+                android:id="@+id/searchInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"
+                android:textSize="18dp"
+                android:layout_gravity="center"/>
+
+            <ImageView
+                android:id="@+id/clearBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:tint="@color/primaryText"
+                android:src="@drawable/sharp_clear_black_48dp"
+                android:padding="15dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:fontFamily="@font/regular"
-            android:textSize="18dp"
-            android:layout_gravity="center"/>
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/normal_rect_stroke">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:tint="@color/primaryText"
-            android:src="@drawable/sharp_search_black_48dp"
-            android:padding="15dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/regular"
+                android:text="#"/>
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/tagInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:textSize="18dp"
+                android:hint="@string/search_tag"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColorHint="@color/disableText"
+                android:background="?android:attr/selectableItemBackground"
+                android:fontFamily="@font/thin"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

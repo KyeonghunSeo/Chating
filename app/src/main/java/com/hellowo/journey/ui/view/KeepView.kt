@@ -11,6 +11,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import androidx.transition.Transition
@@ -87,11 +88,11 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
 
-        folderListView.layoutManager = LinearLayoutManager(context)
+        folderListView.layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
         folderListView.adapter = folderAdapter
         folderAdapter.itemTouchHelper?.attachToRecyclerView(folderListView)
 
-        layoutBtn.setOnClickListener {
+        folderTitleText.setOnClickListener {
             TransitionManager.beginDelayedTransition(recyclerView, makeChangeBounceTransition())
             if(layout == 0) {
                 layout = 1
@@ -108,6 +109,8 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     fun notifyDataChanged() {
         MainActivity.instance?.viewModel?.targetFolder?.value?.let { folder ->
+            folderTitleText.text = folder.name
+            folderAdapter.notifyDataSetChanged()
             timeObjectList?.removeAllChangeListeners()
             timeObjectList = TimeObjectManager.getTimeObjectList(folder)
             timeObjectList?.addChangeListener { result, changeSet ->

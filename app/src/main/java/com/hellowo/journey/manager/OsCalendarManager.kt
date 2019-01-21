@@ -55,9 +55,25 @@ object OsCalendarManager {
             CalendarContract.Instances.HAS_ATTENDEE_DATA,
             CalendarContract.Instances.EVENT_TIMEZONE,
             CalendarContract.Instances.CALENDAR_ID,
-            CalendarContract.Instances.DTSTART,
-            CalendarContract.Instances.DTEND,
             CalendarContract.Instances.ORIGINAL_INSTANCE_TIME)
+
+    private val EVENT_PROJECTION = arrayOf(
+            CalendarContract.Events._ID,
+            CalendarContract.Events.TITLE,
+            CalendarContract.Events.DTSTART,
+            CalendarContract.Events.DTEND,
+            CalendarContract.Events.ALL_DAY,
+            CalendarContract.Events.CALENDAR_COLOR,
+            CalendarContract.Events.EVENT_LOCATION,
+            CalendarContract.Events.DESCRIPTION,
+            CalendarContract.Events.EVENT_COLOR,
+            CalendarContract.Events.RRULE,
+            CalendarContract.Events.RDATE,
+            CalendarContract.Events.HAS_ALARM,
+            CalendarContract.Events.HAS_ATTENDEE_DATA,
+            CalendarContract.Events.EVENT_TIMEZONE,
+            CalendarContract.Events.CALENDAR_ID,
+            CalendarContract.Events.ORIGINAL_INSTANCE_TIME)
 
     init {}
 
@@ -121,6 +137,46 @@ object OsCalendarManager {
 
                 cur = cr.query(builder.build(), INSTANCE_PROJECTION, selection, selectionArgs,
                         CalendarContract.Instances.BEGIN + " asc")
+
+                if (cur != null && cur.count > 0) {
+                    while (!cur.isLast) {
+                        cur.moveToNext()
+                        try {
+                            list.add(makeTimeObject(cur))
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+
+                    }
+                }
+                cur?.close()
+            }
+        }
+        return list
+    }
+
+    @SuppressLint("MissingPermission")
+    fun searchEvents(context: Context, keyWord: String): List<TimeObject> {
+        val list = ArrayList<TimeObject>()
+        if(checkPermission(context) && !keyWord.isEmpty()) {
+            val cr = context.contentResolver
+            val selection: String
+            val selectionArgs: Array<String>?
+            val cur: Cursor?
+
+            val osCalendarIds = Prefs.getStringSet("osCalendarIds", HashSet<String>())
+            if (osCalendarIds.size > 0) {
+                val categoryQuery = osCalendarIds.joinToString(" OR ") { "(${CalendarContract.Events.CALENDAR_ID}=$it)" }
+
+                selection = ("((" + CalendarContract.Events.TITLE + " LIKE ?) OR ("
+                        + CalendarContract.Events.DESCRIPTION + " LIKE ?))"
+                        + " AND (" + categoryQuery + ")")
+                selectionArgs = arrayOf("%$keyWord%", "%$keyWord%")
+
+                val builder = CalendarContract.Events.CONTENT_URI.buildUpon()
+
+                cur = cr.query(builder.build(), EVENT_PROJECTION, selection, selectionArgs,
+                        CalendarContract.Instances.DTSTART + " asc")
 
                 if (cur != null && cur.count > 0) {
                     while (!cur.isLast) {

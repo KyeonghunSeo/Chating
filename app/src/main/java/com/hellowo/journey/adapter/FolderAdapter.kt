@@ -18,8 +18,8 @@ import java.util.*
 class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
                     private val adapterInterface: (action: Int, folder: Folder?) -> Unit)
     : RecyclerView.Adapter<FolderAdapter.ViewHolder>() {
-    private val z = dpToPx(10f)
 
+    val itemHeight = dpToPx(40)
     var itemTouchHelper: ItemTouchHelper? = null
 
     init {
@@ -31,7 +31,9 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
-            itemView.contentLy.setCardBackgroundColor(AppTheme.backgroundColor)
+            itemView.rootLy.layoutParams.height = itemHeight
+            itemView.rootLy.requestLayout()
+            itemView.titleText.typeface = AppTheme.regularFont
         }
     }
 
@@ -42,10 +44,22 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
         val v = holder.itemView
         if(position < items.size) {
             val folder = items[position]
-            v.titleText.text = folder.name
+            if(folder.name.isNullOrBlank()) {
+                v.titleText.text = context.getString(R.string.untitle)
+            }else {
+                v.titleText.text = folder.name
+            }
+            if(folder.id == MainActivity.instance?.viewModel?.targetFolder?.value?.id) {
+                v.rootLy.setBackgroundColor(AppTheme.backgroundColor)
+                v.titleText.setTextColor(AppTheme.primaryText)
+            }else {
+                v.rootLy.setBackgroundColor(AppTheme.almostWhite)
+                v.titleText.setTextColor(AppTheme.disableText)
+            }
             v.setOnClickListener { adapterInterface.invoke(0, folder) }
         }else {
-            v.titleText.text = "!!!"
+            v.titleText.text = context.getString(R.string.add_folder)
+            v.titleText.setTextColor(AppTheme.disableText)
             v.setOnClickListener { adapterInterface.invoke(1, null) }
         }
     }
@@ -68,7 +82,7 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
         override fun isItemViewSwipeEnabled(): Boolean = true
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-            val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+            val dragFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
             val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
             return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, swipeFlags)
         }

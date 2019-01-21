@@ -117,7 +117,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
             else -> {
                 todayText.text = context.getString(R.string.today)
-                todayText.setTextColor(AppTheme.secondaryText)
+                todayText.setTextColor(AppTheme.disableText)
                 briefingImg.visibility = View.GONE
                 todayBtn.setOnClickListener { _ ->
                     MainActivity.instance?.dayView?.let {
