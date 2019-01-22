@@ -43,6 +43,8 @@ class TemplateEditAdapter(val context: Context, private val items: ArrayList<Tem
             itemView.previewContainer.addView(timeObjectView, 0)
             itemView.contentLy.setCardBackgroundColor(AppTheme.backgroundColor)
         }
+        fun onItemSelected() {}
+        fun onItemClear() {}
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
@@ -143,9 +145,9 @@ class TemplateEditAdapter(val context: Context, private val items: ArrayList<Tem
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
             // We only want the active item to change
             if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-                if (viewHolder is TaskListAdapter.ViewHolder) {
+                if (viewHolder is TemplateEditAdapter.ViewHolder) {
                     // Let the view holder know that this item is being moved or dragged
-                    val itemViewHolder = viewHolder as TaskListAdapter.ViewHolder?
+                    val itemViewHolder = viewHolder as TemplateEditAdapter.ViewHolder?
                     itemViewHolder?.onItemSelected()
                 }
             }else if(reordering && actionState == ItemTouchHelper.ACTION_STATE_IDLE){
@@ -167,7 +169,7 @@ class TemplateEditAdapter(val context: Context, private val items: ArrayList<Tem
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
             viewHolder.itemView.alpha = ALPHA_FULL
-            (viewHolder as? TaskListAdapter.ViewHolder)?.onItemClear()
+            (viewHolder as? TemplateEditAdapter.ViewHolder)?.onItemClear()
         }
     }
 }

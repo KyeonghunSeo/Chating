@@ -43,7 +43,7 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
 
     override fun getItemCount(): Int = items.size
 
-    inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
+    class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
             setGlobalTheme(container)
             /*
@@ -60,6 +60,8 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
         fun onItemClear() {
             //itemView.setBackgroundColor(0)
         }
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)

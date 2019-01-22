@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.AppDateFormat
 import com.hellowo.journey.R
+import com.hellowo.journey.adapter.viewholder.TimeObjectViewHolder
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.setGlobalTheme
@@ -28,22 +29,8 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
 
     override fun getItemCount(): Int = items.size
 
-    inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
-        init {
-            setGlobalTheme(container)
-        }
-
-        fun onItemSelected() {
-            //itemView.setBackgroundColor(Color.LTGRAY)
-        }
-
-        fun onItemClear() {
-            //itemView.setBackgroundColor(0)
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-            = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_note, parent, false))
+            = TimeObjectViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_note, parent, false))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val timeObject = items[position]
@@ -51,28 +38,7 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
 
         v.topDivider.setBackgroundColor(timeObject.getColor())
 
-        if(timeObject.tags.isNotEmpty()) {
-            v.tagText.visibility = View.VISIBLE
-            v.tagText.text = timeObject.tags.joinToString("") { "#${it.id}" }
-        }else {
-            v.tagText.visibility = View.GONE
-        }
-
-        v.titleText.text = if(timeObject.title.isNullOrBlank()) {
-            context.getString(R.string.empty_note)
-        }else {
-            timeObject.title
-        }
-
-        if(timeObject.location.isNullOrBlank()) {
-            v.locationText.visibility = View.GONE
-        }else {
-            v.locationText.visibility = View.VISIBLE
-            v.locationText.text = timeObject.location
-        }
-
         val finishTexs = StringBuilder()
-
         val updatedDate = Date(timeObject.dtUpdated)
         finishTexs.append("${AppDateFormat.ymdeDate.format(updatedDate)} ${AppDateFormat.time.format(updatedDate)}")
         v.finishText.text = finishTexs.toString()
@@ -82,6 +48,8 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
             itemTouchHelper?.startDrag(holder)
             return@setOnLongClickListener false
         }
+
+        (holder as TimeObjectViewHolder).setContents(context, timeObject, v)
     }
 
     fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
@@ -126,9 +94,9 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
             // We only want the active item to change
             if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-                if (viewHolder is NoteListAdapter.ViewHolder) {
+                if (viewHolder is TimeObjectViewHolder) {
                     // Let the view holder know that this item is being moved or dragged
-                    val itemViewHolder = viewHolder as NoteListAdapter.ViewHolder?
+                    val itemViewHolder = viewHolder as TimeObjectViewHolder?
                     itemViewHolder!!.onItemSelected()
                 }
             }else if(reordering && actionState == ItemTouchHelper.ACTION_STATE_IDLE){
@@ -142,7 +110,7 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
             viewHolder.itemView.alpha = ALPHA_FULL
-            (viewHolder as? NoteListAdapter.ViewHolder)?.onItemClear()
+            (viewHolder as? TimeObjectViewHolder)?.onItemClear()
         }
     }
 }

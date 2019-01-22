@@ -67,17 +67,7 @@
                 android:maxLines="20"
                 android:text="Title"/>
 
-            <TextView
-                android:id="@+id/locationText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="위치" />
+            <include layout="@layout/view_timeobject_sub_contents" />
 
             <TextView
                 android:id="@+id/finishText"

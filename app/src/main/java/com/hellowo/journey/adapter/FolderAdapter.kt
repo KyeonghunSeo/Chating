@@ -36,6 +36,8 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
             itemView.rootLy.requestLayout()
             itemView.titleText.typeface = AppTheme.regularFont
         }
+        fun onItemSelected() {}
+        fun onItemClear() {}
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
@@ -105,9 +107,9 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
             // We only want the active item to change
             if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-                if (viewHolder is TaskListAdapter.ViewHolder) {
+                if (viewHolder is FolderAdapter.ViewHolder) {
                     // Let the view holder know that this item is being moved or dragged
-                    val itemViewHolder = viewHolder as TaskListAdapter.ViewHolder?
+                    val itemViewHolder = viewHolder as FolderAdapter.ViewHolder?
                     itemViewHolder?.onItemSelected()
                 }
             }else if(reordering && actionState == ItemTouchHelper.ACTION_STATE_IDLE){
@@ -129,7 +131,7 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
             viewHolder.itemView.alpha = ALPHA_FULL
-            (viewHolder as? TaskListAdapter.ViewHolder)?.onItemClear()
+            (viewHolder as? FolderAdapter.ViewHolder)?.onItemClear()
         }
     }
 }

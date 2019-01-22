@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -71,47 +72,9 @@
 
          </LinearLayout>
 
-         <TextView
-             android:id="@+id/locationText"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="10dp"
-             android:textSize="12dp"
-             android:textColor="@color/primaryText"
-             android:fontFamily="@font/thin"
-             android:ellipsize="end"
-             android:maxLines="2"
-             android:text="위치" />
-
-         <TextView
-             android:id="@+id/memoText"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="10dp"
-             android:textSize="12dp"
-             android:textColor="@color/primaryText"
-             android:fontFamily="@font/thin"
-             android:ellipsize="end"
-             android:maxLines="5"
-             android:text="메모" />
+         <include layout="@layout/view_timeobject_sub_contents" />
 
       </LinearLayout>
-
-      <FrameLayout
-          android:layout_width="100dp"
-          android:layout_height="wrap_content"
-          android:layout_gravity="right"
-          android:layout_marginTop="15dp"
-          android:layout_marginRight="20dp">
-
-         <ImageView
-             android:id="@+id/alarmIndi"
-             android:layout_width="13dp"
-             android:layout_height="13dp"
-             android:tint="@color/secondaryText"
-             android:layout_gravity="right"/>
-
-      </FrameLayout>
 
    </FrameLayout>
 
