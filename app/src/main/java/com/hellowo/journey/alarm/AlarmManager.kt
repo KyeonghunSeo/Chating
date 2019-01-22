@@ -14,12 +14,14 @@ import java.util.*
 
 object AlarmManager {
     private lateinit var manager: android.app.AlarmManager
+    private lateinit var alarmOffsetStrings: Array<String>
     var eventAlarm = Long.MIN_VALUE
     var todoAlarm = Long.MIN_VALUE
     var socialAlarm = Long.MIN_VALUE
     var briefingAlarm = Long.MIN_VALUE
 
     fun init(context: Context) {
+        alarmOffsetStrings = context.resources.getStringArray(R.array.alarms)
         if(!Prefs.getBoolean("createNotificationChannel", false)) {
             createNotificationChannel(context)
             Prefs.putBoolean("createNotificationChannel", true)
@@ -100,5 +102,20 @@ object AlarmManager {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun getTimeObjectAlarmText(context: Context, offset: Long) : String = when(offset) {
+        0L -> alarmOffsetStrings[0]
+        1000L * 60 * 60 * 9 -> alarmOffsetStrings[1]
+        1000L * 60 * 60 * 12 -> alarmOffsetStrings[2]
+        1000L * 60 * 60 * 18 -> alarmOffsetStrings[3]
+        -1000L * 60 * 10 -> alarmOffsetStrings[4]
+        -1000L * 60 * 30 -> alarmOffsetStrings[5]
+        -1000L * 60 * 60 -> alarmOffsetStrings[6]
+        -1000L * 60 * 120 -> alarmOffsetStrings[7]
+        -1000L * 60 * 60 * 24 -> alarmOffsetStrings[8]
+        -1000L * 60 * 60 * 24 * 2 -> alarmOffsetStrings[9]
+        -1000L * 60 * 60 * 24 * 7 -> alarmOffsetStrings[10]
+        else -> context.getString(R.string.custom)
     }
 }

@@ -117,9 +117,7 @@ class NoteListAdapter(val context: Context, val items: List<TimeObject>, val cur
                                  dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
             if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
                 // Fade out the view as it is swiped out of the parent's bounds
-                val alpha = ALPHA_FULL - Math.abs(dX) / viewHolder.itemView.width.toFloat()
-                viewHolder.itemView.alpha = alpha
-                viewHolder.itemView.translationX = dX
+                viewHolder.itemView.frontLy.translationX = dX
             } else {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }

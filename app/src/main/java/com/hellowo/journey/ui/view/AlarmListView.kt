@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.AppDateFormat
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
+import com.hellowo.journey.alarm.AlarmManager
 import com.hellowo.journey.model.Alarm
 import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.list_item_alarm.view.*
@@ -19,7 +20,6 @@ class AlarmListView @JvmOverloads constructor(context: Context, attrs: Attribute
     : RecyclerView(context, attrs, defStyleAttr) {
     var onSelected : ((Alarm) -> Unit)? = null
     val items = ArrayList<Alarm>()
-    private val alarms = resources.getStringArray(R.array.alarms)
 
     init {
         layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -49,7 +49,7 @@ class AlarmListView @JvmOverloads constructor(context: Context, attrs: Attribute
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val alarm = items[position]
             val v = holder.itemView
-            v.titleText.text = getTitle(alarm.offset)
+            v.titleText.text = AlarmManager.getTimeObjectAlarmText(context, alarm.offset)
 
             if(alarm.dtAlarm < System.currentTimeMillis()) {
                 v.iconImg.setColorFilter(AppTheme.secondaryText)
@@ -65,24 +65,8 @@ class AlarmListView @JvmOverloads constructor(context: Context, attrs: Attribute
             }
 
             v.setOnClickListener {
-                notifyItemChanged(position)
                 onSelected?.invoke(alarm)
             }
         }
-    }
-
-    fun getTitle(offset: Long) : String = when(offset) {
-        0L -> alarms[0]
-        1000L * 60 * 60 * 9 -> alarms[1]
-        1000L * 60 * 60 * 12 -> alarms[2]
-        1000L * 60 * 60 * 18 -> alarms[3]
-        -1000L * 60 * 10 -> alarms[4]
-        -1000L * 60 * 30 -> alarms[5]
-        -1000L * 60 * 60 -> alarms[6]
-        -1000L * 60 * 120 -> alarms[7]
-        -1000L * 60 * 60 * 24 -> alarms[8]
-        -1000L * 60 * 60 * 24 * 2 -> alarms[9]
-        -1000L * 60 * 60 * 24 * 7 -> alarms[10]
-        else -> context.getString(R.string.custom)
     }
 }

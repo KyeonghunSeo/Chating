@@ -37,12 +37,12 @@
                 android:descendantFocusability="blocksDescendants">
 
                 <LinearLayout
-                    android:id="@+id/eventLy"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/eventHeaderLy"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -77,12 +77,12 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/taskLy"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/taskHeaderLy"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -117,13 +117,13 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/noteLy"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp">
 
                     <LinearLayout
+                        android:id="@+id/noteHeaderLy"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

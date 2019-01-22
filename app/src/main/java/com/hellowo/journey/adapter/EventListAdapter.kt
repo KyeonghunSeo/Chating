@@ -2,7 +2,9 @@ package com.hellowo.journey.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Canvas
+import android.net.Uri
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +12,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.bumptech.glide.Glide
 import com.hellowo.journey.*
+import com.hellowo.journey.alarm.AlarmManager
 import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.manager.RepeatManager
+import com.hellowo.journey.model.Link
 import kotlinx.android.synthetic.main.list_item_event.view.*
+import org.json.JSONObject
 import java.util.*
 
 class EventListAdapter(val context: Context, val items: List<TimeObject>, val currentCal: Calendar,
@@ -49,50 +54,6 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
         val v = holder.itemView
 
         v.frontLy.setBackgroundColor(CalendarManager.backgroundColor)
-
-        if(timeObject.tags.isNotEmpty()) {
-            v.tagText.visibility = View.VISIBLE
-            v.tagText.text = timeObject.tags.joinToString("") { "#${it.id}" }
-        }else {
-            v.tagText.visibility = View.GONE
-        }
-
-        val title = StringBuilder()
-        if(timeObject.title.isNullOrBlank()) {
-            title.append(context.getString(R.string.untitle))
-        }else {
-            title.append(timeObject.title?.trim())
-        }
-
-        if(!timeObject.repeat.isNullOrBlank()) {
-            title.append(" (${ RepeatManager.makeRepeatText(timeObject)})")
-        }
-        v.titleText.text = title
-
-        if(timeObject.location.isNullOrBlank()) {
-            v.locationText.visibility = View.GONE
-        }else {
-            v.locationText.visibility = View.VISIBLE
-            v.locationText.text = timeObject.location
-        }
-
-        if(timeObject.description.isNullOrBlank()) {
-            v.memoText.visibility = View.GONE
-        }else {
-            v.memoText.visibility = View.VISIBLE
-            v.memoText.text = timeObject.description
-        }
-
-        if(timeObject.alarms.any{ it.dtAlarm >= System.currentTimeMillis() }) {
-            v.alarmIndi.visibility = View.VISIBLE
-        }else {
-            v.alarmIndi.visibility = View.GONE
-        }
-
-        if(timeObject.links.isNotEmpty()){
-            Glide.with(context).load(timeObject.links[0]?.data).into(v.imageView)
-        }
-
         v.dotImg.setColorFilter(timeObject.getColor())
 
         if(timeObject.allday || timeObject.dtStart < getCalendarTime0(currentCal)) {
@@ -108,7 +69,7 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
         }else {
             v.timeText.visibility = View.VISIBLE
             v.timeText.text = "${AppDateFormat.time.format(Date(timeObject.dtStart))} ~ " +
-                    "${AppDateFormat.time.format(Date(timeObject.dtEnd))}"
+                    AppDateFormat.time.format(Date(timeObject.dtEnd))
         }
 
         if(position == 0) {
@@ -121,6 +82,96 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
             v.bottomTimeLine.visibility = View.GONE
         }else {
             v.bottomTimeLine.visibility = View.VISIBLE
+        }
+
+        if(timeObject.tags.isNotEmpty()) {
+            v.tagText.visibility = View.VISIBLE
+            v.tagText.text = timeObject.tags.joinToString("") { "#${it.id}" }
+        }else {
+            v.tagText.visibility = View.GONE
+        }
+
+        val title = StringBuilder()
+        if(timeObject.title.isNullOrBlank()) {
+            title.append(context.getString(R.string.untitle))
+        }else {
+            title.append(timeObject.title?.trim())
+        }
+        v.titleText.text = title
+
+        if(timeObject.description.isNullOrBlank()) {
+            v.memoText.visibility = View.GONE
+        }else {
+            v.memoText.visibility = View.VISIBLE
+            v.memoText.text = timeObject.description
+        }
+
+        if(timeObject.location.isNullOrBlank()) {
+            v.locationLy.visibility = View.GONE
+        }else {
+            v.locationLy.visibility = View.VISIBLE
+            v.locationText.text = timeObject.location?.replace("\n", " - ")
+        }
+
+        if(timeObject.alarms.isNotEmpty()) {
+            v.alarmText.text = timeObject.alarms.joinToString(", ") {
+                AlarmManager.getTimeObjectAlarmText(context, it.offset) }
+            v.alarmLy.visibility = View.VISIBLE
+        }else {
+            v.alarmLy.visibility = View.GONE
+        }
+
+        if(!timeObject.repeat.isNullOrBlank()) {
+            v.repeatLy.visibility = View.VISIBLE
+            v.repeatText.text = RepeatManager.makeRepeatText(timeObject)
+        }else {
+            v.repeatLy.visibility = View.GONE
+        }
+
+        if(timeObject.links.any { it.type == Link.Type.IMAGE.ordinal }){
+            val list = timeObject.links.filter{ it.type == Link.Type.IMAGE.ordinal }
+
+            if(list.size > 1) v.imageView1.visibility = View.VISIBLE
+            else v.imageView1.visibility = View.GONE
+
+            list.forEachIndexed{ index, link ->
+                val imageView = when(index) {
+                    1 -> v.imageView1
+                    else -> v.imageView0
+                }
+                Glide.with(context).load(link.properties).into(imageView)
+            }
+
+            v.imageLy.visibility = View.VISIBLE
+            v.imageLy.setOnClickListener {
+
+            }
+        }else {
+            v.imageLy.visibility = View.GONE
+        }
+
+        if(timeObject.links.any { it.type == Link.Type.WEB.ordinal }){
+            val link = timeObject.links.first{ it.type == Link.Type.WEB.ordinal }
+            val properties = JSONObject(link.properties)
+            val url = properties.getString("url")
+            val imageurl = properties.getString("imageurl")
+            val favicon = properties.getString("favicon")
+
+            v.linkText.text = link.title
+            if(!imageurl.isNullOrBlank())
+                Glide.with(context).load(imageurl).into(v.linkImg)
+            else if(!favicon.isNullOrBlank())
+                Glide.with(context).load(favicon).into(v.linkImg)
+            else {
+                Glide.with(context).load(R.drawable.sharp_language_black_48dp).into(v.linkImg)
+            }
+
+            v.linkLy.visibility = View.VISIBLE
+            v.linkLy.setOnClickListener {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            }
+        }else {
+            v.linkLy.visibility = View.GONE
         }
 
         v.frontLy.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }

@@ -58,7 +58,6 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             0 -> {
                 MainActivity.instance?.viewModel?.targetFolder?.value = folder
                 notifyDataChanged()
-
             }
             1 -> {
                 val dialog = CustomDialog(MainActivity.instance!!,
@@ -84,7 +83,7 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_keep, this, true)
-        recyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
+        recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
 

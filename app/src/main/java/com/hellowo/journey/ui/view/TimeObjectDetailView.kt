@@ -6,6 +6,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -32,6 +33,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
 import com.hellowo.journey.*
 import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.manager.TimeObjectManager
@@ -40,6 +43,7 @@ import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.MapActivity
 import com.hellowo.journey.ui.dialog.*
 import kotlinx.android.synthetic.main.view_timeobject_detail.view.*
+import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -443,6 +447,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 if (offset != Long.MIN_VALUE) {
                     alarm.dtAlarm = timeObject.dtStart + offset
                 } else {
+                    alarm.dtAlarm = timeObject.dtStart
                     openDateTimePicker(context.getString(R.string.set_alarm), alarm.dtAlarm) {
                         alarm.dtAlarm = it
                         updateAlarmUI()
@@ -471,12 +476,32 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             if (data != null) {
                 val uri = data.data
                 try{
+                    MainActivity.instance?.showProgressDialog(null)
                     Glide.with(this).asBitmap().load(uri)
                             .into(object : SimpleTarget<Bitmap>(){
-                                override fun onResourceReady(resource: Bitmap, transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?) {
+                                override fun onResourceReady(resource: Bitmap,
+                                                             transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?) {
                                     l("사진 크기 : ${resource.rowBytes} 바이트")
-                                    timeObject.links.add(Link(UUID.randomUUID().toString(), Link.Type.IMAGE.ordinal,
-                                            null, null, bitmapToByteArray(resource)))
+                                    val imageId = UUID.randomUUID().toString()
+                                    val ref = FirebaseStorage.getInstance().reference
+                                            .child("${FirebaseAuth.getInstance().uid}/$imageId.jpg")
+                                    val baos = ByteArrayOutputStream()
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                                    val uploadTask = ref.putBytes(baos.toByteArray())
+                                    uploadTask.addOnFailureListener {
+                                        MainActivity.instance?.hideProgressDialog()
+                                    }.addOnSuccessListener { _ ->
+                                        ref.downloadUrl.addOnCompleteListener {
+                                            l("다운로드 url : ${it.result.toString()}")
+                                            timeObject.links.add(Link(imageId, Link.Type.IMAGE.ordinal,
+                                                    null, it.result.toString(), null))
+                                            MainActivity.instance?.hideProgressDialog()
+                                        }
+                                    }
+                                }
+                                override fun onLoadFailed(errorDrawable: Drawable?) {
+                                    super.onLoadFailed(errorDrawable)
+                                    MainActivity.instance?.hideProgressDialog()
                                 }
                             })
                 }catch (e: Exception){}

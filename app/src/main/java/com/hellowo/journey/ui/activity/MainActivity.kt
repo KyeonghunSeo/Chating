@@ -460,7 +460,6 @@ class MainActivity : BaseActivity() {
                                         hideProgressDialog()
                                     }
                                 }
-
                             }
                             override fun onLoadFailed(errorDrawable: Drawable?) {
                                 super.onLoadFailed(errorDrawable)

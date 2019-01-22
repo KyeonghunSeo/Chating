@@ -21,6 +21,7 @@ import com.hellowo.journey.R
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.Link
 import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.setGlobalTheme
 import kotlinx.android.synthetic.main.list_item_time_object.view.*
 import org.json.JSONObject
 import java.util.*
@@ -44,6 +45,7 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
+            setGlobalTheme(container)
             /*
             container.checkBox.imageAssetsFolder = "assets/"
             container.checkBox.setAnimation("checked_done.json")
@@ -84,14 +86,52 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
             }
         }
 
-        val finishTexs = StringBuilder()
-
-        if(!timeObject.location.isNullOrBlank()) {
-            finishTexs.append("${timeObject.location?.substringBefore("\n")}\n")
+        if(timeObject.location.isNullOrBlank()) {
+            v.locationText.visibility = View.GONE
+        }else {
+            v.locationText.visibility = View.VISIBLE
+            v.locationText.text = timeObject.location
         }
+
+        if(timeObject.description.isNullOrBlank()) {
+            v.memoText.visibility = View.GONE
+        }else {
+            v.memoText.visibility = View.VISIBLE
+            v.memoText.text = timeObject.description
+        }
+
+        if(timeObject.alarms.any{ it.dtAlarm >= System.currentTimeMillis() }) {
+            v.alarmIndi.visibility = View.VISIBLE
+        }else {
+            v.alarmIndi.visibility = View.GONE
+        }
+
+        val finishTexs = StringBuilder()
         val updatedDate = Date(timeObject.dtUpdated)
         finishTexs.append("${AppDateFormat.ymdeDate.format(updatedDate)} ${AppDateFormat.time.format(updatedDate)}")
         v.finishText.text = finishTexs.toString()
+
+        if(timeObject.links.any { it.type == Link.Type.IMAGE.ordinal }){
+            val list = timeObject.links.filter{ it.type == Link.Type.IMAGE.ordinal }
+
+            if(list.size > 1) v.imageView1.visibility = View.VISIBLE
+            else v.imageView1.visibility = View.GONE
+
+            list.forEachIndexed{ index, link ->
+                val imageView = when(index) {
+                    1 -> v.imageView1
+                    else -> v.imageView0
+                }
+                Glide.with(context).load(link.properties).into(imageView)
+            }
+
+            v.imageLy.visibility = View.VISIBLE
+            v.imageLy.setOnClickListener {
+
+            }
+        }else {
+            v.imageLy.visibility = View.GONE
+        }
 
         if(timeObject.links.any { it.type == Link.Type.WEB.ordinal }){
             val link = timeObject.links.first{ it.type == Link.Type.WEB.ordinal }
@@ -178,10 +218,7 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
         override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                                  dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
             if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                // Fade out the view as it is swiped out of the parent's bounds
-                val alpha = ALPHA_FULL - Math.abs(dX) / viewHolder.itemView.width.toFloat()
-                viewHolder.itemView.alpha = alpha
-                viewHolder.itemView.translationX = dX
+                viewHolder.itemView.frontLy.translationX = dX
             } else {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }

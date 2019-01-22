@@ -71,7 +71,6 @@
                         android:imeOptions="actionDone"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:fontFamily="@font/regular"
                         android:textColorHint="@color/disableText"
                         android:background="@color/transparent"/>
 

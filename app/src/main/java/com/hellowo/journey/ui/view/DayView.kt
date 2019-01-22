@@ -202,21 +202,21 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         n.sortWith(NoteListComparator())
 
         if(e.isNotEmpty()) {
-            eventLy.visibility = View.VISIBLE
+            eventHeaderLy.visibility = View.VISIBLE
         }else {
-            eventLy.visibility = View.GONE
+            eventHeaderLy.visibility = View.GONE
         }
 
         if(t.isNotEmpty()) {
-            taskLy.visibility = View.VISIBLE
+            taskHeaderLy.visibility = View.VISIBLE
         }else {
-            taskLy.visibility = View.GONE
+            taskHeaderLy.visibility = View.GONE
         }
 
         if(n.isNotEmpty()) {
-            noteLy.visibility = View.VISIBLE
+            noteHeaderLy.visibility = View.VISIBLE
         }else {
-            noteLy.visibility = View.GONE
+            noteHeaderLy.visibility = View.GONE
         }
     }
 

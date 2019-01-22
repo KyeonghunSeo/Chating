@@ -52,7 +52,7 @@ object CalendarManager {
             }
             RECT_STROKE -> {
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = strokeWidth * 0.5f
+                paint.strokeWidth = strokeWidth * 1f
                 canvas.drawRect(strokeWidth / 2, strokeWidth / 2,
                         width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2, paint)
                 paint.style = Paint.Style.FILL
@@ -60,7 +60,7 @@ object CalendarManager {
             ROUND_STROKE -> {
                 paint.isAntiAlias = true
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = strokeWidth * 0.5f
+                paint.strokeWidth = strokeWidth * 1f
                 canvas.drawRoundRect(strokeWidth / 2, strokeWidth / 2,
                         width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2,
                         height / 2f, height / 2f, paint)
@@ -85,9 +85,10 @@ object CalendarManager {
             }
             HATCHED -> {
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = strokeWidth
+                paint.strokeWidth = strokeWidth * 2
                 canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
 
+                paint.strokeWidth = strokeWidth * 1
                 val dashWidth = strokeWidth * 2
                 var x = 0f
                 paint.alpha = 50
@@ -99,11 +100,11 @@ object CalendarManager {
                 paint.style = Paint.Style.FILL
             }
             TOP_LINE -> {
-                val strokeWidth = strokeWidth * 0.5f
+                val strokeWidth = strokeWidth * 1f
                 canvas.drawRect(0f, 0f, width.toFloat(), strokeWidth, paint)
             }
             BOTTOM_LINE -> {
-                val strokeWidth = strokeWidth * 0.5f
+                val strokeWidth = strokeWidth * 1f
                 canvas.drawRect(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat(), paint)
             }
             else -> {

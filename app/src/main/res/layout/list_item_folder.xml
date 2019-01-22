@@ -3,6 +3,7 @@
     android:id="@+id/rootLy"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
     android:paddingLeft="15dp"
     android:paddingRight="15dp">
 
@@ -12,9 +13,9 @@
         android:layout_gravity="center">
 
         <ImageView
-            android:id="@+id/colorImg"
-            android:layout_width="3dp"
-            android:layout_height="match_parent"/>
+            android:id="@+id/iconImg"
+            android:layout_width="15dp"
+            android:layout_height="15dp"/>
 
         <TextView
             android:id="@+id/titleText"

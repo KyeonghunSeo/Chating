@@ -4,83 +4,100 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical">
 
-   <View
-       android:id="@+id/topDivider"
-       android:layout_width="10dp"
-       android:layout_height="2dp"
-       android:layout_marginLeft="24dp"
-       android:layout_marginTop="8dp"
-       android:visibility="visible"
-       android:background="@color/primaryText"/>
-
    <LinearLayout
-       android:orientation="vertical"
+       android:id="@+id/backLy"
+       android:orientation="horizontal"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+   </LinearLayout>
+
+   <FrameLayout
+       android:id="@+id/frontLy"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_marginLeft="48dp"
-       android:layout_marginRight="16dp">
+       android:background="@color/background">
+
+      <View
+          android:id="@+id/topDivider"
+          android:layout_width="10dp"
+          android:layout_height="1.5dp"
+          android:layout_marginLeft="24dp"
+          android:layout_marginTop="8dp"
+          android:visibility="visible"
+          android:background="@color/primaryText"/>
 
       <LinearLayout
           android:orientation="vertical"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content">
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="48dp"
+          android:layout_marginRight="16dp">
 
-         <ImageView
-             android:id="@+id/iconImg"
-             android:layout_width="20dp"
-             android:layout_height="20dp"
-             android:visibility="gone"
-             android:tint="@color/primaryText"/>
-
-         <TextView
-             android:id="@+id/tagText"
+         <LinearLayout
+             android:orientation="vertical"
              android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="2dp"
-             android:layout_marginBottom="3dp"
-             android:textSize="12dp"
-             android:textColor="@color/primaryText"
-             android:text="#love#peace"/>
+             android:layout_height="wrap_content">
 
-         <TextView
-             android:id="@+id/titleText"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textSize="14dp"
-             android:lineSpacingExtra="2dp"
-             android:textColor="@color/primaryText"
-             android:ellipsize="end"
-             android:maxLines="20"
-             android:text="Title"/>
+            <ImageView
+                android:id="@+id/iconImg"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:visibility="gone"
+                android:tint="@color/primaryText"/>
 
-         <TextView
-             android:id="@+id/locationText"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="10dp"
-             android:textSize="12dp"
-             android:textColor="@color/primaryText"
-             android:fontFamily="@font/thin"
-             android:ellipsize="end"
-             android:maxLines="2"
-             android:text="위치" />
+            <TextView
+                android:id="@+id/tagText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="3dp"
+                android:textSize="12dp"
+                android:textColor="@color/primaryText"
+                android:text="#love#peace"/>
 
-         <TextView
-             android:id="@+id/finishText"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="10dp"
-             android:layout_marginBottom="20dp"
-             android:gravity=""
-             android:textSize="12dp"
-             android:textColor="@color/disableText"
-             android:fontFamily="@font/thin"
-             android:ellipsize="end"
-             android:maxLines="2"
-             android:text="위치" />
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:lineSpacingExtra="2dp"
+                android:textColor="@color/primaryText"
+                android:ellipsize="end"
+                android:maxLines="20"
+                android:text="Title"/>
+
+            <TextView
+                android:id="@+id/locationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="12dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/thin"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="위치" />
+
+            <TextView
+                android:id="@+id/finishText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:gravity=""
+                android:textSize="12dp"
+                android:textColor="@color/disableText"
+                android:fontFamily="@font/thin"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="위치" />
+
+         </LinearLayout>
 
       </LinearLayout>
 
-   </LinearLayout>
+
+   </FrameLayout>
 
 </FrameLayout>

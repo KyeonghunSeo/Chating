@@ -1,6 +1,7 @@
 package com.hellowo.journey.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +44,8 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val v = holder.itemView
         if(position < items.size) {
+            v.titleText.visibility = View.VISIBLE
+            v.iconImg.visibility = View.GONE
             val folder = items[position]
             if(folder.name.isNullOrBlank()) {
                 v.titleText.text = context.getString(R.string.untitle)
@@ -53,19 +56,22 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
                 v.rootLy.setBackgroundColor(AppTheme.backgroundColor)
                 v.titleText.setTextColor(AppTheme.primaryText)
             }else {
-                v.rootLy.setBackgroundColor(AppTheme.almostWhite)
+                v.rootLy.setBackgroundColor(Color.TRANSPARENT)
                 v.titleText.setTextColor(AppTheme.disableText)
             }
             v.setOnClickListener { adapterInterface.invoke(0, folder) }
         }else {
-            v.titleText.text = context.getString(R.string.add_folder)
-            v.titleText.setTextColor(AppTheme.disableText)
+            v.titleText.visibility = View.GONE
+            v.iconImg.visibility = View.VISIBLE
+            v.iconImg.setImageResource(R.drawable.sharp_add_circle_black_48dp)
+            v.iconImg.setColorFilter(AppTheme.disableText)
+            v.rootLy.setBackgroundColor(Color.TRANSPARENT)
             v.setOnClickListener { adapterInterface.invoke(1, null) }
         }
     }
 
     private fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-        if(fromPosition < items.size) {
+        if(fromPosition < items.size && toPosition < items.size) {
             Collections.swap(items, fromPosition, toPosition)
             notifyItemMoved(fromPosition, toPosition)
             return true
