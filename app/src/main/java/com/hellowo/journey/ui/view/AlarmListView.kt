@@ -49,7 +49,7 @@ class AlarmListView @JvmOverloads constructor(context: Context, attrs: Attribute
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val alarm = items[position]
             val v = holder.itemView
-            v.titleText.text = AlarmManager.getTimeObjectAlarmText(context, alarm.offset)
+            v.titleText.text = AlarmManager.getTimeObjectAlarmText(context, alarm)
 
             if(alarm.dtAlarm < System.currentTimeMillis()) {
                 v.iconImg.setColorFilter(AppTheme.secondaryText)

@@ -5,21 +5,43 @@
     android:background="@color/background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="10dp"
-        android:layout_gravity="right">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="40dp">
 
-        <ImageView
-            android:id="@+id/profileImage"
-            android:background="@drawable/normal_rect_dash"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+        <androidx.cardview.widget.CardView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:cardCornerRadius="75dp"
+            app:cardElevation="0dp">
 
-    </androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/emailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/primaryText"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/primaryText"
+            android:textSize="16dp"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"

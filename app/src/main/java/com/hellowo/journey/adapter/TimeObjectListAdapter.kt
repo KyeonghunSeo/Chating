@@ -1,13 +1,10 @@
 package com.hellowo.journey.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
-import android.net.Uri
 import android.text.Spannable
 import android.text.SpannableStringBuilder
-import android.text.TextUtils
 import android.text.style.BackgroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
@@ -15,19 +12,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.hellowo.journey.AppDateFormat
 import com.hellowo.journey.R
+import com.hellowo.journey.adapter.viewholder.TimeObjectViewHolder
 import com.hellowo.journey.manager.TimeObjectManager
-import com.hellowo.journey.model.Link
 import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.setGlobalTheme
 import kotlinx.android.synthetic.main.list_item_time_object.view.*
-import org.json.JSONObject
+import kotlinx.android.synthetic.main.view_timeobject_sub_contents.view.*
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.HashMap
-
 
 class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
                             val adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit)
@@ -43,40 +37,25 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
 
     override fun getItemCount(): Int = items.size
 
-    class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
-        init {
-            setGlobalTheme(container)
-            /*
-            container.checkBox.imageAssetsFolder = "assets/"
-            container.checkBox.setAnimation("checked_done.json")
-            container.checkBox.visibility = View.GONE
-            */
-        }
-
-        fun onItemSelected() {
-            //itemView.setBackgroundColor(Color.LTGRAY)
-        }
-
-        fun onItemClear() {
-            //itemView.setBackgroundColor(0)
-        }
-
-
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-            = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_time_object, parent, false))
+            = TimeObjectViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_time_object, parent, false))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val timeObject = items[position]
         val v = holder.itemView
 
-        if(timeObject.tags.isNotEmpty()) {
-            v.tagText.visibility = View.VISIBLE
-            v.tagText.text = timeObject.tags.joinToString("") { "#${it.id}" }
-        }else {
-            v.tagText.visibility = View.GONE
+        val finishTexs = StringBuilder()
+        val updatedDate = Date(timeObject.dtUpdated)
+        finishTexs.append("${AppDateFormat.ymdeDate.format(updatedDate)} ${AppDateFormat.time.format(updatedDate)}")
+        v.finishText.text = finishTexs.toString()
+
+        v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
+        v.setOnLongClickListener {
+            itemTouchHelper?.startDrag(holder)
+            return@setOnLongClickListener false
         }
+
+        (holder as TimeObjectViewHolder).setContents(context, timeObject, v)
 
         if(timeObject.title.isNullOrBlank()) {
             v.titleText.text = context.getString(R.string.empty_note)
@@ -92,77 +71,22 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
             v.locationText.visibility = View.GONE
         }else {
             v.locationText.visibility = View.VISIBLE
-            v.locationText.text = timeObject.location
+            if(!query.isNullOrEmpty()){
+                highlightQuery(v.locationText, timeObject.location!!)
+            }else {
+                v.locationText.text = timeObject.location
+            }
         }
 
         if(timeObject.description.isNullOrBlank()) {
             v.memoText.visibility = View.GONE
         }else {
             v.memoText.visibility = View.VISIBLE
-            v.memoText.text = timeObject.description
-        }
-
-        if(timeObject.alarms.any{ it.dtAlarm >= System.currentTimeMillis() }) {
-            v.alarmIndi.visibility = View.VISIBLE
-        }else {
-            v.alarmIndi.visibility = View.GONE
-        }
-
-        val finishTexs = StringBuilder()
-        val updatedDate = Date(timeObject.dtUpdated)
-        finishTexs.append("${AppDateFormat.ymdeDate.format(updatedDate)} ${AppDateFormat.time.format(updatedDate)}")
-        v.finishText.text = finishTexs.toString()
-
-        if(timeObject.links.any { it.type == Link.Type.IMAGE.ordinal }){
-            val list = timeObject.links.filter{ it.type == Link.Type.IMAGE.ordinal }
-
-            if(list.size > 1) v.imageView1.visibility = View.VISIBLE
-            else v.imageView1.visibility = View.GONE
-
-            list.forEachIndexed{ index, link ->
-                val imageView = when(index) {
-                    1 -> v.imageView1
-                    else -> v.imageView0
-                }
-                Glide.with(context).load(link.properties).into(imageView)
+            if(!query.isNullOrEmpty()){
+                highlightQuery(v.memoText, timeObject.description!!)
+            }else {
+                v.memoText.text = timeObject.description
             }
-
-            v.imageLy.visibility = View.VISIBLE
-            v.imageLy.setOnClickListener {
-
-            }
-        }else {
-            v.imageLy.visibility = View.GONE
-        }
-
-        if(timeObject.links.any { it.type == Link.Type.WEB.ordinal }){
-            val link = timeObject.links.first{ it.type == Link.Type.WEB.ordinal }
-            val properties = JSONObject(link.properties)
-            val url = properties.getString("url")
-            val imageurl = properties.getString("imageurl")
-            val favicon = properties.getString("favicon")
-
-            v.linkText.text = link.title
-            if(!imageurl.isNullOrBlank())
-                Glide.with(context).load(imageurl).into(v.linkImg)
-            else if(!favicon.isNullOrBlank())
-                Glide.with(context).load(favicon).into(v.linkImg)
-            else {
-                Glide.with(context).load(R.drawable.sharp_language_black_48dp).into(v.linkImg)
-            }
-
-            v.linkLy.visibility = View.VISIBLE
-            v.linkLy.setOnClickListener {
-                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-            }
-        }else {
-            v.linkLy.visibility = View.GONE
-        }
-
-        v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
-        v.setOnLongClickListener {
-            itemTouchHelper?.startDrag(holder)
-            return@setOnLongClickListener false
         }
     }
 
@@ -229,9 +153,9 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
             // We only want the active item to change
             if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-                if (viewHolder is TimeObjectListAdapter.ViewHolder) {
+                if (viewHolder is TimeObjectViewHolder) {
                     // Let the view holder know that this item is being moved or dragged
-                    val itemViewHolder = viewHolder as TimeObjectListAdapter.ViewHolder?
+                    val itemViewHolder = viewHolder as TimeObjectViewHolder?
                     itemViewHolder!!.onItemSelected()
                 }
             }else if(reordering && actionState == ItemTouchHelper.ACTION_STATE_IDLE){
@@ -245,7 +169,7 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
             viewHolder.itemView.alpha = ALPHA_FULL
-            (viewHolder as? TimeObjectListAdapter.ViewHolder)?.onItemClear()
+            (viewHolder as? TimeObjectViewHolder)?.onItemClear()
         }
     }
 }

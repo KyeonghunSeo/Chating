@@ -104,7 +104,7 @@ object AlarmManager {
         }
     }
 
-    fun getTimeObjectAlarmText(context: Context, offset: Long) : String = when(offset) {
+    fun getTimeObjectAlarmText(context: Context, alarm: Alarm) : String = when(alarm.offset) {
         0L -> alarmOffsetStrings[0]
         1000L * 60 * 60 * 9 -> alarmOffsetStrings[1]
         1000L * 60 * 60 * 12 -> alarmOffsetStrings[2]
@@ -116,6 +116,6 @@ object AlarmManager {
         -1000L * 60 * 60 * 24 -> alarmOffsetStrings[8]
         -1000L * 60 * 60 * 24 * 2 -> alarmOffsetStrings[9]
         -1000L * 60 * 60 * 24 * 7 -> alarmOffsetStrings[10]
-        else -> context.getString(R.string.custom)
+        else -> AppDateFormat.dateTime.format(Date(alarm.dtAlarm))
     }
 }

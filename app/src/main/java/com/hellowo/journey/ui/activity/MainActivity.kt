@@ -420,11 +420,10 @@ class MainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         when{
-            timeObjectDetailView.isOpened() -> viewModel.targetTimeObject.value = null
+            timeObjectDetailView.isOpened() -> timeObjectDetailView.confirm()
             templateControlView.isExpanded -> templateControlView.collapse()
             viewModel.currentTab.value != 0 -> viewModel.currentTab.value = 0
             dayView.isOpened() -> dayView.hide()
-
             else -> super.onBackPressed()
         }
     }

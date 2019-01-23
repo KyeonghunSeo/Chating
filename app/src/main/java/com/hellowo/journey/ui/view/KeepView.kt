@@ -27,6 +27,7 @@ import com.hellowo.journey.model.Template
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.dialog.CustomDialog
+import com.hellowo.journey.ui.dialog.EditFolderDialog
 import com.hellowo.journey.ui.dialog.TypePickerDialog
 import io.realm.OrderedCollectionChangeSet
 import io.realm.Realm
@@ -56,26 +57,29 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private val folderAdapter = FolderAdapter(context, folderItems) { action, folder ->
         when(action) {
             0 -> {
-                MainActivity.instance?.viewModel?.targetFolder?.value = folder
-                notifyDataChanged()
+                if(MainActivity.instance?.viewModel?.targetFolder?.value == folder) {
+                    val dialog = EditFolderDialog(MainActivity.instance!!, folder!!) { result ->
+                        if(result) {
+                            folderTitleText.text = folder.name
+                        }else { // deleted
+                            MainActivity.instance?.viewModel?.setTargetFolder()
+                        }
+                        notifyDataChanged()
+                    }
+                    showDialog(dialog, true, true, true, false)
+                }else {
+                    MainActivity.instance?.viewModel?.targetFolder?.value = folder
+                    notifyDataChanged()
+                }
             }
             1 -> {
-                val dialog = CustomDialog(MainActivity.instance!!,
-                        context.getString(R.string.create_folder), null, null) { result, _, title ->
+                val newFolder = Folder()
+                val dialog = EditFolderDialog(MainActivity.instance!!, newFolder) { result ->
                     if(result) {
-                        Realm.getDefaultInstance().use { realm ->
-                            realm.executeTransaction {
-                                realm.createObject(Folder::class.java, UUID.randomUUID().toString()).apply {
-                                    name = title
-                                    order = realm.where(Folder::class.java).max("order")?.toInt()?.plus(1) ?: 0
-                                }
-                            }
-                        }
                         folderListView.post { folderListView.smoothScrollToPosition(folderItems.size) }
                     }
                 }
                 showDialog(dialog, true, true, true, false)
-                dialog.showInput(context.getString(R.string.enter_folder_name), "")
             }
         }
     }

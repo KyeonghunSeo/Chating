@@ -59,7 +59,7 @@ class TimeObjectViewHolder(container: View) : RecyclerView.ViewHolder(container)
 
         if(timeObject.alarms.isNotEmpty()) {
             v.alarmText.text = timeObject.alarms.joinToString(", ") {
-                AlarmManager.getTimeObjectAlarmText(context, it.offset) }
+                AlarmManager.getTimeObjectAlarmText(context, it) }
             v.alarmLy.visibility = View.VISIBLE
         }else {
             v.alarmLy.visibility = View.GONE

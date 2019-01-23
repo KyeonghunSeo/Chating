@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.hellowo.journey.*
 import com.hellowo.journey.R
 import com.hellowo.journey.manager.TimeObjectManager
@@ -41,6 +42,7 @@ class MainViewModel : ViewModel() {
             loading.value = false
             loadTemplate()
             loadFolder()
+            loadAppUser()
         }else {
             loading.value = true
             val config = SyncUser.current()
@@ -54,7 +56,7 @@ class MainViewModel : ViewModel() {
                     Realm.setDefaultConfiguration(config)
                     realm.value = db
                     loading.value = false
-                    loadAppUser(syncUser)
+                    loadAppUser()
                     loadTemplate()
                     loadFolder()
                 }
@@ -62,7 +64,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    private fun loadAppUser(syncUser: SyncUser) {
+    private fun loadAppUser() {
         realm.value?.let { realm ->
             realm.where(AppUser::class.java).findAllAsync().addChangeListener { result, _ ->
                 if(result.size > 0) {
@@ -70,7 +72,7 @@ class MainViewModel : ViewModel() {
                 }else {
                     l("[새로운 유저 생성]")
                     realm.executeTransaction {
-                        it.createObject(AppUser::class.java, syncUser.identity)
+                        it.createObject(AppUser::class.java, FirebaseAuth.getInstance().uid)
                     }
                 }
             }

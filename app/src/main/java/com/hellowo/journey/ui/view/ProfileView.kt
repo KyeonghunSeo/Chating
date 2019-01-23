@@ -44,6 +44,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     fun updateUserUI(appUser: AppUser) {
         l("[프로필 뷰 갱신]")
+        emailText.text = FirebaseAuth.getInstance().currentUser?.email
         if(appUser.profileImgUrl?.isNotEmpty() == true) {
             profileImage.clearColorFilter()
             Glide.with(this).load(appUser.profileImgUrl)

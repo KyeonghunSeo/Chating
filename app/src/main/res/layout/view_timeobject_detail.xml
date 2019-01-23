@@ -378,18 +378,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/confirmBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:padding="16dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="16dp"
-                    android:fontFamily="@font/bold"
-                    android:text="@string/confirm"/>
-
             </FrameLayout>
 
         </LinearLayout>

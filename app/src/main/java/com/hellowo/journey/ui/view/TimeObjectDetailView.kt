@@ -67,8 +67,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun initControllBtn() {
-        confirmBtn.setOnClickListener { confirm() }
-
         deleteBtn.setOnClickListener { delete() }
 
         addOptionBtn.setOnClickListener {
@@ -383,7 +381,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
         backgroundLy.visibility = View.VISIBLE
         backgroundLy.setBackgroundColor(AppTheme.primaryText)
-        backgroundLy.setOnClickListener { MainActivity.instance?.viewModel?.targetTimeObject?.value = null }
+        backgroundLy.setOnClickListener { confirm() }
         backgroundLy.isClickable = true
         contentPanel.visibility = View.VISIBLE
         if(timeObject.id.isNullOrEmpty()) {

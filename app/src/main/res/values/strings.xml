@@ -38,7 +38,7 @@
     <string name="next">다음</string>
     <string name="join_chat">채팅방 입장하기</string>
     <string name="title">제목</string>
-    <string name="untitle">제목없음</string>
+    <string name="untitle">…</string>
 
     <string name="mon">월</string>
     <string name="tue">화</string>
@@ -59,7 +59,7 @@
     <string name="stamp">스탬프</string>
     <string name="decoration">꾸미기</string>
     <string name="money">수입/지출</string>
-    <string name="delete">삭제</string>
+    <string name="delete">삭제하기</string>
     <string name="start">시작</string>
     <string name="end">종료</string>
     <string name="weekNum">%1$s주</string>
@@ -161,7 +161,7 @@
     <string name="no_tag">태그없음</string>
     <string name="delete_tag">태그 삭제</string>
     <string name="delete_tag_sub">정말 이 태그를 삭제할까요?</string>
-    <string name="keep">보관</string>
+    <string name="keep">서랍</string>
     <string name="scrap">스크랩</string>
     <string name="attachment">첨부</string>
     <string name="image">이미지</string>
@@ -206,6 +206,8 @@
     <string name="select_os_calendar">외부캘린더 가져오기</string>
     <string name="not_insert_this_folder">이 폴더에 넣을 수 없는 형식입니다</string>
     <string name="search_tag">태그로 검색</string>
-    <string name="add_folder">서랍 만들기</string>
+    <string name="edit_folder">서랍 편집하기</string>
+    <string name="delete_folder">서랍 삭제하기</string>
+    <string name="delete_folder_sub">이 서랍에 보관된 모든 기록이 삭제됩니다.\n정말 삭제할까요?</string>
 
 </resources>

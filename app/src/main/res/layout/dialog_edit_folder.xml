@@ -39,24 +39,12 @@
                     android:fontFamily="@font/bold"
                     android:text="title"/>
 
-                <TextView
-                    android:id="@+id/subText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:textSize="14dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textColor="@color/primaryText"
-                    android:text="sub"/>
-
                 <LinearLayout
                     android:id="@+id/inputLy"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:visibility="gone"
                     android:background="@drawable/normal_rect_stroke">
 
                     <EditText
@@ -66,50 +54,13 @@
                         android:layout_weight="1"
                         android:padding="10dp"
                         android:textSize="16dp"
+                        android:maxLength="15"
                         android:imeOptions="actionDone"
                         android:maxLines="1"
                         android:singleLine="true"
+                        android:hint="@string/enter_folder_name"
                         android:textColorHint="@color/disableText"
                         android:background="@color/transparent"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/optionLy"
-                    android:orientation="vertical"
-                    android:layout_marginTop="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/option0Btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_margin="5dp"
-                        android:textSize="12dp"
-                        android:textColor="@color/primaryText"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke"/>
-
-                    <TextView
-                        android:id="@+id/option1Btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_margin="5dp"
-                        android:textSize="12dp"
-                        android:textColor="@color/primaryText"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke"/>
-
-                    <TextView
-                        android:id="@+id/option2Btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_margin="5dp"
-                        android:textSize="12dp"
-                        android:textColor="@color/primaryText"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke"/>
 
                 </LinearLayout>
 
