@@ -393,7 +393,13 @@ fun setGlobalTheme(view: View?) {
                             AppTheme.tFont -> v.typeface = AppTheme.thinFont
                         }
                     }
-                    is Line -> v.setBackgroundColor(AppTheme.primaryText)
+                    is Line -> {
+                        when(v.colorFlag) {
+                            1 -> v.setBackgroundColor(AppTheme.secondaryText)
+                            2 -> v.setBackgroundColor(AppTheme.lineColor)
+                            else -> v.setBackgroundColor(AppTheme.primaryText)
+                        }
+                    }
                 }
                 setGlobalTheme(v)
             }

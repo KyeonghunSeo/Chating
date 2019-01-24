@@ -64,6 +64,11 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         searchInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if(searchInput.text.isNotEmpty()) {
+                    clearBtn.visibility = View.VISIBLE
+                }else {
+                    clearBtn.visibility = View.GONE
+                }
                 notifyDataChanged()
             }
             override fun afterTextChanged(p0: Editable?) {}
@@ -90,6 +95,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
 
         clearBtn.setOnClickListener { clear() }
+        setOnClickListener {  }
     }
 
     fun notifyDataChanged() {

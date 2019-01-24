@@ -15,4 +15,12 @@
     <declare-styleable name="HatchedView">
         <attr name="style" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="Line">
+        <attr name="colorFlag">
+            <flag name="primary" value="0"/>
+            <flag name="secondary" value="1"/>
+            <flag name="disable" value="2"/>
+        </attr>
+    </declare-styleable>
 </resources>
