@@ -55,8 +55,8 @@ class MainActivity : BaseActivity() {
         instance = this
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         setContentView(R.layout.activity_main)
-        initTheme(rootLy)
         initMain()
+        initTheme(rootLy)
         viewModel.initRealm(SyncUser.current())
 
         if(FirebaseAuth.getInstance().currentUser == null) {

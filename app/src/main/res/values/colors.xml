@@ -12,7 +12,7 @@
 
     <color name="primaryText">#1e262c</color>
     <color name="secondaryText">#6f7274</color>
-    <color name="disableText">#c1c5c7</color>
+    <color name="disableText">#e4e7ef</color>
     <color name="primaryWhiteText">#e0e0d7</color>
     <color name="secondaryWhiteText">#b3e0e0d7</color>
 
