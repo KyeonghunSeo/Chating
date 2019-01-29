@@ -1,5 +1,6 @@
 package com.hellowo.journey.adapter.viewholder
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -29,6 +30,7 @@ class TimeObjectViewHolder(container: View) : RecyclerView.ViewHolder(container)
         //itemView.setBackgroundColor(0)
     }
 
+    @SuppressLint("SetTextI18n")
     fun setContents(context: Context, timeObject: TimeObject, v: View) {
         if(timeObject.tags.isNotEmpty()) {
             v.tagText.visibility = View.VISIBLE
@@ -75,21 +77,21 @@ class TimeObjectViewHolder(container: View) : RecyclerView.ViewHolder(container)
         if(timeObject.links.any { it.type == Link.Type.IMAGE.ordinal }){
             val list = timeObject.links.filter{ it.type == Link.Type.IMAGE.ordinal }
 
-            if(list.size > 1) v.imageView1.visibility = View.VISIBLE
-            else v.imageView1.visibility = View.GONE
+            Glide.with(context).load(list[0].properties).into(v.mainImgView)
 
-            list.forEachIndexed{ index, link ->
-                val imageView = when(index) {
-                    1 -> v.imageView1
-                    else -> v.imageView0
+            if(list.size > 1) {
+                v.subImageLy.visibility = View.VISIBLE
+                Glide.with(context).load(list[1].properties).into(v.subImageView)
+                if(list.size > 2) {
+                    v.subImageText.text = "+${list.size - 2}"
+                    v.subImageText.visibility = View.VISIBLE
+                }else {
+                    v.subImageText.visibility = View.GONE
                 }
-                Glide.with(context).load(link.properties).into(imageView)
             }
+            else v.subImageLy.visibility = View.GONE
 
             v.imageLy.visibility = View.VISIBLE
-            v.imageLy.setOnClickListener {
-
-            }
         }else {
             v.imageLy.visibility = View.GONE
         }

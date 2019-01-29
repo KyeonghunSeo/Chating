@@ -106,7 +106,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         titleInput.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                timeObject.title = titleInput.text.toString()
+                if(titleInput.text.isNotEmpty()) {
+                    timeObject.title = titleInput.text.toString()
+                }else {
+                    timeObject.title = null
+                }
                 if(timeObject.inCalendar) updateStyleUI()
             }
             override fun afterTextChanged(p0: Editable?) {}
@@ -136,7 +140,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         memoInput.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                timeObject.description = memoInput.text.toString()
+                if(memoInput.text.isNotEmpty()) {
+                    timeObject.description = memoInput.text.toString()
+                }else {
+                    timeObject.description = null
+                }
             }
             override fun afterTextChanged(p0: Editable?) {}
         })
@@ -335,11 +343,15 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     fun confirm() {
         MainActivity.instance?.let {
-            if(originalData?.repeat.isNullOrEmpty()) {
-                TimeObjectManager.save(timeObject)
-                it.viewModel.clearTargetTimeObject()
+            if(originalData != timeObject) {
+                if(originalData?.repeat.isNullOrEmpty()) {
+                    TimeObjectManager.save(timeObject)
+                    it.viewModel.clearTargetTimeObject()
+                }else {
+                    RepeatManager.save(it, timeObject, Runnable { it.viewModel.clearTargetTimeObject() })
+                }
             }else {
-                RepeatManager.save(it, timeObject, Runnable { it.viewModel.clearTargetTimeObject() })
+                it.viewModel.clearTargetTimeObject()
             }
         }
     }
@@ -370,6 +382,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         viewMode = ViewMode.OPENED
         setData(timeObject)
         updateUI()
+        l("같아?${originalData}")
+        l("??${this.timeObject}")
         val transitionSet = TransitionSet()
         val t1 = makeFromBottomSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
@@ -484,7 +498,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                                     val ref = FirebaseStorage.getInstance().reference
                                             .child("${FirebaseAuth.getInstance().uid}/$imageId.jpg")
                                     val baos = ByteArrayOutputStream()
-                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 50, baos)
                                     val uploadTask = ref.putBytes(baos.toByteArray())
                                     uploadTask.addOnFailureListener {
                                         MainActivity.instance?.hideProgressDialog()

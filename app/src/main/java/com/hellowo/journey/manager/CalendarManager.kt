@@ -424,6 +424,18 @@ object CalendarManager {
                 centerY + strokeWidth / 2.0f, paint)
     }
 
+    fun drawPlus(view: TimeObjectView, paint: Paint, canvas: Canvas) {
+        val radius = dotSize / 1.5f
+        val centerY = (blockTypeSize - defaulMargin) / 2
+        val check = resource.getDrawable(R.drawable.sharp_add_black_48dp)
+        check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+        check.setBounds((leftPadding.toFloat() / 2f + defaulMargin - radius).toInt(),
+                (centerY - radius).toInt(),
+                (leftPadding.toFloat() / 2f + defaulMargin + radius).toInt(),
+                (centerY + radius).toInt())
+        check.draw(canvas)
+    }
+
     private fun drawRectCheckBox(view: TimeObjectView, centerY: Float, canvas: Canvas) {
         if(view.timeObject.isDone()) {
             view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG

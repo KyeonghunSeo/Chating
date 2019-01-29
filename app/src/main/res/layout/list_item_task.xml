@@ -44,7 +44,7 @@
           android:layout_marginTop="9dp"
           android:layout_marginBottom="9dp"
           android:layout_marginLeft="48dp"
-          android:layout_marginRight="120dp">
+          android:layout_marginRight="48dp">
 
          <LinearLayout
              android:orientation="vertical"

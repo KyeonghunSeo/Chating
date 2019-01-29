@@ -28,18 +28,18 @@
 
             <View
                 android:id="@+id/upperTimeLine"
-                android:layout_width="2dp"
+                android:layout_width="1dp"
                 android:layout_height="20.5dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@color/almostWhite"/>
+                android:background="@color/line"/>
 
             <View
                 android:id="@+id/bottomTimeLine"
-                android:layout_width="2dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="29.5dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@color/almostWhite"/>
+                android:background="@color/line"/>
 
             <ImageView
                 android:id="@+id/dotImg"
@@ -67,7 +67,7 @@
             android:layout_marginTop="14dp"
             android:layout_marginBottom="14dp"
             android:layout_marginLeft="48dp"
-            android:layout_marginRight="80dp">
+            android:layout_marginRight="48dp">
 
             <LinearLayout
                 android:orientation="vertical"

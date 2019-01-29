@@ -448,7 +448,7 @@ class MainActivity : BaseActivity() {
                                 l("사진 크기 : ${resource.rowBytes} 바이트")
                                 val ref = FirebaseStorage.getInstance().reference.child("${viewModel.appUser.value?.id}/profileImg.jpg")
                                 val baos = ByteArrayOutputStream()
-                                resource.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                                resource.compress(Bitmap.CompressFormat.JPEG, 50, baos)
                                 val uploadTask = ref.putBytes(baos.toByteArray())
                                 uploadTask.addOnFailureListener {
                                     hideProgressDialog()

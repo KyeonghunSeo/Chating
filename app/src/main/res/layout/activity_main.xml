@@ -114,10 +114,10 @@
 
             </LinearLayout>
 
-            <View
+            <com.hellowo.journey.ui.view.base.Line
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/almostWhite"/>
+                app:colorFlag="disable"/>
 
         </FrameLayout>
 
@@ -163,10 +163,10 @@
         android:elevation="10dp"
         android:visibility="visible">
 
-        <View
+        <com.hellowo.journey.ui.view.base.Line
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/line"/>
+            app:colorFlag="disable"/>
 
         <LinearLayout
             android:orientation="horizontal"

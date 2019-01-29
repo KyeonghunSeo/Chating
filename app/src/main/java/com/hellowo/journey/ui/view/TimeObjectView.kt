@@ -53,7 +53,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
     fun setLookByType() {
         if(!timeObject.inCalendar) {
-            setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 2)
+            setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
             gravity = Gravity.CENTER_VERTICAL
             maxLines = 1
             setSingleLine(true)
@@ -61,7 +61,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             //isHorizontalFadingEdgeEnabled = true /*성능이슈*/
             typeface = AppTheme.regularFont
             setTextColor(AppTheme.primaryText)
-            setPadding(defaultPadding, 0, defaultPadding, 0)
+            setPadding((leftPadding + defaulMargin).toInt(), 0, defaultPadding, 0)
             return
         }
 
@@ -172,6 +172,9 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 }
             }
         }else {
+            canvas?.let {
+                CalendarManager.drawPlus(this, paint, canvas)
+            }
             super.onDraw(canvas)
         }
     }
@@ -234,7 +237,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
     fun setNotInCalendarText() {
         childList?.let { list ->
-            val s = StringBuilder("+")
+            val s = StringBuilder()
             (0 until TimeObject.Type.values().size).forEach { type ->
                 val count = list.filter { it.type == type }.size
                 if(count > 0) {

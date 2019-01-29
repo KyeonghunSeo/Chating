@@ -101,33 +101,62 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/imageLy"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="10dp">
+        android:layout_height="100dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="2dp"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="1dp">
 
-        <ImageView
-            android:id="@+id/imageView0"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scaleType="centerCrop"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scaleType="centerCrop"/>
+            <ImageView
+                android:id="@+id/mainImgView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"/>
 
-    </LinearLayout>
+            <FrameLayout
+                android:id="@+id/subImageLy"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="1dp">
+
+                <ImageView
+                    android:id="@+id/subImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="1dp"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:id="@+id/subImageText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:background="@drawable/highlightcover"
+                    android:text="+10"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/linkLy"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="2dp"
         app:cardCornerRadius="0dp"
         app:cardElevation="10dp">
 

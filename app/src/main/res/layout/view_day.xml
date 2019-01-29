@@ -14,8 +14,7 @@
         <FrameLayout
             android:id="@+id/headerLy"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:clipChildren="false">
+            android:layout_height="60dp">
 
             <ImageView
                 android:id="@+id/headerCoverImg"
@@ -39,39 +38,33 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp">
+                    android:layout_height="wrap_content">
 
-                    <LinearLayout
+                    <FrameLayout
                         android:id="@+id/eventHeaderLy"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:gravity="center_vertical"
-                        android:layout_gravity="center">
+                        android:layout_marginTop="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="5dp">
 
                         <com.hellowo.journey.ui.view.base.Line
-                            android:layout_width="50dp"
-                            android:layout_height="1dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_gravity="bottom"
                             app:colorFlag="disable"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginBottom="5dp"
                             android:text="@string/schedule"
                             android:textColor="@color/disableText"
-                            android:textSize="11dp"
-                            android:textStyle="italic"/>
+                            android:fontFamily="@font/bold"
+                            android:textSize="12dp"/>
 
-                        <com.hellowo.journey.ui.view.base.Line
-                            android:layout_width="50dp"
-                            android:layout_height="1dp"
-                            app:colorFlag="disable" />
-
-                    </LinearLayout>
+                    </FrameLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/eventListView"
@@ -85,39 +78,33 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp">
+                    android:layout_height="wrap_content">
 
-                    <LinearLayout
+                    <FrameLayout
                         android:id="@+id/taskHeaderLy"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:gravity="center_vertical"
-                        android:layout_gravity="center">
+                        android:layout_marginTop="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="10dp">
 
                         <com.hellowo.journey.ui.view.base.Line
-                            android:layout_width="50dp"
-                            android:layout_height="1dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_gravity="bottom"
                             app:colorFlag="disable"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginBottom="5dp"
                             android:text="@string/task"
-                            android:textColor="@color/line"
-                            android:textSize="11dp"
-                            android:textStyle="italic"/>
+                            android:textColor="@color/disableText"
+                            android:fontFamily="@font/bold"
+                            android:textSize="12dp"/>
 
-                        <com.hellowo.journey.ui.view.base.Line
-                            android:layout_width="50dp"
-                            android:layout_height="1dp"
-                            app:colorFlag="disable" />
-
-                    </LinearLayout>
+                    </FrameLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/taskListView"
@@ -131,37 +118,24 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp">
+                    android:layout_height="wrap_content">
 
-                    <LinearLayout
+                    <FrameLayout
                         android:id="@+id/noteHeaderLy"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="30dp"
-                        android:gravity="center_vertical"
-                        android:layout_gravity="center">
+                        android:layout_marginTop="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="20dp">
 
                         <com.hellowo.journey.ui.view.base.Line
-                            android:layout_width="50dp"
-                            android:layout_height="1dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_gravity="bottom"
                             app:colorFlag="disable"/>
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:src="@drawable/sharp_format_quote_black_48dp"
-                            android:tint="@color/line"/>
-
-                        <com.hellowo.journey.ui.view.base.Line
-                            android:layout_width="50dp"
-                            android:layout_height="1dp"
-                            app:colorFlag="disable" />
-
-                    </LinearLayout>
+                    </FrameLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/noteListView"
@@ -181,7 +155,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         android:clipChildren="false">
 
         <include layout="@layout/view_selected_bar" />
