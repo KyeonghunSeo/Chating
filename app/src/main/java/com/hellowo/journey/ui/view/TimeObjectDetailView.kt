@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.os.IBinder
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -19,12 +20,10 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.transition.Fade
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
-import androidx.transition.TransitionSet
+import androidx.transition.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.google.android.gms.location.places.ui.PlacePicker
@@ -36,6 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.hellowo.journey.*
+import com.hellowo.journey.R
 import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.*
@@ -43,6 +43,9 @@ import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.MapActivity
 import com.hellowo.journey.ui.dialog.*
 import kotlinx.android.synthetic.main.view_timeobject_detail.view.*
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
+import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
@@ -53,6 +56,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     private var originalData: TimeObject? = null
     private val timeObject: TimeObject = TimeObject()
     private var googleMap: GoogleMap? = null
+    private var targetInput : EditText? = null
     var viewMode = ViewMode.CLOSED
 
     init {
@@ -106,18 +110,20 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         titleInput.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(titleInput.text.isNotEmpty()) {
-                    timeObject.title = titleInput.text.toString()
-                }else {
-                    timeObject.title = null
+                if(isOpened()) {
+                    if(titleInput.text.isNotEmpty()) {
+                        timeObject.title = titleInput.text.toString()
+                    }else {
+                        timeObject.title = null
+                    }
+                    if(timeObject.inCalendar) updateStyleUI()
                 }
-                if(timeObject.inCalendar) updateStyleUI()
             }
             override fun afterTextChanged(p0: Editable?) {}
         })
         titleInput.isFocusableInTouchMode = false
         titleInput.clearFocus()
-        titleInput.setOnClickListener { showTitleKeyPad() }
+        titleInput.setOnClickListener { showKeyPad(titleInput) }
     }
 
     private fun initDateTime() {
@@ -140,14 +146,19 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         memoInput.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(memoInput.text.isNotEmpty()) {
-                    timeObject.description = memoInput.text.toString()
-                }else {
-                    timeObject.description = null
+                if(isOpened()) {
+                    if(memoInput.text.isNotEmpty()) {
+                        timeObject.description = memoInput.text.toString()
+                    }else {
+                        timeObject.description = null
+                    }
                 }
             }
             override fun afterTextChanged(p0: Editable?) {}
         })
+        memoInput.isFocusableInTouchMode = false
+        memoInput.clearFocus()
+        memoInput.setOnClickListener { showKeyPad(memoInput) }
     }
 
     private fun initStyle() {
@@ -189,19 +200,22 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     private fun updateTitleUI() {
         when(timeObject.type) {
             TimeObject.Type.NOTE.ordinal -> {
+                titleInput.setSingleLine(false)
                 titleInput.hint = context.getString(R.string.what_do_you_think)
                 titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
             }
             else -> {
+                titleInput.setSingleLine(true)
                 titleInput.hint = context.getString(R.string.enter_title)
                 titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 28f)
             }
         }
         titleInput.setText(timeObject.title)
+        titleInput.setSelection(timeObject.title?.length ?: 0)
     }
 
-    val startCal = Calendar.getInstance()
-    val endCal = Calendar.getInstance()
+    private val startCal = Calendar.getInstance()
+    private val endCal = Calendar.getInstance()
 
     @SuppressLint("SetTextI18n")
     private fun updateDateUI() {
@@ -233,9 +247,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                     timeEndLy.visibility = View.VISIBLE
 
                     startSmallTimeText.text = AppDateFormat.ymDate.format(startCal.time)
-                    startBigTimeText.text = "${AppDateFormat.date.format(startCal.time)}"
+                    startBigTimeText.text = AppDateFormat.date.format(startCal.time)
                     endSmallTimeText.text = AppDateFormat.ymDate.format(endCal.time)
-                    endBigTimeText.text = "${AppDateFormat.date.format(endCal.time)}"
+                    endBigTimeText.text = AppDateFormat.date.format(endCal.time)
                 }
             }
         }else {
@@ -299,7 +313,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
-    fun updateMemoUI() {
+    private fun updateMemoUI() {
         if(timeObject.description.isNullOrEmpty()) {
             memoInput.setText("")
             memoLy.visibility = View.GONE
@@ -379,11 +393,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     fun show(timeObject: TimeObject) {
         l("=======SHOW DetailView=======\n$timeObject")
-        viewMode = ViewMode.OPENED
+        viewMode = ViewMode.ANIMATING
         setData(timeObject)
         updateUI()
-        l("같아?${originalData}")
-        l("??${this.timeObject}")
         val transitionSet = TransitionSet()
         val t1 = makeFromBottomSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
@@ -391,6 +403,12 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
+        transitionSet.addListener(object : TransitionListenerAdapter(){
+            override fun onTransitionEnd(transition: Transition) {
+                super.onTransitionEnd(transition)
+                viewMode = ViewMode.OPENED
+            }
+        })
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
         backgroundLy.visibility = View.VISIBLE
@@ -399,7 +417,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         backgroundLy.isClickable = true
         contentPanel.visibility = View.VISIBLE
         if(timeObject.id.isNullOrEmpty()) {
-            showTitleKeyPad()
+            showKeyPad(titleInput)
         }
     }
 
@@ -424,10 +442,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED
 
-    private fun showTitleKeyPad() {
-        titleInput.isFocusableInTouchMode = true
+    private fun showKeyPad(v : EditText) {
+        targetInput = v
+        v.isFocusableInTouchMode = true
         if (titleInput.requestFocus()) {
-            (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(titleInput, 0)
+            (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(v, 0)
         }
     }
 
@@ -498,7 +517,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                                     val ref = FirebaseStorage.getInstance().reference
                                             .child("${FirebaseAuth.getInstance().uid}/$imageId.jpg")
                                     val baos = ByteArrayOutputStream()
-                                    resource.compress(Bitmap.CompressFormat.JPEG, 50, baos)
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 25, baos)
                                     val uploadTask = ref.putBytes(baos.toByteArray())
                                     uploadTask.addOnFailureListener {
                                         MainActivity.instance?.hideProgressDialog()

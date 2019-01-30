@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
+    <com.hellowo.journey.ui.view.LeafFallFrameLayout
+        android:id="@+id/leafFallView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.hellowo.journey.ui.view.LeafFallFrameLayout>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"

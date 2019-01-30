@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
@@ -43,7 +43,7 @@
                     android:id="@+id/subText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:textSize="14dp"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -119,7 +119,8 @@
 
         <com.hellowo.journey.ui.view.base.Line
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"/>
+            android:layout_height="0.5dp"
+            app:colorFlag="disable"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -139,7 +140,8 @@
             <com.hellowo.journey.ui.view.base.Line
                 android:id="@+id/bottomDivider"
                 android:layout_width="0.5dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                app:colorFlag="disable"/>
 
             <TextView
                 android:id="@+id/confirmBtn"

@@ -241,10 +241,12 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             (0 until TimeObject.Type.values().size).forEach { type ->
                 val count = list.filter { it.type == type }.size
                 if(count > 0) {
-                    s.append(" ${context.getString(TimeObject.Type.values()[type].titleId)} $count /")
+                    s.append("${String.format(context.getString(R.string.number_of_not_in_calendar),
+                            count, context.getString(TimeObject.Type.values()[type].titleId))}, ")
                 }
             }
-            if(s.endsWith('/')) {
+            if(s.endsWith(", ")) {
+                s.deleteCharAt(s.length - 1)
                 s.deleteCharAt(s.length - 1)
             }
             text = s

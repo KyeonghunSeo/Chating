@@ -44,6 +44,7 @@ class WelcomeActivity : BaseActivity() {
     private fun startShow() {
         val handler =  Handler()
         handler.postDelayed({
+            leafFallView.start()
             ObjectAnimator.ofFloat(firstText1, "alpha", 0f, 1f).let {
                 it.duration = 2000
                 it.start()
@@ -79,6 +80,7 @@ class WelcomeActivity : BaseActivity() {
     }
 
     private fun startInitSettingLy() {
+        leafFallView.stop()
         val handler =  Handler()
         handler.postDelayed({
             val animSet = AnimatorSet()

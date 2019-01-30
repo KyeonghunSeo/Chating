@@ -57,9 +57,10 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     //utils
-    implementation 'com.pixplicity.easyprefs:library:1.9.0'
+    implementation 'com.pixplicity.easyprefs:library:1.9.0' // 내부 저장소
     implementation 'org.jsoup:jsoup:1.11.3'
-    implementation 'io.github.ponnamkarthik:richlinkpreview:1.0.9'
+    implementation 'io.github.ponnamkarthik:richlinkpreview:1.0.9' // 링크 프리뷰
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.2.1' // 키보드 감지
 }
 
 

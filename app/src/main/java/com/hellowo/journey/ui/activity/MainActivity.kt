@@ -38,6 +38,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import io.realm.Realm
 import io.realm.RealmAsyncTask
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
+import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 import java.io.ByteArrayOutputStream
 
 class MainActivity : BaseActivity() {
@@ -49,6 +51,7 @@ class MainActivity : BaseActivity() {
     lateinit var viewModel: MainViewModel
     lateinit var dayView: DayView
     private var reservedIntentAction: Runnable? = null
+    private var keypadListener : Unregistrar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,7 +111,6 @@ class MainActivity : BaseActivity() {
         yearText.typeface = AppTheme.boldFont
         monthText.typeface = AppTheme.boldFont
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        //todayBtn.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
             showDialog(DatePickerDialog(this, calendarView.targetCal.timeInMillis) {
                 calendarView.moveDate(it, true)
@@ -116,6 +118,15 @@ class MainActivity : BaseActivity() {
         }
         calendarLy.setOnDragListener(MainDragAndDropListener)
         searchBtn.setOnClickListener { searchView.show() }
+
+        keypadListener = KeyboardVisibilityEvent.registerEventListener(MainActivity.instance) { isOpen ->
+            l("키보드 상태 $isOpen")
+            if(isOpen) {
+
+            }else {
+
+            }
+        }
 
         callAfterViewDrawed(rootLy, Runnable{
             val location = IntArray(2)
@@ -448,7 +459,7 @@ class MainActivity : BaseActivity() {
                                 l("사진 크기 : ${resource.rowBytes} 바이트")
                                 val ref = FirebaseStorage.getInstance().reference.child("${viewModel.appUser.value?.id}/profileImg.jpg")
                                 val baos = ByteArrayOutputStream()
-                                resource.compress(Bitmap.CompressFormat.JPEG, 50, baos)
+                                resource.compress(Bitmap.CompressFormat.JPEG, 25, baos)
                                 val uploadTask = ref.putBytes(baos.toByteArray())
                                 uploadTask.addOnFailureListener {
                                     hideProgressDialog()
@@ -486,6 +497,7 @@ class MainActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        keypadListener?.unregister()
         TimeObjectManager.clear()
     }
 }

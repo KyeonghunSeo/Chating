@@ -298,12 +298,12 @@ object CalendarManager {
             stamp.setColorFilter(timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
             stamp.setBounds(left + margin, top + margin, left + size - margin, top + size - margin)
             stamp.draw(canvas)
-
+/*
             val stroke = resource.getDrawable(R.drawable.circle_stroke_1px)
             stroke.setColorFilter(timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
             stroke.setBounds(left, top, left + size, top + size)
             stroke.draw(canvas)
-
+*/
             left += size + margin
             if(left + size >= view.width) {
                 top += stampSize
@@ -425,7 +425,7 @@ object CalendarManager {
     }
 
     fun drawPlus(view: TimeObjectView, paint: Paint, canvas: Canvas) {
-        val radius = dotSize / 1.5f
+        val radius = dotSize / 1.2f
         val centerY = (blockTypeSize - defaulMargin) / 2
         val check = resource.getDrawable(R.drawable.sharp_add_black_48dp)
         check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
