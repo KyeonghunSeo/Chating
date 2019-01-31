@@ -21,22 +21,34 @@
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:textSize="16dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="@color/primaryText"
             android:textColorHint="@color/disableText"
-            android:hint="@string/no_tag"
             android:fontFamily="@font/bold"
-            android:text="@string/select_os_calendar"/>
+            android:text="title"/>
+
+        <TextView
+            android:id="@+id/subText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="14dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/primaryText"
+            android:text="sub"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp">
         </androidx.recyclerview.widget.RecyclerView>
@@ -48,6 +60,7 @@
             android:background="@color/grey"/>
 
         <LinearLayout
+            android:id="@+id/bottomBtnsLy"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="50dp">

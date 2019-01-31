@@ -288,14 +288,14 @@ object CalendarManager {
         var top = 0
         var left = 0
         view.childList?.forEachIndexed { index, timeObject ->
-            /*
-            val circle = resource.getDrawable(R.drawable.circle_fill)
-            circle.setColorFilter(CalendarManager.backgroundColor, PorterDuff.Mode.SRC_ATOP)
+
+            val circle = resource.getDrawable(R.drawable.primary_rect_fill_radius_1)
+            circle.setColorFilter(timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
             circle.setBounds(left + 1, top + 1, left + size - 1, top + size - 1)
             circle.draw(canvas)
-*/
+
             val stamp = resource.getDrawable(StampManager.stamps[index])
-            stamp.setColorFilter(timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+            stamp.setColorFilter(AppTheme.getFontColor(timeObject.colorKey), PorterDuff.Mode.SRC_ATOP)
             stamp.setBounds(left + margin, top + margin, left + size - margin, top + size - margin)
             stamp.draw(canvas)
 /*

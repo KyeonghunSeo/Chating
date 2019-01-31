@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-   <FrameLayout
-       android:id="@+id/checkArea"
-       android:layout_width="50dp"
-       android:layout_height="60dp"
-       android:layout_gravity="center_vertical">
-
-      <ImageView
-          android:id="@+id/iconImg"
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:layout_marginLeft="15dp"
-          android:layout_gravity="center_vertical"
-          android:tint="@color/primaryText"
-          android:src="@drawable/sharp_check_box_black_48dp"/>
-
-   </FrameLayout>
+   <ImageView
+       android:id="@+id/iconImg"
+       android:layout_width="20dp"
+       android:layout_height="20dp"
+       android:layout_marginLeft="15dp"
+       android:layout_gravity="center_vertical"
+       android:tint="@color/primaryText"
+       android:src="@drawable/sharp_check_box_black_48dp"/>
 
    <LinearLayout
        android:id="@+id/contentLy"
        android:orientation="vertical"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_gravity="center_vertical"
-       android:layout_marginLeft="50dp"
+       android:layout_height="55dp"
+       android:gravity="center_vertical"
+       android:layout_marginLeft="15dp"
        android:layout_marginRight="20dp">
 
       <TextView
@@ -47,4 +40,4 @@
 
    </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.manager.OsCalendarManager
 import com.hellowo.journey.setGlobalTheme
@@ -19,8 +20,9 @@ import kotlinx.android.synthetic.main.list_item_normal.view.*
 import java.util.HashSet
 
 
-class OsCalendarDialog(activity: Activity) : Dialog(activity) {
-    private val selectedItems = HashSet<String>(Prefs.getStringSet("osCalendarIds", HashSet<String>()))
+class CustomListDialog(activity: Activity, private val title: String, private val sub: String?,
+                       private val selectedItem: String?, private val isMultiChoice: Boolean,
+                       private val items: List<String>, private val onItemSelect: (Int) -> Unit) : Dialog(activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,24 +37,27 @@ class OsCalendarDialog(activity: Activity) : Dialog(activity) {
         rootLy.layoutParams.width = WRAP_CONTENT
         rootLy.requestLayout()
 
-        titleText.text = context.getString(R.string.select_os_calendar)
-        subText.visibility = View.GONE
-
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = ItemAdapter()
 
-        confirmBtn.setOnClickListener { _ ->
-            Prefs.putStringSet("osCalendarIds", selectedItems)
-            dismiss()
-            MainActivity.instance?.getCalendarView()?.let {
-                it.moveDate(it.targetCal.timeInMillis, true)
-            }
+        titleText.text = title
+        if(sub.isNullOrEmpty()) {
+            subText.visibility = View.GONE
+        }else {
+            subText.visibility = View.VISIBLE
+            subText.text = sub
         }
-        cancelBtn.setOnClickListener { dismiss() }
+
+        if(isMultiChoice) {
+            bottomBtnsLy.visibility = View.VISIBLE
+            confirmBtn.setOnClickListener { _ -> dismiss() }
+            cancelBtn.setOnClickListener { dismiss() }
+        }else {
+            bottomBtnsLy.visibility = View.GONE
+        }
     }
 
     inner class ItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        val items: List<OsCalendarManager.OsCalendar> = OsCalendarManager.getCalendarList(context)
 
         override fun getItemCount(): Int = items.size
 
@@ -69,23 +74,21 @@ class OsCalendarDialog(activity: Activity) : Dialog(activity) {
             val item = items[position]
             val v = holder.itemView
 
-            v.titleText.text = item.title
-            v.subText.text = item.accountName
-            v.iconImg.setColorFilter(item.color)
+            v.iconImg.visibility = View.GONE
+            v.subText.visibility = View.GONE
+            v.titleText.text = item
 
-            if(selectedItems.contains(item.id.toString())) {
-                v.iconImg.setImageResource(R.drawable.sharp_check_box_black_48dp)
+            if(selectedItem?.equals(item) == true) {
+                v.titleText.setTextColor(AppTheme.primaryText)
             }else {
-                v.iconImg.setImageResource(R.drawable.sharp_check_box_outline_blank_black_48dp)
+                v.titleText.setTextColor(AppTheme.secondaryText)
             }
 
             v.setOnClickListener {
-                if(selectedItems.contains(item.id.toString())) {
-                    selectedItems.remove(item.id.toString())
-                }else {
-                    selectedItems.add(item.id.toString())
+                onItemSelect.invoke(position)
+                if(!isMultiChoice) {
+                    dismiss()
                 }
-                notifyItemChanged(position)
             }
         }
     }

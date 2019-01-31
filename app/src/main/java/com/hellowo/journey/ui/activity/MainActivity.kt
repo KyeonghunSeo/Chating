@@ -121,6 +121,7 @@ class MainActivity : BaseActivity() {
 
         keypadListener = KeyboardVisibilityEvent.registerEventListener(MainActivity.instance) { isOpen ->
             l("키보드 상태 $isOpen")
+            timeObjectDetailView.setKeyboardLy(isOpen)
             if(isOpen) {
 
             }else {

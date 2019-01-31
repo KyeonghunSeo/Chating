@@ -99,6 +99,81 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             updateHeaderUI()
             updateStyleUI()
         }
+
+        editorTimeBtn.setOnClickListener { editorAction("time") }
+        editorQuoteBtn.setOnClickListener { editorAction("quote") }
+        editorQuotesBtn.setOnClickListener { editorAction("quotes") }
+        editorDotBtn.setOnClickListener { editorAction("dot") }
+        editorUpBtn.setOnClickListener { editorAction("up") }
+        editorDownBtn.setOnClickListener { editorAction("down") }
+        editorLeftBtn.setOnClickListener { editorAction("left") }
+        editorRightBtn.setOnClickListener { editorAction("right") }
+    }
+
+    private fun editorAction(action: String) {
+        val v = if(titleInput.isFocused) titleInput else if(memoInput.isFocused) memoInput else null
+        v?.let {
+            when(action) {
+                "time" -> {
+                    val text = AppDateFormat.time.format(Date())
+                    val start = Math.max(v.selectionStart, 0)
+                    val end = Math.max(v.selectionEnd, 0)
+                    v.text.replace(Math.min(start, end), Math.max(start, end), text, 0, text.length)
+                    return@let
+                }
+                "quote" -> {
+                    val text = "“”"
+                    val start = Math.max(v.selectionStart, 0)
+                    val end = Math.max(v.selectionEnd, 0)
+                    v.text.replace(Math.min(start, end), Math.max(start, end), text, 0, text.length)
+                    v.setSelection(v.selectionStart - 1)
+                    return@let
+                }
+                "quotes" -> {
+                    val text = "‘’"
+                    val start = Math.max(v.selectionStart, 0)
+                    val end = Math.max(v.selectionEnd, 0)
+                    v.text.replace(Math.min(start, end), Math.max(start, end), text, 0, text.length)
+                    v.setSelection(v.selectionStart - 1)
+                    return@let
+                }
+                "dot" -> {
+                    val text = "\n ㆍ "
+                    val start = Math.max(v.selectionStart, 0)
+                    val end = Math.max(v.selectionEnd, 0)
+                    v.text.replace(Math.min(start, end), Math.max(start, end), text, 0, text.length)
+                    return@let
+                }
+                "left" -> {
+                    if(v.selectionStart > 0) v.setSelection(v.selectionStart - 1)
+                }
+                "up" -> {
+                    val start = Math.max(v.selectionStart, 0)
+                    val layout = v.layout
+                    val currentLine = layout.getLineForOffset(start)
+                    if(currentLine > 0) {
+                        val offset = start - layout.getLineStart(currentLine)
+                        val s = layout.getLineStart(currentLine - 1)
+                        val e = layout.getLineEnd(currentLine - 1)
+                        v.setSelection(if(s + offset <= e) s + offset else e)
+                    }
+                }
+                "right" -> {
+                    if(v.selectionStart < v.text.length) v.setSelection(v.selectionStart + 1)
+                }
+                "down" -> {
+                    val start = Math.max(v.selectionStart, 0)
+                    val layout = v.layout
+                    val currentLine = layout.getLineForOffset(start)
+                    if(currentLine < v.lineCount - 1) {
+                        val offset = start - layout.getLineStart(currentLine)
+                        val s = layout.getLineStart(currentLine + 1)
+                        val e = layout.getLineEnd(currentLine + 1)
+                        v.setSelection(if(s + offset <= e) s + offset else e)
+                    }
+                }
+            }
+        }
     }
 
     private fun initTitle() {
@@ -437,6 +512,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
         contentPanel.visibility = View.INVISIBLE
+        textEditorLy.visibility = View.GONE
         hideKeyPad(windowToken, titleInput)
     }
 
@@ -563,5 +639,13 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     fun openImagePicker() {
         MainActivity.instance?.checkExternalStoragePermission(RC_IMAGE_ATTACHMENT)
+    }
+
+    fun setKeyboardLy(isOpen: Boolean) {
+        if(isOpen) {
+            textEditorLy.visibility = View.VISIBLE
+        }else {
+            textEditorLy.visibility = View.GONE
+        }
     }
 }

@@ -149,7 +149,7 @@
     <string name="plan">계획</string>
     <string name="drawing">손글씨</string>
     <string name="term">기간</string>
-    <string name="calendar_settings">캘린더 설정</string>
+    <string name="calendar_settings">달력 설정</string>
     <string name="selected">선택됨</string>
     <string name="add_direct">바로저장</string>
     <string name="make_new">새로 만들기</string>
@@ -211,5 +211,7 @@
     <string name="delete_folder_sub">이 서랍에 보관된 모든 기록이 삭제됩니다.\n정말 삭제할까요?</string>
     <string name="search_title_location_memo">제목, 위치, 메모 검색하기</string>
     <string name="number_of_not_in_calendar">%1$s개의 %2$s</string>
+    <string name="startdow">한 주의 시작</string>
+    <string name="startdow_sub">한 주의 시작요일을 설정합니다</string>
 
 </resources>
