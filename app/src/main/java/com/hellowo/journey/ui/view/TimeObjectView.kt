@@ -22,7 +22,7 @@ import com.hellowo.journey.model.TimeObject.Style.*
 @SuppressLint("ViewConstructor")
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
     companion object {
-        var standardTextSize = 9f
+        var standardTextSize = 8f
         val defaulMargin = dpToPx(1f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
         val defaultPadding = dpToPx(2)
@@ -92,7 +92,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setTextColor(fontColor)
             }
             NOTE -> {
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize )
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title?.replace(System.getProperty("line.separator"), " ")
                 else context.getString(R.string.empty_note)
                 typeface = AppTheme.regularFont

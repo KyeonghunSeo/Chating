@@ -52,7 +52,7 @@ object CalendarManager {
             }
             RECT_STROKE -> {
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = strokeWidth * 1f
+                paint.strokeWidth = strokeWidth * 0.7f
                 canvas.drawRect(strokeWidth / 2, strokeWidth / 2,
                         width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2, paint)
                 paint.style = Paint.Style.FILL
@@ -386,7 +386,7 @@ object CalendarManager {
     }
 
     private fun drawDot(view: TimeObjectView, paint: Paint, canvas: Canvas) {
-        val radius = dotSize / 2.7f
+        val radius = dotSize / 3.0f
         val centerY = (blockTypeSize - defaulMargin) / 2
         canvas.drawCircle(leftPadding.toFloat() / 2f + defaulMargin, centerY, radius, paint)
     }
