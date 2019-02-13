@@ -36,7 +36,7 @@
                 android:textColor="@color/primaryText"
                 android:fontFamily="@font/bold"
                 android:textSize="20dp"
-                android:text="@string/setting"/>
+                android:text="@string/app_name"/>
 
         </LinearLayout>
 
@@ -52,49 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="5dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/calendar_settings"
-                    android:textColor="@color/disableText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="12dp"/>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/startdowBtn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/startdow"
-                    android:textColor="@color/primaryText"
-                    android:textSize="16dp"/>
-
-                <TextView
-                    android:id="@+id/startdowText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:text="@string/sun"
-                    android:textColor="@color/secondaryText"
-                    android:textSize="14dp"/>
-
-            </FrameLayout>
 
         </LinearLayout>
 

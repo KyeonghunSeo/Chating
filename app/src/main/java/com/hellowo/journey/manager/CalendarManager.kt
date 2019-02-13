@@ -52,7 +52,7 @@ object CalendarManager {
             }
             RECT_STROKE -> {
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = strokeWidth * 0.7f
+                paint.strokeWidth = strokeWidth * 1.0f
                 canvas.drawRect(strokeWidth / 2, strokeWidth / 2,
                         width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2, paint)
                 paint.style = Paint.Style.FILL

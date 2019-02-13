@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.hellowo.journey.*
 import com.hellowo.journey.manager.OsCalendarManager
 import com.hellowo.journey.model.AppUser
+import com.hellowo.journey.ui.activity.AboutUsActivity
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.SettingsActivity
 import com.hellowo.journey.ui.dialog.OsCalendarDialog
@@ -34,7 +35,8 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         profileImage.setOnClickListener {
             MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
         }
-        settingsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, SettingsActivity::class.java)) } }
+        settingsBtn.setOnClickListener { _ -> MainActivity.instance?.let { it.startActivity(Intent(it, SettingsActivity::class.java)) } }
+        aboutUsBtn.setOnClickListener { _ -> MainActivity.instance?.let { it.startActivity(Intent(it, AboutUsActivity::class.java)) } }
         FirebaseAuth.getInstance().currentUser?.photoUrl?.let {
             Glide.with(this).load(it)
                     //.apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
@@ -44,6 +46,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     fun updateUserUI(appUser: AppUser) {
         l("[프로필 뷰 갱신]")
+        nameText.text = FirebaseAuth.getInstance().currentUser?.displayName
         emailText.text = FirebaseAuth.getInstance().currentUser?.email
         if(appUser.profileImgUrl?.isNotEmpty() == true) {
             profileImage.clearColorFilter()

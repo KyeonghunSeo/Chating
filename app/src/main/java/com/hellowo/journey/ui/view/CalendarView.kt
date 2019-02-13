@@ -114,6 +114,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var minHeight = 0f
     var rows = 0
     var todayStatus = 0
+    var sundayPos = 0
 
     private var autoScroll = true
 
@@ -189,6 +190,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
+    fun reDrawCalendar() { drawCalendar(targetCal.timeInMillis) }
+
     private fun drawCalendar(time: Long) {
         l("==========START drawCalendar=========")
         val t = System.currentTimeMillis()
@@ -199,6 +202,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         setCalendarTime0(tempCal)
 
         startCellNum = tempCal.get(Calendar.DAY_OF_WEEK) - AppStatus.startDayOfWeek
+        if (startCellNum < 0) { startCellNum += 7 }
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
         todayCellNum = -1
         targetCellNum = -1
@@ -206,6 +210,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         minCalendarHeight = (height.toFloat() - calendarPadding * 2)
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
+        sundayPos = if(AppStatus.startDayOfWeek == Calendar.SUNDAY) 0 else 8 - AppStatus.startDayOfWeek
 
         tempCal.add(Calendar.DATE, -startCellNum)
 
@@ -282,7 +287,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun getDateTextColor(cellNum: Int, isHoli: Boolean) : Int {
-        return if(isHoli || cellNum % columns == AppStatus.sundayPos) {
+        return if(isHoli || cellNum % columns == sundayPos) {
             CalendarManager.sundayColor
         }else {
             CalendarManager.dateColor
