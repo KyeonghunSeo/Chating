@@ -70,9 +70,11 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
 
     private val eventAdapter = EventListAdapter(context, eventList, calendarView.targetCal) { view, timeObject, action ->
         when(action) {
+            -1 -> deleteItem(view, timeObject)
             0 -> onItemClick(view, timeObject)
         }
     }
+
     private val taskAdapter = TaskListAdapter(context, taskList, calendarView.targetCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
@@ -448,6 +450,17 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             TransitionManager.beginDelayedTransition(this, transiion)
             layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
                 setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
+            }
+        }
+    }
+
+    private fun deleteItem(view: View, timeObject: TimeObject) {
+        l("?????????????????????")
+        MainActivity.instance?.let {
+            if(timeObject.repeat.isNullOrEmpty()) {
+                TimeObjectManager.delete(timeObject)
+            }else {
+                RepeatManager.delete(it, timeObject, Runnable {})
             }
         }
     }

@@ -54,14 +54,14 @@
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="5dp">
+                android:layout_marginLeft="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="@string/calendar_settings"
                     android:textColor="@color/disableText"
                     android:fontFamily="@font/bold"
@@ -91,8 +91,112 @@
                     android:layout_marginRight="20dp"
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/sun"
-                    android:textColor="@color/secondaryText"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
                     android:textSize="14dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/weekDisplayBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/week_display"
+                    android:textColor="@color/primaryText"
+                    android:textSize="16dp"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:id="@+id/weekDisplaySatText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/sat"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold"
+                        android:textSize="14dp"/>
+
+                    <TextView
+                        android:id="@+id/weekDisplaySunText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sun"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold"
+                        android:textSize="14dp"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/lunarDisplayBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/lunar_display"
+                    android:textColor="@color/primaryText"
+                    android:textSize="16dp"/>
+
+                <Switch
+                    android:id="@+id/lunarSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="14dp"
+                    android:layout_gravity="center_vertical|right" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/account_settings"
+                    android:textColor="@color/disableText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="12dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/logoutBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/logout"
+                    android:textColor="@color/primaryText"
+                    android:textSize="16dp"/>
 
             </FrameLayout>
 

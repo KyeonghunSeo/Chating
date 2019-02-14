@@ -213,5 +213,10 @@
     <string name="number_of_not_in_calendar">%1$s개의 %2$s</string>
     <string name="startdow">한 주의 시작</string>
     <string name="startdow_sub">한 주의 시작요일을 설정합니다</string>
+    <string name="week_display">주말 표시</string>
+    <string name="lunar_display">음력 표시</string>
+    <string name="account_settings">계정 설정</string>
+    <string name="logout">로그아웃</string>
+    <string name="ask_logout">로그아웃 하면 다시 해당 계정으로 다시 로그인하기 전까지 기존 데이터를 볼 수 없습니다.</string>
 
 </resources>

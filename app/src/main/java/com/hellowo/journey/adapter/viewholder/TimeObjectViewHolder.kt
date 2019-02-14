@@ -31,7 +31,8 @@ class TimeObjectViewHolder(container: View) : RecyclerView.ViewHolder(container)
     }
 
     @SuppressLint("SetTextI18n")
-    fun setContents(context: Context, timeObject: TimeObject, v: View) {
+    fun setContents(context: Context, timeObject: TimeObject, v: View,
+                    adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit) {
         if(timeObject.tags.isNotEmpty()) {
             v.tagText.visibility = View.VISIBLE
             v.tagText.text = timeObject.tags.joinToString("") { "#${it.id}" }
@@ -119,6 +120,5 @@ class TimeObjectViewHolder(container: View) : RecyclerView.ViewHolder(container)
         }else {
             v.linkLy.visibility = View.GONE
         }
-
     }
 }

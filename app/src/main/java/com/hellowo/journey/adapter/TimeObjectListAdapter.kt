@@ -55,7 +55,7 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
             return@setOnLongClickListener false
         }
 
-        (holder as TimeObjectViewHolder).setContents(context, timeObject, v)
+        (holder as TimeObjectViewHolder).setContents(context, timeObject, v, adapterInterface)
 
         if(timeObject.title.isNullOrBlank()) {
             v.titleText.text = context.getString(R.string.empty_note)

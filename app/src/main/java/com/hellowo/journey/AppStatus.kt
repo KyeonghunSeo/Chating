@@ -6,10 +6,10 @@ import java.util.*
 
 object AppStatus {
     var startDayOfWeek = Calendar.SUNDAY
-    var saturdayColor = 0
-    var sundayColor = 1
+    var isLunarDisplay = true
 
     fun init(context: Context) {
         startDayOfWeek = Prefs.getInt("startDayOfWeek", Calendar.SUNDAY)
+        isLunarDisplay = Prefs.getBoolean("isLunarDisplay", true)
     }
 }

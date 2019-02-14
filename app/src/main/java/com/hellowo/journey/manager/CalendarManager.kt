@@ -16,6 +16,7 @@ import com.hellowo.journey.ui.view.TimeObjectView.Companion.rectRadius
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.stampSize
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.strokeWidth
 import com.hellowo.journey.model.TimeObject.Style.*
+import com.pixplicity.easyprefs.library.Prefs
 
 object CalendarManager {
     var backgroundColor: Int = 0
@@ -32,8 +33,8 @@ object CalendarManager {
     init {
         backgroundColor = AppTheme.backgroundColor
         dateColor = resource.getColor(R.color.primaryText)
-        sundayColor = resource.getColor(R.color.holiday)
-        saturdayColor = resource.getColor(R.color.blue)
+        sundayColor = Prefs.getInt("sundayColor", AppTheme.redColor)
+        saturdayColor = Prefs.getInt("saturdayColor", AppTheme.blueColor)
         todayDateColor = resource.getColor(R.color.primaryText)
         selectedDateColor = resource.getColor(R.color.primaryText)
         selectedBackgroundColor = resource.getColor(R.color.grey)

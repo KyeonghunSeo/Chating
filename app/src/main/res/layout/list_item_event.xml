@@ -9,9 +9,16 @@
         android:id="@+id/backLy"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/red">
 
-
+        <TextView
+            android:id="@+id/deleteBtn"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:text="@string/delete"/>
 
     </LinearLayout>
 
@@ -29,7 +36,7 @@
             <View
                 android:id="@+id/upperTimeLine"
                 android:layout_width="1dp"
-                android:layout_height="20.5dp"
+                android:layout_height="22.5dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/line"/>
 
@@ -37,16 +44,16 @@
                 android:id="@+id/bottomTimeLine"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="29.5dp"
+                android:layout_marginTop="28.5dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/line"/>
 
             <ImageView
                 android:id="@+id/dotImg"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="19.5dp"
+                android:layout_marginTop="21.5dp"
                 android:tint="@color/disableText"
                 android:src="@drawable/circle_fill"/>
 

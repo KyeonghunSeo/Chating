@@ -71,7 +71,10 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
         }
 
         v.frontLy.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
-        (holder as TimeObjectViewHolder).setContents(context, timeObject, v)
+        v.deleteBtn.setOnClickListener {
+            l("sssssssssssss")
+            adapterInterface.invoke(it, timeObject, -1) }
+        (holder as TimeObjectViewHolder).setContents(context, timeObject, v, adapterInterface)
     }
 
     inner class SimpleItemTouchHelperCallback(private val mAdapter: EventListAdapter) : ItemTouchHelper.Callback() {
@@ -91,7 +94,9 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
             return false
         }
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            l("aaaaa")
+        }
 
         override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                                  dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {

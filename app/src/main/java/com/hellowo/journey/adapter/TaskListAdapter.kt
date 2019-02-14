@@ -56,7 +56,7 @@ class TaskListAdapter(val context: Context, val items: List<TimeObject>, val cur
             return@setOnLongClickListener false
         }
 
-        (holder as TimeObjectViewHolder).setContents(context, timeObject, v)
+        (holder as TimeObjectViewHolder).setContents(context, timeObject, v, adapterInterface)
     }
 
     fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {

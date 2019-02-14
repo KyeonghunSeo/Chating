@@ -115,6 +115,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var rows = 0
     var todayStatus = 0
     var sundayPos = 0
+    var saturdayPos = 6
 
     private var autoScroll = true
 
@@ -210,7 +211,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         minCalendarHeight = (height.toFloat() - calendarPadding * 2)
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
-        sundayPos = if(AppStatus.startDayOfWeek == Calendar.SUNDAY) 0 else 8 - AppStatus.startDayOfWeek
+        if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {
+            sundayPos = 0
+            saturdayPos = 6
+        } else {
+            sundayPos = 8 - AppStatus.startDayOfWeek
+            saturdayPos = 7 - AppStatus.startDayOfWeek
+        }
 
         tempCal.add(Calendar.DATE, -startCellNum)
 
@@ -253,7 +260,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
                     if(!holi.isNullOrEmpty()) {
                         holiText.text = holi
-                    }else if(lunarCalendar.lunarDay == 1 || lunarCalendar.lunarDay == 10 || lunarCalendar.lunarDay == 20) {
+                    }else if(AppStatus.isLunarDisplay && (lunarCalendar.lunarDay == 1
+                                    || lunarCalendar.lunarDay == 10
+                                    || lunarCalendar.lunarDay == 20)) {
                         holiText.text = lunarCalendar.lunarSimpleFormat
                     }else {
                         holiText.text = ""
@@ -289,6 +298,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun getDateTextColor(cellNum: Int, isHoli: Boolean) : Int {
         return if(isHoli || cellNum % columns == sundayPos) {
             CalendarManager.sundayColor
+        }else if(cellNum % columns == saturdayPos) {
+            CalendarManager.saturdayColor
         }else {
             CalendarManager.dateColor
         }
