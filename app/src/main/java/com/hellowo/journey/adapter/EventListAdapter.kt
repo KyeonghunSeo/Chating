@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.*
 import com.hellowo.journey.adapter.viewholder.TimeObjectViewHolder
@@ -14,6 +15,10 @@ import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.list_item_event.view.*
 import java.util.*
+import android.view.MotionEvent
+import com.hellowo.journey.R.id.recyclerView
+
+
 
 class EventListAdapter(val context: Context, val items: List<TimeObject>, val currentCal: Calendar,
                        val adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit)
@@ -78,7 +83,10 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
     }
 
     inner class SimpleItemTouchHelperCallback(private val mAdapter: EventListAdapter) : ItemTouchHelper.Callback() {
+        private var buttonShowedState = 0
+        private var swipeBack = false
         private val ALPHA_FULL = 1.0f
+        private val buttonWidth = dpToPx(50)
 
         override fun isLongPressDragEnabled(): Boolean = false
 
@@ -94,19 +102,71 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
             return false
         }
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            l("aaaaa")
-        }
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
 
         override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                                  dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
-            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                // Fade out the view as it is swiped out of the parent's bounds
-                //val alpha = ALPHA_FULL - Math.abs(dX) / viewHolder.itemView.width.toFloat()
-                //viewHolder.itemView.alpha = alpha
-                viewHolder.itemView.frontLy.translationX = dX
-            } else {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            if (actionState == ACTION_STATE_SWIPE) {
+                l("????????aaaa")
+                setTouchListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            }
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        private fun setTouchListener(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                                     dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+            recyclerView.setOnTouchListener { v, event ->
+                swipeBack = event.action == MotionEvent.ACTION_CANCEL || event.action == MotionEvent.ACTION_UP
+                if (swipeBack) {
+                    if (dX < -buttonWidth) buttonShowedState = 2
+                    else if (dX > buttonWidth) buttonShowedState  = 1
+
+                    if (buttonShowedState != 0) {
+                        setTouchDownListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        setItemsClickable(recyclerView, false)
+                    }
+                }
+                return@setOnTouchListener false
+            }
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        private fun setTouchDownListener(c: Canvas,
+                                         recyclerView: RecyclerView,
+                                         viewHolder: RecyclerView.ViewHolder,
+                                         dX: Float, dY: Float,
+                                         actionState: Int, isCurrentlyActive: Boolean) {
+            recyclerView.setOnTouchListener { v, event ->
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    setTouchUpListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                }
+                false
+            }
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        private fun setTouchUpListener(c: Canvas,
+                                       recyclerView: RecyclerView,
+                                       viewHolder: RecyclerView.ViewHolder,
+                                       dX: Float, dY: Float,
+                                       actionState: Int, isCurrentlyActive: Boolean) {
+            recyclerView.setOnTouchListener { v, event ->
+                if (event.action == MotionEvent.ACTION_UP) {
+                    super.onChildDraw(c, recyclerView, viewHolder, 0f, dY, actionState, isCurrentlyActive)
+                    recyclerView.setOnTouchListener { v, event -> false }
+                    setItemsClickable(recyclerView, true)
+                    swipeBack = false
+                    buttonShowedState = 0
+                }
+                false
+            }
+        }
+
+        private fun setItemsClickable(recyclerView: RecyclerView,
+                                      isClickable: Boolean) {
+            for (i in 0 until recyclerView.childCount) {
+                recyclerView.getChildAt(i).isClickable = isClickable
             }
         }
 
@@ -119,7 +179,6 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
                     itemViewHolder?.onItemSelected()
                 }
             }
-
             super.onSelectedChanged(viewHolder, actionState)
         }
 
@@ -127,6 +186,14 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
             super.clearView(recyclerView, viewHolder)
             viewHolder.itemView.alpha = ALPHA_FULL
             (viewHolder as? TimeObjectViewHolder)?.onItemClear()
+        }
+
+        override fun convertToAbsoluteDirection(flags: Int, layoutDirection: Int): Int {
+            if (swipeBack) {
+                swipeBack = false
+                return 0
+            }
+            return super.convertToAbsoluteDirection(flags, layoutDirection)
         }
     }
 }
