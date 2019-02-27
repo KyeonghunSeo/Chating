@@ -283,6 +283,7 @@ class WelcomeActivity : BaseActivity() {
                 account?.let { firebaseAuthWithGoogle(account) }
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
+                e.printStackTrace()
                 l("Google sign in failed")
             }
         }
