@@ -11,6 +11,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
+import com.hellowo.journey.AppStatus
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
@@ -53,7 +54,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
     fun setLookByType() {
         if(!timeObject.inCalendar) {
-            setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize - 1)
+            setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
             gravity = Gravity.CENTER_VERTICAL
             maxLines = 1
             setSingleLine(true)
@@ -68,7 +69,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         when(TimeObject.Type.values()[timeObject.type]) {
             EVENT, TASK -> {
                 typeface = AppTheme.regularFont
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 gravity = Gravity.CENTER_VERTICAL
                 maxLines = 1
@@ -92,7 +93,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setTextColor(fontColor)
             }
             NOTE -> {
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize )
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title?.replace(System.getProperty("line.separator"), " ")
                 else context.getString(R.string.empty_note)
                 typeface = AppTheme.regularFont
@@ -115,7 +116,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setTextColor(fontColor)
             }
             TERM -> {
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize)
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 gravity = Gravity.CENTER_HORIZONTAL
                 maxLines = 1

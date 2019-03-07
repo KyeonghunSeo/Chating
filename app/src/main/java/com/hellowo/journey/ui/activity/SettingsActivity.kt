@@ -1,11 +1,13 @@
 package com.hellowo.journey.ui.activity
 
 import android.os.Bundle
+import android.util.TypedValue
 import com.google.firebase.auth.FirebaseAuth
 import com.hellowo.journey.AppStatus
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.manager.CalendarManager
+import com.hellowo.journey.manager.HolidayManager
 import com.hellowo.journey.showDialog
 import com.hellowo.journey.ui.dialog.CustomDialog
 import com.hellowo.journey.ui.dialog.CustomListDialog
@@ -23,6 +25,24 @@ class SettingsActivity : BaseActivity() {
     private fun initLayout() {
         backBtn.setOnClickListener { onBackPressed() }
 
+        setStartDow()
+        setWeekendDisplay()
+        setHoliDisplay()
+        setLunarDisplay()
+        setCalTextSize()
+
+        logoutBtn.setOnClickListener {
+            showDialog(CustomDialog(this@SettingsActivity, getString(R.string.logout),
+                    getString(R.string.ask_logout), null) { result, _, _ ->
+                if(result) {
+                    FirebaseAuth.getInstance().signOut()
+                    finish()
+                }
+            }, true, true, true, false)
+        }
+    }
+
+    private fun setStartDow() {
         val dowList = resources.getStringArray(R.array.day_of_weeks).toList()
         startdowText.text = dowList[AppStatus.startDayOfWeek - 1]
         startdowBtn.setOnClickListener {
@@ -31,13 +51,15 @@ class SettingsActivity : BaseActivity() {
                     getString(R.string.startdow_sub),
                     null,
                     false,
-                    resources.getStringArray(R.array.day_of_weeks).toList()) { index ->
+                    dowList) { index ->
                 AppStatus.startDayOfWeek = index + 1
                 Prefs.putInt("startDayOfWeek", AppStatus.startDayOfWeek)
-                startdowText.text = dowList[AppStatus.startDayOfWeek - 1]
+                setStartDow()
             }, true, true, true, false)
         }
+    }
 
+    private fun setWeekendDisplay() {
         weekDisplaySunText.setTextColor(CalendarManager.sundayColor)
         weekDisplaySatText.setTextColor(CalendarManager.saturdayColor)
         weekDisplayBtn.setOnClickListener {
@@ -61,26 +83,63 @@ class SettingsActivity : BaseActivity() {
                     Prefs.putInt("saturdayColor", CalendarManager.saturdayColor)
                 }
             }
-            weekDisplaySunText.setTextColor(CalendarManager.sundayColor)
-            weekDisplaySatText.setTextColor(CalendarManager.saturdayColor)
+            setWeekendDisplay()
         }
+    }
 
-        lunarSwitch.isChecked = AppStatus.isLunarDisplay
-        lunarSwitch.setOnCheckedChangeListener { compoundButton, checked ->
-            AppStatus.isLunarDisplay = checked
-            Prefs.putBoolean("isLunarDisplay", AppStatus.isLunarDisplay)
+    private fun setHoliDisplay() {
+        val holiList = resources.getStringArray(R.array.holidays).toList()
+        holiDisplayText.text = holiList[AppStatus.holidayDisplay]
+        if(AppStatus.holidayDisplay == 0) {
+            holiDisplayText.setTextColor(AppTheme.disableText)
+        }else {
+            holiDisplayText.setTextColor(AppTheme.primaryText)
         }
-
-
-
-        logoutBtn.setOnClickListener {
-            showDialog(CustomDialog(this@SettingsActivity, getString(R.string.logout),
-                    getString(R.string.ask_logout), null) { result, _, _ ->
-                if(result) {
-                    FirebaseAuth.getInstance().signOut()
-                    finish()
-                }
+        holiDisplayBtn.setOnClickListener {
+            showDialog(CustomListDialog(this@SettingsActivity,
+                    getString(R.string.holi_display),
+                    getString(R.string.holi_display_sub),
+                    null,
+                    false,
+                    holiList) { index ->
+                AppStatus.holidayDisplay = index
+                Prefs.putInt("holidayDisplay", AppStatus.holidayDisplay)
+                HolidayManager.init()
+                setHoliDisplay()
             }, true, true, true, false)
+        }
+    }
+
+    private fun setLunarDisplay() {
+        if(AppStatus.isLunarDisplay) {
+            lunarDisplayText.text = getString(R.string.visible)
+            lunarDisplayText.setTextColor(AppTheme.primaryText)
+        }else {
+            lunarDisplayText.text = getString(R.string.unvisible)
+            lunarDisplayText.setTextColor(AppTheme.disableText)
+        }
+        lunarDisplayBtn.setOnClickListener {
+            AppStatus.isLunarDisplay = !AppStatus.isLunarDisplay
+            Prefs.putBoolean("isLunarDisplay", AppStatus.isLunarDisplay)
+            setLunarDisplay()
+        }
+    }
+
+    private fun setCalTextSize() {
+        when(AppStatus.calTextSize) {
+            -1 -> calTextSizeText.text = getString(R.string.small)
+            0 -> calTextSizeText.text = getString(R.string.normal)
+            1 -> calTextSizeText.text = getString(R.string.big)
+        }
+        //calTextSizeText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (8 + AppStatus.calTextSize).toFloat())
+        calTextSizeBtn.setOnClickListener {
+            when(AppStatus.calTextSize) {
+                -1 -> AppStatus.calTextSize = 0
+                0 -> AppStatus.calTextSize = 1
+                1 -> AppStatus.calTextSize = -1
+            }
+            Prefs.putInt("calTextSize", AppStatus.calTextSize)
+            setCalTextSize()
         }
     }
 

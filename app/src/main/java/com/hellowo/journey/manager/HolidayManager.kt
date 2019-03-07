@@ -1,5 +1,6 @@
 package com.hellowo.journey.manager
 
+import com.hellowo.journey.AppStatus
 import com.hellowo.journey.R
 import java.util.*
 
@@ -8,7 +9,14 @@ object HolidayManager {
     private val lunarHolidays = HashMap<String, String>()
 
     init {
-        setHolidaysKR()
+        init()
+    }
+
+    fun init() {
+        when(AppStatus.holidayDisplay) {
+            2 -> setHolidaysKR()
+            else -> setHolidaysKR()
+        }
     }
 
     private fun setHolidaysKR() {
@@ -32,7 +40,8 @@ object HolidayManager {
     }
 
     fun getHoliday(solarKey: String, lunarKey: String): String? {
-        return when {
+        return if(AppStatus.holidayDisplay == 0) null
+        else when {
             solarHolidays.containsKey(solarKey) -> solarHolidays[solarKey]
             lunarHolidays.containsKey(lunarKey) -> lunarHolidays[lunarKey]
             else -> null

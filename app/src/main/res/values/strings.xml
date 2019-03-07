@@ -54,6 +54,7 @@
     <string name="style">스타일</string>
     <string name="color">색상</string>
     <string name="visible">표시</string>
+    <string name="unvisible">표시 안함</string>
     <string name="event">일정</string>
     <string name="task">할일</string>
     <string name="stamp">스탬프</string>
@@ -77,6 +78,12 @@
     <string name="alarm">알림</string>
     <string name="enter_memo">이곳에 메모를 입력하세요</string>
     <string name="set_alarm">알림설정</string>
+
+    <string-array name="holidays">
+        <item>@string/unvisible</item>
+        <item>@string/kr</item>
+        <item>@string/jp</item>
+    </string-array>
 
     <string-array name="day_of_weeks">
         <item>@string/sun</item>
@@ -218,5 +225,19 @@
     <string name="account_settings">계정 설정</string>
     <string name="logout">로그아웃</string>
     <string name="ask_logout">로그아웃 하면 다시 해당 계정으로 다시 로그인하기 전까지 기존 데이터를 볼 수 없습니다.</string>
+    <string name="small">작게</string>
+    <string name="normal">기본</string>
+    <string name="big">크게</string>
+    <string name="middle">중간</string>
+    <string name="on">켬</string>
+    <string name="off">끔</string>
+    <string name="advanced_settings">고급 설정</string>
+    <string name="export">txt파일로 내보내기</string>
+    <string name="holi_display">공휴일 표시</string>
+    <string name="kr">대한민국</string>
+    <string name="jp">일본</string>
+    <string name="none">없음</string>
+    <string name="holi_display_sub">달력에 표시 할 국가를 설정합니다</string>
+    <string name="cal_text_size">글씨 크기</string>
 
 </resources>

@@ -20,7 +20,7 @@ import com.hellowo.journey.R.id.recyclerView
 
 
 
-class EventListAdapter(val context: Context, val items: List<TimeObject>, val currentCal: Calendar,
+class EventListAdapter(val context: Context, val items: List<TimeObject>, private val currentCal: Calendar,
                        val adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -77,7 +77,6 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, val cu
 
         v.frontLy.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
         v.deleteBtn.setOnClickListener {
-            l("sssssssssssss")
             adapterInterface.invoke(it, timeObject, -1) }
         (holder as TimeObjectViewHolder).setContents(context, timeObject, v, adapterInterface)
     }

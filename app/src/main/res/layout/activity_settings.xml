@@ -93,7 +93,7 @@
                     android:text="@string/sun"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:textSize="12dp"/>
 
             </FrameLayout>
 
@@ -127,7 +127,7 @@
                         android:text="@string/sat"
                         android:textColor="@color/primaryText"
                         android:fontFamily="@font/bold"
-                        android:textSize="14dp"/>
+                        android:textSize="12dp"/>
 
                     <TextView
                         android:id="@+id/weekDisplaySunText"
@@ -136,9 +136,37 @@
                         android:text="@string/sun"
                         android:textColor="@color/primaryText"
                         android:fontFamily="@font/bold"
-                        android:textSize="14dp"/>
+                        android:textSize="12dp"/>
 
                 </LinearLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/holiDisplayBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/holi_display"
+                    android:textColor="@color/primaryText"
+                    android:textSize="16dp"/>
+
+                <TextView
+                    android:id="@+id/holiDisplayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/kr"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="12dp"/>
 
             </FrameLayout>
 
@@ -157,12 +185,78 @@
                     android:textColor="@color/primaryText"
                     android:textSize="16dp"/>
 
-                <Switch
-                    android:id="@+id/lunarSwitch"
+                <TextView
+                    android:id="@+id/lunarDisplayText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="14dp"
-                    android:layout_gravity="center_vertical|right" />
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/sun"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="12dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/calTextSizeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/cal_text_size"
+                    android:textColor="@color/primaryText"
+                    android:textSize="16dp"/>
+
+                <TextView
+                    android:id="@+id/calTextSizeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/big"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="12dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/advanced_settings"
+                    android:textColor="@color/disableText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="12dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/exportBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/export"
+                    android:textColor="@color/primaryText"
+                    android:textSize="16dp"/>
 
             </FrameLayout>
 
