@@ -13,10 +13,6 @@ import java.util.*
 
 
 class CalendarFragment : Fragment() {
-    @SuppressLint("SimpleDateFormat")
-    private val yearDf = SimpleDateFormat("yyyy")
-    private val monthDf = SimpleDateFormat("MMMM", Locale.US)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -27,14 +23,5 @@ class CalendarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        calendarView.onDrawed = { cal ->
-            val date = cal.time
-            yearText.text = yearDf.format(date)
-            monthText.text = monthDf.format(date)
-        }
-
-        insertBtn.setOnClickListener {
-        }
     }
 }

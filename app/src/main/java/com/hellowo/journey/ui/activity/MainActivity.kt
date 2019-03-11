@@ -202,16 +202,11 @@ class MainActivity : BaseActivity() {
         timeObjectDetailView.initMap()
     }
 
-    private fun initKeepView() {
+    private fun initKeepView() {}
 
-    }
+    private fun initBriefingView() {}
 
-    private fun initBriefingView() {
-    }
-
-    private fun initTemplateView() {
-
-    }
+    private fun initTemplateView() {}
 
     private fun initBtns() {
         calendarBtn.setOnClickListener {
