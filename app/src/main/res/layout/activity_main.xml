@@ -74,6 +74,13 @@
             android:layout_marginBottom="40dp">
         </com.hellowo.journey.ui.view.CalendarView>
 
+        <com.hellowo.journey.ui.view.CalendarPagerView
+            android:id="@+id/calendarPagerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="58dp">
+        </com.hellowo.journey.ui.view.CalendarPagerView>
+
         <FrameLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

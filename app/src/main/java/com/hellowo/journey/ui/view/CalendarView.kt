@@ -55,8 +55,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val scrollView = ScrollView(context)
     val calendarLy = LinearLayout(context)
     val weekLys = Array(6) { _ -> FrameLayout(context)}
-    val columnDividers = Array(8 * 6) { _ -> View(context)}
-    val rowDividers = Array(7) { _ -> View(context)}
+    private val columnDividers = Array(8 * 6) { _ -> View(context)}
+    private val rowDividers = Array(7) { _ -> View(context)}
     private val dateLys = Array(6) { _ -> LinearLayout(context)}
     val dateCells = Array(maxCellNum) { _ -> FrameLayout(context)}
     private val dateHeaders = Array(maxCellNum) { _ ->
@@ -122,7 +122,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     init {
         createViews()
         setLayout()
-        callAfterViewDrawed(this, Runnable { drawCalendar(System.currentTimeMillis()) })
+    }
+
+    fun reserveDraw(time: Long) {
+        callAfterViewDrawed(this, Runnable { drawCalendar(time) })
     }
 
     private fun createViews() {
@@ -287,7 +290,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         //if(SyncUser.current() != null) TimeObjectManager.setTimeObjectCalendarAdapter(this)
         TimeObjectManager.setTimeObjectCalendarAdapter(this)
 
-        selectDate(targetCellNum, false)
+        //selectDate(targetCellNum, false)
         scrollView.post { scrollView.scrollTo(0, 0) }
         onDrawed?.invoke(monthCal)
 
@@ -348,7 +351,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun selectDate(cellNum: Int, showDayView: Boolean) {
         if(!showDayView) {
             l("날짜선택 : ${AppDateFormat.ymdDate.format(Date(cellTimeMills[cellNum]))}")
-            targetCal.timeInMillis = cellTimeMills[cellNum]/*
+            targetCal.timeInMillis = cellTimeMills[cellNum]
+            /*
             val week = "${targetCal.get(Calendar.YEAR)}${targetCal.get(Calendar.WEEK_OF_YEAR)}".toInt()
             val weekIndex = cellNum / columns
             var isChangeWeek = false

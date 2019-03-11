@@ -260,7 +260,6 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         }
     }
 
-
     private fun drawTimeObjectViewOnCalendarView() {
         if(withAnimtion) {
             TransitionManager.beginDelayedTransition(calendarView.calendarLy, makeChangeBounceTransition())

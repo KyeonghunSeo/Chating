@@ -182,6 +182,7 @@ class MainActivity : BaseActivity() {
             //if(dayView.isOpened() || !isTop) topBar.elevation = dpToPx(2f)
             //else topBar.elevation = dpToPx(0f)
         }
+        calendarView.visibility = View.GONE
     }
 
     fun getCalendarView(): CalendarView = calendarView
