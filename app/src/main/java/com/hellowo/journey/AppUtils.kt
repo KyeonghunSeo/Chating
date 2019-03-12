@@ -127,6 +127,18 @@ fun getDiffDate(c1: Calendar, c2: Calendar): Int {
     }
 }
 
+fun getDiffMonth(t1: Long, t2: Long): Int {
+    tempCal.timeInMillis = t1
+    tempCal2.timeInMillis = t2
+    return tempCal2.get(Calendar.MONTH) - tempCal.get(Calendar.MONTH)
+}
+
+fun getDiffYear(t1: Long, t2: Long): Int {
+    tempCal.timeInMillis = t1
+    tempCal2.timeInMillis = t2
+    return tempCal2.get(Calendar.YEAR) - tempCal.get(Calendar.YEAR)
+}
+
 fun copyYearMonthDate(toCal: Calendar, fromCal: Calendar) {
     toCal.set(
             fromCal.get(Calendar.YEAR),

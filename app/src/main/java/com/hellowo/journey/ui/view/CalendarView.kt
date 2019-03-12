@@ -20,16 +20,18 @@ import android.widget.*
 import android.widget.LinearLayout.HORIZONTAL
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.journey.*
+import com.hellowo.journey.adapter.TimeObjectCalendarAdapter
 import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.manager.HolidayManager
 import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.SyncUser
 import java.util.*
 import com.hellowo.journey.util.KoreanLunarCalendar
-
-
+import io.realm.RealmResults
+import java.lang.Exception
 
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
@@ -106,7 +108,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var calendarStartTime = Long.MAX_VALUE
     var calendarEndTime = Long.MAX_VALUE
     var onDrawed: ((Calendar) -> Unit)? = null
-    var onSelected: ((Long, Int, Boolean) -> Unit)? = null
+    var onSelectedDate: ((Long, Int, Boolean) -> Unit)? = null
     var startCellNum = 0
     var endCellNum = 0
     var minCalendarHeight = 0f
@@ -125,6 +127,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun reserveDraw(time: Long) {
+        targetCal.timeInMillis = time
         callAfterViewDrawed(this, Runnable { drawCalendar(time) })
     }
 
@@ -288,12 +291,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         //if(SyncUser.current() != null) TimeObjectManager.setTimeObjectCalendarAdapter(this)
-        TimeObjectManager.setTimeObjectCalendarAdapter(this)
-
-        //selectDate(targetCellNum, false)
+        setTimeObjectCalendarAdapter()
         scrollView.post { scrollView.scrollTo(0, 0) }
         onDrawed?.invoke(monthCal)
-
         l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
         l("==========END drawCalendar=========")
     }
@@ -313,6 +313,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             tempCal.timeInMillis = cellTimeMills[cellNum]
             selectDate(cellNum, selectCellNum == cellNum)
         }
+    }
+
+    fun unselectDate() {
+        if(selectCellNum >= 0) unselectDate(selectCellNum)
     }
 
     fun unselectDate(cellNum: Int) {
@@ -347,6 +351,16 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     var selectedWeek = 0
     var selectedWeekIndex = -1
+
+    fun selectTime(time: Long) {
+        autoScroll = true
+        selectDate(((time - calendarStartTime) / DAY_MILL).toInt(), false)
+    }
+
+    fun selectDate(cellNum: Int) {
+        autoScroll = true
+        selectDate(cellNum, false)
+    }
 
     fun selectDate(cellNum: Int, showDayView: Boolean) {
         if(!showDayView) {
@@ -427,7 +441,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             targetCellNum = cellNum
         }
         todayStatus = getDiffToday(targetCal)
-        onSelected?.invoke(cellTimeMills[selectCellNum], selectCellNum, showDayView)
+        onSelectedDate?.invoke(cellTimeMills[selectCellNum], selectCellNum, showDayView)
     }
 
     private fun restoreDateHeader(holder: DateHeaderViewHolder) {
@@ -437,8 +451,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun onViewEffect(cellNum: Int) {
-
-        TimeObjectManager.timeObjectCalendarAdapter?.getViews(cellNum)?.let {
+        timeObjectCalendarAdapter.getViews(cellNum).let {
             it.forEach { view ->
                 if(!view.timeObject.inCalendar) {
                     view.ellipsize = TextUtils.TruncateAt.MARQUEE
@@ -453,7 +466,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun offViewEffect(cellNum: Int) {
-        TimeObjectManager.timeObjectCalendarAdapter?.getViews(cellNum)?.let {
+        timeObjectCalendarAdapter.getViews(cellNum).let {
             it.forEach { view ->
                 if(!view.timeObject.inCalendar) {
                     view.ellipsize = null
@@ -461,14 +474,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
             }
         }
-    }
-
-    fun setOnSwiped(onSwiped: ((Int) -> Unit)) {
-        //scrollView.onSwipeStateChanged = onSwiped
-    }
-
-    fun setOnTop(onTop: ((Boolean) -> Unit)) {
-        //scrollView.onTop = onTop
     }
 
     fun moveDate(time: Long, isAutoScroll: Boolean) {
@@ -536,6 +541,46 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        l("onAttachedToWindow : ${AppDateFormat.ymdDate.format(monthCal.time)}")
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        l("onDetachedFromWindow : ${AppDateFormat.ymdDate.format(monthCal.time)}")
+    }
+
+    private var timeObjectList: RealmResults<TimeObject>? = null
+    private var withAnim = false
+    private val timeObjectCalendarAdapter = TimeObjectCalendarAdapter(this)
+    var lastUpdatedItem: TimeObject? = null
+
+    private fun setTimeObjectCalendarAdapter() {
+        withAnim = false
+        timeObjectList?.removeAllChangeListeners()
+        timeObjectList = TimeObjectManager.getTimeObjectList(calendarStartTime, calendarEndTime).apply {
+            try{
+                addChangeListener { result, changeSet ->
+                    l("==========START timeObjectdataSetChanged=========")
+                    //l("result.isLoaded ${result.isLoaded}")
+                    //l("changeSet ${changeSet.isCompleteResult}")
+                    l("데이터 : ${result.size} 개")
+                    val t = System.currentTimeMillis()
+
+                    changeSet.insertionRanges.firstOrNull()?.let {
+                        lastUpdatedItem = result[it.startIndex]
+                        l("추가된 데이터 : ${lastUpdatedItem.toString()}")
+                    }
+
+                    timeObjectCalendarAdapter?.refresh(result, withAnim)
+                    withAnim = true
+                    l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
+                    l("==========END timeObjectdataSetChanged=========")
+                }
+            }catch (e: Exception){e.printStackTrace()}
+        }
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////드래그 처리 부분/////////////////////////////////////////////////

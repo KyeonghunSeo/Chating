@@ -20,40 +20,6 @@ import java.util.*
 
 @SuppressLint("StaticFieldLeak")
 object TimeObjectManager {
-    private var timeObjectList: RealmResults<TimeObject>? = null
-    private var withAnim = false
-    var timeObjectCalendarAdapter: TimeObjectCalendarAdapter? = null
-    var lastUpdatedItem: TimeObject? = null
-
-    fun init() {}
-
-    fun setTimeObjectCalendarAdapter(calendarView: CalendarView) {
-        if(timeObjectCalendarAdapter == null) timeObjectCalendarAdapter = TimeObjectCalendarAdapter(calendarView)
-
-        withAnim = false
-        timeObjectList?.removeAllChangeListeners()
-        timeObjectList = getTimeObjectList(calendarView.calendarStartTime, calendarView.calendarEndTime).apply {
-            try{
-                addChangeListener { result, changeSet ->
-                    l("==========START timeObjectdataSetChanged=========")
-                    l("result.isLoaded ${result.isLoaded}")
-                    l("changeSet ${changeSet.isCompleteResult}")
-                    l("데이터 : ${result.size} 개")
-                    val t = System.currentTimeMillis()
-
-                    changeSet.insertionRanges.firstOrNull()?.let {
-                        lastUpdatedItem = result[it.startIndex]
-                        l("추가된 데이터 : ${lastUpdatedItem.toString()}")
-                    }
-
-                    timeObjectCalendarAdapter?.refresh(result, withAnim)
-                    withAnim = true
-                    l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
-                    l("==========END timeObjectdataSetChanged=========")
-                }
-            }catch (e: Exception){e.printStackTrace()}
-        }
-    }
 
     fun getTimeObjectList(startTime: Long, endTime: Long) : RealmResults<TimeObject> {
         val realm = Realm.getDefaultInstance()
@@ -255,12 +221,6 @@ object TimeObjectManager {
             }
         }
         realm.close()
-    }
-
-    fun clear() {
-        timeObjectList?.removeAllChangeListeners()
-        timeObjectList = null
-        timeObjectCalendarAdapter = null
     }
 
     fun makeNewTimeObject(start: Long, end: Long): TimeObject {

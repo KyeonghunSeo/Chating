@@ -81,51 +81,12 @@
             android:layout_marginTop="58dp">
         </com.hellowo.journey.ui.view.CalendarPagerView>
 
-        <FrameLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:elevation="10dp"
-            android:layout_gravity="bottom">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal">
-
-                <ImageView
-                    android:id="@+id/prevBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:tint="@color/disableText"
-                    android:src="@drawable/sharp_arrow_left"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:padding="8dp"/>
-
-                <com.hellowo.journey.ui.view.BriefingView
-                    android:id="@+id/briefingView"
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent">
-                </com.hellowo.journey.ui.view.BriefingView>
-
-                <ImageView
-                    android:id="@+id/nextBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:tint="@color/disableText"
-                    android:src="@drawable/sharp_arrow_right"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:padding="8dp"/>
-
-            </LinearLayout>
-
-            <com.hellowo.journey.ui.view.base.Line
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                app:colorFlag="disable"/>
-
-        </FrameLayout>
+        <com.hellowo.journey.ui.view.BriefingView
+            android:id="@+id/briefingView"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_width="80dp"
+            android:layout_height="40dp">
+        </com.hellowo.journey.ui.view.BriefingView>
 
     </FrameLayout>
 

@@ -45,8 +45,7 @@ import com.hellowo.journey.util.KoreanLunarCalendar
 import com.hellowo.journey.util.NoteListComparator
 
 
-class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
-                                        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
     companion object {
         const val headerTextScale = 5f
@@ -60,6 +59,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
         val endZ = dpToPx(0f)
         val subScale = 0.35f
     }
+    private val targetCal = Calendar.getInstance()
     private var timeObjectList: RealmResults<TimeObject>? = null
     private val eventList = ArrayList<TimeObject>()
     private val taskList = ArrayList<TimeObject>()
@@ -68,14 +68,14 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     private val newTaskList = ArrayList<TimeObject>()
     private val newNoteList = ArrayList<TimeObject>()
 
-    private val eventAdapter = EventListAdapter(context, eventList, calendarView.targetCal) { view, timeObject, action ->
+    private val eventAdapter = EventListAdapter(context, eventList, targetCal) { view, timeObject, action ->
         when(action) {
             -1 -> deleteItem(view, timeObject)
             0 -> onItemClick(view, timeObject)
         }
     }
 
-    private val taskAdapter = TaskListAdapter(context, taskList, calendarView.targetCal) { view, timeObject, action ->
+    private val taskAdapter = TaskListAdapter(context, taskList, targetCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
             1 -> {
@@ -87,7 +87,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
             }
         }
     }
-    private val noteAdapter = NoteListAdapter(context, noteList, calendarView.targetCal) { view, timeObject, action ->
+    private val noteAdapter = NoteListAdapter(context, noteList, targetCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
         }
@@ -144,7 +144,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
 
     fun notifyDateChanged(offset: Int) {
         setDateText()
-        calendarView.targetCal.let { cal ->
+        MainActivity.getTargetCal()?.let { cal ->
             startTime = getCalendarTime0(cal)
             endTime = getCalendarTime23(cal)
             timeObjectList?.removeAllChangeListeners()
@@ -297,7 +297,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
     }
 
     private fun setDateText() {
-        calendarView.let {
+        MainActivity.getTargetCalendarView()?.let {
             dateText.text = String.format("%02d", it.targetCal.get(Calendar.DATE))
             dowText.text = AppDateFormat.dow.format(it.targetCal.time)
 
@@ -332,7 +332,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
 
         setDateText()
 
-        calendarView.getSelectedView().let { dateCell ->
+        MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)
             layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
@@ -394,7 +394,7 @@ class DayView @JvmOverloads constructor(private val calendarView: CalendarView,
 
     fun hide() {
         timeObjectList?.removeAllChangeListeners()
-        calendarView.getSelectedView().let { dateCell ->
+        MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
             elevation = startZ
             viewMode = ViewMode.ANIMATING
 

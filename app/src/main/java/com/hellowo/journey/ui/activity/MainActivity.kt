@@ -46,6 +46,9 @@ class MainActivity : BaseActivity() {
     companion object {
         var instance: MainActivity? = null
         var isShowing = false
+        fun getCalendarPagerView() = instance?.calendarPagerView
+        fun getTargetCalendarView() = instance?.viewModel?.targetCalendarView?.value
+        fun getTargetCal() = instance?.viewModel?.targetCalendarView?.value?.targetCal
     }
 
     lateinit var viewModel: MainViewModel
@@ -112,8 +115,8 @@ class MainActivity : BaseActivity() {
         monthText.typeface = AppTheme.boldFont
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
-            showDialog(DatePickerDialog(this, calendarView.targetCal.timeInMillis) {
-                calendarView.moveDate(it, true)
+            showDialog(DatePickerDialog(this, viewModel.targetTime.value!!) {
+                calendarPagerView.selectDate(it)
             }, true, true, true, false)
         }
         calendarLy.setOnDragListener(MainDragAndDropListener)
@@ -137,10 +140,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initCalendarView() {
-        calendarView.onSelected = { time, cellNum, showDayView ->
+        calendarPagerView.onSelectedDate = { time, cellNum, isSameSeleted, calendarView ->
             viewModel.targetTime.value = time
+            viewModel.targetCalendarView.value = calendarView
             if(cellNum >= 0) {
-                if(showDayView && !dayView.isOpened()) {
+                if(isSameSeleted && !dayView.isOpened()) {
                     dayView.show()
                 }else if(dayView.isOpened()){
                     dayView.notifyDateChanged(0)
@@ -151,44 +155,13 @@ class MainActivity : BaseActivity() {
                 templateControlView.visibility = View.INVISIBLE
             }
         }
-        calendarView.setOnSwiped { state ->
-            if(dayView.isOpened()) {
-                when(state) {
-                    SWIPE_LEFT -> {
-                        vibrate(this)
-                        calendarView.moveDate(-1, true)
-                        dayView.notifyDateChanged(-1)
-                    }
-                    SWIPE_RIGHT -> {
-                        vibrate(this)
-                        calendarView.moveDate(1, true)
-                        dayView.notifyDateChanged(1)
-                    }
-                }
-            }else {
-                when(state) {
-                    SWIPE_LEFT -> {
-                        vibrate(this)
-                        calendarView.moveMonth(-1)
-                    }
-                    SWIPE_RIGHT -> {
-                        vibrate(this)
-                        calendarView.moveMonth(1)
-                    }
-                }
-            }
-        }
-        calendarView.setOnTop { isTop ->
-            //if(dayView.isOpened() || !isTop) topBar.elevation = dpToPx(2f)
-            //else topBar.elevation = dpToPx(0f)
-        }
         calendarView.visibility = View.GONE
     }
 
     fun getCalendarView(): CalendarView = calendarView
 
     private fun initDayView() {
-        dayView = DayView(calendarView, this)
+        dayView = DayView(this)
         dayView.visibility = View.GONE
         dayView.onVisibility = { show ->
             //if(show || !calendarView.isTop()) topBar.elevation = dpToPx(0f)
@@ -234,26 +207,6 @@ class MainActivity : BaseActivity() {
             profileView.checkOsCalendarPermission()
             //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
             return@setOnLongClickListener true
-        }
-
-        prevBtn.setOnClickListener {
-            if(dayView.isOpened()) {
-                calendarView.targetCal.add(Calendar.DATE, -1)
-            }else {
-                calendarView.targetCal.set(Calendar.DATE, 1)
-                calendarView.targetCal.add(Calendar.MONTH, -1)
-            }
-            calendarView.moveDate(calendarView.targetCal.timeInMillis, true)
-        }
-
-        nextBtn.setOnClickListener {
-            if(dayView.isOpened()) {
-                calendarView.targetCal.add(Calendar.DATE, 1)
-            }else {
-                calendarView.targetCal.set(Calendar.DATE, 1)
-                calendarView.targetCal.add(Calendar.MONTH, 1)
-            }
-            calendarView.moveDate(calendarView.targetCal.timeInMillis, true)
         }
     }
 
@@ -495,6 +448,5 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         keypadListener?.unregister()
-        TimeObjectManager.clear()
     }
 }
