@@ -10,6 +10,7 @@ import com.hellowo.journey.R
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.*
 import com.hellowo.journey.ui.activity.MainActivity
+import com.hellowo.journey.ui.view.CalendarView
 import io.realm.*
 import java.util.*
 
@@ -26,6 +27,7 @@ class MainViewModel : ViewModel() {
     val targetFolder = MutableLiveData<Folder>()
     val folderList = MutableLiveData<RealmResults<Folder>>()
     val targetTime = MutableLiveData<Long>()
+    val targetCalendarView = MutableLiveData<CalendarView>()
     val currentTab = MutableLiveData<Int>()
 
     private var realmAsyncTask: RealmAsyncTask? = null
@@ -163,9 +165,8 @@ class MainViewModel : ViewModel() {
             }
 
     fun saveDirectByTemplate() {
-        MainActivity.instance?.getCalendarView()?.let {
-            TimeObjectManager.save(makeTimeObjectByTatgetTemplate(
-                    getCalendarTime0(it.targetCal), getCalendarTime23(it.targetCal)))
+        MainActivity.getTargetCal()?.let {
+            TimeObjectManager.save(makeTimeObjectByTatgetTemplate(getCalendarTime0(it), getCalendarTime23(it)))
         }
     }
 

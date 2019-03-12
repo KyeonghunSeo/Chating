@@ -278,9 +278,8 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
 
         viewHolderList.forEach { holder ->
             var lastAlpha = if(holder.timeObject.isDone()) 0.3f else 1f
-            if(TimeObjectManager.lastUpdatedItem?.isValid == true
-                    && TimeObjectManager.lastUpdatedItem?.id == holder.timeObject.id) {
-                TimeObjectManager.lastUpdatedItem = null
+            if(calendarView.lastUpdatedItem?.isValid == true && calendarView.lastUpdatedItem?.id == holder.timeObject.id) {
+                calendarView.lastUpdatedItem = null
                 holder.timeObjectViewList.forEach {
                     lastAlpha = if(isDateInMonth(it)) lastAlpha else 0.0f
                     it.alpha = 0f

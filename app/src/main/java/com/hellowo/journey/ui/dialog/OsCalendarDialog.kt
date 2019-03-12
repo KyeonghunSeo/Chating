@@ -44,9 +44,7 @@ class OsCalendarDialog(activity: Activity) : Dialog(activity) {
         confirmBtn.setOnClickListener { _ ->
             Prefs.putStringSet("osCalendarIds", selectedItems)
             dismiss()
-            MainActivity.instance?.getCalendarView()?.let {
-                it.moveDate(it.targetCal.timeInMillis, true)
-            }
+            MainActivity.getCalendarPagerView()?.redraw()
         }
         cancelBtn.setOnClickListener { dismiss() }
     }

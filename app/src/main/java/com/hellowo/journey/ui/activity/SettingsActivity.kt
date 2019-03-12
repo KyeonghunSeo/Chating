@@ -146,7 +146,7 @@ class SettingsActivity : BaseActivity() {
     override fun onStop() {
         super.onStop()
         if(FirebaseAuth.getInstance().currentUser != null) {
-            MainActivity.instance?.getCalendarView()?.reDrawCalendar()
+            MainActivity.getCalendarPagerView()?.redraw()
         }else {
             MainActivity.instance?.finish()
         }

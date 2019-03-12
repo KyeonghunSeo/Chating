@@ -7,45 +7,41 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.hellowo.journey.*
-import com.hellowo.journey.manager.OsCalendarManager
-import com.hellowo.journey.manager.TimeObjectManager
-import com.hellowo.journey.model.AppUser
-import com.hellowo.journey.listener.MainDragAndDropListener
-import com.hellowo.journey.ui.dialog.DatePickerDialog
-import com.hellowo.journey.ui.view.CalendarView
-import com.hellowo.journey.ui.view.DayView
-import com.hellowo.journey.ui.view.base.SwipeScrollView.Companion.SWIPE_LEFT
-import com.hellowo.journey.ui.view.base.SwipeScrollView.Companion.SWIPE_RIGHT
-import com.hellowo.journey.viewmodel.MainViewModel
-import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
+import com.hellowo.journey.*
+import com.hellowo.journey.listener.MainDragAndDropListener
+import com.hellowo.journey.manager.OsCalendarManager
+import com.hellowo.journey.model.AppUser
+import com.hellowo.journey.ui.dialog.DatePickerDialog
+import com.hellowo.journey.ui.view.DayView
+import com.hellowo.journey.viewmodel.MainViewModel
 import com.theartofdev.edmodo.cropper.CropImage
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
-import io.realm.Realm
-import io.realm.RealmAsyncTask
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 import java.io.ByteArrayOutputStream
+import java.util.*
 
 class MainActivity : BaseActivity() {
     companion object {
         var instance: MainActivity? = null
         var isShowing = false
+        fun getCalendarPagerView() = instance?.calendarPagerView
+        fun getTargetCalendarView() = instance?.viewModel?.targetCalendarView?.value
+        fun getTargetCal() = instance?.viewModel?.targetCalendarView?.value?.targetCal
     }
 
     lateinit var viewModel: MainViewModel
@@ -112,8 +108,8 @@ class MainActivity : BaseActivity() {
         monthText.typeface = AppTheme.boldFont
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
-            showDialog(DatePickerDialog(this, calendarView.targetCal.timeInMillis) {
-                calendarView.moveDate(it, true)
+            showDialog(DatePickerDialog(this, viewModel.targetTime.value!!) {
+                calendarPagerView.selectDate(it)
             }, true, true, true, false)
         }
         calendarLy.setOnDragListener(MainDragAndDropListener)
@@ -137,10 +133,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initCalendarView() {
-        calendarView.onSelected = { time, cellNum, showDayView ->
+        calendarPagerView.onSelectedDate = { time, cellNum, isSameSeleted, calendarView ->
             viewModel.targetTime.value = time
+            viewModel.targetCalendarView.value = calendarView
             if(cellNum >= 0) {
-                if(showDayView && !dayView.isOpened()) {
+                if(isSameSeleted && !dayView.isOpened()) {
                     dayView.show()
                 }else if(dayView.isOpened()){
                     dayView.notifyDateChanged(0)
@@ -151,52 +148,16 @@ class MainActivity : BaseActivity() {
                 templateControlView.visibility = View.INVISIBLE
             }
         }
-        calendarView.setOnSwiped { state ->
-            if(dayView.isOpened()) {
-                when(state) {
-                    SWIPE_LEFT -> {
-                        vibrate(this)
-                        calendarView.moveDate(-1, true)
-                        dayView.notifyDateChanged(-1)
-                    }
-                    SWIPE_RIGHT -> {
-                        vibrate(this)
-                        calendarView.moveDate(1, true)
-                        dayView.notifyDateChanged(1)
-                    }
-                }
-            }else {
-                when(state) {
-                    SWIPE_LEFT -> {
-                        vibrate(this)
-                        calendarView.moveMonth(-1)
-                    }
-                    SWIPE_RIGHT -> {
-                        vibrate(this)
-                        calendarView.moveMonth(1)
-                    }
-                }
-            }
-        }
-        calendarView.setOnTop { isTop ->
-            //if(dayView.isOpened() || !isTop) topBar.elevation = dpToPx(2f)
-            //else topBar.elevation = dpToPx(0f)
-        }
-        calendarView.visibility = View.GONE
     }
 
-    fun getCalendarView(): CalendarView = calendarView
-
     private fun initDayView() {
-        dayView = DayView(calendarView, this)
+        dayView = DayView(this)
         dayView.visibility = View.GONE
         dayView.onVisibility = { show ->
-            //if(show || !calendarView.isTop()) topBar.elevation = dpToPx(0f)
-            //else topBar.elevation = dpToPx(2f)
             if(show) calendarBtn.setImageResource(R.drawable.sharp_calendar_black_48dp)
             else calendarBtn.setImageResource(R.drawable.sharp_event_black_48dp)
         }
-        calendarLy.addView(dayView, calendarLy.indexOfChild(calendarView) + 1)
+        calendarLy.addView(dayView, calendarLy.indexOfChild(calendarPagerView) + 1)
     }
 
     private fun initDetailView() {
@@ -235,32 +196,11 @@ class MainActivity : BaseActivity() {
             //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
             return@setOnLongClickListener true
         }
-
-        prevBtn.setOnClickListener {
-            if(dayView.isOpened()) {
-                calendarView.targetCal.add(Calendar.DATE, -1)
-            }else {
-                calendarView.targetCal.set(Calendar.DATE, 1)
-                calendarView.targetCal.add(Calendar.MONTH, -1)
-            }
-            calendarView.moveDate(calendarView.targetCal.timeInMillis, true)
-        }
-
-        nextBtn.setOnClickListener {
-            if(dayView.isOpened()) {
-                calendarView.targetCal.add(Calendar.DATE, 1)
-            }else {
-                calendarView.targetCal.set(Calendar.DATE, 1)
-                calendarView.targetCal.add(Calendar.MONTH, 1)
-            }
-            calendarView.moveDate(calendarView.targetCal.timeInMillis, true)
-        }
     }
 
     private fun initObserver() {
         viewModel.realm.observe(this, Observer { realm ->
             if(realm != null) {
-                calendarView.moveDate(System.currentTimeMillis(), true)
                 reservedIntentAction?.run()
                 reservedIntentAction = null
             }
@@ -374,15 +314,15 @@ class MainActivity : BaseActivity() {
                 deliveryDragEvent(event)
             }
             DragEvent.ACTION_DRAG_ENDED -> {
-                calendarView.endDrag()
+                calendarPagerView.endDrag()
                 MainDragAndDropListener.end()
             }
         }
     }
 
-    fun deliveryDragEvent(event: DragEvent) {
-        if(event.y > calendarView.top && event.y < calendarView.bottom) {
-            calendarView.onDrag(event)
+    private fun deliveryDragEvent(event: DragEvent) {
+        if(event.y > calendarPagerView.top && event.y < calendarPagerView.bottom) {
+            calendarPagerView.onDrag(event)
         }else {
 
         }
@@ -495,6 +435,5 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         keypadListener?.unregister()
-        TimeObjectManager.clear()
     }
 }
