@@ -110,7 +110,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 todayText.setTextColor(AppTheme.secondaryText)
                 briefingImg.visibility = View.GONE
                 todayBtn.setOnClickListener {
-                    MainActivity.getCalendarPagerView()?.selectDate(System.currentTimeMillis())
+                    MainActivity.instance?.selectDate(System.currentTimeMillis())
                 }
             }
             else -> {

@@ -61,7 +61,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         val endZ = dpToPx(0f)
         val subScale = 0.35f
     }
-    private val targetCal = Calendar.getInstance()
+    val targetCal = Calendar.getInstance()
     private var timeObjectList: RealmResults<TimeObject>? = null
     private val eventList = ArrayList<TimeObject>()
     private val taskList = ArrayList<TimeObject>()
@@ -94,8 +94,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }
     }
 
-    var viewMode = ViewMode.CLOSED
-    var onVisibility: ((Boolean) -> Unit)? = null
     var startTime: Long = 0
     var endTime: Long = 0
 
@@ -117,27 +115,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.pivotY = 0f
         holiText.pivotX = 0f
         holiText.pivotY = 0f
-
-        dateLy.scaleY = headerTextScale
-        dateLy.scaleX = headerTextScale
-        dowText.scaleY = subScale
-        dowText.scaleX = subScale
-        holiText.scaleY = subScale
-        holiText.scaleX = subScale
-        dateLy.translationX = datePosX
-        dateLy.translationY = datePosY
-        dowText.translationX = dowPosX
-        dowText.translationY = dowPosY
-        holiText.translationX = holiPosX
-        holiText.translationY = holiPosY
-
         (dateLy.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.NO_GRAVITY
         bar.visibility = View.GONE
-/*
-        taskFinishAnimView.imageAssetsFolder = "assets/"
-        taskFinishAnimView.setAnimation("success.json")
-        taskFinishAnimView.visibility = View.GONE
-*/
+        setDateClosedStyle()
     }
 
     private fun initRecyclerView() {
@@ -154,15 +134,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         noteAdapter.itemTouchHelper?.attachToRecyclerView(noteListView)
     }
 
-    fun notifyDateChanged(time: Long) {
-        targetCal.timeInMillis = time
-        setDateText()
+    fun notifyDateChanged() {
         startTime = getCalendarTime0(targetCal)
         endTime = getCalendarTime23(targetCal)
         timeObjectList?.removeAllChangeListeners()
         timeObjectList = TimeObjectManager.getTimeObjectList(startTime, endTime)
         timeObjectList?.addChangeListener { result, changeSet ->
-            l("==========데이뷰 데이터 변경 시작=========")
             val t = System.currentTimeMillis()
             if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
                 updateData(result, eventList, taskList, noteList)
@@ -185,8 +162,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 }else {
                     headerCoverImg.setImageBitmap(null)
                 }*/
-            l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
-            l("==========데이뷰 데이터 변경 종료=========")
+            l("${AppDateFormat.mdDate.format(targetCal.time)} 데이뷰 갱신 : ${(System.currentTimeMillis() - t) / 1000f} 초")
         }
     }
 
@@ -289,13 +265,20 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }
     }
 
-    private fun clearData() {
+    fun clear() {
+        timeObjectList?.removeAllChangeListeners()
         eventList.clear()
         taskList.clear()
         noteList.clear()
         eventAdapter.notifyDataSetChanged()
         taskAdapter.notifyDataSetChanged()
         noteAdapter.notifyDataSetChanged()
+        setDateClosedStyle()
+    }
+
+    fun initTime(time: Long) {
+        targetCal.timeInMillis = time
+        setDateText()
     }
 
     private fun setDateText() {
@@ -331,138 +314,77 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }
     }
 
-    fun show() {
-        viewMode = ViewMode.ANIMATING
-        visibility = View.VISIBLE
-        alpha = 0.85f
-
-        setDateText()
-
-        MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
-            val location = IntArray(2)
-            dateCell.getLocationInWindow(location)
-            layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
-                setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
-            }
-
-            val animSet = AnimatorSet()
-            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView, "elevation", 0f, startZ))
-            animSet.duration = 150
-            animSet.interpolator = FastOutSlowInInterpolator()
-            animSet.addListener(object : Animator.AnimatorListener{
-                override fun onAnimationRepeat(p0: Animator?) {}
-                override fun onAnimationEnd(p0: Animator?) {
-                    val transiion = makeChangeBounceTransition()
-                    transiion.interpolator = FastOutSlowInInterpolator()
-                    transiion.duration = ANIM_DUR
-                    transiion.addListener(object : Transition.TransitionListener{
-                        override fun onTransitionEnd(transition: Transition) {
-                            viewMode = ViewMode.OPENED
-                            contentLy.visibility = View.VISIBLE
-                            onVisibility?.invoke(true)
-                        }
-                        override fun onTransitionResume(transition: Transition) {}
-                        override fun onTransitionPause(transition: Transition) {}
-                        override fun onTransitionCancel(transition: Transition) {}
-                        override fun onTransitionStart(transition: Transition) {
-                            notifyDateChanged(0)
-                            val animSet = AnimatorSet()
-                            animSet.playTogether(ObjectAnimator.ofFloat(this@DayView, "elevation", startZ, endZ),
-                                    ObjectAnimator.ofFloat(this@DayView, "alpha", 0.85f, 1f),
-                                    ObjectAnimator.ofFloat(dateLy, "scaleX", dateLy.scaleX, headerTextScale),
-                                    ObjectAnimator.ofFloat(dateLy, "scaleY", dateLy.scaleY, headerTextScale),
-                                    ObjectAnimator.ofFloat(dowText, "scaleX", 1f, subScale),
-                                    ObjectAnimator.ofFloat(dowText, "scaleY", 1f, subScale),
-                                    ObjectAnimator.ofFloat(holiText, "scaleX", 1f, subScale),
-                                    ObjectAnimator.ofFloat(holiText, "scaleY", 1f, subScale),
-                                    ObjectAnimator.ofFloat(dateLy, "translationX", dateLy.translationX, datePosX),
-                                    ObjectAnimator.ofFloat(dateLy, "translationY", dateLy.translationY, datePosY),
-                                    ObjectAnimator.ofFloat(dowText, "translationX", 0f, dowPosX),
-                                    ObjectAnimator.ofFloat(dowText, "translationY", 0f, dowPosY),
-                                    ObjectAnimator.ofFloat(holiText, "translationX", 0f, holiPosX),
-                                    ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY))
-                            animSet.duration = ANIM_DUR
-                            animSet.interpolator = FastOutSlowInInterpolator()
-                            animSet.start()
-                        }
-                    })
-                    TransitionManager.beginDelayedTransition(this@DayView, transiion)
-                    layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, dpToPx(50), 0, dpToPx(40))
-                    }
-                }
-                override fun onAnimationCancel(p0: Animator?) {}
-                override fun onAnimationStart(p0: Animator?) {}
-            })
-            animSet.start()
-        }
+    fun show(dayPagerView: DayPagerView) {
+        val animSet = AnimatorSet()
+        animSet.playTogether(ObjectAnimator.ofFloat(dayPagerView, "elevation", startZ, endZ),
+                ObjectAnimator.ofFloat(dayPagerView, "alpha", 0.85f, 1f),
+                ObjectAnimator.ofFloat(dateLy, "scaleX", CalendarView.selectedDateScale, headerTextScale),
+                ObjectAnimator.ofFloat(dateLy, "scaleY", CalendarView.selectedDateScale, headerTextScale),
+                ObjectAnimator.ofFloat(dowText, "scaleX", 1f, subScale),
+                ObjectAnimator.ofFloat(dowText, "scaleY", 1f, subScale),
+                ObjectAnimator.ofFloat(holiText, "scaleX", 1f, subScale),
+                ObjectAnimator.ofFloat(holiText, "scaleY", 1f, subScale),
+                ObjectAnimator.ofFloat(dateLy, "translationX", 0f, datePosX),
+                ObjectAnimator.ofFloat(dateLy, "translationY", 0f, datePosY),
+                ObjectAnimator.ofFloat(dowText, "translationX", 0f, dowPosX),
+                ObjectAnimator.ofFloat(dowText, "translationY", 0f, dowPosY),
+                ObjectAnimator.ofFloat(holiText, "translationX", 0f, holiPosX),
+                ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY))
+        animSet.duration = ANIM_DUR
+        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.start()
     }
 
     fun hide() {
-        timeObjectList?.removeAllChangeListeners()
-        MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
-            elevation = startZ
-            viewMode = ViewMode.ANIMATING
-
-            val location = IntArray(2)
-            dateCell.getLocationInWindow(location)
-            val transiion = makeChangeBounceTransition()
-            transiion.interpolator = FastOutSlowInInterpolator()
-            transiion.duration = ANIM_DUR
-            transiion.addListener(object : Transition.TransitionListener{
-                override fun onTransitionEnd(transition: Transition) {
-                    val animSet = AnimatorSet()
-                    animSet.playTogether(ObjectAnimator.ofFloat(this@DayView,
-                            "elevation", startZ, 0f).setDuration(ANIM_DUR),
-                            ObjectAnimator.ofFloat(this@DayView, "alpha", 1f, 0.85f).setDuration(ANIM_DUR))
-                    animSet.interpolator = FastOutSlowInInterpolator()
-                    animSet.addListener(object : Animator.AnimatorListener{
-                        override fun onAnimationRepeat(p0: Animator?) {}
-                        override fun onAnimationEnd(p0: Animator?) {
-                            viewMode = ViewMode.CLOSED
-                            visibility = View.GONE
-                            clearData()
-                        }
-                        override fun onAnimationCancel(p0: Animator?) {}
-                        override fun onAnimationStart(p0: Animator?) {}
-                    })
-                    animSet.start()
-                }
-                override fun onTransitionResume(transition: Transition) {}
-                override fun onTransitionPause(transition: Transition) {}
-                override fun onTransitionCancel(transition: Transition) {}
-                override fun onTransitionStart(transition: Transition) {
-                    onVisibility?.invoke(false)
-                    contentLy.visibility = View.INVISIBLE
-                    val animSet = AnimatorSet()
-                    animSet.playTogether(
-                            ObjectAnimator.ofFloat(dateLy, "scaleX", dateLy.scaleX, CalendarView.selectedDateScale),
-                            ObjectAnimator.ofFloat(dateLy, "scaleY", dateLy.scaleY, CalendarView.selectedDateScale),
-                            ObjectAnimator.ofFloat(dowText, "scaleX", subScale, 1f),
-                            ObjectAnimator.ofFloat(dowText, "scaleY", subScale, 1f),
-                            ObjectAnimator.ofFloat(holiText, "scaleX", subScale, 1f),
-                            ObjectAnimator.ofFloat(holiText, "scaleY", subScale, 1f),
-                            ObjectAnimator.ofFloat(dateLy, "translationX", dateLy.translationX, 0f),
-                            ObjectAnimator.ofFloat(dateLy, "translationY", dateLy.translationY, 0f),
-                            ObjectAnimator.ofFloat(dowText, "translationX", dowPosX, 0f),
-                            ObjectAnimator.ofFloat(dowText, "translationY", dowPosY, 0f),
-                            ObjectAnimator.ofFloat(holiText, "translationX", holiPosX, 0f),
-                            ObjectAnimator.ofFloat(holiText, "translationY", holiPosY, 0f))
-                    animSet.duration = ANIM_DUR
-                    animSet.interpolator = FastOutSlowInInterpolator()
-                    animSet.start()
-                }
-            })
-            TransitionManager.beginDelayedTransition(this, transiion)
-            layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
-                setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
-            }
-        }
+        contentLy.visibility = View.INVISIBLE
+        val animSet = AnimatorSet()
+        animSet.playTogether(
+                ObjectAnimator.ofFloat(dateLy, "scaleX", headerTextScale, CalendarView.selectedDateScale),
+                ObjectAnimator.ofFloat(dateLy, "scaleY", headerTextScale, CalendarView.selectedDateScale),
+                ObjectAnimator.ofFloat(dowText, "scaleX", subScale, 1f),
+                ObjectAnimator.ofFloat(dowText, "scaleY", subScale, 1f),
+                ObjectAnimator.ofFloat(holiText, "scaleX", subScale, 1f),
+                ObjectAnimator.ofFloat(holiText, "scaleY", subScale, 1f),
+                ObjectAnimator.ofFloat(dateLy, "translationX", datePosX, 0f),
+                ObjectAnimator.ofFloat(dateLy, "translationY", datePosX, 0f),
+                ObjectAnimator.ofFloat(dowText, "translationX", dowPosX, 0f),
+                ObjectAnimator.ofFloat(dowText, "translationY", dowPosY, 0f),
+                ObjectAnimator.ofFloat(holiText, "translationX", holiPosX, 0f),
+                ObjectAnimator.ofFloat(holiText, "translationY", holiPosY, 0f))
+        animSet.duration = ANIM_DUR
+        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.start()
     }
 
-    fun isOpened(): Boolean = viewMode == ViewMode.OPENED
+    fun setDateOpenedStyle() {
+        contentLy.visibility = View.VISIBLE
+        dateLy.scaleY = headerTextScale
+        dateLy.scaleX = headerTextScale
+        dowText.scaleY = subScale
+        dowText.scaleX = subScale
+        holiText.scaleY = subScale
+        holiText.scaleX = subScale
+        dateLy.translationX = datePosX
+        dateLy.translationY = datePosY
+        dowText.translationX = dowPosX
+        dowText.translationY = dowPosY
+        holiText.translationX = holiPosX
+        holiText.translationY = holiPosY
+    }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        notifyDateChanged(0)
+    private fun setDateClosedStyle() {
+        contentLy.visibility = View.INVISIBLE
+        dateLy.scaleY = CalendarView.selectedDateScale
+        dateLy.scaleX = CalendarView.selectedDateScale
+        dowText.scaleY = 1f
+        dowText.scaleX = 1f
+        holiText.scaleY = 1f
+        holiText.scaleX = 1f
+        dateLy.translationX = 0f
+        dateLy.translationY = 0f
+        dowText.translationX = 0f
+        dowText.translationY = 0f
+        holiText.translationX = 0f
+        holiText.translationY = 0f
     }
 }

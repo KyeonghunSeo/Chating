@@ -109,7 +109,7 @@ class MainActivity : BaseActivity() {
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
             showDialog(DatePickerDialog(this, viewModel.targetTime.value!!) {
-                calendarPagerView.selectDate(it)
+                selectDate(it)
             }, true, true, true, false)
         }
         calendarLy.setOnDragListener(MainDragAndDropListener)
@@ -132,20 +132,24 @@ class MainActivity : BaseActivity() {
         })
     }
 
+    fun selectDate(time: Long) {
+        calendarPagerView.selectDate(time)
+        if(dayPagerView.isOpened()){
+            dayPagerView.initTime(time)
+            dayPagerView.notifyDateChanged()
+        }
+    }
+
     private fun initCalendarView() {
         calendarPagerView.onSelectedDate = { time, cellNum, isSameSeleted, calendarView ->
             viewModel.targetTime.value = time
             viewModel.targetCalendarView.value = calendarView
             if(cellNum >= 0) {
-                if(isSameSeleted && !dayPagerView.isOpened()) {
-                    dayPagerView.show()
-                }else if(dayPagerView.isOpened()){
-                    dayPagerView.notifyDateChanged(0)
-                }
+                if(isSameSeleted && dayPagerView.viewMode == ViewMode.CLOSED) dayPagerView.show()
                 briefingView.refreshTodayView(calendarView.todayStatus)
             }else {
-                TransitionManager.beginDelayedTransition(templateControlView, makeFromBottomSlideTransition())
-                templateControlView.visibility = View.INVISIBLE
+                //TransitionManager.beginDelayedTransition(templateControlView, makeFromBottomSlideTransition())
+                //templateControlView.visibility = View.INVISIBLE
             }
         }
     }

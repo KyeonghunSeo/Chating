@@ -25,21 +25,13 @@ import java.util.*
 class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
     companion object {
-        const val headerTextScale = 5f
-        val datePosX = dpToPx(9f)
-        val datePosY = -dpToPx(13f)
-        val dowPosX = -dpToPx(2f)
-        val dowPosY = dpToPx(3f)
-        val holiPosX = dpToPx(12.5f)
-        val holiPosY = -dpToPx(6.5f)
         val startZ = dpToPx(10f)
-        val endZ = dpToPx(0f)
-        val subScale = 0.35f
     }
 
     var viewMode = ViewMode.CLOSED
     var onVisibility: ((Boolean) -> Unit)? = null
 
+    private val tempCal = Calendar.getInstance()
     private val initCal = Calendar.getInstance()
     private val startPosition = 1000
     private val viewCount = 3
@@ -61,15 +53,28 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
-                //selectedTargetCalendarView(dayViews[position % viewCount])
+                selectedTargetDayView(dayViews[position % viewCount])
+                if(viewMode == ViewMode.OPENED) {
+                    MainActivity.getCalendarPagerView()?.selectDate(targetDayView.targetCal.timeInMillis)
+                }
             }
         })
+        visibility = View.GONE
+    }
+
+    private fun selectedTargetDayView(dayView: DayView) {
+        targetDayView = dayView
     }
 
     inner class CalendarPagerAdapter : PagerAdapter() {
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             val dayView = dayViews[position % viewCount]
-            dayView.notifyDateChanged(initCal.timeInMillis)
+            if(viewMode == ViewMode.OPENED) {
+                tempCal.timeInMillis = initCal.timeInMillis
+                tempCal.add(Calendar.DATE, position - startPosition)
+                dayView.initTime(tempCal.timeInMillis)
+                dayView.notifyDateChanged()
+            }
             if(dayView.parent == null) container.addView(dayView)
             return dayView
         }
@@ -79,14 +84,21 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
         override fun getCount() = 2000
     }
 
-    fun notifyDateChanged(offset: Int) {
-
+    fun initTime(time: Long) {
+        viewPager.setCurrentItem(startPosition, false)
+        initCal.timeInMillis = time
+        dayViews[(startPosition - 1) % viewCount].initTime(time - DAY_MILL)
+        dayViews[(startPosition) % viewCount].initTime(time)
+        dayViews[(startPosition + 1) % viewCount].initTime(time + DAY_MILL)
     }
 
-    private fun setDateText() {
-        MainActivity.getTargetCalendarView()?.let {
+    fun notifyDateChanged() {
+        dayViews.forEach { it.notifyDateChanged() }
+    }
 
-        }
+    private fun clear() {
+        dayViews.forEach { it.clear() }
+        viewPager.setCurrentItem(startPosition, false)
     }
 
     fun show() {
@@ -94,7 +106,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
         visibility = View.VISIBLE
         alpha = 0.85f
 
-        setDateText()
+        initTime(MainActivity.getTargetCal()?.timeInMillis ?: System.currentTimeMillis())
 
         MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
             val location = IntArray(2)
@@ -115,15 +127,16 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     transiion.duration = ANIM_DUR
                     transiion.addListener(object : Transition.TransitionListener{
                         override fun onTransitionEnd(transition: Transition) {
+                            dayViews.forEach { it.setDateOpenedStyle() }
                             viewMode = ViewMode.OPENED
-                            viewPager.visibility = View.VISIBLE
                             onVisibility?.invoke(true)
                         }
                         override fun onTransitionResume(transition: Transition) {}
                         override fun onTransitionPause(transition: Transition) {}
                         override fun onTransitionCancel(transition: Transition) {}
                         override fun onTransitionStart(transition: Transition) {
-                            notifyDateChanged(0)
+                            notifyDateChanged()
+                            targetDayView.show(this@DayPagerView)
                         }
                     })
                     TransitionManager.beginDelayedTransition(this@DayPagerView, transiion)
@@ -139,7 +152,6 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun hide() {
-        //timeObjectList?.removeAllChangeListeners()
         MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
             elevation = startZ
             viewMode = ViewMode.ANIMATING
@@ -161,7 +173,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         override fun onAnimationEnd(p0: Animator?) {
                             viewMode = ViewMode.CLOSED
                             visibility = View.GONE
-                            //clearData()
+                            clear()
                         }
                         override fun onAnimationCancel(p0: Animator?) {}
                         override fun onAnimationStart(p0: Animator?) {}
@@ -173,7 +185,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 override fun onTransitionCancel(transition: Transition) {}
                 override fun onTransitionStart(transition: Transition) {
                     onVisibility?.invoke(false)
-                    viewPager.visibility = View.INVISIBLE
+                    targetDayView.hide()
                 }
             })
             TransitionManager.beginDelayedTransition(this, transiion)
@@ -186,6 +198,6 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        notifyDateChanged(0)
+        notifyDateChanged()
     }
 }

@@ -35,7 +35,7 @@
                 android:includeFontPadding="false"
                 android:textColor="@color/primaryText"
                 android:fontFamily="@font/bold"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:text="@string/setting"/>
 
         </LinearLayout>
@@ -82,7 +82,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="@string/startdow"
                     android:textColor="@color/primaryText"
-                    android:textSize="16dp"/>
+                    android:textSize="14dp"/>
 
                 <TextView
                     android:id="@+id/startdowText"
@@ -110,7 +110,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="@string/week_display"
                     android:textColor="@color/primaryText"
-                    android:textSize="16dp"/>
+                    android:textSize="14dp"/>
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -155,7 +155,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="@string/holi_display"
                     android:textColor="@color/primaryText"
-                    android:textSize="16dp"/>
+                    android:textSize="14dp"/>
 
                 <TextView
                     android:id="@+id/holiDisplayText"
@@ -183,7 +183,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="@string/lunar_display"
                     android:textColor="@color/primaryText"
-                    android:textSize="16dp"/>
+                    android:textSize="14dp"/>
 
                 <TextView
                     android:id="@+id/lunarDisplayText"
@@ -211,7 +211,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="@string/cal_text_size"
                     android:textColor="@color/primaryText"
-                    android:textSize="16dp"/>
+                    android:textSize="14dp"/>
 
                 <TextView
                     android:id="@+id/calTextSizeText"
@@ -256,7 +256,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="@string/export"
                     android:textColor="@color/primaryText"
-                    android:textSize="16dp"/>
+                    android:textSize="14dp"/>
 
             </FrameLayout>
 
@@ -290,7 +290,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="@string/logout"
                     android:textColor="@color/primaryText"
-                    android:textSize="16dp"/>
+                    android:textSize="14dp"/>
 
             </FrameLayout>
 
