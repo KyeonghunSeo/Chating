@@ -2,7 +2,6 @@ package com.hellowo.journey.ui.view
 
 import android.animation.Animator
 import android.animation.AnimatorSet
-import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
@@ -11,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
-import androidx.cardview.widget.CardView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -19,7 +17,6 @@ import com.hellowo.journey.*
 import com.hellowo.journey.alarm.AlarmManager
 import com.hellowo.journey.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.view_briefing.view.*
-import java.util.*
 
 class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
@@ -121,7 +118,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 todayText.setTextColor(AppTheme.disableText)
                 briefingImg.visibility = View.GONE
                 todayBtn.setOnClickListener { _ ->
-                    MainActivity.instance?.dayView?.let {
+                    MainActivity.getDayPagerView()?.let {
                         if(it.isOpened()) {
                             it.hide()
                         }else if(it.viewMode == ViewMode.CLOSED){

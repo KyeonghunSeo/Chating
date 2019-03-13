@@ -73,6 +73,12 @@
             android:layout_marginTop="58dp">
         </com.hellowo.journey.ui.view.CalendarPagerView>
 
+        <com.hellowo.journey.ui.view.DayPagerView
+            android:id="@+id/dayPagerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </com.hellowo.journey.ui.view.DayPagerView>
+
         <com.hellowo.journey.ui.view.BriefingView
             android:id="@+id/briefingView"
             android:layout_gravity="bottom|center_horizontal"

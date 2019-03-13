@@ -44,10 +44,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateArea = dpToPx(30f)
         val weekLyBottomPadding = dpToPx(20)
         val calendarPadding = dpToPx(10)
-        val autoPagingThreshold = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
-        val monthPagingThreshold = dpToPx(50)
         val dowTextMargin = dpToPx(5)
         val lineWidth = 1
     }
@@ -578,14 +576,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////드래그 처리 부분/////////////////////////////////////////////////
+    //↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓드래그 처리 부분↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
     var startDragCell = -1
     var startDragTime = Long.MIN_VALUE
     var currentDragCell = -1
     var endDragTime = Long.MIN_VALUE
-    var autoPagingFlag = 0
     var autoScrollFlag = 0
 
     private val autoScrollHandler = @SuppressLint("HandlerLeak")
@@ -598,20 +594,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     scrollView.scrollBy(0, autoScrollOffset)
                 }
                 this.sendEmptyMessageDelayed(0, 1)
-            }
-        }
-    }
-
-    private val autoPaginglHandler = @SuppressLint("HandlerLeak")
-    object : Handler() {
-        override fun handleMessage(msg: Message) {
-            if (autoPagingFlag != 0) {
-                if (autoPagingFlag == -1) {
-                    moveMonth(-1)
-                } else if (autoPagingFlag == 1) {
-                    moveMonth(1)
-                }
-                this.sendEmptyMessageDelayed(0, 1000)
             }
         }
     }
@@ -651,27 +633,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         }
 
-        when {
-            event.x < autoPagingThreshold -> {
-                if(autoPagingFlag != -1) {
-                    autoPagingFlag = -1
-                    autoPaginglHandler.sendEmptyMessageDelayed(0, 1000)
-                }
-            }
-            event.x > width - autoPagingThreshold -> {
-                if(autoPagingFlag != 1) {
-                    autoPagingFlag = 1
-                    autoPaginglHandler.sendEmptyMessageDelayed(0, 1000)
-                }
-            }
-            else -> {
-                if(autoPagingFlag != 0){
-                    autoPagingFlag = 0
-                    autoPaginglHandler.removeMessages(0)
-                }
-            }
-        }
-
         if(cellY >= 0) {
             currentDragCell = cellY * columns + cellX
             endDragTime = cellTimeMills[currentDragCell]
@@ -707,9 +668,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         endDragTime = Long.MIN_VALUE
         autoScrollFlag = 0
         autoScrollHandler.removeMessages(0)
-        autoPagingFlag = 0
-        autoPaginglHandler.removeMessages(0)
     }
-    /////////////////////////////////드래그 처리 부분/////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑드래그 처리 부분↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 }

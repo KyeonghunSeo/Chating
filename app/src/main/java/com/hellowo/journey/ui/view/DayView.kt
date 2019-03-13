@@ -43,6 +43,8 @@ import com.hellowo.journey.manager.*
 import com.hellowo.journey.util.EventListComparator
 import com.hellowo.journey.util.KoreanLunarCalendar
 import com.hellowo.journey.util.NoteListComparator
+import java.util.Calendar.SATURDAY
+import java.util.Calendar.SUNDAY
 
 
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -70,7 +72,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private val eventAdapter = EventListAdapter(context, eventList, targetCal) { view, timeObject, action ->
         when(action) {
-            -1 -> deleteItem(view, timeObject)
             0 -> onItemClick(view, timeObject)
         }
     }
@@ -110,14 +111,26 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.typeface = CalendarManager.selectFont
         holiText.typeface = CalendarManager.selectFont
         dateLy.clipChildren = false
-        dateLy.scaleY = CalendarView.selectedDateScale
-        dateLy.scaleX = CalendarView.selectedDateScale
         dateLy.pivotX = 0f
         dateLy.pivotY = 0f
         dowText.pivotX = 0f
         dowText.pivotY = 0f
         holiText.pivotX = 0f
         holiText.pivotY = 0f
+
+        dateLy.scaleY = headerTextScale
+        dateLy.scaleX = headerTextScale
+        dowText.scaleY = subScale
+        dowText.scaleX = subScale
+        holiText.scaleY = subScale
+        holiText.scaleX = subScale
+        dateLy.translationX = datePosX
+        dateLy.translationY = datePosY
+        dowText.translationX = dowPosX
+        dowText.translationY = dowPosY
+        holiText.translationX = holiPosX
+        holiText.translationY = holiPosY
+
         (dateLy.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.NO_GRAVITY
         bar.visibility = View.GONE
 /*
@@ -125,7 +138,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         taskFinishAnimView.setAnimation("success.json")
         taskFinishAnimView.visibility = View.GONE
 */
-        contentLy.visibility = View.INVISIBLE
     }
 
     private fun initRecyclerView() {
@@ -142,27 +154,27 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         noteAdapter.itemTouchHelper?.attachToRecyclerView(noteListView)
     }
 
-    fun notifyDateChanged(offset: Int) {
+    fun notifyDateChanged(time: Long) {
+        targetCal.timeInMillis = time
         setDateText()
-        MainActivity.getTargetCal()?.let { cal ->
-            startTime = getCalendarTime0(cal)
-            endTime = getCalendarTime23(cal)
-            timeObjectList?.removeAllChangeListeners()
-            timeObjectList = TimeObjectManager.getTimeObjectList(startTime, endTime)
-            timeObjectList?.addChangeListener { result, changeSet ->
-                l("==========데이뷰 데이터 변경 시작=========")
-                val t = System.currentTimeMillis()
-                if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
-                    updateData(result, eventList, taskList, noteList)
-                    eventAdapter.notifyDataSetChanged()
-                    taskAdapter.notifyDataSetChanged()
-                    noteAdapter.notifyDataSetChanged()
-                }else if(changeSet.state == OrderedCollectionChangeSet.State.UPDATE) {
-                    updateData(result, newEventList, newTaskList, newNoteList)
-                    updateChange(eventAdapter, eventList, newEventList)
-                    updateChange(taskAdapter, taskList, newTaskList)
-                    updateChange(noteAdapter, noteList, newNoteList)
-                }
+        startTime = getCalendarTime0(targetCal)
+        endTime = getCalendarTime23(targetCal)
+        timeObjectList?.removeAllChangeListeners()
+        timeObjectList = TimeObjectManager.getTimeObjectList(startTime, endTime)
+        timeObjectList?.addChangeListener { result, changeSet ->
+            l("==========데이뷰 데이터 변경 시작=========")
+            val t = System.currentTimeMillis()
+            if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
+                updateData(result, eventList, taskList, noteList)
+                eventAdapter.notifyDataSetChanged()
+                taskAdapter.notifyDataSetChanged()
+                noteAdapter.notifyDataSetChanged()
+            }else if(changeSet.state == OrderedCollectionChangeSet.State.UPDATE) {
+                updateData(result, newEventList, newTaskList, newNoteList)
+                updateChange(eventAdapter, eventList, newEventList)
+                updateChange(taskAdapter, taskList, newTaskList)
+                updateChange(noteAdapter, noteList, newNoteList)
+            }
 /*
                 val imageItem = result.firstOrNull { item -> item.links.any{ it.type == Link.Type.IMAGE.ordinal } }
 
@@ -173,18 +185,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 }else {
                     headerCoverImg.setImageBitmap(null)
                 }*/
-                l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
-                l("==========데이뷰 데이터 변경 종료=========")
-            }
-        }
-
-        if(offset != 0) {
-            startPagingEffectAnimation(offset, contentLy, null)
-            val animSet = AnimatorSet()
-            animSet.playTogether()
-            animSet.duration = 500
-            animSet.interpolator = FastOutSlowInInterpolator()
-            animSet.start()
+            l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
+            l("==========데이뷰 데이터 변경 종료=========")
         }
     }
 
@@ -297,31 +299,35 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     private fun setDateText() {
-        MainActivity.getTargetCalendarView()?.let {
-            dateText.text = String.format("%02d", it.targetCal.get(Calendar.DATE))
-            dowText.text = AppDateFormat.dow.format(it.targetCal.time)
+        dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
+        dowText.text = AppDateFormat.dow.format(targetCal.time)
 
-            val lunarCalendar = KoreanLunarCalendar.getInstance()
-            lunarCalendar.setSolarDate(it.targetCal.get(Calendar.YEAR),
-                    it.targetCal.get(Calendar.MONTH) + 1,
-                    it.targetCal.get(Calendar.DATE))
+        val lunarCalendar = KoreanLunarCalendar.getInstance()
+        lunarCalendar.setSolarDate(targetCal.get(Calendar.YEAR),
+                targetCal.get(Calendar.MONTH) + 1,
+                targetCal.get(Calendar.DATE))
 
-            val holi = HolidayManager.getHoliday(
-                    String.format("%02d%02d", it.targetCal.get(Calendar.MONTH) + 1, it.targetCal.get(Calendar.DATE)),
-                    lunarCalendar.lunarKey)
+        val holi = HolidayManager.getHoliday(
+                String.format("%02d%02d", targetCal.get(Calendar.MONTH) + 1, targetCal.get(Calendar.DATE)),
+                lunarCalendar.lunarKey)
 
-            val color = it.getDateTextColor(it.targetCellNum, !holi.isNullOrEmpty())
-            dateText.setTextColor(color)
-            dowText.setTextColor(color)
-            holiText.setTextColor(color)
+        val color = if(!holi.isNullOrEmpty() || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
+            CalendarManager.sundayColor
+        }else if(targetCal.get(Calendar.DAY_OF_WEEK) == SATURDAY) {
+            CalendarManager.saturdayColor
+        }else {
+            CalendarManager.dateColor
+        }
+        dateText.setTextColor(color)
+        dowText.setTextColor(color)
+        holiText.setTextColor(color)
 
-            if(!holi.isNullOrEmpty()) {
-                holiText.text = holi
-            }else if(lunarCalendar.lunarDay == 1 || lunarCalendar.lunarDay == 10 || lunarCalendar.lunarDay == 20) {
-                holiText.text = lunarCalendar.lunarSimpleFormat
-            }else {
-                holiText.text = ""
-            }
+        if(!holi.isNullOrEmpty()) {
+            holiText.text = holi
+        }else if(lunarCalendar.lunarDay == 1 || lunarCalendar.lunarDay == 10 || lunarCalendar.lunarDay == 20) {
+            holiText.text = lunarCalendar.lunarSimpleFormat
+        }else {
+            holiText.text = ""
         }
     }
 
@@ -450,17 +456,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             TransitionManager.beginDelayedTransition(this, transiion)
             layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
                 setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
-            }
-        }
-    }
-
-    private fun deleteItem(view: View, timeObject: TimeObject) {
-        l("?????????????????????")
-        MainActivity.instance?.let {
-            if(timeObject.repeat.isNullOrEmpty()) {
-                TimeObjectManager.delete(timeObject)
-            }else {
-                RepeatManager.delete(it, timeObject, Runnable {})
             }
         }
     }

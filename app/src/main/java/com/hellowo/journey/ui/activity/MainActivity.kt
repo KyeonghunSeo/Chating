@@ -39,13 +39,13 @@ class MainActivity : BaseActivity() {
     companion object {
         var instance: MainActivity? = null
         var isShowing = false
+        fun getDayPagerView() = instance?.dayPagerView
         fun getCalendarPagerView() = instance?.calendarPagerView
         fun getTargetCalendarView() = instance?.viewModel?.targetCalendarView?.value
         fun getTargetCal() = instance?.viewModel?.targetCalendarView?.value?.targetCal
     }
 
     lateinit var viewModel: MainViewModel
-    lateinit var dayView: DayView
     private var reservedIntentAction: Runnable? = null
     private var keypadListener : Unregistrar? = null
 
@@ -137,10 +137,10 @@ class MainActivity : BaseActivity() {
             viewModel.targetTime.value = time
             viewModel.targetCalendarView.value = calendarView
             if(cellNum >= 0) {
-                if(isSameSeleted && !dayView.isOpened()) {
-                    dayView.show()
-                }else if(dayView.isOpened()){
-                    dayView.notifyDateChanged(0)
+                if(isSameSeleted && !dayPagerView.isOpened()) {
+                    dayPagerView.show()
+                }else if(dayPagerView.isOpened()){
+                    dayPagerView.notifyDateChanged(0)
                 }
                 briefingView.refreshTodayView(calendarView.todayStatus)
             }else {
@@ -151,13 +151,10 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initDayView() {
-        dayView = DayView(this)
-        dayView.visibility = View.GONE
-        dayView.onVisibility = { show ->
+        dayPagerView.onVisibility = { show ->
             if(show) calendarBtn.setImageResource(R.drawable.sharp_calendar_black_48dp)
             else calendarBtn.setImageResource(R.drawable.sharp_event_black_48dp)
         }
-        calendarLy.addView(dayView, calendarLy.indexOfChild(calendarPagerView) + 1)
     }
 
     private fun initDetailView() {
@@ -173,8 +170,8 @@ class MainActivity : BaseActivity() {
     private fun initBtns() {
         calendarBtn.setOnClickListener {
             if(viewModel.currentTab.value == 0) {
-                if(dayView.isOpened()) dayView.hide()
-                else if(dayView.viewMode == ViewMode.CLOSED) dayView.show()
+                if(dayPagerView.isOpened()) dayPagerView.hide()
+                else if(dayPagerView.viewMode == ViewMode.CLOSED) dayPagerView.show()
             }
             else viewModel.currentTab.value = 0
         }
@@ -371,7 +368,7 @@ class MainActivity : BaseActivity() {
             timeObjectDetailView.isOpened() -> timeObjectDetailView.confirm()
             templateControlView.isExpanded -> templateControlView.collapse()
             viewModel.currentTab.value != 0 -> viewModel.currentTab.value = 0
-            dayView.isOpened() -> dayView.hide()
+            dayPagerView.isOpened() -> dayPagerView.hide()
             else -> super.onBackPressed()
         }
     }
@@ -417,7 +414,7 @@ class MainActivity : BaseActivity() {
                 result.error.printStackTrace()
             }
         }else if(requestCode == RC_OS_CALENDAR) {
-            dayView.onActivityResult(requestCode, resultCode, data)
+            dayPagerView.onActivityResult(requestCode, resultCode, data)
         }
     }
 
