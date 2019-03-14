@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="40dp"
             android:background="@color/background">
 
             <LinearLayout
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingBottom="35dp">
+                android:paddingBottom="40dp">
 
                 <TextView
                     android:id="@+id/tagText"
@@ -474,7 +474,6 @@
                     android:src="@drawable/sharp_format_quote_black_48dp"
                     android:padding="12dp"
                     android:tint="@color/disableText"/>
-
 
             </LinearLayout>
 

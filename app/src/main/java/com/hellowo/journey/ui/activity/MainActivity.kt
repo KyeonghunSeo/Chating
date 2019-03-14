@@ -112,7 +112,7 @@ class MainActivity : BaseActivity() {
                 selectDate(it)
             }, true, true, true, false)
         }
-        calendarLy.setOnDragListener(MainDragAndDropListener)
+        rootLy.setOnDragListener(MainDragAndDropListener)
         searchBtn.setOnClickListener { searchView.show() }
 
         keypadListener = KeyboardVisibilityEvent.registerEventListener(MainActivity.instance) { isOpen ->

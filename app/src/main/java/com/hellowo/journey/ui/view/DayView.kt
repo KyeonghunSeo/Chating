@@ -55,11 +55,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         val datePosY = -dpToPx(13f)
         val dowPosX = -dpToPx(2f)
         val dowPosY = dpToPx(3f)
-        val holiPosX = dpToPx(12.5f)
-        val holiPosY = -dpToPx(6.5f)
+        val holiPosX = dpToPx(14.2f)
+        val holiPosY = -dpToPx(7.5f)
         val startZ = dpToPx(10f)
         val endZ = dpToPx(0f)
-        val subScale = 0.35f
+        val subScale = 0.4f
     }
     val targetCal = Calendar.getInstance()
     private var timeObjectList: RealmResults<TimeObject>? = null

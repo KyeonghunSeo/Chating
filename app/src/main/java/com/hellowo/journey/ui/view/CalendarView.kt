@@ -35,18 +35,17 @@ import java.util.*
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
         const val maxCellNum = 42
-        const val dateTextSize = 13f
         const val animDur = 250L
         const val columns = 7
         const val selectedDateScale = 1f
         const val outDateAlpha = 0f
         val todayCal: Calendar = Calendar.getInstance()
+        val dragStartYPos = dpToPx(58f)
         val dateArea = dpToPx(30f)
         val weekLyBottomPadding = dpToPx(20)
         val calendarPadding = dpToPx(10)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
-        val dowTextMargin = dpToPx(5)
         val lineWidth = 1
     }
 
@@ -133,7 +132,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         scrollView.isVerticalScrollBarEnabled = false
         calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(calendarPadding, calendarPadding, calendarPadding, calendarPadding)
+        calendarLy.setPadding(calendarPadding, 0, calendarPadding, 0)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
         nextMonthHintView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
@@ -213,7 +212,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         todayCellNum = -1
         targetCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = (height.toFloat() - calendarPadding * 2)
+        minCalendarHeight = height.toFloat()
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {
@@ -526,16 +525,16 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val e = if(start < end) end else start
         dateCells.forEachIndexed { index, view ->
            if(index in s..e) {
-               view.foreground = AppTheme.hightlightCover
+               view.background = AppTheme.hightlightCover
            }else {
-               view.foreground = AppTheme.blankDrawable
+               view.background = AppTheme.blankDrawable
            }
         }
     }
 
     private fun clearHighlight() {
         dateCells.forEachIndexed { index, view ->
-            view.foreground = AppTheme.blankDrawable
+            view.background = AppTheme.blankDrawable
         }
     }
 
@@ -601,7 +600,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun onDrag(event: DragEvent) {
         var cellX = ((event.x - calendarPadding) / minWidth).toInt()
         if(cellX < 0) cellX = 0
-        val yPos = event.y - top - AppDateFormat.statusBarHeight
+        val yPos = event.y - dragStartYPos
         val yCalPos = yPos + scrollView.scrollY
         var cellY = -1
 

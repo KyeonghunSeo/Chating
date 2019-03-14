@@ -115,7 +115,7 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
                 } else if (autoPagingFlag == 1) {
                     viewPager.currentItem = viewPager.currentItem + 1
                 }
-                this.sendEmptyMessageDelayed(0, 1000)
+                this.sendEmptyMessageDelayed(0, 700)
             }
         }
     }
@@ -127,13 +127,13 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
             event.x < autoPagingThreshold -> {
                 if(autoPagingFlag != -1) {
                     autoPagingFlag = -1
-                    autoPaginglHandler.sendEmptyMessageDelayed(0, 1000)
+                    autoPaginglHandler.sendEmptyMessageDelayed(0, 700)
                 }
             }
             event.x > width - autoPagingThreshold -> {
                 if(autoPagingFlag != 1) {
                     autoPagingFlag = 1
-                    autoPaginglHandler.sendEmptyMessageDelayed(0, 1000)
+                    autoPaginglHandler.sendEmptyMessageDelayed(0, 700)
                 }
             }
             else -> {
