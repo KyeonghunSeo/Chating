@@ -278,17 +278,17 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
 
         viewHolderList.forEach { holder ->
             var lastAlpha = if(holder.timeObject.isDone()) 0.3f else 1f
-            if(calendarView.lastUpdatedItem?.isValid == true && calendarView.lastUpdatedItem?.id == holder.timeObject.id) {
+            if(calendarView.lastUpdatedItem?.isValid == true && calendarView.lastUpdatedItem?.id == holder.timeObject.id) { // 마지막 업데이트 오브젝트
                 calendarView.lastUpdatedItem = null
                 holder.timeObjectViewList.forEach {
-                    lastAlpha = if(isDateInMonth(it)) lastAlpha else 0.0f
+                    lastAlpha = if(isDateInMonth(it)) lastAlpha else AppStatus.outsideMonthAlpha
                     it.alpha = 0f
                     calendarView.dateCells[it.cellNum].addView(it)
                     it.post { showInsertAnimation(it, lastAlpha) }
                 }
             }else {
                 holder.timeObjectViewList.forEach {
-                    it.alpha = if(isDateInMonth(it)) lastAlpha else 0.0f
+                    it.alpha = if(isDateInMonth(it)) lastAlpha else AppStatus.outsideMonthAlpha
                     calendarView.dateCells[it.cellNum].addView(it)
                 }
             }

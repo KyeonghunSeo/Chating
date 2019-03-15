@@ -1,16 +1,18 @@
 package com.hellowo.journey.ui.activity
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.TypedValue
+import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
-import com.hellowo.journey.AppStatus
-import com.hellowo.journey.AppTheme
-import com.hellowo.journey.R
+import com.hellowo.journey.*
 import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.manager.HolidayManager
-import com.hellowo.journey.showDialog
+import com.hellowo.journey.manager.OsCalendarManager
 import com.hellowo.journey.ui.dialog.CustomDialog
 import com.hellowo.journey.ui.dialog.CustomListDialog
+import com.hellowo.journey.ui.dialog.OsCalendarDialog
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_settings.*
 
@@ -29,7 +31,10 @@ class SettingsActivity : BaseActivity() {
         setWeekendDisplay()
         setHoliDisplay()
         setLunarDisplay()
+        setOutsideMonth()
         setCalTextSize()
+
+        setConnectOsCalendar()
 
         logoutBtn.setOnClickListener {
             showDialog(CustomDialog(this@SettingsActivity, getString(R.string.logout),
@@ -125,6 +130,33 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
+    private fun setOutsideMonth() {
+        when(AppStatus.outsideMonthAlpha) {
+            0f -> {
+                outsideMonthText.text = getString(R.string.unvisible)
+                outsideMonthText.setTextColor(AppTheme.disableText)
+            }
+            0.3f -> {
+                outsideMonthText.text = getString(R.string.blur)
+                outsideMonthText.setTextColor(AppTheme.secondaryText)
+            }
+            1f -> {
+                outsideMonthText.text = getString(R.string.visible)
+                outsideMonthText.setTextColor(AppTheme.primaryText)
+            }
+        }
+
+        outsideMonthBtn.setOnClickListener {
+            when(AppStatus.outsideMonthAlpha) {
+                0f -> AppStatus.outsideMonthAlpha = 0.3f
+                0.3f -> AppStatus.outsideMonthAlpha = 1f
+                1f -> AppStatus.outsideMonthAlpha = 0f
+            }
+            Prefs.putFloat("outsideMonthAlpha", AppStatus.outsideMonthAlpha)
+            setOutsideMonth()
+        }
+    }
+
     private fun setCalTextSize() {
         when(AppStatus.calTextSize) {
             -1 -> calTextSizeText.text = getString(R.string.small)
@@ -140,6 +172,32 @@ class SettingsActivity : BaseActivity() {
             }
             Prefs.putInt("calTextSize", AppStatus.calTextSize)
             setCalTextSize()
+        }
+    }
+
+    private fun setConnectOsCalendar() {
+        osCalendarBtn.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(
+                            this@SettingsActivity, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        this@SettingsActivity, arrayOf(Manifest.permission.READ_CALENDAR), RC_PERMISSIONS)
+            } else {
+                showDialog(OsCalendarDialog(this@SettingsActivity),
+                        true, true, true, false)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            RC_PERMISSIONS -> {
+                permissions.indices
+                        .filter { permissions[it] == Manifest.permission.READ_CALENDAR
+                                && grantResults[it] == PackageManager.PERMISSION_GRANTED }
+                        .forEach { _ -> showDialog(OsCalendarDialog(this@SettingsActivity),
+                                true, true, true, false) }
+                return
+            }
         }
     }
 

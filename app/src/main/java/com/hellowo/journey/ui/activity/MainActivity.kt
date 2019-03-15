@@ -193,7 +193,6 @@ class MainActivity : BaseActivity() {
         }
 
         profileBtn.setOnLongClickListener {
-            profileView.checkOsCalendarPermission()
             //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
             return@setOnLongClickListener true
         }
@@ -339,12 +338,6 @@ class MainActivity : BaseActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
-            RC_PERMISSIONS -> {
-                permissions.indices
-                        .filter { permissions[it] == Manifest.permission.READ_CALENDAR && grantResults[it] == PackageManager.PERMISSION_GRANTED }
-                        .forEach { _ -> OsCalendarManager.getCalendarList(this) }
-                return
-            }
             RC_IMAGE_ATTACHMENT, RC_PRFOFILE_IMAGE -> {
                 permissions.indices
                         .filter { permissions[it] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[it] == PackageManager.PERMISSION_GRANTED }
@@ -418,7 +411,14 @@ class MainActivity : BaseActivity() {
                 result.error.printStackTrace()
             }
         }else if(requestCode == RC_OS_CALENDAR) {
-            dayPagerView.onActivityResult(requestCode, resultCode, data)
+            refreshAll()
+        }
+    }
+
+    private fun refreshAll() {
+        calendarPagerView.redraw()
+        if(dayPagerView.isOpened()){
+            dayPagerView.notifyDateChanged()
         }
     }
 

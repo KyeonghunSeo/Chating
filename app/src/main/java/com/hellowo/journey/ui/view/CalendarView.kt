@@ -38,7 +38,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val animDur = 250L
         const val columns = 7
         const val selectedDateScale = 1f
-        const val outDateAlpha = 0f
         val todayCal: Calendar = Calendar.getInstance()
         val dragStartYPos = dpToPx(58f)
         val dateArea = dpToPx(30f)
@@ -46,7 +45,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val calendarPadding = dpToPx(10)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
-        val lineWidth = 1
+        val lineWidth = dpToPx(1)
     }
 
     private val scrollView = ScrollView(context)
@@ -254,7 +253,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val dowText = dateHeaders[cellNum].dowText
                     val bar = dateHeaders[cellNum].bar
                     val color = getDateTextColor(cellNum, !holi.isNullOrEmpty())
-                    val alpha = if(cellNum in startCellNum..endCellNum) 1f else outDateAlpha
+                    val alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
                     dateText.text = String.format("%02d", tempCal.get(Calendar.DATE))
                     dateText.alpha = alpha
                     dateText.setTextColor(color)
@@ -306,7 +305,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun onDateClick(cellNum: Int) {
-        if(cellNum in startCellNum..endCellNum) {
+        if(AppStatus.outsideMonthAlpha > 0f || cellNum in startCellNum..endCellNum) {
             tempCal.timeInMillis = cellTimeMills[cellNum]
             selectDate(cellNum, selectCellNum == cellNum)
         }
@@ -322,7 +321,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dowText = dateHeaders[cellNum].dowText
         val dateText = dateHeaders[cellNum].dateText
         val holiText = dateHeaders[cellNum].holiText
-        val alpha = if(cellNum in startCellNum..endCellNum) 1f else outDateAlpha
+        val alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
 
         dateText.typeface = CalendarManager.dateFont
         dowText.typeface = CalendarManager.dateFont

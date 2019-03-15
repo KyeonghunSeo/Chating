@@ -239,5 +239,8 @@
     <string name="none">없음</string>
     <string name="holi_display_sub">달력에 표시 할 국가를 설정합니다</string>
     <string name="cal_text_size">글씨 크기</string>
+    <string name="outside_month">이전, 다음달 표시</string>
+    <string name="blur">흐리게</string>
+    <string name="connect_os_calendar">외부 캘린더 가져오기</string>
 
 </resources>

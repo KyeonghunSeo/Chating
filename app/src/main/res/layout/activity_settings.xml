@@ -199,6 +199,34 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/outsideMonthBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/outside_month"
+                    android:textColor="@color/primaryText"
+                    android:textSize="14dp"/>
+
+                <TextView
+                    android:id="@+id/outsideMonthText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/unvisible"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="12dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
                 android:id="@+id/calTextSizeBtn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -240,6 +268,23 @@
                     android:textColor="@color/disableText"
                     android:fontFamily="@font/bold"
                     android:textSize="12dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/osCalendarBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/connect_os_calendar"
+                    android:textColor="@color/primaryText"
+                    android:textSize="14dp"/>
 
             </FrameLayout>
 

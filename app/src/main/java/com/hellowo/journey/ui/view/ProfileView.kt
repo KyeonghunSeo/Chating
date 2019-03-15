@@ -58,16 +58,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         }
     }
 
-    fun checkOsCalendarPermission() {
-        MainActivity.instance?.let {
-            if (ActivityCompat.checkSelfPermission(it, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(it, arrayOf(Manifest.permission.READ_CALENDAR), RC_PERMISSIONS)
-            } else {
-                showDialog(OsCalendarDialog(it), true, true, true, false)
-            }
-        }
-    }
-
     fun show() {
         visibility = View.VISIBLE
         viewMode = ViewMode.OPENED

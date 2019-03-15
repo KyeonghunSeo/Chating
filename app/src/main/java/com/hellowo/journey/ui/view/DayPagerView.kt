@@ -39,7 +39,6 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val dayViews = List(viewCount) { DayView(context) }
 
     private var targetDayView : DayView = dayViews[startPosition % viewCount]
-    private var selectDateTime = Long.MIN_VALUE
 
     init {
         setCardBackgroundColor(CalendarManager.backgroundColor)
@@ -197,7 +196,4 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        notifyDateChanged()
-    }
 }
