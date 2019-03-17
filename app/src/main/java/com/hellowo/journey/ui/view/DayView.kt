@@ -308,7 +308,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
         if(!holi.isNullOrEmpty()) {
             holiText.text = holi
-        }else if(lunarCalendar.lunarDay == 1 || lunarCalendar.lunarDay == 10 || lunarCalendar.lunarDay == 20) {
+        }else if(AppStatus.isLunarDisplay) {
             holiText.text = lunarCalendar.lunarSimpleFormat
         }else {
             holiText.text = ""

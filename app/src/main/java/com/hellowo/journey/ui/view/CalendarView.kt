@@ -100,6 +100,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var selectCellNum = -1
     var todayCellNum = -1
     val cellTimeMills = LongArray(maxCellNum) { _ -> Long.MIN_VALUE}
+    val cellHoliText = Array(maxCellNum) { _ -> ""}
     var calendarStartTime = Long.MAX_VALUE
     var calendarEndTime = Long.MAX_VALUE
     var onDrawed: ((Calendar) -> Unit)? = null
@@ -255,15 +256,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     bar.setBackgroundColor(color)
                     todayIndi.setColorFilter(color)
 
-                    if(!holi.isNullOrEmpty()) {
-                        holiText.text = holi
-                    }else if(AppStatus.isLunarDisplay && (lunarCalendar.lunarDay == 1
-                                    || lunarCalendar.lunarDay == 10
-                                    || lunarCalendar.lunarDay == 20)) {
-                        holiText.text = lunarCalendar.lunarSimpleFormat
-                    }else {
-                        holiText.text = ""
-                    }
+                    cellHoliText[cellNum] = if(!holi.isNullOrEmpty()) holi!!
+                    else if(AppStatus.isLunarDisplay
+                            && (lunarCalendar.lunarDay == 1 || lunarCalendar.lunarDay == 10 || lunarCalendar.lunarDay == 20))
+                        lunarCalendar.lunarSimpleFormat
+                    else ""
+                    holiText.text = cellHoliText[cellNum]
                     holiText.alpha = alpha
 
                     if(isSameDay(tempCal, targetCal)) {
@@ -334,6 +332,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         holiText.typeface = CalendarManager.dateFont
         dateText.alpha = alpha
         dowText.visibility = View.GONE
+        holiText.text = cellHoliText[cellNum]
 
         offViewEffect(cellNum)
         lastUnSelectDateAnimSet?.cancel()
@@ -391,8 +390,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 lastSelectWeekAnimSet = AnimatorSet()
                 lastSelectWeekAnimSet?.let {
                     it.addListener(object : AnimatorListenerAdapter(){
-                        override fun onAnimationCancel(animation: Animator?) {
-                            weekView.container.alpha = 0f
+                        override fun onAnimationCancel(animation: Animator?) { weekView.container.alpha = 0f
                         }
                     })
                     it.playTogether(ObjectAnimator.ofFloat(weekView.container, "alpha", 0f, 1f))
@@ -418,6 +416,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.alpha = 1f
             dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
             dowText.visibility = View.VISIBLE
+
+            if(AppStatus.isLunarDisplay && holiText.text.isEmpty()) {
+                lunarCalendar.setSolarDate(targetCal.get(Calendar.YEAR),
+                        targetCal.get(Calendar.MONTH) + 1, targetCal.get(Calendar.DATE))
+                holiText.text = lunarCalendar.lunarSimpleFormat
+            }
 
             lastSelectDateAnimSet?.cancel()
             lastSelectDateAnimSet = AnimatorSet()

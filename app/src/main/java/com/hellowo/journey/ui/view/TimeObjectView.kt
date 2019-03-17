@@ -23,14 +23,14 @@ import com.hellowo.journey.model.TimeObject.Style.*
 @SuppressLint("ViewConstructor")
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
     companion object {
-        var standardTextSize = 8f
+        var standardTextSize = 9f
         val defaulMargin = dpToPx(1f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
         val defaultPadding = dpToPx(2)
         val leftPadding = dpToPx(9)
         val rectRadius = dpToPx(1f)
         val stampSize = dpToPx(16)
-        val blockTypeSize = dpToPx(17)
+        val blockTypeSize = dpToPx(16)
         val dotSize = dpToPx(4)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         val defaultTextColor = Color.parseColor("#90000000")
