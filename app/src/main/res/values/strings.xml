@@ -237,7 +237,7 @@
     <string name="kr">대한민국</string>
     <string name="jp">일본</string>
     <string name="none">없음</string>
-    <string name="holi_display_sub">달력에 표시 할 국가를 설정합니다</string>
+    <string name="holi_display_sub">공휴일을 표시 할 국가를 설정합니다</string>
     <string name="cal_text_size">글씨 크기</string>
     <string name="outside_month">이전, 다음달 표시</string>
     <string name="blur">흐리게</string>

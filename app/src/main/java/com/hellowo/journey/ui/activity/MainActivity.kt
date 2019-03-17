@@ -104,8 +104,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initLayout() {
-        yearText.typeface = AppTheme.boldFont
-        monthText.typeface = AppTheme.boldFont
         dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         dateLy.setOnClickListener { _ ->
             showDialog(DatePickerDialog(this, viewModel.targetTime.value!!) {

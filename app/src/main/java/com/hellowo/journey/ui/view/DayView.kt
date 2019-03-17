@@ -50,7 +50,7 @@ import java.util.Calendar.SUNDAY
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
     companion object {
-        const val headerTextScale = 5f
+        const val headerTextScale = 4f
         val datePosX = dpToPx(9f)
         val datePosY = -dpToPx(13f)
         val dowPosX = -dpToPx(2f)
@@ -283,7 +283,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun setDateText() {
         dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
-        dowText.text = AppDateFormat.dow.format(targetCal.time)
+        dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
 
         val lunarCalendar = KoreanLunarCalendar.getInstance()
         lunarCalendar.setSolarDate(targetCal.get(Calendar.YEAR),
@@ -304,6 +304,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dateText.setTextColor(color)
         dowText.setTextColor(color)
         holiText.setTextColor(color)
+        todayIndi.setColorFilter(color)
 
         if(!holi.isNullOrEmpty()) {
             holiText.text = holi
@@ -311,6 +312,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             holiText.text = lunarCalendar.lunarSimpleFormat
         }else {
             holiText.text = ""
+        }
+
+        if(isSameDay(CalendarView.todayCal, targetCal)) {
+            todayIndi.visibility = View.VISIBLE
+        }else {
+            todayIndi.visibility = View.GONE
         }
     }
 
@@ -324,6 +331,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "scaleY", 1f, subScale),
                 ObjectAnimator.ofFloat(holiText, "scaleX", 1f, subScale),
                 ObjectAnimator.ofFloat(holiText, "scaleY", 1f, subScale),
+                ObjectAnimator.ofFloat(todayIndi, "scaleX", 1f, subScale),
+                ObjectAnimator.ofFloat(todayIndi, "scaleY", 1f, subScale),
                 ObjectAnimator.ofFloat(dateLy, "translationX", 0f, datePosX),
                 ObjectAnimator.ofFloat(dateLy, "translationY", 0f, datePosY),
                 ObjectAnimator.ofFloat(dowText, "translationX", 0f, dowPosX),
@@ -345,6 +354,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "scaleY", subScale, 1f),
                 ObjectAnimator.ofFloat(holiText, "scaleX", subScale, 1f),
                 ObjectAnimator.ofFloat(holiText, "scaleY", subScale, 1f),
+                ObjectAnimator.ofFloat(todayIndi, "scaleX", subScale, 1f),
+                ObjectAnimator.ofFloat(todayIndi, "scaleY", subScale, 1f),
                 ObjectAnimator.ofFloat(dateLy, "translationX", datePosX, 0f),
                 ObjectAnimator.ofFloat(dateLy, "translationY", datePosX, 0f),
                 ObjectAnimator.ofFloat(dowText, "translationX", dowPosX, 0f),
@@ -364,6 +375,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.scaleX = subScale
         holiText.scaleY = subScale
         holiText.scaleX = subScale
+        todayIndi.scaleY = subScale
+        todayIndi.scaleX = subScale
         dateLy.translationX = datePosX
         dateLy.translationY = datePosY
         dowText.translationX = dowPosX
@@ -380,6 +393,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.scaleX = 1f
         holiText.scaleY = 1f
         holiText.scaleX = 1f
+        todayIndi.scaleY = 1f
+        todayIndi.scaleX = 1f
         dateLy.translationX = 0f
         dateLy.translationY = 0f
         dowText.translationX = 0f

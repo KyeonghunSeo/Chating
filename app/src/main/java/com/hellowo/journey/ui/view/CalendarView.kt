@@ -78,6 +78,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dowText: TextView = container.findViewById(R.id.dowText)
         val holiText: TextView = container.findViewById(R.id.holiText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
+        val todayIndi: ImageView = container.findViewById(R.id.todayIndi)
         init {
             dateText.typeface = CalendarManager.dateFont
             dowText.typeface = CalendarManager.dateFont
@@ -232,15 +233,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 for (j in 0..6){
                     val cellNum = i*7 + j
                     cellTimeMills[cellNum] = tempCal.timeInMillis
-
-                    if(isSameDay(tempCal, targetCal)) {
-                        targetCellNum = cellNum
-                    }
-                    if(isSameDay(tempCal, todayCal)) {
-                        todayCellNum = cellNum
-                        //dateLy.setBackgroundResource(R.drawable.grey_rect_fill_radius_2)
-                    }
-
                     lunarCalendar.setSolarDate(tempCal.get(Calendar.YEAR),
                             tempCal.get(Calendar.MONTH) + 1,
                             tempCal.get(Calendar.DATE))
@@ -251,6 +243,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val holiText = dateHeaders[cellNum].holiText
                     val dateText = dateHeaders[cellNum].dateText
                     val dowText = dateHeaders[cellNum].dowText
+                    val todayIndi = dateHeaders[cellNum].todayIndi
                     val bar = dateHeaders[cellNum].bar
                     val color = getDateTextColor(cellNum, !holi.isNullOrEmpty())
                     val alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
@@ -260,6 +253,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     holiText.setTextColor(color)
                     dowText.setTextColor(color)
                     bar.setBackgroundColor(color)
+                    todayIndi.setColorFilter(color)
 
                     if(!holi.isNullOrEmpty()) {
                         holiText.text = holi
@@ -271,6 +265,18 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         holiText.text = ""
                     }
                     holiText.alpha = alpha
+
+                    if(isSameDay(tempCal, targetCal)) {
+                        targetCellNum = cellNum
+                    }
+
+                    if(isSameDay(tempCal, todayCal)) {
+                        todayCellNum = cellNum
+                        todayIndi.visibility = View.VISIBLE
+                        //dateLy.setBackgroundResource(R.drawable.grey_rect_fill_radius_2)
+                    }else {
+                        todayIndi.visibility = View.GONE
+                    }
 
                     if(cellNum == 0) {
                         calendarStartTime = tempCal.timeInMillis
@@ -410,7 +416,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dowText.typeface = CalendarManager.selectFont
             holiText.typeface = CalendarManager.selectFont
             dateText.alpha = 1f
-            dowText.text = AppDateFormat.dow.format(targetCal.time)
+            dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
             dowText.visibility = View.VISIBLE
 
             lastSelectDateAnimSet?.cancel()

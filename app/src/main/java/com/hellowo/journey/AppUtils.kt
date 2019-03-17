@@ -386,23 +386,23 @@ fun setGlobalTheme(view: View?) {
                 when (v) {
                     is TextView -> {
                         when(v.typeface){
-                            Typeface.DEFAULT -> v.typeface = AppTheme.regularFont
                             AppTheme.bFont -> v.typeface = AppTheme.boldFont
                             AppTheme.tFont -> v.typeface = AppTheme.thinFont
+                            else -> v.typeface = AppTheme.regularFont
                         }
                     }
                     is EditText -> {
                         when(v.typeface){
-                            Typeface.DEFAULT -> v.typeface = AppTheme.regularFont
                             AppTheme.bFont -> v.typeface = AppTheme.boldFont
                             AppTheme.tFont -> v.typeface = AppTheme.thinFont
+                            else -> v.typeface = AppTheme.regularFont
                         }
                     }
                     is Button -> {
                         when(v.typeface){
-                            Typeface.DEFAULT -> v.typeface = AppTheme.regularFont
                             AppTheme.bFont -> v.typeface = AppTheme.boldFont
                             AppTheme.tFont -> v.typeface = AppTheme.thinFont
+                            else -> v.typeface = AppTheme.regularFont
                         }
                     }
                     is Line -> {

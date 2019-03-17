@@ -24,7 +24,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="15dp">
 
             <TextView
                 android:id="@+id/dateText"
@@ -33,18 +33,26 @@
                 android:textSize="11dp"
                 android:includeFontPadding="false"
                 android:textColor="@color/primaryText"
-                android:text="27" />
+                android:text="27"/>
 
             <TextView
                 android:id="@+id/dowText"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="3dp"
-                android:textSize="8dp"
+                android:paddingTop="1dp"
+                android:layout_marginLeft="2dp"
+                android:textSize="10dp"
                 android:includeFontPadding="false"
                 android:textColor="@color/primaryText"
                 android:text="@string/wed"/>
+
+            <ImageView
+                android:id="@+id/todayIndi"
+                android:layout_marginTop="4dp"
+                android:layout_width="9dp"
+                android:layout_height="9dp"
+                android:layout_marginLeft="2dp"
+                android:src="@drawable/flag_today"/>
 
         </LinearLayout>
 
@@ -52,7 +60,7 @@
             android:id="@+id/holiText"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textSize="8dp"
+            android:textSize="7dp"
             android:includeFontPadding="false"
             android:textColor="@color/primaryText"/>
 
