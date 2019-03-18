@@ -27,7 +27,7 @@ import com.hellowo.journey.manager.HolidayManager
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
-import com.hellowo.journey.util.KoreanLunarCalendar
+import com.hellowo.journey.adapter.util.KoreanLunarCalendar
 import io.realm.RealmResults
 import java.util.*
 
@@ -40,12 +40,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val selectedDateScale = 1f
         val todayCal: Calendar = Calendar.getInstance()
         val dragStartYPos = dpToPx(58f)
-        val dateArea = dpToPx(30f)
+        val dateArea = dpToPx(35f)
         val weekLyBottomPadding = dpToPx(20)
         val calendarPadding = dpToPx(10)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
-        val lineWidth = dpToPx(1)
+        val lineWidth = dpToPx(0.5f)
     }
 
     private val scrollView = ScrollView(context)
@@ -83,7 +83,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.typeface = CalendarManager.dateFont
             dowText.typeface = CalendarManager.dateFont
             holiText.typeface = CalendarManager.dateFont
-            bar.alpha = 0f
+            bar.scaleX = 0f
             dowText.visibility = View.GONE
         }
     }
@@ -141,16 +141,16 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         fakeImageView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
         rowDividers.forEachIndexed { index, view ->
-            view.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, lineWidth).apply {
+            view.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, lineWidth.toInt()).apply {
                 if(index == 6) {
                     gravity = Gravity.BOTTOM
                 }
             }
-            view.setBackgroundColor(AppTheme.backgroundColor)
+            view.setBackgroundColor(AppTheme.lineColor)
         }
 
         columnDividers.forEachIndexed { index, view ->
-            view.layoutParams = FrameLayout.LayoutParams(lineWidth, MATCH_PARENT)
+            view.layoutParams = FrameLayout.LayoutParams(lineWidth.toInt(), MATCH_PARENT)
             view.setBackgroundColor(AppTheme.backgroundColor)
         }
 
@@ -341,7 +341,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             it.addListener(object : AnimatorListenerAdapter(){
                 override fun onAnimationCancel(animation: Animator?) { restoreDateHeader(dateHeaders[cellNum]) } })
             it.playTogether(
-                    ObjectAnimator.ofFloat(bar, "alpha", 1f, 0f),
+                    ObjectAnimator.ofFloat(bar, "scaleX", 1f, 0f),
                     ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleX", selectedDateScale, 1f),
                     ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleY", selectedDateScale, 1f))
             it.interpolator = FastOutSlowInInterpolator()
@@ -429,7 +429,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 it.addListener(object : AnimatorListenerAdapter(){
                     override fun onAnimationCancel(animation: Animator?) { restoreDateHeader(dateHeaders[cellNum]) } })
                 it.playTogether(
-                        ObjectAnimator.ofFloat(bar, "alpha", 0f, 1f),
+                        ObjectAnimator.ofFloat(bar, "scaleX", 0f, 1f),
                         ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleX", 1f, selectedDateScale),
                         ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleY", 1f, selectedDateScale))
                 it.interpolator = FastOutSlowInInterpolator()
@@ -439,7 +439,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             if(autoScroll /*|| isChangeWeek*/) {
                 autoScroll = false
-                scrollView.post { scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top - dateArea.toInt()) }
+                scrollView.post { scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top) }
             }
             onViewEffect(cellNum)
         }else {
@@ -451,7 +451,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun restoreDateHeader(holder: DateHeaderViewHolder) {
-        holder.bar.alpha = 0f
+        holder.bar.scaleX = 0f
         holder.dateLy.scaleX = 1f
         holder.dateLy.scaleY = 1f
     }

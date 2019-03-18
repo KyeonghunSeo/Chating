@@ -5,20 +5,12 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <FrameLayout
-        android:id="@+id/bar"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginRight="2dp"
-        android:background="@color/primaryText">
-    </FrameLayout>
-
     <LinearLayout
         android:id="@+id/dateLy"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="2dp"
         android:layout_marginLeft="4dp">
 
         <LinearLayout
@@ -49,8 +41,8 @@
             <ImageView
                 android:id="@+id/todayIndi"
                 android:layout_marginTop="4dp"
-                android:layout_width="9dp"
-                android:layout_height="9dp"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
                 android:layout_marginLeft="2dp"
                 android:src="@drawable/flag_today"/>
 
@@ -65,5 +57,12 @@
             android:textColor="@color/primaryText"/>
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginRight="0dp">
+    </FrameLayout>
 
 </FrameLayout>

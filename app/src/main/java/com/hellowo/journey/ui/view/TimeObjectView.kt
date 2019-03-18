@@ -26,7 +26,9 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         var standardTextSize = 9f
         val defaulMargin = dpToPx(1f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
-        val defaultPadding = dpToPx(2)
+        val sidePadding = dpToPx(2)
+        val topPadding = dpToPx(1.75f)
+        val bottomPadding = dpToPx(1.75f)
         val leftPadding = dpToPx(9)
         val rectRadius = dpToPx(1f)
         val stampSize = dpToPx(16)
@@ -62,20 +64,22 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             //isHorizontalFadingEdgeEnabled = true /*성능이슈*/
             typeface = AppTheme.regularFont
             setTextColor(AppTheme.primaryText)
-            setPadding((leftPadding + defaulMargin).toInt(), 0, defaultPadding, 0)
+            setPadding((leftPadding + defaulMargin).toInt(), 0, sidePadding, 0)
             return
         }
 
+        typeface = AppTheme.regularFont
+        setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
+        setPadding((leftPadding + defaulMargin).toInt(),
+                (topPadding + (AppStatus.calTextSize * -1.55f)).toInt() /*글씨 크기에 따른 탑 패딩 조정*/,
+                sidePadding, 0)
+
         when(TimeObject.Type.values()[timeObject.type]) {
             EVENT, TASK -> {
-                typeface = AppTheme.regularFont
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-                gravity = Gravity.CENTER_VERTICAL
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
-                setPadding((leftPadding + defaulMargin).toInt(), 0, defaultPadding, 0)
                 when(TimeObject.Style.values()[timeObject.style]){
                     ROUND_STROKE, RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
                         paintColor = AppTheme.getColor(timeObject.colorKey)
@@ -93,12 +97,9 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 setTextColor(fontColor)
             }
             NOTE -> {
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title?.replace(System.getProperty("line.separator"), " ")
                 else context.getString(R.string.empty_note)
-                typeface = AppTheme.regularFont
                 setLineSpacing(defaulMargin, 1f)
-                setPadding((leftPadding + defaulMargin).toInt(), (defaulMargin * 3).toInt(), defaultPadding, 0)
                 when(TimeObject.Style.values()[timeObject.style]){
                     RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
                         paintColor = AppTheme.getColor(timeObject.colorKey)
@@ -126,19 +127,19 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     1 -> {
                         typeface = AppTheme.regularFont
                         gravity = Gravity.CENTER_HORIZONTAL
-                        setPadding(defaultPadding, 0, defaultPadding, 0)
+                        setPadding(sidePadding, 0, sidePadding, 0)
                         setTextColor(timeObject.getColor())
                     }
                     2 -> {
                         setTypeface(AppTheme.regularFont, ITALIC)
                         gravity = Gravity.CENTER
-                        setPadding(defaultPadding, 0, defaultPadding, 0)
+                        setPadding(sidePadding, 0, sidePadding, 0)
                         setTextColor(timeObject.getColor())
                     }
                     else -> {
                         typeface = AppTheme.regularFont
                         gravity = Gravity.CENTER
-                        setPadding(defaultPadding * 4, 0, defaultPadding * 4, 0)
+                        setPadding(sidePadding * 4, 0, sidePadding * 4, 0)
                         setTextColor(timeObject.getColor())
                     }
                 }
@@ -146,7 +147,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             else -> {
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 typeface = AppTheme.regularFont
-                setPadding(defaultPadding, 0, defaultPadding, 0)
+                setPadding(sidePadding, 0, sidePadding, 0)
             }
         }
     }
@@ -202,12 +203,17 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 NOTE -> {
                     setSingleLine(false)
                     maxLines = 5
-                    gravity = Gravity.TOP
                     ellipsize = TextUtils.TruncateAt.END
                     val width =  mRight - mLeft - defaulMargin
                     measure(View.MeasureSpec.makeMeasureSpec(width.toInt(), View.MeasureSpec.EXACTLY), heightMeasureSpec)
                     //l("${timeObject.title} 라인 : "+((paint.measureText(text.toString()) / width).toInt() + 1))
-                    measuredHeight + (defaulMargin * 4).toInt()
+                    /* 블럭 사이즈로 맞추기
+                    var lh = blockTypeSize
+                    while (lh < measuredHeight) {
+                        lh += blockTypeSize
+                    }
+                    lh*/
+                    (measuredHeight + topPadding).toInt()
                 }
                 TERM -> {
                     textSpaceWidth = paint.measureText(text.toString())
@@ -226,10 +232,10 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val m = (defaulMargin / 2).toInt()
         /*
         if(leftOpen) {
-            w += defaultPadding
-            translationX = -defaultPadding.toFloat()
+            w += sidePadding
+            translationX = -sidePadding.toFloat()
         }
-        if(rightOpen) w += defaultPadding
+        if(rightOpen) w += sidePadding
         */
         val lp = FrameLayout.LayoutParams(w.toInt(), h.toInt())
         lp.setMargins(m, mTop.toInt() + m, 0, 0)

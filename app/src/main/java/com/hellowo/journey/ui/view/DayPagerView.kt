@@ -19,13 +19,14 @@ import androidx.viewpager.widget.ViewPager
 import com.hellowo.journey.*
 import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.ui.activity.MainActivity
+import com.hellowo.journey.ui.view.base.PagingControlableViewPager
 import java.util.*
 
 
 class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
     companion object {
-        val startZ = dpToPx(10f)
+        val startZ = dpToPx(8f)
     }
 
     var viewMode = ViewMode.CLOSED
@@ -35,7 +36,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val initCal = Calendar.getInstance()
     private val startPosition = 1000
     private val viewCount = 3
-    private val viewPager = ViewPager(context)
+    private val viewPager = PagingControlableViewPager(context)
     private val dayViews = List(viewCount) { DayView(context) }
 
     private var targetDayView : DayView = dayViews[startPosition % viewCount]
@@ -58,6 +59,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
             }
         })
+        viewPager.setPagingEnabled(false)
         visibility = View.GONE
     }
 
@@ -128,6 +130,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         override fun onTransitionEnd(transition: Transition) {
                             dayViews.forEach { it.setDateOpenedStyle() }
                             viewMode = ViewMode.OPENED
+                            viewPager.setPagingEnabled(true)
                             onVisibility?.invoke(true)
                         }
                         override fun onTransitionResume(transition: Transition) {}
@@ -154,6 +157,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
         MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
             elevation = startZ
             viewMode = ViewMode.ANIMATING
+            viewPager.setPagingEnabled(false)
 
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)

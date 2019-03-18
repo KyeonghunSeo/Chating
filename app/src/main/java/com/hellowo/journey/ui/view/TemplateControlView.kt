@@ -51,8 +51,13 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             if(isExpanded) {
                 collapse()
             }else {
-                MainActivity.instance?.viewModel?.targetTime?.value?.let { expand(it, it) }
+                MainActivity.getTargetTime()?.let { expand(it, it) }
             }
+        }
+
+        addBtn.setOnLongClickListener { _ ->
+            MainActivity.getViewModel()?.let { it.makeNewTimeObject(0) }
+            return@setOnLongClickListener false
         }
 
         editTemplateBtn.setOnClickListener { _ ->

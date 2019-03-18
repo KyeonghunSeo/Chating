@@ -1,29 +1,22 @@
 package com.hellowo.journey.ui.view
 
-import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Handler
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.cardview.widget.CardView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
 import com.hellowo.journey.*
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.adapter.EventListAdapter
-import com.hellowo.journey.adapter.TaskListAdapter
-import com.hellowo.journey.util.TaskListComparator
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.OrderedCollectionChangeSet
 import io.realm.RealmResults
@@ -37,14 +30,13 @@ import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
 import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
 import android.view.Gravity
 import android.widget.FrameLayout
-import com.hellowo.journey.adapter.NoteListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.manager.*
-import com.hellowo.journey.util.EventListComparator
-import com.hellowo.journey.util.KoreanLunarCalendar
-import com.hellowo.journey.util.NoteListComparator
+import com.hellowo.journey.adapter.util.EventListComparator
+import com.hellowo.journey.adapter.util.KoreanLunarCalendar
 import java.util.Calendar.SATURDAY
 import java.util.Calendar.SUNDAY
+import com.hellowo.journey.model.TimeObject.Type.*
 
 
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -57,40 +49,25 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         val dowPosY = dpToPx(3f)
         val holiPosX = dpToPx(14.2f)
         val holiPosY = -dpToPx(7.5f)
-        val startZ = dpToPx(10f)
+        val startZ = dpToPx(8f)
         val endZ = dpToPx(0f)
         val subScale = 0.4f
     }
     val targetCal = Calendar.getInstance()
     private var timeObjectList: RealmResults<TimeObject>? = null
-    private val eventList = ArrayList<TimeObject>()
-    private val taskList = ArrayList<TimeObject>()
-    private val noteList = ArrayList<TimeObject>()
-    private val newEventList = ArrayList<TimeObject>()
-    private val newTaskList = ArrayList<TimeObject>()
-    private val newNoteList = ArrayList<TimeObject>()
+    private val currentList = ArrayList<TimeObject>()
+    private val newList = ArrayList<TimeObject>()
 
-    private val eventAdapter = EventListAdapter(context, eventList, targetCal) { view, timeObject, action ->
-        when(action) {
-            0 -> onItemClick(view, timeObject)
-        }
-    }
-
-    private val taskAdapter = TaskListAdapter(context, taskList, targetCal) { view, timeObject, action ->
+    private val eventAdapter = EventListAdapter(context, currentList, targetCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
             1 -> {
-                if(!timeObject.isDone() && taskList.filter { !it.isDone() }.size == 1) {
+                if(!timeObject.isDone() && currentList.filter { !it.isDone() }.size == 1) {
                 }else {
                 }
                 vibrate(context)
                 TimeObjectManager.done(timeObject)
             }
-        }
-    }
-    private val noteAdapter = NoteListAdapter(context, noteList, targetCal) { view, timeObject, action ->
-        when(action) {
-            0 -> onItemClick(view, timeObject)
         }
     }
 
@@ -121,17 +98,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     private fun initRecyclerView() {
-        eventListView.layoutManager = LinearLayoutManager(context)
-        eventListView.adapter = eventAdapter
-        eventAdapter.itemTouchHelper?.attachToRecyclerView(eventListView)
-
-        taskListView.layoutManager = LinearLayoutManager(context)
-        taskListView.adapter = taskAdapter
-        taskAdapter.itemTouchHelper?.attachToRecyclerView(taskListView)
-
-        noteListView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        noteListView.adapter = noteAdapter
-        noteAdapter.itemTouchHelper?.attachToRecyclerView(noteListView)
+        timeObjectListView.layoutManager = LinearLayoutManager(context)
+        timeObjectListView.adapter = eventAdapter
+        eventAdapter.itemTouchHelper?.attachToRecyclerView(timeObjectListView)
     }
 
     fun notifyDateChanged() {
@@ -142,15 +111,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         timeObjectList?.addChangeListener { result, changeSet ->
             val t = System.currentTimeMillis()
             if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
-                updateData(result, eventList, taskList, noteList)
+                updateData(result, currentList)
                 eventAdapter.notifyDataSetChanged()
-                taskAdapter.notifyDataSetChanged()
-                noteAdapter.notifyDataSetChanged()
             }else if(changeSet.state == OrderedCollectionChangeSet.State.UPDATE) {
-                updateData(result, newEventList, newTaskList, newNoteList)
-                updateChange(eventAdapter, eventList, newEventList)
-                updateChange(taskAdapter, taskList, newTaskList)
-                updateChange(noteAdapter, noteList, newNoteList)
+                updateData(result, newList)
+                updateChange(eventAdapter, currentList, newList)
             }
 /*
                 val imageItem = result.firstOrNull { item -> item.links.any{ it.type == Link.Type.IMAGE.ordinal } }
@@ -166,45 +131,27 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }
     }
 
-    private fun updateData(data: RealmResults<TimeObject>, e: ArrayList<TimeObject>,
-                               t: ArrayList<TimeObject>, n: ArrayList<TimeObject>) {
+    private fun updateData(data: RealmResults<TimeObject>, e: ArrayList<TimeObject>) {
         e.clear()
-        t.clear()
-        n.clear()
-        collocateData(data, e, t, n)
+        collocateData(data, e)
 
         OsCalendarManager.getInstances(context, "", startTime, endTime).forEach {
             if(it.dtStart < endTime && it.dtEnd > startTime) e.add(it)
         }
 
         e.sortWith(EventListComparator())
-        t.sortWith(TaskListComparator())
-        n.sortWith(NoteListComparator())
 
         if(e.isNotEmpty()) {
-            eventHeaderLy.visibility = View.VISIBLE
+            timeObjectListHeaderLy.visibility = View.VISIBLE
         }else {
-            eventHeaderLy.visibility = View.GONE
-        }
-
-        if(t.isNotEmpty()) {
-            taskHeaderLy.visibility = View.VISIBLE
-        }else {
-            taskHeaderLy.visibility = View.GONE
-        }
-
-        if(n.isNotEmpty()) {
-            noteHeaderLy.visibility = View.VISIBLE
-        }else {
-            noteHeaderLy.visibility = View.GONE
+            timeObjectListHeaderLy.visibility = View.GONE
         }
     }
 
-    private fun collocateData(data: RealmResults<TimeObject>, e: ArrayList<TimeObject>,
-                              t: ArrayList<TimeObject>, n: ArrayList<TimeObject>) {
+    private fun collocateData(data: RealmResults<TimeObject>, e: ArrayList<TimeObject>) {
         data.forEach { timeObject ->
             when(TimeObject.Type.values()[timeObject.type]) {
-                TimeObject.Type.EVENT, TimeObject.Type.TERM -> {
+                EVENT, TASK, TERM -> {
                     try{
                         if(timeObject.repeat.isNullOrEmpty()) {
                             e.add(timeObject.makeCopyObject())
@@ -214,19 +161,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                         }
                     }catch (e: Exception){ e.printStackTrace() }
                 }
-                TimeObject.Type.TASK -> {
-                    try{
-                        if(timeObject.repeat.isNullOrEmpty()) {
-                            t.add(timeObject.makeCopyObject())
-                        }else {
-                            RepeatManager.makeRepeatInstance(timeObject, startTime, endTime)
-                                    .forEach { t.add(it) }
-                        }
-                    }catch (e: Exception){ e.printStackTrace() }
-                }
-                TimeObject.Type.NOTE -> n.add(timeObject.makeCopyObject())
                 else -> {
-                    n.add(timeObject.makeCopyObject())
+                    e.add(timeObject.makeCopyObject())
                 }
             }
         }
@@ -267,12 +203,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun clear() {
         timeObjectList?.removeAllChangeListeners()
-        eventList.clear()
-        taskList.clear()
-        noteList.clear()
+        currentList.clear()
         eventAdapter.notifyDataSetChanged()
-        taskAdapter.notifyDataSetChanged()
-        noteAdapter.notifyDataSetChanged()
         setDateClosedStyle()
     }
 
@@ -345,7 +277,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun hide() {
-        contentLy.visibility = View.INVISIBLE
+        contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
         animSet.playTogether(
                 ObjectAnimator.ofFloat(dateLy, "scaleX", headerTextScale, CalendarView.selectedDateScale),
@@ -357,7 +289,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(todayIndi, "scaleX", subScale, 1f),
                 ObjectAnimator.ofFloat(todayIndi, "scaleY", subScale, 1f),
                 ObjectAnimator.ofFloat(dateLy, "translationX", datePosX, 0f),
-                ObjectAnimator.ofFloat(dateLy, "translationY", datePosX, 0f),
+                ObjectAnimator.ofFloat(dateLy, "translationY", datePosY, 0f),
                 ObjectAnimator.ofFloat(dowText, "translationX", dowPosX, 0f),
                 ObjectAnimator.ofFloat(dowText, "translationY", dowPosY, 0f),
                 ObjectAnimator.ofFloat(holiText, "translationX", holiPosX, 0f),
@@ -386,7 +318,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     private fun setDateClosedStyle() {
-        contentLy.visibility = View.INVISIBLE
+        contentLy.visibility = View.GONE
         dateLy.scaleY = CalendarView.selectedDateScale
         dateLy.scaleX = CalendarView.selectedDateScale
         dowText.scaleY = 1f

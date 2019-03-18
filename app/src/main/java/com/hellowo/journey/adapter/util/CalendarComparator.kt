@@ -1,4 +1,4 @@
-package com.hellowo.journey.util
+package com.hellowo.journey.adapter.util
 
 import com.hellowo.journey.adapter.TimeObjectCalendarAdapter
 import com.hellowo.journey.model.TimeObject

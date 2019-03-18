@@ -137,10 +137,6 @@ class SettingsActivity : BaseActivity() {
                 outsideMonthText.setTextColor(AppTheme.disableText)
             }
             0.3f -> {
-                outsideMonthText.text = getString(R.string.blur)
-                outsideMonthText.setTextColor(AppTheme.secondaryText)
-            }
-            1f -> {
                 outsideMonthText.text = getString(R.string.visible)
                 outsideMonthText.setTextColor(AppTheme.primaryText)
             }
@@ -149,8 +145,7 @@ class SettingsActivity : BaseActivity() {
         outsideMonthBtn.setOnClickListener {
             when(AppStatus.outsideMonthAlpha) {
                 0f -> AppStatus.outsideMonthAlpha = 0.3f
-                0.3f -> AppStatus.outsideMonthAlpha = 1f
-                1f -> AppStatus.outsideMonthAlpha = 0f
+                0.3f -> AppStatus.outsideMonthAlpha = 0f
             }
             Prefs.putFloat("outsideMonthAlpha", AppStatus.outsideMonthAlpha)
             setOutsideMonth()

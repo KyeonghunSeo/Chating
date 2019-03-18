@@ -263,7 +263,7 @@ fun startFromBottomSlideAppearAnimation(view: View, offset: Float) {
 fun startDialogShowAnimation(view: View) {
     val animSet = AnimatorSet()
     animSet.playTogether(
-            ObjectAnimator.ofFloat(view, "translationY", dpToPx(20f), 0f),
+            ObjectAnimator.ofFloat(view, "translationY", dpToPx(15f), 0f),
             ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
     )
     animSet.interpolator = FastOutSlowInInterpolator()

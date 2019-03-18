@@ -7,9 +7,8 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
 import com.hellowo.journey.*
 import com.hellowo.journey.manager.OsCalendarManager
-import com.hellowo.journey.util.CalendarComparator
+import com.hellowo.journey.adapter.util.CalendarComparator
 import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.ui.view.CalendarView.Companion.weekLyBottomPadding
@@ -33,7 +32,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
     private var withAnimtion = false
     private var minWidth = 0f
     private var minHeight = 0f
-    private val drawStartYOffset = CalendarView.dateArea + /*날짜와 블록 마진*/dpToPx(2f)
+    private val drawStartYOffset = CalendarView.dateArea
     private val cellBottomArray = Array(42){ _ -> drawStartYOffset}
     private val rowHeightArray = Array(6){ _ -> drawStartYOffset}
 

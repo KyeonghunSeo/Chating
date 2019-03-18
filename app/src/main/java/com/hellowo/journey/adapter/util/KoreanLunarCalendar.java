@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.hellowo.journey.util;
+package com.hellowo.journey.adapter.util;
 
 public class KoreanLunarCalendar {
 

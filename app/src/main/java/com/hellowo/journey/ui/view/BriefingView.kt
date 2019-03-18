@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
+import androidx.cardview.widget.CardView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -108,7 +109,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             todayOffset != 0 -> {
                 todayText.text = context.getString(R.string.go_today)
                 todayText.setTextColor(AppTheme.secondaryText)
-                briefingImg.visibility = View.GONE
+                briefingImg.visibility = View.VISIBLE
                 todayBtn.setOnClickListener {
                     MainActivity.instance?.selectDate(System.currentTimeMillis())
                 }
@@ -116,7 +117,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             else -> {
                 todayText.text = context.getString(R.string.today)
                 todayText.setTextColor(AppTheme.disableText)
-                briefingImg.visibility = View.GONE
+                briefingImg.visibility = View.VISIBLE
                 todayBtn.setOnClickListener { _ ->
                     MainActivity.getDayPagerView()?.let {
                         if(it.isOpened()) {

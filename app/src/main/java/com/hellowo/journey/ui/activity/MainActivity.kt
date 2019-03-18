@@ -23,6 +23,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.hellowo.journey.*
 import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.manager.OsCalendarManager
+import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.ui.dialog.DatePickerDialog
 import com.hellowo.journey.ui.view.DayView
@@ -39,9 +40,11 @@ class MainActivity : BaseActivity() {
     companion object {
         var instance: MainActivity? = null
         var isShowing = false
+        fun getViewModel() = instance?.viewModel
         fun getDayPagerView() = instance?.dayPagerView
         fun getCalendarPagerView() = instance?.calendarPagerView
         fun getTargetCalendarView() = instance?.viewModel?.targetCalendarView?.value
+        fun getTargetTime() = instance?.viewModel?.targetTime?.value
         fun getTargetCal() = instance?.viewModel?.targetCalendarView?.value?.targetCal
     }
 
@@ -192,6 +195,22 @@ class MainActivity : BaseActivity() {
 
         profileBtn.setOnLongClickListener {
             //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
+
+            val cal = Calendar.getInstance()
+            cal.set(2019, 2, 1)
+            val s = cal.timeInMillis
+            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s).apply {
+                title = "친구 약속"
+            })
+            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s).apply {
+                title = "미팅"
+            })
+            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s+DAY_MILL, s+DAY_MILL).apply {
+                title = "가족 저녁식사"
+            })
+            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s+DAY_MILL*3).apply {
+                title = "요가수업"
+            })
             return@setOnLongClickListener true
         }
     }
@@ -263,27 +282,35 @@ class MainActivity : BaseActivity() {
         when(index) {
             0 -> {
                 calendarBtn.setColorFilter(AppTheme.primaryColor)
+                calendarLy.visibility = View.VISIBLE
                 if(keepView.isOpened()) viewModel.targetFolder.value = null
                 if(searchView.isOpened()) searchView.hide()
                 if(profileView.isOpened()) profileView.hide()
+                startDialogShowAnimation(calendarLy)
             }
             1 -> {
                 keepBtn.setColorFilter(AppTheme.primaryColor)
+                calendarLy.visibility = View.INVISIBLE
                 viewModel.setTargetFolder()
                 if(searchView.isOpened()) searchView.hide()
                 if(profileView.isOpened()) profileView.hide()
+                startDialogShowAnimation(keepView)
             }
             2 -> {
                 searchBtn.setColorFilter(AppTheme.primaryColor)
+                calendarLy.visibility = View.INVISIBLE
                 if(keepView.isOpened()) viewModel.targetFolder.value = null
                 searchView.show()
                 if(profileView.isOpened()) profileView.hide()
+                startDialogShowAnimation(searchView)
             }
             3 -> {
                 profileBtn.setColorFilter(AppTheme.primaryColor)
+                calendarLy.visibility = View.INVISIBLE
                 if(keepView.isOpened()) viewModel.targetFolder.value = null
                 if(searchView.isOpened()) searchView.hide()
                 profileView.show()
+                startDialogShowAnimation(profileView)
             }
         }
     }

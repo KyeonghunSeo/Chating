@@ -24,6 +24,8 @@ class EventListAdapter(val context: Context, val items: List<TimeObject>, privat
                        val adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    enum class Action {CLICK, LONGCLICK, DELETE, DONE}
+
     val dotSize = dpToPx(6)
     val dotTopMargin = dpToPx(19)
     val tempCal = Calendar.getInstance()

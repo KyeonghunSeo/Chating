@@ -4,13 +4,12 @@ import android.graphics.*
 import com.hellowo.journey.App.Companion.resource
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
-import com.hellowo.journey.l
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.view.TimeObjectView
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.blockTypeSize
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.leftPadding
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaulMargin
-import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaultPadding
+import com.hellowo.journey.ui.view.TimeObjectView.Companion.sidePadding
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.dotSize
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.rectRadius
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.stampSize
@@ -117,9 +116,8 @@ object CalendarManager {
             }
         }
         when(TimeObject.Type.values()[view.timeObject.type]) {
-            TimeObject.Type.EVENT -> drawDot(view, paint, canvas)
+            TimeObject.Type.EVENT, TimeObject.Type.NOTE -> drawDot(view, paint, canvas)
             TimeObject.Type.TASK -> drawCheckBox(view, paint, canvas)
-            TimeObject.Type.NOTE -> drawHyphen(view, paint, canvas)
         }
     }
 
@@ -169,11 +167,11 @@ object CalendarManager {
                 val periodLine = (strokeWidth * 3).toInt()
                 val rectl = RectF(0f,
                         height / 2f - periodLine / 2,
-                        width / 2 - view.textSpaceWidth / 2 - defaultPadding,
+                        width / 2 - view.textSpaceWidth / 2 - sidePadding,
                         height / 2f + periodLine / 2)
                 canvas.drawRect(rectl, paint)
 
-                val rectr = RectF(width / 2 + view.textSpaceWidth / 2 + defaultPadding,
+                val rectr = RectF(width / 2 + view.textSpaceWidth / 2 + sidePadding,
                         height / 2f - periodLine / 2,
                         width.toFloat(),
                         height / 2f + periodLine / 2)
@@ -190,11 +188,11 @@ object CalendarManager {
                 val periodLine = (strokeWidth * 7.5).toInt()
                 val rectl = RectF(periodLine * 2f,
                         height / 2f - periodLine / 2,
-                        width / 2 - view.textSpaceWidth / 2 - defaultPadding,
+                        width / 2 - view.textSpaceWidth / 2 - sidePadding,
                         height / 2f + periodLine / 2)
                 canvas.drawRect(rectl, paint)
 
-                val rectr = RectF(width / 2 + view.textSpaceWidth / 2 + defaultPadding,
+                val rectr = RectF(width / 2 + view.textSpaceWidth / 2 + sidePadding,
                         height / 2f - periodLine / 2,
                         width - periodLine * 2f,
                         height / 2f + periodLine / 2)
@@ -387,7 +385,7 @@ object CalendarManager {
     }
 
     private fun drawDot(view: TimeObjectView, paint: Paint, canvas: Canvas) {
-        val radius = dotSize / 3.0f
+        val radius = dotSize / 3.5f
         val centerY = (blockTypeSize - defaulMargin) / 2
         canvas.drawCircle(leftPadding.toFloat() / 2f + defaulMargin, centerY, radius, paint)
     }
@@ -395,7 +393,7 @@ object CalendarManager {
     private fun drawCheckBox(view: TimeObjectView, paint: Paint, canvas: Canvas) {
         val radius = dotSize / 2f
         val sWidth = strokeWidth / 1.5f
-        val centerY = (blockTypeSize - defaulMargin) / 2
+        val centerY = (blockTypeSize - defaulMargin) / 2.2f
 
         if(view.timeObject.isDone()) {
             view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
@@ -456,7 +454,7 @@ object CalendarManager {
 
     private fun drawWhiteSpaceLine(view: TimeObjectView, centerY: Float, paint: Paint, canvas: Canvas) {
         if(view.length > 1) {
-            canvas.drawRect(leftPadding + defaulMargin + view.textSpaceWidth + defaultPadding,
+            canvas.drawRect(leftPadding + defaulMargin + view.textSpaceWidth + sidePadding,
                     centerY - strokeWidth / 2, view.width.toFloat(), centerY + strokeWidth / 2, paint)
             canvas.drawRect(view.width - strokeWidth, centerY - strokeWidth * 2,
                     view.width.toFloat(), centerY + strokeWidth * 2, paint)
@@ -519,7 +517,7 @@ object CalendarManager {
                 val top = 0f
                 val right = width.toFloat()
                 val bottom = height.toFloat()
-                val edge = defaultPadding
+                val edge = sidePadding
 
                 var path = Path()
                 path.moveTo(left, top)
