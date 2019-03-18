@@ -80,7 +80,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                 Type.TERM -> Formula.BOTTOM_STACK
             }
         }else {
-            Formula.BOTTOM_LINEAR
+            Formula.OVERLAY
         }
     }
 

@@ -24,11 +24,11 @@ import com.hellowo.journey.model.TimeObject.Style.*
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
     companion object {
         var standardTextSize = 9f
-        val defaulMargin = dpToPx(1f) // 뷰간 간격
+        val defaulMargin = dpToPx(1.5f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
         val sidePadding = dpToPx(2)
-        val topPadding = dpToPx(1.75f)
-        val bottomPadding = dpToPx(1.75f)
+        val topPadding = dpToPx(1.8f)
+        val bottomPadding = dpToPx(3.5f)
         val leftPadding = dpToPx(9)
         val rectRadius = dpToPx(1f)
         val stampSize = dpToPx(16)
@@ -71,7 +71,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         typeface = AppTheme.regularFont
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
         setPadding((leftPadding + defaulMargin).toInt(),
-                (topPadding + (AppStatus.calTextSize * -1.55f)).toInt() /*글씨 크기에 따른 탑 패딩 조정*/,
+                (topPadding + (AppStatus.calTextSize * -1.7f)).toInt() /*글씨 크기에 따른 탑 패딩 조정*/,
                 sidePadding, 0)
 
         when(TimeObject.Type.values()[timeObject.type]) {
@@ -175,7 +175,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             }
         }else {
             canvas?.let {
-                CalendarManager.drawPlus(this, paint, canvas)
+                CalendarManager.drawNotInCalendar(this, paint, canvas)
             }
             super.onDraw(canvas)
         }
@@ -213,7 +213,11 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         lh += blockTypeSize
                     }
                     lh*/
-                    (measuredHeight + topPadding).toInt()
+                    if(measuredHeight < blockTypeSize) {
+                        blockTypeSize
+                    }else {
+                        measuredHeight + bottomPadding.toInt()
+                    }
                 }
                 TERM -> {
                     textSpaceWidth = paint.measureText(text.toString())

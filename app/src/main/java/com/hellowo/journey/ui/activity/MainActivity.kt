@@ -193,6 +193,11 @@ class MainActivity : BaseActivity() {
             if(viewModel.currentTab.value != 3) viewModel.currentTab.value = 3
         }
 
+        searchBtn.setOnLongClickListener {
+            TimeObjectManager.deleteAllTimeObject()
+            return@setOnLongClickListener false
+        }
+
         profileBtn.setOnLongClickListener {
             //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
 
@@ -200,18 +205,22 @@ class MainActivity : BaseActivity() {
             cal.set(2019, 2, 1)
             val s = cal.timeInMillis
             TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s).apply {
-                title = "친구 약속"
+                title = "세영 점심식사"
+                type = 1
             })
             TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s).apply {
-                title = "미팅"
+                title = "회사 미팅"
+                type = 1
             })
             TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s+DAY_MILL, s+DAY_MILL).apply {
                 title = "가족 저녁식사"
+                type = 1
             })
             TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s+DAY_MILL*3).apply {
                 title = "요가수업"
+                type = 1
             })
-            return@setOnLongClickListener true
+            return@setOnLongClickListener false
         }
     }
 

@@ -253,4 +253,11 @@ object TimeObjectManager {
         realm.close()
     }
 
+    fun deleteAllTimeObject() {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction{ _ ->
+            realm.where(TimeObject::class.java).findAll()?.deleteAllFromRealm()
+        }
+        realm.close()
+    }
 }

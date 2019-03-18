@@ -41,7 +41,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val todayCal: Calendar = Calendar.getInstance()
         val dragStartYPos = dpToPx(58f)
         val dateArea = dpToPx(35f)
-        val weekLyBottomPadding = dpToPx(20)
+        val weekLyBottomPadding = dpToPx(10)
         val calendarPadding = dpToPx(10)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)

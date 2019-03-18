@@ -177,7 +177,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
                         //TASK -> setTypeMargin(dpToPx(0f), currentType)
                         //STAMP, MONEY -> setTypeMargin(dpToPx(3f), currentType)
                         //NOTE -> setTypeMargin(dpToPx(1f), currentType)
-                        TERM -> addBottomMargin(dpToPx(10f))
+                        TERM -> addBottomMargin(20f)
                         else -> {}
                     }
                 }
@@ -186,8 +186,10 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
                     currentFomula = formula
                     when(currentFomula) {
                         BOTTOM_STACK -> {
-                            computeMaxRowHeight()
                             computeBottomStackStartPos()
+                        }
+                        OVERLAY -> {
+                            computeMaxRowHeight()
                         }
                         else -> {}
                     }
@@ -196,40 +198,42 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
                 viewHolder.timeObjectViewList.forEach {
                     it.mLeft = (minWidth * (it.cellNum % columns)) + CalendarView.calendarPadding
                     it.mRight = it.mLeft + (minWidth * it.length).toInt()
-                    when(formula) {
-                        TOP_STACK -> {
-                            it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
-                            it.mBottom = it.mTop + it.getViewHeight()
-                        }
-                        TOP_FLOW, TOP_LINEAR, MID_FLOW -> {
-                            it.mTop = cellBottomArray[it.cellNum]
-                            it.mBottom = it.mTop + it.getViewHeight()
-                        }
-                        BOTTOM_LINEAR -> {
-                            it.mTop = cellBottomArray[it.cellNum]
-                            it.mBottom = it.mTop + it.getViewHeight()
-                            if(!it.timeObject.inCalendar) {
-                                it.setNotInCalendarText()
+                    if(it.timeObject.inCalendar) {
+                        when(formula) {
+                            TOP_STACK -> {
+                                it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
+                                it.mBottom = it.mTop + it.getViewHeight()
                             }
+                            TOP_FLOW, TOP_LINEAR, MID_FLOW -> {
+                                it.mTop = cellBottomArray[it.cellNum]
+                                it.mBottom = it.mTop + it.getViewHeight()
+                            }
+                            BOTTOM_LINEAR -> {
+                                it.mTop = cellBottomArray[it.cellNum]
+                                it.mBottom = it.mTop + it.getViewHeight()
+                            }
+                            BOTTOM_STACK -> {
+                                it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
+                                it.mBottom = it.mTop + it.getViewHeight()
+                            }
+                            OVERLAY -> {
+                                it.mTop = drawStartYOffset
+                                it.mBottom = minHeight
+                            }
+                            else -> {}
                         }
-                        BOTTOM_STACK -> {
-                            it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
-                            it.mBottom = it.mTop + it.getViewHeight()
+                        (it.cellNum until it.cellNum + it.length).forEach{ index ->
+                            cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom)
                         }
-                        OVERLAY -> {
-                            it.mTop = drawStartYOffset
-                            it.mBottom = calendarView.minHeight
-                        }
-                        else -> {}
+                    }else {
+                        it.mTop = Math.max(minHeight - weekLyBottomPadding,
+                                rowHeightArray[it.cellNum / columns])
+                        it.mBottom = it.mTop + weekLyBottomPadding
                     }
                     it.setLayout()
-
-                    (it.cellNum until it.cellNum + it.length).forEach{ index ->
-                        cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom) }
                 }
             }catch (e: Exception){ e.printStackTrace() }
         }
-
         computeMaxRowHeight()
     }
 
@@ -241,7 +245,8 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
 
     private fun computeBottomStackStartPos() {
         (0..5).forEach{ index ->
-            rowHeightArray[index] = Math.max(minHeight - blockTypeSize, rowHeightArray[index])
+            rowHeightArray[index] = Math.max(minHeight - blockTypeSize,
+                    cellBottomArray.sliceArray(index*7..index*7+6).max() ?: 0f)
         }
     }
 

@@ -15,6 +15,7 @@ import com.hellowo.journey.ui.view.TimeObjectView.Companion.rectRadius
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.stampSize
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.strokeWidth
 import com.hellowo.journey.model.TimeObject.Style.*
+import com.hellowo.journey.ui.view.CalendarView
 import com.pixplicity.easyprefs.library.Prefs
 
 object CalendarManager {
@@ -52,7 +53,7 @@ object CalendarManager {
             }
             RECT_STROKE -> {
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = strokeWidth * 1.0f
+                paint.strokeWidth = strokeWidth * 0.8f
                 canvas.drawRect(strokeWidth / 2, strokeWidth / 2,
                         width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2, paint)
                 paint.style = Paint.Style.FILL
@@ -104,7 +105,7 @@ object CalendarManager {
                 canvas.drawRect(0f, 0f, width.toFloat(), strokeWidth, paint)
             }
             BOTTOM_LINE -> {
-                val strokeWidth = strokeWidth * 1f
+                val strokeWidth = strokeWidth * 0.8f
                 canvas.drawRect(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat(), paint)
             }
             else -> {
@@ -386,29 +387,31 @@ object CalendarManager {
 
     private fun drawDot(view: TimeObjectView, paint: Paint, canvas: Canvas) {
         val radius = dotSize / 3.5f
-        val centerY = (blockTypeSize - defaulMargin) / 2
-        canvas.drawCircle(leftPadding.toFloat() / 2f + defaulMargin, centerY, radius, paint)
+        val centerX = leftPadding.toFloat() / 2f + defaulMargin
+        val centerY = (blockTypeSize - defaulMargin) / 2f
+        canvas.drawCircle(centerX, centerY, radius, paint)
     }
 
     private fun drawCheckBox(view: TimeObjectView, paint: Paint, canvas: Canvas) {
         val radius = dotSize / 2f
-        val sWidth = strokeWidth / 1.5f
-        val centerY = (blockTypeSize - defaulMargin) / 2.2f
+        val sWidth = strokeWidth / 1.7f
+        val centerX = leftPadding / 2f + defaulMargin / 1.3f
+        val centerY = (blockTypeSize - defaulMargin) / 2f
 
         if(view.timeObject.isDone()) {
             view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             /*canvas.drawLine(leftPadding.toFloat() / 2f + defaulMargin + radius, centerY - radius,
                     leftPadding.toFloat() / 2f + defaulMargin - radius, centerY + radius, paint)*/
-            canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
+            canvas.drawRect(centerX - radius,
                     centerY - radius,
-                    leftPadding.toFloat() / 2f + defaulMargin + radius,
+                    centerX + radius,
                     centerY + radius, paint)
         }else {
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = sWidth
-            canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
+            canvas.drawRect(centerX - radius,
                     centerY - radius,
-                    leftPadding.toFloat() / 2f + defaulMargin + radius,
+                    centerX + radius,
                     centerY + radius, paint)
         }
         paint.style = Paint.Style.FILL
@@ -423,16 +426,16 @@ object CalendarManager {
                 centerY + strokeWidth / 2.0f, paint)
     }
 
-    fun drawPlus(view: TimeObjectView, paint: Paint, canvas: Canvas) {
-        val radius = dotSize / 1.2f
-        val centerY = (blockTypeSize - defaulMargin) / 2
-        val check = resource.getDrawable(R.drawable.sharp_add_black_48dp)
-        check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
-        check.setBounds((leftPadding.toFloat() / 2f + defaulMargin - radius).toInt(),
-                (centerY - radius).toInt(),
-                (leftPadding.toFloat() / 2f + defaulMargin + radius).toInt(),
-                (centerY + radius).toInt())
-        check.draw(canvas)
+    fun drawNotInCalendar(view: TimeObjectView, paint: Paint, canvas: Canvas) {
+        val radius = dotSize / 3.5f
+        val centerX = leftPadding.toFloat() / 2f + defaulMargin
+        val centerY = (CalendarView.weekLyBottomPadding - defaulMargin) / 2f
+        view.childList?.forEachIndexed { index, timeObject ->
+            if(index < 8) {
+                paint.color = timeObject.getColor()
+                canvas.drawCircle(centerX + (index * radius * 4), centerY, radius, paint)
+            }
+        }
     }
 
     private fun drawRectCheckBox(view: TimeObjectView, centerY: Float, canvas: Canvas) {
