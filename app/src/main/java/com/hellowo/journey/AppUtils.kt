@@ -58,6 +58,8 @@ fun isToday(cal: Calendar): Boolean {
     return isSameDay(cal, tempCal)
 }
 
+fun getNewCalendar() = Calendar.getInstance()
+
 fun setCalendarTime0 (cal: Calendar) {
     cal.set(Calendar.HOUR_OF_DAY, 0)
     cal.set(Calendar.MINUTE, 0)
@@ -407,7 +409,7 @@ fun setGlobalTheme(view: View?) {
                     }
                     is Line -> {
                         when(v.colorFlag) {
-                            1 -> v.setBackgroundColor(AppTheme.secondaryText)
+                            1 -> v.setBackgroundColor(AppTheme.disableText)
                             2 -> v.setBackgroundColor(AppTheme.lineColor)
                             else -> v.setBackgroundColor(AppTheme.primaryText)
                         }

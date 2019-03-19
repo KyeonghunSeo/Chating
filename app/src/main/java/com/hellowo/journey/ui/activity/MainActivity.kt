@@ -205,19 +205,19 @@ class MainActivity : BaseActivity() {
             cal.set(2019, 2, 1)
             val s = cal.timeInMillis
             TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s).apply {
-                title = "세영 점심식사"
+                title = "점심약속"
                 type = 1
             })
             TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s).apply {
-                title = "회사 미팅"
+                title = "오후미팅"
                 type = 1
             })
             TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s+DAY_MILL, s+DAY_MILL).apply {
-                title = "가족 저녁식사"
+                title = "헬스장"
                 type = 1
             })
             TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s+DAY_MILL*3).apply {
-                title = "요가수업"
+                title = "회사 프로젝트"
                 type = 1
             })
             return@setOnLongClickListener false

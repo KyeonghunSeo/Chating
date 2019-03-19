@@ -97,7 +97,6 @@ object RepeatManager {
 
     fun makeRepeatInstance(timeObject: TimeObject, startTime: Long, end: Long) : ArrayList<TimeObject> {
         val result = ArrayList<TimeObject>()
-
         val repeatObject = JSONObject(timeObject.repeat)
         val freq = repeatObject.getInt("freq")
         val interval = repeatObject.getInt("interval")
@@ -112,7 +111,7 @@ object RepeatManager {
 
         instanceCal.timeInMillis = timeObject.dtStart
 
-        while (instanceCal.timeInMillis < endTime) {
+        while (instanceCal.timeInMillis <= endTime) {
             when(freq) {
                 0 -> {
                     checkValidInstance(result, timeObject, instanceCal.timeInMillis, startTime, endTime, duration)
@@ -160,14 +159,15 @@ object RepeatManager {
 
     private fun checkValidInstance(result: ArrayList<TimeObject>, timeObject: TimeObject, instanceTime: Long,
                                    startTime: Long, endTime: Long, duration: Long) {
-        if(instanceTime <= endTime && instanceTime + duration >= startTime
-                && !timeObject.exDates.contains(AppDateFormat.ymdkey.format(Date(instanceTime)))) {
-            result.add(makeInstance(timeObject, duration))
+        val ymdKey = AppDateFormat.ymdkey.format(Date(instanceTime))
+        if(instanceTime <= endTime && instanceTime + duration >= startTime && !timeObject.exDates.contains(ymdKey)) {
+            result.add(makeInstance(timeObject, duration, ymdKey))
         }
     }
 
-    private fun makeInstance(timeObject: TimeObject, duration: Long) : TimeObject {
+    private fun makeInstance(timeObject: TimeObject, duration: Long, ymdKey: String) : TimeObject {
         val instance = timeObject.makeCopyObject()
+        instance.repeatKey = ymdKey
         instance.setDateTime(instance.allday, instanceCal.timeInMillis, instanceCal.timeInMillis + duration)
         return instance
     }

@@ -131,17 +131,17 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }
     }
 
-    private fun updateData(data: RealmResults<TimeObject>, e: ArrayList<TimeObject>) {
-        e.clear()
-        collocateData(data, e)
+    private fun updateData(data: RealmResults<TimeObject>, list: ArrayList<TimeObject>) {
+        list.clear()
+        collocateData(data, list)
 
         OsCalendarManager.getInstances(context, "", startTime, endTime).forEach {
-            if(it.dtStart < endTime && it.dtEnd > startTime) e.add(it)
+            if(it.dtStart < endTime && it.dtEnd > startTime) list.add(it)
         }
 
-        e.sortWith(EventListComparator())
+        list.sortWith(EventListComparator())
 
-        if(e.isNotEmpty()) {
+        if(list.isNotEmpty()) {
             timeObjectListHeaderLy.visibility = View.VISIBLE
         }else {
             timeObjectListHeaderLy.visibility = View.GONE
@@ -150,21 +150,13 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun collocateData(data: RealmResults<TimeObject>, e: ArrayList<TimeObject>) {
         data.forEach { timeObject ->
-            when(TimeObject.Type.values()[timeObject.type]) {
-                EVENT, TASK, TERM -> {
-                    try{
-                        if(timeObject.repeat.isNullOrEmpty()) {
-                            e.add(timeObject.makeCopyObject())
-                        }else {
-                            RepeatManager.makeRepeatInstance(timeObject, startTime, endTime)
-                                    .forEach { e.add(it) }
-                        }
-                    }catch (e: Exception){ e.printStackTrace() }
-                }
-                else -> {
+            try{
+                if(timeObject.repeat.isNullOrEmpty()) {
                     e.add(timeObject.makeCopyObject())
+                }else {
+                    RepeatManager.makeRepeatInstance(timeObject, startTime, endTime).forEach { e.add(it) }
                 }
-            }
+            }catch (e: Exception){ e.printStackTrace() }
         }
     }
 
@@ -172,9 +164,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                              o: ArrayList<TimeObject>, n: ArrayList<TimeObject>) {
         Thread {
             val diffResult = DiffUtil.calculateDiff(ListDiffCallback(o, n))
-            o.clear()
-            o.addAll(n)
             Handler(Looper.getMainLooper()).post{
+                o.clear()
+                o.addAll(n)
                 diffResult.dispatchUpdatesTo(adapter)
             }
         }.start()

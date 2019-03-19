@@ -61,13 +61,13 @@ class WelcomeActivity : BaseActivity() {
                 it.duration = 1000
                 it.start()
             }
-        }, 7000)
+        }, 8000)
         handler.postDelayed({
             ObjectAnimator.ofFloat(firstText2, "alpha", 1f, 0f).let {
                 it.duration = 1000
                 it.start()
             }
-        }, 8000)
+        }, 9000)
         handler.postDelayed({
             val animSet = AnimatorSet()
             animSet.playTogether(
@@ -76,7 +76,7 @@ class WelcomeActivity : BaseActivity() {
             animSet.duration = 1000
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.start()
-        }, 9000)
+        }, 10000)
     }
 
     private fun startInitSettingLy() {

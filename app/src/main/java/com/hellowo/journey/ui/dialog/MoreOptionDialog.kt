@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.hellowo.journey.R
+import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.startDialogShowAnimation
 import com.hellowo.journey.ui.view.TimeObjectDetailView
 import kotlinx.android.synthetic.main.dialog_more_option.*
@@ -17,6 +18,7 @@ class MoreOptionDialog(activity: Activity, private val timeObjectDetailView: Tim
         super.onCreate(savedInstanceState)
         window.attributes.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_more_option)
+        setGlobalTheme(rootLy)
         setLayout()
         setOnShowListener {}
     }

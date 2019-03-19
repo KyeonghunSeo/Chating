@@ -43,6 +43,7 @@ class RepeatDialog(private val activity: Activity, private val timeObject: TimeO
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_repeat)
+        setGlobalTheme(rootLy)
         setLayout()
         setOnShowListener {
             startDialogShowAnimation(contentLy)

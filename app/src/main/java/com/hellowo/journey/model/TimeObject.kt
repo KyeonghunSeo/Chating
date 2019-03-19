@@ -8,6 +8,7 @@ import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import com.hellowo.journey.model.TimeObject.Style.*
+import io.realm.annotations.Ignore
 import java.lang.Exception
 import java.util.*
 
@@ -39,6 +40,8 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var inCalendar: Boolean = true,
                       var ordering: Int = Int.MIN_VALUE,
                       var folder: Folder? = null): RealmObject() {
+
+    @Ignore var repeatKey: String? = null
 
     enum class Type(val titleId: Int, val subTextId: Int, val iconId: Int, val enableLongTerm: Boolean, val styles: Array<Style>) {
         NOTE(R.string.note, R.string.note_sub,
@@ -140,13 +143,14 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         }
         links.clear()
         data.links.forEach {
-            links.add(Link(it.id, it.type, it.title, it.properties, it.data))
+            links.add(Link(it.id, it.type, it.title, it.properties))
         }
         latitude = data.latitude
         longitude = data.longitude
         inCalendar = data.inCalendar
         ordering = data.ordering
         folder = data.folder
+        repeatKey = data.repeatKey
     }
 
     fun clearRepeat() {

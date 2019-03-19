@@ -179,12 +179,14 @@ object TimeObjectManager {
 
     fun deleteOnly(timeObject: TimeObject) {
         val realm = Realm.getDefaultInstance()
-        val id = timeObject.id
-        val ymdKey = AppDateFormat.ymdkey.format(Date(timeObject.dtStart))
-        realm.executeTransaction{ realm ->
-            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
-                it.exDates.add(ymdKey)
-                it.dtUpdated = System.currentTimeMillis()
+        timeObject.id?.let { id ->
+            timeObject.repeatKey?.let { ymdKey ->
+                realm.executeTransaction{ realm ->
+                    realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
+                        it.exDates.add(ymdKey)
+                        it.dtUpdated = System.currentTimeMillis()
+                    }
+                }
             }
         }
         realm.close()

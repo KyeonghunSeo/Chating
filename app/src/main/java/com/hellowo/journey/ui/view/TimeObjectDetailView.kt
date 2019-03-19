@@ -273,18 +273,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun updateTitleUI() {
-        when(timeObject.type) {
-            TimeObject.Type.NOTE.ordinal -> {
-                titleInput.setSingleLine(false)
-                titleInput.hint = context.getString(R.string.what_do_you_think)
-                titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
-            }
-            else -> {
-                titleInput.setSingleLine(true)
-                titleInput.hint = context.getString(R.string.enter_title)
-                titleInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 28f)
-            }
-        }
         titleInput.setText(timeObject.title)
         titleInput.setSelection(timeObject.title?.length ?: 0)
     }
@@ -601,7 +589,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                                         ref.downloadUrl.addOnCompleteListener {
                                             l("다운로드 url : ${it.result.toString()}")
                                             timeObject.links.add(Link(imageId, Link.Type.IMAGE.ordinal,
-                                                    null, it.result.toString(), null))
+                                                    null, it.result.toString()))
                                             MainActivity.instance?.hideProgressDialog()
                                         }
                                     }
@@ -643,7 +631,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     fun setKeyboardLy(isOpen: Boolean) {
         if(isOpen) {
-            textEditorLy.visibility = View.VISIBLE
+            textEditorLy.visibility = View.GONE
         }else {
             textEditorLy.visibility = View.GONE
         }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -25,7 +25,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="@color/primaryText"
-            android:fontFamily="@font/regular"
+            android:fontFamily="@font/bold"
             android:text="@string/repeat"/>
 
         <LinearLayout
@@ -358,11 +358,11 @@
 
         </LinearLayout>
 
-        <View
+        <com.hellowo.journey.ui.view.base.Line
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/primaryText"/>
+            android:layout_marginTop="25dp"
+            app:colorFlag="secondary"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -380,10 +380,10 @@
                 android:fontFamily="@font/regular"
                 android:text="@string/no_repeat"/>
 
-            <View
+            <com.hellowo.journey.ui.view.base.Line
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/primaryText"/>
+                app:colorFlag="secondary"/>
 
             <TextView
                 android:id="@+id/confirmBtn"
@@ -393,7 +393,7 @@
                 android:textSize="14dp"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
-                android:fontFamily="@font/regular"
+                android:fontFamily="@font/bold"
                 android:text="@string/confirm"/>
 
         </LinearLayout>

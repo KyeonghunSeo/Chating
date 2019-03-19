@@ -32,7 +32,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         val leftPadding = dpToPx(9)
         val rectRadius = dpToPx(1f)
         val stampSize = dpToPx(16)
-        val blockTypeSize = dpToPx(16)
+        val blockTypeSize = dpToPx(16.5f).toInt()
         val dotSize = dpToPx(4)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         val defaultTextColor = Color.parseColor("#90000000")

@@ -10,5 +10,4 @@ open class Folder(@PrimaryKey var id: String? = null,
                   var color: Int = AppTheme.primaryColor,
                   var type: Int = 0,
                   var tags: RealmList<Tag> = RealmList(),
-                  var order: Int = 0,
-                  var coverImg: ByteArray? = null): RealmObject()
+                  var order: Int = 0): RealmObject()

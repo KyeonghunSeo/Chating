@@ -39,6 +39,11 @@
                 android:layout_height="40dp"
                 android:layout_gravity="right"/>
 
+            <com.hellowo.journey.ui.view.base.Line
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                app:colorFlag="secondary"/>
+
         </FrameLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -63,15 +68,19 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/primaryText"
                     android:textSize="16dp"
-                    android:fontFamily="@font/thin"/>
+                    android:fontFamily="@font/thin" />
 
-                <EditText
+                <com.txusballesteros.AutoscaleEditText
                     android:id="@+id/titleInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@color/disableText"
-                    android:imeOptions="actionDone"
-                    android:background="@color/transparent"/>
+                    android:textSize="28dp"
+                    android:hint="@string/what_do_you_think"
+                    android:background="@color/transparent"
+                    app:linesLimit="0.8"
+                    app:textScale="0.6"
+                    app:animationDuration="200"/>
 
                 <LinearLayout
                     android:id="@+id/timeLy"

@@ -52,7 +52,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     val calendarLy = LinearLayout(context)
     val weekLys = Array(6) { _ -> FrameLayout(context)}
     private val columnDividers = Array(8 * 6) { _ -> View(context)}
-    private val rowDividers = Array(7) { _ -> View(context)}
+    private val rowDividers = Array(6) { _ -> View(context)}
     private val dateLys = Array(6) { _ -> LinearLayout(context)}
     val dateCells = Array(maxCellNum) { _ -> FrameLayout(context)}
     private val dateHeaders = Array(maxCellNum) { _ ->
@@ -141,12 +141,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         fakeImageView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
         rowDividers.forEachIndexed { index, view ->
-            view.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, lineWidth.toInt()).apply {
-                if(index == 6) {
-                    gravity = Gravity.BOTTOM
-                }
-            }
-            view.setBackgroundColor(AppTheme.lineColor)
+            view.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, lineWidth.toInt())
+            view.setBackgroundColor(AppTheme.disableText)
         }
 
         columnDividers.forEachIndexed { index, view ->
@@ -161,8 +157,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateLy.orientation = HORIZONTAL
             dateLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
             weekLy.addView(rowDividers[i])
-            if(i == 5) {
-                weekLy.addView(rowDividers[6])
+            if(i == 0) {
+                rowDividers[i].visibility = View.GONE
             }
             for (j in 0..7){
                 weekLy.addView(columnDividers[i*8 + j])

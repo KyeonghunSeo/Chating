@@ -48,7 +48,69 @@
                 android:layout_marginLeft="20dp"
                 android:textSize="14dp"
                 android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
+                android:fontFamily="@font/regular"
+                android:text="@string/planning"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:clipChildren="false">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/ddayBtn"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:padding="10dp"
+                        android:background="@drawable/normal_rect_stroke">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:tint="@color/primaryText"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="3dp"
+                                android:textSize="14dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/dday"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textSize="14dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/regular"
                 android:text="@string/detail_info"/>
 
             <HorizontalScrollView
@@ -93,7 +155,7 @@
                                 android:layout_marginRight="3dp"
                                 android:textSize="14dp"
                                 android:textColor="@color/primaryText"
-                                android:fontFamily="@font/thin"
+                                android:fontFamily="@font/regular"
                                 android:text="@string/memo"/>
 
                         </LinearLayout>
@@ -127,7 +189,7 @@
                                 android:layout_marginRight="3dp"
                                 android:textSize="14dp"
                                 android:textColor="@color/primaryText"
-                                android:fontFamily="@font/thin"
+                                android:fontFamily="@font/regular"
                                 android:text="@string/location"/>
 
                         </LinearLayout>
@@ -144,7 +206,7 @@
                 android:layout_marginTop="15dp"
                 android:textSize="14dp"
                 android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
+                android:fontFamily="@font/regular"
                 android:text="@string/function"
                 android:layout_marginLeft="20dp"/>
 
@@ -190,7 +252,7 @@
                                 android:layout_marginRight="3dp"
                                 android:textSize="14dp"
                                 android:textColor="@color/primaryText"
-                                android:fontFamily="@font/thin"
+                                android:fontFamily="@font/regular"
                                 android:text="@string/tag"/>
 
                         </LinearLayout>
@@ -224,7 +286,7 @@
                                 android:layout_marginRight="3dp"
                                 android:textSize="14dp"
                                 android:textColor="@color/primaryText"
-                                android:fontFamily="@font/thin"
+                                android:fontFamily="@font/regular"
                                 android:text="@string/repeat"/>
 
                         </LinearLayout>
@@ -258,7 +320,7 @@
                                 android:layout_marginRight="3dp"
                                 android:textSize="14dp"
                                 android:textColor="@color/primaryText"
-                                android:fontFamily="@font/thin"
+                                android:fontFamily="@font/regular"
                                 android:text="@string/alarm"/>
 
                         </LinearLayout>
@@ -291,7 +353,7 @@
                                 android:layout_marginRight="3dp"
                                 android:textSize="14dp"
                                 android:textColor="@color/primaryText"
-                                android:fontFamily="@font/thin"
+                                android:fontFamily="@font/regular"
                                 android:text="@string/alarm"/>
 
                         </LinearLayout>
@@ -324,7 +386,7 @@
                                 android:layout_marginRight="3dp"
                                 android:textSize="14dp"
                                 android:textColor="@color/primaryText"
-                                android:fontFamily="@font/thin"
+                                android:fontFamily="@font/regular"
                                 android:text="@string/alarm"/>
 
                         </LinearLayout>
@@ -341,7 +403,7 @@
                 android:layout_marginTop="15dp"
                 android:textSize="14dp"
                 android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
+                android:fontFamily="@font/regular"
                 android:text="@string/attachment"
                 android:layout_marginLeft="20dp"/>
 
@@ -387,7 +449,7 @@
                                 android:layout_marginRight="3dp"
                                 android:textSize="14dp"
                                 android:textColor="@color/primaryText"
-                                android:fontFamily="@font/thin"
+                                android:fontFamily="@font/regular"
                                 android:text="@string/image"/>
 
                         </LinearLayout>
@@ -433,7 +495,7 @@
                 android:textSize="14dp"
                 android:gravity="center"
                 android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
+                android:fontFamily="@font/regular"
                 android:text="@string/cancel"/>
 
         </LinearLayout>

@@ -140,7 +140,7 @@ class ScrapActivity : Activity() {
                 properties.put("imageurl", it.imageurl)
                 properties.put("favicon", it.favicon)
                 timeObject.links.add(Link(UUID.randomUUID().toString(), Link.Type.WEB.ordinal,
-                        it.title, properties.toString(), null))
+                        it.title, properties.toString()))
                 return@let
             }
         }else {
