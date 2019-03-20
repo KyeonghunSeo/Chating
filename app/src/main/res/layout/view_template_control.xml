@@ -162,18 +162,19 @@
         android:layout_gravity="bottom|right"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="65dp"
+        android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="25dp"
-        app:cardElevation="8dp">
+        app:cardElevation="2dp">
 
         <ImageView
             android:id="@+id/templateIconImg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="13dp"
-            android:src="@drawable/sharp_add_black_48dp"
-            android:background="@drawable/circle_stroke_1px"
-            android:tint="@color/secondaryText"/>
+            android:padding="16dp"
+            android:background="@drawable/circle_stroke_1dp"
+            android:src="@drawable/outline_edit_black_48dp"
+            android:tint="@color/disableText"/>
 
     </androidx.cardview.widget.CardView>
 

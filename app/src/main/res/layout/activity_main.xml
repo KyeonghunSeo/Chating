@@ -86,7 +86,7 @@
             android:layout_gravity="bottom|center_horizontal"
             android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="10dp"
             android:elevation="8dp">
         </com.hellowo.journey.ui.view.BriefingView>
 
@@ -135,7 +135,7 @@
         <com.hellowo.journey.ui.view.base.Line
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            app:colorFlag="secondary"/>
+            app:colorFlag="disable"/>
 
         <LinearLayout
             android:orientation="horizontal"

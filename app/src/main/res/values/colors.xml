@@ -1,53 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1e262c</color>
-    <color name="colorPrimaryDark">#1e262c</color>
-    <color name="colorAccent">#1e262c</color>
-    <color name="colorPrimaryAlpha">#501e262c</color>
+    <color name="colorPrimary">#3d3d3d</color>
+    <color name="colorPrimaryDark">#3d3d3d</color>
+    <color name="colorAccent">#3d3d3d</color>
+    <color name="colorPrimaryAlpha">#503d3d3d</color>
 
-    <color name="background">#f5f5f5</color>
-    <color name="backgroundDark">#f0f0f0</color>
-    <color name="backgroundDeepDark">#6f7274</color>
-    <color name="iconTint">#484b4d</color>
+    <color name="background">#f7f7f7</color>
+    <color name="backgroundDark">#eeeeee</color>
+    <color name="iconTint">#6d6d6d</color>
 
-    <color name="primaryText">#2b2b2b</color>
-    <color name="secondaryText">#595959</color>
+    <color name="primaryText">#3d3d3d</color>
+    <color name="secondaryText">#6d6d6d</color>
     <color name="disableText">#969696</color>
-    <color name="primaryWhiteText">#e0e0d7</color>
-    <color name="secondaryWhiteText">#b3e0e0d7</color>
+    <color name="deepLine">#aeaeae</color>
+    <color name="line">#d6d6d6</color>
 
-    <color name="disableWhiteText">#80e0e0d7</color>
-
-    <color name="calendarBackground">#ffffff</color>
     <color name="holiday">#b30000</color>
     <color name="transitionDim">#60000000</color>
     <color name="transitionDimWhite">#ccffffff</color>
-    <color name="line">#e4e7ef</color>
-
-    <color name="t1_background">#e0e0d7</color>
-    <color name="t1_backgroundDark">#f2f2f2</color>
-
-    <color name="t1_backgroundDeepDark">#b4b7bc</color>
-    <color name="t1_iconTint">#a8aaaf</color>
-
-    <color name="t1_primaryText">#303029</color>
-    <color name="t1_secondaryText">#6d6d61</color>
-    <color name="t1_disableText">#b8b8ae</color>
-    <color name="t1_primaryWhiteText">#e0e0d7</color>
-    <color name="t1_secondaryWhiteText">#b3e0e0d7</color>
-    <color name="t1_disableWhiteText">#80e0e0d7</color>
-
-    <color name="t1_calendarBackground">#e0e0d7</color>
-    <color name="t1_holiday">#b30000</color>
-    <color name="t1_transitionDim">#60000000</color>
-    <color name="t1_transitionDimWhite">#cce0e0d7</color>
 
     <color name="black">#000000</color>
     <color name="whiteAlpha">#f0FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="almostWhite">#F4F4F4</color>
     <color name="red">#b30000</color>
-    <color name="blue">#0080ff</color>
+    <color name="blue">#1b2f5c</color>
     <color name="green">#9bd4a1</color>
     <color name="yellow">#c7bf2e</color>
     <color name="purple">#C89EC4</color>

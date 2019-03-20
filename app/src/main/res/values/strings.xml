@@ -244,5 +244,6 @@
     <string name="connect_os_calendar">외부 캘린더 가져오기</string>
     <string name="dday">디데이</string>
     <string name="planning">계획하기</string>
+    <string name="write_everything">무엇을 기록할까요?</string>
 
 </resources>
