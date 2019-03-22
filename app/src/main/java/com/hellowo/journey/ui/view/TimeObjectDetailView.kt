@@ -1,17 +1,15 @@
 package com.hellowo.journey.ui.view
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.os.IBinder
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -38,14 +36,14 @@ import com.hellowo.journey.*
 import com.hellowo.journey.R
 import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.manager.TimeObjectManager
-import com.hellowo.journey.model.*
+import com.hellowo.journey.model.Alarm
+import com.hellowo.journey.model.Link
+import com.hellowo.journey.model.Tag
+import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.MapActivity
 import com.hellowo.journey.ui.dialog.*
 import kotlinx.android.synthetic.main.view_timeobject_detail.view.*
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
-import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
@@ -64,17 +62,35 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         contentPanel.visibility = View.INVISIBLE
         contentPanel.setOnClickListener {}
         initControllBtn()
-        initTitle()
-        initDateTime()
-        initMemo()
-        initStyle()
+        initInput()
+    }
+
+    private fun updateUI() {
+        colorBtn.setCardBackgroundColor(timeObject.getColor())
+        fontColorText.setColorFilter(timeObject.fontColor)
+        updateHeaderUI()
+        updateTagUI()
+        updateTitleUI()
+        updateDateUI()
+        updateDdayUI()
+        updateRepeatUI()
+        updateAlarmUI()
+        updateLocationUI()
+        updateMemoUI()
+        updateStyleUI()
     }
 
     private fun initControllBtn() {
+        val timeObjectView = TimeObjectView(context, TimeObject(), 0, 0)
+        timeObjectView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        previewContainer.addView(timeObjectView, 0)
+
         deleteBtn.setOnClickListener { delete() }
 
         addOptionBtn.setOnClickListener {
-            showDialog(MoreOptionDialog(MainActivity.instance!!,this@TimeObjectDetailView),
+            showDialog(MoreOptionDialog(context as Activity,timeObject, this@TimeObjectDetailView),
                     true, true, true, false)
         }
 
@@ -110,73 +126,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         editorRightBtn.setOnClickListener { editorAction("right") }
     }
 
-    private fun editorAction(action: String) {
-        val v = if(titleInput.isFocused) titleInput else if(memoInput.isFocused) memoInput else null
-        v?.let {
-            when(action) {
-                "time" -> {
-                    val text = AppDateFormat.time.format(Date())
-                    val start = Math.max(v.selectionStart, 0)
-                    val end = Math.max(v.selectionEnd, 0)
-                    v.text.replace(Math.min(start, end), Math.max(start, end), text, 0, text.length)
-                    return@let
-                }
-                "quote" -> {
-                    val text = "“”"
-                    val start = Math.max(v.selectionStart, 0)
-                    val end = Math.max(v.selectionEnd, 0)
-                    v.text.replace(Math.min(start, end), Math.max(start, end), text, 0, text.length)
-                    v.setSelection(v.selectionStart - 1)
-                    return@let
-                }
-                "quotes" -> {
-                    val text = "‘’"
-                    val start = Math.max(v.selectionStart, 0)
-                    val end = Math.max(v.selectionEnd, 0)
-                    v.text.replace(Math.min(start, end), Math.max(start, end), text, 0, text.length)
-                    v.setSelection(v.selectionStart - 1)
-                    return@let
-                }
-                "dot" -> {
-                    val text = "\n ㆍ "
-                    val start = Math.max(v.selectionStart, 0)
-                    val end = Math.max(v.selectionEnd, 0)
-                    v.text.replace(Math.min(start, end), Math.max(start, end), text, 0, text.length)
-                    return@let
-                }
-                "left" -> {
-                    if(v.selectionStart > 0) v.setSelection(v.selectionStart - 1)
-                }
-                "up" -> {
-                    val start = Math.max(v.selectionStart, 0)
-                    val layout = v.layout
-                    val currentLine = layout.getLineForOffset(start)
-                    if(currentLine > 0) {
-                        val offset = start - layout.getLineStart(currentLine)
-                        val s = layout.getLineStart(currentLine - 1)
-                        val e = layout.getLineEnd(currentLine - 1)
-                        v.setSelection(if(s + offset <= e) s + offset else e)
-                    }
-                }
-                "right" -> {
-                    if(v.selectionStart < v.text.length) v.setSelection(v.selectionStart + 1)
-                }
-                "down" -> {
-                    val start = Math.max(v.selectionStart, 0)
-                    val layout = v.layout
-                    val currentLine = layout.getLineForOffset(start)
-                    if(currentLine < v.lineCount - 1) {
-                        val offset = start - layout.getLineStart(currentLine)
-                        val s = layout.getLineStart(currentLine + 1)
-                        val e = layout.getLineEnd(currentLine + 1)
-                        v.setSelection(if(s + offset <= e) s + offset else e)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun initTitle() {
+    private fun initInput() {
         titleInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == IME_ACTION_DONE) {
             }
@@ -199,25 +149,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         titleInput.isFocusableInTouchMode = false
         titleInput.clearFocus()
         titleInput.setOnClickListener { showKeyPad(titleInput) }
-    }
 
-    private fun initDateTime() {
-        timeLy.setOnClickListener {
-            StartEndPickerDialog(MainActivity.instance!!, timeObject) { sCal, eCal, allday ->
-                timeObject.setDateTime(allday, sCal, eCal)
-                updateUI()
-            }.show(MainActivity.instance?.supportFragmentManager, null)
-        }
-    }
-
-    fun initMap() {
-        (MainActivity.instance?.supportFragmentManager?.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync { map ->
-            googleMap = map
-            mapTouchView.setOnTouchListener { v, event -> event.action == MotionEvent.ACTION_MOVE }
-        }
-    }
-
-    private fun initMemo() {
         memoInput.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -236,27 +168,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         memoInput.setOnClickListener { showKeyPad(memoInput) }
     }
 
-    private fun initStyle() {
-        val timeObjectView = TimeObjectView(context, TimeObject(), 0, 0)
-        timeObjectView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
-            gravity = Gravity.CENTER_VERTICAL
+    fun initMap() {
+        (MainActivity.instance?.supportFragmentManager?.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync { map ->
+            googleMap = map
+            mapTouchView.setOnTouchListener { v, event -> event.action == MotionEvent.ACTION_MOVE }
         }
-        previewContainer.addView(timeObjectView, 0)
-    }
-
-    private fun updateUI() {
-        colorBtn.setCardBackgroundColor(timeObject.getColor())
-        fontColorText.setColorFilter(timeObject.fontColor)
-
-        updateHeaderUI()
-        updateTagUI()
-        updateTitleUI()
-        updateDateUI()
-        updateRepeatUI()
-        updateAlarmUI()
-        updateLocationUI()
-        updateMemoUI()
-        updateStyleUI()
     }
 
     private fun updateHeaderUI() {
@@ -284,6 +200,13 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     private fun updateDateUI() {
         startCal.timeInMillis = timeObject.dtStart
         endCal.timeInMillis = timeObject.dtEnd
+
+        timeLy.setOnClickListener {
+            StartEndPickerDialog(MainActivity.instance!!, timeObject) { sCal, eCal, allday ->
+                timeObject.setDateTime(allday, sCal, eCal)
+                updateUI()
+            }.show(MainActivity.instance?.supportFragmentManager, null)
+        }
 
         if(timeObject.allday) {
             if(isSameDay(startCal, endCal)) {
@@ -339,7 +262,19 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
-    private fun updateRepeatUI() {
+    fun updateDdayUI() {
+        if(timeObject.isSetDday()) {
+            ddayLy.visibility = View.VISIBLE
+            ddayText.text = timeObject.getDdayText(System.currentTimeMillis())
+            ddayLy.setOnClickListener {
+                openRepeatDialog()
+            }
+        }else {
+            ddayLy.visibility = View.GONE
+        }
+    }
+
+    fun updateRepeatUI() {
         if(timeObject.repeat.isNullOrEmpty()) {
             repeatLy.visibility = View.GONE
         }else {
@@ -347,6 +282,14 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             repeatText.text = RepeatManager.makeRepeatText(timeObject)
             repeatLy.setOnClickListener { openRepeatDialog() }
         }
+    }
+
+    fun openRepeatDialog() {
+        showDialog(RepeatDialog(MainActivity.instance!!, timeObject) { repeat, dtUntil ->
+            timeObject.repeat = repeat
+            timeObject.dtUntil = dtUntil
+            updateRepeatUI()
+        }, true, true, true, false)
     }
 
     private fun updateAlarmUI() {
@@ -418,6 +361,16 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         memoLy.visibility = View.VISIBLE
     }
 
+    private fun setData(data: TimeObject) {
+        originalData = data
+        timeObject.copy(data)
+        if(data.id.isNullOrEmpty()) {
+            deleteBtn.visibility = View.GONE
+        }else {
+            deleteBtn.visibility = View.VISIBLE
+        }
+    }
+
     fun confirm() {
         MainActivity.instance?.let {
             if(originalData != timeObject) {
@@ -444,13 +397,190 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
-    private fun setData(data: TimeObject) {
-        originalData = data
-        timeObject.copy(data)
-        if(data.id.isNullOrEmpty()) {
-            deleteBtn.visibility = View.GONE
+    fun isOpened(): Boolean = viewMode == ViewMode.OPENED
+
+    private fun showKeyPad(v : EditText) {
+        targetInput = v
+        v.isFocusableInTouchMode = true
+        if (titleInput.requestFocus()) {
+            (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(v, 0)
+        }
+    }
+
+    fun openPlacePicker() {
+        val builder = PlacePicker.IntentBuilder()
+        MainActivity.instance?.startActivityForResult(builder.build(MainActivity.instance), RC_LOCATION)
+    }
+
+    private fun openMapActivity() {
+        MainActivity.instance?.let {
+            val intent = Intent(it, MapActivity::class.java)
+            intent.putExtra("location", timeObject.location)
+            intent.putExtra("lat", timeObject.latitude)
+            intent.putExtra("lng", timeObject.longitude)
+            it.startActivity(intent)
+        }
+    }
+
+    fun addNewAlarm() {
+        val alarm = Alarm(UUID.randomUUID().toString(), timeObject.dtStart, 0, 0)
+        timeObject.alarms.add(alarm)
+        openAlarmPicker(alarm)
+    }
+
+    private fun openAlarmPicker(alarm: Alarm) {
+        AlarmPickerDialog(timeObject, alarm) { result, offset ->
+            if (result) {
+                alarm.offset = offset
+                if (offset != Long.MIN_VALUE) {
+                    alarm.dtAlarm = timeObject.dtStart + offset
+                } else {
+                    alarm.dtAlarm = timeObject.dtStart
+                    openTimePicker(context.getString(R.string.set_alarm), alarm.dtAlarm) {
+                        alarm.dtAlarm = it
+                        updateAlarmUI()
+                    }
+                }
+            } else {
+                timeObject.alarms.remove(alarm)
+            }
+            updateAlarmUI()
+        }.show(MainActivity.instance?.supportFragmentManager, null)
+    }
+
+    private fun openTimePicker(title: String, time: Long, onResult: (Long) -> (Unit)) {
+        showDialog(TimePickerDialog(MainActivity.instance!!, time, onResult),
+                true, true, true, false)
+    }
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == RC_LOCATION && resultCode == RESULT_OK) {
+            val place = PlacePicker.getPlace(data, context)
+            timeObject.location = "${place.name}\n${place.address}"
+            timeObject.latitude = place.latLng.latitude
+            timeObject.longitude = place.latLng.longitude
+            updateLocationUI()
+        }else if (requestCode == RC_IMAGE_ATTACHMENT && resultCode == AppCompatActivity.RESULT_OK) {
+            if (data != null) {
+                val uri = data.data
+                try{
+                    MainActivity.instance?.showProgressDialog(null)
+                    Glide.with(this).asBitmap().load(uri)
+                            .into(object : SimpleTarget<Bitmap>(){
+                                override fun onResourceReady(resource: Bitmap,
+                                                             transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?) {
+                                    l("사진 크기 : ${resource.rowBytes} 바이트")
+                                    val imageId = UUID.randomUUID().toString()
+                                    val ref = FirebaseStorage.getInstance().reference
+                                            .child("${FirebaseAuth.getInstance().uid}/$imageId.jpg")
+                                    val baos = ByteArrayOutputStream()
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 25, baos)
+                                    val uploadTask = ref.putBytes(baos.toByteArray())
+                                    uploadTask.addOnFailureListener {
+                                        MainActivity.instance?.hideProgressDialog()
+                                    }.addOnSuccessListener { _ ->
+                                        ref.downloadUrl.addOnCompleteListener {
+                                            l("다운로드 url : ${it.result.toString()}")
+                                            timeObject.links.add(Link(imageId, Link.Type.IMAGE.ordinal,
+                                                    null, it.result.toString()))
+                                            MainActivity.instance?.hideProgressDialog()
+                                        }
+                                    }
+                                }
+                                override fun onLoadFailed(errorDrawable: Drawable?) {
+                                    super.onLoadFailed(errorDrawable)
+                                    MainActivity.instance?.hideProgressDialog()
+                                }
+                            })
+                }catch (e: Exception){}
+            }
+        }
+    }
+
+    fun showTagDialog() {
+        val items = ArrayList<Tag>().apply { addAll(timeObject.tags) }
+        showDialog(TagDialog(MainActivity.instance!!, items) {
+            timeObject.tags.clear()
+            timeObject.tags.addAll(it)
+            updateTagUI()
+        }, true, true, true, false)
+    }
+
+    fun openImagePicker() {
+        MainActivity.instance?.checkExternalStoragePermission(RC_IMAGE_ATTACHMENT)
+    }
+
+    fun setKeyboardLy(isOpen: Boolean) {
+        if(isOpen) {
+            textEditorLy.visibility = View.GONE
         }else {
-            deleteBtn.visibility = View.VISIBLE
+            textEditorLy.visibility = View.GONE
+        }
+    }
+
+    private fun editorAction(action: String) {
+        val v = if(titleInput.isFocused) titleInput else if(memoInput.isFocused) memoInput else null
+        v?.let {
+            when(action) {
+                "time" -> {
+                    val text = AppDateFormat.time.format(Date())
+                    val start = Math.max(v.selectionStart, 0)
+                    val end = Math.max(v.selectionEnd, 0)
+                    v.text.replace(Math.min(start, end), Math.max(start, end), text, 0, text.length)
+                    return@let
+                }
+                "quote" -> {
+                    val text = "“”"
+                    val start = Math.max(v.selectionStart, 0)
+                    val end = Math.max(v.selectionEnd, 0)
+                    v.text.replace(Math.min(start, end), Math.max(start, end), text, 0, text.length)
+                    v.setSelection(v.selectionStart - 1)
+                    return@let
+                }
+                "quotes" -> {
+                    val text = "‘’"
+                    val start = Math.max(v.selectionStart, 0)
+                    val end = Math.max(v.selectionEnd, 0)
+                    v.text.replace(Math.min(start, end), Math.max(start, end), text, 0, text.length)
+                    v.setSelection(v.selectionStart - 1)
+                    return@let
+                }
+                "dot" -> {
+                    val text = "\n ㆍ "
+                    val start = Math.max(v.selectionStart, 0)
+                    val end = Math.max(v.selectionEnd, 0)
+                    v.text.replace(Math.min(start, end), Math.max(start, end), text, 0, text.length)
+                    return@let
+                }
+                "left" -> {
+                    if(v.selectionStart > 0) v.setSelection(v.selectionStart - 1)
+                }
+                "up" -> {
+                    val start = Math.max(v.selectionStart, 0)
+                    val layout = v.layout
+                    val currentLine = layout.getLineForOffset(start)
+                    if(currentLine > 0) {
+                        val offset = start - layout.getLineStart(currentLine)
+                        val s = layout.getLineStart(currentLine - 1)
+                        val e = layout.getLineEnd(currentLine - 1)
+                        v.setSelection(if(s + offset <= e) s + offset else e)
+                    }
+                }
+                "right" -> {
+                    if(v.selectionStart < v.text.length) v.setSelection(v.selectionStart + 1)
+                }
+                "down" -> {
+                    val start = Math.max(v.selectionStart, 0)
+                    val layout = v.layout
+                    val currentLine = layout.getLineForOffset(start)
+                    if(currentLine < v.lineCount - 1) {
+                        val offset = start - layout.getLineStart(currentLine)
+                        val s = layout.getLineStart(currentLine + 1)
+                        val e = layout.getLineEnd(currentLine + 1)
+                        v.setSelection(if(s + offset <= e) s + offset else e)
+                    }
+                }
+            }
         }
     }
 
@@ -502,138 +632,5 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         contentPanel.visibility = View.INVISIBLE
         textEditorLy.visibility = View.GONE
         hideKeyPad(windowToken, titleInput)
-    }
-
-    fun isOpened(): Boolean = viewMode == ViewMode.OPENED
-
-    private fun showKeyPad(v : EditText) {
-        targetInput = v
-        v.isFocusableInTouchMode = true
-        if (titleInput.requestFocus()) {
-            (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(v, 0)
-        }
-    }
-
-    fun openPlacePicker() {
-        val builder = PlacePicker.IntentBuilder()
-        MainActivity.instance?.startActivityForResult(builder.build(MainActivity.instance), RC_LOCATION)
-    }
-
-    private fun openMapActivity() {
-        MainActivity.instance?.let {
-            val intent = Intent(it, MapActivity::class.java)
-            intent.putExtra("location", timeObject.location)
-            intent.putExtra("lat", timeObject.latitude)
-            intent.putExtra("lng", timeObject.longitude)
-            it.startActivity(intent)
-        }
-    }
-
-    fun addNewAlarm() {
-        val alarm = Alarm(UUID.randomUUID().toString(), timeObject.dtStart, 0, 0)
-        timeObject.alarms.add(alarm)
-        openAlarmPicker(alarm)
-    }
-
-    fun openAlarmPicker(alarm: Alarm) {
-        AlarmPickerDialog(timeObject, alarm) { result, offset ->
-            if (result) {
-                alarm.offset = offset
-                if (offset != Long.MIN_VALUE) {
-                    alarm.dtAlarm = timeObject.dtStart + offset
-                } else {
-                    alarm.dtAlarm = timeObject.dtStart
-                    openDateTimePicker(context.getString(R.string.set_alarm), alarm.dtAlarm) {
-                        alarm.dtAlarm = it
-                        updateAlarmUI()
-                    }
-                }
-            } else {
-                timeObject.alarms.remove(alarm)
-            }
-            updateAlarmUI()
-        }.show(MainActivity.instance?.supportFragmentManager, null)
-    }
-
-    private fun openDateTimePicker(title: String, time: Long, onResult: (Long) -> (Unit)) {
-        showDialog(TimePickerDialog(MainActivity.instance!!, time, onResult),
-                true, true, true, false)
-    }
-
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == RC_LOCATION && resultCode == RESULT_OK) {
-            val place = PlacePicker.getPlace(data, context)
-            timeObject.location = "${place.name}\n${place.address}"
-            timeObject.latitude = place.latLng.latitude
-            timeObject.longitude = place.latLng.longitude
-            updateLocationUI()
-        }else if (requestCode == RC_IMAGE_ATTACHMENT && resultCode == AppCompatActivity.RESULT_OK) {
-            if (data != null) {
-                val uri = data.data
-                try{
-                    MainActivity.instance?.showProgressDialog(null)
-                    Glide.with(this).asBitmap().load(uri)
-                            .into(object : SimpleTarget<Bitmap>(){
-                                override fun onResourceReady(resource: Bitmap,
-                                                             transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?) {
-                                    l("사진 크기 : ${resource.rowBytes} 바이트")
-                                    val imageId = UUID.randomUUID().toString()
-                                    val ref = FirebaseStorage.getInstance().reference
-                                            .child("${FirebaseAuth.getInstance().uid}/$imageId.jpg")
-                                    val baos = ByteArrayOutputStream()
-                                    resource.compress(Bitmap.CompressFormat.JPEG, 25, baos)
-                                    val uploadTask = ref.putBytes(baos.toByteArray())
-                                    uploadTask.addOnFailureListener {
-                                        MainActivity.instance?.hideProgressDialog()
-                                    }.addOnSuccessListener { _ ->
-                                        ref.downloadUrl.addOnCompleteListener {
-                                            l("다운로드 url : ${it.result.toString()}")
-                                            timeObject.links.add(Link(imageId, Link.Type.IMAGE.ordinal,
-                                                    null, it.result.toString()))
-                                            MainActivity.instance?.hideProgressDialog()
-                                        }
-                                    }
-                                }
-                                override fun onLoadFailed(errorDrawable: Drawable?) {
-                                    super.onLoadFailed(errorDrawable)
-                                    MainActivity.instance?.hideProgressDialog()
-                                }
-                            })
-                }catch (e: Exception){}
-            }
-        }
-    }
-
-    fun addRepeat() {
-        openRepeatDialog()
-    }
-
-    private fun openRepeatDialog() {
-        showDialog(RepeatDialog(MainActivity.instance!!, timeObject) { repeat, dtUntil ->
-            timeObject.repeat = repeat
-            timeObject.dtUntil = dtUntil
-            updateRepeatUI()
-        }, true, true, true, false)
-    }
-
-    fun showTagDialog() {
-        val items = ArrayList<Tag>().apply { addAll(timeObject.tags) }
-        showDialog(TagDialog(MainActivity.instance!!, items) {
-            timeObject.tags.clear()
-            timeObject.tags.addAll(it)
-            updateTagUI()
-        }, true, true, true, false)
-    }
-
-    fun openImagePicker() {
-        MainActivity.instance?.checkExternalStoragePermission(RC_IMAGE_ATTACHMENT)
-    }
-
-    fun setKeyboardLy(isOpen: Boolean) {
-        if(isOpen) {
-            textEditorLy.visibility = View.GONE
-        }else {
-            textEditorLy.visibility = View.GONE
-        }
     }
 }

@@ -4,6 +4,7 @@ import android.graphics.Color
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.getCalendarTime0
+import com.hellowo.journey.getDiffDate
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -193,4 +194,22 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     fun isDone(): Boolean = dtDone != Long.MIN_VALUE
+
+    fun isSetDday(): Boolean = links.any { it.type == Link.Type.DDAY.ordinal }
+
+    fun addDday() {
+        if(!isSetDday()) {
+            links.add(Link(type = Link.Type.DDAY.ordinal))
+        }
+    }
+
+    fun getDdayText(time: Long): String {
+        val str = StringBuilder("D")
+        val diffDate = getDiffDate(time, dtStart)
+        when (diffDate) {
+            0 -> str.append("-DAY")
+            else -> str.append(diffDate.toString())
+        }
+        return str.toString()
+    }
 }

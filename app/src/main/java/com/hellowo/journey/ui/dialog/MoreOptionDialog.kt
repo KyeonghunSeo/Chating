@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.hellowo.journey.R
+import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.startDialogShowAnimation
 import com.hellowo.journey.ui.view.TimeObjectDetailView
@@ -12,7 +13,8 @@ import kotlinx.android.synthetic.main.dialog_more_option.*
 import java.util.*
 
 
-class MoreOptionDialog(activity: Activity, private val timeObjectDetailView: TimeObjectDetailView) : Dialog(activity) {
+class MoreOptionDialog(activity: Activity, private val timeObject: TimeObject,
+                       private val timeObjectDetailView: TimeObjectDetailView) : Dialog(activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,17 @@ class MoreOptionDialog(activity: Activity, private val timeObjectDetailView: Tim
     private fun setLayout() {
         rootLy.layoutParams.width = WRAP_CONTENT
         rootLy.requestLayout()
+
+        if(timeObject.isSetDday()) {
+            ddayBtn.alpha = 0.5f
+        }else {
+            ddayBtn.alpha = 1f
+            ddayBtn.setOnClickListener {
+                timeObject.addDday()
+                timeObjectDetailView.updateDdayUI()
+                dismiss()
+            }
+        }
 
         memoBtn.setOnClickListener {
             timeObjectDetailView.showMemoUI()
@@ -43,7 +56,7 @@ class MoreOptionDialog(activity: Activity, private val timeObjectDetailView: Tim
         }
 
         repeatBtn.setOnClickListener {
-            timeObjectDetailView.addRepeat()
+            timeObjectDetailView.openRepeatDialog()
             dismiss()
         }
 

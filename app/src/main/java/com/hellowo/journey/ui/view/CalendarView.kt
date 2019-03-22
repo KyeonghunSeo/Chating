@@ -74,15 +74,19 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     inner class DateHeaderViewHolder(val container: View) {
         val dateText: TextView = container.findViewById(R.id.dateText)
         val bar: FrameLayout = container.findViewById(R.id.bar)
+        val todayBar: FrameLayout = container.findViewById(R.id.todayBar)
         val dowText: TextView = container.findViewById(R.id.dowText)
         val holiText: TextView = container.findViewById(R.id.holiText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
-        val todayIndi: ImageView = container.findViewById(R.id.todayIndi)
+        val flag: ImageView = container.findViewById(R.id.flag)
+        val todayFlag: ImageView = container.findViewById(R.id.todayFlag)
         init {
             dateText.typeface = CalendarManager.dateFont
             dowText.typeface = CalendarManager.dateFont
             holiText.typeface = CalendarManager.dateFont
             bar.scaleX = 0f
+            flag.pivotY = 0f
+            flag.scaleY = 0f
             dowText.visibility = View.GONE
         }
     }
@@ -239,8 +243,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val holiText = dateHeaders[cellNum].holiText
                     val dateText = dateHeaders[cellNum].dateText
                     val dowText = dateHeaders[cellNum].dowText
-                    val todayIndi = dateHeaders[cellNum].todayIndi
                     val bar = dateHeaders[cellNum].bar
+                    val flag = dateHeaders[cellNum].flag
                     val color = getDateTextColor(cellNum, !holi.isNullOrEmpty())
                     val alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
                     dateText.text = String.format("%02d", tempCal.get(Calendar.DATE))
@@ -249,7 +253,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     holiText.setTextColor(color)
                     dowText.setTextColor(color)
                     bar.setBackgroundColor(color)
-                    todayIndi.setColorFilter(color)
+                    flag.setColorFilter(color)
 
                     cellHoliText[cellNum] = if(!holi.isNullOrEmpty()) holi!!
                     else if(AppStatus.isLunarDisplay
@@ -265,10 +269,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
                     if(isSameDay(tempCal, todayCal)) {
                         todayCellNum = cellNum
-                        todayIndi.visibility = View.VISIBLE
+                        dateHeaders[cellNum].todayBar.visibility = View.VISIBLE
+                        dateHeaders[cellNum].todayFlag.visibility = View.VISIBLE
                         //dateLy.setBackgroundResource(R.drawable.grey_rect_fill_radius_2)
                     }else {
-                        todayIndi.visibility = View.GONE
+                        dateHeaders[cellNum].todayBar.visibility = View.GONE
+                        dateHeaders[cellNum].todayFlag.visibility = View.GONE
                     }
 
                     if(cellNum == 0) {
@@ -316,6 +322,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun unselectDate(cellNum: Int) {
         selectCellNum = -1
         val bar = dateHeaders[cellNum].bar
+        val flag = dateHeaders[cellNum].flag
         val dowText = dateHeaders[cellNum].dowText
         val dateText = dateHeaders[cellNum].dateText
         val holiText = dateHeaders[cellNum].holiText
@@ -335,6 +342,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 override fun onAnimationCancel(animation: Animator?) { restoreDateHeader(dateHeaders[cellNum]) } })
             it.playTogether(
                     ObjectAnimator.ofFloat(bar, "scaleX", 1f, 0f),
+                    ObjectAnimator.ofFloat(flag, "scaleY", if(cellNum == todayCellNum) 1f else 0f, 0f),
                     ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleX", selectedDateScale, 1f),
                     ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleY", selectedDateScale, 1f))
             it.interpolator = FastOutSlowInInterpolator()
@@ -399,6 +407,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             targetCellNum = cellNum
 
             val bar = dateHeaders[cellNum].bar
+            val flag = dateHeaders[cellNum].flag
             val dateText = dateHeaders[cellNum].dateText
             val dowText = dateHeaders[cellNum].dowText
             val holiText = dateHeaders[cellNum].holiText
@@ -422,6 +431,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     override fun onAnimationCancel(animation: Animator?) { restoreDateHeader(dateHeaders[cellNum]) } })
                 it.playTogether(
                         ObjectAnimator.ofFloat(bar, "scaleX", 0f, 1f),
+                        ObjectAnimator.ofFloat(flag, "scaleY", 0f, if(cellNum == todayCellNum) 1f else 0f),
                         ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleX", 1f, selectedDateScale),
                         ObjectAnimator.ofFloat(dateHeaders[cellNum].dateLy, "scaleY", 1f, selectedDateScale))
                 it.interpolator = FastOutSlowInInterpolator()
@@ -443,6 +453,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun restoreDateHeader(holder: DateHeaderViewHolder) {
+        holder.flag.scaleY = 0f
         holder.bar.scaleX = 0f
         holder.dateLy.scaleX = 1f
         holder.dateLy.scaleY = 1f

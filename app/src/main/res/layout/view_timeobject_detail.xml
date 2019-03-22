@@ -186,6 +186,32 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ddayLy"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/sharp_hourglass_empty_black_48dp"/>
+
+                    <TextView
+                        android:id="@+id/ddayText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:text="@string/dday"
+                        android:textColor="@color/primaryText"
+                        android:textSize="16dp"
+                        android:fontFamily="@font/regular" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/repeatLy"
                     android:orientation="vertical"
                     android:layout_marginTop="20dp"

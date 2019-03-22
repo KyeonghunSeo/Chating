@@ -52,6 +52,15 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/todayBar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="4dp"
+        android:background="@color/line">
+    </FrameLayout>
+
+    <FrameLayout
         android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -60,7 +69,19 @@
     </FrameLayout>
 
     <ImageView
-        android:id="@+id/todayIndi"
+        android:id="@+id/todayFlag"
+        android:layout_width="12dp"
+        android:layout_height="22dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="-4dp"
+        android:scaleType="fitXY"
+        android:tint="@color/line"
+        android:src="@drawable/sharp_bookmark_black_48dp"/>
+
+
+    <ImageView
+        android:id="@+id/flag"
         android:layout_width="12dp"
         android:layout_height="22dp"
         android:layout_gravity="right"
