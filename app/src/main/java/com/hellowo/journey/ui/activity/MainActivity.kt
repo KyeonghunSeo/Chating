@@ -16,6 +16,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.auth.FirebaseAuth
@@ -107,14 +110,13 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initLayout() {
-        dateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        dateLy.setOnClickListener { _ ->
+        topMenu.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        monthText.setOnClickListener { _ ->
             showDialog(DatePickerDialog(this, viewModel.targetTime.value!!) {
                 selectDate(it)
             }, true, true, true, false)
         }
         rootLy.setOnDragListener(MainDragAndDropListener)
-        searchBtn.setOnClickListener { searchView.show() }
 
         keypadListener = KeyboardVisibilityEvent.registerEventListener(MainActivity.instance) { isOpen ->
             l("키보드 상태 $isOpen")
@@ -156,10 +158,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initDayView() {
-        dayPagerView.onVisibility = { show ->
-            if(show) calendarBtn.setImageResource(R.drawable.sharp_calendar_black_48dp)
-            else calendarBtn.setImageResource(R.drawable.sharp_event_black_48dp)
-        }
+        dayPagerView.onVisibility = { show -> }
     }
 
     private fun initDetailView() {
@@ -173,29 +172,17 @@ class MainActivity : BaseActivity() {
     private fun initTemplateView() {}
 
     private fun initBtns() {
-        calendarBtn.setOnClickListener {
-            if(viewModel.currentTab.value == 0) {
-                if(dayPagerView.isOpened()) dayPagerView.hide()
-                else if(dayPagerView.viewMode == ViewMode.CLOSED) dayPagerView.show()
-            }
-            else viewModel.currentTab.value = 0
-        }
-
         keepBtn.setOnClickListener {
             if(viewModel.currentTab.value != 1) viewModel.currentTab.value = 1
         }
 
-        searchBtn.setOnClickListener {
-            if(viewModel.currentTab.value != 2) viewModel.currentTab.value = 2
+        keepBtn.setOnLongClickListener {
+            TimeObjectManager.deleteAllTimeObject()
+            return@setOnLongClickListener false
         }
 
         profileBtn.setOnClickListener {
             if(viewModel.currentTab.value != 3) viewModel.currentTab.value = 3
-        }
-
-        searchBtn.setOnLongClickListener {
-            TimeObjectManager.deleteAllTimeObject()
-            return@setOnLongClickListener false
         }
 
         profileBtn.setOnLongClickListener {
@@ -277,20 +264,14 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        viewModel.targetTime.observe(this, Observer { time -> setDateText(Date(time)) })
+        viewModel.targetCalendarView.observe(this, Observer { _ -> setDateText() })
 
         viewModel.currentTab.observe(this, Observer { index -> updateUI(index)})
     }
 
     private fun updateUI(index: Int) {
-        calendarBtn.setColorFilter(AppTheme.disableText)
-        keepBtn.setColorFilter(AppTheme.disableText)
-        searchBtn.setColorFilter(AppTheme.disableText)
-        profileBtn.setColorFilter(AppTheme.disableText)
-
         when(index) {
             0 -> {
-                calendarBtn.setColorFilter(AppTheme.primaryColor)
                 calendarLy.visibility = View.VISIBLE
                 if(keepView.isOpened()) viewModel.targetFolder.value = null
                 if(searchView.isOpened()) searchView.hide()
@@ -306,7 +287,6 @@ class MainActivity : BaseActivity() {
                 startDialogShowAnimation(keepView)
             }
             2 -> {
-                searchBtn.setColorFilter(AppTheme.primaryColor)
                 calendarLy.visibility = View.INVISIBLE
                 if(keepView.isOpened()) viewModel.targetFolder.value = null
                 searchView.show()
@@ -325,15 +305,19 @@ class MainActivity : BaseActivity() {
     }
 
     private fun updateUserUI(appUser: AppUser) {
+        if(appUser.profileImgUrl?.isNotEmpty() == true) {
+            Glide.with(this).load(appUser.profileImgUrl)
+                    .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
+                    .into(profileBtn)
+        }
         profileView.updateUserUI(appUser)
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setDateText(date: Date) {
-        //yearText.text = " ${AppDateFormat.year.format(date)}"
-        //monthText.text = String.format("%02d", date.month + 1)
-        yearText.text = ""
-        monthText.text = AppDateFormat.ymDate.format(date)
+    private fun setDateText() {
+        getTargetCal()?.let {
+            monthText.text = AppDateFormat.ymDate.format(it.time) + " " + String.format(getString(R.string.weekNum), it.get(Calendar.WEEK_OF_YEAR))
+        }
     }
 
     fun onDrag(event: DragEvent) {
