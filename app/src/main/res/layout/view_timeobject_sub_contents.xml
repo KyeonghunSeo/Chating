@@ -5,17 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/memoText"
+    <LinearLayout
+        android:id="@+id/memoLy"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="12dp"
-        android:textColor="@color/primaryText"
-        android:fontFamily="@font/thin"
-        android:ellipsize="end"
-        android:maxLines="5"
-        android:text="메모" />
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:tint="@color/primaryText"
+            android:src="@drawable/sharp_notes_black_48dp"/>
+
+        <TextView
+            android:id="@+id/memoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:textSize="12dp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/thin"
+            android:ellipsize="end"
+            android:maxLines="5"
+            android:text="메모" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/alarmLy"
@@ -57,7 +73,7 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:tint="@color/primaryText"
-            android:src="@drawable/sharp_place_black_48dp"/>
+            android:src="@drawable/outline_place_black_48dp"/>
 
         <TextView
             android:id="@+id/locationText"

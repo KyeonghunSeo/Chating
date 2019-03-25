@@ -34,6 +34,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.hellowo.journey.*
 import com.hellowo.journey.R
+import com.hellowo.journey.alarm.AlarmManager
 import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.Alarm
@@ -305,8 +306,10 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     private fun updateAlarmUI() {
         if(timeObject.alarms.isNotEmpty()) {
             alarmLy.visibility = View.VISIBLE
-            alarmListView.setTimeObject(timeObject)
-            alarmListView.onSelected = { openAlarmPicker(it) }
+            timeObject.alarms[0]?.let { alarm ->
+                alarmText.text = AlarmManager.getTimeObjectAlarmText(context, alarm)
+                alarmLy.setOnClickListener { openAlarmPicker(alarm) }
+            }
         }else {
             alarmLy.visibility = View.GONE
         }
@@ -324,7 +327,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
             googleMap?.addMarker(MarkerOptions().position(latLng))
 
-            locationText.setOnClickListener { openPlacePicker() }
+            locationBtn.setOnClickListener { openPlacePicker() }
             mapTouchView.setOnClickListener{ openMapActivity() }
         }
     }
@@ -593,6 +596,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         val transitionSet = TransitionSet()
         val t1 = makeFromBottomSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
+        t1.duration = ANIM_DUR
         t1.addTarget(contentPanel)
         t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)
@@ -621,6 +625,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         val transitionSet = TransitionSet()
         val t1 = makeFromBottomSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
+        t1.duration = ANIM_DUR
         t1.addTarget(contentPanel)
         t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)

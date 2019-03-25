@@ -206,9 +206,10 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     fun getDdayText(time: Long): String {
         val str = StringBuilder("D")
         val diffDate = getDiffDate(time, dtStart)
-        when (diffDate) {
-            0 -> str.append("-DAY")
-            else -> str.append(diffDate.toString())
+        when {
+            diffDate > 0 -> str.append("+$diffDate")
+            diffDate < 0 -> str.append(diffDate.toString())
+            else -> str.append("-DAY")
         }
         return str.toString()
     }

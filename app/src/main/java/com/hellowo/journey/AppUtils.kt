@@ -191,7 +191,7 @@ fun getTimeOnDate(date: Long, time: Long) : Long {
 fun makeFromBottomSlideTransition() : Transition {
     val transition = Slide()
     transition.slideEdge = Gravity.BOTTOM
-    transition.duration = 200
+    transition.duration = ANIM_DUR
     transition.interpolator = FastOutSlowInInterpolator()
     return transition
 }
@@ -199,7 +199,7 @@ fun makeFromBottomSlideTransition() : Transition {
 fun makeFromRightSlideTransition() : Transition {
     val transition = Slide()
     transition.slideEdge = Gravity.RIGHT
-    transition.duration = 200
+    transition.duration = ANIM_DUR
     transition.interpolator = FastOutSlowInInterpolator()
     return transition
 }
@@ -207,21 +207,21 @@ fun makeFromRightSlideTransition() : Transition {
 fun makeFromTopSlideTransition() : Transition {
     val transition = Slide()
     transition.slideEdge = Gravity.TOP
-    transition.duration = 200
+    transition.duration = ANIM_DUR
     transition.interpolator = FastOutSlowInInterpolator()
     return transition
 }
 
 fun makeFadeTransition() : Transition {
     val transition = Fade()
-    transition.duration = 200
+    transition.duration = ANIM_DUR
     transition.interpolator = FastOutSlowInInterpolator()
     return transition
 }
 
 fun makeChangeBounceTransition() : Transition {
     val transition = ChangeBounds()
-    transition.duration = 200
+    transition.duration = ANIM_DUR
     transition.interpolator = FastOutSlowInInterpolator()
     return transition
 }

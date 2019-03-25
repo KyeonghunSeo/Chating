@@ -47,9 +47,9 @@ class TimeObjectViewHolder(container: View) : RecyclerView.ViewHolder(container)
         }
 
         if(timeObject.description.isNullOrBlank()) {
-            v.memoText.visibility = View.GONE
+            v.memoLy.visibility = View.GONE
         }else {
-            v.memoText.visibility = View.VISIBLE
+            v.memoLy.visibility = View.VISIBLE
             v.memoText.text = timeObject.description
         }
 

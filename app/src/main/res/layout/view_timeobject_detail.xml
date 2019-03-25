@@ -67,9 +67,8 @@
 
             <com.hellowo.journey.ui.view.base.Line
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_height="1dp"
                 android:layout_gravity="bottom"
-                android:visibility="gone"
                 app:colorFlag="disable"/>
 
         </FrameLayout>
@@ -243,7 +242,7 @@
                         android:id="@+id/ddayText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4.5dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"
                         android:text="@string/dday"
                         android:textColor="@color/primaryText"
@@ -271,7 +270,7 @@
                         android:id="@+id/repeatText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4.5dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"
                         android:text="@string/repeat"
                         android:textColor="@color/primaryText"
@@ -282,16 +281,30 @@
 
                 <LinearLayout
                     android:id="@+id/alarmLy"
-                    android:orientation="vertical"
-                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:minHeight="30dp"
+                    android:background="?android:attr/selectableItemBackground">
 
-                    <com.hellowo.journey.ui.view.AlarmListView
-                        android:id="@+id/alarmListView"
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="7dp"
+                        android:src="@drawable/sharp_access_alarm_black_48dp"/>
+
+                    <TextView
+                        android:id="@+id/alarmText"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    </com.hellowo.journey.ui.view.AlarmListView>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/alarm"
+                        android:textColor="@color/primaryText"
+                        android:textSize="16dp"
+                        android:fontFamily="@font/regular" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -299,26 +312,27 @@
                     android:orientation="vertical"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/locationBtn"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
                         android:minHeight="30dp">
 
                         <ImageView
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginTop="7dp"
-                            android:src="@drawable/sharp_place_black_48dp"/>
+                            android:src="@drawable/outline_place_black_48dp"/>
 
                         <TextView
                             android:id="@+id/locationText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4.5dp"
+                            android:layout_marginTop="5dp"
                             android:layout_marginLeft="10dp"
                             android:text="@string/location"
                             android:textColor="@color/primaryText"
@@ -369,7 +383,7 @@
                         android:id="@+id/memoInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4.5dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/primaryText"
                         android:textSize="16dp"
@@ -432,7 +446,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
-                        android:src="@drawable/sharp_delete_black_48dp"
+                        android:src="@drawable/outline_delete_black_48dp"
                         android:tint="@color/red" />
 
                     <TextView
