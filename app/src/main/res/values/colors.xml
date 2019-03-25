@@ -6,6 +6,7 @@
     <color name="colorPrimaryAlpha">#503d3d3d</color>
 
     <color name="background">#f7f7f7</color>
+    <color name="backgroundAlpha">#40f7f7f7</color>
     <color name="backgroundDark">#eeeeee</color>
     <color name="iconTint">#6d6d6d</color>
 

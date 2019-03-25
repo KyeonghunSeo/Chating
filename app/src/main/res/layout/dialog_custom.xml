@@ -119,7 +119,7 @@
 
         <com.hellowo.journey.ui.view.base.Line
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="1dp"
             app:colorFlag="disable"/>
 
         <LinearLayout
@@ -139,7 +139,7 @@
 
             <com.hellowo.journey.ui.view.base.Line
                 android:id="@+id/bottomDivider"
-                android:layout_width="0.5dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
                 app:colorFlag="disable"/>
 

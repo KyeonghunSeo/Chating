@@ -26,16 +26,14 @@
        android:layout_margin="10dp"
        android:layout_gravity="center"
        android:gravity="center_vertical"
-       android:textColor="@color/primaryText"
-       android:fontFamily="@font/thin"/>
+       android:textColor="@color/primaryText"/>
 
    <ImageView
        android:id="@+id/deleteBtn"
-       android:layout_width="40dp"
-       android:layout_height="40dp"
-       android:padding="10dp"
+       android:layout_width="30dp"
+       android:layout_height="30dp"
+       android:padding="5dp"
        android:src="@drawable/sharp_delete_forever_black_48dp"
-       android:tint="@color/primaryText"
-       android:layout_marginRight="10dp"/>
+       android:tint="@color/primaryText"/>
 
 </LinearLayout>

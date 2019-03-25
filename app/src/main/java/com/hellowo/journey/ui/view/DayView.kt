@@ -33,10 +33,10 @@ import android.widget.FrameLayout
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.manager.*
 import com.hellowo.journey.adapter.util.EventListComparator
-import com.hellowo.journey.adapter.util.KoreanLunarCalendar
+import com.hellowo.journey.adapter.util.TimeObjectListComparator
+import com.hellowo.journey.model.KoreanLunarCalendar
 import java.util.Calendar.SATURDAY
 import java.util.Calendar.SUNDAY
-import com.hellowo.journey.model.TimeObject.Type.*
 
 
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -141,12 +141,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             if(it.dtStart < endTime && it.dtEnd > startTime) list.add(it)
         }
 
-        list.sortWith(EventListComparator())
+        list.sortWith(TimeObjectListComparator())
 
         if(list.isNotEmpty()) {
-            timeObjectListHeaderLy.visibility = View.VISIBLE
+
         }else {
-            timeObjectListHeaderLy.visibility = View.GONE
+
         }
     }
 

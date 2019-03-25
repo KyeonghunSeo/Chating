@@ -2,6 +2,7 @@ package com.hellowo.journey.ui.dialog
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
@@ -16,31 +17,19 @@ import kotlinx.android.synthetic.main.dialog_start_end_picker.*
 import java.util.*
 
 @SuppressLint("ValidFragment")
-class StartEndPickerDialog(private val activity: Activity, private val timeObject: TimeObject,
-                           private val onConfirmed: (Calendar, Calendar, Boolean) -> Unit) : BottomSheetDialogFragment() {
+class StartEndPickerDialog(activity: Activity, private val timeObject: TimeObject,
+                           private val onConfirmed: (Calendar, Calendar, Boolean) -> Unit) : Dialog(activity) {
 
     var timeMode = if(timeObject.allday) 0 else 1
 
-    init {}
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-            = View.inflate(context, R.layout.dialog_start_end_picker, null)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        dialog.setOnShowListener {
-            (rootLy.parent as View).setBackgroundColor(Color.TRANSPARENT)
-            val behavior = ((rootLy.parent as View).layoutParams as CoordinatorLayout.LayoutParams).behavior as BottomSheetBehavior<*>?
-            behavior?.let {
-                it.state = BottomSheetBehavior.STATE_EXPANDED
-            }
-            setLayout()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.dialog_start_end_picker)
+        setGlobalTheme(rootLy)
+        setLayout()
+        setOnShowListener {
+            startDialogShowAnimation(contentLy)
         }
-    }
-
-    override fun onCancel(dialog: DialogInterface?) {
-        super.onCancel(dialog)
-        onConfirmed.invoke(calendarView.startCal, calendarView.endCal, !timeSwitch.isChecked)
     }
 
     private fun setLayout() {
@@ -68,7 +57,12 @@ class StartEndPickerDialog(private val activity: Activity, private val timeObjec
             setModeLy()
         }
 
-        rootLy.setOnClickListener {}
+        confirmBtn.setOnClickListener {
+            onConfirmed.invoke(calendarView.startCal, calendarView.endCal, !timeSwitch.isChecked)
+            dismiss()
+        }
+
+        cancelBtn.setOnClickListener { dismiss() }
 
         timeSwitch.isChecked = !timeObject.allday
         timeSwitch.setOnCheckedChangeListener { compoundButton, checked ->

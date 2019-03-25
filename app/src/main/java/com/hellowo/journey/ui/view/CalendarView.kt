@@ -11,7 +11,6 @@ import android.os.Message
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.DragEvent
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -27,7 +26,7 @@ import com.hellowo.journey.manager.HolidayManager
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
-import com.hellowo.journey.adapter.util.KoreanLunarCalendar
+import com.hellowo.journey.model.KoreanLunarCalendar
 import io.realm.RealmResults
 import java.util.*
 

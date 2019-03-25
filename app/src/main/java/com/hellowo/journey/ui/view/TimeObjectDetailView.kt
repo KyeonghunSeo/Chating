@@ -66,8 +66,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun updateUI() {
-        colorBtn.setCardBackgroundColor(timeObject.getColor())
-        fontColorText.setColorFilter(timeObject.fontColor)
         updateHeaderUI()
         updateTagUI()
         updateTitleUI()
@@ -176,6 +174,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun updateHeaderUI() {
+        colorBtn.setColorFilter(timeObject.getColor())
         pinBtn.pin(timeObject.inCalendar)
     }
 
@@ -183,9 +182,20 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         if(timeObject.tags.isNotEmpty()) {
             tagText.visibility = View.VISIBLE
             tagText.text = timeObject.tags.joinToString("") { "#${it.id}" }
+            tagText.setOnClickListener { showTagDialog() }
         }else {
             tagText.visibility = View.GONE
+            tagText.setOnClickListener(null)
         }
+    }
+
+    fun showTagDialog() {
+        val items = ArrayList<Tag>().apply { addAll(timeObject.tags) }
+        showDialog(TagDialog(MainActivity.instance!!, items) {
+            timeObject.tags.clear()
+            timeObject.tags.addAll(it)
+            updateTagUI()
+        }, true, true, true, false)
     }
 
     private fun updateTitleUI() {
@@ -202,10 +212,10 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         endCal.timeInMillis = timeObject.dtEnd
 
         timeLy.setOnClickListener {
-            StartEndPickerDialog(MainActivity.instance!!, timeObject) { sCal, eCal, allday ->
+            showDialog(StartEndPickerDialog(MainActivity.instance!!, timeObject) { sCal, eCal, allday ->
                 timeObject.setDateTime(allday, sCal, eCal)
                 updateUI()
-            }.show(MainActivity.instance?.supportFragmentManager, null)
+            }, true, true, true, false)
         }
 
         if(timeObject.allday) {
@@ -274,7 +284,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
-    fun updateRepeatUI() {
+    private fun updateRepeatUI() {
         if(timeObject.repeat.isNullOrEmpty()) {
             repeatLy.visibility = View.GONE
         }else {
@@ -495,15 +505,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 }catch (e: Exception){}
             }
         }
-    }
-
-    fun showTagDialog() {
-        val items = ArrayList<Tag>().apply { addAll(timeObject.tags) }
-        showDialog(TagDialog(MainActivity.instance!!, items) {
-            timeObject.tags.clear()
-            timeObject.tags.addAll(it)
-            updateTagUI()
-        }, true, true, true, false)
     }
 
     fun openImagePicker() {

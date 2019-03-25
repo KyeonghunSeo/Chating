@@ -10,6 +10,7 @@ import com.hellowo.journey.R
 import com.hellowo.journey.adapter.TagAdapter
 import com.hellowo.journey.model.Tag
 import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.showDialog
 import com.hellowo.journey.startDialogShowAnimation
 import io.realm.Realm
@@ -25,6 +26,7 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
         super.onCreate(savedInstanceState)
         window.attributes.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_tag)
+        setGlobalTheme(rootLy)
         setLayout()
         setOnShowListener {}
     }
