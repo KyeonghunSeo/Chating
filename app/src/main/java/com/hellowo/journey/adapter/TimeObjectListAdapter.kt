@@ -1,8 +1,12 @@
 package com.hellowo.journey.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
+import android.net.Uri
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.BackgroundColorSpan
@@ -12,21 +16,24 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.hellowo.journey.AppDateFormat
-import com.hellowo.journey.R
-import com.hellowo.journey.adapter.viewholder.TimeObjectViewHolder
+import com.bumptech.glide.Glide
+import com.hellowo.journey.*
+import com.hellowo.journey.alarm.AlarmManager
+import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.model.Link
 import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.list_item_time_object.view.*
-import kotlinx.android.synthetic.main.view_timeobject_sub_contents.view.*
+import org.json.JSONObject
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.HashMap
 
-class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
+class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, val currentCal: Calendar,
                             val adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    val tempCal = Calendar.getInstance()
     var itemTouchHelper: ItemTouchHelper? = null
     var query: String? = null
 
@@ -35,58 +42,160 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
         itemTouchHelper = ItemTouchHelper(callback)
     }
 
+    class TimeObjectViewHolder(container: View) : RecyclerView.ViewHolder(container) {
+        init {
+            setGlobalTheme(container)
+        }
+        fun onItemSelected() {}
+        fun onItemClear() {}
+    }
+
     override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
             = TimeObjectViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_time_object, parent, false))
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val timeObject = items[position]
         val v = holder.itemView
 
-        val finishTexs = StringBuilder()
-        val updatedDate = Date(timeObject.dtUpdated)
-        finishTexs.append("${AppDateFormat.ymdeDate.format(updatedDate)} ${AppDateFormat.time.format(updatedDate)}")
-        v.finishText.text = finishTexs.toString()
-
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
+        v.iconArea.setOnClickListener { adapterInterface.invoke(it, timeObject, 1) }
         v.setOnLongClickListener {
             itemTouchHelper?.startDrag(holder)
             return@setOnLongClickListener false
         }
 
-        (holder as TimeObjectViewHolder).setContents(context, timeObject, v, adapterInterface)
+        v.iconImg.setColorFilter(timeObject.getColor())
+
+        if(timeObject.isDone()) {
+            v.iconImg.setImageResource(R.drawable.sharp_check_box_black_48dp)
+            v.iconImg.alpha = 0.3f
+            v.contentLy.alpha = 0.3f
+            v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        }else {
+            v.iconImg.setImageResource(R.drawable.sharp_check_box_outline_blank_black_48dp)
+            v.iconImg.alpha = 1f
+            v.contentLy.alpha = 1f
+            v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
+        }
+
+        if(timeObject.allday || timeObject.dtStart < getCalendarTime0(currentCal)) {
+            tempCal.timeInMillis = timeObject.dtStart
+            val totalDate = getDiffDate(timeObject.dtStart, timeObject.dtEnd) + 1
+            val toDateNum = getDiffDate(tempCal, currentCal)
+            if(totalDate > 1) {
+                v.timeText.visibility = View.VISIBLE
+                v.timeText.text = String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")
+            }else {
+                v.timeText.visibility = View.GONE
+            }
+        }else {
+            v.timeText.visibility = View.VISIBLE
+            v.timeText.text = "${AppDateFormat.time.format(Date(timeObject.dtStart))} ~ " +
+                    AppDateFormat.time.format(Date(timeObject.dtEnd))
+        }
+
+        if(timeObject.tags.isNotEmpty()) {
+            v.tagText.visibility = View.VISIBLE
+            v.tagText.text = timeObject.tags.joinToString("") { "#${it.id}" }
+        }else {
+            v.tagText.visibility = View.GONE
+        }
 
         if(timeObject.title.isNullOrBlank()) {
-            v.titleText.text = context.getString(R.string.empty_note)
+            v.titleText.text = context.getString(R.string.untitle)
         }else {
             if(!query.isNullOrEmpty()){
                 highlightQuery(v.titleText, timeObject.title!!)
             }else {
-                v.titleText.text = timeObject.title
-            }
-        }
-
-        if(timeObject.location.isNullOrBlank()) {
-            v.locationText.visibility = View.GONE
-        }else {
-            v.locationText.visibility = View.VISIBLE
-            if(!query.isNullOrEmpty()){
-                highlightQuery(v.locationText, timeObject.location!!)
-            }else {
-                v.locationText.text = timeObject.location
+                v.titleText.text = timeObject.title?.trim()
             }
         }
 
         if(timeObject.description.isNullOrBlank()) {
-            v.memoText.visibility = View.GONE
+            v.memoLy.visibility = View.GONE
         }else {
-            v.memoText.visibility = View.VISIBLE
+            v.memoLy.visibility = View.VISIBLE
             if(!query.isNullOrEmpty()){
                 highlightQuery(v.memoText, timeObject.description!!)
             }else {
-                v.memoText.text = timeObject.description
+                v.memoText.text = timeObject.description?.trim()
             }
+        }
+
+        if(timeObject.location.isNullOrBlank()) {
+            v.locationLy.visibility = View.GONE
+        }else {
+            v.locationLy.visibility = View.VISIBLE
+            val locText = timeObject.location?.replace("\n", " - ")
+            if(!query.isNullOrEmpty()){
+                highlightQuery(v.locationText, locText!!)
+            }else {
+                v.locationText.text = locText
+            }
+        }
+
+        if(timeObject.alarms.isNotEmpty()) {
+            v.alarmText.text = timeObject.alarms.joinToString(", ") {
+                AlarmManager.getTimeObjectAlarmText(context, it) }
+            v.alarmLy.visibility = View.VISIBLE
+        }else {
+            v.alarmLy.visibility = View.GONE
+        }
+
+        if(!timeObject.repeat.isNullOrBlank()) {
+            v.repeatLy.visibility = View.VISIBLE
+            v.repeatText.text = RepeatManager.makeRepeatText(timeObject)
+        }else {
+            v.repeatLy.visibility = View.GONE
+        }
+
+        if(timeObject.links.any { it.type == Link.Type.IMAGE.ordinal }){
+            val list = timeObject.links.filter{ it.type == Link.Type.IMAGE.ordinal }
+
+            Glide.with(context).load(list[0].properties).into(v.mainImgView)
+
+            if(list.size > 1) {
+                v.subImageLy.visibility = View.VISIBLE
+                Glide.with(context).load(list[1].properties).into(v.subImageView)
+                if(list.size > 2) {
+                    v.subImageText.text = "+${list.size - 2}"
+                    v.subImageText.visibility = View.VISIBLE
+                }else {
+                    v.subImageText.visibility = View.GONE
+                }
+            }
+            else v.subImageLy.visibility = View.GONE
+
+            v.imageLy.visibility = View.VISIBLE
+        }else {
+            v.imageLy.visibility = View.GONE
+        }
+
+        if(timeObject.links.any { it.type == Link.Type.WEB.ordinal }){
+            val link = timeObject.links.first{ it.type == Link.Type.WEB.ordinal }
+            val properties = JSONObject(link.properties)
+            val url = properties.getString("url")
+            val imageurl = properties.getString("imageurl")
+            val favicon = properties.getString("favicon")
+
+            v.linkText.text = link.title
+            if(!imageurl.isNullOrBlank())
+                Glide.with(context).load(imageurl).into(v.linkImg)
+            else if(!favicon.isNullOrBlank())
+                Glide.with(context).load(favicon).into(v.linkImg)
+            else {
+                Glide.with(context).load(R.drawable.sharp_language_black_48dp).into(v.linkImg)
+            }
+
+            v.linkLy.visibility = View.VISIBLE
+            v.linkLy.setOnClickListener {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            }
+        }else {
+            v.linkLy.visibility = View.GONE
         }
     }
 
@@ -113,6 +222,18 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>,
     }
 
     fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        /* 완료된거 안움직이는 로직
+        val target = items[fromPosition]
+        if(!target.isDone()) {
+            val limitIndex = items.indexOf(items.last { !it.isDone() })
+            if(toPosition <= limitIndex) {
+                Collections.swap(items, fromPosition, toPosition)
+                notifyItemMoved(fromPosition, toPosition)
+                return true
+            }
+        }
+        return false
+        */
         Collections.swap(items, fromPosition, toPosition)
         notifyItemMoved(fromPosition, toPosition)
         return true

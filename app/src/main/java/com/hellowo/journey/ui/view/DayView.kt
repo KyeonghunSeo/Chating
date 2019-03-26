@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.*
 import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.adapter.EventListAdapter
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.OrderedCollectionChangeSet
 import io.realm.RealmResults
@@ -30,9 +29,9 @@ import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
 import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
 import android.view.Gravity
 import android.widget.FrameLayout
+import com.hellowo.journey.adapter.TimeObjectListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.manager.*
-import com.hellowo.journey.adapter.util.EventListComparator
 import com.hellowo.journey.adapter.util.TimeObjectListComparator
 import com.hellowo.journey.model.KoreanLunarCalendar
 import java.util.Calendar.SATURDAY
@@ -58,7 +57,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val currentList = ArrayList<TimeObject>()
     private val newList = ArrayList<TimeObject>()
 
-    private val eventAdapter = EventListAdapter(context, currentList, targetCal) { view, timeObject, action ->
+    private val eventAdapter = TimeObjectListAdapter(context, currentList, targetCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
             1 -> {

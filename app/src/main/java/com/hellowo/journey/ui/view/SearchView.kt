@@ -1,6 +1,5 @@
 package com.hellowo.journey.ui.view
 
-import android.animation.LayoutTransition
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
@@ -9,23 +8,16 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
 import com.hellowo.journey.*
-import com.hellowo.journey.adapter.EventListAdapter
 import com.hellowo.journey.adapter.TimeObjectListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.manager.OsCalendarManager
 import com.hellowo.journey.manager.TimeObjectManager
-import com.hellowo.journey.model.Folder
 import com.hellowo.journey.model.Tag
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
@@ -33,6 +25,7 @@ import com.hellowo.journey.ui.dialog.TagDialog
 import io.realm.OrderedCollectionChangeSet
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.view_saerch.view.*
+import java.util.*
 
 class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
@@ -42,7 +35,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private var timeObjectList: RealmResults<TimeObject>? = null
     private val items = ArrayList<TimeObject>()
     private val newItmes = ArrayList<TimeObject>()
-    private val adapter = TimeObjectListAdapter(context, items) { view, timeObject, action ->
+    private val adapter = TimeObjectListAdapter(context, items, Calendar.getInstance()) { view, timeObject, action ->
         when(action) {
             0 -> {
                 MainActivity.instance?.viewModel?.let {

@@ -1,38 +1,29 @@
 package com.hellowo.journey.ui.view
 
-import android.animation.LayoutTransition
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
-import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.hellowo.journey.*
-import com.hellowo.journey.adapter.EventListAdapter
 import com.hellowo.journey.adapter.FolderAdapter
 import com.hellowo.journey.adapter.TimeObjectListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.Folder
-import com.hellowo.journey.model.Template
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
-import com.hellowo.journey.ui.dialog.CustomDialog
 import com.hellowo.journey.ui.dialog.EditFolderDialog
-import com.hellowo.journey.ui.dialog.TypePickerDialog
 import io.realm.OrderedCollectionChangeSet
-import io.realm.Realm
 import io.realm.RealmResults
-import kotlinx.android.synthetic.main.activity_edit_template.*
 import kotlinx.android.synthetic.main.view_keep.view.*
 import java.util.*
 
@@ -43,7 +34,7 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private var timeObjectList: RealmResults<TimeObject>? = null
     private val items = ArrayList<TimeObject>()
     private val newItmes = ArrayList<TimeObject>()
-    private val adapter = TimeObjectListAdapter(context, items) { view, timeObject, action ->
+    private val adapter = TimeObjectListAdapter(context, items, Calendar.getInstance()) { view, timeObject, action ->
         when(action) {
             0 -> {
                 MainActivity.instance?.viewModel?.let {
