@@ -51,6 +51,7 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="3dp"
                 android:textColor="@color/primaryText"
+                android:fontFamily="@font/thin"
                 android:text="#love#peace"/>
 
             <TextView
@@ -78,35 +79,6 @@
 
                <TextView
                    android:id="@+id/timeText"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginLeft="3dp"
-                   android:textSize="12dp"
-                   android:textColor="@color/primaryText"
-                   android:fontFamily="@font/thin"
-                   android:ellipsize="end"
-                   android:maxLines="5"
-                   android:text="메모" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/memoLy"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical">
-
-               <ImageView
-                   android:layout_width="12dp"
-                   android:layout_height="12dp"
-                   android:tint="@color/primaryText"
-                   android:src="@drawable/sharp_notes_black_48dp"/>
-
-               <TextView
-                   android:id="@+id/memoText"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_marginLeft="3dp"
@@ -148,6 +120,34 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/repeatLy"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+               <ImageView
+                   android:layout_width="12dp"
+                   android:layout_height="12dp"
+                   android:tint="@color/primaryText"
+                   android:src="@drawable/sharp_repeat_black_48dp"/>
+
+               <TextView
+                   android:id="@+id/repeatText"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="3dp"
+                   android:textSize="12dp"
+                   android:textColor="@color/primaryText"
+                   android:fontFamily="@font/thin"
+                   android:ellipsize="end"
+                   android:maxLines="1"
+                   android:text="repeat" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/locationLy"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
@@ -176,7 +176,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/repeatLy"
+                android:id="@+id/memoLy"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -187,10 +187,10 @@
                    android:layout_width="12dp"
                    android:layout_height="12dp"
                    android:tint="@color/primaryText"
-                   android:src="@drawable/sharp_repeat_black_48dp"/>
+                   android:src="@drawable/sharp_notes_black_48dp"/>
 
                <TextView
-                   android:id="@+id/repeatText"
+                   android:id="@+id/memoText"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_marginLeft="3dp"
@@ -198,8 +198,8 @@
                    android:textColor="@color/primaryText"
                    android:fontFamily="@font/thin"
                    android:ellipsize="end"
-                   android:maxLines="1"
-                   android:text="repeat" />
+                   android:maxLines="5"
+                   android:text="메모" />
 
             </LinearLayout>
 

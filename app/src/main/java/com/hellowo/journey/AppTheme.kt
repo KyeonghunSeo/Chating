@@ -34,6 +34,7 @@ object AppTheme {
     var lineColor = 0
     var redColor = 0
     var blueColor = 0
+    var iconColor = 0
 
     lateinit var starDrawable: Drawable
     lateinit var ideaDrawable: Drawable
@@ -57,6 +58,7 @@ object AppTheme {
         lineColor = resource.getColor(R.color.line)
         redColor = resource.getColor(R.color.red)
         blueColor = resource.getColor(R.color.blue)
+        iconColor = resource.getColor(R.color.iconTint)
 
         starDrawable = resource.getDrawable(R.drawable.sharp_star_rate_black_48dp)
         ideaDrawable = resource.getDrawable(R.drawable.sharp_perm_identity_black_48dp)

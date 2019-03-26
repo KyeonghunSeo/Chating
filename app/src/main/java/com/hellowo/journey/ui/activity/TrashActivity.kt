@@ -10,6 +10,7 @@ class TrashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_draw)
+        initTheme(rootLy)
         ink.setColor(getResources().getColor(android.R.color.black))
         ink.setMinStrokeWidth(1.5f)
         ink.setMaxStrokeWidth(6f)

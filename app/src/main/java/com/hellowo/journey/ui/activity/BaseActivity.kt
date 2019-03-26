@@ -1,5 +1,6 @@
 package com.hellowo.journey.ui.activity
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.graphics.Color
 import android.os.Build
@@ -13,6 +14,7 @@ import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.setGlobalTheme
 
+@SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
     var progressDialog: ProgressDialog? = null
 
@@ -27,7 +29,7 @@ open class BaseActivity : AppCompatActivity() {
             }
             window.peekDecorView().systemUiVisibility = flags
             window.statusBarColor = AppTheme.backgroundColor
-            window.navigationBarColor = AppTheme.backgroundColor
+            window.navigationBarColor = Color.WHITE
         }
     }
 

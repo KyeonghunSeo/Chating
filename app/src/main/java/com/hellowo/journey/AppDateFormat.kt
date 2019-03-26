@@ -63,7 +63,6 @@ object AppDateFormat {
                         mdDate = SimpleDateFormat("M월 d일")
                         ymdDate = SimpleDateFormat("M월 d일 yyyy년")
                         ymDate = SimpleDateFormat("M월 yyyy년")
-                        date = SimpleDateFormat("d일")
                     }
                     "ja" -> {
                         ymdeDate = SimpleDateFormat("EEEE, MMMM d日, yyyy")
@@ -72,7 +71,6 @@ object AppDateFormat {
                         mdDate = SimpleDateFormat("MMM d日")
                         ymdDate = SimpleDateFormat("MMM d日, yyyy")
                         ymDate = SimpleDateFormat("MMM, yyyy")
-                        date = SimpleDateFormat("d日")
                     }
                     else -> {
                         ymdeDate = SimpleDateFormat("EEEE, MMMM d, yyyy")
@@ -81,7 +79,6 @@ object AppDateFormat {
                         mdDate = SimpleDateFormat("MMM d")
                         ymdDate = SimpleDateFormat("MMM d, yyyy")
                         ymDate = SimpleDateFormat("MMM, yyyy")
-                        date = SimpleDateFormat("d")
                     }
                 }
             } else if (m_pos in (d_pos + 1)..(y_pos - 1)) {
@@ -145,6 +142,7 @@ object AppDateFormat {
                 "ja" -> SimpleDateFormat("d日")
                 else -> SimpleDateFormat("d")
             }
+
             year = SimpleDateFormat("yyyy")
 
             mDate = if (language == "en") {

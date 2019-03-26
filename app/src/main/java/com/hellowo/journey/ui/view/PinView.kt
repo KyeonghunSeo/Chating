@@ -24,6 +24,7 @@ class PinView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         pinImg.layoutParams.height = MATCH_PARENT
         pinImg.scaleX = 0.5f
         pinImg.scaleY = 0.5f
+        pinImg.setImageResource(R.drawable.pin)
 
         callAfterViewDrawed(this, Runnable{
             pin(isPin)
@@ -33,18 +34,9 @@ class PinView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     fun pin(isPin: Boolean) {
         this.isPin = isPin
         if(isPin) {
-            pinImg.setImageBitmap(null)
-            pinImg.setColorFilter(color)
-            pinImg.translationX = -width/4f
-            pinImg.translationY = width/4f
-            setBackgroundResource(R.drawable.edge)
+            pinImg.setColorFilter(AppTheme.primaryText)
         }else {
-            if(showPinBtn) pinImg.setImageResource(R.drawable.pin)
-            else pinImg.setImageBitmap(null)
-            pinImg.setColorFilter(AppTheme.disableText)
-            pinImg.translationX = 0f
-            pinImg.translationY = 0f
-            setBackgroundColor(backColor)
+            pinImg.setColorFilter(AppTheme.lineColor)
         }
     }
 }

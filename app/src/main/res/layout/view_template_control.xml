@@ -11,7 +11,7 @@
         android:id="@+id/backgroundLy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.93"
+        android:alpha="0.90"
         android:visibility="invisible">
     </View>
 

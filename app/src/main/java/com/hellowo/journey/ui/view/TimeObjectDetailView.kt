@@ -6,7 +6,9 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -219,58 +221,44 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             }, true, true, true, false)
         }
 
-        if(timeObject.allday) {
-            if(isSameDay(startCal, endCal)) {
-                durationLy.visibility = View.GONE
-                timeDivider.visibility = View.GONE
-                timeEndLy.visibility = View.GONE
-                startSmallTimeText.visibility = View.GONE
+        val timeString = StringBuilder()
+        val durationString = StringBuilder()
+        val unitString = StringBuilder()
 
-                startBigTimeText.text = "${AppDateFormat.ymdDate.format(startCal.time)} ${AppDateFormat.dow.format(startCal.time)}"
-            }else {
-                durationLy.visibility = View.VISIBLE
-                startSmallTimeText.visibility = View.VISIBLE
-                durationText.text = (getDiffDate(startCal, endCal) + 1).toString()
-
-                if(startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)
-                        && startCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)) {
-                    timeDivider.visibility = View.GONE
-                    timeEndLy.visibility = View.GONE
-
-                    startSmallTimeText.text = AppDateFormat.ymDate.format(startCal.time)
-                    startBigTimeText.text = "${AppDateFormat.date.format(startCal.time)} - ${AppDateFormat.date.format(endCal.time)}"
+        if(isSameDay(startCal, endCal)) {
+            timeString.append(AppDateFormat.ymdeDate.format(startCal.time))
+            if(!timeObject.allday) {
+                if(startCal.timeInMillis == endCal.timeInMillis) {
+                    timeString.append(AppDateFormat.time.format(startCal.time))
                 }else {
-                    timeDivider.visibility = View.VISIBLE
-                    timeEndLy.visibility = View.VISIBLE
-
-                    startSmallTimeText.text = AppDateFormat.ymDate.format(startCal.time)
-                    startBigTimeText.text = AppDateFormat.date.format(startCal.time)
-                    endSmallTimeText.text = AppDateFormat.ymDate.format(endCal.time)
-                    endBigTimeText.text = AppDateFormat.date.format(endCal.time)
+                    durationString.append((endCal.timeInMillis - startCal.timeInMillis) / MIN_MILL)
+                    unitString.append(context.getString(R.string.min))
+                    timeString.append("\n${AppDateFormat.time.format(startCal.time)} ~ ${AppDateFormat.time.format(endCal.time)}")
                 }
             }
         }else {
-            if(isSameDay(startCal, endCal)) {
-                durationLy.visibility = View.GONE
-                timeDivider.visibility = View.GONE
-                timeEndLy.visibility = View.GONE
-                startSmallTimeText.visibility = View.VISIBLE
+            durationString.append((getDiffDate(startCal, endCal) + 1))
+            unitString.append(context.getString(R.string.date_duration))
 
-                startSmallTimeText.text = AppDateFormat.ymdeDate.format(startCal.time)
-                startBigTimeText.text = "${AppDateFormat.time.format(startCal.time)} - ${AppDateFormat.time.format(endCal.time)}"
+            if(timeObject.allday) {
+                timeString.append(String.format(context.getString(R.string.from_to),
+                        AppDateFormat.ymdeDate.format(startCal.time), AppDateFormat.ymdeDate.format(endCal.time)))
             }else {
-                durationLy.visibility = View.VISIBLE
-                startSmallTimeText.visibility = View.VISIBLE
-                timeDivider.visibility = View.VISIBLE
-                timeEndLy.visibility = View.VISIBLE
-                durationText.text = (getDiffDate(startCal, endCal) + 1).toString()
-
-                startSmallTimeText.text = AppDateFormat.ymdDate.format(startCal.time)
-                startBigTimeText.text = AppDateFormat.time.format(startCal.time)
-                endSmallTimeText.text = AppDateFormat.ymdDate.format(endCal.time)
-                endBigTimeText.text = AppDateFormat.time.format(endCal.time)
+                timeString.append(String.format(context.getString(R.string.from_to),
+                        "${AppDateFormat.ymdeDate.format(startCal.time)} ${AppDateFormat.time.format(startCal.time)}",
+                        "${AppDateFormat.ymdeDate.format(endCal.time)} ${AppDateFormat.time.format(endCal.time)}"))
             }
         }
+
+        if(durationString.isNotEmpty()) {
+            durationLy.visibility = View.GONE
+            durationText.text = durationString.toString()
+            unitText.text = unitString.toString()
+        }else {
+            durationLy.visibility = View.GONE
+        }
+
+        timeText.text = timeString.toString()
     }
 
     fun updateDdayUI() {
@@ -614,6 +602,16 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         backgroundLy.setOnClickListener { confirm() }
         backgroundLy.isClickable = true
         contentPanel.visibility = View.VISIBLE
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            MainActivity.instance?.window?.let { window ->
+                var flags = window.peekDecorView().systemUiVisibility
+                flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+                window.peekDecorView().systemUiVisibility = flags
+                window.statusBarColor = AppTheme.disableText
+            }
+        }
+
         if(timeObject.id.isNullOrEmpty()) {
             showKeyPad(titleInput)
         }
@@ -637,6 +635,16 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         backgroundLy.isClickable = false
         contentPanel.visibility = View.INVISIBLE
         textEditorLy.visibility = View.GONE
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            MainActivity.instance?.window?.let { window ->
+                var flags = window.peekDecorView().systemUiVisibility
+                flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                window.peekDecorView().systemUiVisibility = flags
+                window.statusBarColor = AppTheme.backgroundColor
+            }
+        }
+
         hideKeyPad(windowToken, titleInput)
     }
 }
