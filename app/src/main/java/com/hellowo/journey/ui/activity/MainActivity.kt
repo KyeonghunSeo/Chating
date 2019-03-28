@@ -177,7 +177,11 @@ class MainActivity : BaseActivity() {
         }
 
         keepBtn.setOnLongClickListener {
-            TimeObjectManager.deleteAllTimeObject()
+            //TimeObjectManager.deleteAllTimeObject()
+            AppTheme.thinFont = AppTheme.tFont
+            AppTheme.regularFont = AppTheme.rFont
+            AppTheme.boldFont = AppTheme.bFont
+            setGlobalTheme(rootLy)
             return@setOnLongClickListener false
         }
 
