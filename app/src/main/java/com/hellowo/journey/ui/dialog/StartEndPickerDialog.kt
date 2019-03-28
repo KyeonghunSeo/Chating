@@ -5,8 +5,10 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.widget.DatePicker
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -19,13 +21,17 @@ import java.util.*
 @SuppressLint("ValidFragment")
 class StartEndPickerDialog(activity: Activity, private val timeObject: TimeObject,
                            private val onConfirmed: (Calendar, Calendar, Boolean) -> Unit) : Dialog(activity) {
-
-    var timeMode = if(timeObject.allday) 0 else 1
+    private val startCal = Calendar.getInstance()
+    private val endCal = Calendar.getInstance()
+    private var startEndMode = 0
+    private var timeMode = if(timeObject.allday) 0 else 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_start_end_picker)
         setGlobalTheme(rootLy)
+        startCal.timeInMillis = timeObject.dtStart
+        endCal.timeInMillis = timeObject.dtEnd
         setLayout()
         setOnShowListener {
             startDialogShowAnimation(contentLy)
@@ -33,46 +39,31 @@ class StartEndPickerDialog(activity: Activity, private val timeObject: TimeObjec
     }
 
     private fun setLayout() {
-        calendarView.startCal.timeInMillis = timeObject.dtStart
-        calendarView.endCal.timeInMillis = timeObject.dtEnd
-        calendarView.onDrawed = { setDateText() }
-
         startTab.setOnClickListener {
-            calendarView.startEndMode = 0
+            startEndMode = 0
             setModeLy()
         }
 
         endTab.setOnClickListener {
-            calendarView.startEndMode = 1
-            setModeLy()
-        }
-
-        calBtn.setOnClickListener {
-            timeMode = 0
-            setModeLy()
-        }
-
-        timeBtn.setOnClickListener {
-            timeMode = 1
+            startEndMode = 1
             setModeLy()
         }
 
         confirmBtn.setOnClickListener {
-            onConfirmed.invoke(calendarView.startCal, calendarView.endCal, !timeSwitch.isChecked)
+            onConfirmed.invoke(startCal, endCal, timeMode == 0)
             dismiss()
         }
 
         cancelBtn.setOnClickListener { dismiss() }
 
-        timeSwitch.isChecked = !timeObject.allday
-        timeSwitch.setOnCheckedChangeListener { compoundButton, checked ->
-            timeMode = if(checked) {
-                setTimeNearOClock(calendarView.startCal)
-                setTime1HourInterval(calendarView.startCal, calendarView.endCal)
+        setTimeBtn.setOnClickListener { _ ->
+            timeMode = if(timeMode == 0) {
+                setTimeNearOClock(startCal)
+                setTime1HourInterval(startCal, endCal)
                 1
             }else {
-                setCalendarTime0(calendarView.startCal)
-                setCalendarTime23(calendarView.endCal)
+                setCalendarTime0(startCal)
+                setCalendarTime23(endCal)
                 0
             }
             setModeLy()
@@ -81,36 +72,79 @@ class StartEndPickerDialog(activity: Activity, private val timeObject: TimeObjec
         setModeLy()
     }
 
+    private fun setModeLy() {
+        if(startEndMode == 0) {
+            setDateView(startCal)
+            setTimeView(startCal)
+        }else {
+            setDateView(endCal)
+            setTimeView(endCal)
+        }
+
+        if(timeMode == 0) {
+            timeLy.visibility = View.GONE
+            setTimeBtn.text = context.getString(R.string.set_time)
+        }else {
+            timeLy.visibility = View.VISIBLE
+            setTimeBtn.text = context.getString(R.string.clear_time)
+
+        }
+        setDateText()
+    }
+
+    private fun setDateView(cal: Calendar) {
+        dateWheel.init(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DATE)) { view, year, month, date ->
+            if(startEndMode == 0) {
+                startCal.set(Calendar.YEAR, year)
+                startCal.set(Calendar.MONTH, month)
+                startCal.set(Calendar.DATE, date)
+                if(startCal > endCal) {
+                    endCal.timeInMillis = startCal.timeInMillis
+                }
+            }else {
+                endCal.set(Calendar.YEAR, year)
+                endCal.set(Calendar.MONTH, month)
+                endCal.set(Calendar.DATE, date)
+                if(startCal > endCal) {
+                    startCal.timeInMillis = endCal.timeInMillis
+                }
+            }
+            setDateText()
+        }
+        dateWheel.calendarViewShown = false
+    }
+
     private fun setTimeView(cal: Calendar) {
         timeWheel.setOnTimeChangedListener(null)
         timeWheel.currentHour = cal.get(Calendar.HOUR_OF_DAY)
         timeWheel.currentMinute = cal.get(Calendar.MINUTE)
         timeWheel.setOnTimeChangedListener { timePicker, h, m ->
-            if(calendarView.startEndMode == 0) {
-                calendarView.startCal.set(Calendar.HOUR_OF_DAY, h)
-                calendarView.startCal.set(Calendar.MINUTE, m)
-                if(calendarView.startCal > calendarView.endCal) {
-                    calendarView.endCal.timeInMillis = calendarView.startCal.timeInMillis
+            if(startEndMode == 0) {
+                startCal.set(Calendar.HOUR_OF_DAY, h)
+                startCal.set(Calendar.MINUTE, m)
+                if(startCal > endCal) {
+                    endCal.timeInMillis = startCal.timeInMillis
                 }
             }else {
-                calendarView.endCal.set(Calendar.HOUR_OF_DAY, h)
-                calendarView.endCal.set(Calendar.MINUTE, m)
-                if(calendarView.startCal > calendarView.endCal) {
-                    calendarView.startCal.timeInMillis = calendarView.endCal.timeInMillis
+                endCal.set(Calendar.HOUR_OF_DAY, h)
+                endCal.set(Calendar.MINUTE, m)
+                if(startCal > endCal) {
+                    startCal.timeInMillis = endCal.timeInMillis
                 }
             }
             setDateText()
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setDateText() {
-        val dtStart = calendarView.startCal.timeInMillis
-        val dtEnd = calendarView.endCal.timeInMillis
-        if(!timeSwitch.isChecked) {
+        val dtStart = startCal.timeInMillis
+        val dtEnd = endCal.timeInMillis
+        if(timeMode == 0) {
             startTimeTText.text = "${AppDateFormat.date.format(dtStart)} ${AppDateFormat.dow.format(dtStart)}"
-            startTimeYMDText.text =  "${AppDateFormat.ymDate.format(dtStart)}"
+            startTimeYMDText.text = AppDateFormat.ymDate.format(dtStart)
             endTimeTText.text = "${AppDateFormat.date.format(dtEnd)} ${AppDateFormat.dow.format(dtEnd)}"
-            endTimeYMDText.text =  "${AppDateFormat.ymDate.format(dtEnd)}"
+            endTimeYMDText.text = AppDateFormat.ymDate.format(dtEnd)
         }else {
             startTimeTText.text = AppDateFormat.time.format(dtStart)
             startTimeYMDText.text = AppDateFormat.ymdDate.format(dtStart)
@@ -118,54 +152,29 @@ class StartEndPickerDialog(activity: Activity, private val timeObject: TimeObjec
             endTimeYMDText.text = AppDateFormat.ymdDate.format(dtEnd)
         }
 
-        if(calendarView.startEndMode == 0) {
-            startText.setTextColor(CalendarManager.selectedDateColor)
-            startTimeTText.setTextColor(CalendarManager.selectedDateColor)
-            startTimeYMDText.setTextColor(CalendarManager.selectedDateColor)
+        if(startEndMode == 0) {
+            startText.setBackgroundColor(AppTheme.primaryColor)
+            startText.setTextColor(Color.WHITE)
+            startTimeTText.setTextColor(AppTheme.primaryColor)
+            startTimeYMDText.setTextColor(AppTheme.primaryColor)
 
-            endText.setTextColor(CalendarManager.selectedBackgroundColor)
-            endTimeTText.setTextColor(CalendarManager.selectedBackgroundColor)
-            endTimeYMDText.setTextColor(CalendarManager.selectedBackgroundColor)
+            endText.setBackgroundColor(Color.TRANSPARENT)
+            endText.setTextColor(AppTheme.secondaryText)
+            endTimeTText.setTextColor(AppTheme.disableText)
+            endTimeYMDText.setTextColor(AppTheme.disableText)
         }else {
-            startText.setTextColor(CalendarManager.selectedBackgroundColor)
-            startTimeTText.setTextColor(CalendarManager.selectedBackgroundColor)
-            startTimeYMDText.setTextColor(CalendarManager.selectedBackgroundColor)
+            startText.setBackgroundColor(Color.TRANSPARENT)
+            startText.setTextColor(AppTheme.secondaryText)
+            startTimeTText.setTextColor(AppTheme.disableText)
+            startTimeYMDText.setTextColor(AppTheme.disableText)
 
-            endText.setTextColor(CalendarManager.selectedDateColor)
-            endTimeTText.setTextColor(CalendarManager.selectedDateColor)
-            endTimeYMDText.setTextColor(CalendarManager.selectedDateColor)
-        }
-    }
-
-    private fun setModeLy() {
-        if(timeSwitch.isChecked) {
-            timeBtn.visibility = View.VISIBLE
-        }else {
-            timeBtn.visibility = View.GONE
+            endText.setBackgroundColor(AppTheme.primaryColor)
+            endText.setTextColor(Color.WHITE)
+            endTimeTText.setTextColor(AppTheme.primaryColor)
+            endTimeYMDText.setTextColor(AppTheme.primaryColor)
         }
 
-        if(timeMode == 0) {
-            timeLy.visibility = View.GONE
-            calendarView.visibility = View.VISIBLE
-            calBtn.alpha = 1f
-            timeBtn.alpha = 0.3f
-            if(calendarView.startEndMode == 0) {
-                calendarView.drawCalendar(calendarView.startCal.timeInMillis)
-            }else {
-                calendarView.drawCalendar(calendarView.endCal.timeInMillis)
-            }
-        }else {
-            timeLy.visibility = View.VISIBLE
-            calendarView.visibility = View.GONE
-            calBtn.alpha = 0.3f
-            timeBtn.alpha = 1f
-            if(calendarView.startEndMode == 0) {
-                setTimeView(calendarView.startCal)
-            }else {
-                setTimeView(calendarView.endCal)
-            }
-        }
-        setDateText()
+        durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, timeMode == 0)
     }
 
 }

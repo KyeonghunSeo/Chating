@@ -188,6 +188,31 @@ fun getTimeOnDate(date: Long, time: Long) : Long {
     return tempCal.timeInMillis
 }
 
+fun getDurationText(dtStart: Long, dtEnd: Long, allday: Boolean) : String {
+    val diff = dtEnd - dtStart
+    if (allday) {
+        val diffDate = diff / DAY_MILL
+        return when (diffDate) {
+            0L -> App.context.getString(R.string.one_day)
+            else -> String.format(App.context.getString(R.string.duration_day), diffDate + 1)
+        }
+    }else {
+        val diffMin = diff / MIN_MILL
+        return when  {
+            diffMin == 0L -> "--"
+            diffMin < 60 -> String.format(App.context.getString(R.string.duration_min), diffMin)
+            else -> {
+                val diffHour = diff / HOUR_MILL
+                val diffMinHour = diffMin % 60
+                when (diffMinHour) {
+                    0L -> String.format(App.context.getString(R.string.duration_hour), diffHour)
+                    else -> String.format(App.context.getString(R.string.duration_min_hour), diffHour, diffMinHour)
+                }
+            }
+        }
+    }
+}
+
 fun makeFromBottomSlideTransition() : Transition {
     val transition = Slide()
     transition.slideEdge = Gravity.BOTTOM
@@ -305,26 +330,6 @@ fun loadBitmapFromView(v: View): Bitmap {
 
 fun ClosedRange<Int>.random() =
         Random().nextInt((endInclusive + 1) - start) +  start
-
-fun statusBarUnDim(activity: Activity) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        val window = activity.window
-        var flags = window.peekDecorView().systemUiVisibility
-        flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        window.peekDecorView().systemUiVisibility = flags
-        window.statusBarColor = AppTheme.backgroundColor
-    }
-}
-
-fun statusBarDim(activity: Activity) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        val window = activity.window
-        var flags = window.peekDecorView().systemUiVisibility
-        flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-        window.peekDecorView().systemUiVisibility = flags
-        window.statusBarColor = AppTheme.primaryText
-    }
-}
 
 fun callAfterViewDrawed(view: View, callback: Runnable) {
     view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {

@@ -32,11 +32,11 @@ realm {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.firebase:firebase-core:16.0.6'
-    implementation 'com.google.firebase:firebase-storage:16.0.5'
-    implementation 'com.google.firebase:firebase-auth:16.1.0'
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-storage:16.1.0'
+    implementation 'com.google.firebase:firebase-auth:16.2.0'
 
-    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.google.android.gms:play-services-places:16.0.0'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
@@ -57,6 +57,8 @@ dependencies {
     //image
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+    implementation 'com.github.stfalcon:frescoimageviewer:0.5.0'
+    implementation 'com.facebook.fresco:fresco:1.13.0'
     //utils
     implementation 'com.pixplicity.easyprefs:library:1.9.0' // 내부 저장소
     implementation 'org.jsoup:jsoup:1.11.3'

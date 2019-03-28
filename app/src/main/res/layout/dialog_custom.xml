@@ -120,7 +120,7 @@
         <com.hellowo.journey.ui.view.base.Line
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            app:colorFlag="disable"/>
+            app:colorFlag="secondary"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -141,7 +141,7 @@
                 android:id="@+id/bottomDivider"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                app:colorFlag="disable"/>
+                app:colorFlag="secondary"/>
 
             <TextView
                 android:id="@+id/confirmBtn"

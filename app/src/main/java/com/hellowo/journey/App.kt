@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Resources
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.hellowo.journey.alarm.AlarmManager
 import com.pixplicity.easyprefs.library.Prefs
 import io.realm.Realm
@@ -32,5 +33,6 @@ class App : Application() {
         AppTheme.init(this)
         Realm.init(this)
         AlarmManager.init(this)
+        Fresco.initialize(this)
     }
 }

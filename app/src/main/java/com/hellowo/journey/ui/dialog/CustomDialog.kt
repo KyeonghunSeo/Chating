@@ -70,6 +70,11 @@ class CustomDialog(activity: Activity, private val title: String, private val su
             onResult.invoke(false, 0, null)
             dismiss()
         }
+
+        setOnCancelListener {
+            onResult.invoke(false, 0, null)
+            dismiss()
+        }
     }
 
     fun showInput(hint: String, text: String) {

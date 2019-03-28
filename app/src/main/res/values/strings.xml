@@ -248,5 +248,14 @@
     <string name="from_to">%1$s 부터\n%2$s 까지</string>
     <string name="hour">시간</string>
     <string name="min">분</string>
+    <string name="delete_dday">디데이 삭제</string>
+    <string name="delete_dday_sub">더 이상 디데이를 계산하지 않습니다</string>
+    <string name="clear_time">시간설정 해제</string>
+    <string name="one_day">하루</string>
+    <string name="duration_day">총 %1$s일</string>
+    <string name="duration_min">총 %1$s분</string>
+    <string name="duration_hour">총 %1$s시간</string>
+    <string name="duration_min_hour">총 %1$s시간 %2$s분</string>
+    <string name="edit">편집하기</string>
 
 </resources>

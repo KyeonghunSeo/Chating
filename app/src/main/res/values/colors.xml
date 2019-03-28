@@ -17,7 +17,7 @@
     <color name="line">#d6d6d6</color>
 
     <color name="holiday">#b30000</color>
-    <color name="transitionDim">#60000000</color>
+    <color name="transitionDim">#993d3d3d</color>
     <color name="transitionDimWhite">#ccffffff</color>
 
     <color name="black">#000000</color>

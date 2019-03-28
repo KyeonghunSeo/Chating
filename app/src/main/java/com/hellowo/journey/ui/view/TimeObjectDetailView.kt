@@ -266,7 +266,13 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             ddayLy.visibility = View.VISIBLE
             ddayText.text = timeObject.getDdayText(System.currentTimeMillis())
             ddayLy.setOnClickListener {
-                openRepeatDialog()
+                showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_dday),
+                        context.getString(R.string.delete_dday_sub), null) { result, _, _ ->
+                    if(result) {
+                        timeObject.clearDday()
+                        updateDdayUI()
+                    }
+                }, true, true, true, false)
             }
         }else {
             ddayLy.visibility = View.GONE
@@ -315,7 +321,20 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
             googleMap?.addMarker(MarkerOptions().position(latLng))
 
-            locationBtn.setOnClickListener { openPlacePicker() }
+            locationBtn.setOnClickListener {
+                showDialog(CustomDialog(context as Activity, context.getString(R.string.location),
+                        null, arrayOf(context.getString(R.string.delete), context.getString(R.string.edit)))
+                { result, index, _ ->
+                    if(result) {
+                        if(index == 0) {
+                            timeObject.location = null
+                            updateLocationUI()
+                        }else {
+                            openPlacePicker()
+                        }
+                    }
+                }, true, true, true, false)
+            }
             mapTouchView.setOnClickListener{ openMapActivity() }
         }
     }
@@ -608,7 +627,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 var flags = window.peekDecorView().systemUiVisibility
                 flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
                 window.peekDecorView().systemUiVisibility = flags
-                window.statusBarColor = AppTheme.disableText
+                window.statusBarColor = context.getColor(R.color.transitionDim)
             }
         }
 

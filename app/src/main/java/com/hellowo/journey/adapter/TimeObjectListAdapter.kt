@@ -23,6 +23,7 @@ import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.Link
 import com.hellowo.journey.model.TimeObject
+import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.list_item_time_object.view.*
 import org.json.JSONObject
 import java.util.*
@@ -170,6 +171,12 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, v
             else v.subImageLy.visibility = View.GONE
 
             v.imageLy.visibility = View.VISIBLE
+            v.imageLy.setOnClickListener { _ ->
+                ImageViewer.Builder(context, list.map { it.properties })
+                        .hideStatusBar(false)
+                        .setStartPosition(0)
+                        .show()
+            }
         }else {
             v.imageLy.visibility = View.GONE
         }

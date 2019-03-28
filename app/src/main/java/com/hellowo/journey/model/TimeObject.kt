@@ -197,6 +197,10 @@ open class TimeObject(@PrimaryKey var id: String? = null,
 
     fun isSetDday(): Boolean = links.any { it.type == Link.Type.DDAY.ordinal }
 
+    fun clearDday() {
+        links.first{ it.type == Link.Type.DDAY.ordinal }?.let { links.remove(it) }
+    }
+
     fun addDday() {
         if(!isSetDday()) {
             links.add(Link(type = Link.Type.DDAY.ordinal))
