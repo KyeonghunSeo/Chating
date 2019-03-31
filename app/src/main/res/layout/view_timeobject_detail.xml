@@ -21,24 +21,80 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:translationY="10dp"
             app:cardElevation="10dp"
             app:cardCornerRadius="5dp"
             app:cardBackgroundColor="@color/background">
 
+            <FrameLayout
+                android:id="@+id/headerLy"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/background"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/colorBtn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="13dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:padding="12dp"
+                        android:src="@drawable/circle_fill"
+                        android:tint="@color/white"/>
+
+                    <ImageView
+                        android:id="@+id/deleteBtn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:padding="10dp"
+                        android:src="@drawable/outline_delete_black_48dp"
+                        android:tint="@color/iconTint"/>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <com.hellowo.journey.ui.view.PinView
+                            android:id="@+id/pinBtn"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="right"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <com.hellowo.journey.ui.view.base.Line
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_gravity="bottom"
+                    app:colorFlag="disable"/>
+
+            </FrameLayout>
+
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="40dp">
 
                 <LinearLayout
                     android:id="@+id/contentLy"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp"
-                    android:paddingBottom="85dp">
+                    android:paddingTop="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="35dp">
 
                     <TextView
                         android:id="@+id/tagText"
@@ -329,10 +385,9 @@
                 android:id="@+id/textEditorLy"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="@color/almostWhite"
                 android:layout_gravity="bottom"
-                android:animateLayoutChanges="true"
-                android:elevation="0dp"
+                android:elevation="10dp"
+                android:background="@color/background"
                 android:visibility="gone">
 
                 <LinearLayout
@@ -421,73 +476,7 @@
 
             </HorizontalScrollView>
 
-            <com.hellowo.journey.ui.view.PinView
-                android:id="@+id/pinBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="right"/>
-
         </androidx.cardview.widget.CardView>
-
-        <FrameLayout
-            android:id="@+id/headerLy"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:elevation="10dp"
-            android:background="@color/background">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background"
-                android:layout_marginRight="50dp"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:id="@+id/colorBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="13dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:padding="12dp"
-                    android:src="@drawable/circle_fill"
-                    android:tint="@color/white"/>
-
-                <ImageView
-                    android:id="@+id/deleteBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:padding="10dp"
-                    android:src="@drawable/outline_delete_black_48dp"
-                    android:tint="@color/iconTint"/>
-
-                <FrameLayout
-                    android:id="@+id/previewContainer"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp">
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <com.hellowo.journey.ui.view.base.Line
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                app:colorFlag="disable"/>
-
-        </FrameLayout>
 
     </FrameLayout>
 

@@ -86,7 +86,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         timeObjectView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
             gravity = Gravity.CENTER_VERTICAL
         }
-        previewContainer.addView(timeObjectView, 0)
 
         deleteBtn.setOnClickListener { delete() }
 
@@ -100,14 +99,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 timeObject.colorKey = colorKey
                 timeObject.fontColor = fontColor
                 updateUI()
-            }, true, true, true, false)
-        }
-
-        previewContainer.setOnClickListener {
-            showDialog(StylePickerDialog(MainActivity.instance!!, timeObject.colorKey,
-                    timeObject.type, timeObject.title ?: "") { style ->
-                timeObject.style = style
-                updateStyleUI()
             }, true, true, true, false)
         }
 
@@ -229,7 +220,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             timeString.append(AppDateFormat.ymdeDate.format(startCal.time))
             if(!timeObject.allday) {
                 if(startCal.timeInMillis == endCal.timeInMillis) {
-                    timeString.append(AppDateFormat.time.format(startCal.time))
+                    timeString.append(" ${AppDateFormat.time.format(startCal.time)}")
                 }else {
                     durationString.append((endCal.timeInMillis - startCal.timeInMillis) / MIN_MILL)
                     unitString.append(context.getString(R.string.min))
@@ -349,33 +340,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
-    private fun updateStyleUI() {
-        if(timeObject.inCalendar) {
-            previewContainer.visibility = View.VISIBLE
-            (previewContainer.getChildAt(0) as TimeObjectView).let {
-                it.timeObject.title = timeObject.title
-                it.timeObject.type = timeObject.type
-                it.timeObject.style = timeObject.style
-                it.timeObject.colorKey = timeObject.colorKey
-                it.setLookByType()
-
-                when(it.timeObject.type) {
-                    2 -> {
-                        it.layoutParams.height = WRAP_CONTENT
-                    }
-                    else -> {
-                        it.layoutParams.height = TimeObjectView.blockTypeSize
-                    }
-                }
-
-                it.textSpaceWidth = it.paint.measureText(it.text.toString())
-                it.requestLayout()
-                it.invalidate()
-            }
-        }else {
-            previewContainer.visibility = View.GONE
-        }
-    }
+    private fun updateStyleUI() {}
 
     fun showMemoUI() {
         memoLy.visibility = View.VISIBLE
