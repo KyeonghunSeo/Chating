@@ -77,6 +77,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         LayoutInflater.from(context).inflate(R.layout.view_day, this, true)
         //rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         rootLy.setOnClickListener {}
+        setGlobalTheme(rootLy)
         setCardBackgroundColor(CalendarManager.backgroundColor)
         initRecyclerView()
         elevation = 0f

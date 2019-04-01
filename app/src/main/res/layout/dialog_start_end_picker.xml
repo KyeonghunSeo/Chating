@@ -124,7 +124,9 @@
 
         <com.hellowo.journey.ui.view.base.Line
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             app:colorFlag="disable"/>
 
         <TextView

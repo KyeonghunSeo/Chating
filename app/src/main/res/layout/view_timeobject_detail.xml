@@ -132,7 +132,8 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginTop="7dp"
-                            android:src="@drawable/sharp_access_time_black_48dp"/>
+                            android:tint="@color/iconTint"
+                            android:src="@drawable/outline_date_range_black_48dp"/>
 
                         <TextView
                             android:id="@+id/timeText"
@@ -192,6 +193,7 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginTop="7dp"
+                            android:tint="@color/iconTint"
                             android:src="@drawable/sharp_hourglass_empty_black_48dp"/>
 
                         <TextView
@@ -220,6 +222,7 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginTop="7dp"
+                            android:tint="@color/iconTint"
                             android:src="@drawable/sharp_repeat_black_48dp"/>
 
                         <TextView
@@ -248,6 +251,7 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginTop="7dp"
+                            android:tint="@color/iconTint"
                             android:src="@drawable/sharp_access_alarm_black_48dp"/>
 
                         <TextView
@@ -282,6 +286,7 @@
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_marginTop="7dp"
+                                android:tint="@color/iconTint"
                                 android:src="@drawable/outline_place_black_48dp"/>
 
                             <TextView
@@ -333,6 +338,7 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginTop="7dp"
+                            android:tint="@color/iconTint"
                             android:src="@drawable/sharp_notes_black_48dp"/>
 
                         <EditText

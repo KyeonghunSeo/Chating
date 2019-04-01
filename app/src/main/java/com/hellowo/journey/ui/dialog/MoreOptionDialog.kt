@@ -7,10 +7,8 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.hellowo.journey.R
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.setGlobalTheme
-import com.hellowo.journey.startDialogShowAnimation
 import com.hellowo.journey.ui.view.TimeObjectDetailView
 import kotlinx.android.synthetic.main.dialog_more_option.*
-import java.util.*
 
 
 class MoreOptionDialog(activity: Activity, private val timeObject: TimeObject,
@@ -28,6 +26,16 @@ class MoreOptionDialog(activity: Activity, private val timeObject: TimeObject,
     private fun setLayout() {
         rootLy.layoutParams.width = WRAP_CONTENT
         rootLy.requestLayout()
+
+        if(timeObject.isScheduled()) {
+            scheduleBtn.alpha = 0.5f
+        }else {
+            scheduleBtn.alpha = 1f
+            scheduleBtn.setOnClickListener {
+                timeObjectDetailView.showStartEndDialog()
+                dismiss()
+            }
+        }
 
         if(timeObject.isSetDday()) {
             ddayBtn.alpha = 0.5f
@@ -56,7 +64,7 @@ class MoreOptionDialog(activity: Activity, private val timeObject: TimeObject,
         }
 
         repeatBtn.setOnClickListener {
-            timeObjectDetailView.openRepeatDialog()
+            timeObjectDetailView.showRepeatDialog()
             dismiss()
         }
 
@@ -65,7 +73,7 @@ class MoreOptionDialog(activity: Activity, private val timeObject: TimeObject,
             dismiss()
         }
 
-        imageBtn.setOnClickListener {
+        photoBtn.setOnClickListener {
             timeObjectDetailView.openImagePicker()
             dismiss()
         }

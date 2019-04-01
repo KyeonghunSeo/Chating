@@ -67,7 +67,7 @@
     <string name="setting">설정</string>
     <string name="add_option">다른 정보 추가</string>
     <string name="what_do_you_think">무슨 생각을 하고계신가요?</string>
-    <string name="detail_info">세부정보</string>
+    <string name="detail_info">자세한 정보</string>
     <string name="memo">메모</string>
     <string name="location">위치</string>
     <string name="alert">알림</string>
@@ -162,7 +162,6 @@
     <string name="make_new">새로 만들기</string>
     <string name="add">추가</string>
     <string name="tag">태그</string>
-    <string name="more_options">추가 옵션</string>
     <string name="edit_tag">태그 편집</string>
     <string name="enter_tag">태그 이름</string>
     <string name="no_tag">태그없음</string>
@@ -257,5 +256,16 @@
     <string name="duration_hour">총 %1$s시간</string>
     <string name="duration_min_hour">총 %1$s시간 %2$s분</string>
     <string name="edit">편집하기</string>
+    <string name="date_and_time">날짜와시간</string>
+    <string name="tasking">할 일 만들기</string>
+    <string name="checkbox">체크박스</string>
+    <string name="checklist">체크리스트</string>
+    <string name="percentage">달성도</string>
+    <string name="long_click_to_show_explain">설명을 보시려면 각 항목을 길게 탭 하세요</string>
+    <string name="deadline">기한</string>
+    <string name="photo">사진</string>
+    <string name="webLink">웹링크</string>
+    <string name="shedule">스케쥴</string>
+    <string name="delete_shedule_sub">스케쥴 정보를 제거합니다</string>
 
 </resources>

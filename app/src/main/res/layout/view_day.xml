@@ -14,7 +14,7 @@
         <FrameLayout
             android:id="@+id/headerLy"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="80dp">
 
             <ImageView
                 android:id="@+id/headerCoverImg"
@@ -23,6 +23,13 @@
                 android:scaleType="centerCrop"/>
 
         </FrameLayout>
+
+        <com.hellowo.journey.ui.view.base.Line
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            app:colorFlag="disable"/>
 
         <LinearLayout
             android:orientation="vertical"

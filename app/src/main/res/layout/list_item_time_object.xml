@@ -32,10 +32,10 @@
           android:orientation="vertical"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginTop="9dp"
-          android:layout_marginBottom="9dp"
+          android:layout_marginTop="15dp"
+          android:layout_marginBottom="15dp"
           android:layout_marginLeft="48dp"
-          android:layout_marginRight="48dp">
+          android:layout_marginRight="@dimen/extra_margin">
 
          <LinearLayout
              android:orientation="vertical"
@@ -67,15 +67,15 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center_vertical">
 
                <ImageView
                    android:id="@+id/timeImg"
                    android:layout_width="12dp"
                    android:layout_height="12dp"
-                   android:tint="@color/primaryText"
-                   android:src="@drawable/sharp_access_time_black_48dp"/>
+                   android:tint="@color/iconTint"
+                   android:src="@drawable/outline_date_range_black_48dp"/>
 
                <TextView
                    android:id="@+id/timeText"
@@ -96,13 +96,13 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center_vertical">
 
                <ImageView
                    android:layout_width="12dp"
                    android:layout_height="12dp"
-                   android:tint="@color/primaryText"
+                   android:tint="@color/iconTint"
                    android:src="@drawable/sharp_access_alarm_black_48dp"/>
 
                <TextView
@@ -124,13 +124,13 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center_vertical">
 
                <ImageView
                    android:layout_width="12dp"
                    android:layout_height="12dp"
-                   android:tint="@color/primaryText"
+                   android:tint="@color/iconTint"
                    android:src="@drawable/sharp_repeat_black_48dp"/>
 
                <TextView
@@ -152,13 +152,13 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center_vertical">
 
                <ImageView
                    android:layout_width="12dp"
                    android:layout_height="12dp"
-                   android:tint="@color/primaryText"
+                   android:tint="@color/iconTint"
                    android:src="@drawable/outline_place_black_48dp"/>
 
                <TextView
@@ -180,13 +180,13 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center_vertical">
 
                <ImageView
                    android:layout_width="12dp"
                    android:layout_height="12dp"
-                   android:tint="@color/primaryText"
+                   android:tint="@color/iconTint"
                    android:src="@drawable/sharp_notes_black_48dp"/>
 
                <TextView
@@ -209,8 +209,9 @@
                 android:layout_height="100dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="2dp"
+                android:foreground="@drawable/normal_rect_stroke"
                 app:cardCornerRadius="0dp"
-                app:cardElevation="1dp">
+                app:cardElevation="0dp">
 
                <LinearLayout
                    android:orientation="horizontal"
@@ -227,8 +228,7 @@
                   <FrameLayout
                       android:id="@+id/subImageLy"
                       android:layout_width="100dp"
-                      android:layout_height="100dp"
-                      android:layout_marginLeft="1dp">
+                      android:layout_height="100dp">
 
                      <ImageView
                          android:id="@+id/subImageView"
@@ -246,6 +246,11 @@
                          android:textSize="20dp"
                          android:background="@drawable/highlightcover"
                          android:text="+10"/>
+
+                     <com.hellowo.journey.ui.view.base.Line
+                         android:layout_width="1dp"
+                         android:layout_height="match_parent"
+                         app:colorFlag="secondary"/>
 
                   </FrameLayout>
 

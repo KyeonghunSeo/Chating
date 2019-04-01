@@ -82,20 +82,35 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, v
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 
-        if(timeObject.allday || timeObject.dtStart < getCalendarTime0(currentCal)) {
-            tempCal.timeInMillis = timeObject.dtStart
+        if(timeObject.isScheduled()) {
+            v.timeLy.visibility = View.VISIBLE
             val totalDate = getDiffDate(timeObject.dtStart, timeObject.dtEnd) + 1
-            val toDateNum = getDiffDate(tempCal, currentCal)
-            if(totalDate > 1) {
-                v.timeText.visibility = View.VISIBLE
-                v.timeText.text = String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")
+            if(totalDate == 1) {
+                if(timeObject.allday) {
+                    v.timeLy.visibility = View.GONE
+                }else {
+                    if(timeObject.dtStart == timeObject.dtEnd) {
+                        v.timeText.text = AppDateFormat.time.format(Date(timeObject.dtStart))
+                    }else {
+                        v.timeText.text = "${AppDateFormat.time.format(Date(timeObject.dtStart))} ~ " +
+                                AppDateFormat.time.format(Date(timeObject.dtEnd))
+                    }
+                }
             }else {
-                v.timeText.visibility = View.GONE
+                tempCal.timeInMillis = timeObject.dtStart
+                val toDateNum = getDiffDate(tempCal, currentCal)
+                if(timeObject.allday) {
+                    v.timeText.text = "${AppDateFormat.mdDate.format(Date(timeObject.dtStart))} ~ " +
+                            AppDateFormat.mdDate.format(Date(timeObject.dtEnd)) +
+                            " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"
+                }else {
+                    v.timeText.text = "${AppDateFormat.dateTime.format(Date(timeObject.dtStart))} ~ " +
+                            AppDateFormat.dateTime.format(Date(timeObject.dtEnd)) +
+                            " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"
+                }
             }
         }else {
-            v.timeText.visibility = View.VISIBLE
-            v.timeText.text = "${AppDateFormat.time.format(Date(timeObject.dtStart))} ~ " +
-                    AppDateFormat.time.format(Date(timeObject.dtEnd))
+            v.timeLy.visibility = View.GONE
         }
 
         if(timeObject.tags.isNotEmpty()) {

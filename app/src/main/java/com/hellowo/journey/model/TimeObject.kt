@@ -217,4 +217,26 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         }
         return str.toString()
     }
+
+    fun isScheduled() = type and 0b1 == 0b1
+
+    fun setSchedule() {
+        type = type or 0b1
+    }
+
+    fun clearSchdule() {
+        type = type and 0b1.inv()
+        setDateTime(allday, dtStart, dtStart)
+    }
+
+    fun isTask() = type and 0b10 == 0b10
+
+    fun setTask() {
+        type = type or 0b10
+    }
+
+    fun clearTask() {
+        type = type and 0b10.inv()
+        dtDone = Long.MIN_VALUE
+    }
 }

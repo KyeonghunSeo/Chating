@@ -89,7 +89,7 @@
                         android:textSize="12dp"
                         android:textColor="@color/primaryText"
                         android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke"/>
+                        android:background="@drawable/normal_rect_stroke_white"/>
 
                     <TextView
                         android:id="@+id/option1Btn"
@@ -99,7 +99,7 @@
                         android:textSize="12dp"
                         android:textColor="@color/primaryText"
                         android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke"/>
+                        android:background="@drawable/normal_rect_stroke_white"/>
 
                     <TextView
                         android:id="@+id/option2Btn"
@@ -109,7 +109,7 @@
                         android:textSize="12dp"
                         android:textColor="@color/primaryText"
                         android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke"/>
+                        android:background="@drawable/normal_rect_stroke_white"/>
 
                 </LinearLayout>
 

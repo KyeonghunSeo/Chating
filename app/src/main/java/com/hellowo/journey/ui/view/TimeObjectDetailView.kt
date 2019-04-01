@@ -6,7 +6,6 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.Editable
@@ -202,54 +201,72 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     @SuppressLint("SetTextI18n")
     private fun updateDateUI() {
-        startCal.timeInMillis = timeObject.dtStart
-        endCal.timeInMillis = timeObject.dtEnd
+        if(timeObject.isScheduled()) {
+            timeLy.visibility = View.VISIBLE
+            startCal.timeInMillis = timeObject.dtStart
+            endCal.timeInMillis = timeObject.dtEnd
 
-        timeLy.setOnClickListener {
-            showDialog(StartEndPickerDialog(MainActivity.instance!!, timeObject) { sCal, eCal, allday ->
-                timeObject.setDateTime(allday, sCal, eCal)
-                updateUI()
-            }, true, true, true, false)
-        }
+            timeLy.setOnClickListener { showStartEndDialog() }
+            timeLy.setOnLongClickListener {
+                showDialog(CustomDialog(context as Activity, context.getString(R.string.shedule),
+                        context.getString(R.string.delete_shedule_sub), null) { result, _, _ ->
+                    if(result) {
+                        timeObject.clearSchdule()
+                        updateDateUI()
+                    }
+                }, true, true, true, false)
+                return@setOnLongClickListener true
+            }
 
-        val timeString = StringBuilder()
-        val durationString = StringBuilder()
-        val unitString = StringBuilder()
+            val timeString = StringBuilder()
+            val durationString = StringBuilder()
+            val unitString = StringBuilder()
 
-        if(isSameDay(startCal, endCal)) {
-            timeString.append(AppDateFormat.ymdeDate.format(startCal.time))
-            if(!timeObject.allday) {
-                if(startCal.timeInMillis == endCal.timeInMillis) {
-                    timeString.append(" ${AppDateFormat.time.format(startCal.time)}")
+            if(isSameDay(startCal, endCal)) {
+                timeString.append(AppDateFormat.ymdeDate.format(startCal.time))
+                if(!timeObject.allday) {
+                    if(startCal.timeInMillis == endCal.timeInMillis) {
+                        timeString.append(" ${AppDateFormat.time.format(startCal.time)}")
+                    }else {
+                        durationString.append((endCal.timeInMillis - startCal.timeInMillis) / MIN_MILL)
+                        unitString.append(context.getString(R.string.min))
+                        timeString.append("\n${AppDateFormat.time.format(startCal.time)} ~ ${AppDateFormat.time.format(endCal.time)}")
+                    }
+                }
+            }else {
+                durationString.append((getDiffDate(startCal, endCal) + 1))
+                unitString.append(context.getString(R.string.date_duration))
+
+                if(timeObject.allday) {
+                    timeString.append(String.format(context.getString(R.string.from_to),
+                            AppDateFormat.ymdeDate.format(startCal.time), AppDateFormat.ymdeDate.format(endCal.time)))
                 }else {
-                    durationString.append((endCal.timeInMillis - startCal.timeInMillis) / MIN_MILL)
-                    unitString.append(context.getString(R.string.min))
-                    timeString.append("\n${AppDateFormat.time.format(startCal.time)} ~ ${AppDateFormat.time.format(endCal.time)}")
+                    timeString.append(String.format(context.getString(R.string.from_to),
+                            "${AppDateFormat.ymdeDate.format(startCal.time)} ${AppDateFormat.time.format(startCal.time)}",
+                            "${AppDateFormat.ymdeDate.format(endCal.time)} ${AppDateFormat.time.format(endCal.time)}"))
                 }
             }
-        }else {
-            durationString.append((getDiffDate(startCal, endCal) + 1))
-            unitString.append(context.getString(R.string.date_duration))
 
-            if(timeObject.allday) {
-                timeString.append(String.format(context.getString(R.string.from_to),
-                        AppDateFormat.ymdeDate.format(startCal.time), AppDateFormat.ymdeDate.format(endCal.time)))
+            if(durationString.isNotEmpty()) {
+                durationLy.visibility = View.GONE
+                durationText.text = durationString.toString()
+                unitText.text = unitString.toString()
             }else {
-                timeString.append(String.format(context.getString(R.string.from_to),
-                        "${AppDateFormat.ymdeDate.format(startCal.time)} ${AppDateFormat.time.format(startCal.time)}",
-                        "${AppDateFormat.ymdeDate.format(endCal.time)} ${AppDateFormat.time.format(endCal.time)}"))
+                durationLy.visibility = View.GONE
             }
-        }
 
-        if(durationString.isNotEmpty()) {
-            durationLy.visibility = View.GONE
-            durationText.text = durationString.toString()
-            unitText.text = unitString.toString()
+            timeText.text = timeString.toString()
         }else {
-            durationLy.visibility = View.GONE
+            timeLy.visibility = View.GONE
         }
+    }
 
-        timeText.text = timeString.toString()
+    fun showStartEndDialog() {
+        showDialog(StartEndPickerDialog(context as Activity, timeObject) { sCal, eCal, allday ->
+            timeObject.setSchedule()
+            timeObject.setDateTime(allday, sCal, eCal)
+            updateUI()
+        }, true, true, true, false)
     }
 
     fun updateDdayUI() {
@@ -276,12 +293,12 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }else {
             repeatLy.visibility = View.VISIBLE
             repeatText.text = RepeatManager.makeRepeatText(timeObject)
-            repeatLy.setOnClickListener { openRepeatDialog() }
+            repeatLy.setOnClickListener { showRepeatDialog() }
         }
     }
 
-    fun openRepeatDialog() {
-        showDialog(RepeatDialog(MainActivity.instance!!, timeObject) { repeat, dtUntil ->
+    fun showRepeatDialog() {
+        showDialog(RepeatDialog(context as Activity, timeObject) { repeat, dtUntil ->
             timeObject.repeat = repeat
             timeObject.dtUntil = dtUntil
             updateRepeatUI()
@@ -293,7 +310,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             alarmLy.visibility = View.VISIBLE
             timeObject.alarms[0]?.let { alarm ->
                 alarmText.text = AlarmManager.getTimeObjectAlarmText(context, alarm)
-                alarmLy.setOnClickListener { openAlarmPicker(alarm) }
+                alarmLy.setOnClickListener { showAlarmDialog(alarm) }
             }
         }else {
             alarmLy.visibility = View.GONE
@@ -410,18 +427,18 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     fun addNewAlarm() {
         val alarm = Alarm(UUID.randomUUID().toString(), timeObject.dtStart, 0, 0)
         timeObject.alarms.add(alarm)
-        openAlarmPicker(alarm)
+        showAlarmDialog(alarm)
     }
 
-    private fun openAlarmPicker(alarm: Alarm) {
-        AlarmPickerDialog(timeObject, alarm) { result, offset ->
+    private fun showAlarmDialog(alarm: Alarm) {
+        showDialog(AlarmPickerDialog(context as Activity, timeObject, alarm) { result, offset ->
             if (result) {
                 alarm.offset = offset
                 if (offset != Long.MIN_VALUE) {
                     alarm.dtAlarm = timeObject.dtStart + offset
                 } else {
                     alarm.dtAlarm = timeObject.dtStart
-                    openTimePicker(context.getString(R.string.set_alarm), alarm.dtAlarm) {
+                    openTimePicker(alarm.dtAlarm) {
                         alarm.dtAlarm = it
                         updateAlarmUI()
                     }
@@ -430,11 +447,11 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 timeObject.alarms.remove(alarm)
             }
             updateAlarmUI()
-        }.show(MainActivity.instance?.supportFragmentManager, null)
+        }, true, true, true, false)
     }
 
-    private fun openTimePicker(title: String, time: Long, onResult: (Long) -> (Unit)) {
-        showDialog(TimePickerDialog(MainActivity.instance!!, time, onResult),
+    private fun openTimePicker(time: Long, onResult: (Long) -> (Unit)) {
+        showDialog(TimePickerDialog(context as Activity, time, onResult),
                 true, true, true, false)
     }
 
