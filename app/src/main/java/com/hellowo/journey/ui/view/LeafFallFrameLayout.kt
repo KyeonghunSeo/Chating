@@ -54,7 +54,7 @@ class LeafFallFrameLayout @JvmOverloads constructor(context: Context, attrs: Att
 
     fun start() {
         mTimer = Timer()
-        mTimer!!.schedule(AnimTimerTask(), 0, 1000)
+        mTimer!!.schedule(AnimTimerTask(), 0, 800)
     }
 
     fun stop() {

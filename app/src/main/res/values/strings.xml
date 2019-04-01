@@ -264,8 +264,9 @@
     <string name="long_click_to_show_explain">설명을 보시려면 각 항목을 길게 탭 하세요</string>
     <string name="deadline">기한</string>
     <string name="photo">사진</string>
-    <string name="webLink">웹링크</string>
+    <string name="weblink">웹사이트</string>
     <string name="shedule">스케쥴</string>
     <string name="delete_shedule_sub">스케쥴 정보를 제거합니다</string>
+    <string name="weblink_sub">웹사이트 주소를 입력하세요</string>
 
 </resources>

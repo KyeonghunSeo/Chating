@@ -338,7 +338,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                             timeObject.location = null
                             updateLocationUI()
                         }else {
-                            openPlacePicker()
+                            showPlacePicker()
                         }
                     }
                 }, true, true, true, false)
@@ -409,7 +409,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
-    fun openPlacePicker() {
+    fun showPlacePicker() {
         val builder = PlacePicker.IntentBuilder()
         MainActivity.instance?.startActivityForResult(builder.build(MainActivity.instance), RC_LOCATION)
     }
@@ -438,7 +438,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                     alarm.dtAlarm = timeObject.dtStart + offset
                 } else {
                     alarm.dtAlarm = timeObject.dtStart
-                    openTimePicker(alarm.dtAlarm) {
+                    showTimePicker(alarm.dtAlarm) {
                         alarm.dtAlarm = it
                         updateAlarmUI()
                     }
@@ -450,9 +450,20 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }, true, true, true, false)
     }
 
-    private fun openTimePicker(time: Long, onResult: (Long) -> (Unit)) {
+    private fun showTimePicker(time: Long, onResult: (Long) -> (Unit)) {
         showDialog(TimePickerDialog(context as Activity, time, onResult),
                 true, true, true, false)
+    }
+
+    fun showEditWebsiteDialog() {
+        showDialog(AddWebLinkDialog(context as Activity) { link ->
+            timeObject.links.add(link)
+
+        }, true, true, true, false)
+    }
+
+    fun showImagePicker() {
+        MainActivity.instance?.checkExternalStoragePermission(RC_IMAGE_ATTACHMENT)
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -497,10 +508,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 }catch (e: Exception){}
             }
         }
-    }
-
-    fun openImagePicker() {
-        MainActivity.instance?.checkExternalStoragePermission(RC_IMAGE_ATTACHMENT)
     }
 
     fun setKeyboardLy(isOpen: Boolean) {
