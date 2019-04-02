@@ -25,11 +25,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.hellowo.journey.*
 import com.hellowo.journey.listener.MainDragAndDropListener
-import com.hellowo.journey.manager.OsCalendarManager
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.ui.dialog.DatePickerDialog
-import com.hellowo.journey.ui.view.DayView
 import com.hellowo.journey.viewmodel.MainViewModel
 import com.theartofdev.edmodo.cropper.CropImage
 import io.realm.SyncUser
@@ -186,7 +184,7 @@ class MainActivity : BaseActivity() {
         }
 
         profileBtn.setOnClickListener {
-            if(viewModel.currentTab.value != 3) viewModel.currentTab.value = 3
+            profileView.show()
         }
 
         profileBtn.setOnLongClickListener {
@@ -253,8 +251,8 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.folderList.observe(this, Observer { list ->
-            if(list.size > 1) keepBtn.setImageResource(R.drawable.sharp_all_inbox_black_48dp)
-            else keepBtn.setImageResource(R.drawable.sharp_inbox_black_48dp)
+            if(list.size > 1) keepBtnImg.setImageResource(R.drawable.outline_all_inbox_black_48dp)
+            else keepBtnImg.setImageResource(R.drawable.outline_inbox_black_48dp)
             keepView.notifyFolderDataChanged()
         })
 
@@ -276,34 +274,20 @@ class MainActivity : BaseActivity() {
     private fun updateUI(index: Int) {
         when(index) {
             0 -> {
-                calendarLy.visibility = View.VISIBLE
                 if(keepView.isOpened()) viewModel.targetFolder.value = null
                 if(searchView.isOpened()) searchView.hide()
                 if(profileView.isOpened()) profileView.hide()
-                startDialogShowAnimation(calendarLy)
             }
             1 -> {
-                keepBtn.setColorFilter(AppTheme.primaryColor)
-                calendarLy.visibility = View.INVISIBLE
                 viewModel.setTargetFolder()
                 if(searchView.isOpened()) searchView.hide()
                 if(profileView.isOpened()) profileView.hide()
-                startDialogShowAnimation(keepView)
             }
             2 -> {
-                calendarLy.visibility = View.INVISIBLE
                 if(keepView.isOpened()) viewModel.targetFolder.value = null
                 searchView.show()
                 if(profileView.isOpened()) profileView.hide()
                 startDialogShowAnimation(searchView)
-            }
-            3 -> {
-                profileBtn.setColorFilter(AppTheme.primaryColor)
-                calendarLy.visibility = View.INVISIBLE
-                if(keepView.isOpened()) viewModel.targetFolder.value = null
-                if(searchView.isOpened()) searchView.hide()
-                profileView.show()
-                startDialogShowAnimation(profileView)
             }
         }
     }
@@ -311,7 +295,7 @@ class MainActivity : BaseActivity() {
     private fun updateUserUI(appUser: AppUser) {
         if(appUser.profileImgUrl?.isNotEmpty() == true) {
             Glide.with(this).load(appUser.profileImgUrl)
-                    .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
+                    //.apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
                     .into(profileBtn)
         }
         profileView.updateUserUI(appUser)
@@ -320,7 +304,8 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            monthText.text = AppDateFormat.ymDate.format(it.time) + " " + String.format(getString(R.string.weekNum), it.get(Calendar.WEEK_OF_YEAR))
+            monthText.text = AppDateFormat.ymDate.format(it.time)
+            // + " " + String.format(getString(R.string.weekNum), it.get(Calendar.WEEK_OF_YEAR))
         }
     }
 
@@ -386,6 +371,7 @@ class MainActivity : BaseActivity() {
         when{
             timeObjectDetailView.isOpened() -> timeObjectDetailView.confirm()
             templateControlView.isExpanded -> templateControlView.collapse()
+            profileView.isOpened() -> profileView.hide()
             viewModel.currentTab.value != 0 -> viewModel.currentTab.value = 0
             dayPagerView.isOpened() -> dayPagerView.hide()
             else -> super.onBackPressed()
@@ -400,7 +386,7 @@ class MainActivity : BaseActivity() {
                 viewModel.initRealm(SyncUser.current())
             } else finish()
         }else if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
-            data?.let { CropImage.activity(data.data).setAspectRatio(1, 1).start(this) }
+            data?.let { CropImage.activity(data.data).setAspectRatio(3, 4).start(this) }
         }else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
             if (resultCode == RESULT_OK) {

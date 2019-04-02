@@ -57,7 +57,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorPrimary"
                         android:text="2018"
-                        android:textSize="12dp" />
+                        android:textSize="14dp" />
 
                     <TextView
                         android:id="@+id/startTimeTText"
@@ -66,7 +66,7 @@
                         android:layout_marginTop="1dp"
                         android:textColor="@color/colorPrimary"
                         android:text="AM 3:00"
-                        android:textSize="20dp" />
+                        android:textSize="18dp" />
 
                 </LinearLayout>
 
@@ -106,7 +106,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorPrimary"
                         android:text="2018"
-                        android:textSize="12dp" />
+                        android:textSize="14dp" />
 
                     <TextView
                         android:id="@+id/endTimeTText"
@@ -115,7 +115,7 @@
                         android:layout_marginTop="1dp"
                         android:textColor="@color/colorPrimary"
                         android:text="AM 3:00"
-                        android:textSize="20dp" />
+                        android:textSize="18dp" />
 
                 </LinearLayout>
 
@@ -129,27 +129,40 @@
             android:layout_marginRight="5dp"
             app:colorFlag="disable"/>
 
-        <TextView
-            android:id="@+id/durationText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12dp"
-            android:layout_gravity="right"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:textColor="@color/secondaryText"
-            android:fontFamily="@font/regular"
-            android:text="@string/set_time"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <DatePicker
-            android:id="@+id/dateWheel"
+            <TextView
+                android:id="@+id/lunarText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/regular"
+                android:text="@string/lunar_display"/>
+
+            <TextView
+                android:id="@+id/durationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/regular"
+                android:text="@string/set_time"/>
+
+        </FrameLayout>
+
+        <CalendarView
+            android:id="@+id/calendarView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_gravity="center"
-            android:datePickerMode="spinner">
-        </DatePicker>
+            android:layout_height="wrap_content">
+        </CalendarView>
 
         <com.hellowo.journey.ui.view.base.Line
             android:layout_width="30dp"
@@ -157,23 +170,15 @@
             android:layout_gravity="center_horizontal"
             app:colorFlag="primary"/>
 
-        <FrameLayout
-            android:id="@+id/timeLy"
+        <TimePicker
+            android:id="@+id/timeWheel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <TimePicker
-                android:id="@+id/timeWheel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_gravity="center"
-                android:timePickerMode="spinner">
-            </TimePicker>
-
-        </FrameLayout>
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center"
+            android:timePickerMode="spinner">
+        </TimePicker>
 
         <TextView
             android:id="@+id/setTimeBtn"

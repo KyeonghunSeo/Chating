@@ -89,10 +89,10 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     private fun addNew() {
-        MainActivity.instance?.let { showDialog(TypePickerDialog(it, TimeObject.Type.EVENT) { type ->
-                collapse()
-                it.viewModel.makeNewTimeObject(type.ordinal)
-            }, true, true, true, false)}
+        MainActivity.instance?.let {
+            collapse()
+            it.viewModel.makeNewTimeObject()
+        }
     }
 
     fun expand(dtStart: Long, dtEnd: Long) {

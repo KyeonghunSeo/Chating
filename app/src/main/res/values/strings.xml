@@ -64,7 +64,7 @@
     <string name="start">시작</string>
     <string name="end">종료</string>
     <string name="weekNum">%1$s주차</string>
-    <string name="setting">설정</string>
+    <string name="setting">환경설정</string>
     <string name="add_option">다른 정보 추가</string>
     <string name="what_do_you_think">무슨 생각을 하고계신가요?</string>
     <string name="detail_info">자세한 정보</string>
@@ -264,8 +264,13 @@
     <string name="long_click_to_show_explain">설명을 보시려면 각 항목을 길게 탭 하세요</string>
     <string name="deadline">기한</string>
     <string name="photo">사진</string>
-    <string name="webLink">웹링크</string>
+    <string name="weblink">웹사이트</string>
     <string name="shedule">스케쥴</string>
     <string name="delete_shedule_sub">스케쥴 정보를 제거합니다</string>
+    <string name="weblink_sub">웹사이트 주소를 입력하세요</string>
+    <string name="motto">좌우명</string>
+    <string name="motto_sample">지혜는 생각났을때 기록하는 것이다.</string>
+    <string name="about_us">기록의계절</string>
+    <string name="search">검색하기</string>
 
 </resources>

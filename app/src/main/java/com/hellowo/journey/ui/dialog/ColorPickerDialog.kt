@@ -20,7 +20,6 @@ class ColorPickerDialog(activity: Activity, private val color: Int,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.attributes.windowAnimations = R.style.DialogAnimation
-        window.attributes.gravity = Gravity.BOTTOM
         setContentView(R.layout.dialog_color_picker)
         setLayout()
         setOnShowListener {

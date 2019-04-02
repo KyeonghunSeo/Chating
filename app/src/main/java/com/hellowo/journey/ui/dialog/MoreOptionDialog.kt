@@ -54,7 +54,7 @@ class MoreOptionDialog(activity: Activity, private val timeObject: TimeObject,
         }
 
         locationBtn.setOnClickListener {
-            timeObjectDetailView.openPlacePicker()
+            timeObjectDetailView.showPlacePicker()
             dismiss()
         }
 
@@ -74,7 +74,12 @@ class MoreOptionDialog(activity: Activity, private val timeObject: TimeObject,
         }
 
         photoBtn.setOnClickListener {
-            timeObjectDetailView.openImagePicker()
+            timeObjectDetailView.showImagePicker()
+            dismiss()
+        }
+
+        webLinkBtn.setOnClickListener {
+            timeObjectDetailView.showEditWebsiteDialog()
             dismiss()
         }
 

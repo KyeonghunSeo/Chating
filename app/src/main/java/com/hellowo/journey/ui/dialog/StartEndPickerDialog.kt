@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hellowo.journey.*
 import com.hellowo.journey.manager.CalendarManager
+import com.hellowo.journey.model.KoreanLunarCalendar
 import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.dialog_start_end_picker.*
 import java.util.*
@@ -82,10 +83,10 @@ class StartEndPickerDialog(activity: Activity, private val timeObject: TimeObjec
         }
 
         if(timeMode == 0) {
-            timeLy.visibility = View.GONE
+            timeWheel.visibility = View.GONE
             setTimeBtn.text = context.getString(R.string.set_time)
         }else {
-            timeLy.visibility = View.VISIBLE
+            timeWheel.visibility = View.VISIBLE
             setTimeBtn.text = context.getString(R.string.clear_time)
 
         }
@@ -93,7 +94,9 @@ class StartEndPickerDialog(activity: Activity, private val timeObject: TimeObjec
     }
 
     private fun setDateView(cal: Calendar) {
-        dateWheel.init(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DATE)) { view, year, month, date ->
+        calendarView.date = cal.timeInMillis
+        calendarView.firstDayOfWeek = AppStatus.startDayOfWeek
+        calendarView.setOnDateChangeListener { view, year, month, date ->
             if(startEndMode == 0) {
                 startCal.set(Calendar.YEAR, year)
                 startCal.set(Calendar.MONTH, month)
@@ -111,7 +114,6 @@ class StartEndPickerDialog(activity: Activity, private val timeObject: TimeObjec
             }
             setDateText()
         }
-        dateWheel.calendarViewShown = false
     }
 
     private fun setTimeView(cal: Calendar) {
@@ -172,6 +174,20 @@ class StartEndPickerDialog(activity: Activity, private val timeObject: TimeObjec
             endText.setTextColor(Color.WHITE)
             endTimeTText.setTextColor(AppTheme.primaryColor)
             endTimeYMDText.setTextColor(AppTheme.primaryColor)
+        }
+
+        if(AppStatus.isLunarDisplay) {
+            val lunarCalendar = KoreanLunarCalendar.getInstance()
+            if(timeMode == 0) {
+                lunarCalendar.setSolarDate(startCal.get(Calendar.YEAR),
+                        startCal.get(Calendar.MONTH) + 1, startCal.get(Calendar.DATE))
+            }else {
+                lunarCalendar.setSolarDate(endCal.get(Calendar.YEAR),
+                        endCal.get(Calendar.MONTH) + 1, endCal.get(Calendar.DATE))
+            }
+            lunarText.text = lunarCalendar.lunarSimpleFormat
+        }else {
+            lunarText.text = ""
         }
 
         durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, timeMode == 0)

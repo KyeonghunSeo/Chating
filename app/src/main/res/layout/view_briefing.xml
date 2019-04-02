@@ -7,9 +7,8 @@
 
     <FrameLayout
         android:id="@+id/todayBtn"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:layout_width="60dp"
+        android:layout_height="40dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -18,7 +17,7 @@
             android:foreground="@drawable/normal_rect_stroke"
             app:cardCornerRadius="0dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/background">
+            app:cardBackgroundColor="@color/white">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -30,11 +29,10 @@
 
                 <ImageView
                     android:id="@+id/briefingImg"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_marginRight="2dp"
-                    android:src="@drawable/sharp_bookmark_black_48dp"
-                    android:tint="@color/iconTint"/>
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/sharp_bookmark_border_black_48dp"
+                    android:tint="@color/disableText"/>
 
                 <TextView
                     android:id="@+id/todayText"
@@ -44,7 +42,8 @@
                     android:fontFamily="@font/bold"
                     android:textColor="@color/secondaryText"
                     android:textSize="10dp"
-                    android:text="Today"/>
+                    android:text="Today"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 

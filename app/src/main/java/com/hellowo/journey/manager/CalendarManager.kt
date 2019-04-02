@@ -34,7 +34,7 @@ object CalendarManager {
         backgroundColor = AppTheme.backgroundColor
         dateColor = resource.getColor(R.color.primaryText)
         sundayColor = Prefs.getInt("sundayColor", AppTheme.redColor)
-        saturdayColor = Prefs.getInt("saturdayColor", AppTheme.blueColor)
+        saturdayColor = Prefs.getInt("saturdayColor", AppTheme.primaryText)
         todayDateColor = resource.getColor(R.color.primaryText)
         selectedDateColor = resource.getColor(R.color.primaryText)
         selectedBackgroundColor = resource.getColor(R.color.grey)
