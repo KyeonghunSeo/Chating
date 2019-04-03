@@ -41,7 +41,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dragStartYPos = dpToPx(58f)
         val dateArea = dpToPx(35f)
         val weekLyBottomPadding = dpToPx(10)
-        val calendarPadding = dpToPx(10)
+        val calendarPadding = dpToPx(15)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.0f)
@@ -135,7 +135,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         scrollView.isVerticalScrollBarEnabled = false
 
         calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(calendarPadding, calendarPadding, calendarPadding, calendarPadding * 4)
+        calendarLy.setPadding(calendarPadding, calendarPadding, calendarPadding, calendarPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
 
@@ -211,7 +211,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         todayCellNum = -1
         targetCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height.toFloat() - calendarPadding * 5
+        minCalendarHeight = height.toFloat() - calendarPadding * 2
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {
@@ -292,7 +292,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         //if(SyncUser.current() != null) TimeObjectManager.setTimeObjectCalendarAdapter(this)
         setTimeObjectCalendarAdapter()
-        scrollView.post { scrollView.scrollTo(0, 0) }
         onDrawed?.invoke(monthCal)
         l("${AppDateFormat.mDate.format(targetCal.time)} 캘린더 그리기 : ${(System.currentTimeMillis() - t) / 1000f} 초")
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -15,7 +15,7 @@
     <FrameLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="58dp">
+        android:layout_height="50dp">
 
         <LinearLayout
             android:animateLayoutChanges="true"
@@ -46,19 +46,110 @@
 
         </LinearLayout>
 
+        <com.hellowo.journey.ui.view.base.Line
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            app:colorFlag="disable"/>
+
     </FrameLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="58dp">
+        android:layout_marginTop="50dp">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="25dp">
 
+            <TextView
+                android:id="@+id/aboutUsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:lineSpacingExtra="3dp"
+                android:textColor="@color/secondaryText"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:layout_marginTop="50dp"
+                android:textColor="@color/disableText"
+                android:text="@string/evaluate_text"/>
+
+            <TextView
+                android:id="@+id/evaluateBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/normal_rect_stroke_white"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:fontFamily="@font/bold"
+                android:textColor="@color/secondaryText"
+                android:text="@string/evaluation"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/disableText"
+                android:text="@string/email_text"/>
+
+            <TextView
+                android:id="@+id/emailBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/normal_rect_stroke_white"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:fontFamily="@font/bold"
+                android:textColor="@color/secondaryText"
+                android:text="@string/send_email"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/disableText"
+                android:text="@string/vote_text"/>
+
+            <TextView
+                android:id="@+id/voteBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/normal_rect_stroke_white"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:fontFamily="@font/bold"
+                android:textColor="@color/secondaryText"
+                android:text="@string/vote_to_new_feature"/>
+
+            <TextView
+                android:id="@+id/versionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:layout_marginTop="50dp"
+                android:textColor="@color/disableText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/disableText"
+                android:text="Copyright © 2019 BlueLemonade inc. All rights reserved."/>
 
         </LinearLayout>
 

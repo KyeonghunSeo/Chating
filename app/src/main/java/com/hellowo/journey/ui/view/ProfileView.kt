@@ -1,5 +1,6 @@
 package com.hellowo.journey.ui.view
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
@@ -16,6 +17,7 @@ import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.ui.activity.AboutUsActivity
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.SettingsActivity
+import com.hellowo.journey.ui.dialog.CalendarSettingsDialog
 import kotlinx.android.synthetic.main.view_profile.view.*
 
 class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -32,6 +34,12 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
         profileImage.setOnClickListener {
             MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
+        }
+
+        calendarSettingBtn.setOnClickListener {
+            hide()
+            showDialog(CalendarSettingsDialog(context as Activity),
+                    true, false, true, false)
         }
 
         searchBtn.setOnClickListener { MainActivity.getViewModel()?.currentTab?.value = 2 }

@@ -13,22 +13,21 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="58dp">
+            android:layout_height="50dp">
 
             <LinearLayout
                 android:id="@+id/topMenu"
                 android:animateLayoutChanges="true"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/monthText"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
                     android:gravity="center_vertical"
                     android:includeFontPadding="false"
                     android:background="?android:attr/selectableItemBackground"
@@ -39,22 +38,15 @@
 
             </LinearLayout>
 
-            <FrameLayout
+            <ImageView
+                android:id="@+id/profileBtn"
                 android:layout_width="50dp"
-                android:layout_height="25dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center_vertical|right"
-                android:layout_marginRight="15dp"
-                android:foreground="@drawable/primary_rect_stroke_1dp">
-
-                <ImageView
-                    android:id="@+id/profileBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:layout_gravity="center_vertical"
-                    android:foreground="?android:attr/selectableItemBackground"/>
-
-            </FrameLayout>
+                android:padding="15dp"
+                android:src="@drawable/outline_menu_black_48dp"
+                android:tint="@color/iconTint"
+                android:background="?android:attr/selectableItemBackground"/>
 
         </FrameLayout>
 
@@ -62,7 +54,8 @@
             android:id="@+id/calendarPagerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="58dp">
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp">
         </com.hellowo.journey.ui.view.CalendarPagerView>
 
         <com.hellowo.journey.ui.view.DayPagerView
@@ -71,6 +64,13 @@
             android:layout_height="wrap_content">
         </com.hellowo.journey.ui.view.DayPagerView>
 
+        <com.hellowo.journey.ui.view.base.Line
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="50dp"
+            android:layout_gravity="bottom"
+            app:colorFlag="disable"/>
+
         <com.hellowo.journey.ui.view.BriefingView
             android:id="@+id/briefingView"
             android:layout_gravity="bottom"
@@ -78,56 +78,19 @@
             android:layout_height="40dp"
             android:layout_marginLeft="70dp"
             android:layout_marginBottom="10dp"
-            android:elevation="8dp">
+            android:elevation="8dp"
+            android:visibility="gone">
         </com.hellowo.journey.ui.view.BriefingView>
 
-        <FrameLayout
+        <ImageView
             android:id="@+id/keepBtn"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_margin="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:elevation="8dp">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:foreground="@drawable/normal_rect_stroke"
-                app:cardCornerRadius="0dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/white">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:animateLayoutChanges="true"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:id="@+id/keepBtnImg"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/sharp_bookmark_border_black_48dp"
-                        android:tint="@color/disableText"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:includeFontPadding="false"
-                        android:fontFamily="@font/bold"
-                        android:textColor="@color/secondaryText"
-                        android:textSize="10dp"
-                        android:text="Today"
-                        android:visibility="gone"/>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-        </FrameLayout>
+            android:padding="15dp"
+            android:src="@drawable/outline_inbox_black_48dp"
+            android:tint="@color/iconTint"
+            android:background="?android:attr/selectableItemBackground"/>
 
     </FrameLayout>
 

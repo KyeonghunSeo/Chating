@@ -25,10 +25,8 @@ import java.util.*
 
 class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
-    companion object {
-        val startZ = dpToPx(8f)
-    }
-
+    val margin = dpToPx(50)
+    val startZ = dpToPx(8f)
     var viewMode = ViewMode.CLOSED
     var onVisibility: ((Boolean) -> Unit)? = null
 
@@ -143,7 +141,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     })
                     TransitionManager.beginDelayedTransition(this@DayPagerView, transiion)
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, dpToPx(50), 0, 0)
+                        setMargins(0, margin, 0, margin)
                     }
                 }
                 override fun onAnimationCancel(p0: Animator?) {}
@@ -193,7 +191,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             })
             TransitionManager.beginDelayedTransition(this, transiion)
             layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
-                setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
+                setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, margin)
             }
         }
     }

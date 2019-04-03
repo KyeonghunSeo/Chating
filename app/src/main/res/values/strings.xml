@@ -272,5 +272,12 @@
     <string name="motto_sample">지혜는 생각났을때 기록하는 것이다.</string>
     <string name="about_us">기록의계절</string>
     <string name="search">검색하기</string>
+    <string name="evaluation">앱 평가하기</string>
+    <string name="send_email">개발자에게 이메일 보내기</string>
+    <string name="vote_to_new_feature">새로운 기능 투표하기</string>
+    <string name="evaluate_text">개발자에게 응원과 관심, 다양한 의견은 언제나 큰 도움이 됩니다 :)</string>
+    <string name="email_text">문제가 발생했다면 이곳으로 이메일을 보내주세요.</string>
+    <string name="vote_text">\'기록의 계절\'은 사용자들과 함께 만들어가는 앱 입니다. 새로운 기능이 필요하다면 이곳에서 투표해 주세요.</string>
+    <string name="help">문의사항</string>
 
 </resources>

@@ -191,7 +191,7 @@ class MainActivity : BaseActivity() {
             //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
 
             val cal = Calendar.getInstance()
-            cal.set(2019, 2, 1)
+            cal.set(2019, 3, 1)
             val s = cal.timeInMillis
             TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s).apply {
                 title = "점심약속"
@@ -206,6 +206,22 @@ class MainActivity : BaseActivity() {
                 type = 1
             })
             TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s+DAY_MILL*3).apply {
+                title = "회사 프로젝트"
+                type = 1
+            })
+            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s+DAY_MILL*28, s+DAY_MILL*28).apply {
+                title = "점심약속"
+                type = 1
+            })
+            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s+DAY_MILL*28, s+DAY_MILL*29).apply {
+                title = "오후미팅"
+                type = 1
+            })
+            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s+DAY_MILL*28, s+DAY_MILL*30).apply {
+                title = "헬스장"
+                type = 1
+            })
+            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s+DAY_MILL*29, s+DAY_MILL*29).apply {
                 title = "회사 프로젝트"
                 type = 1
             })
@@ -251,8 +267,8 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.folderList.observe(this, Observer { list ->
-            if(list.size > 1) keepBtnImg.setImageResource(R.drawable.outline_all_inbox_black_48dp)
-            else keepBtnImg.setImageResource(R.drawable.outline_inbox_black_48dp)
+            if(list.size > 1) keepBtn.setImageResource(R.drawable.outline_all_inbox_black_48dp)
+            else keepBtn.setImageResource(R.drawable.outline_inbox_black_48dp)
             keepView.notifyFolderDataChanged()
         })
 
@@ -293,11 +309,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun updateUserUI(appUser: AppUser) {
-        if(appUser.profileImgUrl?.isNotEmpty() == true) {
-            Glide.with(this).load(appUser.profileImgUrl)
-                    //.apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
-                    .into(profileBtn)
-        }
         profileView.updateUserUI(appUser)
     }
 

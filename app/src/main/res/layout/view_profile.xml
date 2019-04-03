@@ -15,8 +15,9 @@
     <FrameLayout
         android:id="@+id/contentLy"
         android:layout_gravity="right"
-        android:layout_width="210dp"
-        android:layout_height="match_parent">
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:elevation="10dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -31,7 +32,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="200dp"
-                android:foreground="@drawable/primary_rect_stroke_1dp"
+                android:background="@drawable/normal_rect_stroke"
                 app:cardCornerRadius="0dp"
                 app:cardElevation="0dp">
 
@@ -74,7 +75,7 @@
                 android:layout_height="15dp"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/sharp_format_quote_black_48dp"
-                android:tint="@color/primaryText"/>
+                android:tint="@color/secondaryText"/>
 
             <TextView
                 android:id="@+id/mottoText"
@@ -82,16 +83,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:textColor="@color/primaryText"
-                android:textSize="15dp"
+                android:textColor="@color/secondaryText"
+                android:textSize="14dp"
                 android:text="@string/motto_sample"/>
 
             <com.hellowo.journey.ui.view.base.Line
-                android:layout_width="30dp"
-                android:layout_height="2dp"
+                android:layout_width="25dp"
+                android:layout_height="1dp"
                 android:layout_margin="30dp"
                 android:layout_gravity="center_horizontal"
-                app:colorFlag="primary"/>
+                app:colorFlag="secondary"/>
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -122,8 +123,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:gravity="center"
-                            android:textColor="@color/primaryText"
-                            android:textSize="15dp"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="14dp"
                             android:text="@string/search"/>
 
                     </LinearLayout>
@@ -147,8 +148,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:gravity="center"
-                            android:textColor="@color/primaryText"
-                            android:textSize="15dp"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="14dp"
                             android:text="@string/calendar_settings"/>
 
                     </LinearLayout>
@@ -172,8 +173,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:gravity="center"
-                            android:textColor="@color/primaryText"
-                            android:textSize="15dp"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="14dp"
                             android:text="@string/setting"/>
 
                     </LinearLayout>
@@ -197,8 +198,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:gravity="center"
-                            android:textColor="@color/primaryText"
-                            android:textSize="15dp"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="14dp"
                             android:text="@string/about_us"/>
 
                     </LinearLayout>
