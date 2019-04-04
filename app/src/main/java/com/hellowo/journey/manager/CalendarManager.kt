@@ -23,22 +23,14 @@ object CalendarManager {
     var dateColor: Int = 0
     var sundayColor: Int = 0
     var saturdayColor: Int = 0
-    var todayDateColor: Int = 0
     var selectedDateColor: Int = 0
-    var selectedBackgroundColor: Int = 0
-    var greyColor: Int = 0
-    var dateFont = AppTheme.regularFont
-    var selectFont = AppTheme.boldFont
 
     init {
         backgroundColor = AppTheme.backgroundColor
-        dateColor = resource.getColor(R.color.primaryText)
+        dateColor = AppTheme.secondaryText
         sundayColor = Prefs.getInt("sundayColor", AppTheme.redColor)
-        saturdayColor = Prefs.getInt("saturdayColor", AppTheme.primaryText)
-        todayDateColor = resource.getColor(R.color.primaryText)
-        selectedDateColor = resource.getColor(R.color.primaryText)
-        selectedBackgroundColor = resource.getColor(R.color.grey)
-        greyColor = resource.getColor(R.color.grey)
+        saturdayColor = Prefs.getInt("saturdayColor", AppTheme.secondaryText)
+        selectedDateColor = AppTheme.primaryColor
     }
 
     fun drawBasicShape(canvas: Canvas, view: TimeObjectView) {

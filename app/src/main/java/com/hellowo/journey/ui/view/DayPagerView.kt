@@ -141,7 +141,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     })
                     TransitionManager.beginDelayedTransition(this@DayPagerView, transiion)
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, margin, 0, margin)
+                        setMargins(0, margin, 0, 0)
                     }
                 }
                 override fun onAnimationCancel(p0: Animator?) {}
@@ -191,7 +191,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             })
             TransitionManager.beginDelayedTransition(this, transiion)
             layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
-                setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, margin)
+                setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
             }
         }
     }

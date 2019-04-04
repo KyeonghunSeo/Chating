@@ -157,23 +157,22 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/addBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
         android:layout_gravity="bottom|right"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="25dp"
-        app:cardElevation="2dp">
+        app:cardCornerRadius="23dp"
+        app:cardElevation="4dp">
 
         <ImageView
             android:id="@+id/templateIconImg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp"
-            android:background="@drawable/circle_stroke_1dp"
-            android:tint="@color/disableText"/>
+            android:tint="@color/iconTint"/>
 
     </androidx.cardview.widget.CardView>
 

@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -104,20 +105,21 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun refreshTodayView(todayOffset: Int) {
-        TransitionManager.beginDelayedTransition(todayBtn, makeFromTopSlideTransition())
         when {
             todayOffset != 0 -> {
-                todayText.text = context.getString(R.string.go_today)
-                todayText.setTextColor(AppTheme.secondaryText)
-                briefingImg.visibility = View.VISIBLE
+                todayBtn.setCardBackgroundColor(Color.WHITE)
+                ObjectAnimator.ofFloat(todayBtn, "cardElevation", todayBtn.cardElevation, dpToPx(2f)).start()
+                ObjectAnimator.ofFloat(todayText, "alpha", todayText.alpha, 1f).start()
                 todayBtn.setOnClickListener {
                     MainActivity.instance?.selectDate(System.currentTimeMillis())
                 }
             }
             else -> {
-                todayText.text = context.getString(R.string.today)
-                todayText.setTextColor(AppTheme.disableText)
-                briefingImg.visibility = View.VISIBLE
+                todayBtn.setCardBackgroundColor(AppTheme.backgroundColor)
+                ObjectAnimator.ofFloat(todayBtn, "cardElevation",  todayBtn.cardElevation, dpToPx(0f)).start()
+                ObjectAnimator.ofFloat(todayText, "alpha", todayText.alpha, 0f).start()
+                todayBtn.setOnClickListener(null)
+                /*
                 todayBtn.setOnClickListener { _ ->
                     MainActivity.getDayPagerView()?.let {
                         if(it.isOpened()) {
@@ -127,6 +129,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         }
                     }
                 }
+                */
             }
         }
     }

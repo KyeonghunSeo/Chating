@@ -66,14 +66,14 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
                     Prefs.putInt("saturdayColor", CalendarManager.saturdayColor)
                 }
                 CalendarManager.sundayColor == AppTheme.redColor && CalendarManager.saturdayColor == AppTheme.redColor -> {
-                    CalendarManager.saturdayColor = AppTheme.primaryText
+                    CalendarManager.saturdayColor = AppTheme.secondaryText
                     Prefs.putInt("saturdayColor", CalendarManager.saturdayColor)
                 }
-                CalendarManager.sundayColor == AppTheme.redColor && CalendarManager.saturdayColor == AppTheme.primaryText -> {
-                    CalendarManager.sundayColor = AppTheme.primaryText
+                CalendarManager.sundayColor == AppTheme.redColor && CalendarManager.saturdayColor == AppTheme.secondaryText -> {
+                    CalendarManager.sundayColor = AppTheme.secondaryText
                     Prefs.putInt("sundayColor", CalendarManager.sundayColor)
                 }
-                CalendarManager.sundayColor == AppTheme.primaryText && CalendarManager.saturdayColor == AppTheme.primaryText -> {
+                CalendarManager.sundayColor == AppTheme.secondaryText && CalendarManager.saturdayColor == AppTheme.secondaryText -> {
                     CalendarManager.sundayColor = AppTheme.redColor
                     CalendarManager.saturdayColor = AppTheme.blueColor
                     Prefs.putInt("sundayColor", CalendarManager.sundayColor)

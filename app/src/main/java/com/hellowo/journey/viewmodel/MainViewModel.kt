@@ -23,7 +23,6 @@ class MainViewModel : ViewModel() {
     val targetTemplate = MutableLiveData<Template>()
     val templateList = MutableLiveData<RealmResults<Template>>()
     val colorTagList = MutableLiveData<List<ColorTag>>()
-    val isCalendarSettingOpened = MutableLiveData<Boolean>()
     val targetFolder = MutableLiveData<Folder>()
     val folderList = MutableLiveData<RealmResults<Folder>>()
     val targetTime = MutableLiveData<Long>()

@@ -153,6 +153,10 @@ class MainActivity : BaseActivity() {
                 //templateControlView.visibility = View.INVISIBLE
             }
         }
+        calendarPagerView.onTop = { isTop, isBottom ->
+            if(isTop) topShadow.visibility = View.GONE
+            else topShadow.visibility = View.VISIBLE
+        }
     }
 
     private fun initDayView() {
@@ -175,11 +179,7 @@ class MainActivity : BaseActivity() {
         }
 
         keepBtn.setOnLongClickListener {
-            //TimeObjectManager.deleteAllTimeObject()
-            AppTheme.thinFont = AppTheme.tFont
-            AppTheme.regularFont = AppTheme.rFont
-            AppTheme.boldFont = AppTheme.bFont
-            setGlobalTheme(rootLy)
+            TimeObjectManager.deleteAllTimeObject()
             return@setOnLongClickListener false
         }
 
@@ -188,8 +188,6 @@ class MainActivity : BaseActivity() {
         }
 
         profileBtn.setOnLongClickListener {
-            //viewModel.isCalendarSettingOpened.value = viewModel.isCalendarSettingOpened.value?.not() ?: true
-
             val cal = Calendar.getInstance()
             cal.set(2019, 3, 1)
             val s = cal.timeInMillis
@@ -253,17 +251,6 @@ class MainActivity : BaseActivity() {
 
         viewModel.templateList.observe(this, Observer { list ->
             list?.let { templateControlView.notify(it) }
-        })
-
-        viewModel.isCalendarSettingOpened.observe(this, Observer { isOpend ->
-            isOpend?.let { _ ->
-                TransitionManager.beginDelayedTransition(calendarLy, makeChangeBounceTransition())
-                (calendarLy.layoutParams as FrameLayout.LayoutParams).let {
-                    if(isOpend) it.topMargin = dpToPx(150)
-                    else it.topMargin = dpToPx(0)
-                }
-                calendarLy.requestLayout()
-            }
         })
 
         viewModel.folderList.observe(this, Observer { list ->

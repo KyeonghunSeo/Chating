@@ -22,6 +22,7 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
     private val viewPager = ViewPager(context)
     private val calendarViews = List(viewCount) { CalendarView(context) }
     var onSelectedDate: ((Long, Int, Boolean, CalendarView) -> Unit)? = null
+    var onTop: ((Boolean, Boolean) -> Unit)? = null
 
     private val tempCal = Calendar.getInstance()
     private var targetCalendarView : CalendarView = calendarViews[startPosition % viewCount]
@@ -38,9 +39,9 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
                 selectedTargetCalendarView(calendarViews[position % viewCount])
-                if(selectDateTime == Long.MIN_VALUE) {
+                if(selectDateTime == Long.MIN_VALUE) { // 스와이프로 선택된 경우
                     targetCalendarView.selectDate(targetCalendarView.startCellNum)
-                }else {
+                }else { // 날짜 이동 함수로 선택된 경우
                     targetCalendarView.draw(selectDateTime)
                     targetCalendarView.selectTime(selectDateTime)
                     selectDateTime = Long.MIN_VALUE
@@ -52,11 +53,13 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
 
     private fun selectedTargetCalendarView(calendarView: CalendarView) {
         targetCalendarView.onSelectedDate = null
+        targetCalendarView.onTop = null
         targetCalendarView.unselectDate()
         targetCalendarView = calendarView
         targetCalendarView.onSelectedDate = { time, cellNum, isSameSeleted ->
             onSelectedDate?.invoke(time, cellNum, isSameSeleted, targetCalendarView)
         }
+        targetCalendarView.onTop = onTop
     }
 
     inner class CalendarPagerAdapter : PagerAdapter() {

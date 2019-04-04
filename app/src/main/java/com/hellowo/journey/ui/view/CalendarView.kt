@@ -17,6 +17,8 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.*
 import android.widget.LinearLayout.HORIZONTAL
+import androidx.core.view.ViewCompat
+import androidx.core.widget.NestedScrollView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.journey.*
 import com.hellowo.journey.adapter.TimeObjectCalendarAdapter
@@ -47,7 +49,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val lineWidth = dpToPx(0.0f)
     }
 
-    private val scrollView = ScrollView(context)
+    private val scrollView = NestedScrollView(context)
     val calendarLy = LinearLayout(context)
     val weekLys = Array(6) { _ -> FrameLayout(context)}
     private val topLine = View(context)
@@ -65,7 +67,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val contentLy: FrameLayout = container.findViewById(R.id.contentLy)
         val weekNumText: TextView = container.findViewById(R.id.weekNumText)
         init {
-            weekNumText.typeface = CalendarManager.selectFont
+            weekNumText.typeface = AppTheme.boldFont
             contentLy.visibility = View.GONE
         }
     }
@@ -80,9 +82,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val flag: ImageView = container.findViewById(R.id.flag)
         val todayFlag: ImageView = container.findViewById(R.id.todayFlag)
         init {
-            dateText.typeface = CalendarManager.dateFont
-            dowText.typeface = CalendarManager.dateFont
-            holiText.typeface = CalendarManager.dateFont
+            dateText.typeface = AppTheme.boldFont
+            dowText.typeface = AppTheme.boldFont
+            holiText.typeface = AppTheme.boldFont
             bar.scaleX = 0f
             flag.pivotY = 0f
             flag.scaleY = 0f
@@ -107,6 +109,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var calendarEndTime = Long.MAX_VALUE
     var onDrawed: ((Calendar) -> Unit)? = null
     var onSelectedDate: ((Long, Int, Boolean) -> Unit)? = null
+    var onTop: ((Boolean, Boolean) -> Unit)? = null
     var startCellNum = 0
     var endCellNum = 0
     var minCalendarHeight = 0f
@@ -117,7 +120,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var sundayPos = 0
     var saturdayPos = 6
 
-    private var autoScroll = true
+    private var selectToScrollFlag = true
 
     init {
         createViews()
@@ -133,6 +136,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun setLayout() {
         scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         scrollView.isVerticalScrollBarEnabled = false
+        scrollView.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
+            onTop?.invoke(scrollY == 0, !v.canScrollVertically(1))
+        }
 
         calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         calendarLy.setPadding(calendarPadding, calendarPadding, calendarPadding, calendarPadding)
@@ -254,7 +260,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     bar.setBackgroundColor(color)
                     flag.setColorFilter(color)
 
-                    cellHoliText[cellNum] = if(!holi.isNullOrEmpty()) holi!!
+                    cellHoliText[cellNum] = if(!holi.isNullOrEmpty()) holi
                     else if(AppStatus.isLunarDisplay
                             && (lunarCalendar.lunarDay == 1 || lunarCalendar.lunarDay == 10 || lunarCalendar.lunarDay == 20))
                         lunarCalendar.lunarSimpleFormat
@@ -296,7 +302,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         l("${AppDateFormat.mDate.format(targetCal.time)} 캘린더 그리기 : ${(System.currentTimeMillis() - t) / 1000f} 초")
     }
 
-    fun getDateTextColor(cellNum: Int, isHoli: Boolean) : Int {
+    private fun getDateTextColor(cellNum: Int, isHoli: Boolean) : Int {
         return if(isHoli || cellNum % columns == sundayPos) {
             CalendarManager.sundayColor
         }else if(cellNum % columns == saturdayPos) {
@@ -309,6 +315,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun onDateClick(cellNum: Int) {
         if(AppStatus.outsideMonthAlpha > 0f || cellNum in startCellNum..endCellNum) {
             tempCal.timeInMillis = cellTimeMills[cellNum]
+            selectToScrollFlag = weekLys[cellNum / columns].top < scrollView.scrollY
             selectDate(cellNum, selectCellNum == cellNum)
         }
     }
@@ -326,9 +333,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val holiText = dateHeaders[cellNum].holiText
         val alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
 
-        dateText.typeface = CalendarManager.dateFont
-        dowText.typeface = CalendarManager.dateFont
         dateText.alpha = alpha
+        holiText.alpha = alpha
         dowText.visibility = View.GONE
         holiText.text = cellHoliText[cellNum]
 
@@ -353,12 +359,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var selectedWeekIndex = -1
 
     fun selectTime(time: Long) {
-        autoScroll = true
+        selectToScrollFlag = true
         selectDate(((time - calendarStartTime) / DAY_MILL).toInt(), false)
     }
 
     fun selectDate(cellNum: Int) {
-        autoScroll = true
+        selectToScrollFlag = true
         selectDate(cellNum, false)
     }
 
@@ -410,9 +416,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dowText = dateHeaders[cellNum].dowText
             val holiText = dateHeaders[cellNum].holiText
 
-            dateText.typeface = CalendarManager.selectFont
-            dowText.typeface = CalendarManager.selectFont
             dateText.alpha = 1f
+            holiText.alpha = 1f
             dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
             dowText.visibility = View.VISIBLE
 
@@ -437,10 +442,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 it.start()
             }
 
-            if(autoScroll /*|| isChangeWeek*/) {
-                autoScroll = false
-                scrollView.post { scrollView.smoothScrollTo(0, weekLys[cellNum / columns].top) }
+            if(selectToScrollFlag /*|| isChangeWeek*/) {
+                selectToScrollFlag = false
+                scrollView.post { scrollView.scrollTo(0, weekLys[cellNum / columns].top - calendarPadding) }
             }
+            scrollView.post{ onTop?.invoke(scrollView.scrollY == 0, !scrollView.canScrollVertically(1)) }
+
             onViewEffect(cellNum)
         }else {
             selectCellNum = cellNum
@@ -501,16 +508,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         dateCells.forEachIndexed { index, view ->
             view.background = AppTheme.blankDrawable
         }
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        //l("onAttachedToWindow : ${AppDateFormat.ymdDate.format(monthCal.time)}")
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        //l("onDetachedFromWindow : ${AppDateFormat.ymdDate.format(monthCal.time)}")
     }
 
     private var timeObjectList: RealmResults<TimeObject>? = null
