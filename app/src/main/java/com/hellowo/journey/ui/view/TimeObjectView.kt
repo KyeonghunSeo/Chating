@@ -26,7 +26,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         var standardTextSize = 9f
         val defaulMargin = dpToPx(1.5f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
-        val sidePadding = dpToPx(2)
+        val sidePadding = dpToPx(3)
         val topPadding = dpToPx(1.8f)
         val bottomPadding = dpToPx(3.5f)
         val leftPadding = dpToPx(9)
@@ -70,7 +70,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
         typeface = AppTheme.regularFont
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
-        setPadding((leftPadding + defaulMargin).toInt(),
+        setPadding(sidePadding,
                 (topPadding + (AppStatus.calTextSize * -1.7f)).toInt() /*글씨 크기에 따른 탑 패딩 조정*/,
                 sidePadding, 0)
 
@@ -99,7 +99,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             NOTE -> {
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title?.replace(System.getProperty("line.separator"), " ")
                 else context.getString(R.string.empty_note)
-                setLineSpacing(defaulMargin, 1f)
+                //setLineSpacing(defaulMargin, 1f)
                 when(TimeObject.Style.values()[timeObject.style]){
                     RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
                         paintColor = AppTheme.getColor(timeObject.colorKey)
@@ -231,19 +231,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     }
 
     fun setLayout() {
-        var w = mRight - mLeft - defaulMargin
-        var h = mBottom - mTop - defaulMargin
-        val m = (defaulMargin / 2).toInt()
-        /*
-        if(leftOpen) {
-            w += sidePadding
-            translationX = -sidePadding.toFloat()
-        }
-        if(rightOpen) w += sidePadding
-        */
-        val lp = FrameLayout.LayoutParams(w.toInt(), h.toInt())
-        lp.setMargins(m, mTop.toInt() + m, 0, 0)
-        layoutParams = lp
+        layoutParams = FrameLayout.LayoutParams((mRight - mLeft - defaulMargin).toInt(),
+                (mBottom - mTop - defaulMargin).toInt()).apply { topMargin = mTop.toInt() }
     }
 
     fun setNotInCalendarText() {

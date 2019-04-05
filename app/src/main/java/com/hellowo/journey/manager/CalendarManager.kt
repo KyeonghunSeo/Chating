@@ -105,12 +105,16 @@ object CalendarManager {
                     paint.alpha = 25
                     canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), rectRadius, rectRadius, paint)
                     paint.alpha = 255
+                }else {
+                    canvas.drawRect(0f, sidePadding.toFloat(),
+                            strokeWidth, (blockTypeSize - sidePadding - defaulMargin), paint)
+
+                    when(TimeObject.Type.values()[view.timeObject.type]) {
+                        //TimeObject.Type.EVENT, TimeObject.Type.NOTE -> drawDot(view, paint, canvas)
+                        TimeObject.Type.TASK -> drawCheckBox(view, paint, canvas)
+                    }
                 }
             }
-        }
-        when(TimeObject.Type.values()[view.timeObject.type]) {
-            TimeObject.Type.EVENT, TimeObject.Type.NOTE -> drawDot(view, paint, canvas)
-            TimeObject.Type.TASK -> drawCheckBox(view, paint, canvas)
         }
     }
 
@@ -378,8 +382,8 @@ object CalendarManager {
     }
 
     private fun drawDot(view: TimeObjectView, paint: Paint, canvas: Canvas) {
-        val radius = dotSize / 3.5f
-        val centerX = leftPadding.toFloat() / 2f + defaulMargin
+        val radius = strokeWidth
+        val centerX = radius / 2f
         val centerY = (blockTypeSize - defaulMargin) / 2f
         canvas.drawCircle(centerX, centerY, radius, paint)
     }

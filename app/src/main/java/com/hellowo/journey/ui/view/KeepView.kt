@@ -6,6 +6,7 @@ import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
@@ -13,10 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
-import androidx.transition.Fade
-import androidx.transition.TransitionManager
-import androidx.transition.TransitionSet
+import androidx.transition.*
 import com.hellowo.journey.*
+import com.hellowo.journey.R
 import com.hellowo.journey.adapter.FolderAdapter
 import com.hellowo.journey.adapter.TimeObjectListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
@@ -54,7 +54,7 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 if(MainActivity.instance?.viewModel?.targetFolder?.value == folder) {
                     val dialog = EditFolderDialog(MainActivity.instance!!, folder!!) { result ->
                         if(result) {
-                            folderTitleText.text = folder.name
+
                         }else { // deleted
                             MainActivity.instance?.viewModel?.setTargetFolder()
                         }
@@ -84,6 +84,7 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         contentLy.setBackgroundColor(AppTheme.backgroundColor)
         contentLy.visibility = View.GONE
         contentLy.setOnClickListener {}
+        expandBtn.visibility = View.GONE
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
@@ -93,6 +94,10 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         folderListView.adapter = folderAdapter
         folderAdapter.itemTouchHelper?.attachToRecyclerView(folderListView)
 
+        expandBtn.setOnClickListener {
+            expand()
+        }
+/*
         folderTitleText.setOnClickListener {
             TransitionManager.beginDelayedTransition(recyclerView, makeChangeBounceTransition())
             if(layout == 0) {
@@ -103,12 +108,11 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 recyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
             }
             recyclerView.adapter?.notifyDataSetChanged()
-        }
+        }*/
     }
 
-    fun notifyDataChanged() {
+    private fun notifyDataChanged() {
         MainActivity.instance?.viewModel?.targetFolder?.value?.let { folder ->
-            folderTitleText.text = folder.name
             folderAdapter.notifyDataSetChanged()
             timeObjectList?.removeAllChangeListeners()
             timeObjectList = TimeObjectManager.getTimeObjectList(folder)
@@ -145,6 +149,18 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         }
     }
 
+    private fun expand() {
+        val transiion = makeChangeBounceTransition()
+        transiion.addListener(object : TransitionListenerAdapter(){
+            override fun onTransitionEnd(transition: Transition) {}
+        })
+        TransitionManager.beginDelayedTransition(contentLy, transiion)
+        (contentLy.layoutParams as FrameLayout.LayoutParams).let {
+            it.width = MATCH_PARENT
+        }
+        contentLy.requestLayout()
+    }
+
     fun show() {
         val transitionSet = TransitionSet()
         val t1 = makeFromRightSlideTransition()
@@ -157,10 +173,11 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
         backgroundLy.setBackgroundColor(AppTheme.primaryText)
-        backgroundLy.setOnClickListener { hide() }
+        backgroundLy.setOnClickListener { MainActivity.getViewModel()?.clearTargetFolder() }
         backgroundLy.isClickable = true
         backgroundLy.visibility = View.VISIBLE
         contentLy.visibility = View.VISIBLE
+        expandBtn.visibility = View.VISIBLE
         viewMode = ViewMode.OPENED
         notifyDataChanged()
     }
@@ -174,6 +191,13 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         transitionSet.duration = 300L
+        transitionSet.addListener(object : TransitionListenerAdapter(){
+            override fun onTransitionEnd(transition: Transition) {
+                super.onTransitionEnd(transition)
+                contentLy.layoutParams.width = dpToPx(250)
+                expandBtn.visibility = View.GONE
+            }
+        })
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
         backgroundLy.setOnClickListener(null)

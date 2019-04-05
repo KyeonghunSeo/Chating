@@ -130,6 +130,10 @@ class MainViewModel : ViewModel() {
         targetFolder.value = folder
     }
 
+    fun clearTargetFolder() {
+        targetFolder.value = null
+    }
+
     fun clearTargetTimeObject() {
         targetTimeObject.value = null
     }

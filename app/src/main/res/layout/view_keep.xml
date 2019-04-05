@@ -13,6 +13,16 @@
         android:alpha="0.6">
     </View>
 
+    <ImageView
+        android:id="@+id/expandBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="15dp"
+        android:layout_gravity="right"
+        android:src="@drawable/outline_open_in_new_black_48dp"
+        android:tint="@color/white"
+        android:layout_marginRight="250dp"/>
+
     <FrameLayout
         android:id="@+id/contentLy"
         android:layout_gravity="right"
@@ -23,36 +33,14 @@
         <FrameLayout
             android:id="@+id/topBar"
             android:layout_width="match_parent"
-            android:layout_height="58dp">
-
-            <LinearLayout
-                android:animateLayoutChanges="true"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp">
-
-                <TextView
-                    android:id="@+id/folderTitleText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="-0dp"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="20dp"
-                    android:text="10월"/>
-
-            </LinearLayout>
+            android:layout_height="50dp">
 
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/folderListView"
-            android:layout_gravity="bottom"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:background="@color/backgroundDark">
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -60,7 +48,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="58dp"
+            android:layout_marginTop="50dp"
             android:layout_marginBottom="40dp">
         </androidx.recyclerview.widget.RecyclerView>
 

@@ -423,7 +423,7 @@ public class KoreanLunarCalendar {
     }
 
     public String getLunarSimpleFormat() {
-        String isoStr = String.format("음력 %d.%d", lunarMonth, lunarDay);
+        String isoStr = String.format("음 %d.%d", lunarMonth, lunarDay);
         if(isIntercalation())
             isoStr += " 윤";
 

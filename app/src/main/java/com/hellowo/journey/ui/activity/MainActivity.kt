@@ -365,7 +365,7 @@ class MainActivity : BaseActivity() {
             timeObjectDetailView.isOpened() -> timeObjectDetailView.confirm()
             templateControlView.isExpanded -> templateControlView.collapse()
             profileView.isOpened() -> profileView.hide()
-            keepView.isOpened() -> keepView.hide()
+            keepView.isOpened() -> viewModel.clearTargetFolder()
             viewModel.currentTab.value != 0 -> viewModel.currentTab.value = 0
             dayPagerView.isOpened() -> dayPagerView.hide()
             else -> super.onBackPressed()

@@ -1,6 +1,7 @@
 package com.hellowo.journey.ui.view
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -13,6 +14,7 @@ import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Transition
+import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
@@ -118,34 +120,29 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             animSet.playTogether(ObjectAnimator.ofFloat(this@DayPagerView, "elevation", 0f, startZ))
             animSet.duration = 150
             animSet.interpolator = FastOutSlowInInterpolator()
-            animSet.addListener(object : Animator.AnimatorListener{
-                override fun onAnimationRepeat(p0: Animator?) {}
+            animSet.addListener(object : AnimatorListenerAdapter(){
                 override fun onAnimationEnd(p0: Animator?) {
                     val transiion = makeChangeBounceTransition()
-                    transiion.interpolator = FastOutSlowInInterpolator()
-                    transiion.duration = ANIM_DUR
-                    transiion.addListener(object : Transition.TransitionListener{
+                    transiion.addListener(object : TransitionListenerAdapter(){
                         override fun onTransitionEnd(transition: Transition) {
                             dayViews.forEach { it.setDateOpenedStyle() }
                             viewMode = ViewMode.OPENED
                             viewPager.setPagingEnabled(true)
                             onVisibility?.invoke(true)
                         }
-                        override fun onTransitionResume(transition: Transition) {}
-                        override fun onTransitionPause(transition: Transition) {}
-                        override fun onTransitionCancel(transition: Transition) {}
                         override fun onTransitionStart(transition: Transition) {
                             notifyDateChanged()
                             targetDayView.show(this@DayPagerView)
                         }
                     })
                     TransitionManager.beginDelayedTransition(this@DayPagerView, transiion)
-                    layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        setMargins(0, margin, 0, 0)
+                    (layoutParams as FrameLayout.LayoutParams).let {
+                        it.width = MATCH_PARENT
+                        it.height = MATCH_PARENT
+                        it.setMargins(0, margin, 0, 0)
                     }
+                    requestLayout()
                 }
-                override fun onAnimationCancel(p0: Animator?) {}
-                override fun onAnimationStart(p0: Animator?) {}
             })
             animSet.start()
         }
@@ -160,39 +157,34 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)
             val transiion = makeChangeBounceTransition()
-            transiion.interpolator = FastOutSlowInInterpolator()
-            transiion.duration = ANIM_DUR
-            transiion.addListener(object : Transition.TransitionListener{
+            transiion.addListener(object : TransitionListenerAdapter(){
                 override fun onTransitionEnd(transition: Transition) {
                     val animSet = AnimatorSet()
                     animSet.playTogether(ObjectAnimator.ofFloat(this@DayPagerView,
                             "elevation", startZ, 0f).setDuration(ANIM_DUR),
                             ObjectAnimator.ofFloat(this@DayPagerView, "alpha", 1f, 0.85f).setDuration(ANIM_DUR))
                     animSet.interpolator = FastOutSlowInInterpolator()
-                    animSet.addListener(object : Animator.AnimatorListener{
-                        override fun onAnimationRepeat(p0: Animator?) {}
+                    animSet.addListener(object : AnimatorListenerAdapter(){
                         override fun onAnimationEnd(p0: Animator?) {
                             viewMode = ViewMode.CLOSED
                             visibility = View.GONE
                             clear()
                         }
-                        override fun onAnimationCancel(p0: Animator?) {}
-                        override fun onAnimationStart(p0: Animator?) {}
                     })
                     animSet.start()
                 }
-                override fun onTransitionResume(transition: Transition) {}
-                override fun onTransitionPause(transition: Transition) {}
-                override fun onTransitionCancel(transition: Transition) {}
                 override fun onTransitionStart(transition: Transition) {
                     onVisibility?.invoke(false)
                     targetDayView.hide()
                 }
             })
             TransitionManager.beginDelayedTransition(this, transiion)
-            layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
-                setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
+            (layoutParams as FrameLayout.LayoutParams).let {
+                it.width = dateCell.width
+                it.height = dateCell.height
+                it.setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
             }
+            requestLayout()
         }
     }
 

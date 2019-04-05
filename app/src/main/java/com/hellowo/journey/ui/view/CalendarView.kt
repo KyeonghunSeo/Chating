@@ -84,7 +84,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         init {
             dateText.typeface = AppTheme.boldFont
             dowText.typeface = AppTheme.boldFont
-            holiText.typeface = AppTheme.boldFont
+            holiText.typeface = AppTheme.regularFont
             bar.scaleX = 0f
             flag.pivotY = 0f
             flag.scaleY = 0f

@@ -67,7 +67,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     fun show() {
         val transitionSet = TransitionSet()
-        val t1 = makeFromRightSlideTransition()
+        val t1 = makeFromLeftSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
         t1.addTarget(contentLy)
         t2.addTarget(backgroundLy)
@@ -86,7 +86,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     fun hide() {
         val transitionSet = TransitionSet()
-        val t1 = makeFromRightSlideTransition()
+        val t1 = makeFromLeftSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
         t1.addTarget(contentLy)
         t2.addTarget(backgroundLy)

@@ -11,6 +11,7 @@ import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
 import com.hellowo.journey.model.Folder
+import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.list_item_folder.view.*
@@ -20,7 +21,7 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
                     private val adapterInterface: (action: Int, folder: Folder?) -> Unit)
     : RecyclerView.Adapter<FolderAdapter.ViewHolder>() {
 
-    val itemHeight = dpToPx(40)
+    val itemHeight = dpToPx(50)
     var itemTouchHelper: ItemTouchHelper? = null
 
     init {
@@ -32,9 +33,9 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
+            setGlobalTheme(container)
             itemView.rootLy.layoutParams.height = itemHeight
             itemView.rootLy.requestLayout()
-            itemView.titleText.typeface = AppTheme.regularFont
         }
         fun onItemSelected() {}
         fun onItemClear() {}
@@ -65,7 +66,7 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
         }else {
             v.titleText.visibility = View.GONE
             v.iconImg.visibility = View.VISIBLE
-            v.iconImg.setImageResource(R.drawable.sharp_add_circle_black_48dp)
+            v.iconImg.setImageResource(R.drawable.sharp_add_black_48dp)
             v.iconImg.setColorFilter(AppTheme.disableText)
             v.rootLy.setBackgroundColor(Color.TRANSPARENT)
             v.setOnClickListener { adapterInterface.invoke(1, null) }

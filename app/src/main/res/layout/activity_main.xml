@@ -16,22 +16,31 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
 
+            <ImageView
+                android:id="@+id/profileBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center_vertical"
+                android:padding="10dp"
+                android:src="@drawable/outline_menu_black_48dp"
+                android:tint="@color/iconTint"/>
+
             <LinearLayout
                 android:id="@+id/topMenu"
                 android:animateLayoutChanges="true"
                 android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="45dp">
 
                 <TextView
                     android:id="@+id/monthText"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
                     android:gravity="center_vertical"
                     android:includeFontPadding="false"
-                    android:background="?android:attr/selectableItemBackground"
                     android:textColor="@color/secondaryText"
                     android:textSize="18dp"
                     android:fontFamily="@font/bold"
@@ -43,23 +52,11 @@
                 android:id="@+id/keepBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginRight="45dp"
-                android:layout_gravity="center_vertical|right"
-                android:padding="10dp"
-                android:src="@drawable/outline_inbox_black_48dp"
-                android:tint="@color/iconTint"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <ImageView
-                android:id="@+id/profileBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
                 android:layout_marginRight="5dp"
                 android:layout_gravity="center_vertical|right"
                 android:padding="10dp"
-                android:src="@drawable/outline_menu_black_48dp"
-                android:tint="@color/iconTint"
-                android:background="?android:attr/selectableItemBackground"/>
+                android:src="@drawable/outline_inbox_black_48dp"
+                android:tint="@color/iconTint"/>
 
         </FrameLayout>
 

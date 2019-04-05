@@ -3,6 +3,7 @@ package com.hellowo.journey
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -221,6 +222,16 @@ fun makeFromBottomSlideTransition() : Transition {
     return transition
 }
 
+@SuppressLint("RtlHardcoded")
+fun makeFromLeftSlideTransition() : Transition {
+    val transition = Slide()
+    transition.slideEdge = Gravity.LEFT
+    transition.duration = ANIM_DUR
+    transition.interpolator = FastOutSlowInInterpolator()
+    return transition
+}
+
+@SuppressLint("RtlHardcoded")
 fun makeFromRightSlideTransition() : Transition {
     val transition = Slide()
     transition.slideEdge = Gravity.RIGHT

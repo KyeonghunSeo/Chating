@@ -1,6 +1,7 @@
 package com.hellowo.journey.ui.view
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -103,17 +104,29 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun refreshTodayView(todayOffset: Int) {
         when {
             todayOffset != 0 -> {
+                todayBtn.visibility = View.VISIBLE
                 todayBtn.setCardBackgroundColor(Color.WHITE)
-                ObjectAnimator.ofFloat(todayBtn, "cardElevation", todayBtn.cardElevation, dpToPx(2f)).start()
-                ObjectAnimator.ofFloat(todayText, "alpha", todayText.alpha, 1f).start()
+                val animSet = AnimatorSet()
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "cardElevation",  todayBtn.cardElevation, dpToPx(2f)),
+                        ObjectAnimator.ofFloat(todayText, "alpha",  todayText.alpha, 1f))
+                animSet.interpolator = FastOutSlowInInterpolator()
+                animSet.start()
                 todayBtn.setOnClickListener {
                     MainActivity.instance?.selectDate(System.currentTimeMillis())
                 }
             }
             else -> {
                 todayBtn.setCardBackgroundColor(AppTheme.backgroundColor)
-                ObjectAnimator.ofFloat(todayBtn, "cardElevation",  todayBtn.cardElevation, dpToPx(0f)).start()
-                ObjectAnimator.ofFloat(todayText, "alpha", todayText.alpha, 0f).start()
+                val animSet = AnimatorSet()
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "cardElevation",  todayBtn.cardElevation, dpToPx(0f)),
+                        ObjectAnimator.ofFloat(todayText, "alpha", todayText.alpha, 0f))
+                animSet.interpolator = FastOutSlowInInterpolator()
+                animSet.addListener(object : AnimatorListenerAdapter(){
+                    override fun onAnimationEnd(p0: Animator?) {
+                        todayBtn.visibility = View.GONE
+                    }
+                })
+                animSet.start()
                 todayBtn.setOnClickListener(null)
                 /*
                 todayBtn.setOnClickListener { _ ->
