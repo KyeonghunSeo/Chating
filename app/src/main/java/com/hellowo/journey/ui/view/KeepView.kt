@@ -6,13 +6,16 @@ import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
+import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import com.hellowo.journey.*
 import com.hellowo.journey.adapter.FolderAdapter
 import com.hellowo.journey.adapter.TimeObjectListAdapter
@@ -27,8 +30,8 @@ import io.realm.RealmResults
 import kotlinx.android.synthetic.main.view_keep.view.*
 import java.util.*
 
-class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr) {
-    companion object
+class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : FrameLayout(context, attrs, defStyleAttr) {
 
     var viewMode = ViewMode.CLOSED
     private var timeObjectList: RealmResults<TimeObject>? = null
@@ -78,6 +81,10 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_keep, this, true)
+        contentLy.setBackgroundColor(AppTheme.backgroundColor)
+        contentLy.visibility = View.GONE
+        contentLy.setOnClickListener {}
+
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
@@ -97,8 +104,6 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             }
             recyclerView.adapter?.notifyDataSetChanged()
         }
-
-        setCardBackgroundColor(AppTheme.backgroundColor)
     }
 
     fun notifyDataChanged() {
@@ -141,13 +146,40 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     fun show() {
-        visibility = View.VISIBLE
+        val transitionSet = TransitionSet()
+        val t1 = makeFromRightSlideTransition()
+        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
+        t1.addTarget(contentLy)
+        t2.addTarget(backgroundLy)
+        transitionSet.addTransition(t1)
+        transitionSet.addTransition(t2)
+        transitionSet.duration = 300L
+        TransitionManager.beginDelayedTransition(this, transitionSet)
+
+        backgroundLy.setBackgroundColor(AppTheme.primaryText)
+        backgroundLy.setOnClickListener { hide() }
+        backgroundLy.isClickable = true
+        backgroundLy.visibility = View.VISIBLE
+        contentLy.visibility = View.VISIBLE
         viewMode = ViewMode.OPENED
         notifyDataChanged()
     }
 
     fun hide() {
-        visibility = View.GONE
+        val transitionSet = TransitionSet()
+        val t1 = makeFromRightSlideTransition()
+        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
+        t1.addTarget(contentLy)
+        t2.addTarget(backgroundLy)
+        transitionSet.addTransition(t1)
+        transitionSet.addTransition(t2)
+        transitionSet.duration = 300L
+        TransitionManager.beginDelayedTransition(this, transitionSet)
+
+        backgroundLy.setOnClickListener(null)
+        backgroundLy.isClickable = false
+        backgroundLy.visibility = View.GONE
+        contentLy.visibility = View.GONE
         viewMode = ViewMode.CLOSED
     }
 

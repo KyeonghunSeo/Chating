@@ -26,7 +26,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_briefing, this, true)
-        alarmSwitch.setOnCheckedChangeListener { compoundButton, check ->
+        alarmSwitch.setOnCheckedChangeListener { _, check ->
             if(check) {
                 AlarmManager.unRegistBrifingAlarm()
             }
@@ -50,9 +50,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     transiion.interpolator = FastOutSlowInInterpolator()
                     transiion.duration = 200
                     transiion.addListener(object : Transition.TransitionListener{
-                        override fun onTransitionEnd(transition: Transition) {
-                            viewMode = ViewMode.OPENED
-                        }
+                        override fun onTransitionEnd(transition: Transition) { viewMode = ViewMode.OPENED }
                         override fun onTransitionResume(transition: Transition) {}
                         override fun onTransitionPause(transition: Transition) {}
                         override fun onTransitionCancel(transition: Transition) {}
@@ -78,15 +76,13 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
         transiion.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition) {
                 val animSet = AnimatorSet()
-                animSet.playTogether(
-                        ObjectAnimator.ofFloat(this@BriefingView, "elevation", elevation, dpToPx(1f)))
+                animSet.playTogether(ObjectAnimator.ofFloat(
+                        this@BriefingView, "elevation", elevation, dpToPx(1f)))
                 animSet.duration = 200
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.addListener(object : Animator.AnimatorListener{
                     override fun onAnimationRepeat(p0: Animator?) {}
-                    override fun onAnimationEnd(p0: Animator?) {
-                        viewMode = ViewMode.CLOSED
-                    }
+                    override fun onAnimationEnd(p0: Animator?) { viewMode = ViewMode.CLOSED }
                     override fun onAnimationCancel(p0: Animator?) {}
                     override fun onAnimationStart(p0: Animator?) {}
                 })

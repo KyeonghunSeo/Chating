@@ -73,6 +73,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
+        transitionSet.duration = 300L
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
         backgroundLy.setBackgroundColor(AppTheme.primaryText)
@@ -91,6 +92,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
+        transitionSet.duration = 300L
         TransitionManager.beginDelayedTransition(this, transitionSet)
 
         backgroundLy.setOnClickListener(null)

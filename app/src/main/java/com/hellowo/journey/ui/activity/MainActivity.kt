@@ -175,7 +175,7 @@ class MainActivity : BaseActivity() {
 
     private fun initBtns() {
         keepBtn.setOnClickListener {
-            if(viewModel.currentTab.value != 1) viewModel.currentTab.value = 1
+            viewModel.setTargetFolder()
         }
 
         keepBtn.setOnLongClickListener {
@@ -281,11 +281,6 @@ class MainActivity : BaseActivity() {
                 if(searchView.isOpened()) searchView.hide()
                 if(profileView.isOpened()) profileView.hide()
             }
-            1 -> {
-                viewModel.setTargetFolder()
-                if(searchView.isOpened()) searchView.hide()
-                if(profileView.isOpened()) profileView.hide()
-            }
             2 -> {
                 if(keepView.isOpened()) viewModel.targetFolder.value = null
                 searchView.show()
@@ -370,6 +365,7 @@ class MainActivity : BaseActivity() {
             timeObjectDetailView.isOpened() -> timeObjectDetailView.confirm()
             templateControlView.isExpanded -> templateControlView.collapse()
             profileView.isOpened() -> profileView.hide()
+            keepView.isOpened() -> keepView.hide()
             viewModel.currentTab.value != 0 -> viewModel.currentTab.value = 0
             dayPagerView.isOpened() -> dayPagerView.hide()
             else -> super.onBackPressed()
