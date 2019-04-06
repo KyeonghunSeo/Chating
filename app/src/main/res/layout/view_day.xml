@@ -14,7 +14,7 @@
         <FrameLayout
             android:id="@+id/headerLy"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="60dp">
 
             <ImageView
                 android:id="@+id/headerCoverImg"
@@ -24,18 +24,48 @@
 
         </FrameLayout>
 
-        <com.hellowo.journey.ui.view.base.Line
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            app:colorFlag="disable"/>
-
-        <LinearLayout
+        <FrameLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants">
+
+            <LinearLayout
+                android:id="@+id/emptyLy"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/sharp_directions_run_black_48dp"
+                    android:tint="@color/line"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/disableText"
+                    android:textSize="16dp"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/no_records"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/disableText"
+                    android:textSize="14dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/motto_sample"/>
+
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/timeObjectListView"
@@ -43,7 +73,13 @@
                 android:layout_height="match_parent">
             </androidx.recyclerview.widget.RecyclerView>
 
-        </LinearLayout>
+            <View
+                android:id="@+id/topShadow"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@drawable/line_top_shadow"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 

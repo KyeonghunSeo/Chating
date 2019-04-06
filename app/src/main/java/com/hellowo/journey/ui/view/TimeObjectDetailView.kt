@@ -67,19 +67,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         initInput()
     }
 
-    private fun updateUI() {
-        updateHeaderUI()
-        updateTagUI()
-        updateTitleUI()
-        updateDateUI()
-        updateDdayUI()
-        updateRepeatUI()
-        updateAlarmUI()
-        updateLocationUI()
-        updateMemoUI()
-        updateStyleUI()
-    }
-
     private fun initControllBtn() {
         val timeObjectView = TimeObjectView(context, TimeObject(), 0, 0)
         timeObjectView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
@@ -166,6 +153,23 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
+    private fun updateUI() {
+        updateHeaderUI()
+        updateTagUI()
+        updateCheckBoxUI()
+        updateCheckListUI()
+        updateDeadLineUI()
+        updatePercentageUI()
+        updateTitleUI()
+        updateDateUI()
+        updateDdayUI()
+        updateRepeatUI()
+        updateAlarmUI()
+        updateLocationUI()
+        updateMemoUI()
+        updateStyleUI()
+    }
+
     private fun updateHeaderUI() {
         colorBtn.setColorFilter(timeObject.getColor())
         pinBtn.pin(timeObject.inCalendar)
@@ -194,6 +198,78 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     private fun updateTitleUI() {
         titleInput.setText(timeObject.title)
         titleInput.setSelection(timeObject.title?.length ?: 0)
+    }
+
+    fun updateCheckBoxUI() {
+        if(timeObject.isSetCheckBox()) {
+            checkBox.visibility = View.VISIBLE
+            if(timeObject.isDone()) {
+                checkBox.setImageResource(R.drawable.outline_check_box_black_48dp)
+            }else {
+                checkBox.setImageResource(R.drawable.sharp_check_box_outline_blank_black_48dp)
+            }
+            checkBox.setOnClickListener {
+                if(timeObject.isDone()) timeObject.undone()
+                else timeObject.done()
+                updateCheckBoxUI()
+            }
+            checkBox.setOnLongClickListener {
+                showDialog(CustomDialog(context as Activity, context.getString(R.string.checkbox),
+                        context.getString(R.string.delete_checkbox_sub), null) { result, _, _ ->
+                    if(result) {
+                        timeObject.clearCheckBox()
+                        updateCheckBoxUI()
+                    }
+                }, true, true, true, false)
+                return@setOnLongClickListener true
+            }
+        }else {
+            checkBox.visibility = View.GONE
+        }
+    }
+
+    fun updateCheckListUI() {
+        if(timeObject.isSetCheckList()) {
+            checkListLy.visibility = View.VISIBLE
+            checkListView.setCheckList(timeObject)
+        }else {
+            checkListLy.visibility = View.GONE
+        }
+    }
+
+    fun updateDeadLineUI() {
+        if(timeObject.isSetDeadLine()) {
+            deadlineLy.visibility = View.VISIBLE
+            deadlineText.text = timeObject.getDdayText(System.currentTimeMillis())
+            deadlineLy.setOnClickListener {
+                showDialog(CustomDialog(context as Activity, context.getString(R.string.deadline),
+                        context.getString(R.string.delete_deadline_sub), null) { result, _, _ ->
+                    if(result) {
+                        timeObject.clearDeadLine()
+                        updateDeadLineUI()
+                    }
+                }, true, true, true, false)
+            }
+        }else {
+            deadlineLy.visibility = View.GONE
+        }
+    }
+
+    fun updatePercentageUI() {
+        if(timeObject.isSetPercentage()) {
+            percentageLy.visibility = View.VISIBLE
+            percentageLy.setOnClickListener {
+                showDialog(CustomDialog(context as Activity, context.getString(R.string.percentage),
+                        context.getString(R.string.delete_percentage_sub), null) { result, _, _ ->
+                    if(result) {
+                        timeObject.clearPercentage()
+                        updatePercentageUI()
+                    }
+                }, true, true, true, false)
+            }
+        }else {
+            percentageLy.visibility = View.GONE
+        }
     }
 
     private val startCal = Calendar.getInstance()
@@ -274,7 +350,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             ddayLy.visibility = View.VISIBLE
             ddayText.text = timeObject.getDdayText(System.currentTimeMillis())
             ddayLy.setOnClickListener {
-                showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_dday),
+                showDialog(CustomDialog(context as Activity, context.getString(R.string.dday),
                         context.getString(R.string.delete_dday_sub), null) { result, _, _ ->
                     if(result) {
                         timeObject.clearDday()
@@ -361,6 +437,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     fun showMemoUI() {
         memoLy.visibility = View.VISIBLE
+        showKeyPad(memoInput)
     }
 
     private fun setData(data: TimeObject) {

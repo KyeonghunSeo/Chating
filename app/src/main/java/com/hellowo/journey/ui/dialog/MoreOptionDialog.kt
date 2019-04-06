@@ -42,7 +42,7 @@ class MoreOptionDialog(activity: Activity, private val timeObject: TimeObject,
         }else {
             ddayBtn.alpha = 1f
             ddayBtn.setOnClickListener {
-                timeObject.addDday()
+                timeObject.setDday()
                 timeObjectDetailView.updateDdayUI()
                 dismiss()
             }
@@ -66,6 +66,61 @@ class MoreOptionDialog(activity: Activity, private val timeObject: TimeObject,
         repeatBtn.setOnClickListener {
             timeObjectDetailView.showRepeatDialog()
             dismiss()
+        }
+
+        if(timeObject.isSetCheckBox()) {
+            checkboxBtn.alpha = 0.5f
+        }else {
+            checkboxBtn.alpha = 1f
+            checkboxBtn.setOnClickListener {
+                timeObject.setCheckBox()
+                timeObjectDetailView.updateCheckBoxUI()
+                dismiss()
+            }
+        }
+
+        if(timeObject.isSetCheckList()) {
+            checkListBtn.alpha = 0.5f
+        }else {
+            checkListBtn.alpha = 1f
+            checkListBtn.setOnClickListener {
+                timeObject.setCheckList()
+                timeObjectDetailView.updateCheckListUI()
+                dismiss()
+            }
+        }
+
+        if(timeObject.isSetCheckList()) {
+            checkListBtn.alpha = 0.5f
+        }else {
+            checkListBtn.alpha = 1f
+            checkListBtn.setOnClickListener {
+                timeObject.setCheckList()
+                timeObjectDetailView.updateCheckListUI()
+                dismiss()
+            }
+        }
+
+        if(timeObject.isSetDeadLine()) {
+            deadlineBtn.alpha = 0.5f
+        }else {
+            deadlineBtn.alpha = 1f
+            deadlineBtn.setOnClickListener {
+                timeObject.setDeadLine()
+                timeObjectDetailView.updateDeadLineUI()
+                dismiss()
+            }
+        }
+
+        if(timeObject.isSetPercentage()) {
+            percentageBtn.alpha = 0.5f
+        }else {
+            percentageBtn.alpha = 1f
+            percentageBtn.setOnClickListener {
+                timeObject.setPercentage()
+                timeObjectDetailView.updatePercentageUI()
+                dismiss()
+            }
         }
 
         tagBtn.setOnClickListener {

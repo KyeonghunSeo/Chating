@@ -1,14 +1,13 @@
 package com.hellowo.journey.manager
 
 import android.annotation.SuppressLint
-import com.hellowo.journey.AppDateFormat
+import android.widget.Toast
+import com.hellowo.journey.*
 import com.hellowo.journey.alarm.AlarmManager
 import com.hellowo.journey.alarm.RegistedAlarm
 import com.hellowo.journey.adapter.TimeObjectCalendarAdapter
-import com.hellowo.journey.getCalendarTime23
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.view.CalendarView
-import com.hellowo.journey.l
 import com.hellowo.journey.model.Folder
 import com.hellowo.journey.model.Tag
 import io.realm.Case
@@ -139,6 +138,7 @@ object TimeObjectManager {
             realm.insertOrUpdate(timeObject)
         }
         realm.close()
+        Toast.makeText(App.context, R.string.saved, Toast.LENGTH_SHORT).show()
     }
 
     fun done(timeObject: TimeObject) {

@@ -22,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:translationY="10dp"
-            app:cardElevation="10dp"
-            app:cardCornerRadius="5dp"
+            app:cardElevation="20dp"
+            app:cardCornerRadius="1dp"
             app:cardBackgroundColor="@color/background">
 
             <FrameLayout
@@ -73,12 +73,6 @@
 
                 </LinearLayout>
 
-                <com.hellowo.journey.ui.view.base.Line
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_gravity="bottom"
-                    app:colorFlag="disable"/>
-
             </FrameLayout>
 
             <androidx.core.widget.NestedScrollView
@@ -107,17 +101,34 @@
                         android:paddingTop="5dp"
                         android:fontFamily="@font/thin" />
 
-                    <com.txusballesteros.AutoscaleEditText
-                        android:id="@+id/titleInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="@color/line"
-                        android:textSize="28dp"
-                        android:hint="@string/write_everything"
-                        android:background="@color/transparent"
-                        app:linesLimit="0.8"
-                        app:textScale="0.6"
-                        app:animationDuration="200"/>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkBox"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:padding="5dp"
+                            android:src="@drawable/outline_check_box_black_48dp"
+                            android:background="?android:attr/selectableItemBackground"/>
+
+                        <com.txusballesteros.AutoscaleEditText
+                            android:id="@+id/titleInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:textColorHint="@color/line"
+                            android:textSize="28dp"
+                            android:hint="@string/write_everything"
+                            android:background="@color/transparent"
+                            app:linesLimit="0.8"
+                            app:textScale="0.6"
+                            app:animationDuration="200"/>
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/timeLy"
@@ -194,7 +205,7 @@
                             android:layout_height="15dp"
                             android:layout_marginTop="7dp"
                             android:tint="@color/iconTint"
-                            android:src="@drawable/sharp_hourglass_empty_black_48dp"/>
+                            android:src="@drawable/outline_event_available_black_48dp"/>
 
                         <TextView
                             android:id="@+id/ddayText"
@@ -210,7 +221,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/repeatLy"
+                        android:id="@+id/deadlineLy"
                         android:orientation="horizontal"
                         android:layout_marginTop="15dp"
                         android:layout_width="match_parent"
@@ -223,15 +234,15 @@
                             android:layout_height="15dp"
                             android:layout_marginTop="7dp"
                             android:tint="@color/iconTint"
-                            android:src="@drawable/sharp_repeat_black_48dp"/>
+                            android:src="@drawable/sharp_hourglass_empty_black_48dp"/>
 
                         <TextView
-                            android:id="@+id/repeatText"
+                            android:id="@+id/deadlineText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:layout_marginLeft="10dp"
-                            android:text="@string/repeat"
+                            android:text="@string/deadline"
                             android:textColor="@color/primaryText"
                             android:textSize="16dp"
                             android:fontFamily="@font/regular" />
@@ -239,7 +250,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/alarmLy"
+                        android:id="@+id/percentageLy"
                         android:orientation="horizontal"
                         android:layout_marginTop="15dp"
                         android:layout_width="match_parent"
@@ -252,18 +263,43 @@
                             android:layout_height="15dp"
                             android:layout_marginTop="7dp"
                             android:tint="@color/iconTint"
-                            android:src="@drawable/sharp_access_alarm_black_48dp"/>
+                            android:src="@drawable/outline_pie_chart_black_48dp"/>
 
                         <TextView
-                            android:id="@+id/alarmText"
+                            android:id="@+id/percentagetText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:layout_marginLeft="10dp"
-                            android:text="@string/alarm"
+                            android:text="@string/percentage"
                             android:textColor="@color/primaryText"
                             android:textSize="16dp"
                             android:fontFamily="@font/regular" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/checkListLy"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="30dp"
+                        android:background="?android:attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginTop="7dp"
+                            android:tint="@color/iconTint"
+                            android:src="@drawable/sharp_list_alt_black_48dp"/>
+
+                        <com.hellowo.journey.ui.view.CheckListView
+                            android:id="@+id/checkListView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"/>
 
                     </LinearLayout>
 
@@ -352,6 +388,64 @@
                             android:fontFamily="@font/regular"
                             android:background="@color/transparent"
                             android:hint="@string/enter_memo"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/repeatLy"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="30dp"
+                        android:background="?android:attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginTop="7dp"
+                            android:tint="@color/iconTint"
+                            android:src="@drawable/sharp_repeat_black_48dp"/>
+
+                        <TextView
+                            android:id="@+id/repeatText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/repeat"
+                            android:textColor="@color/primaryText"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/regular" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/alarmLy"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="30dp"
+                        android:background="?android:attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginTop="7dp"
+                            android:tint="@color/iconTint"
+                            android:src="@drawable/sharp_access_alarm_black_48dp"/>
+
+                        <TextView
+                            android:id="@+id/alarmText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/alarm"
+                            android:textColor="@color/primaryText"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/regular" />
 
                     </LinearLayout>
 

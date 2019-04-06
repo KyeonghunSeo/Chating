@@ -164,7 +164,7 @@
                         <ImageView
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:src="@drawable/sharp_hourglass_empty_black_48dp"
+                            android:src="@drawable/outline_event_available_black_48dp"
                             android:tint="@color/iconTint"/>
 
                         <TextView
@@ -208,34 +208,6 @@
                     android:clipToPadding="false"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp">
-
-                    <LinearLayout
-                        android:id="@+id/deadlineBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/outline_event_available_black_48dp"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/deadline"/>
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/checkboxBtn"
@@ -318,6 +290,34 @@
                             android:textColor="@color/primaryText"
                             android:fontFamily="@font/regular"
                             android:text="@string/percentage"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/deadlineBtn"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:background="@drawable/normal_rect_stroke_white">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/sharp_hourglass_empty_black_48dp"
+                            android:tint="@color/iconTint"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="3dp"
+                            android:textSize="13dp"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="@font/regular"
+                            android:text="@string/deadline"/>
 
                     </LinearLayout>
 

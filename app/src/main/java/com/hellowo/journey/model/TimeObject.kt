@@ -195,13 +195,21 @@ open class TimeObject(@PrimaryKey var id: String? = null,
 
     fun isDone(): Boolean = dtDone != Long.MIN_VALUE
 
+    fun done() {
+        dtDone = System.currentTimeMillis()
+    }
+
+    fun undone() {
+        dtDone = Long.MIN_VALUE
+    }
+
     fun isSetDday(): Boolean = links.any { it.type == Link.Type.DDAY.ordinal }
 
     fun clearDday() {
         links.first{ it.type == Link.Type.DDAY.ordinal }?.let { links.remove(it) }
     }
 
-    fun addDday() {
+    fun setDday() {
         if(!isSetDday()) {
             links.add(Link(type = Link.Type.DDAY.ordinal))
         }
@@ -229,14 +237,50 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         setDateTime(allday, dtStart, dtStart)
     }
 
-    fun isTask() = type and 0b10 == 0b10
+    fun isSetCheckBox() = type and 0b10 == 0b10
 
-    fun setTask() {
+    fun setCheckBox() {
         type = type or 0b10
     }
 
-    fun clearTask() {
+    fun clearCheckBox() {
         type = type and 0b10.inv()
-        dtDone = Long.MIN_VALUE
+        undone()
+    }
+
+    fun isSetCheckList(): Boolean = links.any { it.type == Link.Type.CHECKLIST.ordinal }
+
+    fun clearCheckList() {
+        links.first{ it.type == Link.Type.CHECKLIST.ordinal }?.let { links.remove(it) }
+    }
+
+    fun setCheckList() {
+        if(!isSetCheckList()) {
+            links.add(Link(type = Link.Type.CHECKLIST.ordinal))
+        }
+    }
+
+    fun isSetDeadLine(): Boolean = links.any { it.type == Link.Type.DEADLINE.ordinal }
+
+    fun clearDeadLine() {
+        links.first{ it.type == Link.Type.DEADLINE.ordinal }?.let { links.remove(it) }
+    }
+
+    fun setDeadLine() {
+        if(!isSetDeadLine()) {
+            links.add(Link(type = Link.Type.DEADLINE.ordinal))
+        }
+    }
+
+    fun isSetPercentage(): Boolean = links.any { it.type == Link.Type.PERCENTAGE.ordinal }
+
+    fun clearPercentage() {
+        links.first{ it.type == Link.Type.PERCENTAGE.ordinal }?.let { links.remove(it) }
+    }
+
+    fun setPercentage() {
+        if(!isSetPercentage()) {
+            links.add(Link(type = Link.Type.PERCENTAGE.ordinal))
+        }
     }
 }

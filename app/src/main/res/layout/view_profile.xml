@@ -69,18 +69,11 @@
 
             </androidx.cardview.widget.CardView>
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/sharp_format_quote_black_48dp"
-                android:tint="@color/secondaryText"/>
-
             <TextView
                 android:id="@+id/mottoText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
                 android:gravity="center"
                 android:textColor="@color/secondaryText"
                 android:textSize="14dp"
@@ -89,7 +82,7 @@
             <com.hellowo.journey.ui.view.base.Line
                 android:layout_width="25dp"
                 android:layout_height="1dp"
-                android:layout_margin="30dp"
+                android:layout_margin="25dp"
                 android:layout_gravity="center_horizontal"
                 app:colorFlag="secondary"/>
 
@@ -107,23 +100,23 @@
                         android:id="@+id/searchBtn"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:gravity="center">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/sharp_search_black_48dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/saerch"
                             android:tint="@color/iconTint"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="15dp"
                             android:gravity="center"
                             android:textColor="@color/secondaryText"
-                            android:textSize="14dp"
+                            android:textSize="16dp"
                             android:text="@string/search"/>
 
                     </LinearLayout>
@@ -132,23 +125,23 @@
                         android:id="@+id/calendarSettingBtn"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:gravity="center">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/outline_event_note_black_48dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/calendar"
                             android:tint="@color/iconTint"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="15dp"
                             android:gravity="center"
                             android:textColor="@color/secondaryText"
-                            android:textSize="14dp"
+                            android:textSize="16dp"
                             android:text="@string/calendar_settings"/>
 
                     </LinearLayout>
@@ -157,24 +150,49 @@
                         android:id="@+id/settingsBtn"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:gravity="center">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/sharp_tune_black_48dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/settings"
                             android:tint="@color/iconTint"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="15dp"
                             android:gravity="center"
                             android:textColor="@color/secondaryText"
-                            android:textSize="14dp"
+                            android:textSize="16dp"
                             android:text="@string/setting"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/premiumBtn"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/premium"
+                            android:tint="@color/iconTint"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:gravity="center"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="16dp"
+                            android:text="@string/premium"/>
 
                     </LinearLayout>
 
@@ -182,23 +200,23 @@
                         android:id="@+id/aboutUsBtn"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:gravity="center">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/sharp_perm_identity_black_48dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/aboutus"
                             android:tint="@color/iconTint"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="15dp"
                             android:gravity="center"
                             android:textColor="@color/secondaryText"
-                            android:textSize="14dp"
+                            android:textSize="16dp"
                             android:text="@string/about_us"/>
 
                     </LinearLayout>

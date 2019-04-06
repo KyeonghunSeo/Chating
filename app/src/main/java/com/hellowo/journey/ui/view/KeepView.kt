@@ -120,12 +120,10 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 l("==========킵뷰 데이터 변경 시작=========")
                 val t = System.currentTimeMillis()
                 if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
-                    items.clear()
-                    result.forEach { items.add(it.makeCopyObject()) }
+                    updateData(result, items)
                     adapter.notifyDataSetChanged()
                 }else if(changeSet.state == OrderedCollectionChangeSet.State.UPDATE) {
-                    newItmes.clear()
-                    result.forEach { newItmes.add(it.makeCopyObject()) }
+                    updateData(result, newItmes)
                     Thread {
                         val diffResult = DiffUtil.calculateDiff(ListDiffCallback(items, newItmes))
                         items.clear()
@@ -138,6 +136,17 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 l("걸린시간 : ${(System.currentTimeMillis() - t) / 1000f} 초")
                 l("==========킵뷰 데이터 변경 종료=========")
             }
+        }
+    }
+
+    private fun updateData(data: RealmResults<TimeObject>, list: ArrayList<TimeObject>) {
+        list.clear()
+        data.forEach { list.add(it.makeCopyObject()) }
+
+        if(list.isNotEmpty()) {
+            emptyLy.visibility = View.GONE
+        }else {
+            emptyLy.visibility = View.VISIBLE
         }
     }
 

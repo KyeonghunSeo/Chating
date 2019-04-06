@@ -105,10 +105,8 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
         when {
             todayOffset != 0 -> {
                 todayBtn.visibility = View.VISIBLE
-                todayBtn.setCardBackgroundColor(Color.WHITE)
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "cardElevation",  todayBtn.cardElevation, dpToPx(2f)),
-                        ObjectAnimator.ofFloat(todayText, "alpha",  todayText.alpha, 1f))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "alpha",  todayBtn.alpha, 1f))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener {
@@ -116,10 +114,8 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
             }
             else -> {
-                todayBtn.setCardBackgroundColor(AppTheme.backgroundColor)
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "cardElevation",  todayBtn.cardElevation, dpToPx(0f)),
-                        ObjectAnimator.ofFloat(todayText, "alpha", todayText.alpha, 0f))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "alpha", todayBtn.alpha, 0f))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.addListener(object : AnimatorListenerAdapter(){
                     override fun onAnimationEnd(p0: Animator?) {

@@ -156,7 +156,7 @@
     <string name="plan">계획</string>
     <string name="drawing">손글씨</string>
     <string name="term">기간</string>
-    <string name="calendar_settings">달력 설정</string>
+    <string name="calendar_settings">달력설정</string>
     <string name="selected">선택됨</string>
     <string name="add_direct">바로저장</string>
     <string name="make_new">새로 만들기</string>
@@ -247,8 +247,7 @@
     <string name="from_to">%1$s 부터\n%2$s 까지</string>
     <string name="hour">시간</string>
     <string name="min">분</string>
-    <string name="delete_dday">디데이 삭제</string>
-    <string name="delete_dday_sub">더 이상 디데이를 계산하지 않습니다</string>
+    <string name="delete_dday_sub">디데이를 삭제할까요?</string>
     <string name="clear_time">시간설정 해제</string>
     <string name="one_day">하루</string>
     <string name="duration_day">총 %1$s일</string>
@@ -260,7 +259,7 @@
     <string name="tasking">할 일 만들기</string>
     <string name="checkbox">체크박스</string>
     <string name="checklist">체크리스트</string>
-    <string name="percentage">달성도</string>
+    <string name="percentage">성취도</string>
     <string name="long_click_to_show_explain">설명을 보시려면 각 항목을 길게 탭 하세요</string>
     <string name="deadline">기한</string>
     <string name="photo">사진</string>
@@ -269,7 +268,7 @@
     <string name="delete_shedule_sub">스케쥴 정보를 제거합니다</string>
     <string name="weblink_sub">웹사이트 주소를 입력하세요</string>
     <string name="motto">좌우명</string>
-    <string name="motto_sample">지혜는 생각났을때 기록하는 것이다.</string>
+    <string name="motto_sample">지혜는 생각났을때\n기록하는 것이다</string>
     <string name="about_us">기록의계절</string>
     <string name="search">검색하기</string>
     <string name="evaluation">앱 평가하기</string>
@@ -279,5 +278,11 @@
     <string name="email_text">문제가 발생했다면 이곳으로 이메일을 보내주세요.</string>
     <string name="vote_text">\'기록의 계절\'은 사용자들과 함께 만들어가는 앱 입니다. 새로운 기능이 필요하다면 이곳에서 투표해 주세요.</string>
     <string name="help">문의사항</string>
+    <string name="no_records">이 날의 기록이 없습니다</string>
+    <string name="no_records_in_this_folder">이 서랍안에 기록이 없습니다</string>
+    <string name="delete_checkbox_sub">체크박스를 제거 할까요?</string>
+    <string name="delete_deadline_sub">기한을 해제 할까요?</string>
+    <string name="delete_percentage_sub">성취도를 삭제할까요?</string>
+    <string name="premium">프리미엄</string>
 
 </resources>

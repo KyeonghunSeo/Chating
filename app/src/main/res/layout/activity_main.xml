@@ -22,13 +22,12 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"
-                android:padding="10dp"
-                android:src="@drawable/outline_menu_black_48dp"
+                android:padding="12dp"
+                android:src="@drawable/menu"
                 android:tint="@color/iconTint"/>
 
             <LinearLayout
                 android:id="@+id/topMenu"
-                android:animateLayoutChanges="true"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -55,7 +54,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_gravity="center_vertical|right"
                 android:padding="10dp"
-                android:src="@drawable/outline_inbox_black_48dp"
+                android:src="@drawable/inbox"
                 android:tint="@color/iconTint"/>
 
         </FrameLayout>
@@ -88,6 +87,12 @@
             android:elevation="10dp"
             android:layout_gravity="bottom|center_horizontal">
         </com.hellowo.journey.ui.view.BriefingView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bottom_shadow_background"/>
 
     </FrameLayout>
 

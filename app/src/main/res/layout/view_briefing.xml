@@ -14,8 +14,8 @@
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            app:cardBackgroundColor="@color/background"
-            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="2dp"
             app:cardCornerRadius="15dp">
 
             <TextView
@@ -25,7 +25,6 @@
                 android:textSize="12dp"
                 android:textColor="@color/secondaryText"
                 android:text="@string/today"
-                android:alpha="0"
                 android:layout_gravity="center"/>
 
         </androidx.cardview.widget.CardView>

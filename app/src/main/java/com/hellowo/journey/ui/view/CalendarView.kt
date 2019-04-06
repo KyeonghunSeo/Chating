@@ -17,7 +17,6 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.*
 import android.widget.LinearLayout.HORIZONTAL
-import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.journey.*
@@ -141,7 +140,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(calendarPadding, calendarPadding, calendarPadding, calendarPadding)
+        calendarLy.setPadding(calendarPadding, weekLyBottomPadding, calendarPadding, weekLyBottomPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
 
@@ -217,7 +216,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         todayCellNum = -1
         targetCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height.toFloat() - calendarPadding * 2
+        minCalendarHeight = height.toFloat() - weekLyBottomPadding * 2
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {
@@ -242,7 +241,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                             tempCal.get(Calendar.MONTH) + 1,
                             tempCal.get(Calendar.DATE))
 
-                    val holi = HolidayManager.getHoliday(
+                    val holiday = HolidayManager.getHoliday(
                             String.format("%02d%02d", tempCal.get(Calendar.MONTH) + 1, tempCal.get(Calendar.DATE)),
                             lunarCalendar.lunarKey)
                     val holiText = dateHeaders[cellNum].holiText
@@ -250,7 +249,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val dowText = dateHeaders[cellNum].dowText
                     val bar = dateHeaders[cellNum].bar
                     val flag = dateHeaders[cellNum].flag
-                    val color = getDateTextColor(cellNum, !holi.isNullOrEmpty())
+                    val color = getDateTextColor(cellNum, holiday?.isHoli == true)
                     val alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
                     dateText.text = String.format("%02d", tempCal.get(Calendar.DATE))
                     dateText.alpha = alpha
@@ -260,11 +259,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     bar.setBackgroundColor(color)
                     flag.setColorFilter(color)
 
-                    cellHoliText[cellNum] = if(!holi.isNullOrEmpty()) holi
-                    else if(AppStatus.isLunarDisplay
+                    cellHoliText[cellNum] = holiday?.title ?: if(AppStatus.isLunarDisplay
                             && (lunarCalendar.lunarDay == 1 || lunarCalendar.lunarDay == 10 || lunarCalendar.lunarDay == 20))
-                        lunarCalendar.lunarSimpleFormat
-                    else ""
+                        lunarCalendar.lunarSimpleFormat else ""
+
                     holiText.text = cellHoliText[cellNum]
                     holiText.alpha = alpha
 

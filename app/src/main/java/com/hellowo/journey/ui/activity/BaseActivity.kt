@@ -23,7 +23,6 @@ open class BaseActivity : AppCompatActivity() {
         rootLy.setBackgroundColor(AppTheme.backgroundColor)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             var flags = window.peekDecorView().systemUiVisibility
-            flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             }

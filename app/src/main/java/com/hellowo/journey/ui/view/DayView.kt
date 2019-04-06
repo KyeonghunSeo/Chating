@@ -42,12 +42,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     : CardView(context, attrs, defStyleAttr) {
     companion object {
         const val headerTextScale = 4f
-        val datePosX = dpToPx(9f)
-        val datePosY = -dpToPx(13f)
-        val dowPosX = -dpToPx(2f)
+        val datePosX = dpToPx(10f)
+        val datePosY = -dpToPx(20f)
+        val dowPosX = -dpToPx(0f)
         val dowPosY = dpToPx(3f)
-        val holiPosX = dpToPx(14.2f)
-        val holiPosY = -dpToPx(7.5f)
+        val holiPosX = dpToPx(15.3f)
+        val holiPosY = -dpToPx(7.7f)
         val startZ = dpToPx(8f)
         val endZ = dpToPx(0f)
         val subScale = 0.4f
@@ -60,13 +60,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val eventAdapter = TimeObjectListAdapter(context, currentList, targetCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
-            1 -> {
-                if(!timeObject.isDone() && currentList.filter { !it.isDone() }.size == 1) {
-                }else {
-                }
-                vibrate(context)
-                TimeObjectManager.done(timeObject)
-            }
         }
     }
 
@@ -96,12 +89,19 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         bar.visibility = View.GONE
         todayBar.visibility = View.GONE
         todayFlag.visibility = View.GONE
+        topShadow.visibility = View.GONE
         setDateClosedStyle()
     }
 
     private fun initRecyclerView() {
         timeObjectListView.layoutManager = LinearLayoutManager(context)
         timeObjectListView.adapter = eventAdapter
+        timeObjectListView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if(timeObjectListView.computeVerticalScrollOffset() > 0) topShadow.visibility = View.VISIBLE
+                else topShadow.visibility = View.GONE
+            }
+        })
         eventAdapter.itemTouchHelper?.attachToRecyclerView(timeObjectListView)
     }
 
@@ -144,9 +144,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         list.sortWith(TimeObjectListComparator())
 
         if(list.isNotEmpty()) {
-
+            emptyLy.visibility = View.GONE
         }else {
-
+            emptyLy.visibility = View.VISIBLE
         }
     }
 
@@ -216,11 +216,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 targetCal.get(Calendar.MONTH) + 1,
                 targetCal.get(Calendar.DATE))
 
-        val holi = HolidayManager.getHoliday(
+        val holiday = HolidayManager.getHoliday(
                 String.format("%02d%02d", targetCal.get(Calendar.MONTH) + 1, targetCal.get(Calendar.DATE)),
                 lunarCalendar.lunarKey)
 
-        val color = if(!holi.isNullOrEmpty() || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
+        val color = if(holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
             CalendarManager.sundayColor
         }else if(targetCal.get(Calendar.DAY_OF_WEEK) == SATURDAY) {
             CalendarManager.saturdayColor
@@ -232,12 +232,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.setTextColor(color)
         flag.setColorFilter(color)
 
-        if(!holi.isNullOrEmpty()) {
-            holiText.text = holi
-        }else if(AppStatus.isLunarDisplay) {
-            holiText.text = lunarCalendar.lunarSimpleFormat
-        }else {
-            holiText.text = ""
+        when {
+            holiday != null -> holiText.text = holiday.title
+            AppStatus.isLunarDisplay -> holiText.text = lunarCalendar.lunarSimpleFormat
+            else -> holiText.text = ""
         }
 
         if(isSameDay(CalendarView.todayCal, targetCal)) {
@@ -257,8 +255,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "scaleY", 1f, subScale),
                 ObjectAnimator.ofFloat(holiText, "scaleX", 1f, subScale),
                 ObjectAnimator.ofFloat(holiText, "scaleY", 1f, subScale),
-                ObjectAnimator.ofFloat(flag, "scaleX", 1f, subScale),
-                ObjectAnimator.ofFloat(flag, "scaleY", 1f, subScale),
                 ObjectAnimator.ofFloat(dateLy, "translationX", 0f, datePosX),
                 ObjectAnimator.ofFloat(dateLy, "translationY", 0f, datePosY),
                 ObjectAnimator.ofFloat(dowText, "translationX", 0f, dowPosX),
@@ -280,8 +276,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "scaleY", subScale, 1f),
                 ObjectAnimator.ofFloat(holiText, "scaleX", subScale, 1f),
                 ObjectAnimator.ofFloat(holiText, "scaleY", subScale, 1f),
-                ObjectAnimator.ofFloat(flag, "scaleX", subScale, 1f),
-                ObjectAnimator.ofFloat(flag, "scaleY", subScale, 1f),
                 ObjectAnimator.ofFloat(dateLy, "translationX", datePosX, 0f),
                 ObjectAnimator.ofFloat(dateLy, "translationY", datePosY, 0f),
                 ObjectAnimator.ofFloat(dowText, "translationX", dowPosX, 0f),
@@ -301,8 +295,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.scaleX = subScale
         holiText.scaleY = subScale
         holiText.scaleX = subScale
-        flag.scaleY = subScale
-        flag.scaleX = subScale
         dateLy.translationX = datePosX
         dateLy.translationY = datePosY
         dowText.translationX = dowPosX
@@ -319,8 +311,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.scaleX = 1f
         holiText.scaleY = 1f
         holiText.scaleX = 1f
-        flag.scaleY = 1f
-        flag.scaleX = 1f
         dateLy.translationX = 0f
         dateLy.translationY = 0f
         dowText.translationX = 0f

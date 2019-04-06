@@ -62,7 +62,10 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, v
         val v = holder.itemView
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
-        v.iconArea.setOnClickListener { adapterInterface.invoke(it, timeObject, 1) }
+        v.iconArea.setOnClickListener {
+            vibrate(context)
+            TimeObjectManager.done(timeObject)
+        }
         v.setOnLongClickListener {
             itemTouchHelper?.startDrag(holder)
             return@setOnLongClickListener false

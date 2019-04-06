@@ -108,7 +108,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initLayout() {
-        topMenu.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         monthText.setOnClickListener { _ ->
             showDialog(DatePickerDialog(this, viewModel.targetTime.value!!) {
                 selectDate(it)
@@ -254,8 +253,8 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.folderList.observe(this, Observer { list ->
-            if(list.size > 1) keepBtn.setImageResource(R.drawable.outline_all_inbox_black_48dp)
-            else keepBtn.setImageResource(R.drawable.outline_inbox_black_48dp)
+            if(list.size > 1) keepBtn.setImageResource(R.drawable.inbox)
+            else keepBtn.setImageResource(R.drawable.inbox)
             keepView.notifyFolderDataChanged()
         })
 
