@@ -19,7 +19,7 @@
         android:layout_height="50dp"
         android:padding="15dp"
         android:layout_gravity="right"
-        android:src="@drawable/outline_open_in_new_black_48dp"
+        android:src="@drawable/expand"
         android:tint="@color/white"
         android:layout_marginRight="250dp"/>
 

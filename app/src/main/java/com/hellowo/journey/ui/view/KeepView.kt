@@ -175,6 +175,7 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         val t1 = makeFromRightSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
         t1.addTarget(contentLy)
+        t1.addTarget(expandBtn)
         t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
@@ -196,6 +197,7 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         val t1 = makeFromRightSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
         t1.addTarget(contentLy)
+        t1.addTarget(expandBtn)
         t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
