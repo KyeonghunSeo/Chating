@@ -11,10 +11,7 @@ import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
@@ -62,6 +59,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     init {
         LayoutInflater.from(context).inflate(R.layout.view_timeobject_detail, this, true)
         contentPanel.visibility = View.INVISIBLE
+        contentPanel.setBackgroundColor(AppTheme.backgroundColor)
         contentPanel.setOnClickListener {}
         initControllBtn()
         initInput()
@@ -591,6 +589,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         if(isOpen) {
             textEditorLy.visibility = View.GONE
         }else {
+
             textEditorLy.visibility = View.GONE
         }
     }

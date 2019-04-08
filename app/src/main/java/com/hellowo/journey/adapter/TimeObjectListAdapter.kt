@@ -273,7 +273,7 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, v
         override fun isItemViewSwipeEnabled(): Boolean = true
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-            val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END
+            val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
             val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
             return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, swipeFlags)
         }
@@ -289,11 +289,7 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, v
 
         override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                                  dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
-            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                viewHolder.itemView.frontLy.translationX = dX
-            } else {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-            }
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         }
 
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {

@@ -35,8 +35,6 @@ object AppDateFormat {
     @SuppressLint("ConstantLocale")
     val language = Locale.getDefault().language
 
-    var statusBarHeight = 0
-
     fun init(context: Context) {
         //////////////////////////////////////////////////////////////////////////날짜 포맷
 

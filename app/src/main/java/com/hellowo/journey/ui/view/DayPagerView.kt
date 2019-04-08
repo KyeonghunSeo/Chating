@@ -27,7 +27,7 @@ import java.util.*
 
 class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
-    val margin = dpToPx(50)
+    val margin = dpToPx(40)
     val startZ = dpToPx(8f)
     var viewMode = ViewMode.CLOSED
     var onVisibility: ((Boolean) -> Unit)? = null
@@ -113,7 +113,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)
             layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
-                setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
+                setMargins(location[0], location[1] - AppStatus.statusBarHeight, 0, 0)
             }
 
             val animSet = AnimatorSet()
@@ -182,7 +182,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             (layoutParams as FrameLayout.LayoutParams).let {
                 it.width = dateCell.width
                 it.height = dateCell.height
-                it.setMargins(location[0], location[1] - AppDateFormat.statusBarHeight, 0, 0)
+                it.setMargins(location[0], location[1] - AppStatus.statusBarHeight, 0, 0)
             }
             requestLayout()
         }

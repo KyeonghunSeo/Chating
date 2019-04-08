@@ -5,6 +5,8 @@ import com.pixplicity.easyprefs.library.Prefs
 import java.util.*
 
 object AppStatus {
+    var statusBarHeight = 0
+
     var startDayOfWeek = Calendar.SUNDAY
     var holidayDisplay = 0
     var isLunarDisplay = true

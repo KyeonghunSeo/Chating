@@ -5,9 +5,11 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.TextView
 import com.hellowo.journey.R
+import com.hellowo.journey.hideKeyPad
 import com.hellowo.journey.setGlobalTheme
 import kotlinx.android.synthetic.main.dialog_custom.*
 
@@ -62,16 +64,19 @@ class CustomDialog(activity: Activity, private val title: String, private val su
         }
 
         confirmBtn.setOnClickListener {
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
             onResult.invoke(true, 0, input.text.toString())
             dismiss()
         }
 
         cancelBtn.setOnClickListener {
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
             onResult.invoke(false, 0, null)
             dismiss()
         }
 
         setOnCancelListener {
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
             onResult.invoke(false, 0, null)
             dismiss()
         }
@@ -83,7 +88,9 @@ class CustomDialog(activity: Activity, private val title: String, private val su
         input.setText(text)
         input.setSelection(text.length)
         input.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == IME_ACTION_DONE) { confirmBtn.callOnClick() }
+            if (actionId == IME_ACTION_DONE) {
+                confirmBtn.callOnClick()
+            }
             return@setOnEditorActionListener false
         }
     }

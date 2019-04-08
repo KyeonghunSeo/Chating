@@ -284,5 +284,9 @@
     <string name="delete_deadline_sub">기한을 해제 할까요?</string>
     <string name="delete_percentage_sub">성취도를 삭제할까요?</string>
     <string name="premium">프리미엄</string>
+    <string name="add_checklist">체크리스트 추가</string>
+    <string name="edit_item">아이템 편집</string>
+    <string name="edit_title">아이템 이름</string>
+    <string name="delete_item">아이템 삭제</string>
 
 </resources>

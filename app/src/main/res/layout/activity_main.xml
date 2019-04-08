@@ -40,7 +40,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:includeFontPadding="false"
-                    android:textColor="@color/secondaryText"
+                    android:textColor="@color/primaryText"
                     android:textSize="18dp"
                     android:fontFamily="@font/bold"
                     android:text="10월"/>

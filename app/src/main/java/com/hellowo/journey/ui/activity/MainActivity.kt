@@ -128,7 +128,7 @@ class MainActivity : BaseActivity() {
         callAfterViewDrawed(rootLy, Runnable{
             val location = IntArray(2)
             rootLy.getLocationInWindow(location)
-            AppDateFormat.statusBarHeight = location[1]
+            AppStatus.statusBarHeight = location[1]
         })
     }
 
