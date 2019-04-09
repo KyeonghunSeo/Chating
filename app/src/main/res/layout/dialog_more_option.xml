@@ -152,6 +152,34 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/lunarRepeatBtn"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="85dp"
+                        android:minWidth="70dp"
+                        android:layout_margin="10dp"
+                        android:gravity="center_horizontal"
+                        android:background="@drawable/normal_rect_stroke_white">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/lunar"
+                            android:tint="@color/iconTint"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:textSize="13dp"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="@font/regular"
+                            android:text="@string/lunar_repeat"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/ddayBtn"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"

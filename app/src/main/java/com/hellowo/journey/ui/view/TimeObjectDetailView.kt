@@ -362,12 +362,18 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun updateRepeatUI() {
-        if(timeObject.repeat.isNullOrEmpty()) {
-            repeatLy.visibility = View.GONE
-        }else {
+        if(timeObject.isRepeat()) {
             repeatLy.visibility = View.VISIBLE
             repeatText.text = RepeatManager.makeRepeatText(timeObject)
-            repeatLy.setOnClickListener { showRepeatDialog() }
+            if(timeObject.isLunarRepeat()) {
+                repeatIcon.setImageResource(R.drawable.lunar)
+                repeatLy.setOnClickListener { showLunarRepeatDialog() }
+            }else {
+                repeatIcon.setImageResource(R.drawable.sharp_repeat_black_48dp)
+                repeatLy.setOnClickListener { showRepeatDialog() }
+            }
+        }else {
+            repeatLy.visibility = View.GONE
         }
     }
 
@@ -375,6 +381,15 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         showDialog(RepeatDialog(context as Activity, timeObject) { repeat, dtUntil ->
             timeObject.repeat = repeat
             timeObject.dtUntil = dtUntil
+            updateRepeatUI()
+        }, true, true, true, false)
+    }
+
+    fun showLunarRepeatDialog() {
+        showDialog(LunarRepeatDialog(context as Activity, timeObject) { repeat, dtStart ->
+            timeObject.setDate(dtStart)
+            timeObject.repeat = repeat
+            timeObject.dtUntil = Long.MIN_VALUE
             updateRepeatUI()
         }, true, true, true, false)
     }

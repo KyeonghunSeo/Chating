@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.hellowo.journey.R
+import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.startDialogShowAnimation
 import kotlinx.android.synthetic.main.dialog_time_picker.*
 import java.util.*
@@ -28,6 +29,7 @@ class TimePickerDialog(activity: Activity, time: Long,
     }
 
     private fun setLayout() {
+        setGlobalTheme(rootLy)
         rootLy.layoutParams.width = WRAP_CONTENT
         rootLy.requestLayout()
 

@@ -43,10 +43,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     companion object {
         const val headerTextScale = 4f
         val datePosX = dpToPx(10f)
-        val datePosY = -dpToPx(13f)
+        val datePosY = -dpToPx(10f)
         val dowPosX = -dpToPx(0f)
-        val dowPosY = dpToPx(3f)
-        val holiPosX = dpToPx(15.3f)
+        val dowPosY = dpToPx(3.1f)
+        val holiPosX = dpToPx(15.4f)
         val holiPosY = -dpToPx(7.8f)
         val startZ = dpToPx(8f)
         val endZ = dpToPx(0f)
@@ -76,7 +76,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         elevation = 0f
         radius = 0f
         dateText.typeface = AppTheme.boldFont
-        dowText.typeface = AppTheme.boldFont
+        dowText.typeface = AppTheme.regularFont
         holiText.typeface = AppTheme.regularFont
         dateLy.clipChildren = false
         dateLy.pivotX = 0f
@@ -249,8 +249,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(dayPagerView, "elevation", startZ, endZ),
                 ObjectAnimator.ofFloat(dayPagerView, "alpha", 0.85f, 1f),
-                ObjectAnimator.ofFloat(dateLy, "scaleX", CalendarView.selectedDateScale, headerTextScale),
-                ObjectAnimator.ofFloat(dateLy, "scaleY", CalendarView.selectedDateScale, headerTextScale),
+                ObjectAnimator.ofFloat(dateLy, "scaleX", 1f, headerTextScale),
+                ObjectAnimator.ofFloat(dateLy, "scaleY", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dowText, "scaleX", 1f, subScale),
                 ObjectAnimator.ofFloat(dowText, "scaleY", 1f, subScale),
                 ObjectAnimator.ofFloat(holiText, "scaleX", 1f, subScale),
@@ -270,8 +270,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
         animSet.playTogether(
-                ObjectAnimator.ofFloat(dateLy, "scaleX", headerTextScale, CalendarView.selectedDateScale),
-                ObjectAnimator.ofFloat(dateLy, "scaleY", headerTextScale, CalendarView.selectedDateScale),
+                ObjectAnimator.ofFloat(dateLy, "scaleX", headerTextScale, 1f),
+                ObjectAnimator.ofFloat(dateLy, "scaleY", headerTextScale, 1f),
                 ObjectAnimator.ofFloat(dowText, "scaleX", subScale, 1f),
                 ObjectAnimator.ofFloat(dowText, "scaleY", subScale, 1f),
                 ObjectAnimator.ofFloat(holiText, "scaleX", subScale, 1f),
@@ -305,8 +305,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun setDateClosedStyle() {
         contentLy.visibility = View.GONE
-        dateLy.scaleY = CalendarView.selectedDateScale
-        dateLy.scaleX = CalendarView.selectedDateScale
+        dateLy.scaleY = 1f
+        dateLy.scaleX = 1f
         dowText.scaleY = 1f
         dowText.scaleX = 1f
         holiText.scaleY = 1f

@@ -393,6 +393,7 @@
                     android:background="?android:attr/selectableItemBackground">
 
                     <ImageView
+                        android:id="@+id/repeatIcon"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_marginTop="7dp"

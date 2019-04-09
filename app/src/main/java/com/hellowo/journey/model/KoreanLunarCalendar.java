@@ -24,10 +24,15 @@
 
 package com.hellowo.journey.model;
 
+import android.annotation.SuppressLint;
+
+import com.hellowo.journey.App;
+import com.hellowo.journey.AppConstKt;
+
 public class KoreanLunarCalendar {
 
     private static KoreanLunarCalendar mCalendar = null;
-    
+
     private int lunarYear = 0;
     private int lunarMonth = 0;
     private int lunarDay = 0;
@@ -422,19 +427,30 @@ public class KoreanLunarCalendar {
         return gapjaString.toString();
     }
 
+    @SuppressLint("DefaultLocale")
     public String getLunarSimpleFormat() {
-        String isoStr = String.format("(음) %d.%d", lunarMonth, lunarDay);
+        String isoStr = String.format("음력 %d.%d", lunarMonth, lunarDay);
         if(isIntercalation())
-            isoStr += " 윤";
+            isoStr += " 윤달";
 
         return isoStr;
     }
 
+    @SuppressLint("DefaultLocale")
+    public String getLunarFormat() {
+        String isoStr = String.format("음력 %d월 %d일", lunarMonth, lunarDay);
+        if(isIntercalation())
+            isoStr += " 윤달";
+
+        return isoStr;
+    }
+
+    @SuppressLint("DefaultLocale")
     public String getLunarKey() {
-        String isoStr = String.format("%02d%02d", lunarMonth, lunarDay);
-        return isoStr;
+        return String.format("%02d%02d", lunarMonth, lunarDay);
     }
-    
+
+    @SuppressLint("DefaultLocale")
     public String getLunarIsoFormat() {
     	String isoStr = String.format("%04d-%02d-%02d", lunarYear, lunarMonth, lunarDay);
     	if(isIntercalation())
@@ -443,10 +459,9 @@ public class KoreanLunarCalendar {
     	return isoStr;
     }
 
+    @SuppressLint("DefaultLocale")
     public String getSolarIsoFormat() {
-    	String isoStr = String.format("%04d-%02d-%02d", solarYear, solarMonth, solarDay);
-
-    	return isoStr;
+    	return String.format("%04d-%02d-%02d", solarYear, solarMonth, solarDay);
     }
     
     public int getLunarYear() {

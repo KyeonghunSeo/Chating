@@ -27,9 +27,9 @@ object CalendarManager {
 
     init {
         backgroundColor = AppTheme.backgroundColor
-        dateColor = AppTheme.secondaryText
+        dateColor = AppTheme.primaryColor
         sundayColor = Prefs.getInt("sundayColor", AppTheme.redColor)
-        saturdayColor = Prefs.getInt("saturdayColor", AppTheme.secondaryText)
+        saturdayColor = Prefs.getInt("saturdayColor", AppTheme.primaryColor)
         selectedDateColor = AppTheme.primaryColor
     }
 

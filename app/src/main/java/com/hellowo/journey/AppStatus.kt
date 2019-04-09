@@ -8,6 +8,7 @@ object AppStatus {
     var statusBarHeight = 0
 
     var startDayOfWeek = Calendar.SUNDAY
+    var isDowDisplay = true
     var holidayDisplay = 0
     var isLunarDisplay = true
     var outsideMonthAlpha = 0f
@@ -15,8 +16,9 @@ object AppStatus {
 
     fun init(context: Context) {
         startDayOfWeek = Prefs.getInt("startDayOfWeek", Calendar.SUNDAY)
-        isLunarDisplay = Prefs.getBoolean("isLunarDisplay", true)
+        isDowDisplay = Prefs.getBoolean("isDowDisplay", true)
         holidayDisplay = Prefs.getInt("holidayDisplay", 0)
+        isLunarDisplay = Prefs.getBoolean("isLunarDisplay", true)
         outsideMonthAlpha = Prefs.getFloat("outsideMonthAlpha", 0f)
         calTextSize = Prefs.getInt("calTextSize", 0)
     }

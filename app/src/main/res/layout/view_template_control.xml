@@ -171,9 +171,9 @@
             android:id="@+id/templateIconImg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="14dp"
-            android:src="@drawable/create"
-            android:tint="@color/iconTint"/>
+            android:padding="13dp"
+            android:src="@drawable/pencil"
+            android:tint="@color/secondaryText"/>
 
     </androidx.cardview.widget.CardView>
 

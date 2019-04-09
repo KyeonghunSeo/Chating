@@ -88,6 +88,11 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         }
     }
 
+    fun setDate(time: Long) {
+        val duration = dtEnd - dtStart
+        setDateTime(allday, time, time + duration)
+    }
+
     fun setDateTime(a: Boolean, s: Calendar, e: Calendar) {
         if(a) {
             setDateTime(a, getCalendarTime0(s), getCalendarTime0(e))
@@ -283,4 +288,8 @@ open class TimeObject(@PrimaryKey var id: String? = null,
             links.add(Link(type = Link.Type.PERCENTAGE.ordinal))
         }
     }
+
+    fun isRepeat(): Boolean = !repeat.isNullOrEmpty()
+
+    fun isLunarRepeat(): Boolean = repeat?.contains("lunar") == true
 }

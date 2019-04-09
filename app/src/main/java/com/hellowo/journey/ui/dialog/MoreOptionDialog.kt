@@ -63,9 +63,24 @@ class MoreOptionDialog(activity: Activity, private val timeObject: TimeObject,
             dismiss()
         }
 
-        repeatBtn.setOnClickListener {
-            timeObjectDetailView.showRepeatDialog()
-            dismiss()
+        if(timeObject.isRepeat()) {
+            repeatBtn.alpha = 0.5f
+        }else {
+            repeatBtn.alpha = 1f
+            repeatBtn.setOnClickListener {
+                timeObjectDetailView.showRepeatDialog()
+                dismiss()
+            }
+        }
+
+        if(timeObject.isRepeat()) {
+            lunarRepeatBtn.alpha = 0.5f
+        }else {
+            lunarRepeatBtn.alpha = 1f
+            lunarRepeatBtn.setOnClickListener {
+                timeObjectDetailView.showLunarRepeatDialog()
+                dismiss()
+            }
         }
 
         if(timeObject.isSetCheckBox()) {

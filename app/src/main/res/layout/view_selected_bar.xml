@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
-        android:layout_marginLeft="4dp">
+        android:layout_marginLeft="2dp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -24,7 +24,6 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:textSize="11dp"
-                android:includeFontPadding="false"
                 android:textColor="@color/primaryText"
                 android:text="27"/>
 
@@ -33,9 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="3dp"
                 android:textSize="9dp"
-                android:includeFontPadding="false"
                 android:textColor="@color/primaryText"
                 android:text="@string/wed"/>
 
@@ -45,9 +43,8 @@
             android:id="@+id/holiText"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textSize="8dp"
+            android:textSize="9dp"
             android:singleLine="true"
-            android:includeFontPadding="false"
             android:textColor="@color/primaryText"/>
 
     </LinearLayout>
@@ -57,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="0dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginRight="2dp"
         android:background="@color/line">
     </FrameLayout>
 
@@ -65,7 +62,7 @@
         android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="1dp"
+        android:layout_marginLeft="0dp"
         android:layout_marginRight="2dp">
     </FrameLayout>
 

@@ -2,8 +2,10 @@ package com.hellowo.journey.manager
 
 import android.app.Activity
 import com.hellowo.journey.*
+import com.hellowo.journey.model.KoreanLunarCalendar
 import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.dialog.CustomDialog
+import com.hellowo.journey.ui.dialog.LunarRepeatDialog
 import org.json.JSONObject
 import java.lang.Exception
 import java.util.*
@@ -19,6 +21,7 @@ object RepeatManager {
     private val yearlyStr = "${App.context.getString(R.string.yearly)} %s ${App.context.getString(R.string.repeat)}"
     private val weekNumStr = App.context.getString(R.string.weekNum)
     private val untilStr = App.context.getString(R.string.until)
+    private val lunarCal = KoreanLunarCalendar.getInstance()
 
     fun makeRepeatText(timeObject: TimeObject) : String {
         timeObject.repeat?.let {
@@ -85,6 +88,12 @@ object RepeatManager {
             3 -> {
                 result.append(String.format(yearlyStr, AppDateFormat.mdDate.format(instanceCal.time)))
             }
+            4 -> {
+                lunarCal.setSolarDate(instanceCal.get(Calendar.YEAR),
+                        instanceCal.get(Calendar.MONTH) + 1,
+                        instanceCal.get(Calendar.DATE))
+                result.append("${lunarCal.lunarFormat} ${App.context.getString(R.string.repeat)}")
+            }
         }
 
         if(dtUntil != Long.MIN_VALUE) {
@@ -110,6 +119,12 @@ object RepeatManager {
         }
 
         instanceCal.timeInMillis = timeObject.dtStart
+
+        if(freq == 4) {
+            lunarCal.setSolarDate(instanceCal.get(Calendar.YEAR),
+                    instanceCal.get(Calendar.MONTH) + 1,
+                    instanceCal.get(Calendar.DATE))
+        }
 
         while (instanceCal.timeInMillis <= endTime) {
             when(freq) {
@@ -150,6 +165,11 @@ object RepeatManager {
                 3 -> {
                     checkValidInstance(result, timeObject, instanceCal.timeInMillis, startTime, endTime, duration)
                     instanceCal.add(Calendar.YEAR, 1)
+                }
+                4 -> {
+                    checkValidInstance(result, timeObject, instanceCal.timeInMillis, startTime, endTime, duration)
+                    lunarCal.setLunarDate(lunarCal.lunarYear + 1, lunarCal.lunarMonth, lunarCal.lunarDay, lunarCal.isIntercalation)
+                    instanceCal.set(lunarCal.solarYear, lunarCal.solarMonth - 1, lunarCal.solarDay)
                 }
             }
         }

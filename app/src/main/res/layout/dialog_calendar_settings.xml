@@ -49,6 +49,33 @@
                 </FrameLayout>
 
                 <FrameLayout
+                    android:id="@+id/dowDisplayBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/dow_display"
+                        android:textColor="@color/secondaryText"
+                        android:textSize="13dp"/>
+
+                    <TextView
+                        android:id="@+id/dowDisplayText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:text="@string/visible"
+                        android:textColor="@color/primaryText"
+                        android:textSize="12dp"/>
+
+                </FrameLayout>
+
+                <FrameLayout
                     android:id="@+id/weekDisplayBtn"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"

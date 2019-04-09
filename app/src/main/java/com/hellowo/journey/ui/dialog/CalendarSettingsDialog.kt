@@ -29,6 +29,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
         rootLy.layoutParams.width = WRAP_CONTENT
         rootLy.requestLayout()
         setStartDow()
+        setDowDisplay()
         setWeekendDisplay()
         setHoliDisplay()
         setLunarDisplay()
@@ -56,6 +57,22 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
         }
     }
 
+    private fun setDowDisplay() {
+        if(AppStatus.isDowDisplay) {
+            dowDisplayText.text = context.getString(R.string.visible)
+            dowDisplayText.setTextColor(AppTheme.primaryText)
+        }else {
+            dowDisplayText.text = context.getString(R.string.unvisible)
+            dowDisplayText.setTextColor(AppTheme.disableText)
+        }
+        dowDisplayBtn.setOnClickListener {
+            AppStatus.isDowDisplay = !AppStatus.isDowDisplay
+            Prefs.putBoolean("isDowDisplay", AppStatus.isDowDisplay)
+            setDowDisplay()
+            MainActivity.getCalendarPagerView()?.redraw()
+        }
+    }
+
     private fun setWeekendDisplay() {
         weekDisplaySunText.setTextColor(CalendarManager.sundayColor)
         weekDisplaySatText.setTextColor(CalendarManager.saturdayColor)
@@ -66,14 +83,14 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
                     Prefs.putInt("saturdayColor", CalendarManager.saturdayColor)
                 }
                 CalendarManager.sundayColor == AppTheme.redColor && CalendarManager.saturdayColor == AppTheme.redColor -> {
-                    CalendarManager.saturdayColor = AppTheme.secondaryText
+                    CalendarManager.saturdayColor = CalendarManager.dateColor
                     Prefs.putInt("saturdayColor", CalendarManager.saturdayColor)
                 }
-                CalendarManager.sundayColor == AppTheme.redColor && CalendarManager.saturdayColor == AppTheme.secondaryText -> {
-                    CalendarManager.sundayColor = AppTheme.secondaryText
+                CalendarManager.sundayColor == AppTheme.redColor && CalendarManager.saturdayColor == CalendarManager.dateColor -> {
+                    CalendarManager.sundayColor = CalendarManager.dateColor
                     Prefs.putInt("sundayColor", CalendarManager.sundayColor)
                 }
-                CalendarManager.sundayColor == AppTheme.secondaryText && CalendarManager.saturdayColor == AppTheme.secondaryText -> {
+                CalendarManager.sundayColor == CalendarManager.dateColor && CalendarManager.saturdayColor == CalendarManager.dateColor -> {
                     CalendarManager.sundayColor = AppTheme.redColor
                     CalendarManager.saturdayColor = AppTheme.blueColor
                     Prefs.putInt("sundayColor", CalendarManager.sundayColor)

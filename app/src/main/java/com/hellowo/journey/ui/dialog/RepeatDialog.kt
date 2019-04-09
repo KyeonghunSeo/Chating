@@ -17,7 +17,7 @@ import org.json.JSONObject
 import java.util.*
 
 
-class RepeatDialog(private val activity: Activity, private val timeObject: TimeObject,
+class RepeatDialog(private val activity: Activity, timeObject: TimeObject,
                    private val onResult: (String?, Long) -> Unit) : Dialog(activity) {
 
     val jsonObject = JSONObject()

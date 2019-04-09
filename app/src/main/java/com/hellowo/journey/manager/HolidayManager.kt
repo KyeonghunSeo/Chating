@@ -42,6 +42,7 @@ object HolidayManager {
         solarHolidays["0403"] = Holiday("4.3희생자 추념일", false)
         solarHolidays["0405"] = Holiday("식목일", false)
         solarHolidays["0406"] = Holiday("한식", false)
+        solarHolidays["0420"] = Holiday("곡우", false)
         solarHolidays["0501"] = Holiday("근로자의날", false)
         solarHolidays["0508"] = Holiday("어버이날", false)
         solarHolidays["0510"] = Holiday("유권자의날", false)

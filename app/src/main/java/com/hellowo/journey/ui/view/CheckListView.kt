@@ -18,6 +18,7 @@ import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.showDialog
 import com.hellowo.journey.ui.dialog.CustomDialog
+import com.hellowo.journey.vibrate
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -61,6 +62,7 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
         setGlobalTheme(v)
 
         iconImg.setOnClickListener {
+            vibrate(context)
             if(item.getLong("dtDone") == Long.MIN_VALUE) {
                 item.put("dtDone", System.currentTimeMillis())
             }else {

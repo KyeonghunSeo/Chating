@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.hellowo.journey.R
+import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.startDialogShowAnimation
 import kotlinx.android.synthetic.main.dialog_date_picker.*
 import java.util.*
@@ -28,6 +29,7 @@ class DatePickerDialog(activity: Activity, time: Long,
     }
 
     private fun setLayout() {
+        setGlobalTheme(rootLy)
         rootLy.layoutParams.width = WRAP_CONTENT
         rootLy.requestLayout()
 
@@ -38,7 +40,6 @@ class DatePickerDialog(activity: Activity, time: Long,
             cal.set(Calendar.YEAR, datePicker.year)
             cal.set(Calendar.MONTH, datePicker.month)
             cal.set(Calendar.DATE, datePicker.dayOfMonth)
-
             onResult.invoke(cal.timeInMillis)
             dismiss()
         }

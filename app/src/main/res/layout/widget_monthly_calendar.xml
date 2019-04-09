@@ -1,0 +1,3156 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ImageView
+        android:id="@+id/widgetRootImg"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/widgetMonthlyRoot"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@+id/widget_month_top_ly"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:id="@+id/widget_month_month_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="12"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/bold"
+                android:textSize="16dp" />
+
+            <ImageView
+                android:id="@+id/widget_month_add_btn"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="35dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/sharp_add_black_48dp"
+                android:scaleType="centerInside"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:padding="8dp"
+                android:tint="@color/iconTint" />
+
+            <ImageButton
+                android:id="@+id/widget_setting_btn"
+                android:layout_gravity="right|center_vertical"
+                android:scaleType="centerInside"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/settings"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:padding="9dp"
+                android:tint="@color/iconTint"/>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:text="S"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dowText0"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="S"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dowText1"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="S"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dowText2"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="S"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dowText3"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="S"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dowText4"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="S"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dowText5"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="S"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dowText6"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/line"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/widget_month_line_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_0"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:background="@color/line"
+                        android:orientation="vertical"
+                        android:layout_height="1px">
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_6"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/widget_month_line_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_7"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_8"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_9"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_10"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_11"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_12"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_13"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/widget_month_line_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_14"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_15"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_16"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_17"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_18"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_19"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_20"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/widget_month_line_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_21"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_22"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_23"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_24"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_25"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_26"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_27"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/widget_fake_divider_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/widget_month_line_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_28"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_29"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_30"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_31"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_32"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_33"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_34"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/widget_fake_divider_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/widget_month_line_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_35"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_36"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_37"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_38"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_39"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_40"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2px"
+                        android:layout_height="1px"
+                        android:background="@color/line"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_cell_41"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:paddingBottom="5dp"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_block_line_0"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal" >
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_week_num_1"
+                                android:textSize="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="15dp"
+                                android:minWidth="15dp"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_date_1"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_1"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_2"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_2"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_3"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_3"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_4"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_4"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_5"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_5"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_6"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_6"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_7"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_7"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp" >
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp" >
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/line"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp" >
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_block_line_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal" >
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_week_num_2"
+                                android:textSize="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="15dp"
+                                android:minWidth="15dp"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_date_8"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_8"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_9"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_9"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_10"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_10"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_11"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_11"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_12"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_12"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_13"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_13"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_14"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_14"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_6"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp" >
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_7"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp" >
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_8"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_9"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp" >
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/line"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp" >
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_block_line_10"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal" >
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_week_num_3"
+                                android:textSize="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="15dp"
+                                android:minWidth="15dp"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_date_15"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_15"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_16"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_16"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_17"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_17"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_18"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_18"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_19"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_19"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_20"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_20"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_21"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_21"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_11"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_12"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp" >
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_13"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_14"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp" >
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/line"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp" >
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_block_line_15"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal" >
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_week_num_4"
+                                android:textSize="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="15dp"
+                                android:minWidth="15dp"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_date_22"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_22"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_23"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_23"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_24"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_24"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_25"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_25"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_26"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_26"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_27"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_27"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_28"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_28"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_16"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp" >
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_17"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_18"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_19"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp" >
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/widget_month_line_divider_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/line"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/widget_month_real_row_line_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp" >
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_block_line_20"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal" >
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_week_num_5"
+                                android:textSize="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="15dp"
+                                android:minWidth="15dp"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_date_29"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_29"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_30"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_30"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_31"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_31"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_32"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_32"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_33"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_33"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_34"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_34"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_35"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_35"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_21"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_22"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_23"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_24"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp" >
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/widget_month_line_divider_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/line"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/widget_month_real_row_line_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp" >
+
+                    <LinearLayout
+                        android:id="@+id/widget_month_block_line_25"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal" >
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_week_num_6"
+                                android:textSize="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="15dp"
+                                android:minWidth="15dp"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_date_36"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_36"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_37"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_37"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_38"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_38"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_39"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_39"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_40"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_40"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_41"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_41"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/widget_month_date_42"
+                                android:textSize="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="18dp"
+                                android:minWidth="18dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:singleLine="true"
+
+                                android:typeface="normal"
+                                android:layout_margin="2px" />
+
+                            <TextView
+                                android:id="@+id/widget_month_daily_todo_42"
+                                android:layout_width="3dp"
+                                android:layout_height="3dp"
+                                android:background="@drawable/circle_fill"
+
+                                android:layout_gravity="right" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_26"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp" >
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_27"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_28"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/widget_month_block_line_29"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp" >
+                    </FrameLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/sticker_line_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <FrameLayout
+                        android:id="@+id/cell_0"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_0"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_1"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_2"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_3"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_4"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_5"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_6"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_6"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sticker_line_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <FrameLayout
+                        android:id="@+id/cell_7"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_7"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_8"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_8"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_9"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_9"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_10"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_10"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_11"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_11"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_12"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_12"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_13"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_13"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sticker_line_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <FrameLayout
+                        android:id="@+id/cell_14"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_14"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_15"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_15"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_16"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_16"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_17"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_17"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_18"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_18"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_19"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_19"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_20"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_20"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sticker_line_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <FrameLayout
+                        android:id="@+id/cell_21"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_21"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_22"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_22"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_23"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_23"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_24"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_24"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_25"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_25"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_26"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_26"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_27"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_27"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sticker_line_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <FrameLayout
+                        android:id="@+id/cell_28"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_28"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_29"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_29"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_30"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_30"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_31"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_31"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_32"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_32"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_33"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_33"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_34"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_34"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sticker_line_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <FrameLayout
+                        android:id="@+id/cell_35"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_35"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_36"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_36"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_37"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_37"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_38"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_38"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_39"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_39"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_40"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_40"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/cell_41"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/sticker_41"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"/>
+
+                    </FrameLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+    </LinearLayout>
+
+</FrameLayout>
