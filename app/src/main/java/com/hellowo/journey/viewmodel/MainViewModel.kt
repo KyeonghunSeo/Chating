@@ -106,6 +106,13 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun saveMotto(text: String) {
+        realm.value?.executeTransaction {
+            appUser.value?.motto = text
+            appUser.value = appUser.value
+        }
+    }
+
     fun setTargetTimeObjectById(id: String?) {
         realm.value?.let { realm ->
             id?.let {

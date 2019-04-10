@@ -16,6 +16,7 @@ import com.hellowo.journey.ui.view.TimeObjectView.Companion.stampSize
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.strokeWidth
 import com.hellowo.journey.model.TimeObject.Style.*
 import com.hellowo.journey.ui.view.CalendarView
+import com.hellowo.journey.ui.view.TimeObjectView.Companion.baseSize
 import com.pixplicity.easyprefs.library.Prefs
 
 object CalendarManager {
@@ -102,13 +103,10 @@ object CalendarManager {
             }
             else -> {
                 if(view.length > 1) {
-                    paint.alpha = 25
-                    canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), rectRadius, rectRadius, paint)
+                    paint.alpha = 17
+                    canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
                     paint.alpha = 255
                 }else {
-                    canvas.drawRect(0f, sidePadding.toFloat(),
-                            strokeWidth, (blockTypeSize - sidePadding - defaulMargin), paint)
-
                     when(TimeObject.Type.values()[view.timeObject.type]) {
                         //TimeObject.Type.EVENT, TimeObject.Type.NOTE -> drawDot(view, paint, canvas)
                         TimeObject.Type.TASK -> drawCheckBox(view, paint, canvas)
@@ -382,10 +380,9 @@ object CalendarManager {
     }
 
     private fun drawDot(view: TimeObjectView, paint: Paint, canvas: Canvas) {
-        val radius = strokeWidth
-        val centerX = radius / 2f
+        val radius = baseSize * 2f
         val centerY = (blockTypeSize - defaulMargin) / 2f
-        canvas.drawCircle(centerX, centerY, radius, paint)
+        canvas.drawCircle(radius, centerY, radius, paint)
     }
 
     private fun drawCheckBox(view: TimeObjectView, paint: Paint, canvas: Canvas) {

@@ -226,6 +226,33 @@
 
                 </FrameLayout>
 
+                <FrameLayout
+                    android:id="@+id/weekLineBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/weekline_display"
+                        android:textColor="@color/secondaryText"
+                        android:textSize="13dp"/>
+
+                    <TextView
+                        android:id="@+id/weekLineText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:text="@string/unvisible"
+                        android:textColor="@color/primaryText"
+                        android:textSize="12dp"/>
+
+                </FrameLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="50dp"/>

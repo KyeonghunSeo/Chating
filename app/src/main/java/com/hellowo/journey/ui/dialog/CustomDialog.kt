@@ -17,8 +17,6 @@ import kotlinx.android.synthetic.main.dialog_custom.*
 class CustomDialog(activity: Activity, private val title: String, private val sub: String?,
                    private val options: Array<String>?, private val onResult: (Boolean, Int, String?) -> Unit) : Dialog(activity) {
 
-    init {}
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.attributes.windowAnimations = R.style.DialogAnimation

@@ -35,6 +35,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
         setLunarDisplay()
         setOutsideMonth()
         setCalTextSize()
+        setWeekLine()
     }
 
 
@@ -180,6 +181,23 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
             }
             Prefs.putInt("calTextSize", AppStatus.calTextSize)
             setCalTextSize()
+            MainActivity.getCalendarPagerView()?.redraw()
+        }
+    }
+
+    private fun setWeekLine() {
+        if(AppStatus.weekLine == 0) {
+            weekLineText.text = context.getString(R.string.unvisible)
+            weekLineText.setTextColor(AppTheme.disableText)
+        }else {
+            weekLineText.text = context.getString(R.string.visible)
+            weekLineText.setTextColor(AppTheme.primaryText)
+        }
+        weekLineBtn.setOnClickListener {
+            if(AppStatus.weekLine == 0)  AppStatus.weekLine = 1
+            else AppStatus.weekLine = 0
+            Prefs.putInt("weekLine", AppStatus.weekLine)
+            setWeekLine()
             MainActivity.getCalendarPagerView()?.redraw()
         }
     }

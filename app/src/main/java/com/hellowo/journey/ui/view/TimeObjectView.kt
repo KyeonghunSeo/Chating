@@ -24,9 +24,10 @@ import com.hellowo.journey.model.TimeObject.Style.*
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
     companion object {
         var standardTextSize = 9f
+        val baseSize = dpToPx(0.5f)
         val defaulMargin = dpToPx(1.5f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
-        val sidePadding = dpToPx(3)
+        val sidePadding = dpToPx(3.5f).toInt()
         val topPadding = dpToPx(1.8f)
         val bottomPadding = dpToPx(3.5f)
         val leftPadding = dpToPx(9)

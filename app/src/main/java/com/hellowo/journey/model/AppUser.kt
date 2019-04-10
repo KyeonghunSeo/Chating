@@ -4,5 +4,6 @@ import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
 open class AppUser(@PrimaryKey var id: String? = null,
-                   var profileImgUrl: String? = null): RealmObject() {
+                   var profileImgUrl: String? = null,
+                   var motto: String? = null): RealmObject() {
 }

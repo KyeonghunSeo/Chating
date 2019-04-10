@@ -395,7 +395,7 @@ class MainActivity : BaseActivity() {
                                 val uploadTask = ref.putBytes(baos.toByteArray())
                                 uploadTask.addOnFailureListener {
                                     hideProgressDialog()
-                                }.addOnSuccessListener { _ ->
+                                }.addOnSuccessListener {
                                     ref.downloadUrl.addOnCompleteListener {
                                         l("다운로드 url : ${it.result.toString()}")
                                         viewModel.saveProfileImage(it.result.toString())

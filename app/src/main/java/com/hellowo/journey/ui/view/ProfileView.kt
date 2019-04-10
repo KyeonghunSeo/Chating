@@ -18,6 +18,7 @@ import com.hellowo.journey.ui.activity.AboutUsActivity
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.SettingsActivity
 import com.hellowo.journey.ui.dialog.CalendarSettingsDialog
+import com.hellowo.journey.ui.dialog.InputDialog
 import kotlinx.android.synthetic.main.view_profile.view.*
 
 class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -42,10 +43,17 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     true, false, true, false)
         }
 
+        mottoText.setOnClickListener {
+            showDialog(InputDialog(context as Activity, context.getString(R.string.motto), null, null,
+                    mottoText.text.toString()) { result, text ->
+                if(result) { MainActivity.getViewModel()?.saveMotto(text) }
+            }, true, true, true, false)
+        }
+
         searchBtn.setOnClickListener { MainActivity.getViewModel()?.currentTab?.value = 2 }
 
-        settingsBtn.setOnClickListener { _ -> MainActivity.instance?.let { it.startActivity(Intent(it, SettingsActivity::class.java)) } }
-        aboutUsBtn.setOnClickListener { _ -> MainActivity.instance?.let { it.startActivity(Intent(it, AboutUsActivity::class.java)) } }
+        settingsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, SettingsActivity::class.java)) } }
+        aboutUsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, AboutUsActivity::class.java)) } }
         FirebaseAuth.getInstance().currentUser?.photoUrl?.let {
             Glide.with(this).load(it)
                     //.apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
@@ -62,6 +70,10 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             Glide.with(this).load(appUser.profileImgUrl)
                     //.apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
                     .into(profileImage)
+        }
+
+        if(appUser.motto?.isNotBlank() == true) {
+            mottoText.text = appUser.motto
         }
     }
 

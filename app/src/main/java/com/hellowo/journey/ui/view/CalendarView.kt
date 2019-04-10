@@ -43,13 +43,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val calendarPadding = dpToPx(15)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
-        val lineWidth = dpToPx(0.0f)
+        val lineWidth = dpToPx(0.7f)
     }
 
     private val scrollView = NestedScrollView(context)
     val calendarLy = LinearLayout(context)
     val weekLys = Array(6) { _ -> FrameLayout(context)}
-    private val topLine = View(context)
     private val columnDividers = Array(maxCellNum) { _ -> View(context)}
     private val rowDividers = Array(6) { _ -> View(context)}
     private val dateLys = Array(6) { _ -> LinearLayout(context)}
@@ -126,7 +125,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun createViews() {
         addView(scrollView)
-        addView(topLine)
         scrollView.addView(calendarLy)
     }
 
@@ -142,16 +140,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
 
-        topLine.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, lineWidth.toInt())
-        topLine.setBackgroundColor(AppTheme.lineColor)
-
         rowDividers.forEachIndexed { index, view ->
             view.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, lineWidth.toInt())
             view.setBackgroundColor(AppTheme.lineColor)
         }
 
         columnDividers.forEachIndexed { index, view ->
-            view.layoutParams = FrameLayout.LayoutParams(lineWidth.toInt(), MATCH_PARENT)
+            view.layoutParams = FrameLayout.LayoutParams(0, 0)
             view.setBackgroundColor(AppTheme.lineColor)
         }
 
@@ -163,13 +158,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
             weekLy.addView(rowDividers[i])
-            if(i == 0) rowDividers[i].visibility = View.GONE
 
             for (j in 0..6){
                 val cellNum = i*7 + j
 
-                weekLy.addView(columnDividers[cellNum])
-                if(j == 0) columnDividers[cellNum].visibility = View.GONE
+                //weekLy.addView(columnDividers[cellNum])
+                //if(j == 0) columnDividers[cellNum].visibility = View.GONE
 
                 val dateCell = dateCells[cellNum]
                 //dateCell.setBackgroundResource(AppDateFormat.selectableItemBackground)
@@ -230,6 +224,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         for(i in 0..5) {
             val weekLy = weekLys[i]
             weekLy.layoutParams.height = minHeight.toInt()
+
+            if(AppStatus.weekLine == 0) rowDividers[i].visibility = View.GONE
+            else rowDividers[i].visibility = View.VISIBLE
+
             if(i < rows) {
                 weekLy.visibility = View.VISIBLE
                 for (j in 0..6){
@@ -272,9 +270,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
                     if(isSameDay(tempCal, todayCal)) {
                         todayCellNum = cellNum
-                        dateHeaders[cellNum].todayBar.visibility = View.VISIBLE
+                        dateHeaders[cellNum].todayBar.visibility = View.GONE
                         dateHeaders[cellNum].todayFlag.visibility = View.VISIBLE
-                        //dateLy.setBackgroundResource(R.drawable.grey_rect_fill_radius_2)
                     }else {
                         dateHeaders[cellNum].todayBar.visibility = View.GONE
                         dateHeaders[cellNum].todayFlag.visibility = View.GONE

@@ -267,7 +267,7 @@
     <string name="shedule">스케쥴</string>
     <string name="delete_shedule_sub">스케쥴 정보를 제거합니다</string>
     <string name="weblink_sub">웹사이트 주소를 입력하세요</string>
-    <string name="motto">좌우명</string>
+    <string name="motto">나의 한 줄</string>
     <string name="motto_sample">지혜는 생각났을때\n기록하는 것이다</string>
     <string name="about_us">기록의계절</string>
     <string name="search">검색하기</string>
@@ -292,5 +292,7 @@
     <string name="dow_display">요일 표시</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="weekline_display">주간 경계선 표시</string>
+    <string name="enter_here">이곳에 입력하세요</string>
 
 </resources>
