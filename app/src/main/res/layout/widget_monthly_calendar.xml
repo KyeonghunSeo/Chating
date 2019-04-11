@@ -47,7 +47,7 @@
                 android:layout_gravity="right|center_vertical"
                 android:scaleType="centerInside"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/settings"
+                android:src="@drawable/setting"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:padding="9dp"

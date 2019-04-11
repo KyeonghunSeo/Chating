@@ -14,7 +14,7 @@ import com.hellowo.journey.callAfterViewDrawed
 class PinView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     var isPin = false
     val pinImg = ImageView(context)
-    var color = AppTheme.primaryText
+    var color = AppTheme.iconColor
     var backColor = Color.WHITE
     var showPinBtn = true
 
@@ -34,7 +34,7 @@ class PinView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     fun pin(isPin: Boolean) {
         this.isPin = isPin
         if(isPin) {
-            pinImg.setColorFilter(AppTheme.primaryText)
+            pinImg.setColorFilter(AppTheme.iconColor)
         }else {
             pinImg.setColorFilter(AppTheme.lineColor)
         }

@@ -22,8 +22,7 @@
              android:layout_height="15dp"
              android:layout_marginLeft="21dp"
              android:layout_gravity="center_vertical"
-             android:tint="@color/primaryText"
-             android:src="@drawable/sharp_check_box_black_48dp"/>
+             android:tint="@color/primaryText"/>
 
       </FrameLayout>
 

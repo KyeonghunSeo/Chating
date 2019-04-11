@@ -58,9 +58,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_timeobject_detail, this, true)
-        contentPanel.visibility = View.INVISIBLE
-        contentPanel.setBackgroundColor(AppTheme.backgroundColor)
-        contentPanel.setOnClickListener {}
+        panel.visibility = View.INVISIBLE
+        contentLy.setOnClickListener {}
         initControllBtn()
         initInput()
     }
@@ -202,9 +201,9 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         if(timeObject.isSetCheckBox()) {
             checkBox.visibility = View.VISIBLE
             if(timeObject.isDone()) {
-                checkBox.setImageResource(R.drawable.outline_check_box_black_48dp)
+                checkBox.setImageResource(R.drawable.check)
             }else {
-                checkBox.setImageResource(R.drawable.sharp_check_box_outline_blank_black_48dp)
+                checkBox.setImageResource(R.drawable.uncheck)
             }
             checkBox.setOnClickListener {
                 if(timeObject.isDone()) timeObject.undone()
@@ -684,7 +683,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         val t1 = makeFromBottomSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
         t1.duration = ANIM_DUR
-        t1.addTarget(contentPanel)
+        t1.addTarget(panel)
         t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
@@ -700,7 +699,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         backgroundLy.setBackgroundColor(AppTheme.primaryText)
         backgroundLy.setOnClickListener { confirm() }
         backgroundLy.isClickable = true
-        contentPanel.visibility = View.VISIBLE
+        panel.visibility = View.VISIBLE
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             MainActivity.instance?.window?.let { window ->
@@ -723,7 +722,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         val t1 = makeFromBottomSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
         t1.duration = ANIM_DUR
-        t1.addTarget(contentPanel)
+        t1.addTarget(panel)
         t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
@@ -732,7 +731,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         backgroundLy.visibility = View.INVISIBLE
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
-        contentPanel.visibility = View.INVISIBLE
+        panel.visibility = View.INVISIBLE
         textEditorLy.visibility = View.GONE
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

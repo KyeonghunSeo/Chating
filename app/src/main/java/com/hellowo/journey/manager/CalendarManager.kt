@@ -434,13 +434,13 @@ object CalendarManager {
     private fun drawRectCheckBox(view: TimeObjectView, centerY: Float, canvas: Canvas) {
         if(view.timeObject.isDone()) {
             view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            val check = resource.getDrawable(R.drawable.sharp_check_box_black_48dp)
+            val check = resource.getDrawable(R.drawable.check)
             check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
             check.setBounds(defaulMargin.toInt() * 2, (centerY - leftPadding / 2f).toInt(),
                     leftPadding + defaulMargin.toInt() * 2, (centerY + leftPadding / 2f).toInt())
             check.draw(canvas)
         }else {
-            val check = resource.getDrawable(R.drawable.sharp_check_box_outline_blank_black_48dp)
+            val check = resource.getDrawable(R.drawable.uncheck)
             check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
             check.setBounds(defaulMargin.toInt() * 2, (centerY - leftPadding / 2f).toInt(),
                     leftPadding + defaulMargin.toInt() * 2, (centerY + leftPadding / 2f).toInt())

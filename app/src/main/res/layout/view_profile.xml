@@ -99,7 +99,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/saerch"
+                        android:src="@drawable/search"
                         android:tint="@color/iconTint"/>
 
                     <TextView
@@ -149,7 +149,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/settings"
+                        android:src="@drawable/setting"
                         android:tint="@color/iconTint"/>
 
                     <TextView
@@ -174,7 +174,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/premium"
+                        android:src="@drawable/crown"
                         android:tint="@color/iconTint"/>
 
                     <TextView
@@ -199,7 +199,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/aboutus"
+                        android:src="@drawable/about"
                         android:tint="@color/iconTint"/>
 
                     <TextView

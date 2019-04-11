@@ -74,12 +74,12 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, v
         v.iconImg.setColorFilter(timeObject.getColor())
 
         if(timeObject.isDone()) {
-            v.iconImg.setImageResource(R.drawable.sharp_check_box_black_48dp)
+            v.iconImg.setImageResource(R.drawable.check)
             v.iconImg.alpha = 0.3f
             v.contentLy.alpha = 0.3f
             v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }else {
-            v.iconImg.setImageResource(R.drawable.sharp_check_box_outline_blank_black_48dp)
+            v.iconImg.setImageResource(R.drawable.uncheck)
             v.iconImg.alpha = 1f
             v.contentLy.alpha = 1f
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())

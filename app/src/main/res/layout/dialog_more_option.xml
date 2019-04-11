@@ -250,7 +250,7 @@
                         <ImageView
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:src="@drawable/outline_check_box_black_48dp"
+                            android:src="@drawable/check"
                             android:tint="@color/iconTint"/>
 
                         <TextView
@@ -278,7 +278,7 @@
                         <ImageView
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:src="@drawable/outline_ballot_black_48dp"
+                            android:src="@drawable/checklist"
                             android:tint="@color/iconTint"/>
 
                         <TextView
@@ -306,7 +306,7 @@
                         <ImageView
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:src="@drawable/outline_pie_chart_black_48dp"
+                            android:src="@drawable/progress"
                             android:tint="@color/iconTint"/>
 
                         <TextView

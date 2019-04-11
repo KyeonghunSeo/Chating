@@ -253,8 +253,8 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.folderList.observe(this, Observer { list ->
-            if(list.size > 1) keepBtn.setImageResource(R.drawable.inbox)
-            else keepBtn.setImageResource(R.drawable.inbox)
+            if(list.size > 1) keepBtn.setImageResource(R.drawable.folder)
+            else keepBtn.setImageResource(R.drawable.folder)
             keepView.notifyFolderDataChanged()
         })
 
@@ -268,7 +268,7 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        viewModel.targetCalendarView.observe(this, Observer { _ -> setDateText() })
+        viewModel.targetCalendarView.observe(this, Observer { setDateText() })
 
         viewModel.currentTab.observe(this, Observer { index -> updateUI(index)})
     }

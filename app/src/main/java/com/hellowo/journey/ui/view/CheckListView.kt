@@ -109,9 +109,9 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
         val titleText = v.findViewById<TextView>(R.id.titleText)
 
         if(item.getLong("dtDone") != Long.MIN_VALUE) {
-            iconImg.setImageResource(R.drawable.sharp_check_circle_black_48dp)
+            iconImg.setImageResource(R.drawable.check_circle)
         }else {
-            iconImg.setImageResource(R.drawable.sharp_check_circle_outline_black_48dp)
+            iconImg.setImageResource(R.drawable.uncheck_circle)
         }
         titleText.text = item.getString("title")
     }

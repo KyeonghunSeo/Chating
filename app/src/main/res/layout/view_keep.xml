@@ -55,7 +55,7 @@
             <ImageView
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:src="@drawable/sharp_directions_run_black_48dp"
+                android:src="@drawable/book"
                 android:tint="@color/line"
                 android:layout_gravity="center"/>
 
