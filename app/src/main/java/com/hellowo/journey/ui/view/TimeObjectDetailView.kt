@@ -168,8 +168,14 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun updateHeaderUI() {
+        colorBtn.visibility = View.GONE
         colorBtn.setColorFilter(timeObject.getColor())
         pinBtn.pin(timeObject.inCalendar)
+
+        moreBtn.setOnClickListener {
+            colorBtn.visibility = View.VISIBLE
+            pinBtn.visibility = View.VISIBLE
+        }
     }
 
     private fun updateTagUI() {

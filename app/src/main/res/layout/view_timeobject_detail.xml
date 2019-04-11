@@ -40,7 +40,7 @@
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:gravity="center_vertical">
 
                         <ImageView
@@ -68,7 +68,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="5dp"
                         android:gravity="right|center_vertical">
 
                         <ImageView
@@ -78,7 +78,8 @@
                             android:background="?android:attr/selectableItemBackground"
                             android:padding="10dp"
                             android:src="@drawable/color_palette"
-                            android:tint="@color/iconTint"/>
+                            android:tint="@color/iconTint"
+                            android:visibility="gone"/>
 
                         <ImageView
                             android:id="@+id/deleteBtn"
@@ -93,15 +94,16 @@
                             android:id="@+id/pinBtn"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:background="?android:attr/selectableItemBackground"/>
+                            android:background="?android:attr/selectableItemBackground"
+                            android:visibility="gone"/>
 
-                        <com.hellowo.journey.ui.view.PinView
+                        <ImageView
                             android:id="@+id/moreBtn"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:padding="10dp"
-                            android:src="@drawable/sharp_more_vert_black_48dp"
+                            android:src="@drawable/sharp_more_horiz_black_48dp"
                             android:tint="@color/iconTint"/>
 
                     </LinearLayout>
