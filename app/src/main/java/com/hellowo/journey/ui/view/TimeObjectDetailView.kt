@@ -1,5 +1,6 @@
 package com.hellowo.journey.ui.view
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Activity.RESULT_OK
@@ -12,13 +13,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.*
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.NestedScrollView
 import androidx.transition.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
@@ -59,38 +59,19 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     init {
         LayoutInflater.from(context).inflate(R.layout.view_timeobject_detail, this, true)
         panel.visibility = View.INVISIBLE
+        folderLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        btnsLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         contentLy.setOnClickListener {}
+        mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
+            if(scrollY > 0) topShadow.visibility = View.VISIBLE
+            else topShadow.visibility = View.GONE
+        }
         initControllBtn()
         initInput()
+        setInitiateView()
     }
 
     private fun initControllBtn() {
-        val timeObjectView = TimeObjectView(context, TimeObject(), 0, 0)
-        timeObjectView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
-            gravity = Gravity.CENTER_VERTICAL
-        }
-
-        deleteBtn.setOnClickListener { delete() }
-
-        addOptionBtn.setOnClickListener {
-            showDialog(MoreOptionDialog(context as Activity,timeObject, this@TimeObjectDetailView),
-                    true, true, true, false)
-        }
-
-        colorBtn.setOnClickListener {
-            showDialog(ColorPickerDialog(MainActivity.instance!!, timeObject.getColor()) { colorKey, fontColor ->
-                timeObject.colorKey = colorKey
-                timeObject.fontColor = fontColor
-                updateUI()
-            }, true, true, true, false)
-        }
-
-        pinBtn.setOnClickListener {
-            timeObject.inCalendar = !timeObject.inCalendar
-            updateHeaderUI()
-            updateStyleUI()
-        }
-
         editorTimeBtn.setOnClickListener { editorAction("time") }
         editorQuoteBtn.setOnClickListener { editorAction("quote") }
         editorQuotesBtn.setOnClickListener { editorAction("quotes") }
@@ -102,11 +83,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun initInput() {
-        titleInput.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == IME_ACTION_DONE) {
-            }
-            return@setOnEditorActionListener false
-        }
         titleInput.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -168,13 +144,119 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun updateHeaderUI() {
-        colorBtn.visibility = View.GONE
-        colorBtn.setColorFilter(timeObject.getColor())
-        pinBtn.pin(timeObject.inCalendar)
+        addOptionBtn.setOnClickListener {
+            showDialog(MoreOptionDialog(context as Activity, timeObject, this@TimeObjectDetailView),
+                    true, true, true, false)
+        }
+
+        colorBtn.setOnClickListener {
+            showDialog(ColorPickerDialog(context as Activity, timeObject.getColor()) { colorKey, fontColor ->
+                timeObject.colorKey = colorKey
+                timeObject.fontColor = fontColor
+                updateUI()
+            }, true, true, true, false)
+        }
+
+        pinBtn.setOnClickListener {
+            timeObject.inCalendar = !timeObject.inCalendar
+            if(timeObject.inCalendar) toast(R.string.show_in_calendar)
+            else toast(R.string.hide_in_calendar)
+            updateHeaderUI()
+            updateStyleUI()
+        }
+
+        styleBtn.setOnClickListener {
+
+        }
+
+        deleteBtn.setOnClickListener {
+            showDialog(CustomDialog(context as Activity, context.getString(R.string.delete),
+                    context.getString(R.string.delete_sub), null) { result, _, _ ->
+                if(result) delete()
+            }, true, true, true, false)
+        }
 
         moreBtn.setOnClickListener {
+            moreBtn.visibility = View.GONE
+            updateHeaderUI()
+        }
+
+        if(moreBtn.visibility == View.GONE) {
             colorBtn.visibility = View.VISIBLE
-            pinBtn.visibility = View.VISIBLE
+            deleteBtn.visibility = View.VISIBLE
+            if(timeObject.folder == null) {
+                pinBtn.visibility = View.VISIBLE
+                if(timeObject.inCalendar) {
+                    pinBtn.alpha = 1f
+                    styleBtn.visibility = View.VISIBLE
+                }else {
+                    pinBtn.alpha = 0.3f
+                    styleBtn.visibility = View.GONE
+                }
+            }else {
+                pinBtn.visibility = View.GONE
+                styleBtn.visibility = View.GONE
+            }
+        }
+
+        folderImg.setColorFilter(timeObject.getColor())
+        folderText.setTextColor(timeObject.getColor())
+        addOptionBtn.setColorFilter(timeObject.getColor())
+        colorBtn.setColorFilter(timeObject.getColor())
+        pinBtn.setColorFilter(timeObject.getColor())
+        styleBtn.setColorFilter(timeObject.getColor())
+        deleteBtn.setColorFilter(timeObject.getColor())
+        moreBtn.setColorFilter(timeObject.getColor())
+
+        updateFolderUI()
+    }
+
+    private fun updateFolderUI() {
+        if(timeObject.folder != null) {
+            folderImg.setImageResource(R.drawable.folder)
+            folderText.text = timeObject.folder?.name
+            folderText.setOnClickListener { showFolderPickerDialog() }
+        }else {
+            folderImg.setImageResource(R.drawable.calendar_empty)
+            folderText.text = AppDateFormat.simpleYmdDate.format(Date(timeObject.dtStart))
+            folderText.setOnClickListener { showDatePickerDialog() }
+        }
+        folderImg.setOnClickListener {
+            showDialog(CustomListDialog(context as Activity,
+                    context.getString(R.string.record_position),
+                    context.getString(R.string.record_position_sub),
+                    null,
+                    false,
+                    listOf(context.getString(R.string.calendar), context.getString(R.string.folder))) { index ->
+                if(index == 0) showDatePickerDialog()
+                else showFolderPickerDialog()
+            }, true, true, true, false)
+        }
+    }
+
+    private fun showDatePickerDialog() {
+        val time = if(timeObject.dtStart == Long.MIN_VALUE) System.currentTimeMillis()
+        else timeObject.dtStart
+
+        showDialog(DatePickerDialog(context as Activity, time) {
+            timeObject.folder = null
+            timeObject.setDate(it)
+            updateHeaderUI()
+            updateDateUI()
+        }, true, true, true, false)
+    }
+
+    private fun showFolderPickerDialog() {
+        MainActivity.getViewModel()?.folderList?.value?.let { folderList ->
+            showDialog(CustomListDialog(context as Activity,
+                    context.getString(R.string.folder),
+                    null,
+                    null,
+                    false,
+                    folderList.map { if(it.name.isNullOrBlank()) context.getString(R.string.untitle) else it.name!! }) { index ->
+                timeObject.folder = folderList[index]
+                updateHeaderUI()
+            }, true, true, true, false)
         }
     }
 
@@ -461,11 +543,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     private fun setData(data: TimeObject) {
         originalData = data
         timeObject.copy(data)
-        if(data.id.isNullOrEmpty()) {
-            deleteBtn.visibility = View.GONE
-        }else {
-            deleteBtn.visibility = View.VISIBLE
-        }
     }
 
     fun confirm() {
@@ -738,7 +815,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
         panel.visibility = View.INVISIBLE
-        textEditorLy.visibility = View.GONE
+        setInitiateView()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             MainActivity.instance?.window?.let { window ->
@@ -750,5 +827,15 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
 
         hideKeyPad(windowToken, titleInput)
+    }
+
+    private fun setInitiateView() {
+        textEditorLy.visibility = View.GONE
+        moreBtn.visibility = View.VISIBLE
+        colorBtn.visibility = View.GONE
+        pinBtn.visibility = View.GONE
+        styleBtn.visibility = View.GONE
+        deleteBtn.visibility = View.GONE
+        topShadow.visibility = View.GONE
     }
 }

@@ -37,12 +37,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
         }
 
-        calendarSettingBtn.setOnClickListener {
-            hide()
-            showDialog(CalendarSettingsDialog(context as Activity),
-                    true, false, true, false)
-        }
-
         mottoText.setOnClickListener {
             showDialog(InputDialog(context as Activity, context.getString(R.string.motto), null, null,
                     mottoText.text.toString()) { result, text ->

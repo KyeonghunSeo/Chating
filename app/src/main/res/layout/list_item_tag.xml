@@ -32,8 +32,8 @@
        android:id="@+id/deleteBtn"
        android:layout_width="30dp"
        android:layout_height="30dp"
-       android:padding="5dp"
-       android:src="@drawable/sharp_delete_forever_black_48dp"
-       android:tint="@color/primaryText"/>
+       android:padding="7dp"
+       android:src="@drawable/pencil"
+       android:tint="@color/iconTint"/>
 
 </LinearLayout>

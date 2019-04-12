@@ -36,6 +36,7 @@
                     android:layout_height="match_parent">
 
                     <LinearLayout
+                        android:id="@+id/folderLy"
                         android:animateLayoutChanges="true"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
@@ -47,22 +48,26 @@
                             android:id="@+id/folderImg"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
+                            android:background="?android:attr/selectableItemBackground"
                             android:padding="10dp"
                             android:src="@drawable/calendar_empty"
                             android:tint="@color/iconTint"/>
 
                         <TextView
-                            android:id="@+id/monthText"
+                            android:id="@+id/folderText"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:background="?android:attr/selectableItemBackground"
                             android:textColor="@color/secondaryText"
                             android:fontFamily="@font/bold"
-                            android:textSize="14dp"
+                            android:textSize="13dp"
                             android:text="1986년 10월 19일"/>
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/btnsLy"
                         android:animateLayoutChanges="true"
                         android:orientation="horizontal"
                         android:layout_width="0dp"
@@ -72,14 +77,40 @@
                         android:gravity="right|center_vertical">
 
                         <ImageView
+                            android:id="@+id/addOptionBtn"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:padding="10dp"
+                            android:src="@drawable/add"
+                            android:tint="@color/iconTint"/>
+
+                        <ImageView
                             android:id="@+id/colorBtn"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:padding="10dp"
                             android:src="@drawable/color_palette"
-                            android:tint="@color/iconTint"
-                            android:visibility="gone"/>
+                            android:tint="@color/iconTint"/>
+
+                        <ImageView
+                            android:id="@+id/pinBtn"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:padding="10dp"
+                            android:src="@drawable/pin"
+                            android:tint="@color/iconTint"/>
+
+                        <ImageView
+                            android:id="@+id/styleBtn"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:padding="10dp"
+                            android:src="@drawable/check"
+                            android:tint="@color/iconTint"/>
 
                         <ImageView
                             android:id="@+id/deleteBtn"
@@ -89,13 +120,6 @@
                             android:padding="10dp"
                             android:src="@drawable/delete"
                             android:tint="@color/iconTint"/>
-
-                        <com.hellowo.journey.ui.view.PinView
-                            android:id="@+id/pinBtn"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:visibility="gone"/>
 
                         <ImageView
                             android:id="@+id/moreBtn"
@@ -112,7 +136,15 @@
 
             </FrameLayout>
 
+            <View
+                android:id="@+id/topShadow"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/line_top_shadow"/>
+
             <androidx.core.widget.NestedScrollView
+                android:id="@+id/mainScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp">
@@ -121,39 +153,43 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="30dp">
+                    android:paddingTop="20dp"
+                    android:paddingBottom="45dp">
 
                     <TextView
                         android:id="@+id/tagText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="5dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:textColor="@color/primaryText"
                         android:textSize="16dp"
                         android:paddingBottom="5dp"
-                        android:paddingTop="5dp"
-                        android:fontFamily="@font/thin" />
+                        android:paddingTop="5dp" />
 
                     <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp">
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp">
 
                         <ImageView
                             android:id="@+id/checkBox"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:padding="5dp"
-                            android:src="@drawable/outline_check_box_black_48dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="1dp"
+                            android:src="@drawable/check"
                             android:background="?android:attr/selectableItemBackground"/>
 
                         <com.txusballesteros.AutoscaleEditText
                             android:id="@+id/titleInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="5dp"
                             android:layout_gravity="center_vertical"
                             android:textColorHint="@color/line"
                             android:textSize="28dp"
@@ -228,30 +264,45 @@
 
                     <LinearLayout
                         android:id="@+id/ddayLy"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
+                        android:orientation="vertical"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="30dp"
-                        android:background="?android:attr/selectableItemBackground">
+                        android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginTop="7dp"
-                            android:tint="@color/iconTint"
-                            android:src="@drawable/outline_event_available_black_48dp"/>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:tint="@color/primaryText"
+                                android:src="@drawable/outline_event_available_black_48dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="@string/dday"
+                                android:textColor="@color/primaryText"
+                                android:textSize="16dp" />
+
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/ddayText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
                             android:text="@string/dday"
                             android:textColor="@color/primaryText"
-                            android:textSize="16dp"
-                            android:fontFamily="@font/regular" />
+                            android:textSize="24dp"
+                            android:fontFamily="@font/bold" />
 
                     </LinearLayout>
 
@@ -315,69 +366,102 @@
 
                     <LinearLayout
                         android:id="@+id/checkListLy"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
+                        android:orientation="vertical"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="2dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="30dp">
+                        android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginTop="7dp"
-                            android:tint="@color/iconTint"
-                            android:src="@drawable/sharp_list_alt_black_48dp"/>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:tint="@color/primaryText"
+                                android:src="@drawable/checklist"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="@string/checklist"
+                                android:textColor="@color/primaryText"
+                                android:textSize="16dp" />
+
+                        </LinearLayout>
 
                         <com.hellowo.journey.ui.view.CheckListView
                             android:id="@+id/checkListView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="10dp"/>
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_marginTop="5dp"/>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/locationLy"
                         android:orientation="vertical"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="25dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:tint="@color/primaryText"
+                                android:src="@drawable/outline_place_black_48dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="@string/location"
+                                android:textColor="@color/primaryText"
+                                android:textSize="16dp" />
+
+                        </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/locationBtn"
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:minHeight="30dp">
-
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:layout_marginTop="7dp"
-                                android:tint="@color/iconTint"
-                                android:src="@drawable/outline_place_black_48dp"/>
+                            android:layout_marginTop="12dp"
+                            android:background="?android:attr/selectableItemBackground">
 
                             <TextView
                                 android:id="@+id/locationText"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginLeft="10dp"
+                                android:lineSpacingExtra="3dp"
                                 android:text="@string/location"
                                 android:textColor="@color/primaryText"
-                                android:textSize="16dp"
+                                android:textSize="14dp"
                                 android:fontFamily="@font/regular" />
 
                         </LinearLayout>
 
                         <FrameLayout
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:layout_marginLeft="25dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp">
+                            android:layout_height="90dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="12dp">
 
                             <fragment
                                 android:id="@+id/map"
@@ -388,8 +472,7 @@
                             <View
                                 android:id="@+id/mapTouchView"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/normal_rect_stroke"/>
+                                android:layout_height="match_parent"/>
 
                         </FrameLayout>
 
@@ -397,28 +480,44 @@
 
                     <LinearLayout
                         android:id="@+id/memoLy"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
+                        android:orientation="vertical"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="25dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="30dp"
-                        android:background="?android:attr/selectableItemBackground">
+                        android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginTop="7dp"
-                            android:tint="@color/iconTint"
-                            android:src="@drawable/sharp_notes_black_48dp"/>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:tint="@color/primaryText"
+                                android:src="@drawable/note"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="@string/memo"
+                                android:textColor="@color/primaryText"
+                                android:textSize="16dp" />
+
+                        </LinearLayout>
 
                         <EditText
                             android:id="@+id/memoInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="10dp"
+                            android:lineSpacingExtra="3dp"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="5dp"
                             android:textColor="@color/primaryText"
-                            android:textSize="16dp"
+                            android:textSize="14dp"
                             android:fontFamily="@font/regular"
                             android:background="@color/transparent"
                             android:hint="@string/enter_memo"/>
@@ -479,35 +578,6 @@
                             android:layout_marginLeft="10dp"
                             android:text="@string/alarm"
                             android:textColor="@color/primaryText"
-                            android:textSize="16dp"
-                            android:fontFamily="@font/regular" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/addOptionBtn"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="30dp"
-                        android:background="?android:attr/selectableItemBackground">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginTop="7dp"
-                            android:tint="@color/disableText"
-                            android:src="@drawable/sharp_add_black_48dp"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:text="@string/add_option"
-                            android:textColor="@color/disableText"
                             android:textSize="16dp"
                             android:fontFamily="@font/regular" />
 

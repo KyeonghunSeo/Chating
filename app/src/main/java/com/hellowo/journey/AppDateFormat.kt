@@ -30,6 +30,7 @@ object AppDateFormat {
     val monthEng = SimpleDateFormat("MMMM", Locale.ENGLISH)
     val ymSimpleDate = SimpleDateFormat("yyyy.M")
     val ymdkey = SimpleDateFormat("yyyyMMdd")
+    val simpleYmdDate = SimpleDateFormat("yy.MM.dd")
     val ymdthmszkey: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
 
     @SuppressLint("ConstantLocale")

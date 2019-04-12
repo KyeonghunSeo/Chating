@@ -194,6 +194,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                     && latitude == other.latitude
                     && longitude == other.longitude
                     && inCalendar == other.inCalendar
+                    && folder == other.folder
         }
         return false
     }

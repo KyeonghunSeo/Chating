@@ -136,7 +136,7 @@
                         android:textSize="14dp"
                         android:textColor="@color/secondaryText"
                         android:fontFamily="@font/regular"
-                        android:text="@string/show_calendar"/>
+                        android:text="@string/show_in_calendar"/>
 
                     <ImageView
                         android:id="@+id/inCalendarImg"

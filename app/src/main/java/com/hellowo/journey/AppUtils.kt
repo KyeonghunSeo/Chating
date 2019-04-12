@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.ChangeBounds
 import androidx.transition.Fade
@@ -351,28 +352,20 @@ fun callAfterViewDrawed(view: View, callback: Runnable) {
     })
 }
 
-/**
- * 다이얼로그 보여주기
- * @param dialog 다이어로그
- * @param is_cancelable 백키로 종료하기
- * @param is_dim 배경 어둡게 하지 않기
- * @param is_backgroun_transparent 배경 투명하게 하기
- * @param is_touchable_outside 외부 터치 가능하게 하기
- */
-fun showDialog(dialog: Dialog, is_cancelable: Boolean, is_dim: Boolean, is_backgroun_transparent: Boolean, is_touchable_outside: Boolean) {
+fun showDialog(dialog: Dialog, cancelable: Boolean, dim: Boolean, blankBackground: Boolean, touchOutside: Boolean) {
     try {
-        dialog.setCancelable(is_cancelable) // 백키로 종료하기
+        dialog.setCancelable(cancelable) // 백키로 종료하기
         dialog.setOnKeyListener { dialogInterface, i, keyEvent ->
-            !is_cancelable && keyEvent.action == KeyEvent.KEYCODE_BACK
+            !cancelable && keyEvent.action == KeyEvent.KEYCODE_BACK
         }
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // 타이틀 숨기기
-        if (!is_dim) { // 배경 어둡게 하지 않기
+        if (!dim) { // 배경 어둡게 하지 않기
             dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         }
-        if (is_backgroun_transparent) { // 배경 투명하게 하기
+        if (blankBackground) { // 배경 투명하게 하기
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
-        if (is_touchable_outside) { // 외부 터치 가능하게 하기
+        if (touchOutside) { // 외부 터치 가능하게 하기
             dialog.window!!.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL)
         }
@@ -435,6 +428,14 @@ fun setGlobalTheme(view: View?) {
             }
         }
     }
+}
+
+fun toast(text: String) {
+    Toast.makeText(App.context, text, Toast.LENGTH_SHORT).show()
+}
+
+fun toast(stringId: Int) {
+    toast(App.context.getString(stringId))
 }
 
 

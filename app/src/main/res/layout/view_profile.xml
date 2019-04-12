@@ -114,31 +114,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/calendarSettingBtn"
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/calendar"
-                        android:tint="@color/iconTint"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:gravity="center"
-                        android:textColor="@color/secondaryText"
-                        android:textSize="16dp"
-                        android:text="@string/calendar_settings"/>
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/settingsBtn"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"

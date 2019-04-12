@@ -3,6 +3,7 @@ package com.hellowo.journey.ui.view
 import android.animation.LayoutTransition
 import android.app.Activity
 import android.content.Context
+import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -110,8 +111,10 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
 
         if(item.getLong("dtDone") != Long.MIN_VALUE) {
             iconImg.setImageResource(R.drawable.check_circle)
+            titleText.paintFlags = titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }else {
             iconImg.setImageResource(R.drawable.uncheck_circle)
+            titleText.paintFlags = titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
         titleText.text = item.getString("title")
     }
