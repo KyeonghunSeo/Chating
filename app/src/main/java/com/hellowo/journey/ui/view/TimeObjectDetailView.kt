@@ -505,7 +505,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
             googleMap?.addMarker(MarkerOptions().position(latLng))
 
-            locationBtn.setOnClickListener {
+            locationText.setOnClickListener {
                 showDialog(CustomDialog(context as Activity, context.getString(R.string.location),
                         null, arrayOf(context.getString(R.string.delete), context.getString(R.string.edit)))
                 { result, index, _ ->
