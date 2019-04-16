@@ -13,13 +13,14 @@ import android.widget.FrameLayout
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.hellowo.journey.*
+import com.hellowo.journey.ui.view.base.PagingControlableViewPager
 import java.util.*
 
 class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
     private val startPosition = 1000
     private val viewCount = 3
-    private val viewPager = ViewPager(context)
+    private val viewPager = PagingControlableViewPager(context)
     private val calendarViews = List(viewCount) { CalendarView(context) }
     var onSelectedDate: ((Long, Int, Boolean, CalendarView) -> Unit)? = null
     var onTop: ((Boolean, Boolean) -> Unit)? = null
@@ -31,6 +32,7 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
 
     init {
         addView(viewPager)
+        viewPager.setPagingEnabled(true)
         viewPager.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         viewPager.adapter = CalendarPagerAdapter()
         viewPager.setCurrentItem(startPosition, false)
@@ -49,6 +51,7 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
                 l("$position 페이지 선택됨 : ${AppDateFormat.ymdDate.format(targetCalendarView.targetCal.time)}")
             }
         })
+
     }
 
     private fun selectedTargetCalendarView(calendarView: CalendarView) {

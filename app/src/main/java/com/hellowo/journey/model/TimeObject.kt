@@ -61,7 +61,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                 R.drawable.sharp_date_range_black_48dp, true,
                 arrayOf(DEFAULT, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
         MONEY(R.string.money, R.string.money_sub,
-                R.drawable.sharp_local_atm_black_48dp, false,
+                R.drawable.empty, false,
                 arrayOf(DEFAULT, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE))
     }
 
@@ -293,4 +293,6 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     fun isRepeat(): Boolean = !repeat.isNullOrEmpty()
 
     fun isLunarRepeat(): Boolean = repeat?.contains("lunar") == true
+
+    fun isSetLink(): Boolean = links.any { it.type == Link.Type.IMAGE.ordinal }
 }

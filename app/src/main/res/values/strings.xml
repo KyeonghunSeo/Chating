@@ -305,5 +305,10 @@
     <string name="check_option_3">흐리게만</string>
     <string name="display_settings">화면 설정</string>
     <string name="hide_in_calendar">달력에서 숨김</string>
+    <string name="swipe_orientation">날짜이동 방향</string>
+    <string name="horizontal">가로</string>
+    <string name="vertical">세로</string>
+    <string name="set_end">종료일 설정</string>
+    <string name="set_end_time">종료시간 설정</string>
 
 </resources>

@@ -127,7 +127,7 @@
                             android:layout_height="40dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:padding="10dp"
-                            android:src="@drawable/sharp_more_horiz_black_48dp"
+                            android:src="@drawable/more"
                             android:tint="@color/iconTint"/>
 
                     </LinearLayout>
@@ -204,110 +204,142 @@
 
                     <LinearLayout
                         android:id="@+id/timeLy"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="30dp"
-                        android:background="?android:attr/selectableItemBackground">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginTop="7dp"
-                            android:tint="@color/iconTint"
-                            android:src="@drawable/outline_date_range_black_48dp"/>
-
-                        <TextView
-                            android:id="@+id/timeText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:text="time"
-                            android:textColor="@color/primaryText"
-                            android:textSize="16dp"
-                            android:fontFamily="@font/regular" />
-
-                        <LinearLayout
-                            android:id="@+id/durationLy"
-                            android:orientation="horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="bottom|right">
-
-                            <TextView
-                                android:id="@+id/durationText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="25dp"
-                                android:includeFontPadding="false"
-                                android:textColor="@color/primaryText"
-                                android:fontFamily="@font/bold"
-                                android:text="3"/>
-
-                            <TextView
-                                android:id="@+id/unitText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginBottom="1dp"
-                                android:textSize="12dp"
-                                android:includeFontPadding="false"
-                                android:textColor="@color/primaryText"
-                                android:fontFamily="@font/regular"
-                                android:text="@string/date_duration"/>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/repeatLy"
-                        android:orientation="vertical"
                         android:layout_marginTop="25dp"
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="30dp"
-                        android:background="?android:attr/selectableItemBackground">
+                        android:layout_marginBottom="10dp">
 
                         <LinearLayout
                             android:orientation="horizontal"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical">
 
                             <ImageView
-                                android:id="@+id/repeatIcon"
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
-                                android:tint="@color/primaryText"
-                                android:src="@drawable/sharp_repeat_black_48dp"/>
+                                android:tint="@color/disableText"
+                                android:src="@drawable/schedule"/>
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
-                                android:text="@string/repeat"
-                                android:textColor="@color/primaryText"
-                                android:textSize="16dp" />
+                                android:text="@string/schedule"
+                                android:textColor="@color/disableText"
+                                android:textSize="13dp" />
+
+                            <FrameLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="right"
+                                    android:tint="@color/iconTint"
+                                    android:src="@drawable/calendar"/>
+
+                            </FrameLayout>
 
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/repeatText"
+                        <com.hellowo.journey.ui.view.base.Line
+                            android:layout_width="match_parent"
+                            android:layout_height="0.0dp"
+                            android:layout_marginTop="5dp"
+                            app:colorFlag="disable"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:lineSpacingExtra="3dp"
-                            android:text="@string/repeat"
-                            android:textColor="@color/primaryText"
-                            android:textSize="14dp"
-                            android:fontFamily="@font/regular" />
+                            android:layout_marginTop="10dp">
+
+                            <LinearLayout
+                                android:id="@+id/startLy"
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="?android:attr/selectableItemBackground">
+
+                                <TextView
+                                    android:id="@+id/smallStartText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="time"
+                                    android:textColor="@color/primaryText"
+                                    android:textSize="13dp" />
+
+                                <TextView
+                                    android:id="@+id/bigStartText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="time"
+                                    android:textColor="@color/primaryText"
+                                    android:textSize="22dp" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/startEndDivider"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginRight="15dp"
+                                android:text="~"
+                                android:textColor="@color/primaryText"
+                                android:textSize="22dp" />
+
+                            <LinearLayout
+                                android:id="@+id/endLy"
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="?android:attr/selectableItemBackground">
+
+                                <TextView
+                                    android:id="@+id/smallEndText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="1986년 10월 19일"
+                                    android:textColor="@color/primaryText"
+                                    android:textSize="13dp" />
+
+                                <TextView
+                                    android:id="@+id/bigEndText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="24:00"
+                                    android:textColor="@color/primaryText"
+                                    android:textSize="22dp" />
+
+                            </LinearLayout>
+
+                            <FrameLayout
+                                android:id="@+id/durationLy"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:id="@+id/durationText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right"
+                                    android:textColor="@color/disableText"
+                                    android:textSize="13dp"/>
+
+                            </FrameLayout>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -330,82 +362,231 @@
                             <ImageView
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
-                                android:tint="@color/primaryText"
-                                android:src="@drawable/outline_event_available_black_48dp"/>
+                                android:tint="@color/disableText"
+                                android:src="@drawable/dday"/>
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:text="@string/dday"
-                                android:textColor="@color/primaryText"
-                                android:textSize="16dp" />
+                                android:textColor="@color/disableText"
+                                android:textSize="13dp" />
 
                         </LinearLayout>
+
+                        <com.hellowo.journey.ui.view.base.Line
+                            android:layout_width="match_parent"
+                            android:layout_height="0.0dp"
+                            android:layout_marginTop="5dp"
+                            app:colorFlag="disable"/>
 
                         <TextView
                             android:id="@+id/ddayText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="?android:attr/selectableItemBackground"
                             android:layout_marginTop="10dp"
                             android:text="@string/dday"
                             android:textColor="@color/primaryText"
-                            android:textSize="24dp"
-                            android:fontFamily="@font/bold" />
+                            android:textSize="22dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/deadlineLy"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="30dp"
-                        android:background="?android:attr/selectableItemBackground">
+                        android:layout_marginTop="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginBottom="10dp">
 
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginTop="7dp"
-                            android:tint="@color/iconTint"
-                            android:src="@drawable/sharp_hourglass_empty_black_48dp"/>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:tint="@color/disableText"
+                                android:src="@drawable/dday"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="@string/deadline"
+                                android:textColor="@color/disableText"
+                                android:textSize="13dp" />
+
+                        </LinearLayout>
+
+                        <com.hellowo.journey.ui.view.base.Line
+                            android:layout_width="match_parent"
+                            android:layout_height="0.0dp"
+                            android:layout_marginTop="5dp"
+                            app:colorFlag="disable"/>
 
                         <TextView
                             android:id="@+id/deadlineText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
                             android:text="@string/deadline"
                             android:textColor="@color/primaryText"
-                            android:textSize="16dp"
-                            android:fontFamily="@font/regular" />
+                            android:textSize="22dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/repeatLy"
+                        android:orientation="vertical"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="30dp">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:id="@+id/repeatIcon"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:tint="@color/disableText"
+                                android:src="@drawable/repeat"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="@string/repeat"
+                                android:textColor="@color/disableText"
+                                android:textSize="13dp" />
+
+                        </LinearLayout>
+
+                        <com.hellowo.journey.ui.view.base.Line
+                            android:layout_width="match_parent"
+                            android:layout_height="0.0dp"
+                            android:layout_marginTop="5dp"
+                            app:colorFlag="disable"/>
+
+                        <TextView
+                            android:id="@+id/repeatText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:lineSpacingExtra="3dp"
+                            android:text="@string/repeat"
+                            android:textColor="@color/primaryText"
+                            android:textSize="16dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/alarmLy"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginBottom="10dp">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:tint="@color/disableText"
+                                android:src="@drawable/alarm"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="@string/alarm"
+                                android:textColor="@color/disableText"
+                                android:textSize="13dp" />
+
+                        </LinearLayout>
+
+                        <com.hellowo.journey.ui.view.base.Line
+                            android:layout_width="match_parent"
+                            android:layout_height="0.0dp"
+                            android:layout_marginTop="5dp"
+                            app:colorFlag="disable"/>
+
+                        <TextView
+                            android:id="@+id/alarmText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/alarm"
+                            android:textColor="@color/primaryText"
+                            android:textSize="16dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/percentageLy"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="30dp"
-                        android:background="?android:attr/selectableItemBackground">
+                        android:layout_marginTop="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginBottom="10dp">
 
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginTop="7dp"
-                            android:tint="@color/iconTint"
-                            android:src="@drawable/outline_pie_chart_black_48dp"/>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:tint="@color/disableText"
+                                android:src="@drawable/outline_pie_chart_black_48dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="@string/percentage"
+                                android:textColor="@color/disableText"
+                                android:textSize="13dp" />
+
+                        </LinearLayout>
+
+                        <com.hellowo.journey.ui.view.base.Line
+                            android:layout_width="match_parent"
+                            android:layout_height="0.0dp"
+                            android:layout_marginTop="5dp"
+                            app:colorFlag="disable"/>
 
                         <TextView
                             android:id="@+id/percentagetText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="?android:attr/selectableItemBackground"
                             android:text="@string/percentage"
                             android:textColor="@color/primaryText"
                             android:textSize="16dp"
@@ -432,7 +613,7 @@
                             <ImageView
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
-                                android:tint="@color/primaryText"
+                                android:tint="@color/disableText"
                                 android:src="@drawable/checklist"/>
 
                             <TextView
@@ -440,10 +621,18 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:text="@string/checklist"
-                                android:textColor="@color/primaryText"
-                                android:textSize="16dp" />
+                                android:textColor="@color/disableText"
+                                android:textSize="13dp" />
 
                         </LinearLayout>
+
+                        <com.hellowo.journey.ui.view.base.Line
+                            android:layout_width="match_parent"
+                            android:layout_height="0.0dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            app:colorFlag="disable"/>
 
                         <com.hellowo.journey.ui.view.CheckListView
                             android:id="@+id/checkListView"
@@ -461,6 +650,7 @@
                         android:layout_marginTop="25dp"
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
+                        android:layout_marginBottom="12dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -473,7 +663,7 @@
                             <ImageView
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
-                                android:tint="@color/primaryText"
+                                android:tint="@color/disableText"
                                 android:src="@drawable/outline_place_black_48dp"/>
 
                             <TextView
@@ -481,10 +671,16 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:text="@string/location"
-                                android:textColor="@color/primaryText"
-                                android:textSize="16dp" />
+                                android:textColor="@color/disableText"
+                                android:textSize="13dp" />
 
                         </LinearLayout>
+
+                        <com.hellowo.journey.ui.view.base.Line
+                            android:layout_width="match_parent"
+                            android:layout_height="0.0dp"
+                            android:layout_marginTop="5dp"
+                            app:colorFlag="disable"/>
 
                         <TextView
                             android:id="@+id/locationText"
@@ -500,8 +696,7 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="90dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginBottom="12dp">
+                            android:layout_marginTop="15dp">
 
                             <fragment
                                 android:id="@+id/map"
@@ -524,6 +719,7 @@
                         android:layout_marginTop="25dp"
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -536,7 +732,7 @@
                             <ImageView
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
-                                android:tint="@color/primaryText"
+                                android:tint="@color/disableText"
                                 android:src="@drawable/note"/>
 
                             <TextView
@@ -544,10 +740,16 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:text="@string/memo"
-                                android:textColor="@color/primaryText"
-                                android:textSize="16dp" />
+                                android:textColor="@color/disableText"
+                                android:textSize="13dp" />
 
                         </LinearLayout>
+
+                        <com.hellowo.journey.ui.view.base.Line
+                            android:layout_width="match_parent"
+                            android:layout_height="0.0dp"
+                            android:layout_marginTop="5dp"
+                            app:colorFlag="disable"/>
 
                         <EditText
                             android:id="@+id/memoInput"
@@ -565,33 +767,54 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/alarmLy"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
+                        android:id="@+id/linkLy"
+                        android:orientation="vertical"
+                        android:layout_marginTop="25dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="30dp"
-                        android:background="?android:attr/selectableItemBackground">
+                        android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginTop="7dp"
-                            android:tint="@color/iconTint"
-                            android:src="@drawable/sharp_access_alarm_black_48dp"/>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:gravity="center_vertical">
 
-                        <TextView
-                            android:id="@+id/alarmText"
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:tint="@color/disableText"
+                                android:src="@drawable/clip"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="@string/attachment"
+                                android:textColor="@color/disableText"
+                                android:textSize="13dp" />
+
+                        </LinearLayout>
+
+                        <com.hellowo.journey.ui.view.base.Line
+                            android:layout_width="match_parent"
+                            android:layout_height="0.0dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            app:colorFlag="disable"/>
+
+                        <com.hellowo.journey.ui.view.LinkListView
+                            android:id="@+id/linkListView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:text="@string/alarm"
-                            android:textColor="@color/primaryText"
-                            android:textSize="16dp"
-                            android:fontFamily="@font/regular" />
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_marginTop="5dp"/>
 
                     </LinearLayout>
+
 
                 </LinearLayout>
 
@@ -627,7 +850,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/sharp_format_quote_black_48dp"
+                        android:src="@drawable/empty"
                         android:padding="12dp"
                         android:tint="@color/disableText"/>
 
@@ -636,7 +859,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/sharp_format_quote_black_48dp"
+                        android:src="@drawable/empty"
                         android:padding="12dp"
                         android:tint="@color/disableText"/>
 
@@ -645,7 +868,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/sharp_format_quote_black_48dp"
+                        android:src="@drawable/empty"
                         android:padding="12dp"
                         android:tint="@color/disableText"/>
 
@@ -654,7 +877,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/sharp_format_quote_black_48dp"
+                        android:src="@drawable/empty"
                         android:padding="12dp"
                         android:tint="@color/disableText"/>
 
@@ -664,7 +887,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/sharp_format_quote_black_48dp"
+                        android:src="@drawable/empty"
                         android:padding="12dp"
                         android:tint="@color/disableText"/>
 
@@ -674,7 +897,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/sharp_format_quote_black_48dp"
+                        android:src="@drawable/empty"
                         android:padding="12dp"
                         android:tint="@color/disableText"/>
 
@@ -684,7 +907,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/sharp_format_quote_black_48dp"
+                        android:src="@drawable/empty"
                         android:padding="12dp"
                         android:tint="@color/disableText"/>
 

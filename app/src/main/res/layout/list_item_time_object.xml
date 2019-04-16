@@ -130,7 +130,7 @@
                    android:layout_width="12dp"
                    android:layout_height="12dp"
                    android:tint="@color/iconTint"
-                   android:src="@drawable/sharp_repeat_black_48dp"/>
+                   android:src="@drawable/repeat"/>
 
                <TextView
                    android:id="@+id/repeatText"

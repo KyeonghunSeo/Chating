@@ -51,7 +51,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:tint="@color/primaryText"
-                android:src="@drawable/sharp_search_black_48dp"
+                android:src="@drawable/search"
                 android:padding="15dp"/>
 
             <EditText

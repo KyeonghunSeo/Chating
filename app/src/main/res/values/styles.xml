@@ -15,7 +15,7 @@
     </style>
 
     <style name="AppTheme" parent="BaseTheme">
-        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@drawable/window_background</item>
     </style>
 
     <style name="Theme.Transparent" parent="BaseTheme">

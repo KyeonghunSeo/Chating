@@ -129,6 +129,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun setLayout() {
+        setBackgroundColor(AppTheme.backgroundColor)
         scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         scrollView.isVerticalScrollBarEnabled = false
         scrollView.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->

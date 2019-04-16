@@ -141,6 +141,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         updateLocationUI()
         updateMemoUI()
         updateStyleUI()
+        updateLinkUI()
     }
 
     private fun updateHeaderUI() {
@@ -379,44 +380,26 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                 return@setOnLongClickListener true
             }
 
-            val timeString = StringBuilder()
-            val durationString = StringBuilder()
-            val unitString = StringBuilder()
-
-            if(isSameDay(startCal, endCal)) {
-                timeString.append(AppDateFormat.ymdeDate.format(startCal.time))
-                if(!timeObject.allday) {
-                    if(startCal.timeInMillis == endCal.timeInMillis) {
-                        timeString.append(" ${AppDateFormat.time.format(startCal.time)}")
-                    }else {
-                        durationString.append((endCal.timeInMillis - startCal.timeInMillis) / MIN_MILL)
-                        unitString.append(context.getString(R.string.min))
-                        timeString.append("\n${AppDateFormat.time.format(startCal.time)} ~ ${AppDateFormat.time.format(endCal.time)}")
-                    }
-                }
+            if(timeObject.allday) {
+                smallStartText.text = AppDateFormat.ymDate.format(startCal.time)
+                bigStartText.text = "${AppDateFormat.date.format(startCal.time)} ${AppDateFormat.simpleDow.format(startCal.time)}"
+                smallEndText.text = AppDateFormat.ymDate.format(endCal.time)
+                bigEndText.text = "${AppDateFormat.date.format(endCal.time)} ${AppDateFormat.simpleDow.format(endCal.time)}"
             }else {
-                durationString.append((getDiffDate(startCal, endCal) + 1))
-                unitString.append(context.getString(R.string.date_duration))
-
-                if(timeObject.allday) {
-                    timeString.append(String.format(context.getString(R.string.from_to),
-                            AppDateFormat.ymdeDate.format(startCal.time), AppDateFormat.ymdeDate.format(endCal.time)))
-                }else {
-                    timeString.append(String.format(context.getString(R.string.from_to),
-                            "${AppDateFormat.ymdeDate.format(startCal.time)} ${AppDateFormat.time.format(startCal.time)}",
-                            "${AppDateFormat.ymdeDate.format(endCal.time)} ${AppDateFormat.time.format(endCal.time)}"))
-                }
+                smallStartText.text = AppDateFormat.ymdDate.format(startCal.time)
+                bigStartText.text = AppDateFormat.time.format(startCal.time)
+                smallEndText.text = AppDateFormat.ymdDate.format(endCal.time)
+                bigEndText.text = AppDateFormat.time.format(endCal.time)
             }
 
-            if(durationString.isNotEmpty()) {
-                durationLy.visibility = View.GONE
-                durationText.text = durationString.toString()
-                unitText.text = unitString.toString()
+            if(startCal == endCal) {
+                startEndDivider.visibility = View.GONE
+                endLy.visibility = View.GONE
             }else {
-                durationLy.visibility = View.GONE
+                startEndDivider.visibility = View.VISIBLE
+                endLy.visibility = View.VISIBLE
+                durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, timeObject.allday)
             }
-
-            timeText.text = timeString.toString()
         }else {
             timeLy.visibility = View.GONE
         }
@@ -453,10 +436,10 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             repeatLy.visibility = View.VISIBLE
             repeatText.text = RepeatManager.makeRepeatText(timeObject)
             if(timeObject.isLunarRepeat()) {
-                repeatIcon.setImageResource(R.drawable.lunar)
+                //repeatIcon.setImageResource(R.drawable.lunar)
                 repeatLy.setOnClickListener { showLunarRepeatDialog() }
             }else {
-                repeatIcon.setImageResource(R.drawable.sharp_repeat_black_48dp)
+                //repeatIcon.setImageResource(R.drawable.sharp_repeat_black_48dp)
                 repeatLy.setOnClickListener { showRepeatDialog() }
             }
         }else {
@@ -538,6 +521,15 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     fun showMemoUI() {
         memoLy.visibility = View.VISIBLE
         showKeyPad(memoInput)
+    }
+
+    fun updateLinkUI() {
+        if(timeObject.isSetLink()) {
+            linkLy.visibility = View.VISIBLE
+            linkListView.setList(timeObject)
+        }else {
+            linkLy.visibility = View.GONE
+        }
     }
 
     private fun setData(data: TimeObject) {

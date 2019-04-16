@@ -136,7 +136,7 @@
                         <ImageView
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:src="@drawable/sharp_repeat_black_48dp"
+                            android:src="@drawable/repeat"
                             android:tint="@color/iconTint"/>
 
                         <TextView
@@ -506,7 +506,7 @@
                         <ImageView
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:src="@drawable/sharp_wallpaper_black_48dp"
+                            android:src="@drawable/photo"
                             android:tint="@color/iconTint"/>
 
                         <TextView
