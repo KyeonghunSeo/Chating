@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.hellowo.journey.R
 import com.hellowo.journey.model.Link
 import com.hellowo.journey.model.TimeObject
@@ -20,6 +21,7 @@ import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.showDialog
 import com.hellowo.journey.ui.dialog.CustomDialog
 import com.hellowo.journey.vibrate
+import com.stfalcon.frescoimageviewer.ImageViewer
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -30,8 +32,8 @@ class LinkListView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     init {
         orientation = VERTICAL
-        layoutTransition = LayoutTransition()
-        layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        //layoutTransition = LayoutTransition()
+        //layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
     }
 
     fun setList(to: TimeObject) {
@@ -41,12 +43,29 @@ class LinkListView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun makeItem(link: Link) {
-        val v = LayoutInflater.from(context).inflate(R.layout.list_item_checklist, null, false)
-        val iconImg = v.findViewById<ImageView>(R.id.iconImg)
-        val titleText = v.findViewById<TextView>(R.id.titleText)
+        val v = LayoutInflater.from(context).inflate(R.layout.list_item_link, null, false)
+        val imageView = v.findViewById<ImageView>(R.id.imageView)
         setGlobalTheme(v)
+        Glide.with(context).load(link.properties).into(imageView)
+        imageView.setOnClickListener {
+            timeObject?.links?.filter { it.type == Link.Type.IMAGE.ordinal }?.let { list ->
+                ImageViewer.Builder(context, list.map { it.properties })
+                        .hideStatusBar(false)
+                        .setStartPosition(list.indexOf(link))
+                        .show()
+            }
+        }
 
-
+        imageView.setOnLongClickListener {
+            showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_item),
+                    null, null) { result, _, _ ->
+                if(result) {
+                    timeObject?.links?.remove(link)
+                    removeView(v)
+                }
+            }, true, true, true, false)
+            return@setOnLongClickListener true
+        }
         addView(v)
     }
 

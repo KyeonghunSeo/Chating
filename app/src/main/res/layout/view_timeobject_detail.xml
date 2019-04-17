@@ -179,14 +179,16 @@
 
                         <ImageView
                             android:id="@+id/checkBox"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginTop="2dp"
                             android:layout_marginLeft="1dp"
+                            android:transformPivotY="2dp"
+                            android:transformPivotX="15dp"
                             android:src="@drawable/check"
                             android:background="?android:attr/selectableItemBackground"/>
 
-                        <com.txusballesteros.AutoscaleEditText
+                        <com.hellowo.journey.ui.view.base.AutoScaleEditText
                             android:id="@+id/titleInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -195,10 +197,7 @@
                             android:textColorHint="@color/line"
                             android:textSize="28dp"
                             android:hint="@string/write_everything"
-                            android:background="@color/transparent"
-                            app:linesLimit="0.8"
-                            app:textScale="0.6"
-                            app:animationDuration="200"/>
+                            android:background="@color/transparent"/>
 
                     </LinearLayout>
 
@@ -250,7 +249,7 @@
 
                         <com.hellowo.journey.ui.view.base.Line
                             android:layout_width="match_parent"
-                            android:layout_height="0.0dp"
+                            android:layout_height="0.5dp"
                             android:layout_marginTop="5dp"
                             app:colorFlag="disable"/>
 
@@ -377,7 +376,7 @@
 
                         <com.hellowo.journey.ui.view.base.Line
                             android:layout_width="match_parent"
-                            android:layout_height="0.0dp"
+                            android:layout_height="0.5dp"
                             android:layout_marginTop="5dp"
                             app:colorFlag="disable"/>
 
@@ -427,7 +426,7 @@
 
                         <com.hellowo.journey.ui.view.base.Line
                             android:layout_width="match_parent"
-                            android:layout_height="0.0dp"
+                            android:layout_height="0.5dp"
                             android:layout_marginTop="5dp"
                             app:colorFlag="disable"/>
 
@@ -478,7 +477,7 @@
 
                         <com.hellowo.journey.ui.view.base.Line
                             android:layout_width="match_parent"
-                            android:layout_height="0.0dp"
+                            android:layout_height="0.5dp"
                             android:layout_marginTop="5dp"
                             app:colorFlag="disable"/>
 
@@ -528,7 +527,7 @@
 
                         <com.hellowo.journey.ui.view.base.Line
                             android:layout_width="match_parent"
-                            android:layout_height="0.0dp"
+                            android:layout_height="0.5dp"
                             android:layout_marginTop="5dp"
                             app:colorFlag="disable"/>
 
@@ -577,7 +576,7 @@
 
                         <com.hellowo.journey.ui.view.base.Line
                             android:layout_width="match_parent"
-                            android:layout_height="0.0dp"
+                            android:layout_height="0.5dp"
                             android:layout_marginTop="5dp"
                             app:colorFlag="disable"/>
 
@@ -628,7 +627,7 @@
 
                         <com.hellowo.journey.ui.view.base.Line
                             android:layout_width="match_parent"
-                            android:layout_height="0.0dp"
+                            android:layout_height="0.5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginLeft="25dp"
                             android:layout_marginRight="25dp"
@@ -678,7 +677,7 @@
 
                         <com.hellowo.journey.ui.view.base.Line
                             android:layout_width="match_parent"
-                            android:layout_height="0.0dp"
+                            android:layout_height="0.5dp"
                             android:layout_marginTop="5dp"
                             app:colorFlag="disable"/>
 
@@ -695,7 +694,7 @@
 
                         <FrameLayout
                             android:layout_width="match_parent"
-                            android:layout_height="90dp"
+                            android:layout_height="80dp"
                             android:layout_marginTop="15dp">
 
                             <fragment
@@ -707,7 +706,8 @@
                             <View
                                 android:id="@+id/mapTouchView"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"/>
+                                android:layout_height="match_parent"
+                                android:background="@drawable/normal_rect_stroke"/>
 
                         </FrameLayout>
 
@@ -747,7 +747,7 @@
 
                         <com.hellowo.journey.ui.view.base.Line
                             android:layout_width="match_parent"
-                            android:layout_height="0.0dp"
+                            android:layout_height="0.5dp"
                             android:layout_marginTop="5dp"
                             app:colorFlag="disable"/>
 
@@ -770,6 +770,8 @@
                         android:id="@+id/linkLy"
                         android:orientation="vertical"
                         android:layout_marginTop="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="25dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -777,8 +779,6 @@
                             android:orientation="horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="25dp"
-                            android:layout_marginRight="25dp"
                             android:gravity="center_vertical">
 
                             <ImageView
@@ -799,19 +799,14 @@
 
                         <com.hellowo.journey.ui.view.base.Line
                             android:layout_width="match_parent"
-                            android:layout_height="0.0dp"
+                            android:layout_height="0.5dp"
                             android:layout_marginTop="5dp"
-                            android:layout_marginLeft="25dp"
-                            android:layout_marginRight="25dp"
                             app:colorFlag="disable"/>
 
                         <com.hellowo.journey.ui.view.LinkListView
                             android:id="@+id/linkListView"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="25dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_height="wrap_content"/>
 
                     </LinearLayout>
 

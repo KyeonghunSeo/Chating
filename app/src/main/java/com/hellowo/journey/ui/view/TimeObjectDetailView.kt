@@ -1,6 +1,6 @@
 package com.hellowo.journey.ui.view
 
-import android.animation.LayoutTransition
+import android.animation.*
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Activity.RESULT_OK
@@ -13,6 +13,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.*
+import android.view.animation.AnimationSet
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -97,6 +98,14 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             }
             override fun afterTextChanged(p0: Editable?) {}
         })
+        titleInput.onScaleChanged = { isNormalScale ->
+            val scale = if(isNormalScale) 1f else 0.7f
+            val animSet = AnimatorSet()
+            animSet.playTogether(ObjectAnimator.ofFloat(checkBox, "scaleX", checkBox.scaleX, scale),
+                    ObjectAnimator.ofFloat(checkBox, "scaleY", checkBox.scaleY, scale))
+            animSet.duration = 200L
+            animSet.start()
+        }
         titleInput.isFocusableInTouchMode = false
         titleInput.clearFocus()
         titleInput.setOnClickListener { showKeyPad(titleInput) }
@@ -166,9 +175,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
             updateStyleUI()
         }
 
-        styleBtn.setOnClickListener {
-
-        }
+        styleBtn.setOnClickListener {}
 
         deleteBtn.setOnClickListener {
             showDialog(CustomDialog(context as Activity, context.getString(R.string.delete),
@@ -568,7 +575,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
     private fun showKeyPad(v : EditText) {
         targetInput = v
         v.isFocusableInTouchMode = true
-        if (titleInput.requestFocus()) {
+        if (v.requestFocus()) {
             (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(v, 0)
         }
     }
@@ -661,6 +668,7 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
                                             timeObject.links.add(Link(imageId, Link.Type.IMAGE.ordinal,
                                                     null, it.result.toString()))
                                             MainActivity.instance?.hideProgressDialog()
+                                            updateLinkUI()
                                         }
                                     }
                                 }
@@ -829,5 +837,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         styleBtn.visibility = View.GONE
         deleteBtn.visibility = View.GONE
         topShadow.visibility = View.GONE
+        mainScrollView.scrollTo(0,0)
     }
 }

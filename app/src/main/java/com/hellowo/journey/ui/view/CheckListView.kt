@@ -32,8 +32,8 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
 
     init {
         orientation = VERTICAL
-        layoutTransition = LayoutTransition()
-        layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        //layoutTransition = LayoutTransition()
+        //layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
     }
 
     fun setCheckList(to: TimeObject) {

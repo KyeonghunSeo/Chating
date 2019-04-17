@@ -189,7 +189,7 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, v
             else v.subImageLy.visibility = View.GONE
 
             v.imageLy.visibility = View.VISIBLE
-            v.imageLy.setOnClickListener { _ ->
+            v.imageLy.setOnClickListener {
                 ImageViewer.Builder(context, list.map { it.properties })
                         .hideStatusBar(false)
                         .setStartPosition(0)
