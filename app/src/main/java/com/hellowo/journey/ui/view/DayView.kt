@@ -42,12 +42,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     : CardView(context, attrs, defStyleAttr) {
     companion object {
         const val headerTextScale = 4f
-        val datePosX = dpToPx(10f)
-        val datePosY = -dpToPx(10f)
+        val datePosX = dpToPx(12f)
+        val datePosY = -dpToPx(7f)
         val dowPosX = -dpToPx(0f)
-        val dowPosY = dpToPx(3.1f)
-        val holiPosX = dpToPx(15.4f)
-        val holiPosY = -dpToPx(7.8f)
+        val dowPosY = dpToPx(2.6f)
+        val holiPosX = dpToPx(15.0f)
+        val holiPosY = -dpToPx(7.9f)
         val startZ = dpToPx(8f)
         val endZ = dpToPx(0f)
         val subScale = 0.4f
@@ -76,8 +76,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         elevation = 0f
         radius = 0f
         dateText.typeface = AppTheme.boldFont
-        dowText.typeface = AppTheme.regularFont
-        holiText.typeface = AppTheme.regularFont
+        dowText.typeface = AppTheme.boldFont
+        holiText.typeface = AppTheme.boldFont
         dateLy.clipChildren = false
         dateLy.pivotX = 0f
         dateLy.pivotY = 0f
@@ -87,8 +87,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.pivotY = 0f
         (dateLy.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.NO_GRAVITY
         bar.visibility = View.GONE
-        todayBar.visibility = View.GONE
-        todayFlag.visibility = View.GONE
         topShadow.visibility = View.GONE
         setDateClosedStyle()
     }
@@ -230,18 +228,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dateText.setTextColor(color)
         dowText.setTextColor(color)
         holiText.setTextColor(color)
-        flag.setColorFilter(color)
 
-        when {
-            holiday != null -> holiText.text = holiday.title
-            AppStatus.isLunarDisplay -> holiText.text = lunarCalendar.lunarSimpleFormat
-            else -> holiText.text = ""
-        }
+        if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
+        else dowText.visibility = View.GONE
+
+        holiText.text = holiday?.title ?: ""
 
         if(isSameDay(CalendarView.todayCal, targetCal)) {
-            flag.visibility = View.VISIBLE
         }else {
-            flag.visibility = View.GONE
         }
     }
 

@@ -45,9 +45,8 @@ class SettingsActivity : BaseActivity() {
 
         calendarSettingBtn.setOnClickListener {
             MainActivity.instance?.let {
+                setResult(Activity.RESULT_OK)
                 finish()
-                it.onBackPressed()
-                showDialog(CalendarSettingsDialog(it), true, false, true, false)
             }
         }
     }

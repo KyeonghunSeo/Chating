@@ -10,7 +10,6 @@
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
-        android:background="?android:attr/selectableItemBackground"
-        android:foreground="@drawable/normal_rect_stroke"/>
+        android:background="?android:attr/selectableItemBackground"/>
 
 </FrameLayout>

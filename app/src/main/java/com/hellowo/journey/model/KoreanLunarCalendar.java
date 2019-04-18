@@ -429,9 +429,9 @@ public class KoreanLunarCalendar {
 
     @SuppressLint("DefaultLocale")
     public String getLunarSimpleFormat() {
-        String isoStr = String.format("음력 %d.%d", lunarMonth, lunarDay);
+        String isoStr = String.format("%d.%d", lunarMonth, lunarDay);
         if(isIntercalation())
-            isoStr += " 윤달";
+            isoStr += "!";
 
         return isoStr;
     }

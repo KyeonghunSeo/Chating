@@ -35,19 +35,17 @@ class TemplateEditActivity : BaseActivity() {
         initTheme(rootLy)
         backBtn.setOnClickListener { finish() }
         addBtn.setOnClickListener { _ ->
-            showDialog(TypePickerDialog(this@TemplateEditActivity, TimeObject.Type.EVENT) { type ->
-                realm.executeTransaction { it ->
-                    var id = realm.where(Template::class.java).max("id")?.toInt()?.plus(1)
-                    if(id == null) {
-                        id = 0
-                    }
-                    val template = realm.createObject(Template::class.java, id)
-                    template.title = getString(type.titleId)
-                    template.order = id
-                    template.type = type.ordinal
+            realm.executeTransaction { it ->
+                var id = realm.where(Template::class.java).max("id")?.toInt()?.plus(1)
+                if(id == null) {
+                    id = 0
                 }
-                recyclerView.post { recyclerView.smoothScrollToPosition(items.size) }
-            }, true, true, true, false)
+                val template = realm.createObject(Template::class.java, id)
+                template.title = ""
+                template.order = id
+                template.type = 0
+            }
+            recyclerView.post { recyclerView.smoothScrollToPosition(items.size) }
         }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -68,11 +66,10 @@ class TemplateEditActivity : BaseActivity() {
                     }, true, true, true, false)
                 }
                 0 -> {
-                    showDialog(ColorPickerDialog(this@TemplateEditActivity, template.colorKey) { colorKey, fontColor ->
+                    showDialog(ColorPickerDialog(this@TemplateEditActivity, template.colorKey) { colorKey ->
                         realm.executeTransaction { it ->
                             realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
                                 it.colorKey = colorKey
-                                it.fontColor = fontColor
                             }
                         }
                     }, true, true, true, false)
@@ -110,14 +107,7 @@ class TemplateEditActivity : BaseActivity() {
                     dialog.showInput(getString(R.string.template_title), template.title ?: "")
                 }
                 4 -> {
-                    showDialog(TypePickerDialog(this@TemplateEditActivity, TimeObject.Type.values()[template.type]) { type ->
-                        realm.executeTransaction { it ->
-                            realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
-                                it.type = type.ordinal
-                                it.style = 0
-                            }
-                        }
-                    }, true, true, true, false)
+
                 }
                 5 -> {
                     showDialog(StylePickerDialog(this@TemplateEditActivity, template.colorKey, template.type, "") { style ->

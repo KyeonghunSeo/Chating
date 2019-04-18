@@ -27,6 +27,7 @@ import com.hellowo.journey.*
 import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.manager.TimeObjectManager
 import com.hellowo.journey.model.AppUser
+import com.hellowo.journey.ui.dialog.CalendarSettingsDialog
 import com.hellowo.journey.ui.dialog.DatePickerDialog
 import com.hellowo.journey.viewmodel.MainViewModel
 import com.theartofdev.edmodo.cropper.CropImage
@@ -269,24 +270,11 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
-
-        viewModel.currentTab.observe(this, Observer { index -> updateUI(index)})
     }
 
-    private fun updateUI(index: Int) {
-        when(index) {
-            0 -> {
-                if(keepView.isOpened()) viewModel.targetFolder.value = null
-                if(searchView.isOpened()) searchView.hide()
-                if(profileView.isOpened()) profileView.hide()
-            }
-            2 -> {
-                if(keepView.isOpened()) viewModel.targetFolder.value = null
-                searchView.show()
-                if(profileView.isOpened()) profileView.hide()
-                startDialogShowAnimation(searchView)
-            }
-        }
+    fun showSearchView() {
+        searchView.show()
+        startDialogShowAnimation(searchView)
     }
 
     private fun updateUserUI(appUser: AppUser) {
@@ -363,9 +351,9 @@ class MainActivity : BaseActivity() {
         when{
             timeObjectDetailView.isOpened() -> timeObjectDetailView.confirm()
             templateControlView.isExpanded -> templateControlView.collapse()
+            searchView.isOpened() -> searchView.hide()
             profileView.isOpened() -> profileView.hide()
             keepView.isOpened() -> viewModel.clearTargetFolder()
-            viewModel.currentTab.value != 0 -> viewModel.currentTab.value = 0
             dayPagerView.isOpened() -> dayPagerView.hide()
             else -> super.onBackPressed()
         }
@@ -413,6 +401,10 @@ class MainActivity : BaseActivity() {
             }
         }else if(requestCode == RC_OS_CALENDAR) {
             refreshAll()
+        }else if(requestCode == RC_SETTING && resultCode == RESULT_OK) {
+            profileView.hide()
+            showDialog(CalendarSettingsDialog(this@MainActivity),
+                    true, false, true, false)
         }
     }
 

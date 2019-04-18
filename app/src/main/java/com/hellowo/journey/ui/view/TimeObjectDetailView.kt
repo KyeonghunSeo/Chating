@@ -160,9 +160,8 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         }
 
         colorBtn.setOnClickListener {
-            showDialog(ColorPickerDialog(context as Activity, timeObject.getColor()) { colorKey, fontColor ->
+            showDialog(ColorPickerDialog(context as Activity, timeObject.getColor()) { colorKey ->
                 timeObject.colorKey = colorKey
-                timeObject.fontColor = fontColor
                 updateUI()
             }, true, true, true, false)
         }

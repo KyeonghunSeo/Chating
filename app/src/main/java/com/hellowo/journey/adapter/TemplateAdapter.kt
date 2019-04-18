@@ -43,9 +43,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>, priv
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val v = holder.itemView
         val template = items[position]
-        val type = TimeObject.Type.values()[template.type]
         v.titleText.text = template.title
-        v.typeImg.setImageResource(type.iconId)
         v.colorImg.setBackgroundColor(AppTheme.getColor(template.colorKey))
         //v.typeImg.setColorFilter(AppTheme.getColor(template.colorKey))
 
@@ -64,29 +62,8 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>, priv
         }
 
         val folder = MainActivity.instance?.viewModel?.targetFolder?.value
-        var enable = false
-        if(folder != null) {
-            when(folder.type) {
-                0 -> enable = type == TimeObject.Type.NOTE || type == TimeObject.Type.TASK
-            }
-        }else {
-            enable = isSameDay(startCal, endCal) || type.enableLongTerm
-        }
-
-        if(enable) {
-            v.contentLy.cardElevation = dpToPx(3f)
-            v.contentLy.alpha = 1f
-            v.setOnClickListener { adapterInterface.invoke(template) }
-        }else {
-            v.contentLy.cardElevation = dpToPx(1f)
-            v.contentLy.alpha = 0.5f
-            v.setOnClickListener {
-                if(folder != null) {
-                    Toast.makeText(context, R.string.not_insert_this_folder, Toast.LENGTH_SHORT).show()
-                }else {
-                    Toast.makeText(context, R.string.only_single_day, Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+        v.contentLy.cardElevation = dpToPx(3f)
+        v.contentLy.alpha = 1f
+        v.setOnClickListener { adapterInterface.invoke(template) }
     }
 }

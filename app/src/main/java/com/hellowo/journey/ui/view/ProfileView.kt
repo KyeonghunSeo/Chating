@@ -16,6 +16,7 @@ import com.hellowo.journey.*
 import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.ui.activity.AboutUsActivity
 import com.hellowo.journey.ui.activity.MainActivity
+import com.hellowo.journey.ui.activity.PremiumActivity
 import com.hellowo.journey.ui.activity.SettingsActivity
 import com.hellowo.journey.ui.dialog.CalendarSettingsDialog
 import com.hellowo.journey.ui.dialog.InputDialog
@@ -44,9 +45,10 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             }, true, true, true, false)
         }
 
-        searchBtn.setOnClickListener { MainActivity.getViewModel()?.currentTab?.value = 2 }
-
-        settingsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, SettingsActivity::class.java)) } }
+        searchBtn.setOnClickListener { MainActivity.instance?.showSearchView() }
+        settingsBtn.setOnClickListener { MainActivity.instance?.let {
+            it.startActivityForResult(Intent(it, SettingsActivity::class.java), RC_SETTING) } }
+        premiumBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, PremiumActivity::class.java)) } }
         aboutUsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, AboutUsActivity::class.java)) } }
         FirebaseAuth.getInstance().currentUser?.photoUrl?.let {
             Glide.with(this).load(it)

@@ -4,13 +4,10 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
-import android.os.Message
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
@@ -18,10 +15,8 @@ import androidx.transition.TransitionSet
 import com.hellowo.journey.*
 import com.hellowo.journey.adapter.TemplateAdapter
 import com.hellowo.journey.model.Template
-import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.TemplateEditActivity
-import com.hellowo.journey.ui.dialog.TypePickerDialog
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.view_template_control.view.*
 import java.util.*

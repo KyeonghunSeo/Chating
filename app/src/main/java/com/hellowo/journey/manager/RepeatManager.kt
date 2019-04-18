@@ -193,7 +193,7 @@ object RepeatManager {
     }
 
     fun save(activity: Activity, timeObject: TimeObject, runnable: Runnable) {
-        val typeName = activity.getString(TimeObject.Type.values()[timeObject.type].titleId)
+        val typeName = activity.getString(R.string.record)
         val title = String.format(activity.getString(R.string.repeat_save), typeName)
         val sub = activity.getString(R.string.how_apply)
         val options = arrayOf(
@@ -220,7 +220,7 @@ object RepeatManager {
     }
 
     fun delete(activity: Activity, timeObject: TimeObject, runnable: Runnable) {
-        val typeName = activity.getString(TimeObject.Type.values()[timeObject.type].titleId)
+        val typeName = activity.getString(R.string.record)
         val title = String.format(activity.getString(R.string.repeat_delete), typeName)
         val sub = activity.getString(R.string.how_apply)
         val options = arrayOf(

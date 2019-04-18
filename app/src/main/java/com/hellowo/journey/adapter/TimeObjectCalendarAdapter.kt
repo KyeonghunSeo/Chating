@@ -5,20 +5,20 @@ import android.animation.ObjectAnimator
 import android.widget.FrameLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
-import com.hellowo.journey.*
-import com.hellowo.journey.manager.OsCalendarManager
+import com.hellowo.journey.AppStatus
+import com.hellowo.journey.DAY_MILL
 import com.hellowo.journey.adapter.util.CalendarComparator
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.dpToPx
+import com.hellowo.journey.makeChangeBounceTransition
+import com.hellowo.journey.manager.OsCalendarManager
 import com.hellowo.journey.manager.RepeatManager
+import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.TimeObject.Formula.*
 import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.ui.view.CalendarView.Companion.weekLyBottomPadding
 import com.hellowo.journey.ui.view.TimeObjectView
-import io.realm.RealmResults
-import com.hellowo.journey.model.TimeObject.Type.*
-import com.hellowo.journey.model.TimeObject.Formula.*
 import com.hellowo.journey.ui.view.TimeObjectView.Companion.blockTypeSize
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
+import io.realm.RealmResults
 
 
 class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
@@ -50,7 +50,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         }
         viewHolderList.clear()
         viewLevelStatusMap.clear()
-        drawStartYOffset = if(!AppStatus.isLunarDisplay && AppStatus.holidayDisplay == 0) dpToPx(22f) else dpToPx(36f)
+        drawStartYOffset = if(AppStatus.holidayDisplay == 0) dpToPx(22f) else dpToPx(36f)
         cellBottomArray.fill(drawStartYOffset)
         rowHeightArray.fill(drawStartYOffset)
         draw(items)
@@ -87,8 +87,8 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         var startCellNum = ((timeObject.dtStart - calStartTime) / DAY_MILL).toInt()
         var endCellNum = ((timeObject.dtEnd - calStartTime) / DAY_MILL).toInt()
         if(timeObject.inCalendar) {
-            when(TimeObject.Type.values()[timeObject.type]){
-                TimeObject.Type.STAMP, TimeObject.Type.MONEY -> {
+            when(timeObject.getFormula()){
+                TOP_FLOW -> {
                     val holder = viewHolderList
                             .firstOrNull { it.timeObject.type == timeObject.type && it.startCellNum == startCellNum }
                             ?: TimeObjectViewHolder(timeObject, startCellNum, endCellNum).apply { viewHolderList.add(this) }
@@ -165,28 +165,18 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
 
     private fun calculateTimeObjectViewsPosition() {
         var currentFomula = TimeObject.Formula.BACKGROUND
-        var currentType = TimeObject.Type.EVENT
         viewHolderList.forEach { viewHolder ->
             try{
                 val timeObject = viewHolder.timeObject
                 val formula = timeObject.getFormula()
-                val status = viewLevelStatusMap[formula]?: ViewLevelStatus().apply { viewLevelStatusMap[formula] = this }
-
-                if(timeObject.inCalendar && currentType.ordinal != timeObject.type) {
-                    currentType = TimeObject.Type.values()[timeObject.type]
-                    when(currentType) {
-                        //TASK -> setTypeMargin(dpToPx(0f), currentType)
-                        //STAMP, MONEY -> setTypeMargin(dpToPx(3f), currentType)
-                        //NOTE -> setTypeMargin(dpToPx(1f), currentType)
-                        TERM -> addBottomMargin(20f)
-                        else -> {}
-                    }
-                }
+                val status
+                        = viewLevelStatusMap[formula]?: ViewLevelStatus().apply { viewLevelStatusMap[formula] = this }
 
                 if(formula != currentFomula) {
                     currentFomula = formula
                     when(currentFomula) {
                         BOTTOM_STACK -> {
+                            addBottomMargin(20f)
                             computeBottomStackStartPos()
                         }
                         OVERLAY -> {
@@ -199,13 +189,13 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
                 viewHolder.timeObjectViewList.forEach {
                     it.mLeft = (minWidth * (it.cellNum % columns)) + CalendarView.calendarPadding
                     it.mRight = it.mLeft + (minWidth * it.length).toInt()
-                    if(it.timeObject.inCalendar) {
+                    if(true) {
                         when(formula) {
                             TOP_STACK -> {
                                 it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
                                 it.mBottom = it.mTop + it.getViewHeight()
                             }
-                            TOP_FLOW, TOP_LINEAR, MID_FLOW -> {
+                            TOP_FLOW, TOP_LINEAR -> {
                                 it.mTop = cellBottomArray[it.cellNum]
                                 it.mBottom = it.mTop + it.getViewHeight()
                             }
@@ -226,7 +216,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
                         (it.cellNum until it.cellNum + it.length).forEach{ index ->
                             cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom)
                         }
-                    }else {
+                    }else { // 바텀 패딩쪽에 그리고 싶을때
                         it.mTop = Math.max(minHeight - weekLyBottomPadding,
                                 rowHeightArray[it.cellNum / columns])
                         it.mBottom = it.mTop + weekLyBottomPadding
@@ -255,16 +245,6 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         cellBottomArray.forEachIndexed { index, i -> cellBottomArray[index] += margin }
     }
 
-    private fun setTypeMargin(margin: Float, type: TimeObject.Type) {
-        viewHolderList.asSequence()
-                .filter { it.timeObject.type == type.ordinal && it.timeObject.inCalendar }
-                .distinctBy { it.startCellNum }
-                .toList()
-                .forEach {
-            if(cellBottomArray[it.startCellNum] > drawStartYOffset) cellBottomArray[it.startCellNum] += margin
-        }
-    }
-
     private fun drawTimeObjectViewOnCalendarView() {
         if(withAnimtion) {
             TransitionManager.beginDelayedTransition(calendarView.calendarLy, makeChangeBounceTransition())
@@ -282,7 +262,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         }
 
         viewHolderList.forEach { holder ->
-            var lastAlpha = if(holder.timeObject.isDone()) 0.3f else 1f
+            var lastAlpha = if(holder.timeObject.isDone()) 0.6f else 1f
             if(calendarView.lastUpdatedItem?.isValid == true && calendarView.lastUpdatedItem?.id == holder.timeObject.id) { // 마지막 업데이트 오브젝트
                 calendarView.lastUpdatedItem = null
                 holder.timeObjectViewList.forEach {
@@ -326,8 +306,6 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
                 if(order == -1) order = s.length // 빈공간이 없으면 가장 마지막 순서
 
                 if(view.length > 1) {
-                    if(view.timeObject.type == TimeObject.Type.TERM.ordinal) {
-                    }
                     while(!findPosition) {
                         var breakPoint = false
                         for (j in view.cellNum until view.cellNum + view.length) {
@@ -366,6 +344,6 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
     }
 
     inner class ViewLevelStatus {
-        var status = Array(maxCellNum){ _ -> "0" }
+        var status = Array(maxCellNum){ "0" }
     }
 }

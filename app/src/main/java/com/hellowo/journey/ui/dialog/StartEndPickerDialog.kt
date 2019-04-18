@@ -185,7 +185,7 @@ class StartEndPickerDialog(activity: Activity, private val timeObject: TimeObjec
                 lunarCalendar.setSolarDate(endCal.get(Calendar.YEAR),
                         endCal.get(Calendar.MONTH) + 1, endCal.get(Calendar.DATE))
             }
-            lunarText.text = lunarCalendar.lunarSimpleFormat
+            lunarText.text = lunarCalendar.lunarFormat
         }else {
             lunarText.text = ""
         }

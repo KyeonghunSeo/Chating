@@ -105,6 +105,13 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
         when {
             todayOffset != 0 -> {
                 todayBtn.visibility = View.VISIBLE
+                if(todayOffset < 0) {
+                    todayRightArrow.visibility = View.VISIBLE
+                    todayLeftArrow.visibility = View.GONE
+                }else {
+                    todayRightArrow.visibility = View.GONE
+                    todayLeftArrow.visibility = View.VISIBLE
+                }
                 val animSet = AnimatorSet()
                 animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "alpha",  todayBtn.alpha, 1f))
                 animSet.interpolator = FastOutSlowInInterpolator()

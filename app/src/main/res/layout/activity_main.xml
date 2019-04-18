@@ -78,7 +78,7 @@
 
         <com.hellowo.journey.ui.view.BriefingView
             android:id="@+id/briefingView"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginBottom="10dp"
             android:elevation="10dp"
@@ -105,18 +105,18 @@
         android:layout_height="match_parent">
     </com.hellowo.journey.ui.view.TemplateControlView>
 
+    <com.hellowo.journey.ui.view.ProfileView
+        android:id="@+id/profileView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.hellowo.journey.ui.view.ProfileView>
+
     <com.hellowo.journey.ui.view.SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
     </com.hellowo.journey.ui.view.SearchView>
-
-    <com.hellowo.journey.ui.view.ProfileView
-        android:id="@+id/profileView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.hellowo.journey.ui.view.ProfileView>
 
     <com.hellowo.journey.ui.view.TimeObjectDetailView
         android:id="@+id/timeObjectDetailView"

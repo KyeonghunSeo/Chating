@@ -2,30 +2,57 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <FrameLayout
-        android:layout_width="70dp"
-        android:layout_height="40dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/todayBtn"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
+            android:layout_margin="5dp"
             android:layout_gravity="center"
             app:cardBackgroundColor="@color/white"
             app:cardElevation="2dp"
             app:cardCornerRadius="15dp">
 
-            <TextView
-                android:id="@+id/todayText"
+            <LinearLayout
+                android:layout_gravity="center"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:textColor="@color/secondaryText"
-                android:text="@string/today"
-                android:layout_gravity="center"/>
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp">
+
+                <ImageView
+                    android:id="@+id/todayLeftArrow"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/sharp_arrow_left"
+                    android:tint="@color/secondaryText"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/todayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="@color/secondaryText"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/today"/>
+
+                <ImageView
+                    android:id="@+id/todayRightArrow"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/sharp_arrow_right"
+                    android:tint="@color/secondaryText"
+                    android:layout_gravity="center_vertical|right" />
+
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 

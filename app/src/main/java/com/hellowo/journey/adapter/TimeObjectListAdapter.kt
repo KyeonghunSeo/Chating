@@ -62,10 +62,6 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, v
         val v = holder.itemView
 
         v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
-        v.iconArea.setOnClickListener {
-            vibrate(context)
-            TimeObjectManager.done(timeObject)
-        }
         v.setOnLongClickListener {
             itemTouchHelper?.startDrag(holder)
             return@setOnLongClickListener false
@@ -73,16 +69,26 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, v
 
         v.iconImg.setColorFilter(timeObject.getColor())
 
-        if(timeObject.isDone()) {
-            v.iconImg.setImageResource(R.drawable.check)
-            v.iconImg.alpha = 0.3f
-            v.contentLy.alpha = 0.3f
-            v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        if(timeObject.isSetCheckBox()) {
+            if(timeObject.isDone()) {
+                v.iconImg.setImageResource(R.drawable.check)
+                v.iconImg.alpha = 0.6f
+                v.contentLy.alpha = 0.6f
+                v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            }else {
+                v.iconImg.setImageResource(R.drawable.uncheck)
+                v.iconImg.alpha = 1f
+                v.contentLy.alpha = 1f
+                v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
+            }
+            v.iconArea.setOnClickListener {
+                vibrate(context)
+                TimeObjectManager.done(timeObject)
+            }
         }else {
-            v.iconImg.setImageResource(R.drawable.uncheck)
+            v.iconImg.setImageResource(R.drawable.circle_fill)
             v.iconImg.alpha = 1f
-            v.contentLy.alpha = 1f
-            v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
+            v.iconArea.setOnClickListener(null)
         }
 
         if(timeObject.isScheduled()) {
@@ -270,7 +276,7 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, v
 
         override fun isLongPressDragEnabled(): Boolean = true
 
-        override fun isItemViewSwipeEnabled(): Boolean = true
+        override fun isItemViewSwipeEnabled(): Boolean = false
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
             val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN

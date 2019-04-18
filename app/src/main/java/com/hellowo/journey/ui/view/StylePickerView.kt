@@ -16,7 +16,6 @@ import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
 import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.model.TimeObject.Type
 import kotlinx.android.synthetic.main.list_item_style_picker.view.*
 import java.util.*
 
@@ -35,7 +34,7 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     inner class StyleAdapter : RecyclerView.Adapter<ViewHolder>() {
-        override fun getItemCount(): Int = Type.values()[type].styles.size
+        override fun getItemCount(): Int = 1
 
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {
@@ -55,8 +54,7 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val v = holder.itemView
-            val style = Type.values()[type].styles[position].ordinal
-
+            val style = 0
             (v.previewContainer.getChildAt(0) as TimeObjectView).let {
                 it.timeObject.title = title
                 it.timeObject.type = type
@@ -64,20 +62,8 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
                 it.timeObject.colorKey = colorKey
                 it.setLookByType()
 
-                when(TimeObject.Type.values()[it.timeObject.type]) {
-                    Type.NOTE -> { // 노트
-                        it.layoutParams.width = dpToPx(60)
-                        it.layoutParams.height = WRAP_CONTENT
-                    }
-                    Type.TERM -> { // 기간
-                        it.layoutParams.width = dpToPx(120)
-                        it.layoutParams.height = (TimeObjectView.blockTypeSize - TimeObjectView.defaulMargin).toInt()
-                    }
-                    else -> {
-                        it.layoutParams.width = dpToPx(60)
-                        it.layoutParams.height = (TimeObjectView.blockTypeSize - TimeObjectView.defaulMargin).toInt()
-                    }
-                }
+                it.layoutParams.width = dpToPx(60)
+                it.layoutParams.height = WRAP_CONTENT
                 v.layoutParams.width = (it.layoutParams.width * 1.5f + dpToPx(41)).toInt()
 
                 it.pivotY = it.getViewHeight() / 2f

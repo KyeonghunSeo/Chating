@@ -42,6 +42,7 @@
         <activity android:name=".ui.activity.TemplateEditActivity" />
         <activity android:name=".ui.activity.SettingsActivity" />
         <activity android:name=".ui.activity.AboutUsActivity" />
+        <activity android:name=".ui.activity.PremiumActivity" />
         <activity
             android:name=".ui.activity.ScrapActivity"
             android:theme="@style/Theme.Transparent">

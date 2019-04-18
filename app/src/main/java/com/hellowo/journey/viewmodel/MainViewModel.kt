@@ -27,14 +27,11 @@ class MainViewModel : ViewModel() {
     val folderList = MutableLiveData<RealmResults<Folder>>()
     val targetTime = MutableLiveData<Long>()
     val targetCalendarView = MutableLiveData<CalendarView>()
-    val currentTab = MutableLiveData<Int>()
 
     private var realmAsyncTask: RealmAsyncTask? = null
-    private var timeObjectList: RealmResults<TimeObject>? = null
 
     init {
         targetTime.value = System.currentTimeMillis()
-        currentTab.value = 0
     }
 
     fun initRealm(syncUser: SyncUser?) {
@@ -166,7 +163,6 @@ class MainViewModel : ViewModel() {
                     type = it.type
                     style = it.style
                     colorKey = it.colorKey
-                    fontColor = it.fontColor
                     inCalendar = it.inCalendar
                     tags.addAll(it.tags)
                     return@let

@@ -58,8 +58,6 @@ class TemplateEditAdapter(val context: Context, private val items: ArrayList<Tem
         v.titleText.text = template.title
         v.titleText.setOnClickListener { adapterInterface.invoke(3, template) }
 
-        v.typeImg.setImageResource(TimeObject.Type.values()[template.type].iconId)
-        v.typeText.text = App.context.getString(TimeObject.Type.values()[template.type].titleId)
         v.typeBtn.setOnClickListener { adapterInterface.invoke(4, template) }
 
         v.colorImg.setColorFilter(AppTheme.getColor(template.colorKey))

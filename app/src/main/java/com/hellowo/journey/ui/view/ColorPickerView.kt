@@ -18,10 +18,11 @@ import com.hellowo.journey.dpToPx
 import com.hellowo.journey.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.list_item_color_picker.view.*
 
-class ColorPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RecyclerView(context, attrs, defStyleAttr) {
+class ColorPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : RecyclerView(context, attrs, defStyleAttr) {
     var items = AppTheme.colors
     var selectedPos = -1
-    lateinit var onSelceted: (Int, Int) -> Unit
+    lateinit var onSelceted: (Int) -> Unit
 
     init {
         layoutManager = GridLayoutManager(context, 5)
@@ -45,7 +46,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             (v as CardView).setCardBackgroundColor(item)
             v.setOnClickListener {
                 selectedPos = position
-                onSelceted.invoke(position, item)
+                onSelceted.invoke(position)
             }
         }
     }

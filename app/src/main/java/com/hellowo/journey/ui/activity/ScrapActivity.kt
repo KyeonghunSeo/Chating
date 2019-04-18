@@ -130,7 +130,7 @@ class ScrapActivity : Activity() {
             timeObject.dtEnd = time
         }
         timeObject.folder = folder
-        timeObject.type = TimeObject.Type.NOTE.ordinal
+        timeObject.type = 0
         timeObject.title = subject ?: text
         if (webData != null) {
             webData?.let {

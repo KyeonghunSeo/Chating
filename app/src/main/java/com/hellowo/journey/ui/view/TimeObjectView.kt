@@ -17,8 +17,8 @@ import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
 import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.model.TimeObject.Type.*
 import com.hellowo.journey.model.TimeObject.Style.*
+import com.hellowo.journey.model.TimeObject.Formula.*
 
 @SuppressLint("ViewConstructor")
 class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
@@ -75,29 +75,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 (topPadding + (AppStatus.calTextSize * -1.7f)).toInt() /*글씨 크기에 따른 탑 패딩 조정*/,
                 sidePadding, 0)
 
-        when(TimeObject.Type.values()[timeObject.type]) {
-            EVENT, TASK -> {
-                text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-                maxLines = 1
-                setSingleLine(true)
-                setHorizontallyScrolling(true)
-                when(TimeObject.Style.values()[timeObject.style]){
-                    ROUND_STROKE, RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
-                        paintColor = AppTheme.getColor(timeObject.colorKey)
-                        fontColor = AppTheme.getColor(timeObject.colorKey)
-                    }
-                    ROUND_FILL, RECT_FILL, CANDY -> {
-                        paintColor = AppTheme.getColor(timeObject.colorKey)
-                        fontColor = AppTheme.getFontColor(timeObject.colorKey)
-                    }
-                    else -> {
-                        paintColor = AppTheme.getColor(timeObject.colorKey)
-                        fontColor = AppTheme.getColor(timeObject.colorKey)
-                    }
-                }
-                setTextColor(fontColor)
-            }
-            NOTE -> {
+        when(timeObject.getFormula()) {
+            TOP_LINEAR, BOTTOM_LINEAR -> {
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title?.replace(System.getProperty("line.separator"), " ")
                 else context.getString(R.string.empty_note)
                 //setLineSpacing(defaulMargin, 1f)
@@ -117,7 +96,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 }
                 setTextColor(fontColor)
             }
-            TERM -> {
+            TOP_FLOW -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
                 gravity = Gravity.CENTER_HORIZONTAL
@@ -147,8 +126,24 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
             }
             else -> {
                 text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
-                typeface = AppTheme.regularFont
-                setPadding(sidePadding, 0, sidePadding, 0)
+                maxLines = 1
+                setSingleLine(true)
+                setHorizontallyScrolling(true)
+                when(TimeObject.Style.values()[timeObject.style]){
+                    ROUND_STROKE, RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
+                        paintColor = AppTheme.getColor(timeObject.colorKey)
+                        fontColor = AppTheme.getColor(timeObject.colorKey)
+                    }
+                    ROUND_FILL, RECT_FILL, CANDY -> {
+                        paintColor = AppTheme.getColor(timeObject.colorKey)
+                        fontColor = AppTheme.getFontColor(timeObject.colorKey)
+                    }
+                    else -> {
+                        paintColor = AppTheme.getColor(timeObject.colorKey)
+                        fontColor = AppTheme.getColor(timeObject.colorKey)
+                    }
+                }
+                setTextColor(fontColor)
             }
         }
     }
@@ -157,22 +152,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
         if(timeObject.inCalendar) {
             canvas?.let {
                 paint.isAntiAlias = true
-                when(TimeObject.Type.values()[timeObject.type]) {
-                    EVENT, TASK, NOTE -> {
-                        CalendarManager.drawBasicShape(canvas, this)
-                        super.onDraw(canvas)
-                    }
-                    STAMP -> {
-                        CalendarManager.drawStamp(canvas, this)
-                    }
-                    MONEY -> {
-                        CalendarManager.drawMoney(canvas, this)
-                    }
-                    TERM -> {
-                        super.onDraw(canvas)
-                        CalendarManager.drawTerm(canvas, this)
-                    }
-                }
+                CalendarManager.drawBasicShape(canvas, this)
+                super.onDraw(canvas)
             }
         }else {
             canvas?.let {
@@ -184,16 +165,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
 
     fun getViewHeight(): Int {
         if(timeObject.inCalendar) {
-            return when(TimeObject.Type.values()[timeObject.type]) {
-                EVENT -> {
-                    textSpaceWidth = paint.measureText(text.toString())
-                    blockTypeSize
-                }
-                TASK -> {
-                    textSpaceWidth = paint.measureText(text.toString())
-                    blockTypeSize
-                }
-                STAMP -> {
+            return when(timeObject.getFormula()) {
+                TOP_FLOW -> {
                     val width =  mRight - mLeft - defaulMargin
                     val margin = defaulMargin.toInt()
                     val size = stampSize - defaulMargin
@@ -201,7 +174,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     val rows = ((size * totalStampCnt + margin * (totalStampCnt - 1)) / width + 1).toInt()
                     (stampSize * rows)
                 }
-                NOTE -> {
+                TOP_LINEAR, BOTTOM_LINEAR -> {
                     setSingleLine(false)
                     maxLines = 5
                     ellipsize = TextUtils.TruncateAt.END
@@ -220,11 +193,10 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                         measuredHeight + bottomPadding.toInt()
                     }
                 }
-                TERM -> {
+                else -> {
                     textSpaceWidth = paint.measureText(text.toString())
                     blockTypeSize
                 }
-                else -> blockTypeSize
             }
         }else {
             return blockTypeSize
@@ -234,24 +206,6 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     fun setLayout() {
         layoutParams = FrameLayout.LayoutParams((mRight - mLeft - defaulMargin).toInt(),
                 (mBottom - mTop - defaulMargin).toInt()).apply { topMargin = mTop.toInt() }
-    }
-
-    fun setNotInCalendarText() {
-        childList?.let { list ->
-            val s = StringBuilder()
-            (0 until TimeObject.Type.values().size).forEach { type ->
-                val count = list.filter { it.type == type }.size
-                if(count > 0) {
-                    s.append("${String.format(context.getString(R.string.number_of_not_in_calendar),
-                            count, context.getString(TimeObject.Type.values()[type].titleId))}, ")
-                }
-            }
-            if(s.endsWith(", ")) {
-                s.deleteCharAt(s.length - 1)
-                s.deleteCharAt(s.length - 1)
-            }
-            text = s
-        }
     }
 
 }

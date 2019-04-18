@@ -106,13 +106,11 @@ object CalendarManager {
                     paint.alpha = 17
                     canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
                     paint.alpha = 255
-                }else {
-                    when(TimeObject.Type.values()[view.timeObject.type]) {
-                        //TimeObject.Type.EVENT, TimeObject.Type.NOTE -> drawDot(view, paint, canvas)
-                        TimeObject.Type.TASK -> drawCheckBox(view, paint, canvas)
-                    }
                 }
             }
+        }
+        if(view.timeObject.isSetCheckBox()) {
+            drawCheckBox(view, paint, canvas)
         }
     }
 
@@ -334,51 +332,6 @@ object CalendarManager {
         */
     }
 
-    fun drawMoney(canvas: Canvas, view: TimeObjectView) {
-        val margin = defaulMargin.toInt()
-        val width = (view.width - defaulMargin * 2).toInt()
-        val size = (view.height - defaulMargin * 2).toInt()
-        val totalStampCnt = view.childList?.size ?: 0
-        if(totalStampCnt > 0) {
-            if(size * totalStampCnt + (margin * (totalStampCnt - 1)) > width) {
-                var left = width - size - margin
-                val overlap = ((width - size) / (totalStampCnt))
-                (totalStampCnt - 1 downTo 0).forEach { index ->
-                    val circle = resource.getDrawable(R.drawable.circle_fill)
-                    circle.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
-                    circle.setBounds(left, 0, left + size, size)
-                    circle.draw(canvas)
-
-                    val stamp = resource.getDrawable(StampManager.stamps[index])
-                    stamp.setColorFilter(view.timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
-                    stamp.setBounds(left + margin, 0 + margin, left + size - margin, size - margin)
-                    stamp.draw(canvas)
-
-                    val stroke = resource.getDrawable(R.drawable.circle_stroke_1dp)
-                    stroke.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
-                    stroke.setBounds(left - margin, -margin, left + size + margin, size + margin)
-                    stroke.draw(canvas)
-
-                    left -= overlap
-                }
-            }else {
-                var left = margin
-                view.childList?.forEachIndexed { index, timeObject ->
-                    val circle = resource.getDrawable(R.drawable.circle_fill)
-                    circle.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
-                    circle.setBounds(left, 0, left + size, size)
-                    circle.draw(canvas)
-
-                    val stamp = resource.getDrawable(StampManager.stamps[index])
-                    stamp.setColorFilter(view.timeObject.fontColor, PorterDuff.Mode.SRC_ATOP)
-                    stamp.setBounds(left + margin, 0 + margin, left + size - margin, size - margin)
-                    stamp.draw(canvas)
-                    left += size + margin
-                }
-            }
-        }
-    }
-
     private fun drawDot(view: TimeObjectView, paint: Paint, canvas: Canvas) {
         val radius = baseSize * 2f
         val centerY = (blockTypeSize - defaulMargin) / 2f
@@ -420,13 +373,15 @@ object CalendarManager {
     }
 
     fun drawNotInCalendar(view: TimeObjectView, paint: Paint, canvas: Canvas) {
-        val radius = dotSize / 3.5f
-        val centerX = leftPadding.toFloat() / 2f + defaulMargin
-        val centerY = (CalendarView.weekLyBottomPadding - defaulMargin) / 2f
+        val legnth =  baseSize * 10
+        val gap = baseSize * 2
+        val startY = (blockTypeSize - defaulMargin) / 2f - legnth / 2f
+        paint.strokeWidth = gap
         view.childList?.forEachIndexed { index, timeObject ->
             if(index < 8) {
+                val startX = sidePadding + (index * gap * 2)
                 paint.color = timeObject.getColor()
-                canvas.drawCircle(centerX + (index * radius * 4), centerY, radius, paint)
+                canvas.drawLine(startX, startY, startX, startY + legnth, paint)
             }
         }
     }

@@ -706,8 +706,7 @@
                             <View
                                 android:id="@+id/mapTouchView"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/normal_rect_stroke"/>
+                                android:layout_height="match_parent"/>
 
                         </FrameLayout>
 

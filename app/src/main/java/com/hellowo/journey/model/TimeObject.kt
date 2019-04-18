@@ -19,7 +19,6 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                       var style: Int = 0,
                       var title: String? = null,
                       var colorKey: Int = -1,
-                      var fontColor: Int = Color.WHITE,
                       var location: String? = null,
                       var description: String? = null,
                       var repeat: String? = null,
@@ -44,53 +43,26 @@ open class TimeObject(@PrimaryKey var id: String? = null,
 
     @Ignore var repeatKey: String? = null
 
-    enum class Type(val titleId: Int, val subTextId: Int, val iconId: Int, val enableLongTerm: Boolean, val styles: Array<Style>) {
-        NOTE(R.string.note, R.string.note_sub,
-                R.drawable.sharp_notes_black_48dp, false,
-                arrayOf(DEFAULT, RECT_STROKE, RECT_FILL, HATCHED, TOP_LINE, BOTTOM_LINE)),
-        EVENT(R.string.event, R.string.event_sub,
-                R.drawable.sharp_event_black_48dp, true,
-                arrayOf(DEFAULT, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
-        TASK(R.string.task, R.string.task_sub,
-                R.drawable.check, false,
-                arrayOf(DEFAULT, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
-        STAMP(R.string.stamp, R.string.stamp_sub,
-                R.drawable.sharp_star_rate_black_48dp, false,
-                arrayOf(DEFAULT, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
-        TERM(R.string.term, R.string.term_sub,
-                R.drawable.sharp_date_range_black_48dp, true,
-                arrayOf(DEFAULT, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE)),
-        MONEY(R.string.money, R.string.money_sub,
-                R.drawable.empty, false,
-                arrayOf(DEFAULT, ROUND_STROKE, ROUND_FILL, RECT_STROKE, RECT_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE))
-    }
-
     enum class Style {
         DEFAULT, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE
     }
 
     enum class Formula {
-        BACKGROUND, TOP_STACK, TOP_FLOW, TOP_LINEAR, MID_FLOW, BOTTOM_LINEAR, BOTTOM_STACK, OVERLAY
+        BACKGROUND, TOP_STACK, TOP_FLOW, TOP_LINEAR, BOTTOM_LINEAR, BOTTOM_STACK, OVERLAY
     }
 
     fun getFormula(): Formula {
         return if(inCalendar) {
-            when(Type.values()[type]) {
-                Type.EVENT -> Formula.TOP_STACK
-                Type.STAMP -> Formula.TOP_FLOW
-                Type.TASK -> Formula.TOP_STACK
-                Type.NOTE -> Formula.TOP_LINEAR
-                Type.MONEY -> Formula.MID_FLOW
-                Type.TERM -> Formula.BOTTOM_STACK
-            }
+            Formula.TOP_STACK
         }else {
-            Formula.OVERLAY
+            Formula.TOP_LINEAR
         }
     }
 
+    fun getDuration() = dtEnd - dtStart
+
     fun setDate(time: Long) {
-        val duration = dtEnd - dtStart
-        setDateTime(allday, time, time + duration)
+        setDateTime(allday, time, time + getDuration())
     }
 
     fun setDateTime(a: Boolean, s: Calendar, e: Calendar) {
@@ -124,7 +96,6 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         style = data.style
         title = data.title
         colorKey = data.colorKey
-        fontColor = data.fontColor
         location = data.location
         description = data.description
         repeat = data.repeat
@@ -166,7 +137,7 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     override fun toString(): String {
-        return "TimeObject(id=$id, type=$type, style=$style, title=$title, colorKey=$colorKey, fontColor=$fontColor, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, latitude=$latitude, longitude=$longitude, inCalendar=$inCalendar)"
+        return "TimeObject(id=$id, type=$type, style=$style, title=$title, colorKey=$colorKey, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, latitude=$latitude, longitude=$longitude, inCalendar=$inCalendar)"
     }
 
     override fun equals(other: Any?): Boolean { // 리스트 업데이트 비교시 사용
@@ -176,7 +147,6 @@ open class TimeObject(@PrimaryKey var id: String? = null,
                     && style == other.style
                     && title == other.title
                     && colorKey == other.colorKey
-                    && fontColor == other.fontColor
                     && location == other.location
                     && description == other.description
                     && repeat == other.repeat
