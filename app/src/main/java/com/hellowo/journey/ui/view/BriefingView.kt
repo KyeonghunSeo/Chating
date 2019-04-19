@@ -106,9 +106,11 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             todayOffset != 0 -> {
                 todayBtn.visibility = View.VISIBLE
                 if(todayOffset < 0) {
+                    todayText.setPadding(dpToPx(8), 0, 0, 0)
                     todayRightArrow.visibility = View.VISIBLE
                     todayLeftArrow.visibility = View.GONE
                 }else {
+                    todayText.setPadding(0, 0, dpToPx(8), 0)
                     todayRightArrow.visibility = View.GONE
                     todayLeftArrow.visibility = View.VISIBLE
                 }

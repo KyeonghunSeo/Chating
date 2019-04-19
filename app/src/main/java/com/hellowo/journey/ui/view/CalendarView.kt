@@ -162,7 +162,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 //if(j == 0) columnDividers[cellNum].visibility = View.GONE
 
                 val dateCell = dateCells[cellNum]
-                //dateCell.setBackgroundResource(AppDateFormat.selectableItemBackground)
                 dateCell.setOnClickListener { onDateClick(cellNum) }
                 dateCell.setOnLongClickListener {
                     if(selectCellNum != cellNum) onDateClick(cellNum)

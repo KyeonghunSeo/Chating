@@ -254,8 +254,8 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.folderList.observe(this, Observer { list ->
-            if(list.size > 1) keepBtn.setImageResource(R.drawable.folder)
-            else keepBtn.setImageResource(R.drawable.folder)
+            if(list.size > 1) keepBtn.setImageResource(R.drawable.empty)
+            else keepBtn.setImageResource(R.drawable.empty)
             keepView.notifyFolderDataChanged()
         })
 

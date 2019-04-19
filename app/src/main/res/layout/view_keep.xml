@@ -56,7 +56,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:src="@drawable/empty"
-                android:tint="@color/line"
+                android:tint="@color/backgroundDark"
                 android:layout_gravity="center"/>
 
             <TextView
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:textColor="@color/disableText"
+                android:textColor="@color/line"
                 android:textSize="16dp"
                 android:layout_marginTop="15dp"
                 android:text="@string/no_records_in_this_folder"/>
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:textColor="@color/disableText"
+                android:textColor="@color/line"
                 android:textSize="14dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/motto_sample"/>

@@ -685,7 +685,6 @@ class TimeObjectDetailView @JvmOverloads constructor(context: Context, attrs: At
         if(isOpen) {
             textEditorLy.visibility = View.GONE
         }else {
-
             textEditorLy.visibility = View.GONE
         }
     }

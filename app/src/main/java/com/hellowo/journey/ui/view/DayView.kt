@@ -41,13 +41,13 @@ import java.util.Calendar.SUNDAY
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
     companion object {
-        const val headerTextScale = 4f
+        const val headerTextScale = 5f
         val datePosX = dpToPx(12f)
-        val datePosY = -dpToPx(7f)
+        val datePosY = -dpToPx(8.9f)
         val dowPosX = -dpToPx(0f)
         val dowPosY = dpToPx(2.6f)
-        val holiPosX = dpToPx(15.0f)
-        val holiPosY = -dpToPx(7.9f)
+        val holiPosX = dpToPx(15.15f)
+        val holiPosY = -dpToPx(8.7f)
         val startZ = dpToPx(8f)
         val endZ = dpToPx(0f)
         val subScale = 0.4f

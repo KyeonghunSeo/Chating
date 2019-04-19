@@ -40,9 +40,10 @@ object MainDragAndDropListener : View.OnDragListener {
     }
 
     class BlankDragShadowBuilder(v: View) : View.DragShadowBuilder(v) {
-        override fun onProvideShadowMetrics(size: Point, touch: Point) {}
-        override fun onDrawShadow(canvas: Canvas) {
-            //getView().draw(canvas);
+        override fun onProvideShadowMetrics(size: Point, touch: Point) {
+            size.set(1, 1)
+            touch.set(0, 0)
         }
+        override fun onDrawShadow(canvas: Canvas) {}
     }
 }
