@@ -12,7 +12,7 @@ import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.alarm.AlarmManager
 import com.hellowo.journey.model.Alarm
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import kotlinx.android.synthetic.main.list_item_alarm.view.*
 import java.util.*
 
@@ -26,9 +26,9 @@ class AlarmListView @JvmOverloads constructor(context: Context, attrs: Attribute
         adapter = Adapter()
     }
 
-    fun setTimeObject(timeObject: TimeObject) {
+    fun setTimeObject(record: Record) {
         items.clear()
-        items.addAll(timeObject.alarms)
+        items.addAll(record.alarms)
         adapter?.notifyDataSetChanged()
     }
 

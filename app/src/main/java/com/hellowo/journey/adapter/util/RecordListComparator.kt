@@ -1,11 +1,11 @@
 package com.hellowo.journey.adapter.util
 
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 
 
-class TimeObjectListComparator : Comparator<TimeObject> {
+class RecordListComparator : Comparator<Record> {
     companion object {
-        fun sort(l: TimeObject, r: TimeObject): Int {
+        fun sort(l: Record, r: Record): Int {
             return when{
                 l.ordering < r.ordering -> -1
                 l.ordering > r.ordering -> 1
@@ -22,7 +22,7 @@ class TimeObjectListComparator : Comparator<TimeObject> {
             }
         }
 
-        private fun lastSort(l: TimeObject, r: TimeObject): Int {
+        private fun lastSort(l: Record, r: Record): Int {
             return when{
                 l.getDuration() < r.getDuration() -> 1
                 l.getDuration() > r.getDuration() -> -1
@@ -37,7 +37,7 @@ class TimeObjectListComparator : Comparator<TimeObject> {
         }
     }
 
-    override fun compare(l: TimeObject, r: TimeObject): Int {
+    override fun compare(l: Record, r: Record): Int {
         return sort(l, r)
     }
 }

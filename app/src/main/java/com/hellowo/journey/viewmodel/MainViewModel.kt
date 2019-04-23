@@ -1,13 +1,12 @@
 package com.hellowo.journey.viewmodel
 
-import android.graphics.Bitmap
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.hellowo.journey.*
 import com.hellowo.journey.R
-import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.manager.RecordManager
 import com.hellowo.journey.model.*
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.view.CalendarView
@@ -17,7 +16,7 @@ import java.util.*
 class MainViewModel : ViewModel() {
     val realm = MutableLiveData<Realm>()
     val loading = MutableLiveData<Boolean>()
-    val targetTimeObject = MutableLiveData<TimeObject?>()
+    val targetTimeObject = MutableLiveData<Record?>()
     val targetView = MutableLiveData<View?>()
     val appUser = MutableLiveData<AppUser?>()
     val targetTemplate = MutableLiveData<Template>()
@@ -113,7 +112,7 @@ class MainViewModel : ViewModel() {
     fun setTargetTimeObjectById(id: String?) {
         realm.value?.let { realm ->
             id?.let {
-                targetTimeObject.value = realm.where(TimeObject::class.java)
+                targetTimeObject.value = realm.where(Record::class.java)
                         .equalTo("id", it)
                         .findFirst()
             }
@@ -158,7 +157,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun makeTimeObjectByTatgetTemplate(startTime: Long, endTime: Long) =
-            TimeObjectManager.makeNewTimeObject(startTime, endTime).apply {
+            RecordManager.makeNewRecord(startTime, endTime).apply {
                 targetTemplate.value?.let {
                     type = it.type
                     style = it.style
@@ -172,7 +171,7 @@ class MainViewModel : ViewModel() {
 
     fun saveDirectByTemplate() {
         MainActivity.getTargetCal()?.let {
-            TimeObjectManager.save(makeTimeObjectByTatgetTemplate(getCalendarTime0(it), getCalendarTime23(it)))
+            RecordManager.save(makeTimeObjectByTatgetTemplate(getCalendarTime0(it), getCalendarTime23(it)))
         }
     }
 

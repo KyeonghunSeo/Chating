@@ -5,24 +5,21 @@ import android.widget.Toast
 import com.hellowo.journey.*
 import com.hellowo.journey.alarm.AlarmManager
 import com.hellowo.journey.alarm.RegistedAlarm
-import com.hellowo.journey.adapter.TimeObjectCalendarAdapter
-import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.ui.view.CalendarView
+import com.hellowo.journey.model.Record
 import com.hellowo.journey.model.Folder
 import com.hellowo.journey.model.Tag
 import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
-import java.lang.Exception
 import java.util.*
 
 @SuppressLint("StaticFieldLeak")
-object TimeObjectManager {
+object RecordManager {
 
-    fun getTimeObjectList(startTime: Long, endTime: Long) : RealmResults<TimeObject> {
+    fun getRecordList(startTime: Long, endTime: Long) : RealmResults<Record> {
         val realm = Realm.getDefaultInstance()
-        val result = realm.where(TimeObject::class.java)
+        val result = realm.where(Record::class.java)
                 .beginGroup()
                 .isNull("folder")
                 .greaterThan("dtCreated", 0)
@@ -51,9 +48,9 @@ object TimeObjectManager {
         return result
     }
 
-    fun getTimeObjectList(folder: Folder) : RealmResults<TimeObject> {
+    fun getRecordList(folder: Folder) : RealmResults<Record> {
         val realm = Realm.getDefaultInstance()
-        val result = realm.where(TimeObject::class.java)
+        val result = realm.where(Record::class.java)
                 .beginGroup()
                 .equalTo("folder.id", folder.id)
                 .greaterThan("dtCreated", 0)
@@ -64,9 +61,9 @@ object TimeObjectManager {
         return result
     }
 
-    fun getTimeObjectList(query: String, tags: ArrayList<Tag>) : RealmResults<TimeObject> {
+    fun getRecordList(query: String, tags: ArrayList<Tag>) : RealmResults<Record> {
         val realm = Realm.getDefaultInstance()
-        val q = realm.where(TimeObject::class.java)
+        val q = realm.where(Record::class.java)
                 .beginGroup()
                 .greaterThan("dtCreated", 0)
                 .endGroup()
@@ -100,29 +97,29 @@ object TimeObjectManager {
         return result
     }
 
-    fun save(timeObject: TimeObject) {
+    fun save(record: Record) {
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction{ _ ->
-            if(timeObject.id.isNullOrEmpty()) {
-                timeObject.id = UUID.randomUUID().toString()
-                timeObject.dtCreated = System.currentTimeMillis()
+            if(record.id.isNullOrEmpty()) {
+                record.id = UUID.randomUUID().toString()
+                record.dtCreated = System.currentTimeMillis()
             }
 
-            if(timeObject.dtStart > timeObject.dtEnd) {
-                val t = timeObject.dtStart
-                timeObject.dtStart = timeObject.dtEnd
-                timeObject.dtEnd = t
+            if(record.dtStart > record.dtEnd) {
+                val t = record.dtStart
+                record.dtStart = record.dtEnd
+                record.dtEnd = t
             }
 
-            if(timeObject.alarms.isNotEmpty()) {
-                timeObject.alarms.sortBy { it.dtAlarm }
+            if(record.alarms.isNotEmpty()) {
+                record.alarms.sortBy { it.dtAlarm }
                 var registedAlarm = realm.where(RegistedAlarm::class.java)
-                        .equalTo("timeObjectId", timeObject.id).findFirst()
+                        .equalTo("timeObjectId", record.id).findFirst()
 
                 if(registedAlarm != null){
                     AlarmManager.unRegistTimeObjectAlarm(registedAlarm.requestCode)
                 }else {
-                    registedAlarm = realm.createObject(RegistedAlarm::class.java, timeObject.id)?.apply {
+                    registedAlarm = realm.createObject(RegistedAlarm::class.java, record.id)?.apply {
                         val requestCode = realm.where(RegistedAlarm::class.java).max("requestCode")
                         if(requestCode != null) {
                             this.requestCode = requestCode.toInt() + 1
@@ -131,22 +128,22 @@ object TimeObjectManager {
                         }
                     }
                 }
-                registedAlarm?.let { AlarmManager.registTimeObjectAlarm(timeObject, it) }
+                registedAlarm?.let { AlarmManager.registTimeObjectAlarm(record, it) }
             }
 
-            timeObject.dtUpdated = System.currentTimeMillis()
-            realm.insertOrUpdate(timeObject)
+            record.dtUpdated = System.currentTimeMillis()
+            realm.insertOrUpdate(record)
         }
         realm.close()
         Toast.makeText(App.context, R.string.saved, Toast.LENGTH_SHORT).show()
     }
 
-    fun done(timeObject: TimeObject) {
+    fun done(record: Record) {
         val realm = Realm.getDefaultInstance()
-        val id = timeObject.id
-        if(timeObject.repeat.isNullOrEmpty()) {
+        val id = record.id
+        if(record.repeat.isNullOrEmpty()) {
             realm.executeTransaction{ realm ->
-                realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
+                realm.where(Record::class.java).equalTo("id", id).findFirst()?.let {
                     if(it.dtDone == Long.MIN_VALUE) {
                         it.dtDone = System.currentTimeMillis()
                     }else {
@@ -156,13 +153,13 @@ object TimeObjectManager {
                 }
             }
         }else {
-            val ymdKey = AppDateFormat.ymdkey.format(Date(timeObject.dtStart))
+            val ymdKey = AppDateFormat.ymdkey.format(Date(record.dtStart))
             realm.executeTransaction{ realm ->
-                realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
+                realm.where(Record::class.java).equalTo("id", id).findFirst()?.let {
                     it.exDates.add(ymdKey)
                     it.dtUpdated = System.currentTimeMillis()
-                    val new = TimeObject()
-                    new.copy(timeObject)
+                    val new = Record()
+                    new.copy(record)
                     new.id = UUID.randomUUID().toString()
                     new.clearRepeat()
                     if(new.dtDone == Long.MIN_VALUE) {
@@ -177,12 +174,12 @@ object TimeObjectManager {
         realm.close()
     }
 
-    fun deleteOnly(timeObject: TimeObject) {
+    fun deleteOnly(record: Record) {
         val realm = Realm.getDefaultInstance()
-        timeObject.id?.let { id ->
-            timeObject.repeatKey?.let { ymdKey ->
+        record.id?.let { id ->
+            record.repeatKey?.let { ymdKey ->
                 realm.executeTransaction{ realm ->
-                    realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
+                    realm.where(Record::class.java).equalTo("id", id).findFirst()?.let {
                         it.exDates.add(ymdKey)
                         it.dtUpdated = System.currentTimeMillis()
                     }
@@ -190,17 +187,18 @@ object TimeObjectManager {
             }
         }
         realm.close()
+        Toast.makeText(App.context, R.string.deleted, Toast.LENGTH_SHORT).show()
     }
 
-    fun deleteAfter(timeObject: TimeObject) {
+    fun deleteAfter(record: Record) {
         val realm = Realm.getDefaultInstance()
-        val id = timeObject.id
+        val id = record.id
         val cal = Calendar.getInstance()
-        cal.timeInMillis = timeObject.dtStart
+        cal.timeInMillis = record.dtStart
 
         cal.add(Calendar.DATE, -1)
         realm.executeTransaction{ realm ->
-            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
+            realm.where(Record::class.java).equalTo("id", id).findFirst()?.let {
                 val dtUntil = getCalendarTime23(cal)
                 if(dtUntil < it.dtStart) { // 기한보다 작으면 완전히 제거
                     it.deleteFromRealm()
@@ -211,42 +209,44 @@ object TimeObjectManager {
             }
         }
         realm.close()
+        Toast.makeText(App.context, R.string.deleted, Toast.LENGTH_SHORT).show()
     }
 
-    fun delete(timeObject: TimeObject) {
+    fun delete(record: Record) {
         val realm = Realm.getDefaultInstance()
-        val id = timeObject.id
+        val id = record.id
         realm.executeTransaction{ realm ->
-            realm.where(TimeObject::class.java).equalTo("id", id).findFirst()?.let {
+            realm.where(Record::class.java).equalTo("id", id).findFirst()?.let {
                 it.dtCreated = -1
                 it.dtUpdated = System.currentTimeMillis()
             }
         }
         realm.close()
+        Toast.makeText(App.context, R.string.deleted, Toast.LENGTH_SHORT).show()
     }
 
-    fun makeNewTimeObject(start: Long, end: Long): TimeObject {
-        return TimeObject().apply {
+    fun makeNewRecord(start: Long, end: Long): Record {
+        return Record().apply {
             dtStart = start
             dtEnd = end
             timeZone = TimeZone.getDefault().id
         }
     }
 
-    fun getTimeObjectById(id: String): TimeObject? {
+    fun getTimeObjectById(id: String): Record? {
         val realm = Realm.getDefaultInstance()
-        val result =  realm.where(TimeObject::class.java)
+        val result =  realm.where(Record::class.java)
                 .equalTo("id", id)
                 .findFirst()
         realm.close()
         return result
     }
 
-    fun reorder(list: List<TimeObject>) {
+    fun reorder(list: List<Record>) {
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction{ realm ->
             list.forEachIndexed { index, timeObject ->
-                realm.where(TimeObject::class.java).equalTo("id", timeObject.id).findFirst()?.let {
+                realm.where(Record::class.java).equalTo("id", timeObject.id).findFirst()?.let {
                     it.ordering = index
                     it.dtUpdated = System.currentTimeMillis()
                 }
@@ -255,10 +255,10 @@ object TimeObjectManager {
         realm.close()
     }
 
-    fun deleteAllTimeObject() {
+    fun deleteAllRecord() {
         val realm = Realm.getDefaultInstance()
-        realm.executeTransaction{ _ ->
-            realm.where(TimeObject::class.java).findAll()?.deleteAllFromRealm()
+        realm.executeTransaction{
+            realm.where(Record::class.java).findAll()?.deleteAllFromRealm()
         }
         realm.close()
     }

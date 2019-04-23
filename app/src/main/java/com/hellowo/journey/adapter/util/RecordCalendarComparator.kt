@@ -1,15 +1,15 @@
 package com.hellowo.journey.adapter.util
 
-import com.hellowo.journey.adapter.TimeObjectCalendarAdapter
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.adapter.RecordCalendarAdapter
+import com.hellowo.journey.model.Record
 
-class CalendarComparator : Comparator<TimeObjectCalendarAdapter.TimeObjectViewHolder> {
-    override fun compare(l: TimeObjectCalendarAdapter.TimeObjectViewHolder, r: TimeObjectCalendarAdapter.TimeObjectViewHolder): Int {
+class RecordCalendarComparator : Comparator<RecordCalendarAdapter.TimeObjectViewHolder> {
+    override fun compare(l: RecordCalendarAdapter.TimeObjectViewHolder, r: RecordCalendarAdapter.TimeObjectViewHolder): Int {
         return when{
-            l.timeObject.getFormula() < r.timeObject.getFormula() -> -1
-            l.timeObject.getFormula() > r.timeObject.getFormula() -> 1
+            l.record.getFormula() < r.record.getFormula() -> -1
+            l.record.getFormula() > r.record.getFormula() -> 1
             else -> {
-                if(l.timeObject.getFormula() == TimeObject.Formula.BOTTOM_STACK) {
+                if(l.record.getFormula() == Record.Formula.BOTTOM_STACK) {
                     when{
                         l.startCellNum > r.startCellNum -> -1
                         l.startCellNum < r.startCellNum -> 1
@@ -19,7 +19,7 @@ class CalendarComparator : Comparator<TimeObjectCalendarAdapter.TimeObjectViewHo
                             when{
                                 lLength < rLength -> -1
                                 lLength > rLength -> 1
-                                else -> TimeObjectListComparator.sort(l.timeObject, r.timeObject)
+                                else -> RecordListComparator.sort(l.record, r.record)
                             }
                         }
                     }
@@ -33,7 +33,7 @@ class CalendarComparator : Comparator<TimeObjectCalendarAdapter.TimeObjectViewHo
                             when{
                                 lLength > rLength -> -1
                                 lLength < rLength -> 1
-                                else -> TimeObjectListComparator.sort(l.timeObject, r.timeObject)
+                                else -> RecordListComparator.sort(l.record, r.record)
                             }
                         }
                     }

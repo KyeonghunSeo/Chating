@@ -10,7 +10,7 @@ import android.provider.CalendarContract
 import android.text.TextUtils
 import androidx.core.app.ActivityCompat
 import com.hellowo.journey.AppTheme
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import com.pixplicity.easyprefs.library.Prefs
 import java.util.*
 
@@ -109,8 +109,8 @@ object OsCalendarManager {
     }
 
     @SuppressLint("MissingPermission")
-    fun getInstances(context: Context, keyWord: String, startMillis: Long, endMillis: Long): List<TimeObject> {
-        val list = ArrayList<TimeObject>()
+    fun getInstances(context: Context, keyWord: String, startMillis: Long, endMillis: Long): List<Record> {
+        val list = ArrayList<Record>()
         if(checkPermission(context)) {
             val cr = context.contentResolver
             val selection: String
@@ -156,8 +156,8 @@ object OsCalendarManager {
     }
 
     @SuppressLint("MissingPermission")
-    fun searchEvents(context: Context, keyWord: String): List<TimeObject> {
-        val list = ArrayList<TimeObject>()
+    fun searchEvents(context: Context, keyWord: String): List<Record> {
+        val list = ArrayList<Record>()
         if(checkPermission(context) && !keyWord.isEmpty()) {
             val cr = context.contentResolver
             val selection: String
@@ -197,10 +197,10 @@ object OsCalendarManager {
 
     private val timeZone = TimeZone.getDefault().rawOffset
 
-    private fun makeTimeObject(cur: Cursor) : TimeObject{
-        val block = TimeObject(
+    private fun makeTimeObject(cur: Cursor) : Record{
+        val block = Record(
                 id = "osInstance::${cur.getLong(INDEX_ID)}",
-                style = TimeObject.Style.RECT_FILL.ordinal,
+                style = Record.Style.RECT_FILL.ordinal,
                 title = cur.getString(INDEX_TITLE),
                 colorKey = AppTheme.getColorKey(if(cur.getInt(INDEX_EVENT_COLOR) != 0) cur.getInt(INDEX_EVENT_COLOR)
                 else cur.getInt(INDEX_CAL_COLOR)),

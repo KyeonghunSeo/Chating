@@ -8,7 +8,7 @@ import android.content.Intent
 import android.os.Build
 import com.hellowo.journey.*
 import com.hellowo.journey.model.Alarm
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import com.pixplicity.easyprefs.library.Prefs
 import java.util.*
 
@@ -68,10 +68,10 @@ object AlarmManager {
         }
     }
 
-    fun registTimeObjectAlarm(timeObject: TimeObject, registedAlarm: RegistedAlarm) {
-        val intent = Intent(App.context, TimeObjectAlarmReceiver::class.java)
-        intent.putExtra("timeObjectId", timeObject.id)
-        timeObject.alarms
+    fun registTimeObjectAlarm(record: Record, registedAlarm: RegistedAlarm) {
+        val intent = Intent(App.context, RecordAlarmReceiver::class.java)
+        intent.putExtra("timeObjectId", record.id)
+        record.alarms
                 .asSequence()
                 .filter { it.dtAlarm >= System.currentTimeMillis() }
                 .firstOrNull()?.let { alarm ->
@@ -81,7 +81,7 @@ object AlarmManager {
     }
 
     fun unRegistTimeObjectAlarm(requestCode: Int) {
-        val intent = Intent(App.context, TimeObjectAlarmReceiver::class.java)
+        val intent = Intent(App.context, RecordAlarmReceiver::class.java)
         val sender = PendingIntent.getBroadcast(App.context, requestCode, intent, PendingIntent.FLAG_NO_CREATE)
         if(sender != null) {
             manager.cancel(sender)

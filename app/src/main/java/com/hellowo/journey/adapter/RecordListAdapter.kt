@@ -20,9 +20,9 @@ import com.bumptech.glide.Glide
 import com.hellowo.journey.*
 import com.hellowo.journey.alarm.AlarmManager
 import com.hellowo.journey.manager.RepeatManager
-import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.manager.RecordManager
 import com.hellowo.journey.model.Link
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.list_item_time_object.view.*
 import org.json.JSONObject
@@ -30,8 +30,8 @@ import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.HashMap
 
-class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, val currentCal: Calendar,
-                            val adapterInterface: (view: View, timeObject: TimeObject, action: Int) -> Unit)
+class RecordListAdapter(val context: Context, val items: List<Record>, val currentCal: Calendar,
+                        val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val tempCal = Calendar.getInstance()
@@ -83,7 +83,7 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, v
             }
             v.iconArea.setOnClickListener {
                 vibrate(context)
-                TimeObjectManager.done(timeObject)
+                RecordManager.done(timeObject)
             }
         }else {
             v.iconImg.setImageResource(R.drawable.circle_fill)
@@ -270,7 +270,7 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, v
         return true
     }
 
-    inner class SimpleItemTouchHelperCallback(private val mAdapter: TimeObjectListAdapter) : ItemTouchHelper.Callback() {
+    inner class SimpleItemTouchHelperCallback(private val mAdapter: RecordListAdapter) : ItemTouchHelper.Callback() {
         private val ALPHA_FULL = 1.0f
         private var reordering = false
 
@@ -308,7 +308,7 @@ class TimeObjectListAdapter(val context: Context, val items: List<TimeObject>, v
                 }
             }else if(reordering && actionState == ItemTouchHelper.ACTION_STATE_IDLE){
                 reordering = false
-                TimeObjectManager.reorder(items)
+                RecordManager.reorder(items)
             }
 
             super.onSelectedChanged(viewHolder, actionState)

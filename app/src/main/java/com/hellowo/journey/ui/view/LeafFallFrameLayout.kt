@@ -71,7 +71,7 @@ class LeafFallFrameLayout @JvmOverloads constructor(context: Context, attrs: Att
         val delay = Random().nextInt(2000).toLong()
 
         val animator = ValueAnimator.ofFloat(0f, 1f)
-        animator.duration = 9000
+        animator.duration = 11000
         animator.interpolator = AccelerateInterpolator()
         animator.startDelay = delay
 

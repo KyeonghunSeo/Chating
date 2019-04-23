@@ -3,36 +3,29 @@ package com.hellowo.journey.ui.dialog
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
-import android.content.DialogInterface
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.widget.DatePicker
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hellowo.journey.*
-import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.model.KoreanLunarCalendar
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import kotlinx.android.synthetic.main.dialog_start_end_picker.*
 import java.util.*
 
 @SuppressLint("ValidFragment")
-class StartEndPickerDialog(activity: Activity, private val timeObject: TimeObject,
+class StartEndPickerDialog(activity: Activity, private val record: Record,
                            private val onConfirmed: (Calendar, Calendar, Boolean) -> Unit) : Dialog(activity) {
     private val startCal = Calendar.getInstance()
     private val endCal = Calendar.getInstance()
     private var startEndMode = 0
-    private var timeMode = if(timeObject.allday) 0 else 1
+    private var timeMode = if(record.allday) 0 else 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_start_end_picker)
         setGlobalTheme(rootLy)
-        startCal.timeInMillis = timeObject.dtStart
-        endCal.timeInMillis = timeObject.dtEnd
+        startCal.timeInMillis = record.dtStart
+        endCal.timeInMillis = record.dtEnd
         setLayout()
         setOnShowListener {
             startDialogShowAnimation(contentLy)

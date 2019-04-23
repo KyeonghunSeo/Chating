@@ -8,21 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import androidx.transition.*
 import com.hellowo.journey.*
 import com.hellowo.journey.R
 import com.hellowo.journey.adapter.FolderAdapter
-import com.hellowo.journey.adapter.TimeObjectListAdapter
+import com.hellowo.journey.adapter.RecordListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
-import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.manager.RecordManager
 import com.hellowo.journey.model.Folder
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.dialog.EditFolderDialog
 import io.realm.OrderedCollectionChangeSet
@@ -34,10 +31,10 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     : FrameLayout(context, attrs, defStyleAttr) {
 
     var viewMode = ViewMode.CLOSED
-    private var timeObjectList: RealmResults<TimeObject>? = null
-    private val items = ArrayList<TimeObject>()
-    private val newItmes = ArrayList<TimeObject>()
-    private val adapter = TimeObjectListAdapter(context, items, Calendar.getInstance()) { view, timeObject, action ->
+    private var recordList: RealmResults<Record>? = null
+    private val items = ArrayList<Record>()
+    private val newItmes = ArrayList<Record>()
+    private val adapter = RecordListAdapter(context, items, Calendar.getInstance()) { view, timeObject, action ->
         when(action) {
             0 -> {
                 MainActivity.instance?.viewModel?.let {
@@ -114,9 +111,9 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private fun notifyDataChanged() {
         MainActivity.instance?.viewModel?.targetFolder?.value?.let { folder ->
             folderAdapter.notifyDataSetChanged()
-            timeObjectList?.removeAllChangeListeners()
-            timeObjectList = TimeObjectManager.getTimeObjectList(folder)
-            timeObjectList?.addChangeListener { result, changeSet ->
+            recordList?.removeAllChangeListeners()
+            recordList = RecordManager.getRecordList(folder)
+            recordList?.addChangeListener { result, changeSet ->
                 l("==========킵뷰 데이터 변경 시작=========")
                 val t = System.currentTimeMillis()
                 if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
@@ -139,7 +136,7 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         }
     }
 
-    private fun updateData(data: RealmResults<TimeObject>, list: ArrayList<TimeObject>) {
+    private fun updateData(data: RealmResults<Record>, list: ArrayList<Record>) {
         list.clear()
         data.forEach { list.add(it.makeCopyObject()) }
 

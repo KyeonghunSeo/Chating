@@ -1,9 +1,9 @@
 package com.hellowo.journey.adapter.util
 
 import androidx.recyclerview.widget.DiffUtil
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 
-class ListDiffCallback(private val oldList: List<TimeObject>, private val newList: List<TimeObject>) : DiffUtil.Callback() {
+class ListDiffCallback(private val oldList: List<Record>, private val newList: List<Record>) : DiffUtil.Callback() {
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean
             = oldList[oldItemPosition].id == newList[newItemPosition].id
 

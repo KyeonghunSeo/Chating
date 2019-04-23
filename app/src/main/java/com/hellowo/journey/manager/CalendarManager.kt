@@ -4,19 +4,18 @@ import android.graphics.*
 import com.hellowo.journey.App.Companion.resource
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
-import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.ui.view.TimeObjectView
-import com.hellowo.journey.ui.view.TimeObjectView.Companion.blockTypeSize
-import com.hellowo.journey.ui.view.TimeObjectView.Companion.leftPadding
-import com.hellowo.journey.ui.view.TimeObjectView.Companion.defaulMargin
-import com.hellowo.journey.ui.view.TimeObjectView.Companion.sidePadding
-import com.hellowo.journey.ui.view.TimeObjectView.Companion.dotSize
-import com.hellowo.journey.ui.view.TimeObjectView.Companion.rectRadius
-import com.hellowo.journey.ui.view.TimeObjectView.Companion.stampSize
-import com.hellowo.journey.ui.view.TimeObjectView.Companion.strokeWidth
-import com.hellowo.journey.model.TimeObject.Style.*
-import com.hellowo.journey.ui.view.CalendarView
-import com.hellowo.journey.ui.view.TimeObjectView.Companion.baseSize
+import com.hellowo.journey.model.Record
+import com.hellowo.journey.ui.view.RecordView
+import com.hellowo.journey.ui.view.RecordView.Companion.blockTypeSize
+import com.hellowo.journey.ui.view.RecordView.Companion.leftPadding
+import com.hellowo.journey.ui.view.RecordView.Companion.defaulMargin
+import com.hellowo.journey.ui.view.RecordView.Companion.sidePadding
+import com.hellowo.journey.ui.view.RecordView.Companion.dotSize
+import com.hellowo.journey.ui.view.RecordView.Companion.rectRadius
+import com.hellowo.journey.ui.view.RecordView.Companion.stampSize
+import com.hellowo.journey.ui.view.RecordView.Companion.strokeWidth
+import com.hellowo.journey.model.Record.Style.*
+import com.hellowo.journey.ui.view.RecordView.Companion.baseSize
 import com.pixplicity.easyprefs.library.Prefs
 
 object CalendarManager {
@@ -34,12 +33,12 @@ object CalendarManager {
         selectedDateColor = AppTheme.primaryColor
     }
 
-    fun drawBasicShape(canvas: Canvas, view: TimeObjectView) {
+    fun drawBasicShape(canvas: Canvas, view: RecordView) {
         val paint = view.paint
         val width = view.width
         val height = view.height
         paint.color = view.paintColor
-        when(TimeObject.Style.values()[view.timeObject.style]){
+        when(Record.Style.values()[view.record.style]){
             RECT_FILL -> {
                 canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
                 paint.color = view.fontColor
@@ -109,18 +108,18 @@ object CalendarManager {
                 }
             }
         }
-        if(view.timeObject.isSetCheckBox()) {
+        if(view.record.isSetCheckBox()) {
             drawCheckBox(view, paint, canvas)
         }
     }
 
-    fun drawNote(canvas: Canvas, view: TimeObjectView) {
-        val timeObject = view.timeObject
+    fun drawNote(canvas: Canvas, view: RecordView) {
+        val timeObject = view.record
         val paint = view.paint
         val width = view.width
         val height = view.height
         paint.color = timeObject.getColor()
-        when(TimeObject.Style.values()[view.timeObject.style]){
+        when(Record.Style.values()[view.record.style]){
             RECT_STROKE -> { // rect stroke
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = strokeWidth
@@ -149,13 +148,13 @@ object CalendarManager {
         drawHyphen(view, paint, canvas)
     }
 
-    fun drawTerm(canvas: Canvas, view: TimeObjectView) {
+    fun drawTerm(canvas: Canvas, view: RecordView) {
         val paint = view.paint
         val width = view.width
         val height = view.height
-        paint.color = view.timeObject.getColor()
+        paint.color = view.record.getColor()
         canvas.translate(view.scrollX.toFloat(), 0f)
-        when(view.timeObject.style){
+        when(view.record.style){
             1 -> { // 양쪽 얇은 화살
                 val periodLine = (strokeWidth * 3).toInt()
                 val rectl = RectF(0f,
@@ -274,7 +273,7 @@ object CalendarManager {
         }
     }
 
-    fun drawStamp(canvas: Canvas, view: TimeObjectView) {
+    fun drawStamp(canvas: Canvas, view: RecordView) {
         val margin = defaulMargin.toInt()
         val size = (stampSize - defaulMargin).toInt()
         var top = 0
@@ -292,7 +291,7 @@ object CalendarManager {
             stamp.draw(canvas)
 /*
             val stroke = resource.getDrawable(R.drawable.circle_stroke_1px)
-            stroke.setColorFilter(timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+            stroke.setColorFilter(record.getColor(), PorterDuff.Mode.SRC_ATOP)
             stroke.setBounds(left, top, left + size, top + size)
             stroke.draw(canvas)
 */
@@ -308,19 +307,19 @@ object CalendarManager {
                 var right = left + width
                 val overlap = size - (width - size * totalStampCnt) / (1 - totalStampCnt)
                 (totalStampCnt - 1 downTo 0).forEach { index ->
-                    view.childList?.get(index)?.let { timeObject ->
+                    view.childList?.get(index)?.let { record ->
                         val circle = resource.getDrawable(R.drawable.circle_fill)
                         circle.setColorFilter(CalendarManager.backgroundColor, PorterDuff.Mode.SRC_ATOP)
                         circle.setBounds(right - size + 1, 1, right - 1, size - 1)
                         circle.draw(canvas)
 
                         val stamp = resource.getDrawable(StampManager.stamps[index])
-                        stamp.setColorFilter(timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+                        stamp.setColorFilter(record.getColor(), PorterDuff.Mode.SRC_ATOP)
                         stamp.setBounds(right - size + margin, margin, right - margin, size - margin)
                         stamp.draw(canvas)
 
                         val stroke = resource.getDrawable(R.drawable.circle_stroke_1dp)
-                        stroke.setColorFilter(timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+                        stroke.setColorFilter(record.getColor(), PorterDuff.Mode.SRC_ATOP)
                         stroke.setBounds(right - size, 0, right, size)
                         stroke.draw(canvas)
 
@@ -332,19 +331,19 @@ object CalendarManager {
         */
     }
 
-    private fun drawDot(view: TimeObjectView, paint: Paint, canvas: Canvas) {
+    private fun drawDot(view: RecordView, paint: Paint, canvas: Canvas) {
         val radius = baseSize * 2f
         val centerY = (blockTypeSize - defaulMargin) / 2f
         canvas.drawCircle(radius, centerY, radius, paint)
     }
 
-    private fun drawCheckBox(view: TimeObjectView, paint: Paint, canvas: Canvas) {
+    private fun drawCheckBox(view: RecordView, paint: Paint, canvas: Canvas) {
         val radius = dotSize / 2f
         val sWidth = strokeWidth / 1.7f
         val centerX = leftPadding / 2f + defaulMargin / 1.3f
         val centerY = (blockTypeSize - defaulMargin) / 2f
 
-        if(view.timeObject.isDone()) {
+        if(view.record.isDone()) {
             view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             /*canvas.drawLine(leftPadding.toFloat() / 2f + defaulMargin + radius, centerY - radius,
                     leftPadding.toFloat() / 2f + defaulMargin - radius, centerY + radius, paint)*/
@@ -363,7 +362,7 @@ object CalendarManager {
         paint.style = Paint.Style.FILL
     }
 
-    private fun drawHyphen(view: TimeObjectView, paint: Paint, canvas: Canvas) {
+    private fun drawHyphen(view: RecordView, paint: Paint, canvas: Canvas) {
         val radius = dotSize / 2.3f
         val centerY = blockTypeSize / 2.1f
         canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
@@ -372,7 +371,7 @@ object CalendarManager {
                 centerY + strokeWidth / 2.0f, paint)
     }
 
-    fun drawNotInCalendar(view: TimeObjectView, paint: Paint, canvas: Canvas) {
+    fun drawNotInCalendar(view: RecordView, paint: Paint, canvas: Canvas) {
         val legnth =  baseSize * 10
         val gap = baseSize * 2
         val startY = (blockTypeSize - defaulMargin) / 2f - legnth / 2f
@@ -386,24 +385,24 @@ object CalendarManager {
         }
     }
 
-    private fun drawRectCheckBox(view: TimeObjectView, centerY: Float, canvas: Canvas) {
-        if(view.timeObject.isDone()) {
+    private fun drawRectCheckBox(view: RecordView, centerY: Float, canvas: Canvas) {
+        if(view.record.isDone()) {
             view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             val check = resource.getDrawable(R.drawable.check)
-            check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+            check.setColorFilter(view.record.getColor(), PorterDuff.Mode.SRC_ATOP)
             check.setBounds(defaulMargin.toInt() * 2, (centerY - leftPadding / 2f).toInt(),
                     leftPadding + defaulMargin.toInt() * 2, (centerY + leftPadding / 2f).toInt())
             check.draw(canvas)
         }else {
             val check = resource.getDrawable(R.drawable.uncheck)
-            check.setColorFilter(view.timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+            check.setColorFilter(view.record.getColor(), PorterDuff.Mode.SRC_ATOP)
             check.setBounds(defaulMargin.toInt() * 2, (centerY - leftPadding / 2f).toInt(),
                     leftPadding + defaulMargin.toInt() * 2, (centerY + leftPadding / 2f).toInt())
             check.draw(canvas)
         }
     }
 
-    private fun drawWhiteSpaceLine(view: TimeObjectView, centerY: Float, paint: Paint, canvas: Canvas) {
+    private fun drawWhiteSpaceLine(view: RecordView, centerY: Float, paint: Paint, canvas: Canvas) {
         if(view.length > 1) {
             canvas.drawRect(leftPadding + defaulMargin + view.textSpaceWidth + sidePadding,
                     centerY - strokeWidth / 2, view.width.toFloat(), centerY + strokeWidth / 2, paint)
@@ -443,7 +442,7 @@ object CalendarManager {
                     paint.strokeWidth = strokeWidth.toFloat()
                     paint.color = color
                     paint.isAntiAlias = true
-                    tempCal.timeInMillis = timeObject.dtStart
+                    tempCal.timeInMillis = record.dtStart
                     val degreeH = tempCal.get(Calendar.HOUR_OF_DAY) % 12 * 360 / 12 + 270
                     val sX = normalTypeSize / 2f
                     val sY = height / 2f

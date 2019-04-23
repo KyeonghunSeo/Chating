@@ -16,12 +16,12 @@ import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
 import com.hellowo.journey.manager.CalendarManager
-import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.model.TimeObject.Style.*
-import com.hellowo.journey.model.TimeObject.Formula.*
+import com.hellowo.journey.model.Record
+import com.hellowo.journey.model.Record.Style.*
+import com.hellowo.journey.model.Record.Formula.*
 
 @SuppressLint("ViewConstructor")
-class TimeObjectView constructor(context: Context, val timeObject: TimeObject, val cellNum: Int, val length: Int) : TextView(context) {
+class RecordView constructor(context: Context, val record: Record, val cellNum: Int, val length: Int) : TextView(context) {
     companion object {
         var standardTextSize = 9f
         val baseSize = dpToPx(0.5f)
@@ -46,7 +46,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     var leftOpen = false
     var rightOpen = false
     var textSpaceWidth = 0f
-    var childList: ArrayList<TimeObject>? = null
+    var childList: ArrayList<Record>? = null
     var paintColor = AppTheme.backgroundColor
     var fontColor = AppTheme.primaryText
     //var line = 0
@@ -56,7 +56,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     }
 
     fun setLookByType() {
-        if(!timeObject.inCalendar) {
+        if(!record.inCalendar) {
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
             gravity = Gravity.CENTER_VERTICAL
             maxLines = 1
@@ -75,72 +75,72 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                 (topPadding + (AppStatus.calTextSize * -1.7f)).toInt() /*글씨 크기에 따른 탑 패딩 조정*/,
                 sidePadding, 0)
 
-        when(timeObject.getFormula()) {
+        when(record.getFormula()) {
             TOP_LINEAR, BOTTOM_LINEAR -> {
-                text = if(!timeObject.title.isNullOrBlank()) timeObject.title?.replace(System.getProperty("line.separator"), " ")
+                text = if(!record.title.isNullOrBlank()) record.title?.replace(System.getProperty("line.separator"), " ")
                 else context.getString(R.string.empty_note)
                 //setLineSpacing(defaulMargin, 1f)
-                when(TimeObject.Style.values()[timeObject.style]){
+                when(Record.Style.values()[record.style]){
                     RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
-                        paintColor = AppTheme.getColor(timeObject.colorKey)
-                        fontColor = AppTheme.getColor(timeObject.colorKey)
+                        paintColor = AppTheme.getColor(record.colorKey)
+                        fontColor = AppTheme.getColor(record.colorKey)
                     }
                     RECT_FILL, CANDY -> {
-                        paintColor = AppTheme.getColor(timeObject.colorKey)
-                        fontColor = AppTheme.getFontColor(timeObject.colorKey)
+                        paintColor = AppTheme.getColor(record.colorKey)
+                        fontColor = AppTheme.getFontColor(record.colorKey)
                     }
                     else -> {
-                        paintColor = AppTheme.getColor(timeObject.colorKey)
-                        fontColor = AppTheme.getColor(timeObject.colorKey)
+                        paintColor = AppTheme.getColor(record.colorKey)
+                        fontColor = AppTheme.getColor(record.colorKey)
                     }
                 }
                 setTextColor(fontColor)
             }
             TOP_FLOW -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
-                text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
+                text = if(!record.title.isNullOrBlank()) record.title else context.getString(R.string.untitle)
                 gravity = Gravity.CENTER_HORIZONTAL
                 maxLines = 1
                 setSingleLine(true)
                 //setHorizontallyScrolling(true)
-                when(timeObject.style){
+                when(record.style){
                     1 -> {
                         typeface = AppTheme.regularFont
                         gravity = Gravity.CENTER_HORIZONTAL
                         setPadding(sidePadding, 0, sidePadding, 0)
-                        setTextColor(timeObject.getColor())
+                        setTextColor(record.getColor())
                     }
                     2 -> {
                         setTypeface(AppTheme.regularFont, ITALIC)
                         gravity = Gravity.CENTER
                         setPadding(sidePadding, 0, sidePadding, 0)
-                        setTextColor(timeObject.getColor())
+                        setTextColor(record.getColor())
                     }
                     else -> {
                         typeface = AppTheme.regularFont
                         gravity = Gravity.CENTER
                         setPadding(sidePadding * 4, 0, sidePadding * 4, 0)
-                        setTextColor(timeObject.getColor())
+                        setTextColor(record.getColor())
                     }
                 }
             }
             else -> {
-                text = if(!timeObject.title.isNullOrBlank()) timeObject.title else context.getString(R.string.untitle)
+                text = if(!record.title.isNullOrBlank()) record.title else context.getString(R.string.untitle)
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
-                when(TimeObject.Style.values()[timeObject.style]){
+                when(Record.Style.values()[record.style]){
                     ROUND_STROKE, RECT_STROKE, HATCHED, TOP_LINE, BOTTOM_LINE -> {
-                        paintColor = AppTheme.getColor(timeObject.colorKey)
-                        fontColor = AppTheme.getColor(timeObject.colorKey)
+                        paintColor = AppTheme.getColor(record.colorKey)
+                        fontColor = AppTheme.getColor(record.colorKey)
                     }
                     ROUND_FILL, RECT_FILL, CANDY -> {
-                        paintColor = AppTheme.getColor(timeObject.colorKey)
-                        fontColor = AppTheme.getFontColor(timeObject.colorKey)
+                        paintColor = AppTheme.getColor(record.colorKey)
+                        fontColor = AppTheme.getFontColor(record.colorKey)
                     }
                     else -> {
-                        paintColor = AppTheme.getColor(timeObject.colorKey)
-                        fontColor = AppTheme.getColor(timeObject.colorKey)
+                        paintColor = AppTheme.getColor(record.colorKey)
+                        fontColor = AppTheme.getColor(record.colorKey)
                     }
                 }
                 setTextColor(fontColor)
@@ -149,7 +149,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     }
 
     override fun onDraw(canvas: Canvas?) {
-        if(timeObject.inCalendar) {
+        if(record.inCalendar) {
             canvas?.let {
                 paint.isAntiAlias = true
                 CalendarManager.drawBasicShape(canvas, this)
@@ -164,8 +164,8 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
     }
 
     fun getViewHeight(): Int {
-        if(timeObject.inCalendar) {
-            return when(timeObject.getFormula()) {
+        if(record.inCalendar) {
+            return when(record.getFormula()) {
                 TOP_FLOW -> {
                     val width =  mRight - mLeft - defaulMargin
                     val margin = defaulMargin.toInt()
@@ -180,7 +180,7 @@ class TimeObjectView constructor(context: Context, val timeObject: TimeObject, v
                     ellipsize = TextUtils.TruncateAt.END
                     val width =  mRight - mLeft - defaulMargin
                     measure(View.MeasureSpec.makeMeasureSpec(width.toInt(), View.MeasureSpec.EXACTLY), heightMeasureSpec)
-                    //l("${timeObject.title} 라인 : "+((paint.measureText(text.toString()) / width).toInt() + 1))
+                    //l("${record.title} 라인 : "+((paint.measureText(text.toString()) / width).toInt() + 1))
                     /* 블럭 사이즈로 맞추기
                     var lh = blockTypeSize
                     while (lh < measuredHeight) {

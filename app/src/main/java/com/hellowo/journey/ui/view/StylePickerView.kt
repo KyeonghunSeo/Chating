@@ -1,21 +1,18 @@
 package com.hellowo.journey.ui.view
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import kotlinx.android.synthetic.main.list_item_style_picker.view.*
 import java.util.*
 
@@ -39,7 +36,7 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {
                 itemView.layoutParams.height = dpToPx(130)
-                val timeObjectView = TimeObjectView(context, TimeObject(), 0, 0)
+                val timeObjectView = RecordView(context, Record(), 0, 0)
                 timeObjectView.scaleX = 1.5f
                 timeObjectView.scaleY = 1.5f
                 timeObjectView.layoutParams = FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
@@ -55,11 +52,11 @@ class StylePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val v = holder.itemView
             val style = 0
-            (v.previewContainer.getChildAt(0) as TimeObjectView).let {
-                it.timeObject.title = title
-                it.timeObject.type = type
-                it.timeObject.style = style
-                it.timeObject.colorKey = colorKey
+            (v.previewContainer.getChildAt(0) as RecordView).let {
+                it.record.title = title
+                it.record.type = type
+                it.record.style = style
+                it.record.colorKey = colorKey
                 it.setLookByType()
 
                 it.layoutParams.width = dpToPx(60)

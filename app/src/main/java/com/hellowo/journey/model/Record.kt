@@ -1,45 +1,41 @@
 package com.hellowo.journey.model
 
-import android.graphics.Color
 import com.hellowo.journey.AppTheme
-import com.hellowo.journey.R
 import com.hellowo.journey.getCalendarTime0
 import com.hellowo.journey.getDiffDate
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import com.hellowo.journey.model.TimeObject.Style.*
 import io.realm.annotations.Ignore
-import java.lang.Exception
 import java.util.*
 
 
-open class TimeObject(@PrimaryKey var id: String? = null,
-                      var type: Int = 0,
-                      var style: Int = 0,
-                      var title: String? = null,
-                      var colorKey: Int = -1,
-                      var location: String? = null,
-                      var description: String? = null,
-                      var repeat: String? = null,
-                      var count: Int = 0,
-                      var dtUntil: Long = Long.MIN_VALUE,
-                      var allday: Boolean = true,
-                      var dtStart: Long = Long.MIN_VALUE,
-                      var dtEnd: Long = Long.MIN_VALUE,
-                      var dtDone: Long = Long.MIN_VALUE,
-                      var dtCreated: Long = Long.MIN_VALUE,
-                      var dtUpdated: Long = Long.MIN_VALUE,
-                      var timeZone: String? = null,
-                      var exDates: RealmList<String> = RealmList(),
-                      var tags: RealmList<Tag> = RealmList(),
-                      var alarms: RealmList<Alarm> = RealmList(),
-                      var links: RealmList<Link> = RealmList(),
-                      var latitude: Double = Double.MIN_VALUE,
-                      var longitude: Double = Double.MIN_VALUE,
-                      var inCalendar: Boolean = true,
-                      var ordering: Int = Int.MIN_VALUE,
-                      var folder: Folder? = null): RealmObject() {
+open class Record(@PrimaryKey var id: String? = null,
+                  var type: Int = 0,
+                  var style: Int = 0,
+                  var title: String? = null,
+                  var colorKey: Int = -1,
+                  var location: String? = null,
+                  var description: String? = null,
+                  var repeat: String? = null,
+                  var count: Int = 0,
+                  var dtUntil: Long = Long.MIN_VALUE,
+                  var allday: Boolean = true,
+                  var dtStart: Long = Long.MIN_VALUE,
+                  var dtEnd: Long = Long.MIN_VALUE,
+                  var dtDone: Long = Long.MIN_VALUE,
+                  var dtCreated: Long = Long.MIN_VALUE,
+                  var dtUpdated: Long = Long.MIN_VALUE,
+                  var timeZone: String? = null,
+                  var exDates: RealmList<String> = RealmList(),
+                  var tags: RealmList<Tag> = RealmList(),
+                  var alarms: RealmList<Alarm> = RealmList(),
+                  var links: RealmList<Link> = RealmList(),
+                  var latitude: Double = Double.MIN_VALUE,
+                  var longitude: Double = Double.MIN_VALUE,
+                  var inCalendar: Boolean = true,
+                  var ordering: Int = Int.MIN_VALUE,
+                  var folder: Folder? = null): RealmObject() {
 
     @Ignore var repeatKey: String? = null
 
@@ -82,15 +78,15 @@ open class TimeObject(@PrimaryKey var id: String? = null,
         }
     }
 
-    fun makeCopyObject(): TimeObject{
-        val o = TimeObject()
+    fun makeCopyObject(): Record{
+        val o = Record()
         o.copy(this)
         return o
     }
 
     fun getColor() : Int = AppTheme.getColor(colorKey)
 
-    fun copy(data: TimeObject) {
+    fun copy(data: Record) {
         id = data.id
         type = data.type
         style = data.style
@@ -137,11 +133,11 @@ open class TimeObject(@PrimaryKey var id: String? = null,
     }
 
     override fun toString(): String {
-        return "TimeObject(id=$id, type=$type, style=$style, title=$title, colorKey=$colorKey, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, latitude=$latitude, longitude=$longitude, inCalendar=$inCalendar)"
+        return "Record(id=$id, type=$type, style=$style, title=$title, colorKey=$colorKey, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, latitude=$latitude, longitude=$longitude, inCalendar=$inCalendar)"
     }
 
     override fun equals(other: Any?): Boolean { // 리스트 업데이트 비교시 사용
-        if (other is TimeObject) {
+        if (other is Record) {
             return id == other.id
                     && type == other.type
                     && style == other.style

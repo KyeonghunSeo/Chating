@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import com.hellowo.journey.*
-import com.hellowo.journey.adapter.TimeObjectListAdapter
+import com.hellowo.journey.adapter.RecordListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.manager.OsCalendarManager
-import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.manager.RecordManager
 import com.hellowo.journey.model.Tag
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.dialog.TagDialog
 import io.realm.OrderedCollectionChangeSet
@@ -32,10 +32,10 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     companion object
 
     var viewMode = ViewMode.CLOSED
-    private var timeObjectList: RealmResults<TimeObject>? = null
-    private val items = ArrayList<TimeObject>()
-    private val newItmes = ArrayList<TimeObject>()
-    private val adapter = TimeObjectListAdapter(context, items, Calendar.getInstance()) { view, timeObject, action ->
+    private var recordList: RealmResults<Record>? = null
+    private val items = ArrayList<Record>()
+    private val newItmes = ArrayList<Record>()
+    private val adapter = RecordListAdapter(context, items, Calendar.getInstance()) { view, timeObject, action ->
         when(action) {
             0 -> {
                 MainActivity.instance?.viewModel?.let {
@@ -93,9 +93,9 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     fun notifyDataChanged() {
         if(searchInput.text.toString().isNotEmpty() || tags.isNotEmpty()) {
-            timeObjectList?.removeAllChangeListeners()
-            timeObjectList = TimeObjectManager.getTimeObjectList(searchInput.text.toString(), tags)
-            timeObjectList?.addChangeListener { result, changeSet ->
+            recordList?.removeAllChangeListeners()
+            recordList = RecordManager.getRecordList(searchInput.text.toString(), tags)
+            recordList?.addChangeListener { result, changeSet ->
                 l("==========서치뷰 데이터 변경 시작=========")
                 val t = System.currentTimeMillis()
                 adapter.query = searchInput.text.toString()

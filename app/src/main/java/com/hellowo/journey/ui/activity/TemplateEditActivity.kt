@@ -3,17 +3,13 @@ package com.hellowo.journey.ui.activity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.adapter.TemplateEditAdapter
 import com.hellowo.journey.adapter.util.TemplateDiffCallback
-import com.hellowo.journey.l
 import com.hellowo.journey.model.Tag
 import com.hellowo.journey.model.Template
-import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.showDialog
 import com.hellowo.journey.ui.dialog.*
 import io.realm.OrderedCollectionChangeSet

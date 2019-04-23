@@ -4,22 +4,20 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.widget.LinearLayout.HORIZONTAL
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hellowo.journey.adapter.FolderAdapter
-import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.manager.RecordManager
 import com.hellowo.journey.model.Folder
 import com.hellowo.journey.model.Link
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import io.realm.Realm
 import io.realm.Sort
 import kotlinx.android.synthetic.main.activity_scrap.*
 import org.json.JSONObject
 import java.util.*
-import android.R.attr.data
 import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.hellowo.journey.*
@@ -117,14 +115,14 @@ class ScrapActivity : Activity() {
         }
     }
 
-    private fun saveTimeObject(timeObject: TimeObject) {
-        TimeObjectManager.save(timeObject)
+    private fun saveTimeObject(record: Record) {
+        RecordManager.save(record)
         Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show()
         finish()
     }
 
-    private fun makeTimeObject(folder: Folder?, time: Long) : TimeObject {
-        val timeObject = TimeObject()
+    private fun makeTimeObject(folder: Folder?, time: Long) : Record {
+        val timeObject = Record()
         if(time != Long.MIN_VALUE) {
             timeObject.dtStart = time
             timeObject.dtEnd = time

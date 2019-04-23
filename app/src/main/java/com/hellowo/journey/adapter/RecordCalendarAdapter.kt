@@ -7,23 +7,23 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
 import com.hellowo.journey.AppStatus
 import com.hellowo.journey.DAY_MILL
-import com.hellowo.journey.adapter.util.CalendarComparator
+import com.hellowo.journey.adapter.util.RecordCalendarComparator
 import com.hellowo.journey.dpToPx
 import com.hellowo.journey.makeChangeBounceTransition
 import com.hellowo.journey.manager.OsCalendarManager
 import com.hellowo.journey.manager.RepeatManager
-import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.model.TimeObject.Formula.*
+import com.hellowo.journey.model.Record
+import com.hellowo.journey.model.Record.Formula.*
 import com.hellowo.journey.ui.view.CalendarView
 import com.hellowo.journey.ui.view.CalendarView.Companion.weekLyBottomPadding
-import com.hellowo.journey.ui.view.TimeObjectView
-import com.hellowo.journey.ui.view.TimeObjectView.Companion.blockTypeSize
+import com.hellowo.journey.ui.view.RecordView
+import com.hellowo.journey.ui.view.RecordView.Companion.blockTypeSize
 import io.realm.RealmResults
 
 
-class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
+class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private val viewHolderList = ArrayList<TimeObjectViewHolder>()
-    private val viewLevelStatusMap = HashMap<TimeObject.Formula, ViewLevelStatus>()
+    private val viewLevelStatusMap = HashMap<Record.Formula, ViewLevelStatus>()
     private val context = calendarView.context
     private val columns = CalendarView.columns
     private var rows = 0
@@ -36,14 +36,14 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
     private val cellBottomArray = Array(42){ drawStartYOffset}
     private val rowHeightArray = Array(6){ drawStartYOffset}
 
-    fun draw(items : RealmResults<TimeObject>?) {
+    fun draw(items : RealmResults<Record>?) {
         setCalendarData()
         makeTimeObjectViewHolder(items)
         calculateTimeObjectViewsPosition()
         drawTimeObjectViewOnCalendarView()
     }
 
-    fun refresh(items: RealmResults<TimeObject>?, anim: Boolean) {
+    fun refresh(items: RealmResults<Record>?, anim: Boolean) {
         withAnimtion = anim
         viewHolderList.forEach { holder ->
             holder.timeObjectViewList.forEach { (it.parent as FrameLayout).removeView(it) }
@@ -64,7 +64,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         calStartTime = calendarView.calendarStartTime
     }
 
-    private fun makeTimeObjectViewHolder(items : RealmResults<TimeObject>?) {
+    private fun makeTimeObjectViewHolder(items : RealmResults<Record>?) {
         items?.forEach{ timeObject ->
             try{
                 if(timeObject.repeat.isNullOrEmpty()) {
@@ -80,26 +80,26 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         OsCalendarManager.getInstances(context, "", calendarView.calendarStartTime, calendarView.calendarEndTime).forEach {
             makeTimeObjectView(it)
         }
-        viewHolderList.sortWith(CalendarComparator())
+        viewHolderList.sortWith(RecordCalendarComparator())
     }
 
-    private fun makeTimeObjectView(timeObject: TimeObject) {
-        var startCellNum = ((timeObject.dtStart - calStartTime) / DAY_MILL).toInt()
-        var endCellNum = ((timeObject.dtEnd - calStartTime) / DAY_MILL).toInt()
-        if(timeObject.inCalendar) {
-            when(timeObject.getFormula()){
+    private fun makeTimeObjectView(record: Record) {
+        var startCellNum = ((record.dtStart - calStartTime) / DAY_MILL).toInt()
+        var endCellNum = ((record.dtEnd - calStartTime) / DAY_MILL).toInt()
+        if(record.inCalendar) {
+            when(record.getFormula()){
                 TOP_FLOW -> {
                     val holder = viewHolderList
-                            .firstOrNull { it.timeObject.type == timeObject.type && it.startCellNum == startCellNum }
-                            ?: TimeObjectViewHolder(timeObject, startCellNum, endCellNum).apply { viewHolderList.add(this) }
+                            .firstOrNull { it.record.type == record.type && it.startCellNum == startCellNum }
+                            ?: TimeObjectViewHolder(record, startCellNum, endCellNum).apply { viewHolderList.add(this) }
 
                     val timeObjectView = holder.timeObjectViewList.firstOrNull() ?:
-                        TimeObjectView(context, timeObject, startCellNum, 1).apply {
+                        RecordView(context, record, startCellNum, 1).apply {
                             childList = ArrayList()
                             setLookByType()
                             holder.timeObjectViewList.add(this) }
 
-                    timeObjectView.childList?.add(timeObject)
+                    timeObjectView.childList?.add(record)
                 }
                 else -> {
                     var lOpen = false
@@ -114,7 +114,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
                         rOpen = true
                     }
 
-                    val holder = TimeObjectViewHolder(timeObject, startCellNum, endCellNum)
+                    val holder = TimeObjectViewHolder(record, startCellNum, endCellNum)
                     var currentCell = holder.startCellNum
                     var length = holder.endCellNum - holder.startCellNum + 1
                     var margin = columns - currentCell % columns
@@ -122,7 +122,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
 
                     (0 until size).forEach { index ->
                         holder.timeObjectViewList.add(
-                                TimeObjectView(context, timeObject, currentCell,
+                                RecordView(context, record, currentCell,
                                         if (length <= margin) length else margin).apply {
                                     currentCell += margin
                                     length -= margin
@@ -149,25 +149,25 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         }else {
             (startCellNum .. endCellNum).forEach { cellNum ->
                 val holder = viewHolderList
-                        .firstOrNull { !it.timeObject.inCalendar && it.startCellNum == cellNum }
-                        ?: TimeObjectViewHolder(timeObject, cellNum, cellNum).apply { viewHolderList.add(this) }
+                        .firstOrNull { !it.record.inCalendar && it.startCellNum == cellNum }
+                        ?: TimeObjectViewHolder(record, cellNum, cellNum).apply { viewHolderList.add(this) }
                 val timeObjectView = holder.timeObjectViewList.firstOrNull() ?:
 
-                TimeObjectView(context, timeObject, cellNum, 1).apply {
+                RecordView(context, record, cellNum, 1).apply {
                     childList = ArrayList()
                     setLookByType()
                     holder.timeObjectViewList.add(this) }
 
-                timeObjectView.childList?.add(timeObject)
+                timeObjectView.childList?.add(record)
             }
         }
     }
 
     private fun calculateTimeObjectViewsPosition() {
-        var currentFomula = TimeObject.Formula.BACKGROUND
+        var currentFomula = Record.Formula.BACKGROUND
         viewHolderList.forEach { viewHolder ->
             try{
-                val timeObject = viewHolder.timeObject
+                val timeObject = viewHolder.record
                 val formula = timeObject.getFormula()
                 val status
                         = viewLevelStatusMap[formula]?: ViewLevelStatus().apply { viewLevelStatusMap[formula] = this }
@@ -262,8 +262,8 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         }
 
         viewHolderList.forEach { holder ->
-            var lastAlpha = if(holder.timeObject.isDone()) 0.6f else 1f
-            if(calendarView.lastUpdatedItem?.isValid == true && calendarView.lastUpdatedItem?.id == holder.timeObject.id) { // 마지막 업데이트 오브젝트
+            var lastAlpha = if(holder.record.isDone()) 0.6f else 1f
+            if(calendarView.lastUpdatedItem?.isValid == true && calendarView.lastUpdatedItem?.id == holder.record.id) { // 마지막 업데이트 오브젝트
                 calendarView.lastUpdatedItem = null
                 holder.timeObjectViewList.forEach {
                     lastAlpha = if(isDateInMonth(it)) lastAlpha else AppStatus.outsideMonthAlpha
@@ -282,10 +282,10 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         calendarView.calendarLy.requestLayout()
     }
 
-    private fun isDateInMonth(view: TimeObjectView) = view.cellNum in calendarView.startCellNum..calendarView.endCellNum
+    private fun isDateInMonth(view: RecordView) = view.cellNum in calendarView.startCellNum..calendarView.endCellNum
             || view.cellNum + view.length - 1 in calendarView.startCellNum..calendarView.endCellNum
 
-    private fun showInsertAnimation(view: TimeObjectView, lastAlpha: Float) {
+    private fun showInsertAnimation(view: RecordView, lastAlpha: Float) {
         val animSet = AnimatorSet()
         animSet.playTogether(
                 ObjectAnimator.ofFloat(view, "translationY", blockTypeSize.toFloat(), 0f),
@@ -295,7 +295,7 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         animSet.start()
     }
 
-    private fun computeOrder(view: TimeObjectView, status: ViewLevelStatus): Int {
+    private fun computeOrder(view: RecordView, status: ViewLevelStatus): Int {
         var order = 0
         for (i in view.cellNum until view.cellNum + view.length) {
             val s = StringBuilder(status.status[i])
@@ -331,16 +331,16 @@ class TimeObjectCalendarAdapter(private val calendarView: CalendarView) {
         return order
     }
 
-    fun getViews(cellNum: Int) : List<TimeObjectView> {
-        val result = ArrayList<TimeObjectView>()
+    fun getViews(cellNum: Int) : List<RecordView> {
+        val result = ArrayList<RecordView>()
         viewHolderList.filter { it.startCellNum == cellNum }.forEach { viewHolder ->
             viewHolder.timeObjectViewList.let { result.addAll(it) }
         }
         return result
     }
 
-    inner class TimeObjectViewHolder(val timeObject: TimeObject, val startCellNum: Int, val endCellNum: Int) {
-        val timeObjectViewList = ArrayList<TimeObjectView>()
+    inner class TimeObjectViewHolder(val record: Record, val startCellNum: Int, val endCellNum: Int) {
+        val timeObjectViewList = ArrayList<RecordView>()
     }
 
     inner class ViewLevelStatus {

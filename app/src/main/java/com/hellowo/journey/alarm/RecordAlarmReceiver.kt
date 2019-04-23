@@ -11,15 +11,15 @@ import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.USER_URL
 import com.hellowo.journey.l
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import io.realm.Realm
 import io.realm.SyncUser
 import java.lang.Exception
 
-class TimeObjectAlarmReceiver : BroadcastReceiver() {
+class RecordAlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        l("TimeObjectAlarmReceiver onReceive()")
+        l("RecordAlarmReceiver onReceive()")
         try{
             val config = SyncUser.current()
                     .createConfiguration(USER_URL)
@@ -27,7 +27,7 @@ class TimeObjectAlarmReceiver : BroadcastReceiver() {
                     .build()
             Realm.getInstanceAsync(config, object : Realm.Callback() {
                 override fun onSuccess(realm: Realm) {
-                    realm.where(TimeObject::class.java)
+                    realm.where(Record::class.java)
                             .equalTo("id", intent.getStringExtra("timeObjectId"))
                             .findFirst()?.let {
                                 val timeObject = realm.copyFromRealm(it)
@@ -45,10 +45,10 @@ class TimeObjectAlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun showNotification(context: Context, timeObject: TimeObject) {
+    private fun showNotification(context: Context, record: Record) {
         val intent = Intent(context, NotiService::class.java)
         intent.putExtra("action", 2)
-        intent.putExtra("timeObjectId", timeObject.id)
+        intent.putExtra("timeObjectId", record.id)
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -57,7 +57,7 @@ class TimeObjectAlarmReceiver : BroadcastReceiver() {
         mCompatBuilder.setTicker("ticker")
         mCompatBuilder.color = AppTheme.primaryColor
         mCompatBuilder.setWhen(System.currentTimeMillis())
-        mCompatBuilder.setContentTitle(timeObject.title)
+        mCompatBuilder.setContentTitle(record.title)
         mCompatBuilder.setContentText("contents")
         mCompatBuilder.setDefaults(Notification.DEFAULT_SOUND or Notification.DEFAULT_VIBRATE)
         mCompatBuilder.setContentIntent(pendingIntent)

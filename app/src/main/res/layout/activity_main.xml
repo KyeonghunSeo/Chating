@@ -119,13 +119,6 @@
         android:visibility="gone">
     </com.hellowo.journey.ui.view.SearchView>
 
-    <com.hellowo.journey.ui.view.TimeObjectDetailView
-        android:id="@+id/timeObjectDetailView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="10dp">
-    </com.hellowo.journey.ui.view.TimeObjectDetailView>
-
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="20dp"

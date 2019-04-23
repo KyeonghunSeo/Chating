@@ -20,12 +20,12 @@ import android.widget.LinearLayout.HORIZONTAL
 import androidx.core.widget.NestedScrollView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.hellowo.journey.*
-import com.hellowo.journey.adapter.TimeObjectCalendarAdapter
+import com.hellowo.journey.adapter.RecordCalendarAdapter
 import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.manager.CalendarManager
 import com.hellowo.journey.manager.HolidayManager
-import com.hellowo.journey.manager.TimeObjectManager
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.manager.RecordManager
+import com.hellowo.journey.model.Record
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.model.KoreanLunarCalendar
 import io.realm.RealmResults
@@ -78,7 +78,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.typeface = AppTheme.regularFont
             dowText.typeface = AppTheme.regularFont
             holiText.typeface = AppTheme.regularFont
-            lunarText.typeface = AppTheme.thinFont
+            lunarText.typeface = AppTheme.boldFont
             bar.scaleX = 0f
             dowText.visibility = View.GONE
         }
@@ -275,7 +275,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         }
 
-        //if(SyncUser.current() != null) TimeObjectManager.setTimeObjectCalendarAdapter(this)
+        //if(SyncUser.current() != null) RecordManager.setTimeObjectCalendarAdapter(this)
         setTimeObjectCalendarAdapter()
         onDrawed?.invoke(monthCal)
         l("${AppDateFormat.mDate.format(targetCal.time)} 캘린더 그리기 : ${(System.currentTimeMillis() - t) / 1000f} 초")
@@ -440,7 +440,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun onViewEffect(cellNum: Int) {
         timeObjectCalendarAdapter.getViews(cellNum).let {
             it.forEach { view ->
-                if(!view.timeObject.inCalendar) {
+                if(!view.record.inCalendar) {
                     view.ellipsize = TextUtils.TruncateAt.MARQUEE
                     view.marqueeRepeatLimit = -1
                     view.isFocusable = true
@@ -455,7 +455,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun offViewEffect(cellNum: Int) {
         timeObjectCalendarAdapter.getViews(cellNum).let {
             it.forEach { view ->
-                if(!view.timeObject.inCalendar) {
+                if(!view.record.inCalendar) {
                     view.ellipsize = null
                     view.isSelected = false
                 }
@@ -483,15 +483,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    private var timeObjectList: RealmResults<TimeObject>? = null
+    private var recordList: RealmResults<Record>? = null
     private var withAnim = false
-    private val timeObjectCalendarAdapter = TimeObjectCalendarAdapter(this)
-    var lastUpdatedItem: TimeObject? = null
+    private val timeObjectCalendarAdapter = RecordCalendarAdapter(this)
+    var lastUpdatedItem: Record? = null
 
     private fun setTimeObjectCalendarAdapter() {
         withAnim = false
-        timeObjectList?.removeAllChangeListeners()
-        timeObjectList = TimeObjectManager.getTimeObjectList(calendarStartTime, calendarEndTime).apply {
+        recordList?.removeAllChangeListeners()
+        recordList = RecordManager.getRecordList(calendarStartTime, calendarEndTime).apply {
             try{
                 addChangeListener { result, changeSet ->
                     //l("result.isLoaded ${result.isLoaded}")

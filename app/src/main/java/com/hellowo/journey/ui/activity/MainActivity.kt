@@ -1,7 +1,6 @@
 package com.hellowo.journey.ui.activity
 
 import android.Manifest
-import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,22 +9,17 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
-import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.hellowo.journey.*
 import com.hellowo.journey.listener.MainDragAndDropListener
-import com.hellowo.journey.manager.TimeObjectManager
+import com.hellowo.journey.manager.RecordManager
 import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.ui.dialog.CalendarSettingsDialog
 import com.hellowo.journey.ui.dialog.DatePickerDialog
@@ -52,7 +46,6 @@ class MainActivity : BaseActivity() {
 
     lateinit var viewModel: MainViewModel
     private var reservedIntentAction: Runnable? = null
-    private var keypadListener : Unregistrar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +73,6 @@ class MainActivity : BaseActivity() {
         initLayout()
         initCalendarView()
         initDayView()
-        initDetailView()
         initKeepView()
         initBriefingView()
         initTemplateView()
@@ -115,16 +107,6 @@ class MainActivity : BaseActivity() {
             }, true, true, true, false)
         }
         rootLy.setOnDragListener(MainDragAndDropListener)
-
-        keypadListener = KeyboardVisibilityEvent.registerEventListener(MainActivity.instance) { isOpen ->
-            l("키보드 상태 $isOpen")
-            timeObjectDetailView.setKeyboardLy(isOpen)
-            if(isOpen) {
-
-            }else {
-
-            }
-        }
 
         callAfterViewDrawed(rootLy, Runnable{
             val location = IntArray(2)
@@ -163,10 +145,6 @@ class MainActivity : BaseActivity() {
         dayPagerView.onVisibility = { show -> }
     }
 
-    private fun initDetailView() {
-        timeObjectDetailView.initMap()
-    }
-
     private fun initKeepView() {}
 
     private fun initBriefingView() {}
@@ -179,7 +157,7 @@ class MainActivity : BaseActivity() {
         }
 
         keepBtn.setOnLongClickListener {
-            TimeObjectManager.deleteAllTimeObject()
+            RecordManager.deleteAllRecord()
             return@setOnLongClickListener false
         }
 
@@ -191,35 +169,35 @@ class MainActivity : BaseActivity() {
             val cal = Calendar.getInstance()
             cal.set(2019, 3, 1)
             val s = cal.timeInMillis
-            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s).apply {
+            RecordManager.save(RecordManager.makeNewRecord(s, s).apply {
                 title = "점심약속"
                 type = 1
             })
-            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s).apply {
+            RecordManager.save(RecordManager.makeNewRecord(s, s).apply {
                 title = "오후미팅"
                 type = 1
             })
-            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s+DAY_MILL, s+DAY_MILL).apply {
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL, s+DAY_MILL).apply {
                 title = "헬스장"
                 type = 1
             })
-            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s, s+DAY_MILL*3).apply {
+            RecordManager.save(RecordManager.makeNewRecord(s, s+DAY_MILL*3).apply {
                 title = "회사 프로젝트"
                 type = 1
             })
-            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s+DAY_MILL*28, s+DAY_MILL*28).apply {
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*28, s+DAY_MILL*28).apply {
                 title = "점심약속"
                 type = 1
             })
-            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s+DAY_MILL*28, s+DAY_MILL*29).apply {
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*28, s+DAY_MILL*29).apply {
                 title = "오후미팅"
                 type = 1
             })
-            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s+DAY_MILL*28, s+DAY_MILL*30).apply {
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*28, s+DAY_MILL*30).apply {
                 title = "헬스장"
                 type = 1
             })
-            TimeObjectManager.save(TimeObjectManager.makeNewTimeObject(s+DAY_MILL*29, s+DAY_MILL*29).apply {
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*29, s+DAY_MILL*29).apply {
                 title = "회사 프로젝트"
                 type = 1
             })
@@ -241,9 +219,7 @@ class MainActivity : BaseActivity() {
 
         viewModel.targetTimeObject.observe(this, Observer { timeObject ->
             if(timeObject != null) {
-                timeObjectDetailView.show(timeObject)
-            }else {
-                timeObjectDetailView.hide()
+                startActivity(Intent(this@MainActivity, RecordActivity::class.java))
             }
         })
 
@@ -349,7 +325,6 @@ class MainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         when{
-            timeObjectDetailView.isOpened() -> timeObjectDetailView.confirm()
             templateControlView.isExpanded -> templateControlView.collapse()
             searchView.isOpened() -> searchView.hide()
             profileView.isOpened() -> profileView.hide()
@@ -361,7 +336,6 @@ class MainActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        timeObjectDetailView.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RC_LOGIN) {
             if(resultCode == RESULT_OK) {
                 viewModel.initRealm(SyncUser.current())
@@ -428,6 +402,5 @@ class MainActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        keypadListener?.unregister()
     }
 }

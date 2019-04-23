@@ -10,14 +10,14 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
 import com.hellowo.journey.*
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import com.hellowo.journey.manager.RepeatManager
 import kotlinx.android.synthetic.main.dialog_repeat.*
 import org.json.JSONObject
 import java.util.*
 
 
-class RepeatDialog(private val activity: Activity, timeObject: TimeObject,
+class RepeatDialog(private val activity: Activity, record: Record,
                    private val onResult: (String?, Long) -> Unit) : Dialog(activity) {
 
     val jsonObject = JSONObject()
@@ -29,15 +29,15 @@ class RepeatDialog(private val activity: Activity, timeObject: TimeObject,
     val cal = Calendar.getInstance()
 
     init {
-        cal.timeInMillis = timeObject.dtStart
-        timeObject.repeat?.let {
+        cal.timeInMillis = record.dtStart
+        record.repeat?.let {
             val repeatObject = JSONObject(it)
             freq = repeatObject.getInt("freq")
             interval = repeatObject.getInt("interval")
             weekNum.replace(0, 7, repeatObject.getString("weekNum"))
             monthOption = repeatObject.getInt("monthOption")
         }
-        dtUntil = timeObject.dtUntil
+        dtUntil = record.dtUntil
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

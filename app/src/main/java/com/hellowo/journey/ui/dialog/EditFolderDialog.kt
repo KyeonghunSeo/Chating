@@ -3,14 +3,11 @@ package com.hellowo.journey.ui.dialog
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.widget.TextView
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.model.Folder
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.showDialog
 import io.realm.Realm
@@ -59,7 +56,7 @@ class EditFolderDialog(private val activity: Activity, private val folder: Folde
                         context.getString(R.string.delete_folder_sub), null) { result, _, _ ->
                     if(result) {
                         realm.executeTransaction {
-                            realm.where(TimeObject::class.java).equalTo("folder.id", folder.id)
+                            realm.where(Record::class.java).equalTo("folder.id", folder.id)
                                     .findAll().deleteAllFromRealm()
                             realm.where(Folder::class.java).equalTo("id", folder.id)
                                     .findFirst()?.deleteFromRealm()

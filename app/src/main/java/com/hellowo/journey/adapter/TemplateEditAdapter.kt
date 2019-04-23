@@ -14,8 +14,8 @@ import com.hellowo.journey.App
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.model.Template
-import com.hellowo.journey.model.TimeObject
-import com.hellowo.journey.ui.view.TimeObjectView
+import com.hellowo.journey.model.Record
+import com.hellowo.journey.ui.view.RecordView
 import io.realm.Realm
 import kotlinx.android.synthetic.main.list_item_edit_template.view.*
 import java.util.*
@@ -35,8 +35,8 @@ class TemplateEditAdapter(val context: Context, private val items: ArrayList<Tem
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
-            val timeObjectView = TimeObjectView(context, TimeObject(), 0, 0)
-            timeObjectView.timeObject.title = context.getString(R.string.contents_example)
+            val timeObjectView = RecordView(context, Record(), 0, 0)
+            timeObjectView.record.title = context.getString(R.string.contents_example)
             timeObjectView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
                 gravity = Gravity.CENTER_VERTICAL
             }
@@ -88,18 +88,18 @@ class TemplateEditAdapter(val context: Context, private val items: ArrayList<Tem
             v.styleBtn.visibility = View.GONE
         }
 
-        (v.previewContainer.getChildAt(0) as TimeObjectView).let {
-            it.timeObject.type = template.type
-            it.timeObject.style = template.style
-            it.timeObject.colorKey = template.colorKey
+        (v.previewContainer.getChildAt(0) as RecordView).let {
+            it.record.type = template.type
+            it.record.style = template.style
+            it.record.colorKey = template.colorKey
             it.setLookByType()
 
-            when(it.timeObject.type) {
+            when(it.record.type) {
                 2 -> {
                     it.layoutParams.height = WRAP_CONTENT
                 }
                 else -> {
-                    it.layoutParams.height = TimeObjectView.blockTypeSize
+                    it.layoutParams.height = RecordView.blockTypeSize
                 }
             }
 

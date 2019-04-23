@@ -5,13 +5,13 @@ import androidx.lifecycle.ViewModel
 import android.content.Intent
 import com.hellowo.journey.ID
 import com.hellowo.journey.TIME
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import io.realm.Realm
 import java.util.*
 
 class TimeObjectViewModel : ViewModel() {
     val loadingLiveData = MutableLiveData<Boolean>()
-    val editingTimeObjectLiveData = MutableLiveData<TimeObject>()
+    val editingTimeObjectLiveData = MutableLiveData<Record>()
 
     init {
     }
@@ -23,7 +23,7 @@ class TimeObjectViewModel : ViewModel() {
             }
 
             if(editingTimeObjectLiveData.value == null) {
-                editingTimeObjectLiveData.value = TimeObject()
+                editingTimeObjectLiveData.value = Record()
             }
 
             if(it.hasExtra(TIME)) {

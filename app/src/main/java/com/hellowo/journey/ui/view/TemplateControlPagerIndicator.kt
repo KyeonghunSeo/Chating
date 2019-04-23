@@ -32,7 +32,7 @@ class TemplateControlPagerIndicator @JvmOverloads constructor(context: Context, 
             }
             v.radius = (indiSize / 2).toFloat()
             v.setCardBackgroundColor(Color.TRANSPARENT)
-            //v.findViewById<ImageView>(R.id.iconImg).setImageResource(TimeObject.Type.values()[it.type].iconId)
+            //v.findViewById<ImageView>(R.id.iconImg).setImageResource(Record.Type.values()[it.type].iconId)
             v.findViewById<ImageView>(R.id.iconImg).setImageResource(R.drawable.circle_fill)
             //v.findViewById<ImageView>(R.id.iconImg).setColorFilter(it.color)
             addView(v)

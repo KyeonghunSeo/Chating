@@ -1,24 +1,16 @@
 package com.hellowo.journey.adapter
 
 import android.content.Context
-import android.graphics.Color
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
-import com.hellowo.journey.isSameDay
 import com.hellowo.journey.model.Template
-import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.ui.activity.MainActivity
-import com.hellowo.journey.ui.view.TimeObjectView
 import kotlinx.android.synthetic.main.list_item_template.view.*
-import kotlinx.android.synthetic.main.view_calendar_picker.view.*
 import java.util.*
 
 class TemplateAdapter(val context: Context, val items: ArrayList<Template>, private val startCal: Calendar,

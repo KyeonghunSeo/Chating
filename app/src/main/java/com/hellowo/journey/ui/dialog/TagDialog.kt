@@ -9,10 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hellowo.journey.R
 import com.hellowo.journey.adapter.TagAdapter
 import com.hellowo.journey.model.Tag
-import com.hellowo.journey.model.TimeObject
 import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.showDialog
-import com.hellowo.journey.startDialogShowAnimation
 import io.realm.Realm
 import kotlinx.android.synthetic.main.dialog_tag.*
 import kotlin.collections.ArrayList

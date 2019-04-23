@@ -6,10 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
-import androidx.transition.TransitionManager
 import com.hellowo.journey.R
-import com.hellowo.journey.makeChangeBounceTransition
-import com.hellowo.journey.model.TimeObject
 import kotlinx.android.synthetic.main.dialog_style_picker.*
 
 class StylePickerDialog(activity: Activity, private val colorKey: Int, private val type: Int,

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.*
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.OrderedCollectionChangeSet
 import io.realm.RealmResults
@@ -29,10 +29,10 @@ import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
 import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
 import android.view.Gravity
 import android.widget.FrameLayout
-import com.hellowo.journey.adapter.TimeObjectListAdapter
+import com.hellowo.journey.adapter.RecordListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.manager.*
-import com.hellowo.journey.adapter.util.TimeObjectListComparator
+import com.hellowo.journey.adapter.util.RecordListComparator
 import com.hellowo.journey.model.KoreanLunarCalendar
 import java.util.Calendar.SATURDAY
 import java.util.Calendar.SUNDAY
@@ -41,7 +41,7 @@ import java.util.Calendar.SUNDAY
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
     companion object {
-        const val headerTextScale = 5f
+        const val headerTextScale = 4f
         val datePosX = dpToPx(12f)
         val datePosY = -dpToPx(8.9f)
         val dowPosX = -dpToPx(0f)
@@ -53,11 +53,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         val subScale = 0.4f
     }
     val targetCal = Calendar.getInstance()
-    private var timeObjectList: RealmResults<TimeObject>? = null
-    private val currentList = ArrayList<TimeObject>()
-    private val newList = ArrayList<TimeObject>()
+    private var recordList: RealmResults<Record>? = null
+    private val currentList = ArrayList<Record>()
+    private val newList = ArrayList<Record>()
 
-    private val eventAdapter = TimeObjectListAdapter(context, currentList, targetCal) { view, timeObject, action ->
+    private val eventAdapter = RecordListAdapter(context, currentList, targetCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
         }
@@ -106,9 +106,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     fun notifyDateChanged() {
         startTime = getCalendarTime0(targetCal)
         endTime = getCalendarTime23(targetCal)
-        timeObjectList?.removeAllChangeListeners()
-        timeObjectList = TimeObjectManager.getTimeObjectList(startTime, endTime)
-        timeObjectList?.addChangeListener { result, changeSet ->
+        recordList?.removeAllChangeListeners()
+        recordList = RecordManager.getRecordList(startTime, endTime)
+        recordList?.addChangeListener { result, changeSet ->
             val t = System.currentTimeMillis()
             if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
                 updateData(result, currentList)
@@ -131,7 +131,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }
     }
 
-    private fun updateData(data: RealmResults<TimeObject>, list: ArrayList<TimeObject>) {
+    private fun updateData(data: RealmResults<Record>, list: ArrayList<Record>) {
         list.clear()
         collocateData(data, list)
 
@@ -139,7 +139,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             if(it.dtStart < endTime && it.dtEnd > startTime) list.add(it)
         }
 
-        list.sortWith(TimeObjectListComparator())
+        list.sortWith(RecordListComparator())
 
         if(list.isNotEmpty()) {
             emptyLy.visibility = View.GONE
@@ -148,7 +148,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }
     }
 
-    private fun collocateData(data: RealmResults<TimeObject>, e: ArrayList<TimeObject>) {
+    private fun collocateData(data: RealmResults<Record>, e: ArrayList<Record>) {
         data.forEach { timeObject ->
             try{
                 if(timeObject.repeat.isNullOrEmpty()) {
@@ -161,7 +161,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     private fun updateChange(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>,
-                             o: ArrayList<TimeObject>, n: ArrayList<TimeObject>) {
+                             o: ArrayList<Record>, n: ArrayList<Record>) {
         Thread {
             val diffResult = DiffUtil.calculateDiff(ListDiffCallback(o, n))
             Handler(Looper.getMainLooper()).post{
@@ -172,29 +172,29 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }.start()
     }
 
-    private fun onItemClick(view: View?, timeObject: TimeObject) {
+    private fun onItemClick(view: View?, record: Record) {
         MainActivity.instance?.viewModel?.let {
-            if(timeObject.id?.startsWith("osInstance::") == true) {
-                val eventId = timeObject.id!!.substring("osInstance::".length, timeObject.id!!.length).toLong()
+            if(record.id?.startsWith("osInstance::") == true) {
+                val eventId = record.id!!.substring("osInstance::".length, record.id!!.length).toLong()
                 val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
                 val intent = Intent(Intent.ACTION_VIEW).setData(uri)
-                if(timeObject.allday) {
-                    intent.putExtra(EXTRA_EVENT_BEGIN_TIME, timeObject.dtUpdated)
-                    intent.putExtra(EXTRA_EVENT_END_TIME, timeObject.dtCreated)
+                if(record.allday) {
+                    intent.putExtra(EXTRA_EVENT_BEGIN_TIME, record.dtUpdated)
+                    intent.putExtra(EXTRA_EVENT_END_TIME, record.dtCreated)
                 }else {
-                    intent.putExtra(EXTRA_EVENT_BEGIN_TIME, timeObject.dtStart)
-                    intent.putExtra(EXTRA_EVENT_END_TIME, timeObject.dtEnd)
+                    intent.putExtra(EXTRA_EVENT_BEGIN_TIME, record.dtStart)
+                    intent.putExtra(EXTRA_EVENT_END_TIME, record.dtEnd)
                 }
                 MainActivity.instance?.startActivityForResult(intent, RC_OS_CALENDAR)
             }else {
-                it.targetTimeObject.value = timeObject
+                it.targetTimeObject.value = record
                 it.targetView.value = view
             }
         }
     }
 
     fun clear() {
-        timeObjectList?.removeAllChangeListeners()
+        recordList?.removeAllChangeListeners()
         currentList.clear()
         eventAdapter.notifyDataSetChanged()
         setDateClosedStyle()

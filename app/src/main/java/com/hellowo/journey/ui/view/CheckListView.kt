@@ -1,6 +1,5 @@
 package com.hellowo.journey.ui.view
 
-import android.animation.LayoutTransition
 import android.app.Activity
 import android.content.Context
 import android.graphics.Paint
@@ -8,14 +7,13 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.hellowo.journey.R
 import com.hellowo.journey.model.Link
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.showDialog
 import com.hellowo.journey.ui.dialog.CustomDialog
@@ -27,7 +25,7 @@ import java.util.*
 class CheckListView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : LinearLayout(context, attrs, defStyleAttr) {
     val items = ArrayList<JSONObject>()
-    var timeObject: TimeObject? = null
+    var record: Record? = null
     var jsonArray: JSONArray? = null
 
     init {
@@ -36,8 +34,8 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
         //layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
     }
 
-    fun setCheckList(to: TimeObject) {
-        timeObject = to
+    fun setCheckList(to: Record) {
+        record = to
         items.clear()
         jsonArray = JSONArray()
         removeAllViews()
@@ -142,6 +140,6 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     private fun save() {
-        timeObject?.links?.first { it.type == Link.Type.CHECKLIST.ordinal }?.properties = jsonArray?.toString()
+        record?.links?.first { it.type == Link.Type.CHECKLIST.ordinal }?.properties = jsonArray?.toString()
     }
 }

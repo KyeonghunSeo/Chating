@@ -194,7 +194,7 @@
     <string name="scrap_in_calendar">달력에 쓰기</string>
     <string name="select_date">날짜 선택</string>
     <string name="invalid_info">잘못된 정보입니다</string>
-    <string name="saved">저장되었습니다</string>
+    <string name="saved">저장됨</string>
     <string name="today">오늘</string>
     <string name="todays_briefing">브리핑</string>
     <string name="go_today">오늘로 이동</string>
@@ -311,5 +311,6 @@
     <string name="set_end">종료일 설정</string>
     <string name="set_end_time">종료시간 설정</string>
     <string name="record">기록</string>
+    <string name="deleted">삭제됨</string>
 
 </resources>

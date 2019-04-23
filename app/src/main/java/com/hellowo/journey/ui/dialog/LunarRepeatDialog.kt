@@ -4,10 +4,9 @@ import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.DatePicker
 import com.hellowo.journey.R
 import com.hellowo.journey.model.KoreanLunarCalendar
-import com.hellowo.journey.model.TimeObject
+import com.hellowo.journey.model.Record
 import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.startDialogShowAnimation
 import kotlinx.android.synthetic.main.dialog_lunar_repeat.*
@@ -15,13 +14,13 @@ import org.json.JSONObject
 import java.util.*
 
 
-class LunarRepeatDialog(activity: Activity, timeObject: TimeObject,
+class LunarRepeatDialog(activity: Activity, record: Record,
                         private val onResult: (String?, Long) -> Unit) : Dialog(activity) {
     private val cal = Calendar.getInstance()
     private val lunarCal = KoreanLunarCalendar.getInstance()
 
     init {
-        cal.timeInMillis = timeObject.dtStart
+        cal.timeInMillis = record.dtStart
         lunarCal.setSolarDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DATE))
     }
 
