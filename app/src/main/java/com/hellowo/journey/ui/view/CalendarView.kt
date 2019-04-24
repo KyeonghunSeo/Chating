@@ -54,18 +54,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     val dateCells = Array(maxCellNum) { FrameLayout(context)}
     private val dateHeaders = Array(maxCellNum) {
         DateHeaderViewHolder(LayoutInflater.from(context).inflate(R.layout.view_selected_bar, null, false))}
-    //private val weekViews = Array(6) { _ ->
-    //    WeekViewHolder(LayoutInflater.from(context).inflate(R.layout.view_weekly_side, null, false))}
     private val lunarCalendar = KoreanLunarCalendar.getInstance()
-
-    inner class WeekViewHolder(val container: View) {
-        val contentLy: FrameLayout = container.findViewById(R.id.contentLy)
-        val weekNumText: TextView = container.findViewById(R.id.weekNumText)
-        init {
-            weekNumText.typeface = AppTheme.boldFont
-            contentLy.visibility = View.GONE
-        }
-    }
 
     inner class DateHeaderViewHolder(val container: View) {
         val dateText: TextView = container.findViewById(R.id.dateText)
@@ -86,7 +75,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private var lastSelectDateAnimSet: AnimatorSet? = null
     private var lastUnSelectDateAnimSet: AnimatorSet? = null
-    private var lastSelectWeekAnimSet: AnimatorSet? = null
 
     private val tempCal: Calendar = Calendar.getInstance()
     private val monthCal: Calendar = Calendar.getInstance()
@@ -172,7 +160,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 dateCell.addView(dateHeaders[cellNum].container)
                 dateLy.addView(dateCell)
             }
-            //calendarLy.addView(weekViews[i].container)
             weekLy.addView(dateLy)
             calendarLy.addView(weekLy)
         }
@@ -348,39 +335,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if(!showDayView) {
             l("날짜선택 : ${AppDateFormat.ymdDate.format(Date(cellTimeMills[cellNum]))}")
             targetCal.timeInMillis = cellTimeMills[cellNum]
-            /*
-            val week = "${targetCal.get(Calendar.YEAR)}${targetCal.get(Calendar.WEEK_OF_YEAR)}".toInt()
-            val weekIndex = cellNum / columns
-            var isChangeWeek = false
-            if(week != selectedWeek || weekIndex != selectedWeekIndex) {
-                l("Week 선택 : $week")
-                isChangeWeek = true
-
-                if(selectedWeekIndex != -1 && weekIndex != selectedWeekIndex) {
-                    weekViews[selectedWeekIndex].contentLy.visibility = View.GONE
-                }
-
-                selectedWeekIndex = weekIndex
-                selectedWeek = week
-                val weekView = weekViews[selectedWeekIndex]
-                weekView.contentLy.visibility = View.VISIBLE
-                weekView.weekNumText.text =
-                        String.format(context.getString(R.string.weekNum), targetCal.get(Calendar.WEEK_OF_YEAR).toString())
-
-                lastSelectWeekAnimSet?.cancel()
-                lastSelectWeekAnimSet = AnimatorSet()
-                lastSelectWeekAnimSet?.let {
-                    it.addListener(object : AnimatorListenerAdapter(){
-                        override fun onAnimationCancel(animation: Animator?) { weekView.container.alpha = 0f
-                        }
-                    })
-                    it.playTogether(ObjectAnimator.ofFloat(weekView.container, "alpha", 0f, 1f))
-                    it.interpolator = FastOutSlowInInterpolator()
-                    it.duration = animDur
-                    it.start()
-                }
-            }
-*/
             if(selectCellNum >= 0) unselectDate(selectCellNum)
 
             selectCellNum = cellNum

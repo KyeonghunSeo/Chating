@@ -334,7 +334,7 @@
                         <ImageView
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:src="@drawable/sharp_hourglass_empty_black_48dp"
+                            android:src="@drawable/countdown"
                             android:tint="@color/iconTint"/>
 
                         <TextView
@@ -550,7 +550,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/drawingBtn"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

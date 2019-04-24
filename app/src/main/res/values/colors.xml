@@ -1,48 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3d3d3d</color>
-    <color name="colorPrimaryDark">#3d3d3d</color>
     <color name="colorAccent">#3d3d3d</color>
-    <color name="colorPrimaryAlpha">#503d3d3d</color>
 
     <color name="background">#f7f7f7</color>
-    <color name="backgroundAlpha">#ccf7f7f7</color>
     <color name="backgroundDark">#eeeeee</color>
     <color name="iconTint">#3d3d3d</color>
 
     <color name="primaryText">#3d3d3d</color>
     <color name="secondaryText">#6d6d6d</color>
     <color name="disableText">#969696</color>
-    <color name="deepLine">#aeaeae</color>
     <color name="line">#d6d6d6</color>
 
-    <color name="holiday">#b30000</color>
-    <color name="transitionDim">#993d3d3d</color>
     <color name="transitionDimWhite">#ccffffff</color>
 
     <color name="black">#000000</color>
-    <color name="whiteAlpha">#f0FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="almostWhite">#F4F4F4</color>
     <color name="red">#ed5958</color>
     <color name="blue">#79a5c6</color>
-    <color name="green">#9bd4a1</color>
-    <color name="yellow">#c7bf2e</color>
-    <color name="purple">#C89EC4</color>
     <color name="transparent">#00000000</color>
 
-    <color name="grey_blue">#a1a6bb</color>
-    <color name="grey_blue_l">#b9bed1</color>
     <color name="grey">#e4e7ef</color>
-    <color name="grey_l">#f0f2f7</color>
-    <color name="dark_blue">#222328</color>
-    <color name="dark_blue_l">#3a405b</color>
-    <color name="blue_l">#3b55e6</color>
-
-    <color name="lol_light_3">#a3daff</color>
-    <color name="lol_light_2">#1ec0ff</color>
-    <color name="lol_primary">#0080ff</color>
-    <color name="lol_light">#03a6ff</color>
 
     <string-array name="colors">
         <item>#ff9ff3</item>
@@ -124,30 +103,4 @@
         <item>#FFFFFFFF</item>
     </string-array>
 
-    <string-array name="color_title">
-        <item>Red</item>
-        <item>Pink</item>
-        <item>Purple</item>
-        <item>Deep purple</item>
-
-        <item>Indigo</item>
-        <item>Blue</item>
-        <item>Light Blue</item>
-        <item>Cyan</item>
-
-        <item>Teal</item>
-        <item>Green</item>
-        <item>Light Green</item>
-        <item>Lime</item>
-
-        <item>Yellow</item>
-        <item>Amber</item>
-        <item>Orange</item>
-        <item>Deep Orange</item>
-
-        <item>Brown</item>
-        <item>Gray</item>
-        <item>Blue Gray</item>
-        <item>Black</item>
-    </string-array>
 </resources>

@@ -168,12 +168,4 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     private fun restoreViews() {
 
     }
-
-    fun hideDecoBtn() {
-        decoBtn.visibility = View.GONE
-    }
-
-    fun showDecoBtn() {
-        decoBtn.visibility = View.GONE
-    }
 }

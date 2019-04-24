@@ -17,9 +17,7 @@
         android:text="date"
         android:textSize="16dp" />
 
-    <include
-        android:id="@+id/dayOfWeekView"
-        layout="@layout/view_day_of_week">
+    <include layout="@layout/view_day_of_week">
     </include>
 
     <com.hellowo.journey.ui.view.base.TouchControllFrameLayout

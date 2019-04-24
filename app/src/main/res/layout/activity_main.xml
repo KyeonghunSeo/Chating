@@ -6,12 +6,10 @@
     android:fitsSystemWindows="false">
 
     <FrameLayout
-        android:id="@+id/calendarLy"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <FrameLayout
-            android:id="@+id/topBar"
             android:layout_width="match_parent"
             android:layout_height="50dp">
 
@@ -26,7 +24,6 @@
                 android:tint="@color/iconTint"/>
 
             <LinearLayout
-                android:id="@+id/topMenu"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -11,13 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
-import com.hellowo.journey.manager.OsCalendarManager
 import com.hellowo.journey.setGlobalTheme
-import com.hellowo.journey.ui.activity.MainActivity
-import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.dialog_normal_list.*
 import kotlinx.android.synthetic.main.list_item_normal.view.*
-import java.util.HashSet
 
 
 class CustomListDialog(activity: Activity, private val title: String, private val sub: String?,
@@ -81,7 +77,7 @@ class CustomListDialog(activity: Activity, private val title: String, private va
             if(selectedItem?.equals(item) == true) {
                 v.titleText.setTextColor(AppTheme.primaryText)
             }else {
-                v.titleText.setTextColor(AppTheme.secondaryText)
+                v.titleText.setTextColor(AppTheme.primaryText)
             }
 
             v.setOnClickListener {

@@ -7,7 +7,6 @@
     android:gravity="center_vertical">
 
    <FrameLayout
-       android:id="@+id/frontLy"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:background="?android:attr/selectableItemBackground">
@@ -71,7 +70,6 @@
                 android:gravity="center_vertical">
 
                <ImageView
-                   android:id="@+id/timeImg"
                    android:layout_width="12dp"
                    android:layout_height="12dp"
                    android:tint="@color/iconTint"

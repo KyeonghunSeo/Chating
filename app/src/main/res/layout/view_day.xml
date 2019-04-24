@@ -12,12 +12,10 @@
         android:layout_height="match_parent">
 
         <FrameLayout
-            android:id="@+id/headerLy"
             android:layout_width="match_parent"
             android:layout_height="65dp">
 
             <ImageView
-                android:id="@+id/headerCoverImg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"/>

@@ -121,7 +121,7 @@
             <ImageView
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@drawable/sharp_create_black_48dp"
+                android:src="@drawable/pencil"
                 android:tint="@color/primaryText"/>
 
             <TextView
@@ -133,25 +133,6 @@
                 android:text="@string/edit_template"/>
 
         </LinearLayout>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/decoBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:visibility="gone"
-            app:cardBackgroundColor="@color/primaryText"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="8dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="15dp"
-                android:src="@drawable/sharp_photo_filter_black_48dp"
-                android:tint="@color/white"/>
-
-        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 

@@ -157,7 +157,10 @@ class MainActivity : BaseActivity() {
         }
 
         keepBtn.setOnLongClickListener {
-            RecordManager.deleteAllRecord()
+            AppTheme.thinFont = AppTheme.tFont
+            AppTheme.regularFont = AppTheme.rFont
+            AppTheme.boldFont = AppTheme.bFont
+            initTheme(rootLy)
             return@setOnLongClickListener false
         }
 

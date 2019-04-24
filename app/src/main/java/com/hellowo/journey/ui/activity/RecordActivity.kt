@@ -16,6 +16,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -68,12 +69,16 @@ class RecordActivity : BaseActivity() {
     }
 
     private fun initLayout() {
-        folderLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        btnsLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        topShadow.visibility = View.GONE
+        deleteBtn.visibility = View.GONE
+
         mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             if(scrollY > 0) topShadow.visibility = View.VISIBLE
             else topShadow.visibility = View.GONE
         }
+
+        backBtn.setOnClickListener { confirm() }
+
         editorTimeBtn.setOnClickListener { editorAction("time") }
         editorQuoteBtn.setOnClickListener { editorAction("quote") }
         editorQuotesBtn.setOnClickListener { editorAction("quotes") }
@@ -85,6 +90,7 @@ class RecordActivity : BaseActivity() {
     }
 
     private fun initInput() {
+        /*
         keypadListener = KeyboardVisibilityEvent.registerEventListener(this) { isOpen ->
             l("키보드 상태 $isOpen")
             if(isOpen) {
@@ -93,6 +99,7 @@ class RecordActivity : BaseActivity() {
 
             }
         }
+        */
         
         titleInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -102,23 +109,22 @@ class RecordActivity : BaseActivity() {
                 }else {
                     record.title = null
                 }
-                if(record.inCalendar) updateStyleUI()
             }
             override fun afterTextChanged(p0: Editable?) {}
         })
         titleInput.onScaleChanged = { isNormalScale ->
-            val scale = if(isNormalScale) 1f else 0.7f
-            val animSet = AnimatorSet()
-            animSet.playTogether(ObjectAnimator.ofFloat(checkBox, "scaleX", checkBox.scaleX, scale),
-                    ObjectAnimator.ofFloat(checkBox, "scaleY", checkBox.scaleY, scale))
-            animSet.duration = 200L
-            animSet.start()
+            if(isNormalScale) {
+                //titleInput.typeface = AppTheme.boldFont
+            }else {
+                //titleInput.typeface = AppTheme.regularFont
+            }
         }
+        titleInput.isFocusable = true
+        titleInput.isFocusableInTouchMode = true
 
         callAfterViewDrawed(titleInput, Runnable{
             updateTitleUI()
-            if(!record.id.isNullOrEmpty()) {
-                l("!!!!!!!!!!")
+            if(record.id.isNullOrEmpty()) {
                 showKeyPad(titleInput)
             }
         })
@@ -146,6 +152,7 @@ class RecordActivity : BaseActivity() {
 
     private fun updateUI() {
         updateHeaderUI()
+        updateFolderUI()
         updateTagUI()
         updateCheckBoxUI()
         updateCheckListUI()
@@ -156,7 +163,6 @@ class RecordActivity : BaseActivity() {
         updateRepeatUI()
         updateAlarmUI()
         updateMemoUI()
-        updateStyleUI()
         updateLinkUI()
     }
 
@@ -165,23 +171,6 @@ class RecordActivity : BaseActivity() {
             showDialog(MoreOptionDialog(this, record, this),
                     true, true, true, false)
         }
-
-        colorBtn.setOnClickListener {
-            showDialog(ColorPickerDialog(this, record.getColor()) { colorKey ->
-                record.colorKey = colorKey
-                updateUI()
-            }, true, true, true, false)
-        }
-
-        pinBtn.setOnClickListener {
-            record.inCalendar = !record.inCalendar
-            if(record.inCalendar) toast(R.string.show_in_calendar)
-            else toast(R.string.hide_in_calendar)
-            updateHeaderUI()
-            updateStyleUI()
-        }
-
-        styleBtn.setOnClickListener {}
 
         deleteBtn.setOnClickListener {
             showDialog(CustomDialog(this, getString(R.string.delete),
@@ -192,59 +181,61 @@ class RecordActivity : BaseActivity() {
 
         moreBtn.setOnClickListener {
             moreBtn.visibility = View.GONE
-            updateHeaderUI()
-        }
-
-        if(moreBtn.visibility == View.GONE) {
-            colorBtn.visibility = View.VISIBLE
             deleteBtn.visibility = View.VISIBLE
-            if(record.folder == null) {
-                pinBtn.visibility = View.VISIBLE
-                if(record.inCalendar) {
-                    pinBtn.alpha = 1f
-                    styleBtn.visibility = View.VISIBLE
-                }else {
-                    pinBtn.alpha = 0.3f
-                    styleBtn.visibility = View.GONE
-                }
-            }else {
-                pinBtn.visibility = View.GONE
-                styleBtn.visibility = View.GONE
-            }
         }
-
-        folderImg.setColorFilter(record.getColor())
-        folderText.setTextColor(record.getColor())
-        addOptionBtn.setColorFilter(record.getColor())
-        colorBtn.setColorFilter(record.getColor())
-        pinBtn.setColorFilter(record.getColor())
-        styleBtn.setColorFilter(record.getColor())
-        deleteBtn.setColorFilter(record.getColor())
-        moreBtn.setColorFilter(record.getColor())
-
-        updateFolderUI()
     }
 
     private fun updateFolderUI() {
+        colorBtn.setColorFilter(record.getColor())
+
         if(record.folder != null) {
-            folderImg.setImageResource(R.drawable.folder)
             folderText.text = record.folder?.name
             folderText.setOnClickListener { showFolderPickerDialog() }
         }else {
-            folderImg.setImageResource(R.drawable.calendar_empty)
             folderText.text = AppDateFormat.simpleYmdDate.format(Date(record.dtStart))
             folderText.setOnClickListener { showDatePickerDialog() }
         }
-        folderImg.setOnClickListener {
-            showDialog(CustomListDialog(this,
-                    getString(R.string.record_position),
-                    getString(R.string.record_position_sub),
-                    null,
-                    false,
-                    listOf(getString(R.string.calendar), getString(R.string.folder))) { index ->
+
+        if(record.folder == null) {
+            pinBtn.visibility = View.VISIBLE
+            if(record.inCalendar) {
+                pinBtn.alpha = 1f
+                styleBtn.visibility = View.VISIBLE
+            }else {
+                pinBtn.alpha = 0.3f
+                styleBtn.visibility = View.GONE
+            }
+        }else {
+            pinBtn.visibility = View.GONE
+            styleBtn.visibility = View.GONE
+        }
+
+        folderText.setOnClickListener {
+            showDialog(CustomListDialog(this, getString(R.string.move_record),
+                    null, null, false,
+                    if(record.folder != null) listOf(getString(R.string.to_calendar), getString(R.string.change_folder))
+                    else listOf(getString(R.string.change_date), getString(R.string.to_folder))) { index ->
                 if(index == 0) showDatePickerDialog()
                 else showFolderPickerDialog()
             }, true, true, true, false)
+        }
+
+        colorBtn.setOnClickListener {
+            showDialog(ColorPickerDialog(this, record.getColor()) { colorKey ->
+                record.colorKey = colorKey
+                updateFolderUI()
+            }, true, true, true, false)
+        }
+
+        pinBtn.setOnClickListener {
+            record.inCalendar = !record.inCalendar
+            if(record.inCalendar) toast(R.string.show_in_calendar)
+            else toast(R.string.hide_in_calendar)
+            updateFolderUI()
+        }
+
+        styleBtn.setOnClickListener {
+
         }
     }
 
@@ -255,7 +246,7 @@ class RecordActivity : BaseActivity() {
         showDialog(DatePickerDialog(this, time) {
             record.folder = null
             record.setDate(it)
-            updateHeaderUI()
+            updateFolderUI()
             updateDateUI()
         }, true, true, true, false)
     }
@@ -269,7 +260,7 @@ class RecordActivity : BaseActivity() {
                     false,
                     folderList.map { if(it.name.isNullOrBlank()) getString(R.string.untitle) else it.name!! }) { index ->
                 record.folder = folderList[index]
-                updateHeaderUI()
+                updateFolderUI()
             }, true, true, true, false)
         }
     }
@@ -529,11 +520,9 @@ class RecordActivity : BaseActivity() {
         }
     }
 
-    private fun updateStyleUI() {}
-
     fun showMemoUI() {
         memoLy.visibility = View.VISIBLE
-        showKeyPad(memoInput)
+        callAfterViewDrawed(memoInput, Runnable{ showKeyPad(memoInput) })
     }
 
     fun updateLinkUI() {
