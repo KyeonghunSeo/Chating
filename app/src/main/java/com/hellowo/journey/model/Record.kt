@@ -232,18 +232,6 @@ open class Record(@PrimaryKey var id: String? = null,
         }
     }
 
-    fun isSetDeadLine(): Boolean = links.any { it.type == Link.Type.DEADLINE.ordinal }
-
-    fun clearDeadLine() {
-        links.first{ it.type == Link.Type.DEADLINE.ordinal }?.let { links.remove(it) }
-    }
-
-    fun setDeadLine() {
-        if(!isSetDeadLine()) {
-            links.add(Link(type = Link.Type.DEADLINE.ordinal))
-        }
-    }
-
     fun isSetPercentage(): Boolean = links.any { it.type == Link.Type.PERCENTAGE.ordinal }
 
     fun clearPercentage() {

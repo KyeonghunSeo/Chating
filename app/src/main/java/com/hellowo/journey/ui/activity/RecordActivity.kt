@@ -63,6 +63,7 @@ class RecordActivity : BaseActivity() {
             initMap()
             setData(it)
             updateUI()
+            MainActivity.getViewModel()?.clearTargetTimeObject()
             return
         }
         finish()
@@ -156,7 +157,6 @@ class RecordActivity : BaseActivity() {
         updateTagUI()
         updateCheckBoxUI()
         updateCheckListUI()
-        updateDeadLineUI()
         updatePercentageUI()
         updateDateUI()
         updateDdayUI()
@@ -324,24 +324,6 @@ class RecordActivity : BaseActivity() {
             checkListView.setCheckList(record)
         }else {
             checkListLy.visibility = View.GONE
-        }
-    }
-
-    fun updateDeadLineUI() {
-        if(record.isSetDeadLine()) {
-            deadlineLy.visibility = View.VISIBLE
-            deadlineText.text = record.getDdayText(System.currentTimeMillis())
-            deadlineLy.setOnClickListener {
-                showDialog(CustomDialog(this, getString(R.string.deadline),
-                        getString(R.string.delete_deadline_sub), null) { result, _, _ ->
-                    if(result) {
-                        record.clearDeadLine()
-                        updateDeadLineUI()
-                    }
-                }, true, true, true, false)
-            }
-        }else {
-            deadlineLy.visibility = View.GONE
         }
     }
 

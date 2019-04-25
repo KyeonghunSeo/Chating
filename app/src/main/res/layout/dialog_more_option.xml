@@ -9,6 +9,7 @@
         android:id="@+id/contentLy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="340dp"
         android:background="@drawable/popup_dialog_background"
         android:elevation="10dp"
         android:orientation="vertical"
@@ -34,604 +35,503 @@
                 android:textColor="@color/primaryText"
                 android:fontFamily="@font/bold"
                 android:text="@string/add_option"/>
+
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipChildren="false">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/disableText"
-                android:fontFamily="@font/bold"
-                android:textSize="12dp"
-                android:text="@string/planning"/>
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:clipChildren="false">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
-
-                    <LinearLayout
-                        android:id="@+id/scheduleBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/outline_date_range_black_48dp"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/schedule"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/alarmBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/sharp_access_alarm_black_48dp"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/alarm"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/repeatBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/repeat"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/repeat"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/lunarRepeatBtn"
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="85dp"
-                        android:minWidth="70dp"
-                        android:layout_margin="10dp"
-                        android:gravity="center_horizontal"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_margin="10dp"
-                            android:src="@drawable/lunar"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/lunar_repeat"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ddayBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/outline_event_available_black_48dp"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/dday"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/disableText"
-                android:fontFamily="@font/bold"
-                android:textSize="12dp"
-                android:text="@string/tasking"/>
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:clipChildren="false">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
-
-                    <LinearLayout
-                        android:id="@+id/checkboxBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/check"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/checkbox"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/checkListBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/checklist"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/checklist"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/percentageBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/progress"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/percentage"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/deadlineBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/countdown"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/deadline"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/disableText"
-                android:fontFamily="@font/bold"
-                android:textSize="12dp"
-                android:text="@string/detail_info"/>
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:clipChildren="false">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
-
-                    <LinearLayout
-                        android:id="@+id/tagBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/outline_style_black_48dp"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/tag"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/memoBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/sharp_notes_black_48dp"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/memo"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/locationBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/outline_place_black_48dp"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/location"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/disableText"
-                android:fontFamily="@font/bold"
-                android:textSize="12dp"
-                android:text="@string/attachment"/>
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:clipChildren="false">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
-
-                    <LinearLayout
-                        android:id="@+id/photoBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/photo"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/photo"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/webLinkBtn"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/outline_language_black_48dp"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/weblink"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/normal_rect_stroke_white">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/outline_gesture_black_48dp"
-                            android:tint="@color/iconTint"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="3dp"
-                            android:textSize="13dp"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/regular"
-                            android:text="@string/drawing"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_vertical"
-                android:visibility="invisible">
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:tint="@color/disableText"
-                    android:src="@drawable/outline_help_outline_black_48dp"/>
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
                     android:textColor="@color/disableText"
-                    android:textSize="10dp"
-                    android:fontFamily="@font/thin"
-                    android:text="@string/long_click_to_show_explain"/>
+                    android:fontFamily="@font/bold"
+                    android:textSize="12dp"
+                    android:text="@string/planning"/>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:clipChildren="false">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                        <LinearLayout
+                            android:id="@+id/scheduleBtn"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:minWidth="70dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/normal_rect_stroke_white">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/schedule"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:textSize="13dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/schedule"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/alarmBtn"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:minWidth="70dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/normal_rect_stroke_white">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/alarm"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:textSize="13dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/alarm"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/repeatBtn"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:minWidth="70dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/normal_rect_stroke_white">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/repeat"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:textSize="13dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/repeat"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lunarRepeatBtn"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:minWidth="70dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/normal_rect_stroke_white">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/lunar"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:textSize="13dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/lunar_repeat"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ddayBtn"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:minWidth="70dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/normal_rect_stroke_white">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/countdown"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:textSize="13dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/dday"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/disableText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="12dp"
+                    android:text="@string/tasking"/>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:clipChildren="false">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                        <LinearLayout
+                            android:id="@+id/checkboxBtn"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:minWidth="70dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/normal_rect_stroke_white">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/check"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:textSize="13dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/checkbox"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/checkListBtn"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:minWidth="70dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/normal_rect_stroke_white">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/checklist"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:textSize="13dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/checklist"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/percentageBtn"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:minWidth="70dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/normal_rect_stroke_white">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/progress"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:textSize="13dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/percentage"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/disableText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="12dp"
+                    android:text="@string/detail_info"/>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:clipChildren="false">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                        <LinearLayout
+                            android:id="@+id/tagBtn"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:minWidth="70dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/normal_rect_stroke_white">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/outline_style_black_48dp"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:textSize="13dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/tag"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/locationBtn"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:minWidth="70dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/normal_rect_stroke_white">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/outline_place_black_48dp"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:textSize="13dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/location"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/memoBtn"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:minWidth="70dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/normal_rect_stroke_white">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/note"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:textSize="13dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/memo"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/photoBtn"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:minWidth="70dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/normal_rect_stroke_white">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/photo"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:textSize="13dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/photo"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/webLinkBtn"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:minWidth="70dp"
+                            android:layout_margin="10dp"
+                            android:gravity="center"
+                            android:background="@drawable/normal_rect_stroke_white">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/outline_language_black_48dp"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:textSize="13dp"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/regular"
+                                android:text="@string/weblink"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:visibility="invisible">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:tint="@color/disableText"
+                        android:src="@drawable/outline_help_outline_black_48dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:textColor="@color/disableText"
+                        android:textSize="10dp"
+                        android:fontFamily="@font/thin"
+                        android:text="@string/long_click_to_show_explain"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <com.hellowo.journey.ui.view.base.Line
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:colorFlag="secondary"/>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <TextView
-                android:id="@+id/cancelBtn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="14dp"
-                android:gravity="center"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/regular"
-                android:text="@string/cancel"/>
-
-        </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 

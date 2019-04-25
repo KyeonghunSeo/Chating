@@ -116,17 +116,6 @@ class MoreOptionDialog(activity: Activity, private val record: Record,
             }
         }
 
-        if(record.isSetDeadLine()) {
-            deadlineBtn.alpha = 0.5f
-        }else {
-            deadlineBtn.alpha = 1f
-            deadlineBtn.setOnClickListener {
-                record.setDeadLine()
-                recordActivity.updateDeadLineUI()
-                dismiss()
-            }
-        }
-
         if(record.isSetPercentage()) {
             percentageBtn.alpha = 0.5f
         }else {
@@ -152,8 +141,6 @@ class MoreOptionDialog(activity: Activity, private val record: Record,
             recordActivity.showEditWebsiteDialog()
             dismiss()
         }
-
-        cancelBtn.setOnClickListener { dismiss() }
     }
 
 }
