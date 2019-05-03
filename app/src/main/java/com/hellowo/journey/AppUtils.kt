@@ -4,13 +4,11 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.IBinder
 import android.os.Vibrator
 import android.text.Spannable
@@ -396,24 +394,18 @@ fun setGlobalTheme(view: View?) {
                 val v = vg.getChildAt(i)
                 when (v) {
                     is TextView -> {
-                        when(v.typeface){
-                            AppTheme.bFont -> v.typeface = AppTheme.boldFont
-                            AppTheme.tFont -> v.typeface = AppTheme.thinFont
-                            else -> v.typeface = AppTheme.regularFont
+                        if(v.typeface == Typeface.DEFAULT) {
+                            v.typeface = AppTheme.regularFont
                         }
                     }
                     is EditText -> {
-                        when(v.typeface){
-                            AppTheme.bFont -> v.typeface = AppTheme.boldFont
-                            AppTheme.tFont -> v.typeface = AppTheme.thinFont
-                            else -> v.typeface = AppTheme.regularFont
+                        if(v.typeface == Typeface.DEFAULT) {
+                            v.typeface = AppTheme.regularFont
                         }
                     }
                     is Button -> {
-                        when(v.typeface){
-                            AppTheme.bFont -> v.typeface = AppTheme.boldFont
-                            AppTheme.tFont -> v.typeface = AppTheme.thinFont
-                            else -> v.typeface = AppTheme.regularFont
+                        if(v.typeface == Typeface.DEFAULT) {
+                            v.typeface = AppTheme.regularFont
                         }
                     }
                     is Line -> {

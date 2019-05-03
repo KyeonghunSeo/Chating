@@ -64,10 +64,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         val lunarText: TextView = container.findViewById(R.id.lunarText)
         init {
-            dateText.typeface = AppTheme.regularFont
-            dowText.typeface = AppTheme.regularFont
+            dateText.typeface = AppTheme.rFont
+            dowText.typeface = AppTheme.rFont
             holiText.typeface = AppTheme.regularFont
-            lunarText.typeface = AppTheme.boldFont
+            lunarText.typeface = AppTheme.bFont
             bar.scaleX = 0f
             dowText.visibility = View.GONE
         }
@@ -299,8 +299,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val lunarText = dateHeaders[cellNum].lunarText
         dowText.visibility = View.GONE
         lunarText.text = ""
-        dateText.typeface = AppTheme.regularFont
-        dowText.typeface = AppTheme.regularFont
+        dateText.typeface = AppTheme.rFont
+        dowText.typeface = AppTheme.rFont
         holiText.typeface = AppTheme.regularFont
 
         offViewEffect(cellNum)
@@ -346,11 +346,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val holiText = dateHeaders[cellNum].holiText
             val lunarText = dateHeaders[cellNum].lunarText
 
-            dateText.typeface = AppTheme.boldFont
-            dowText.typeface = AppTheme.boldFont
+            dateText.typeface = AppTheme.bFont
+            dowText.typeface = AppTheme.bFont
             holiText.typeface = AppTheme.boldFont
 
-            dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
+            dowText.text = AppDateFormat.dowEng.format(targetCal.time)
             if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
             if(AppStatus.isLunarDisplay) {
                 lunarCalendar.setSolarDate(targetCal.get(Calendar.YEAR),

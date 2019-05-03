@@ -129,7 +129,7 @@
     <string name="select_date">날짜 선택</string>
     <string name="invalid_info">잘못된 정보입니다</string>
     <string name="saved">저장됨</string>
-    <string name="today">오늘</string>
+    <string name="today">TODAY</string>
     <string name="schedule">스케줄</string>
     <string name="first_text_1">또렷한 기억보다</string>
     <string name="first_text_2">희미한 연필자국이 낫다</string>

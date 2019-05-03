@@ -1,6 +1,7 @@
 package com.hellowo.journey.ui.activity
 
 import android.Manifest
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -27,8 +28,6 @@ import com.hellowo.journey.viewmodel.MainViewModel
 import com.theartofdev.edmodo.cropper.CropImage
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -39,6 +38,7 @@ class MainActivity : BaseActivity() {
         fun getViewModel() = instance?.viewModel
         fun getDayPagerView() = instance?.dayPagerView
         fun getCalendarPagerView() = instance?.calendarPagerView
+        fun getMainDateLy() = instance?.mainDateLy
         fun getTargetCalendarView() = instance?.viewModel?.targetCalendarView?.value
         fun getTargetTime() = instance?.viewModel?.targetTime?.value
         fun getTargetCal() = instance?.viewModel?.targetCalendarView?.value?.targetCal
@@ -101,13 +101,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initLayout() {
-        monthText.setOnClickListener { _ ->
-            showDialog(DatePickerDialog(this, viewModel.targetTime.value!!) {
-                selectDate(it)
-            }, true, true, true, false)
-        }
+        mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         rootLy.setOnDragListener(MainDragAndDropListener)
-
         callAfterViewDrawed(rootLy, Runnable{
             val location = IntArray(2)
             rootLy.getLocationInWindow(location)
@@ -152,6 +147,15 @@ class MainActivity : BaseActivity() {
     private fun initTemplateView() {}
 
     private fun initBtns() {
+        monthText.setOnClickListener {
+            profileView.show()
+            /*
+            showDialog(DatePickerDialog(this, viewModel.targetTime.value!!) {
+                selectDate(it)
+            }, true, true, true, false)
+            */
+        }
+
         keepBtn.setOnClickListener {
             viewModel.setTargetFolder()
         }
@@ -164,11 +168,7 @@ class MainActivity : BaseActivity() {
             return@setOnLongClickListener false
         }
 
-        profileBtn.setOnClickListener {
-            profileView.show()
-        }
-
-        profileBtn.setOnLongClickListener {
+        monthText.setOnLongClickListener {
             val cal = Calendar.getInstance()
             cal.set(2019, 3, 1)
             val s = cal.timeInMillis
@@ -263,7 +263,7 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            monthText.text = AppDateFormat.ymDate.format(it.time)
+            monthText.text = AppDateFormat.monthEng.format(it.time)
             // + " " + String.format(getString(R.string.weekNum), it.get(Calendar.WEEK_OF_YEAR))
         }
     }

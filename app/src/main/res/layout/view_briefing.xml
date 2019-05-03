@@ -42,6 +42,7 @@
                     android:textSize="12dp"
                     android:textColor="@color/secondaryText"
                     android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/avenir_black"
                     android:text="@string/today"/>
 
                 <ImageView

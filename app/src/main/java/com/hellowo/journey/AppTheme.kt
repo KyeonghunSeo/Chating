@@ -2,16 +2,10 @@ package com.hellowo.journey
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import androidx.core.content.res.ResourcesCompat
-import com.google.android.material.shape.CutCornerTreatment
-import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.android.material.shape.ShapePathModel
-import com.google.android.material.shape.TriangleEdgeTreatment
 import com.hellowo.journey.App.Companion.resource
 import java.lang.Exception
 
@@ -65,12 +59,12 @@ object AppTheme {
         hightlightCover = resource.getDrawable(R.drawable.highlightcover)
         blankDrawable = resource.getDrawable(R.drawable.blank)
 
-        tFont = ResourcesCompat.getFont(context, R.font.thin)!!
-        rFont = ResourcesCompat.getFont(context, R.font.regular)!!
-        bFont = ResourcesCompat.getFont(context, R.font.bold)!!
-        thinFont = ResourcesCompat.getFont(context, R.font.thin_s)!!
-        regularFont = ResourcesCompat.getFont(context, R.font.regular_s)!!
-        boldFont = ResourcesCompat.getFont(context, R.font.bold_s)!!
+        tFont = ResourcesCompat.getFont(context, R.font.avenir_medium)!!
+        rFont = ResourcesCompat.getFont(context, R.font.avenir_medium)!!
+        bFont = ResourcesCompat.getFont(context, R.font.avenir_black)!!
+        thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
+        regularFont = ResourcesCompat.getFont(context, R.font.regular)!!
+        boldFont = ResourcesCompat.getFont(context, R.font.bold)!!
 
         resource.getStringArray(R.array.colors).forEachIndexed { index, s ->
             colors[index] = Color.parseColor(s)

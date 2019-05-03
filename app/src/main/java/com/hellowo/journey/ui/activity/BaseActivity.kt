@@ -2,8 +2,11 @@ package com.hellowo.journey.ui.activity
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.os.Build
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -17,6 +20,11 @@ import com.hellowo.journey.setGlobalTheme
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
     var progressDialog: ProgressDialog? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
 
     fun initTheme(rootLy: View) {
         setGlobalTheme(rootLy)

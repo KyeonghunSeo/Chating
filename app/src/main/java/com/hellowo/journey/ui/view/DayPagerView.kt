@@ -27,7 +27,6 @@ import java.util.*
 
 class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
-    val margin = dpToPx(40)
     val startZ = dpToPx(8f)
     var viewMode = ViewMode.CLOSED
     var onVisibility: ((Boolean) -> Unit)? = null
@@ -117,7 +116,8 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
 
             val animSet = AnimatorSet()
-            animSet.playTogether(ObjectAnimator.ofFloat(this@DayPagerView, "elevation", 0f, startZ))
+            animSet.playTogether(
+                    ObjectAnimator.ofFloat(this@DayPagerView, "elevation", 0f, startZ))
             animSet.duration = 150
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.addListener(object : AnimatorListenerAdapter(){
@@ -139,7 +139,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     (layoutParams as FrameLayout.LayoutParams).let {
                         it.width = MATCH_PARENT
                         it.height = MATCH_PARENT
-                        it.setMargins(0, margin, 0, 0)
+                        it.setMargins(0, 0, 0, 0)
                     }
                     requestLayout()
                 }

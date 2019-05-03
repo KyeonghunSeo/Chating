@@ -63,13 +63,13 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
             setSingleLine(true)
             setHorizontallyScrolling(true)
             //isHorizontalFadingEdgeEnabled = true /*성능이슈*/
-            typeface = AppTheme.regularFont
+            typeface = AppTheme.thinFont
             setTextColor(AppTheme.primaryText)
             setPadding((leftPadding + defaulMargin).toInt(), 0, sidePadding, 0)
             return
         }
 
-        typeface = AppTheme.regularFont
+        typeface = AppTheme.thinFont
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
         setPadding(sidePadding,
                 (topPadding + (AppStatus.calTextSize * -1.7f)).toInt() /*글씨 크기에 따른 탑 패딩 조정*/,

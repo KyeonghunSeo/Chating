@@ -41,16 +41,17 @@ import java.util.Calendar.SUNDAY
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
     companion object {
-        const val headerTextScale = 4f
-        val datePosX = dpToPx(12f)
-        val datePosY = -dpToPx(8.9f)
-        val dowPosX = -dpToPx(0f)
-        val dowPosY = dpToPx(2.6f)
-        val holiPosX = dpToPx(15.15f)
-        val holiPosY = -dpToPx(8.7f)
+        const val headerTextScale = 5.5f
+        val datePosX = dpToPx(15.0f)
+        val datePosY = -dpToPx(1.0f)
+        val dowPosX = -dpToPx(0.0f)
+        val dowPosY = dpToPx(8.2f)
+        val holiPosX = dpToPx(15.3f)
+        val holiPosY = -dpToPx(2.5f)
         val startZ = dpToPx(8f)
         val endZ = dpToPx(0f)
-        val subScale = 0.4f
+        val mainDateLyX = dpToPx(80.5f)
+        val subScale = 0.42f
     }
     val targetCal = Calendar.getInstance()
     private var recordList: RealmResults<Record>? = null
@@ -75,8 +76,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         initRecyclerView()
         elevation = 0f
         radius = 0f
-        dateText.typeface = AppTheme.boldFont
-        dowText.typeface = AppTheme.boldFont
+        dateText.typeface = AppTheme.bFont
+        dowText.typeface = AppTheme.bFont
         holiText.typeface = AppTheme.boldFont
         dateLy.clipChildren = false
         dateLy.pivotX = 0f
@@ -207,7 +208,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun setDateText() {
         dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
-        dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
+        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
 
         val lunarCalendar = KoreanLunarCalendar.getInstance()
         lunarCalendar.setSolarDate(targetCal.get(Calendar.YEAR),
@@ -240,6 +241,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun show(dayPagerView: DayPagerView) {
+        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(dayPagerView, "elevation", startZ, endZ),
                 ObjectAnimator.ofFloat(dayPagerView, "alpha", 0.85f, 1f),
@@ -254,13 +256,15 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "translationX", 0f, dowPosX),
                 ObjectAnimator.ofFloat(dowText, "translationY", 0f, dowPosY),
                 ObjectAnimator.ofFloat(holiText, "translationX", 0f, holiPosX),
-                ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY))
+                ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY),
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationX", 0f, mainDateLyX))
         animSet.duration = ANIM_DUR
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
     }
 
     fun hide() {
+        dowText.text = AppDateFormat.dowEng.format(targetCal.time)
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
         animSet.playTogether(
@@ -275,7 +279,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "translationX", dowPosX, 0f),
                 ObjectAnimator.ofFloat(dowText, "translationY", dowPosY, 0f),
                 ObjectAnimator.ofFloat(holiText, "translationX", holiPosX, 0f),
-                ObjectAnimator.ofFloat(holiText, "translationY", holiPosY, 0f))
+                ObjectAnimator.ofFloat(holiText, "translationY", holiPosY, 0f),
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationX", mainDateLyX, 0f))
         animSet.duration = ANIM_DUR
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
@@ -295,6 +300,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.translationY = dowPosY
         holiText.translationX = holiPosX
         holiText.translationY = holiPosY
+        MainActivity.getMainDateLy()?.translationX = mainDateLyX
     }
 
     private fun setDateClosedStyle() {
@@ -311,5 +317,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.translationY = 0f
         holiText.translationX = 0f
         holiText.translationY = 0f
+        MainActivity.getMainDateLy()?.translationX = 0f
     }
 }
