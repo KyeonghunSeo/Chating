@@ -202,7 +202,8 @@
                             android:gravity="center"
                             android:textColor="@color/secondaryText"
                             android:textSize="16dp"
-                            android:text="@string/about_us"/>
+                            android:text="@string/about_us"
+                            android:fontFamily="@font/avenir_black"/>
 
                     </LinearLayout>
 
