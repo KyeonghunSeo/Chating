@@ -11,9 +11,13 @@ import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
 import androidx.core.app.ActivityCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.auth.FirebaseAuth
@@ -37,8 +41,10 @@ class MainActivity : BaseActivity() {
         var isShowing = false
         fun getViewModel() = instance?.viewModel
         fun getDayPagerView() = instance?.dayPagerView
+        fun getMainPanel() = instance?.mainPanel
         fun getCalendarPagerView() = instance?.calendarPagerView
         fun getMainDateLy() = instance?.mainDateLy
+        fun getProfileBtn() = instance?.profileBtn
         fun getTargetCalendarView() = instance?.viewModel?.targetCalendarView?.value
         fun getTargetTime() = instance?.viewModel?.targetTime?.value
         fun getTargetCal() = instance?.viewModel?.targetCalendarView?.value?.targetCal
@@ -124,10 +130,8 @@ class MainActivity : BaseActivity() {
             viewModel.targetCalendarView.value = calendarView
             if(cellNum >= 0) {
                 if(isSameSeleted && dayPagerView.viewMode == ViewMode.CLOSED) dayPagerView.show()
-                briefingView.refreshTodayView(calendarView.todayStatus)
-            }else {
-                //TransitionManager.beginDelayedTransition(templateControlView, makeFromBottomSlideTransition())
-                //templateControlView.visibility = View.INVISIBLE
+                briefingView.refreshTodayView(todayFlag, calendarView.todayStatus)
+
             }
         }
         calendarPagerView.onTop = { isTop, isBottom ->
@@ -147,30 +151,33 @@ class MainActivity : BaseActivity() {
     private fun initTemplateView() {}
 
     private fun initBtns() {
-        monthText.setOnClickListener {
-            profileView.show()
-            /*
+        profileBtn.setOnClickListener {
+            if(!profileView.isOpened()) {
+                profileView.show()
+            }
+        }
+
+        profileBtn.setOnLongClickListener {
+            AppTheme.thinFont = ResourcesCompat.getFont(this, R.font.thin_s)!!
+            AppTheme.regularFont = ResourcesCompat.getFont(this, R.font.regular_s)!!
+            AppTheme.boldFont = ResourcesCompat.getFont(this, R.font.bold_s)!!
+            initTheme(rootLy)
+            return@setOnLongClickListener true
+        }
+
+        mainDateLy.setOnClickListener {
             showDialog(DatePickerDialog(this, viewModel.targetTime.value!!) {
                 selectDate(it)
             }, true, true, true, false)
-            */
         }
 
         keepBtn.setOnClickListener {
             viewModel.setTargetFolder()
         }
 
-        keepBtn.setOnLongClickListener {
-            AppTheme.thinFont = AppTheme.tFont
-            AppTheme.regularFont = AppTheme.rFont
-            AppTheme.boldFont = AppTheme.bFont
-            initTheme(rootLy)
-            return@setOnLongClickListener false
-        }
-
-        monthText.setOnLongClickListener {
+        mainDateLy.setOnLongClickListener {
             val cal = Calendar.getInstance()
-            cal.set(2019, 3, 1)
+            cal.set(2019, 4, 1)
             val s = cal.timeInMillis
             RecordManager.save(RecordManager.makeNewRecord(s, s).apply {
                 title = "점심약속"
@@ -217,7 +224,7 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.loading.observe(this, Observer {
-            if(it as Boolean) progressBar.visibility = View.VISIBLE else progressBar.visibility = View.GONE
+            if(it as Boolean) {}
         })
 
         viewModel.targetTimeObject.observe(this, Observer { timeObject ->
@@ -257,13 +264,23 @@ class MainActivity : BaseActivity() {
     }
 
     private fun updateUserUI(appUser: AppUser) {
+        when {
+            appUser.profileImgUrl?.isNotEmpty() == true -> Glide.with(this).load(appUser.profileImgUrl)
+                    .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(15))).override(dpToPx(30)))
+                    .into(profileBtn)
+            FirebaseAuth.getInstance().currentUser?.photoUrl != null -> Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl)
+                    .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(15))).override(dpToPx(30)))
+                    .into(profileBtn)
+            else -> profileBtn.setImageResource(R.drawable.menu)
+        }
         profileView.updateUserUI(appUser)
     }
 
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            monthText.text = AppDateFormat.monthEng.format(it.time)
+            monthText.text = AppDateFormat.monthEng.format(it.time).toUpperCase()
+            yearText.text = it.get(Calendar.YEAR).toString()
             // + " " + String.format(getString(R.string.weekNum), it.get(Calendar.WEEK_OF_YEAR))
         }
     }

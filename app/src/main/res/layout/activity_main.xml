@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false">
 
-    <FrameLayout
+    <com.hellowo.journey.ui.view.ProfileView
+        android:id="@+id/profileView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+    </com.hellowo.journey.ui.view.ProfileView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mainPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="20dp">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -19,6 +29,7 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
                 android:animateLayoutChanges="true"
                 android:layout_margin="20dp">
 
@@ -26,7 +37,16 @@
                     android:id="@+id/monthText"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
+                    android:textColor="@color/primaryText"
+                    android:textSize="22dp"
+                    android:fontFamily="@font/avenir_black"
+                    android:text="10월"/>
+
+                <TextView
+                    android:id="@+id/yearText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
                     android:textColor="@color/primaryText"
                     android:textSize="22dp"
                     android:fontFamily="@font/avenir_black"
@@ -43,7 +63,8 @@
                 android:layout_gravity="right"
                 android:padding="9dp"
                 android:src="@drawable/folder"
-                android:tint="@color/iconTint"/>
+                android:tint="@color/iconTint"
+                android:visibility="gone"/>
 
         </FrameLayout>
 
@@ -57,7 +78,7 @@
         <View
             android:id="@+id/topShadow"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
+            android:layout_height="6dp"
             android:layout_marginTop="80dp"
             android:background="@drawable/line_top_shadow"/>
 
@@ -82,25 +103,41 @@
             android:layout_gravity="bottom"
             android:background="@drawable/bottom_shadow_background"/>
 
-    </FrameLayout>
+        <com.hellowo.journey.ui.view.KeepView
+            android:id="@+id/keepView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.hellowo.journey.ui.view.KeepView>
 
-    <com.hellowo.journey.ui.view.KeepView
-        android:id="@+id/keepView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.hellowo.journey.ui.view.KeepView>
+        <ImageView
+            android:id="@+id/todayFlag"
+            android:layout_width="10dp"
+            android:layout_height="50dp"
+            android:elevation="20dp"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="right"
+            android:scaleType="fitXY"
+            android:src="@drawable/bookmark_fill"/>
 
-    <com.hellowo.journey.ui.view.TemplateControlView
-        android:id="@+id/templateControlView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.hellowo.journey.ui.view.TemplateControlView>
+        <com.hellowo.journey.ui.view.TemplateControlView
+            android:id="@+id/templateControlView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.hellowo.journey.ui.view.TemplateControlView>
 
-    <com.hellowo.journey.ui.view.ProfileView
-        android:id="@+id/profileView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.hellowo.journey.ui.view.ProfileView>
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/profileBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:elevation="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:layout_gravity="right"
+        android:scaleType="centerCrop"/>
 
     <com.hellowo.journey.ui.view.SearchView
         android:id="@+id/searchView"
@@ -108,11 +145,5 @@
         android:layout_height="match_parent"
         android:visibility="gone">
     </com.hellowo.journey.ui.view.SearchView>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center"/>
 
 </FrameLayout>

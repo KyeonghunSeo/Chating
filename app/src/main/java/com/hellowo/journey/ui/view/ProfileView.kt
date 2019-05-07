@@ -1,5 +1,7 @@
 package com.hellowo.journey.ui.view
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -7,6 +9,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
@@ -30,9 +33,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_profile, this, true)
-        contentLy.setBackgroundColor(AppTheme.backgroundColor)
-        contentLy.visibility = View.GONE
-        contentLy.setOnClickListener {}
 
         profileImage.setOnClickListener {
             MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
@@ -50,11 +50,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             it.startActivityForResult(Intent(it, SettingsActivity::class.java), RC_SETTING) } }
         premiumBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, PremiumActivity::class.java)) } }
         aboutUsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, AboutUsActivity::class.java)) } }
-        FirebaseAuth.getInstance().currentUser?.photoUrl?.let {
-            Glide.with(this).load(it)
-                    //.apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
-                    .into(profileImage)
-        }
 
     }
 
@@ -62,51 +57,39 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         l("[프로필 뷰 갱신]")
         nameText.text = FirebaseAuth.getInstance().currentUser?.displayName
         emailText.text = FirebaseAuth.getInstance().currentUser?.email
-        if(appUser.profileImgUrl?.isNotEmpty() == true) {
-            Glide.with(this).load(appUser.profileImgUrl)
-                    //.apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(25))).override(dpToPx(50)))
-                    .into(profileImage)
-        }
-
         if(appUser.motto?.isNotBlank() == true) {
             mottoText.text = appUser.motto
         }
     }
 
     fun show() {
-        val transitionSet = TransitionSet()
-        val t1 = makeFromLeftSlideTransition()
-        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
-        t1.addTarget(contentLy)
-        t2.addTarget(backgroundLy)
-        transitionSet.addTransition(t1)
-        transitionSet.addTransition(t2)
-        transitionSet.duration = 300L
-        TransitionManager.beginDelayedTransition(this, transitionSet)
-
-        backgroundLy.setBackgroundColor(AppTheme.primaryText)
-        backgroundLy.setOnClickListener { hide() }
-        backgroundLy.isClickable = true
-        backgroundLy.visibility = View.VISIBLE
-        contentLy.visibility = View.VISIBLE
+        MainActivity.getMainPanel()?.let { mainPanel ->
+            vibrate(context)
+            val xOffset = -mainPanel.width * 0.7f * 0.5f
+            mainPanel.pivotX = 0f
+            val animSet = AnimatorSet()
+            animSet.playTogether(ObjectAnimator.ofFloat(mainPanel, "scaleX", 1f, 0.7f),
+                    ObjectAnimator.ofFloat(mainPanel, "scaleY", 1f, 0.7f),
+                    ObjectAnimator.ofFloat(mainPanel, "translationX", 0f, xOffset))
+            animSet.duration = ANIM_DUR
+            animSet.interpolator = FastOutSlowInInterpolator()
+            animSet.start()
+        }
         viewMode = ViewMode.OPENED
     }
 
     fun hide() {
-        val transitionSet = TransitionSet()
-        val t1 = makeFromLeftSlideTransition()
-        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
-        t1.addTarget(contentLy)
-        t2.addTarget(backgroundLy)
-        transitionSet.addTransition(t1)
-        transitionSet.addTransition(t2)
-        transitionSet.duration = 300L
-        TransitionManager.beginDelayedTransition(this, transitionSet)
-
-        backgroundLy.setOnClickListener(null)
-        backgroundLy.isClickable = false
-        backgroundLy.visibility = View.GONE
-        contentLy.visibility = View.GONE
+        MainActivity.getMainPanel()?.let { mainPanel ->
+            val xOffset = -mainPanel.width * 0.7f * 0.5f
+            mainPanel.pivotX = 0f
+            val animSet = AnimatorSet()
+            animSet.playTogether(ObjectAnimator.ofFloat(mainPanel, "scaleX", 0.7f, 1f),
+                    ObjectAnimator.ofFloat(mainPanel, "scaleY", 0.7f, 1f),
+                    ObjectAnimator.ofFloat(mainPanel, "translationX", xOffset, 0f))
+            animSet.duration = ANIM_DUR
+            animSet.interpolator = FastOutSlowInInterpolator()
+            animSet.start()
+        }
         viewMode = ViewMode.CLOSED
     }
 

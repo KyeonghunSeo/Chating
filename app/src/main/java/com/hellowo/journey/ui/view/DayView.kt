@@ -29,6 +29,7 @@ import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
 import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
 import android.view.Gravity
 import android.widget.FrameLayout
+import androidx.transition.TransitionManager
 import com.hellowo.journey.adapter.RecordListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.manager.*
@@ -47,11 +48,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         val dowPosX = -dpToPx(0.0f)
         val dowPosY = dpToPx(8.2f)
         val holiPosX = dpToPx(15.3f)
-        val holiPosY = -dpToPx(2.5f)
+        val holiPosY = -dpToPx(2.7f)
         val startZ = dpToPx(8f)
         val endZ = dpToPx(0f)
-        val mainDateLyX = dpToPx(80.5f)
-        val subScale = 0.42f
+        val mainDateLyX = dpToPx(80.0f)
+        val subScale = 0.41f
     }
     val targetCal = Calendar.getInstance()
     private var recordList: RealmResults<Record>? = null
@@ -208,7 +209,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun setDateText() {
         dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
-        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
+        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time).toUpperCase()
 
         val lunarCalendar = KoreanLunarCalendar.getInstance()
         lunarCalendar.setSolarDate(targetCal.get(Calendar.YEAR),
@@ -241,7 +242,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun show(dayPagerView: DayPagerView) {
-        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
+        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time).toUpperCase()
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(dayPagerView, "elevation", startZ, endZ),
                 ObjectAnimator.ofFloat(dayPagerView, "alpha", 0.85f, 1f),
@@ -264,7 +265,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun hide() {
-        dowText.text = AppDateFormat.dowEng.format(targetCal.time)
+        dowText.text = AppDateFormat.dowEng.format(targetCal.time).toUpperCase()
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
         animSet.playTogether(
@@ -319,4 +320,5 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.translationY = 0f
         MainActivity.getMainDateLy()?.translationX = 0f
     }
+
 }

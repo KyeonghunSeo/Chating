@@ -66,7 +66,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         init {
             dateText.typeface = AppTheme.rFont
             dowText.typeface = AppTheme.rFont
-            holiText.typeface = AppTheme.regularFont
+            holiText.typeface = AppTheme.thinFont
             lunarText.typeface = AppTheme.bFont
             bar.scaleX = 0f
             dowText.visibility = View.GONE
@@ -122,7 +122,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         calendarLy.setPadding(calendarPadding, weekLyBottomPadding, calendarPadding, weekLyBottomPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
-        calendarLy.clipChildren = false
 
         rowDividers.forEachIndexed { index, view ->
             view.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, lineWidth.toInt())
@@ -215,7 +214,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 for (j in 0..6){
                     val cellNum = i*7 + j
                     cellTimeMills[cellNum] = tempCal.timeInMillis
-
+                    lunarCalendar.setSolarDate(tempCal.get(Calendar.YEAR),
+                            tempCal.get(Calendar.MONTH) + 1,
+                            tempCal.get(Calendar.DATE))
                     val holiday = HolidayManager.getHoliday(
                             String.format("%02d%02d", tempCal.get(Calendar.MONTH) + 1, tempCal.get(Calendar.DATE)),
                             lunarCalendar.lunarKey)
@@ -301,7 +302,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         lunarText.text = ""
         dateText.typeface = AppTheme.rFont
         dowText.typeface = AppTheme.rFont
-        holiText.typeface = AppTheme.regularFont
+        holiText.typeface = AppTheme.thinFont
 
         offViewEffect(cellNum)
         lastUnSelectDateAnimSet?.cancel()
@@ -350,7 +351,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dowText.typeface = AppTheme.bFont
             holiText.typeface = AppTheme.boldFont
 
-            dowText.text = AppDateFormat.dowEng.format(targetCal.time)
+            dowText.text = AppDateFormat.dowEng.format(targetCal.time).toUpperCase()
             if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
             if(AppStatus.isLunarDisplay) {
                 lunarCalendar.setSolarDate(targetCal.get(Calendar.YEAR),

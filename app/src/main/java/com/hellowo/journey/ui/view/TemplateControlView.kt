@@ -111,7 +111,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         listLy.visibility = View.VISIBLE
         controlLy.visibility = View.VISIBLE
         ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f).start()
-        elevation = dpToPx(11f)
+        elevation = dpToPx(20f)
         isExpanded = true
     }
 

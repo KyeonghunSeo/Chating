@@ -10,7 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import com.hellowo.journey.*
@@ -50,7 +52,8 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     init {
         setBackgroundColor(AppTheme.backgroundColor)
         LayoutInflater.from(context).inflate(R.layout.view_saerch, this, true)
-        recyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
+        //recyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
+        recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
 

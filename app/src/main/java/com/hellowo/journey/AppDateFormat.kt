@@ -27,7 +27,7 @@ object AppDateFormat {
     lateinit var date: DateFormat
     lateinit var hour: DateFormat
     lateinit var year: DateFormat
-    val monthEng = SimpleDateFormat("MMMM yyyy", Locale.ENGLISH)
+    val monthEng = SimpleDateFormat("MMMM", Locale.ENGLISH)
     val dowEng = SimpleDateFormat("EEE", Locale.ENGLISH)
     val dowfullEng = SimpleDateFormat("EEEE", Locale.ENGLISH)
     val ymSimpleDate = SimpleDateFormat("yyyy.M")

@@ -27,7 +27,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
         val baseSize = dpToPx(0.5f)
         val defaulMargin = dpToPx(1.5f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
-        val sidePadding = dpToPx(3.5f).toInt()
+        val sidePadding = dpToPx(3.0f).toInt()
         val topPadding = dpToPx(1.8f)
         val bottomPadding = dpToPx(3.5f)
         val leftPadding = dpToPx(9)

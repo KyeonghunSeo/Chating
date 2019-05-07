@@ -49,7 +49,7 @@ open class Record(@PrimaryKey var id: String? = null,
 
     fun getFormula(): Formula {
         return if(inCalendar) {
-            Formula.TOP_STACK
+            if(isScheduled()) Formula.TOP_STACK else Formula.TOP_LINEAR
         }else {
             Formula.TOP_LINEAR
         }

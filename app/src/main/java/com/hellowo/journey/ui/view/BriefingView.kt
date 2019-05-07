@@ -101,7 +101,7 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    fun refreshTodayView(todayOffset: Int) {
+    fun refreshTodayView(todayFlag: View, todayOffset: Int) {
         when {
             todayOffset != 0 -> {
                 todayBtn.visibility = View.VISIBLE
@@ -115,7 +115,8 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     todayLeftArrow.visibility = View.VISIBLE
                 }
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "alpha",  todayBtn.alpha, 1f))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "alpha",  todayBtn.alpha, 1f),
+                        ObjectAnimator.ofFloat(todayFlag, "translationY",  todayFlag.translationY, -dpToPx(100f)))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener {
@@ -124,7 +125,8 @@ class BriefingView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
             else -> {
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "alpha", todayBtn.alpha, 0f))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "alpha", todayBtn.alpha, 0f),
+                        ObjectAnimator.ofFloat(todayFlag, "translationY",  todayFlag.translationY, 0f))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.addListener(object : AnimatorListenerAdapter(){
                     override fun onAnimationEnd(p0: Animator?) {
