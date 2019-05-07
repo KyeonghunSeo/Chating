@@ -30,13 +30,12 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     companion object
 
     var viewMode = ViewMode.CLOSED
+    val menuWidth = dpToPx(280f)
+    val headerHeight = dpToPx(80f)
+    val gapWidth = dpToPx(15f)
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_profile, this, true)
-
-        profileImage.setOnClickListener {
-            MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
-        }
 
         mottoText.setOnClickListener {
             showDialog(InputDialog(context as Activity, context.getString(R.string.motto), null, null,
@@ -64,13 +63,30 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     fun show() {
         MainActivity.getMainPanel()?.let { mainPanel ->
+            val panelOffset = -menuWidth * 0.7f
+            val inboxView = MainActivity.getInboxView()
+            val profileBtn = MainActivity.getProfileBtn()
+            val addBtn = MainActivity.getMainAddBtn()
             vibrate(context)
-            val xOffset = -mainPanel.width * 0.7f * 0.5f
             mainPanel.pivotX = 0f
+            inboxView?.pivotX = 0f
+            profileBtn?.pivotX = (profileBtn?.width?.toFloat() ?: 0f) * 0.8f
+            profileBtn?.pivotY = 0f
+            profileBtn?.setOnClickListener {
+                MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
+            }
             val animSet = AnimatorSet()
             animSet.playTogether(ObjectAnimator.ofFloat(mainPanel, "scaleX", 1f, 0.7f),
                     ObjectAnimator.ofFloat(mainPanel, "scaleY", 1f, 0.7f),
-                    ObjectAnimator.ofFloat(mainPanel, "translationX", 0f, xOffset))
+                    ObjectAnimator.ofFloat(mainPanel, "translationX", 0f, panelOffset),
+                    ObjectAnimator.ofFloat(inboxView, "scaleX", 1f, 0.7f),
+                    ObjectAnimator.ofFloat(inboxView, "scaleY", 1f, 0.7f),
+                    ObjectAnimator.ofFloat(inboxView, "translationX", 0f, panelOffset + gapWidth),
+                    ObjectAnimator.ofFloat(inboxView, "translationY", 0f, gapWidth),
+                    ObjectAnimator.ofFloat(profileBtn, "scaleX", 1f, 3f),
+                    ObjectAnimator.ofFloat(profileBtn, "scaleY", 1f, 3f),
+                    ObjectAnimator.ofFloat(profileBtn, "translationY", 0f, headerHeight),
+                    ObjectAnimator.ofFloat(addBtn, "translationY", 0f, headerHeight))
             animSet.duration = ANIM_DUR
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.start()
@@ -80,12 +96,23 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     fun hide() {
         MainActivity.getMainPanel()?.let { mainPanel ->
-            val xOffset = -mainPanel.width * 0.7f * 0.5f
-            mainPanel.pivotX = 0f
+            val panelOffset = -menuWidth * 0.7f
+            val inboxView = MainActivity.getInboxView()
+            val profileBtn = MainActivity.getProfileBtn()
+            val addBtn = MainActivity.getMainAddBtn()
+            profileBtn?.setOnClickListener { show() }
             val animSet = AnimatorSet()
             animSet.playTogether(ObjectAnimator.ofFloat(mainPanel, "scaleX", 0.7f, 1f),
                     ObjectAnimator.ofFloat(mainPanel, "scaleY", 0.7f, 1f),
-                    ObjectAnimator.ofFloat(mainPanel, "translationX", xOffset, 0f))
+                    ObjectAnimator.ofFloat(mainPanel, "translationX", panelOffset, 0f),
+                    ObjectAnimator.ofFloat(inboxView, "scaleX", 0.7f, 1f),
+                    ObjectAnimator.ofFloat(inboxView, "scaleY", 0.7f, 1f),
+                    ObjectAnimator.ofFloat(inboxView, "translationX", panelOffset + gapWidth, 0f),
+                    ObjectAnimator.ofFloat(inboxView, "translationY", gapWidth, 0f),
+                    ObjectAnimator.ofFloat(profileBtn, "scaleX", 3f, 1f),
+                    ObjectAnimator.ofFloat(profileBtn, "scaleY", 3f, 1f),
+                    ObjectAnimator.ofFloat(profileBtn, "translationY", headerHeight, 0f),
+                    ObjectAnimator.ofFloat(addBtn, "translationY", headerHeight, 0f))
             animSet.duration = ANIM_DUR
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.start()

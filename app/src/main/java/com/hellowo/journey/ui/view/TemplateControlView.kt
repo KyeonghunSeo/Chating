@@ -165,7 +165,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         MainActivity.instance?.viewModel?.targetTemplate?.value = template
     }
 
-    private fun restoreViews() {
+    private fun restoreViews() {}
 
-    }
+    fun getAddBtn() = addBtn
 }

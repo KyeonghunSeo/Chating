@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
@@ -27,8 +28,8 @@ import io.realm.RealmResults
 import kotlinx.android.synthetic.main.view_keep.view.*
 import java.util.*
 
-class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : FrameLayout(context, attrs, defStyleAttr) {
+class InboxView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : CardView(context, attrs, defStyleAttr) {
 
     var viewMode = ViewMode.CLOSED
     private var recordList: RealmResults<Record>? = null
@@ -78,10 +79,6 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_keep, this, true)
-        contentLy.setBackgroundColor(AppTheme.backgroundColor)
-        contentLy.visibility = View.GONE
-        contentLy.setOnClickListener {}
-        expandBtn.visibility = View.GONE
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
@@ -91,9 +88,6 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         folderListView.adapter = folderAdapter
         folderAdapter.itemTouchHelper?.attachToRecyclerView(folderListView)
 
-        expandBtn.setOnClickListener {
-            expand()
-        }
 /*
         folderTitleText.setOnClickListener {
             TransitionManager.beginDelayedTransition(recyclerView, makeChangeBounceTransition())
@@ -155,63 +149,12 @@ class KeepView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         }
     }
 
-    private fun expand() {
-        val transiion = makeChangeBounceTransition()
-        transiion.addListener(object : TransitionListenerAdapter(){
-            override fun onTransitionEnd(transition: Transition) {}
-        })
-        TransitionManager.beginDelayedTransition(contentLy, transiion)
-        (contentLy.layoutParams as FrameLayout.LayoutParams).let {
-            it.width = MATCH_PARENT
-        }
-        contentLy.requestLayout()
-    }
-
     fun show() {
-        val transitionSet = TransitionSet()
-        val t1 = makeFromRightSlideTransition()
-        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
-        t1.addTarget(contentLy)
-        t1.addTarget(expandBtn)
-        t2.addTarget(backgroundLy)
-        transitionSet.addTransition(t1)
-        transitionSet.addTransition(t2)
-        transitionSet.duration = 300L
-        TransitionManager.beginDelayedTransition(this, transitionSet)
-
-        backgroundLy.setBackgroundColor(AppTheme.primaryText)
-        backgroundLy.setOnClickListener { MainActivity.getViewModel()?.clearTargetFolder() }
-        backgroundLy.isClickable = true
-        backgroundLy.visibility = View.VISIBLE
-        contentLy.visibility = View.VISIBLE
-        expandBtn.visibility = View.VISIBLE
         viewMode = ViewMode.OPENED
         notifyDataChanged()
     }
 
     fun hide() {
-        val transitionSet = TransitionSet()
-        val t1 = makeFromRightSlideTransition()
-        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
-        t1.addTarget(contentLy)
-        t1.addTarget(expandBtn)
-        t2.addTarget(backgroundLy)
-        transitionSet.addTransition(t1)
-        transitionSet.addTransition(t2)
-        transitionSet.duration = 300L
-        transitionSet.addListener(object : TransitionListenerAdapter(){
-            override fun onTransitionEnd(transition: Transition) {
-                super.onTransitionEnd(transition)
-                contentLy.layoutParams.width = dpToPx(250)
-                expandBtn.visibility = View.GONE
-            }
-        })
-        TransitionManager.beginDelayedTransition(this, transitionSet)
-
-        backgroundLy.setOnClickListener(null)
-        backgroundLy.isClickable = false
-        backgroundLy.visibility = View.GONE
-        contentLy.visibility = View.GONE
         viewMode = ViewMode.CLOSED
     }
 

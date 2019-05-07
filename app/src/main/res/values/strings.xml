@@ -200,7 +200,7 @@
     <string name="delete_checkbox_sub">체크박스를 제거 할까요?</string>
     <string name="delete_deadline_sub">기한을 해제 할까요?</string>
     <string name="delete_percentage_sub">성취도를 삭제할까요?</string>
-    <string name="premium">프리미엄</string>
+    <string name="premium">PREMIUM</string>
     <string name="add_checklist">체크리스트 추가</string>
     <string name="edit_item">아이템 편집</string>
     <string name="edit_title">아이템 이름</string>
@@ -210,7 +210,7 @@
     <string name="weekline_display">주간 경계선 표시</string>
     <string name="enter_here">이곳에 입력하세요</string>
     <string name="delete_sub">이 기록을 삭제할까요?</string>
-    <string name="calendar">달력</string>
+    <string name="calendar">CALENDAR</string>
     <string name="folder">보관함</string>
     <string name="check_option">완료된 기록 표시방법</string>
     <string name="check_option_3">흐리게만</string>
@@ -223,5 +223,6 @@
     <string name="change_folder">보관함 변경</string>
     <string name="change_date">날짜 변경</string>
     <string name="to_folder">보관함으로 이동</string>
+    <string name="inbox">INBOX</string>
 
 </resources>

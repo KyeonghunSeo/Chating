@@ -5,89 +5,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/backgroundLy"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/folderListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:alpha="0.6">
-    </View>
-
-    <ImageView
-        android:id="@+id/expandBtn"
-        android:layout_width="50dp"
         android:layout_height="50dp"
-        android:padding="15dp"
-        android:layout_gravity="right"
-        android:src="@drawable/expand"
-        android:tint="@color/white"
-        android:layout_marginRight="250dp"/>
+        android:background="@color/backgroundDark">
+    </androidx.recyclerview.widget.RecyclerView>
 
-    <FrameLayout
-        android:id="@+id/contentLy"
-        android:layout_gravity="right"
-        android:layout_width="250dp"
-        android:layout_height="match_parent"
-        android:elevation="10dp">
+    <LinearLayout
+        android:id="@+id/emptyLy"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_gravity="center">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/empty"
+            android:tint="@color/backgroundDark"
+            android:layout_gravity="center"/>
 
-        </FrameLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/folderListView"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/backgroundDark">
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <LinearLayout
-            android:id="@+id/emptyLy"
-            android:orientation="vertical"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:layout_gravity="center">
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/line"
+            android:textSize="16dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/no_records_in_this_folder"/>
 
-            <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/empty"
-                android:tint="@color/backgroundDark"
-                android:layout_gravity="center"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textColor="@color/line"
-                android:textSize="16dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/no_records_in_this_folder"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textColor="@color/line"
-                android:textSize="14dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/motto_sample"/>
-
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="40dp">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/line"
+            android:textSize="14dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/motto_sample"/>
 
-    </FrameLayout>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="40dp">
+    </androidx.recyclerview.widget.RecyclerView>
+
 
 </FrameLayout>

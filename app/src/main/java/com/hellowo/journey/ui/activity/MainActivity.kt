@@ -41,10 +41,12 @@ class MainActivity : BaseActivity() {
         var isShowing = false
         fun getViewModel() = instance?.viewModel
         fun getDayPagerView() = instance?.dayPagerView
+        fun getMainAddBtn() = instance?.templateControlView?.getAddBtn()
         fun getMainPanel() = instance?.mainPanel
         fun getCalendarPagerView() = instance?.calendarPagerView
         fun getMainDateLy() = instance?.mainDateLy
         fun getProfileBtn() = instance?.profileBtn
+        fun getInboxView() = instance?.inboxView
         fun getTargetCalendarView() = instance?.viewModel?.targetCalendarView?.value
         fun getTargetTime() = instance?.viewModel?.targetTime?.value
         fun getTargetCal() = instance?.viewModel?.targetCalendarView?.value?.targetCal
@@ -171,10 +173,6 @@ class MainActivity : BaseActivity() {
             }, true, true, true, false)
         }
 
-        keepBtn.setOnClickListener {
-            viewModel.setTargetFolder()
-        }
-
         mainDateLy.setOnLongClickListener {
             val cal = Calendar.getInstance()
             cal.set(2019, 4, 1)
@@ -240,18 +238,16 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.folderList.observe(this, Observer { list ->
-            if(list.size > 1) keepBtn.setImageResource(R.drawable.empty)
-            else keepBtn.setImageResource(R.drawable.empty)
-            keepView.notifyFolderDataChanged()
+            inboxView.notifyFolderDataChanged()
         })
 
         viewModel.targetFolder.observe(this, Observer { folder ->
             if (folder != null) {
-                if (keepView.viewMode == ViewMode.CLOSED) {
-                    keepView.show()
+                if (inboxView.viewMode == ViewMode.CLOSED) {
+                    inboxView.show()
                 }
             } else {
-                keepView.hide()
+                inboxView.hide()
             }
         })
 
@@ -266,10 +262,10 @@ class MainActivity : BaseActivity() {
     private fun updateUserUI(appUser: AppUser) {
         when {
             appUser.profileImgUrl?.isNotEmpty() == true -> Glide.with(this).load(appUser.profileImgUrl)
-                    .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(15))).override(dpToPx(30)))
+                    .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(45))).override(dpToPx(90)))
                     .into(profileBtn)
             FirebaseAuth.getInstance().currentUser?.photoUrl != null -> Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl)
-                    .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(15))).override(dpToPx(30)))
+                    .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(45))).override(dpToPx(90)))
                     .into(profileBtn)
             else -> profileBtn.setImageResource(R.drawable.menu)
         }
@@ -345,10 +341,10 @@ class MainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         when{
-            templateControlView.isExpanded -> templateControlView.collapse()
             searchView.isOpened() -> searchView.hide()
             profileView.isOpened() -> profileView.hide()
-            keepView.isOpened() -> viewModel.clearTargetFolder()
+            templateControlView.isExpanded -> templateControlView.collapse()
+            inboxView.isOpened() -> viewModel.clearTargetFolder()
             dayPagerView.isOpened() -> dayPagerView.hide()
             else -> super.onBackPressed()
         }
@@ -361,7 +357,7 @@ class MainActivity : BaseActivity() {
                 viewModel.initRealm(SyncUser.current())
             } else finish()
         }else if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
-            data?.let { CropImage.activity(data.data).setAspectRatio(3, 4).start(this) }
+            data?.let { CropImage.activity(data.data).setAspectRatio(1, 1).start(this) }
         }else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
             if (resultCode == RESULT_OK) {
