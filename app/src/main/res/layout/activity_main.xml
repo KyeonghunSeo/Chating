@@ -38,9 +38,10 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:background="?android:attr/selectableItemBackground"
                 android:animateLayoutChanges="true"
-                android:layout_margin="20dp">
+                android:layout_marginLeft="20dp">
 
                 <TextView
                     android:id="@+id/monthText"
@@ -111,20 +112,13 @@
 
     </androidx.cardview.widget.CardView>
 
-    <com.hellowo.journey.ui.view.TemplateControlView
-        android:id="@+id/templateControlView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="30dp">
-    </com.hellowo.journey.ui.view.TemplateControlView>
-
     <FrameLayout
         android:id="@+id/profileBtn"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="right"
         android:elevation="30dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="10dp">
 
         <androidx.cardview.widget.CardView
@@ -144,6 +138,13 @@
         </androidx.cardview.widget.CardView>
 
     </FrameLayout>
+
+    <com.hellowo.journey.ui.view.TemplateControlView
+        android:id="@+id/templateControlView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="30dp">
+    </com.hellowo.journey.ui.view.TemplateControlView>
 
     <com.hellowo.journey.ui.view.SearchView
         android:id="@+id/searchView"

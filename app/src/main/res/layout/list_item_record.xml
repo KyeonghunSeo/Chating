@@ -13,15 +13,15 @@
 
       <FrameLayout
           android:id="@+id/iconArea"
-          android:layout_width="48dp"
-          android:layout_height="38dp">
+          android:layout_width="50dp"
+          android:layout_height="50dp">
 
          <ImageView
              android:id="@+id/iconImg"
-             android:layout_width="15dp"
-             android:layout_height="15dp"
-             android:layout_marginLeft="21dp"
-             android:layout_gravity="center_vertical"
+             android:layout_width="10dp"
+             android:layout_height="10dp"
+             android:layout_gravity="center"
+             android:src="@drawable/circle_fill"
              android:tint="@color/primaryText"/>
 
       </FrameLayout>
@@ -33,7 +33,7 @@
           android:layout_height="wrap_content"
           android:layout_marginTop="15dp"
           android:layout_marginBottom="15dp"
-          android:layout_marginLeft="48dp"
+          android:layout_marginLeft="50dp"
           android:layout_marginRight="@dimen/extra_margin">
 
          <LinearLayout
@@ -43,23 +43,22 @@
              android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/tagText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="3dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
-                android:text="#love#peace"/>
-
-            <TextView
                 android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textColor="@color/primaryText"
                 android:text="title"/>
+
+            <TextView
+                android:id="@+id/tagText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:layout_marginTop="3dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/thin"
+                android:text="#love#peace"/>
 
             <LinearLayout
                 android:id="@+id/timeLy"

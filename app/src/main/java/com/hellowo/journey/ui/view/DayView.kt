@@ -44,11 +44,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     companion object {
         const val headerTextScale = 5.5f
         val datePosX = dpToPx(15.0f)
-        val datePosY = -dpToPx(1.1f)
+        val datePosY = -dpToPx(0.4f)
         val dowPosX = -dpToPx(0.0f)
         val dowPosY = dpToPx(8.2f)
         val holiPosX = dpToPx(15.3f)
-        val holiPosY = -dpToPx(2.7f)
+        val holiPosY = -dpToPx(3.1f)
         val startZ = dpToPx(8f)
         val endZ = dpToPx(0f)
         val mainDateLyX = dpToPx(80.3f)
