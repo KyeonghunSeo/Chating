@@ -17,7 +17,6 @@ class MainViewModel : ViewModel() {
     val realm = MutableLiveData<Realm>()
     val loading = MutableLiveData<Boolean>()
     val targetTimeObject = MutableLiveData<Record?>()
-    val targetView = MutableLiveData<View?>()
     val appUser = MutableLiveData<AppUser?>()
     val targetTemplate = MutableLiveData<Template>()
     val templateList = MutableLiveData<RealmResults<Template>>()

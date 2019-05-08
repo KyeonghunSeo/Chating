@@ -9,6 +9,8 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.DragEvent
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
@@ -81,9 +83,6 @@ class MainActivity : BaseActivity() {
         initLayout()
         initCalendarView()
         initDayView()
-        initKeepView()
-        initBriefingView()
-        initTemplateView()
         initBtns()
         initObserver()
     }
@@ -111,6 +110,9 @@ class MainActivity : BaseActivity() {
     private fun initLayout() {
         mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         rootLy.setOnDragListener(MainDragAndDropListener)
+        mainPanel.setOnClickListener {}
+
+        profileView.initViews()
         callAfterViewDrawed(rootLy, Runnable{
             val location = IntArray(2)
             rootLy.getLocationInWindow(location)
@@ -145,12 +147,6 @@ class MainActivity : BaseActivity() {
     private fun initDayView() {
         dayPagerView.onVisibility = { show -> }
     }
-
-    private fun initKeepView() {}
-
-    private fun initBriefingView() {}
-
-    private fun initTemplateView() {}
 
     private fun initBtns() {
         profileBtn.setOnClickListener {
@@ -241,33 +237,22 @@ class MainActivity : BaseActivity() {
             inboxView.notifyFolderDataChanged()
         })
 
-        viewModel.targetFolder.observe(this, Observer { folder ->
-            if (folder != null) {
-                if (inboxView.viewMode == ViewMode.CLOSED) {
-                    inboxView.show()
-                }
-            } else {
-                inboxView.hide()
-            }
-        })
+        viewModel.targetFolder.observe(this, Observer { folder -> inboxView.notifyDataChanged() })
 
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
     }
 
-    fun showSearchView() {
-        searchView.show()
-        startDialogShowAnimation(searchView)
-    }
+    fun showSearchView() { searchView.show() }
 
     private fun updateUserUI(appUser: AppUser) {
         when {
             appUser.profileImgUrl?.isNotEmpty() == true -> Glide.with(this).load(appUser.profileImgUrl)
-                    .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(45))).override(dpToPx(90)))
-                    .into(profileBtn)
+                    .apply(RequestOptions().override(dpToPx(90)))
+                    .into(profileImg)
             FirebaseAuth.getInstance().currentUser?.photoUrl != null -> Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl)
-                    .apply(RequestOptions().transforms(CenterCrop(), RoundedCorners(dpToPx(45))).override(dpToPx(90)))
-                    .into(profileBtn)
-            else -> profileBtn.setImageResource(R.drawable.menu)
+                    .apply(RequestOptions().override(dpToPx(90)))
+                    .into(profileImg)
+            else -> profileImg.setImageResource(R.drawable.menu)
         }
         profileView.updateUserUI(appUser)
     }
@@ -344,7 +329,6 @@ class MainActivity : BaseActivity() {
             searchView.isOpened() -> searchView.hide()
             profileView.isOpened() -> profileView.hide()
             templateControlView.isExpanded -> templateControlView.collapse()
-            inboxView.isOpened() -> viewModel.clearTargetFolder()
             dayPagerView.isOpened() -> dayPagerView.hide()
             else -> super.onBackPressed()
         }

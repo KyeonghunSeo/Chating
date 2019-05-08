@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">기록의계절</string>
+    <string name="app_name">12PAGE</string>
     <string name="notification_default_channel" translatable="false">com.hellowo.alarm.default</string>
 
     <string name="cancel">취소</string>
@@ -185,7 +185,7 @@
     <string name="delete_shedule_sub">스케쥴 정보를 제거합니다</string>
     <string name="weblink_sub">웹사이트 주소를 입력하세요</string>
     <string name="motto">좌우명</string>
-    <string name="motto_sample">지혜는 생각났을때\n기록하는 것이다</string>
+    <string name="motto_sample">지혜란\n생각이 떠올랐을때\n바로 기록하는 것이다</string>
     <string name="about_us">ABOUT US</string>
     <string name="search">검색</string>
     <string name="evaluation">앱 평가하기</string>

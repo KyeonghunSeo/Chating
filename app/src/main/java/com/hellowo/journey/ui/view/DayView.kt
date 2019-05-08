@@ -44,15 +44,15 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     companion object {
         const val headerTextScale = 5.5f
         val datePosX = dpToPx(15.0f)
-        val datePosY = -dpToPx(1.0f)
+        val datePosY = -dpToPx(1.1f)
         val dowPosX = -dpToPx(0.0f)
         val dowPosY = dpToPx(8.2f)
         val holiPosX = dpToPx(15.3f)
         val holiPosY = -dpToPx(2.7f)
         val startZ = dpToPx(8f)
         val endZ = dpToPx(0f)
-        val mainDateLyX = dpToPx(80.0f)
-        val subScale = 0.41f
+        val mainDateLyX = dpToPx(80.3f)
+        val subScale = 0.39f
     }
     val targetCal = Calendar.getInstance()
     private var recordList: RealmResults<Record>? = null
@@ -190,7 +190,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 MainActivity.instance?.startActivityForResult(intent, RC_OS_CALENDAR)
             }else {
                 it.targetTimeObject.value = record
-                it.targetView.value = view
             }
         }
     }

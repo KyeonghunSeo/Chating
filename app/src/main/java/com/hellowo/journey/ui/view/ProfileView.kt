@@ -1,5 +1,6 @@
 package com.hellowo.journey.ui.view
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.Activity
@@ -9,6 +10,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import androidx.cardview.widget.CardView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
@@ -27,29 +29,67 @@ import kotlinx.android.synthetic.main.view_profile.view.*
 
 class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
-    companion object
 
+    private val scale = 0.7f
+    private val headerHeight = dpToPx(80f)
+    private val gapWidth = dpToPx(15f)
+    private val zOffset = dpToPx(30f)
+    private val panelOffset = -dpToPx(280f)
+    private var targetPanel: CardView? = null
+    private var subPanel: CardView? = null
     var viewMode = ViewMode.CLOSED
-    val menuWidth = dpToPx(280f)
-    val headerHeight = dpToPx(80f)
-    val gapWidth = dpToPx(15f)
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_profile, this, true)
-
         mottoText.setOnClickListener {
             showDialog(InputDialog(context as Activity, context.getString(R.string.motto), null, null,
                     mottoText.text.toString()) { result, text ->
                 if(result) { MainActivity.getViewModel()?.saveMotto(text) }
             }, true, true, true, false)
         }
-
         searchBtn.setOnClickListener { MainActivity.instance?.showSearchView() }
         settingsBtn.setOnClickListener { MainActivity.instance?.let {
             it.startActivityForResult(Intent(it, SettingsActivity::class.java), RC_SETTING) } }
         premiumBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, PremiumActivity::class.java)) } }
         aboutUsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, AboutUsActivity::class.java)) } }
 
+        calendarBtn.setOnClickListener {
+            MainActivity.getViewModel()?.clearTargetFolder()
+            adjustViews()
+            hide()
+        }
+
+        inboxBtn.setOnClickListener {
+            MainActivity.getViewModel()?.setTargetFolder()
+            adjustViews()
+            hide()
+        }
+    }
+
+    fun initViews() {
+        adjustViews()
+        targetPanel?.cardElevation = zOffset
+        subPanel?.cardElevation = zOffset - 1
+        subPanel?.scaleX = scale
+        subPanel?.scaleY = scale
+    }
+
+    fun adjustViews() {
+        if(MainActivity.getViewModel()?.targetFolder?.value == null) {
+            calendarText.setTextColor(AppTheme.primaryText)
+            calendarBar.visibility = View.VISIBLE
+            inboxText.setTextColor(AppTheme.disableText)
+            inboxBar.visibility = View.GONE
+            targetPanel = MainActivity.getMainPanel()
+            subPanel = MainActivity.getInboxView()
+        }else {
+            calendarText.setTextColor(AppTheme.disableText)
+            calendarBar.visibility = View.GONE
+            inboxText.setTextColor(AppTheme.primaryText)
+            inboxBar.visibility = View.VISIBLE
+            targetPanel = MainActivity.getInboxView()
+            subPanel = MainActivity.getMainPanel()
+        }
     }
 
     fun updateUserUI(appUser: AppUser) {
@@ -62,32 +102,39 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     fun show() {
-        MainActivity.getMainPanel()?.let { mainPanel ->
-            val panelOffset = -menuWidth * 0.7f
-            val inboxView = MainActivity.getInboxView()
+        vibrate(context)
+        MainActivity.instance?.let {
             val profileBtn = MainActivity.getProfileBtn()
+            val profileCard = profileBtn?.findViewById<CardView>(R.id.profileCard)
             val addBtn = MainActivity.getMainAddBtn()
-            vibrate(context)
-            mainPanel.pivotX = 0f
-            inboxView?.pivotX = 0f
             profileBtn?.pivotX = (profileBtn?.width?.toFloat() ?: 0f) * 0.8f
             profileBtn?.pivotY = 0f
             profileBtn?.setOnClickListener {
                 MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
             }
+
             val animSet = AnimatorSet()
-            animSet.playTogether(ObjectAnimator.ofFloat(mainPanel, "scaleX", 1f, 0.7f),
-                    ObjectAnimator.ofFloat(mainPanel, "scaleY", 1f, 0.7f),
-                    ObjectAnimator.ofFloat(mainPanel, "translationX", 0f, panelOffset),
-                    ObjectAnimator.ofFloat(inboxView, "scaleX", 1f, 0.7f),
-                    ObjectAnimator.ofFloat(inboxView, "scaleY", 1f, 0.7f),
-                    ObjectAnimator.ofFloat(inboxView, "translationX", 0f, panelOffset + gapWidth),
-                    ObjectAnimator.ofFloat(inboxView, "translationY", 0f, gapWidth),
-                    ObjectAnimator.ofFloat(profileBtn, "scaleX", 1f, 3f),
-                    ObjectAnimator.ofFloat(profileBtn, "scaleY", 1f, 3f),
-                    ObjectAnimator.ofFloat(profileBtn, "translationY", 0f, headerHeight),
-                    ObjectAnimator.ofFloat(addBtn, "translationY", 0f, headerHeight))
-            animSet.duration = ANIM_DUR
+            val animList = ArrayList<Animator>()
+            animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX", 1f, 3f))
+            animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY", 1f, 3f))
+            animList.add(ObjectAnimator.ofFloat(profileBtn, "translationY", 0f, headerHeight))
+            animList.add(ObjectAnimator.ofFloat(profileCard, "radius", dpToPx(15f), 0f))
+            animList.add(ObjectAnimator.ofFloat(addBtn, "translationY", 0f, headerHeight))
+
+            targetPanel?.let {
+                animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, 0.7f))
+                animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, 0.7f))
+                animList.add(ObjectAnimator.ofFloat(it, "translationX", 0f, panelOffset))
+                return@let
+            }
+            subPanel?.let {
+                animList.add(ObjectAnimator.ofFloat(it, "translationX", -width.toFloat(), panelOffset + gapWidth))
+                animList.add(ObjectAnimator.ofFloat(it, "translationY", 0f, gapWidth))
+                return@let
+            }
+
+            animSet.playTogether(animList)
+            animSet.duration = 300L
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.start()
         }
@@ -95,25 +142,36 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     fun hide() {
-        MainActivity.getMainPanel()?.let { mainPanel ->
-            val panelOffset = -menuWidth * 0.7f
-            val inboxView = MainActivity.getInboxView()
+        MainActivity.instance?.let {
             val profileBtn = MainActivity.getProfileBtn()
+            val profileCard = profileBtn?.findViewById<CardView>(R.id.profileCard)
             val addBtn = MainActivity.getMainAddBtn()
             profileBtn?.setOnClickListener { show() }
+
             val animSet = AnimatorSet()
-            animSet.playTogether(ObjectAnimator.ofFloat(mainPanel, "scaleX", 0.7f, 1f),
-                    ObjectAnimator.ofFloat(mainPanel, "scaleY", 0.7f, 1f),
-                    ObjectAnimator.ofFloat(mainPanel, "translationX", panelOffset, 0f),
-                    ObjectAnimator.ofFloat(inboxView, "scaleX", 0.7f, 1f),
-                    ObjectAnimator.ofFloat(inboxView, "scaleY", 0.7f, 1f),
-                    ObjectAnimator.ofFloat(inboxView, "translationX", panelOffset + gapWidth, 0f),
-                    ObjectAnimator.ofFloat(inboxView, "translationY", gapWidth, 0f),
-                    ObjectAnimator.ofFloat(profileBtn, "scaleX", 3f, 1f),
-                    ObjectAnimator.ofFloat(profileBtn, "scaleY", 3f, 1f),
-                    ObjectAnimator.ofFloat(profileBtn, "translationY", headerHeight, 0f),
-                    ObjectAnimator.ofFloat(addBtn, "translationY", headerHeight, 0f))
-            animSet.duration = ANIM_DUR
+            val animList = ArrayList<Animator>()
+            animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX", 3f, 1f))
+            animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY", 3f, 1f))
+            animList.add(ObjectAnimator.ofFloat(profileBtn, "translationY", headerHeight, 0f))
+            animList.add(ObjectAnimator.ofFloat(profileCard, "radius", 0f, dpToPx(15f)))
+            animList.add(ObjectAnimator.ofFloat(addBtn, "translationY", headerHeight, 0f))
+
+            targetPanel?.let {
+                animList.add(ObjectAnimator.ofFloat(it, "scaleX", it.scaleX, 1f))
+                animList.add(ObjectAnimator.ofFloat(it, "scaleY", it.scaleY, 1f))
+                animList.add(ObjectAnimator.ofFloat(it, "translationX", it.translationX, 0f))
+                animList.add(ObjectAnimator.ofFloat(it, "translationY", it.translationY, 0f))
+                animList.add(ObjectAnimator.ofFloat(it, "elevation", it.elevation, zOffset))
+                return@let
+            }
+            subPanel?.let {
+                animList.add(ObjectAnimator.ofFloat(it, "translationX", it.translationX, -width.toFloat()))
+                animList.add(ObjectAnimator.ofFloat(it, "elevation", it.elevation, zOffset - 1))
+                return@let
+            }
+
+            animSet.playTogether(animList)
+            animSet.duration = 300L
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.start()
         }

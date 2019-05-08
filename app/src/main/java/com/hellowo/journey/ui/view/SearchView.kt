@@ -42,7 +42,6 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             0 -> {
                 MainActivity.instance?.viewModel?.let {
                     it.targetTimeObject.value = timeObject
-                    it.targetView.value = view
                 }
             }
         }
@@ -50,7 +49,6 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private val tags = ArrayList<Tag>()
 
     init {
-        setBackgroundColor(AppTheme.backgroundColor)
         LayoutInflater.from(context).inflate(R.layout.view_saerch, this, true)
         //recyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -91,6 +89,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
 
         clearBtn.setOnClickListener { clear() }
+        clearBtn.visibility = View.GONE
         setOnClickListener {  }
     }
 

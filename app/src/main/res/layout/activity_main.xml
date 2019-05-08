@@ -28,6 +28,7 @@
         app:cardElevation="30dp">
 
         <FrameLayout
+            android:id="@+id/headerLy"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:elevation="20dp">
@@ -46,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/primaryText"
-                    android:textSize="22dp"
+                    android:textSize="20dp"
                     android:fontFamily="@font/avenir_black"
                     android:text="JUNE"/>
 
@@ -56,7 +57,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
                     android:textColor="@color/primaryText"
-                    android:textSize="22dp"
+                    android:textSize="20dp"
                     android:fontFamily="@font/avenir_black"
                     android:text="2019"/>
 
@@ -117,21 +118,38 @@
         android:elevation="30dp">
     </com.hellowo.journey.ui.view.TemplateControlView>
 
-    <ImageView
+    <FrameLayout
         android:id="@+id/profileBtn"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_gravity="right"
         android:elevation="30dp"
         android:layout_marginTop="16dp"
-        android:layout_marginRight="10dp"
-        android:padding="10dp"
-        android:layout_gravity="right"
-        android:scaleType="centerCrop"/>
+        android:layout_marginRight="10dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/profileCard"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="15dp">
+
+            <ImageView
+                android:id="@+id/profileImg"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="centerCrop"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
 
     <com.hellowo.journey.ui.view.SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:elevation="30dp"
         android:visibility="gone">
     </com.hellowo.journey.ui.view.SearchView>
 

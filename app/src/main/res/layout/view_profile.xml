@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="260dp"
+        android:layout_width="280dp"
         android:layout_height="match_parent"
         android:paddingTop="80dp"
         android:paddingBottom="20dp"
@@ -18,52 +18,82 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="right"
-            android:layout_marginTop="150dp"
             android:layout_marginRight="25dp"
-            android:layout_marginLeft="20dp">
+            android:layout_marginLeft="5dp">
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="135dp"
+                android:layout_marginRight="100dp"
+                android:gravity="bottom">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/circle_fill"
-                    android:src="@drawable/crown"
-                    android:tint="@color/white"
-                    android:padding="3dp"/>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/premiumTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_gravity="right"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/disableText">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/crown"
+                        android:tint="@color/white"
+                        android:padding="2dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:textSize="8dp"
+                        android:text="@string/premium"
+                        android:fontFamily="@font/avenir_black"/>
+
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/nameText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
                     android:textColor="@color/primaryText"
-                    android:textSize="14dp"
+                    android:textSize="12dp"
                     android:text="name"
                     android:fontFamily="@font/regular"/>
 
+                <TextView
+                    android:id="@+id/emailText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textColor="@color/primaryText"
+                    android:textSize="12dp"
+                    android:text="email"
+                    android:fontFamily="@font/avenir_medium"/>
+
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/emailText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primaryText"
-                android:textSize="14dp"
-                android:text="email"
-                android:fontFamily="@font/avenir_medium"/>
+            <com.hellowo.journey.ui.view.base.Line
+                android:layout_width="20dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                app:colorFlag="primary"/>
 
             <TextView
                 android:id="@+id/mottoText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_marginTop="20dp"
                 android:lineSpacingExtra="2dp"
                 android:textColor="@color/primaryText"
                 android:gravity="right"
@@ -73,7 +103,7 @@
                 android:background="?android:attr/selectableItemBackground"/>
 
             <com.hellowo.journey.ui.view.base.Line
-                android:layout_width="30dp"
+                android:layout_width="20dp"
                 android:layout_height="2dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
@@ -135,6 +165,7 @@
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
+                    android:id="@+id/calendarText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
@@ -164,6 +195,7 @@
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
+                    android:id="@+id/inboxText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"

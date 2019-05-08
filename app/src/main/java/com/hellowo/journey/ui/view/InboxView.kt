@@ -31,17 +31,13 @@ import java.util.*
 class InboxView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
 
-    var viewMode = ViewMode.CLOSED
     private var recordList: RealmResults<Record>? = null
     private val items = ArrayList<Record>()
     private val newItmes = ArrayList<Record>()
     private val adapter = RecordListAdapter(context, items, Calendar.getInstance()) { view, timeObject, action ->
         when(action) {
             0 -> {
-                MainActivity.instance?.viewModel?.let {
-                    it.targetTimeObject.value = timeObject
-                    it.targetView.value = view
-                }
+                MainActivity.instance?.viewModel?.let { it.targetTimeObject.value = timeObject }
             }
         }
     }
@@ -75,10 +71,10 @@ class InboxView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             }
         }
     }
-    private var layout = 0
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_keep, this, true)
+        setOnClickListener {}
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
@@ -102,7 +98,7 @@ class InboxView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }*/
     }
 
-    private fun notifyDataChanged() {
+    fun notifyDataChanged() {
         MainActivity.instance?.viewModel?.targetFolder?.value?.let { folder ->
             folderAdapter.notifyDataSetChanged()
             recordList?.removeAllChangeListeners()
@@ -148,15 +144,4 @@ class InboxView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             folderAdapter.notifyDataSetChanged()
         }
     }
-
-    fun show() {
-        viewMode = ViewMode.OPENED
-        notifyDataChanged()
-    }
-
-    fun hide() {
-        viewMode = ViewMode.CLOSED
-    }
-
-    fun isOpened(): Boolean = viewMode == ViewMode.OPENED
 }

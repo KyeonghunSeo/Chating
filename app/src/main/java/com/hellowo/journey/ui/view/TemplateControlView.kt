@@ -111,7 +111,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         listLy.visibility = View.VISIBLE
         controlLy.visibility = View.VISIBLE
         ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f).start()
-        elevation = dpToPx(20f)
+        elevation = dpToPx(30f)
         isExpanded = true
     }
 
@@ -135,7 +135,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         listLy.visibility = View.GONE
         controlLy.visibility = View.GONE
         ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f).start()
-        elevation = dpToPx(0f)
         isExpanded = false
     }
 
@@ -148,7 +147,6 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         dateLy.visibility = View.GONE
         listLy.visibility = View.GONE
         controlLy.visibility = View.GONE
-        elevation = dpToPx(0f)
         isExpanded = false
     }
 
