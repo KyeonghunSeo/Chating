@@ -18,7 +18,7 @@ object AppStatus {
     fun init(context: Context) {
         startDayOfWeek = Prefs.getInt("startDayOfWeek", Calendar.SUNDAY)
         isDowDisplay = Prefs.getBoolean("isDowDisplay", true)
-        holidayDisplay = Prefs.getInt("holidayDisplay", 0)
+        holidayDisplay = Prefs.getInt("holidayDisplay", 1)
         isLunarDisplay = Prefs.getBoolean("isLunarDisplay", true)
         outsideMonthAlpha = Prefs.getFloat("outsideMonthAlpha", 0f)
         calTextSize = Prefs.getInt("calTextSize", 0)

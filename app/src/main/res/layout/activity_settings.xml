@@ -92,11 +92,11 @@
                     android:textSize="14dp"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginRight="20dp"
                     android:layout_gravity="center_vertical|right"
-                    android:src="@drawable/sharp_navigate_next_black_48dp"
+                    android:src="@drawable/arrow_right"
                     android:tint="@color/iconTint"/>
 
             </FrameLayout>

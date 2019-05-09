@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="false">
+    android:layout_height="match_parent">
 
     <com.hellowo.journey.ui.view.ProfileView
         android:id="@+id/profileView"
@@ -28,87 +27,164 @@
         app:cardElevation="30dp">
 
         <FrameLayout
-            android:id="@+id/headerLy"
+            android:id="@+id/calendarLy"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:elevation="20dp">
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/mainDateLy"
-                android:orientation="horizontal"
+            <FrameLayout
+                android:id="@+id/headerLy"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:elevation="20dp">
+
+                <LinearLayout
+                    android:id="@+id/mainDateLy"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:animateLayoutChanges="true"
+                    android:layout_marginLeft="20dp">
+
+                    <TextView
+                        android:id="@+id/monthText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/primaryText"
+                        android:textSize="20dp"
+                        android:fontFamily="@font/avenir_black"
+                        android:text="JUNE"/>
+
+                    <TextView
+                        android:id="@+id/yearText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/primaryText"
+                        android:textSize="20dp"
+                        android:fontFamily="@font/avenir_black"
+                        android:text="2019"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <com.hellowo.journey.ui.view.CalendarPagerView
+                android:id="@+id/calendarPagerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="70dp">
+            </com.hellowo.journey.ui.view.CalendarPagerView>
+
+            <View
+                android:id="@+id/topShadow"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="70dp"
+                android:background="@drawable/line_top_shadow"/>
+
+            <com.hellowo.journey.ui.view.DayPagerView
+                android:id="@+id/dayPagerView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground"
-                android:animateLayoutChanges="true"
-                android:layout_marginLeft="20dp">
+                android:layout_height="wrap_content">
+            </com.hellowo.journey.ui.view.DayPagerView>
 
-                <TextView
-                    android:id="@+id/monthText"
+            <ImageView
+                android:id="@+id/todayFlag"
+                android:layout_width="10dp"
+                android:layout_height="50dp"
+                android:elevation="20dp"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="right"
+                android:scaleType="fitXY"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="10dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/todayBtn"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textColor="@color/primaryText"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/avenir_black"
-                    android:text="JUNE"/>
+                    android:layout_height="30dp"
+                    android:layout_margin="15dp"
+                    android:layout_gravity="center_horizontal|bottom"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="15dp">
 
-                <TextView
-                    android:id="@+id/yearText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:textColor="@color/primaryText"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/avenir_black"
-                    android:text="2019"/>
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"
+                        android:animateLayoutChanges="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginLeft="8dp">
 
-            </LinearLayout>
+                        <ImageView
+                            android:id="@+id/todayLeftArrow"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/arrow_left"
+                            android:tint="@color/primaryText"
+                            android:layout_gravity="center_vertical" />
+
+                        <TextView
+                            android:id="@+id/todayText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:textColor="@color/primaryText"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/avenir_black"
+                            android:text="@string/today"/>
+
+                        <ImageView
+                            android:id="@+id/todayRightArrow"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/arrow_right"
+                            android:tint="@color/primaryText"
+                            android:layout_gravity="center_vertical|right" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </FrameLayout>
 
         </FrameLayout>
 
-        <com.hellowo.journey.ui.view.CalendarPagerView
-            android:id="@+id/calendarPagerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="80dp">
-        </com.hellowo.journey.ui.view.CalendarPagerView>
-
-        <View
-            android:id="@+id/topShadow"
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:layout_marginTop="80dp"
-            android:background="@drawable/line_top_shadow"/>
-
-        <com.hellowo.journey.ui.view.DayPagerView
-            android:id="@+id/dayPagerView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </com.hellowo.journey.ui.view.DayPagerView>
-
-        <com.hellowo.journey.ui.view.BriefingView
-            android:id="@+id/briefingView"
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/folderBtn"
+            android:layout_width="60dp"
             android:layout_height="40dp"
-            android:layout_marginBottom="10dp"
-            android:elevation="10dp"
-            android:layout_gravity="bottom|center_horizontal">
-        </com.hellowo.journey.ui.view.BriefingView>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
             android:layout_gravity="bottom"
-            android:background="@drawable/bottom_shadow_background"/>
+            android:layout_marginLeft="-35dp"
+            android:layout_marginBottom="15dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/black"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="4dp">
 
-        <ImageView
-            android:id="@+id/todayFlag"
-            android:layout_width="10dp"
-            android:layout_height="50dp"
-            android:elevation="20dp"
-            android:layout_marginRight="5dp"
-            android:layout_gravity="right"
-            android:scaleType="fitXY"/>
+            <ImageView
+                android:id="@+id/templateIconImg"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/arrow_right"
+                android:tint="@color/white"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <com.hellowo.journey.ui.view.TemplateControlView
+            android:id="@+id/templateControlView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.hellowo.journey.ui.view.TemplateControlView>
 
     </androidx.cardview.widget.CardView>
 
@@ -118,7 +194,7 @@
         android:layout_height="50dp"
         android:layout_gravity="right"
         android:elevation="30dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="10dp">
 
         <androidx.cardview.widget.CardView
@@ -126,7 +202,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            app:cardElevation="0dp"
+            app:cardElevation="10dp"
             app:cardCornerRadius="15dp">
 
             <ImageView
@@ -138,13 +214,6 @@
         </androidx.cardview.widget.CardView>
 
     </FrameLayout>
-
-    <com.hellowo.journey.ui.view.TemplateControlView
-        android:id="@+id/templateControlView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="30dp">
-    </com.hellowo.journey.ui.view.TemplateControlView>
 
     <com.hellowo.journey.ui.view.SearchView
         android:id="@+id/searchView"

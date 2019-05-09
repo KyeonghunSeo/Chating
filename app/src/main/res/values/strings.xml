@@ -224,5 +224,7 @@
     <string name="change_date">날짜 변경</string>
     <string name="to_folder">보관함으로 이동</string>
     <string name="inbox">INBOX</string>
+    <string name="edit_c">EDIT</string>
+    <string name="add_c">ADD</string>
 
 </resources>

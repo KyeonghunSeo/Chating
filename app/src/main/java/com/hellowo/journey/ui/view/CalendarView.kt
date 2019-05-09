@@ -120,7 +120,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(calendarPadding, 0, calendarPadding, calendarPadding)
+        calendarLy.setPadding(calendarPadding, 0, calendarPadding, calendarPadding * 2)
         calendarLy.orientation = LinearLayout.VERTICAL
 
         rowDividers.forEachIndexed { index, view ->
@@ -189,7 +189,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         todayCellNum = -1
         targetCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height.toFloat() - calendarPadding
+        minCalendarHeight = height.toFloat() - calendarPadding * 2
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {

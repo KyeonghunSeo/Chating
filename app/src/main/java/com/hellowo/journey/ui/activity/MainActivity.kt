@@ -1,7 +1,7 @@
 package com.hellowo.journey.ui.activity
 
 import android.Manifest
-import android.animation.LayoutTransition
+import android.animation.*
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,6 +14,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
@@ -98,7 +99,6 @@ class MainActivity : BaseActivity() {
 
     fun playAction(action: Int, bundle: Bundle?) {
         when(action) {
-            1 -> briefingView.show()
             2 -> {
                 bundle?.let {
                     viewModel.setTargetTimeObjectById(bundle.getString("timeObjectId"))
@@ -134,7 +134,7 @@ class MainActivity : BaseActivity() {
             viewModel.targetCalendarView.value = calendarView
             if(cellNum >= 0) {
                 if(isSameSeleted && dayPagerView.viewMode == ViewMode.CLOSED) dayPagerView.show()
-                briefingView.refreshTodayView(todayFlag, calendarView.todayStatus)
+                refreshTodayView(calendarView.todayStatus)
 
             }
         }
@@ -263,6 +263,50 @@ class MainActivity : BaseActivity() {
             monthText.text = AppDateFormat.monthEng.format(it.time).toUpperCase()
             yearText.text = it.get(Calendar.YEAR).toString()
             // + " " + String.format(getString(R.string.weekNum), it.get(Calendar.WEEK_OF_YEAR))
+        }
+    }
+
+    private fun refreshTodayView(todayOffset: Int) {
+        when {
+            todayOffset != 0 -> {
+                todayBtn.visibility = View.VISIBLE
+                if(todayOffset < 0) {
+                    todayText.setPadding(dpToPx(8), 0, 0, 0)
+                    todayRightArrow.visibility = View.VISIBLE
+                    todayLeftArrow.visibility = View.GONE
+                }else {
+                    todayText.setPadding(0, 0, dpToPx(8), 0)
+                    todayRightArrow.visibility = View.GONE
+                    todayLeftArrow.visibility = View.VISIBLE
+                }
+                val animSet = AnimatorSet()
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY",  todayBtn.translationY, 0f),
+                        ObjectAnimator.ofFloat(todayFlag, "translationY",  todayFlag.translationY, -dpToPx(100f)))
+                animSet.interpolator = FastOutSlowInInterpolator()
+                animSet.start()
+                todayBtn.setOnClickListener {
+                    MainActivity.instance?.selectDate(System.currentTimeMillis())
+                }
+            }
+            else -> {
+                val animSet = AnimatorSet()
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, dpToPx(60f)),
+                        ObjectAnimator.ofFloat(todayFlag, "translationY",  todayFlag.translationY, 0f))
+                animSet.interpolator = FastOutSlowInInterpolator()
+                animSet.start()
+                todayBtn.setOnClickListener(null)
+                /*
+                todayBtn.setOnClickListener { _ ->
+                    MainActivity.getDayPagerView()?.let {
+                        if(it.isOpened()) {
+                            it.hide()
+                        }else if(it.viewMode == ViewMode.CLOSED){
+                            it.show()
+                        }
+                    }
+                }
+                */
+            }
         }
     }
 
