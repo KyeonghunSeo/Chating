@@ -24,7 +24,7 @@ import com.hellowo.journey.manager.RecordManager
 import com.hellowo.journey.model.Link
 import com.hellowo.journey.model.Record
 import com.stfalcon.frescoimageviewer.ImageViewer
-import kotlinx.android.synthetic.main.list_item_time_object.view.*
+import kotlinx.android.synthetic.main.list_item_record.view.*
 import org.json.JSONObject
 import java.util.*
 import java.util.regex.Pattern
@@ -54,7 +54,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-            = TimeObjectViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_time_object, parent, false))
+            = TimeObjectViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_record, parent, false))
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

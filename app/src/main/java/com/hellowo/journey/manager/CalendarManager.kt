@@ -5,17 +5,16 @@ import com.hellowo.journey.App.Companion.resource
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.model.Record
+import com.hellowo.journey.model.Record.Style.*
 import com.hellowo.journey.ui.view.RecordView
+import com.hellowo.journey.ui.view.RecordView.Companion.baseSize
 import com.hellowo.journey.ui.view.RecordView.Companion.blockTypeSize
-import com.hellowo.journey.ui.view.RecordView.Companion.leftPadding
+import com.hellowo.journey.ui.view.RecordView.Companion.checkboxSize
 import com.hellowo.journey.ui.view.RecordView.Companion.defaulMargin
-import com.hellowo.journey.ui.view.RecordView.Companion.sidePadding
-import com.hellowo.journey.ui.view.RecordView.Companion.dotSize
 import com.hellowo.journey.ui.view.RecordView.Companion.rectRadius
+import com.hellowo.journey.ui.view.RecordView.Companion.sidePadding
 import com.hellowo.journey.ui.view.RecordView.Companion.stampSize
 import com.hellowo.journey.ui.view.RecordView.Companion.strokeWidth
-import com.hellowo.journey.model.Record.Style.*
-import com.hellowo.journey.ui.view.RecordView.Companion.baseSize
 import com.pixplicity.easyprefs.library.Prefs
 
 object CalendarManager {
@@ -338,37 +337,29 @@ object CalendarManager {
     }
 
     private fun drawCheckBox(view: RecordView, paint: Paint, canvas: Canvas) {
-        val radius = dotSize / 2f
-        val sWidth = strokeWidth / 1.7f
-        val centerX = leftPadding / 2f + defaulMargin / 1.3f
+        val radius = checkboxSize / 2f
         val centerY = (blockTypeSize - defaulMargin) / 2f
-
         if(view.record.isDone()) {
-            view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            /*canvas.drawLine(leftPadding.toFloat() / 2f + defaulMargin + radius, centerY - radius,
-                    leftPadding.toFloat() / 2f + defaulMargin - radius, centerY + radius, paint)*/
-            canvas.drawRect(centerX - radius,
-                    centerY - radius,
-                    centerX + radius,
-                    centerY + radius, paint)
+            //view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            val check = resource.getDrawable(R.drawable.check)
+            check.setColorFilter(view.record.getColor(), PorterDuff.Mode.SRC_ATOP)
+            check.setBounds(sidePadding, (centerY - radius).toInt(),
+                    sidePadding + checkboxSize, (centerY + radius).toInt())
+            check.draw(canvas)
         }else {
             paint.style = Paint.Style.STROKE
-            paint.strokeWidth = sWidth
-            canvas.drawRect(centerX - radius,
-                    centerY - radius,
-                    centerX + radius,
-                    centerY + radius, paint)
+            val check = resource.getDrawable(R.drawable.uncheck)
+            check.setColorFilter(view.record.getColor(), PorterDuff.Mode.SRC_ATOP)
+            check.setBounds(sidePadding, (centerY - radius).toInt(),
+                    sidePadding + checkboxSize, (centerY + radius).toInt())
+            check.draw(canvas)
         }
         paint.style = Paint.Style.FILL
     }
 
     private fun drawHyphen(view: RecordView, paint: Paint, canvas: Canvas) {
-        val radius = dotSize / 2.3f
+        val radius = checkboxSize / 2.3f
         val centerY = blockTypeSize / 2.1f
-        canvas.drawRect(leftPadding.toFloat() / 2f + defaulMargin - radius,
-                centerY - strokeWidth / 2.0f,
-                leftPadding.toFloat() / 2f + defaulMargin + radius,
-                centerY + strokeWidth / 2.0f, paint)
     }
 
     fun drawNotInCalendar(view: RecordView, paint: Paint, canvas: Canvas) {
@@ -382,32 +373,6 @@ object CalendarManager {
                 paint.color = timeObject.getColor()
                 canvas.drawLine(startX, startY, startX, startY + legnth, paint)
             }
-        }
-    }
-
-    private fun drawRectCheckBox(view: RecordView, centerY: Float, canvas: Canvas) {
-        if(view.record.isDone()) {
-            view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            val check = resource.getDrawable(R.drawable.check)
-            check.setColorFilter(view.record.getColor(), PorterDuff.Mode.SRC_ATOP)
-            check.setBounds(defaulMargin.toInt() * 2, (centerY - leftPadding / 2f).toInt(),
-                    leftPadding + defaulMargin.toInt() * 2, (centerY + leftPadding / 2f).toInt())
-            check.draw(canvas)
-        }else {
-            val check = resource.getDrawable(R.drawable.uncheck)
-            check.setColorFilter(view.record.getColor(), PorterDuff.Mode.SRC_ATOP)
-            check.setBounds(defaulMargin.toInt() * 2, (centerY - leftPadding / 2f).toInt(),
-                    leftPadding + defaulMargin.toInt() * 2, (centerY + leftPadding / 2f).toInt())
-            check.draw(canvas)
-        }
-    }
-
-    private fun drawWhiteSpaceLine(view: RecordView, centerY: Float, paint: Paint, canvas: Canvas) {
-        if(view.length > 1) {
-            canvas.drawRect(leftPadding + defaulMargin + view.textSpaceWidth + sidePadding,
-                    centerY - strokeWidth / 2, view.width.toFloat(), centerY + strokeWidth / 2, paint)
-            canvas.drawRect(view.width - strokeWidth, centerY - strokeWidth * 2,
-                    view.width.toFloat(), centerY + strokeWidth * 2, paint)
         }
     }
 
@@ -508,7 +473,7 @@ object CalendarManager {
                 val path = Path()
                 path.addRect(strokeWidth / 2, strokeWidth / 2,
                         width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2, Path.Direction.CW)
-                val dashPath = DashPathEffect(floatArrayOf(dotSize.toFloat(), defaulMargin * 2), 0f)
+                val dashPath = DashPathEffect(floatArrayOf(checkboxSize.toFloat(), defaulMargin * 2), 0f)
                 paint.pathEffect = dashPath
                 canvas.drawPath(path, paint)
                 paint.pathEffect = null

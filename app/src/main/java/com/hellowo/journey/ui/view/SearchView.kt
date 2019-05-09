@@ -1,5 +1,9 @@
 package com.hellowo.journey.ui.view
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
@@ -8,14 +12,18 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
+import androidx.transition.*
 import com.hellowo.journey.*
+import com.hellowo.journey.R
 import com.hellowo.journey.adapter.RecordListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.manager.OsCalendarManager
@@ -67,18 +75,9 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             }
             override fun afterTextChanged(p0: Editable?) {}
         })
-        searchInput.isFocusableInTouchMode = false
-        searchInput.clearFocus()
-        searchInput.setOnClickListener {
-            searchInput.isFocusableInTouchMode = true
-            if (searchInput.requestFocus()) {
-                (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                        .showSoftInput(searchInput, 0)
-            }
-        }
 
-        tagInput.setOnClickListener { _ ->
-            showDialog(TagDialog(MainActivity.instance!!, tags) { _ ->
+        tagInput.setOnClickListener {
+            showDialog(TagDialog(MainActivity.instance!!, tags) {
                 if(tags.isNotEmpty()) {
                     tagInput.text = tags.joinToString("") { "#${it.id}" }
                 }else {
@@ -90,7 +89,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
         clearBtn.setOnClickListener { clear() }
         clearBtn.visibility = View.GONE
-        setOnClickListener {  }
+        setOnClickListener {}
     }
 
     fun notifyDataChanged() {
@@ -140,12 +139,73 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     fun show() {
         visibility = View.VISIBLE
+        val animSet = AnimatorSet()
+        animSet.playTogether(
+                ObjectAnimator.ofFloat(headerLy, "elevation", 0f, dpToPx(10f)))
+        animSet.duration = 150
+        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(p0: Animator?) {
+                val transitionSet = TransitionSet()
+                val t1 = makeChangeBounceTransition()
+                val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
+                t1.setPathMotion(ArcMotion())
+                t1.addTarget(headerLy)
+                t2.addTarget(backgroundLy)
+                transitionSet.addTransition(t1)
+                transitionSet.addTransition(t2)
+                transitionSet.addListener(object : TransitionListenerAdapter(){
+                    override fun onTransitionEnd(transition: Transition) {
+                        showKeyPad(searchInput)
+                    }
+                })
+                TransitionManager.beginDelayedTransition(this@SearchView, transitionSet)
+                backgroundLy.visibility = View.VISIBLE
+                (headerLy.layoutParams as FrameLayout.LayoutParams).let {
+                    it.width = MATCH_PARENT
+                    it.height = dpToPx(80)
+                    it.setMargins(0, 0, 0, 0)
+                }
+                headerLy.requestLayout()
+            }
+        })
+        animSet.start()
         viewMode = ViewMode.OPENED
     }
 
     fun hide() {
         clear()
-        visibility = View.GONE
+        val transitionSet = TransitionSet()
+        val t1 = makeChangeBounceTransition()
+        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
+        t1.setPathMotion(ArcMotion())
+        t1.addTarget(headerLy)
+        t2.addTarget(backgroundLy)
+        transitionSet.addTransition(t1)
+        transitionSet.addTransition(t2)
+        transitionSet.addListener(object : TransitionListenerAdapter(){
+            override fun onTransitionEnd(transition: Transition) {
+                val animSet = AnimatorSet()
+                animSet.playTogether(
+                        ObjectAnimator.ofFloat(headerLy, "elevation", 10f, dpToPx(0f)))
+                animSet.duration = 150
+                animSet.interpolator = FastOutSlowInInterpolator()
+                animSet.addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(p0: Animator?) {
+                        visibility = View.GONE
+                    }
+                })
+                animSet.start()
+            }
+        })
+        TransitionManager.beginDelayedTransition(this@SearchView, transitionSet)
+        backgroundLy.visibility = View.GONE
+        (headerLy.layoutParams as FrameLayout.LayoutParams).let {
+            it.width = dpToPx(50)
+            it.height = dpToPx(50)
+            it.setMargins(0, dpToPx(15), dpToPx(10), 0)
+        }
+        headerLy.requestLayout()
         viewMode = ViewMode.CLOSED
     }
 

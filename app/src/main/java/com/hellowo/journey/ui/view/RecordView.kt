@@ -30,11 +30,10 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
         val sidePadding = dpToPx(3.0f).toInt()
         val topPadding = dpToPx(1.8f)
         val bottomPadding = dpToPx(3.5f)
-        val leftPadding = dpToPx(9)
         val rectRadius = dpToPx(1f)
         val stampSize = dpToPx(16)
         val blockTypeSize = dpToPx(16.5f).toInt()
-        val dotSize = dpToPx(4)
+        val checkboxSize = dpToPx(10)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         val defaultTextColor = Color.parseColor("#90000000")
     }
@@ -65,15 +64,19 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
             //isHorizontalFadingEdgeEnabled = true /*성능이슈*/
             typeface = AppTheme.thinFont
             setTextColor(AppTheme.primaryText)
-            setPadding((leftPadding + defaulMargin).toInt(), 0, sidePadding, 0)
+            setPadding((defaulMargin).toInt(), 0, sidePadding, 0)
             return
         }
 
         typeface = AppTheme.thinFont
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
-        setPadding(sidePadding,
-                (topPadding + (AppStatus.calTextSize * -1.7f)).toInt() /*글씨 크기에 따른 탑 패딩 조정*/,
-                sidePadding, 0)
+        val leftPadding = if(record.isSetCheckBox()) {
+            (sidePadding + checkboxSize + defaulMargin).toInt()
+        }else {
+            sidePadding
+        }
+        val topPadding = (topPadding + (AppStatus.calTextSize * -1.7f)).toInt() /*글씨 크기에 따른 탑 패딩 조정*/
+        setPadding(leftPadding, topPadding, sidePadding, 0)
 
         when(record.getFormula()) {
             TOP_LINEAR, BOTTOM_LINEAR -> {

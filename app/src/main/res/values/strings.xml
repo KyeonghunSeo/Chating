@@ -22,7 +22,7 @@
     <string name="color">색상</string>
     <string name="visible">표시</string>
     <string name="unvisible">표시 안함</string>
-    <string name="delete">삭제하기</string>
+    <string name="delete">삭제</string>
     <string name="start">시작</string>
     <string name="end">종료</string>
     <string name="weekNum">%1$s주차</string>
