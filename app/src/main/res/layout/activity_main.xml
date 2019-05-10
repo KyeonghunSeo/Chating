@@ -11,14 +11,6 @@
         android:layout_height="match_parent">
     </com.hellowo.journey.ui.view.ProfileView>
 
-    <com.hellowo.journey.ui.view.InboxView
-        android:id="@+id/inboxView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="29dp">
-    </com.hellowo.journey.ui.view.InboxView>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/mainPanel"
         android:layout_width="match_parent"
@@ -27,7 +19,7 @@
         app:cardElevation="30dp">
 
         <FrameLayout
-            android:id="@+id/calendarLy"
+            android:id="@+id/contentLy"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -107,17 +99,18 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/todayBtn"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_margin="15dp"
-                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_height="26dp"
+                    android:layout_marginRight="80dp"
+                    android:layout_marginBottom="23dp"
+                    android:layout_gravity="right|bottom"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/white"
                     app:cardElevation="4dp"
-                    app:cardCornerRadius="15dp">
+                    app:cardCornerRadius="13dp">
 
                     <LinearLayout
                         android:layout_gravity="center"
                         android:orientation="horizontal"
-                        android:animateLayoutChanges="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="8dp"
@@ -125,8 +118,8 @@
 
                         <ImageView
                             android:id="@+id/todayLeftArrow"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
                             android:src="@drawable/arrow_left"
                             android:tint="@color/primaryText"
                             android:layout_gravity="center_vertical" />
@@ -135,7 +128,7 @@
                             android:id="@+id/todayText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12dp"
+                            android:textSize="11dp"
                             android:textColor="@color/primaryText"
                             android:layout_gravity="center_vertical"
                             android:fontFamily="@font/avenir_black"
@@ -143,8 +136,8 @@
 
                         <ImageView
                             android:id="@+id/todayRightArrow"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
                             android:src="@drawable/arrow_right"
                             android:tint="@color/primaryText"
                             android:layout_gravity="center_vertical|right" />
@@ -157,28 +150,45 @@
 
         </FrameLayout>
 
-        <androidx.cardview.widget.CardView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/folderListView"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_margin="-70dp"
+            android:paddingBottom="90dp"
+            android:clipToPadding="false"
+            android:background="@color/backgroundDark">
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <FrameLayout
             android:id="@+id/folderBtn"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_gravity="bottom"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="-35dp"
-            android:layout_marginBottom="15dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/black"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="4dp">
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="bottom">
 
-            <ImageView
-                android:id="@+id/templateIconImg"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/arrow_right"
-                android:tint="@color/white"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp">
 
-        </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:id="@+id/folderArrowImg"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/arrow_right"
+                    android:tint="@color/primaryText"/>
+
+            </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
 
         <com.hellowo.journey.ui.view.TemplateControlView
             android:id="@+id/templateControlView"
@@ -202,7 +212,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            app:cardElevation="10dp"
+            app:cardElevation="0dp"
             app:cardCornerRadius="15dp">
 
             <ImageView

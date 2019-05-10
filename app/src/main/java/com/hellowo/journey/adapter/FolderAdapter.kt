@@ -2,23 +2,29 @@ package com.hellowo.journey.adapter
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
+import com.hellowo.journey.adapter.util.FolderDiffCallback
 import com.hellowo.journey.dpToPx
 import com.hellowo.journey.model.Folder
 import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.Realm
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.list_item_folder.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
-                    private val adapterInterface: (action: Int, folder: Folder?) -> Unit)
+                    private val adapterInterface: (action: Int, folder: Folder) -> Unit)
     : RecyclerView.Adapter<FolderAdapter.ViewHolder>() {
 
     val itemHeight = dpToPx(50)
@@ -69,7 +75,7 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
             v.iconImg.setImageResource(R.drawable.sharp_add_black_48dp)
             v.iconImg.setColorFilter(AppTheme.disableText)
             v.rootLy.setBackgroundColor(Color.TRANSPARENT)
-            v.setOnClickListener { adapterInterface.invoke(1, null) }
+            v.setOnClickListener { adapterInterface.invoke(1, Folder()) }
         }
     }
 
@@ -80,6 +86,21 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
             return true
         }
         return false
+    }
+
+    fun refresh(list: RealmResults<Folder>) {
+        val newItems = ArrayList<Folder>()
+        Realm.getDefaultInstance().use { realm ->
+            list.forEach { newItems.add(realm.copyFromRealm(it)) }
+        }
+        Thread {
+            val diffResult = DiffUtil.calculateDiff(FolderDiffCallback(items, newItems))
+            items.clear()
+            items.addAll(newItems)
+            Handler(Looper.getMainLooper()).post{
+                diffResult.dispatchUpdatesTo(this)
+            }
+        }.start()
     }
 
     inner class SimpleItemTouchHelperCallback(private val mAdapter: FolderAdapter) : ItemTouchHelper.Callback() {

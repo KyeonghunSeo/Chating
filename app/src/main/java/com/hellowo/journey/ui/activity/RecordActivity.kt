@@ -19,6 +19,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.widget.NestedScrollView
@@ -521,30 +522,38 @@ class RecordActivity : BaseActivity() {
         record.copy(data)
     }
 
-    override fun onBackPressed() {
-        confirm()
-    }
+    override fun onBackPressed() { confirm() }
 
-    fun confirm() {
+    private fun confirm() {
         if(originalData != record) {
             if(originalData?.repeat.isNullOrEmpty()) {
                 RecordManager.save(record)
-                finish()
+                savedFinish()
             }else {
-                RepeatManager.save(this, record, Runnable { finish() })
+                RepeatManager.save(this, record, Runnable { savedFinish() })
             }
         }else {
             finish()
         }
     }
 
-    fun delete() {
+    private fun delete() {
         if(originalData?.repeat.isNullOrEmpty()) {
             RecordManager.delete(record)
-            finish()
+            deletedFinish()
         }else {
-            RepeatManager.delete(this, record, Runnable { finish() })
+            RepeatManager.delete(this, record, Runnable { deletedFinish() })
         }
+    }
+
+    private fun savedFinish() {
+        Toast.makeText(App.context, R.string.saved, Toast.LENGTH_SHORT).show()
+        finish()
+    }
+
+    private fun deletedFinish() {
+        Toast.makeText(App.context, R.string.saved, Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     fun showPlacePicker() {

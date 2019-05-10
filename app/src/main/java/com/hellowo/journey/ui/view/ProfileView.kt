@@ -54,13 +54,11 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         aboutUsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, AboutUsActivity::class.java)) } }
 
         calendarBtn.setOnClickListener {
-            MainActivity.getViewModel()?.clearTargetFolder()
             adjustViews()
             hide()
         }
 
         inboxBtn.setOnClickListener {
-            MainActivity.getViewModel()?.setTargetFolder()
             adjustViews()
             hide()
         }
@@ -81,13 +79,11 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             inboxText.setTextColor(AppTheme.disableText)
             inboxBar.visibility = View.GONE
             targetPanel = MainActivity.getMainPanel()
-            subPanel = MainActivity.getInboxView()
         }else {
             calendarText.setTextColor(AppTheme.disableText)
             calendarBar.visibility = View.GONE
             inboxText.setTextColor(AppTheme.primaryText)
             inboxBar.visibility = View.VISIBLE
-            targetPanel = MainActivity.getInboxView()
             subPanel = MainActivity.getMainPanel()
         }
     }

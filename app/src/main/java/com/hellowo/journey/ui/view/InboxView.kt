@@ -50,7 +50,7 @@ class InboxView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                         if(result) {
 
                         }else { // deleted
-                            MainActivity.instance?.viewModel?.setTargetFolder()
+
                         }
                         notifyDataChanged()
                     }

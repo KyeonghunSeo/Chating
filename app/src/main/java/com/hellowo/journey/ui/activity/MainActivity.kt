@@ -9,34 +9,36 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.DragEvent
-import android.view.GestureDetector
-import android.view.MotionEvent
 import android.view.View
+import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.hellowo.journey.*
+import com.hellowo.journey.adapter.FolderAdapter
 import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.manager.RecordManager
 import com.hellowo.journey.model.AppUser
 import com.hellowo.journey.ui.dialog.CalendarSettingsDialog
 import com.hellowo.journey.ui.dialog.DatePickerDialog
+import com.hellowo.journey.ui.dialog.EditFolderDialog
 import com.hellowo.journey.viewmodel.MainViewModel
 import com.theartofdev.edmodo.cropper.CropImage
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.ByteArrayOutputStream
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : BaseActivity() {
     companion object {
@@ -49,7 +51,6 @@ class MainActivity : BaseActivity() {
         fun getCalendarPagerView() = instance?.calendarPagerView
         fun getMainDateLy() = instance?.mainDateLy
         fun getProfileBtn() = instance?.profileBtn
-        fun getInboxView() = instance?.inboxView
         fun getTargetCalendarView() = instance?.viewModel?.targetCalendarView?.value
         fun getTargetTime() = instance?.viewModel?.targetTime?.value
         fun getTargetCal() = instance?.viewModel?.targetCalendarView?.value?.targetCal
@@ -83,6 +84,7 @@ class MainActivity : BaseActivity() {
     private fun initMain() {
         initLayout()
         initCalendarView()
+        initFolderView()
         initDayView()
         initBtns()
         initObserver()
@@ -120,14 +122,6 @@ class MainActivity : BaseActivity() {
         })
     }
 
-    fun selectDate(time: Long) {
-        calendarPagerView.selectDate(time)
-        if(dayPagerView.isOpened()){
-            dayPagerView.initTime(time)
-            dayPagerView.notifyDateChanged()
-        }
-    }
-
     private fun initCalendarView() {
         calendarPagerView.onSelectedDate = { time, cellNum, isSameSeleted, calendarView ->
             viewModel.targetTime.value = time
@@ -142,6 +136,41 @@ class MainActivity : BaseActivity() {
             if(isTop) topShadow.visibility = View.GONE
             else topShadow.visibility = View.VISIBLE
         }
+    }
+
+    private val folderAdapter = FolderAdapter(this, ArrayList()) { action, folder ->
+        when(action) {
+            0 -> {
+                if(viewModel.targetFolder.value == folder) {
+                    val dialog = EditFolderDialog(this@MainActivity, folder) { result ->
+                        if(result) {
+
+                        }else { // deleted
+
+                        }
+                    }
+                    showDialog(dialog, true, true, true, false)
+                }else {
+                    viewModel.setTargetFolder(folder)
+                }
+            }
+            1 -> {
+                val dialog = EditFolderDialog(this@MainActivity, folder) { result ->
+                    if(result) {
+                        folderListView.post { folderListView.smoothScrollToPosition(
+                                viewModel.folderList.value?.size ?: 0) }
+                    }
+                }
+                showDialog(dialog, true, true, true, false)
+            }
+        }
+    }
+
+    private fun initFolderView() {
+        folderListView.layoutManager = LinearLayoutManager(this)
+        folderListView.adapter = folderAdapter
+        folderAdapter.itemTouchHelper?.attachToRecyclerView(folderListView)
+        folderBtn.setOnClickListener { viewModel.openFolder.value = viewModel.openFolder.value != true }
     }
 
     private fun initDayView() {
@@ -216,33 +245,60 @@ class MainActivity : BaseActivity() {
                 reservedIntentAction = null
             }
         })
-
         viewModel.loading.observe(this, Observer {
             if(it as Boolean) {}
         })
-
         viewModel.targetTimeObject.observe(this, Observer { timeObject ->
             if(timeObject != null) {
                 startActivity(Intent(this@MainActivity, RecordActivity::class.java))
             }
         })
-
         viewModel.appUser.observe(this, Observer { appUser -> appUser?.let { updateUserUI(it) } })
-
         viewModel.templateList.observe(this, Observer { list ->
             list?.let { templateControlView.notify(it) }
         })
+        viewModel.folderList.observe(this, Observer { list -> folderAdapter.refresh(list) })
+        viewModel.targetFolder.observe(this, Observer { folder ->
 
-        viewModel.folderList.observe(this, Observer { list ->
-            inboxView.notifyFolderDataChanged()
         })
-
-        viewModel.targetFolder.observe(this, Observer { folder -> inboxView.notifyDataChanged() })
-
+        viewModel.openFolder.observe(this, Observer { updateFolderUI(it) })
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
     }
 
-    fun showSearchView() { searchView.show() }
+    private fun updateFolderUI(isOpen: Boolean) {
+        vibrate(this)
+        TransitionManager.beginDelayedTransition(mainPanel, makeChangeBounceTransition())
+        val animSet = AnimatorSet()
+        animSet.duration = ANIM_DUR
+        animSet.interpolator = FastOutSlowInInterpolator()
+        if(isOpen) {
+            (folderListView.layoutParams as FrameLayout.LayoutParams).leftMargin = 0
+            (contentLy.layoutParams as FrameLayout.LayoutParams).let {
+                it.rightMargin = -dpToPx(70)
+                it.leftMargin = dpToPx(70)
+            }
+            (folderBtn.layoutParams as FrameLayout.LayoutParams).let {
+                it.width = dpToPx(60)
+                it.leftMargin = dpToPx(5)
+            }
+            animSet.playTogether(ObjectAnimator.ofFloat(folderArrowImg, "rotation", 0f, 180f),
+                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", 0f, -dpToPx(15f)))
+        }else {
+            (folderListView.layoutParams as FrameLayout.LayoutParams).leftMargin = -dpToPx(70)
+            (contentLy.layoutParams as FrameLayout.LayoutParams).let {
+                it.rightMargin = 0
+                it.leftMargin = 0
+            }
+            (folderBtn.layoutParams as FrameLayout.LayoutParams).let {
+                it.width = dpToPx(80)
+                it.leftMargin = -dpToPx(35)
+            }
+            animSet.playTogether(ObjectAnimator.ofFloat(folderArrowImg, "rotation", 180f, 0f),
+                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", -dpToPx(15f), 0f))
+        }
+        animSet.start()
+        mainPanel.requestLayout()
+    }
 
     private fun updateUserUI(appUser: AppUser) {
         when {
@@ -265,6 +321,16 @@ class MainActivity : BaseActivity() {
             // + " " + String.format(getString(R.string.weekNum), it.get(Calendar.WEEK_OF_YEAR))
         }
     }
+
+    fun selectDate(time: Long) {
+        calendarPagerView.selectDate(time)
+        if(dayPagerView.isOpened()){
+            dayPagerView.initTime(time)
+            dayPagerView.notifyDateChanged()
+        }
+    }
+
+    fun showSearchView() { searchView.show() }
 
     private fun refreshTodayView(todayOffset: Int) {
         when {

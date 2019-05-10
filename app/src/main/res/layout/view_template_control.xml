@@ -117,14 +117,14 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/addBtn"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="bottom|right"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="23dp"
+        app:cardCornerRadius="24dp"
         app:cardElevation="4dp">
 
         <ImageView

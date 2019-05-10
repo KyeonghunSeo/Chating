@@ -99,7 +99,7 @@ object RecordManager {
 
     fun save(record: Record) {
         val realm = Realm.getDefaultInstance()
-        realm.executeTransaction{ _ ->
+        realm.executeTransaction{
             if(record.id.isNullOrEmpty()) {
                 record.id = UUID.randomUUID().toString()
                 record.dtCreated = System.currentTimeMillis()
@@ -135,7 +135,6 @@ object RecordManager {
             realm.insertOrUpdate(record)
         }
         realm.close()
-        Toast.makeText(App.context, R.string.saved, Toast.LENGTH_SHORT).show()
     }
 
     fun done(record: Record) {
@@ -187,7 +186,6 @@ object RecordManager {
             }
         }
         realm.close()
-        Toast.makeText(App.context, R.string.deleted, Toast.LENGTH_SHORT).show()
     }
 
     fun deleteAfter(record: Record) {
@@ -209,7 +207,6 @@ object RecordManager {
             }
         }
         realm.close()
-        Toast.makeText(App.context, R.string.deleted, Toast.LENGTH_SHORT).show()
     }
 
     fun delete(record: Record) {
@@ -222,7 +219,6 @@ object RecordManager {
             }
         }
         realm.close()
-        Toast.makeText(App.context, R.string.deleted, Toast.LENGTH_SHORT).show()
     }
 
     fun makeNewRecord(start: Long, end: Long): Record {

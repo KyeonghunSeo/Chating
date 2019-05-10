@@ -1,13 +1,9 @@
 package com.hellowo.journey.model
 
-import android.graphics.Color
-import com.hellowo.journey.AppDateFormat
-import com.hellowo.journey.AppTheme
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import org.json.JSONObject
-import java.lang.Exception
 
 open class Template(@PrimaryKey var id: Int = -1,
                     var title: String? = null,
