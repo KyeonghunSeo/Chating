@@ -29,7 +29,6 @@ import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
 import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
 import android.view.Gravity
 import android.widget.FrameLayout
-import androidx.transition.TransitionManager
 import com.hellowo.journey.adapter.RecordListAdapter
 import com.hellowo.journey.adapter.util.ListDiffCallback
 import com.hellowo.journey.manager.*
@@ -59,7 +58,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val currentList = ArrayList<Record>()
     private val newList = ArrayList<Record>()
 
-    private val eventAdapter = RecordListAdapter(context, currentList, targetCal) { view, timeObject, action ->
+    private val adapter = RecordListAdapter(context, currentList, targetCal) { view, timeObject, action ->
         when(action) {
             0 -> onItemClick(view, timeObject)
         }
@@ -95,29 +94,29 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun initRecyclerView() {
         timeObjectListView.layoutManager = LinearLayoutManager(context)
-        timeObjectListView.adapter = eventAdapter
+        timeObjectListView.adapter = adapter
         timeObjectListView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if(timeObjectListView.computeVerticalScrollOffset() > 0) topShadow.visibility = View.VISIBLE
                 else topShadow.visibility = View.GONE
             }
         })
-        eventAdapter.itemTouchHelper?.attachToRecyclerView(timeObjectListView)
+        adapter.itemTouchHelper?.attachToRecyclerView(timeObjectListView)
     }
 
     fun notifyDateChanged() {
         startTime = getCalendarTime0(targetCal)
         endTime = getCalendarTime23(targetCal)
         recordList?.removeAllChangeListeners()
-        recordList = RecordManager.getRecordList(startTime, endTime)
+        recordList = RecordManager.getRecordList(startTime, endTime, MainActivity.getTargetFolder())
         recordList?.addChangeListener { result, changeSet ->
             val t = System.currentTimeMillis()
             if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
                 updateData(result, currentList)
-                eventAdapter.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
             }else if(changeSet.state == OrderedCollectionChangeSet.State.UPDATE) {
                 updateData(result, newList)
-                updateChange(eventAdapter, currentList, newList)
+                updateChange(adapter, currentList, newList)
             }
 /*
                 val imageItem = result.firstOrNull { item -> item.links.any{ it.type == Link.Type.IMAGE.ordinal } }
@@ -197,7 +196,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     fun clear() {
         recordList?.removeAllChangeListeners()
         currentList.clear()
-        eventAdapter.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
         setDateClosedStyle()
     }
 

@@ -446,7 +446,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun setTimeObjectCalendarAdapter() {
         withAnim = false
         recordList?.removeAllChangeListeners()
-        recordList = RecordManager.getRecordList(calendarStartTime, calendarEndTime).apply {
+        recordList = RecordManager.getRecordList(calendarStartTime, calendarEndTime, MainActivity.getTargetFolder()).apply {
             try{
                 addChangeListener { result, changeSet ->
                     //l("result.isLoaded ${result.isLoaded}")

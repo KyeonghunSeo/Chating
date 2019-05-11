@@ -25,11 +25,13 @@ class MainViewModel : ViewModel() {
     val folderList = MutableLiveData<RealmResults<Folder>>()
     val targetTime = MutableLiveData<Long>()
     val targetCalendarView = MutableLiveData<CalendarView>()
+    val openFolder = MutableLiveData<Boolean>()
 
     private var realmAsyncTask: RealmAsyncTask? = null
 
     init {
         targetTime.value = System.currentTimeMillis()
+        openFolder.value = false
     }
 
     fun initRealm(syncUser: SyncUser?) {
@@ -77,7 +79,7 @@ class MainViewModel : ViewModel() {
 
     private fun loadTemplate() {
         realm.value?.let { realm ->
-            templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAll()
+            templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
             templateList.value?.addChangeListener { result, _ ->
                 templateList.value = result
             }
@@ -87,9 +89,14 @@ class MainViewModel : ViewModel() {
 
     private fun loadFolder() {
         realm.value?.let { realm ->
-            folderList.value = realm.where(Folder::class.java).sort("order", Sort.ASCENDING).findAll()
+            folderList.value = realm.where(Folder::class.java).sort("order", Sort.ASCENDING).findAllAsync()
             folderList.value?.addChangeListener { result, _ ->
                 folderList.value = result
+                if(result.size == 0) {
+                    makePrimaryFolder()
+                }else {
+                    if(targetFolder.value == null) targetFolder.value = result[0]
+                }
             }
         }
     }
@@ -119,21 +126,21 @@ class MainViewModel : ViewModel() {
     }
 
     fun setTargetFolder() {
-        var folder = folderList.value?.firstOrNull()
-        if(folder == null) {
-            l("[새 폴더 생성]")
-            realm.value?.executeTransaction { realm ->
-                folder = realm.createObject(Folder::class.java, UUID.randomUUID().toString()).apply {
-                    name = App.context.getString(R.string.keep)
-                    order = 0
-                }
-            }
-        }
+        folderList.value?.get(0)?.let { targetFolder.postValue(it) }
+    }
+
+    fun setTargetFolder(folder: Folder) {
         targetFolder.value = folder
     }
 
-    fun clearTargetFolder() {
-        targetFolder.value = null
+    private fun makePrimaryFolder() {
+        l("[PRIMARY 보관함 생성]")
+        realm.value?.executeTransaction { realm ->
+            realm.createObject(Folder::class.java, UUID.randomUUID().toString()).apply {
+                name = App.context.getString(R.string.keep)
+                order = 0
+            }
+        }
     }
 
     fun clearTargetTimeObject() {

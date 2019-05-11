@@ -122,7 +122,7 @@ open class Record(@PrimaryKey var id: String? = null,
         longitude = data.longitude
         inCalendar = data.inCalendar
         ordering = data.ordering
-        folder = data.folder
+        data.folder?.let {  folder = Folder(it) }
         repeatKey = data.repeatKey
     }
 
@@ -133,7 +133,7 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     override fun toString(): String {
-        return "Record(id=$id, type=$type, style=$style, title=$title, colorKey=$colorKey, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, latitude=$latitude, longitude=$longitude, inCalendar=$inCalendar)"
+        return "Record(id=$id, type=$type, style=$style, title=$title, colorKey=$colorKey, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, latitude=$latitude, longitude=$longitude, inCalendar=$inCalendar, folder=${folder.toString()})"
     }
 
     override fun equals(other: Any?): Boolean { // 리스트 업데이트 비교시 사용

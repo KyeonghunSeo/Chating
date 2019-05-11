@@ -1,35 +1,51 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp">
+    android:layout_width="70dp"
+    android:layout_height="150dp"
+    app:cardCornerRadius="0dp"
+    app:cardBackgroundColor="@color/black">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:rotation="90"
-        android:layout_gravity="center">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/contentLy"
+        android:orientation="horizontal"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="15dp"
+        android:layout_gravity="center"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:gravity="center"
+        android:rotation="-90"
+        app:cardCornerRadius="2dp"
+        app:cardBackgroundColor="@color/black">
 
         <ImageView
             android:id="@+id/iconImg"
-            android:layout_width="20dp"
-            android:layout_height="20dp"/>
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center"
+            android:src="@drawable/calendar"
+            android:tint="@color/white"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center"
             android:gravity="center_vertical"
             android:textSize="16dp"
-            android:lineSpacingExtra="0dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/white"
             android:fontFamily="@font/bold"
-            android:text="새 할일"/>
+            android:text="Masdas"/>
 
-    </FrameLayout>
+    </androidx.cardview.widget.CardView>
+
 
 </FrameLayout>

@@ -5,12 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/folderListView"
+    <FrameLayout
+        android:id="@+id/headerLy"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/backgroundDark">
+        android:layout_height="70dp"
+        android:elevation="20dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="?android:attr/selectableItemBackground"
+            android:animateLayoutChanges="true"
+            android:layout_marginLeft="20dp">
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/primaryText"
+                android:textSize="20dp"
+                android:fontFamily="@font/bold"
+                android:text="JUNE"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp">
     </androidx.recyclerview.widget.RecyclerView>
+
+    <View
+        android:id="@+id/topShadow"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/line_top_shadow"/>
 
     <LinearLayout
         android:id="@+id/emptyLy"
@@ -23,7 +58,7 @@
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/empty"
+            android:src="@drawable/inbox"
             android:tint="@color/backgroundDark"
             android:layout_gravity="center"/>
 
@@ -48,14 +83,6 @@
             android:text="@string/motto_sample"/>
 
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="40dp">
-    </androidx.recyclerview.widget.RecyclerView>
 
 
 </FrameLayout>

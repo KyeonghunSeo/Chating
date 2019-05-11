@@ -8,6 +8,7 @@ import com.hellowo.journey.alarm.RegistedAlarm
 import com.hellowo.journey.model.Record
 import com.hellowo.journey.model.Folder
 import com.hellowo.journey.model.Tag
+import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmResults
@@ -17,11 +18,11 @@ import java.util.*
 @SuppressLint("StaticFieldLeak")
 object RecordManager {
 
-    fun getRecordList(startTime: Long, endTime: Long) : RealmResults<Record> {
+    fun getRecordList(startTime: Long, endTime: Long, folder: Folder) : RealmResults<Record> {
         val realm = Realm.getDefaultInstance()
         val result = realm.where(Record::class.java)
                 .beginGroup()
-                .isNull("folder")
+                .equalTo("folder.id", folder.id)
                 .greaterThan("dtCreated", 0)
                 .endGroup()
                 .and()
@@ -99,7 +100,7 @@ object RecordManager {
 
     fun save(record: Record) {
         val realm = Realm.getDefaultInstance()
-        realm.executeTransaction{ _ ->
+        realm.executeTransaction{
             if(record.id.isNullOrEmpty()) {
                 record.id = UUID.randomUUID().toString()
                 record.dtCreated = System.currentTimeMillis()
@@ -135,7 +136,6 @@ object RecordManager {
             realm.insertOrUpdate(record)
         }
         realm.close()
-        Toast.makeText(App.context, R.string.saved, Toast.LENGTH_SHORT).show()
     }
 
     fun done(record: Record) {
@@ -187,7 +187,6 @@ object RecordManager {
             }
         }
         realm.close()
-        Toast.makeText(App.context, R.string.deleted, Toast.LENGTH_SHORT).show()
     }
 
     fun deleteAfter(record: Record) {
@@ -209,7 +208,6 @@ object RecordManager {
             }
         }
         realm.close()
-        Toast.makeText(App.context, R.string.deleted, Toast.LENGTH_SHORT).show()
     }
 
     fun delete(record: Record) {
@@ -222,7 +220,6 @@ object RecordManager {
             }
         }
         realm.close()
-        Toast.makeText(App.context, R.string.deleted, Toast.LENGTH_SHORT).show()
     }
 
     fun makeNewRecord(start: Long, end: Long): Record {
@@ -230,6 +227,7 @@ object RecordManager {
             dtStart = start
             dtEnd = end
             timeZone = TimeZone.getDefault().id
+            folder = MainActivity.getTargetFolder()
         }
     }
 

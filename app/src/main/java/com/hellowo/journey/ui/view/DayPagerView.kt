@@ -113,7 +113,9 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)
             layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
-                setMargins(location[0], location[1] - AppStatus.statusBarHeight, 0, 0)
+                val xPos = location[0] + if(MainActivity.getViewModel()?.openFolder?.value == true) -dpToPx(70) else 0
+                val yPos = location[1] - AppStatus.statusBarHeight
+                setMargins(xPos, yPos, 0, 0)
             }
 
             val animSet = AnimatorSet()
@@ -124,7 +126,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             animSet.addListener(object : AnimatorListenerAdapter(){
                 override fun onAnimationEnd(p0: Animator?) {
                     val transiion = makeChangeBounceTransition()
-                    transiion.setPathMotion(ArcMotion())
+                    //transiion.setPathMotion(ArcMotion())
                     transiion.addListener(object : TransitionListenerAdapter(){
                         override fun onTransitionEnd(transition: Transition) {
                             dayViews.forEach { it.setDateOpenedStyle() }
@@ -159,7 +161,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)
             val transiion = makeChangeBounceTransition()
-            transiion.setPathMotion(ArcMotion())
+            //transiion.setPathMotion(ArcMotion())
             transiion.addListener(object : TransitionListenerAdapter(){
                 override fun onTransitionEnd(transition: Transition) {
                     val animSet = AnimatorSet()
@@ -185,7 +187,9 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             (layoutParams as FrameLayout.LayoutParams).let {
                 it.width = dateCell.width
                 it.height = dateCell.height
-                it.setMargins(location[0], location[1] - AppStatus.statusBarHeight, 0, 0)
+                val xPos = location[0] + if(MainActivity.getViewModel()?.openFolder?.value == true) -dpToPx(70) else 0
+                val yPos = location[1] - AppStatus.statusBarHeight
+                it.setMargins(xPos, yPos, 0, 0)
             }
             requestLayout()
         }

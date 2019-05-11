@@ -111,7 +111,7 @@
     <string name="no_tag">태그없음</string>
     <string name="delete_tag">태그 삭제</string>
     <string name="delete_tag_sub">정말 이 태그를 삭제할까요?</string>
-    <string name="keep">서랍</string>
+    <string name="keep">보관함</string>
     <string name="attachment">첨부</string>
     <string name="edit_template">템플릿 편집</string>
     <string name="show_in_calendar">달력에 게시</string>
