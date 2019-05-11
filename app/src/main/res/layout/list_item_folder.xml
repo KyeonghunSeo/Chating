@@ -2,24 +2,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="70dp"
-    android:layout_height="150dp"
-    app:cardCornerRadius="0dp"
-    app:cardBackgroundColor="@color/black">
+    android:layout_height="140dp"
+    android:background="@color/disableText">
+
+    <ImageView
+        android:id="@+id/edgeTop"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:src="@drawable/tab_edge_top"
+        android:layout_gravity="right"
+        android:elevation="4dp"
+        android:tint="@color/white"/>
+
+    <ImageView
+        android:id="@+id/edgeBottom"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:src="@drawable/tab_edge_bottom"
+        android:layout_gravity="right|bottom"
+        android:elevation="4dp"
+        android:tint="@color/white"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/contentLy"
         android:orientation="horizontal"
-        android:layout_width="150dp"
+        android:layout_width="120dp"
         android:layout_height="70dp"
         android:layout_marginLeft="15dp"
         android:layout_gravity="center"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
         android:gravity="center"
         android:rotation="-90"
-        app:cardCornerRadius="2dp"
-        app:cardBackgroundColor="@color/black">
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/white">
 
         <ImageView
             android:id="@+id/iconImg"
@@ -35,17 +49,27 @@
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="8dp"
             android:layout_gravity="center"
-            android:gravity="center_vertical"
-            android:textSize="16dp"
-            android:maxLines="1"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:gravity="center"
+            android:textSize="13dp"
+            android:maxLines="2"
             android:ellipsize="end"
             android:textColor="@color/white"
-            android:fontFamily="@font/bold"
             android:text="Masdas"/>
 
     </androidx.cardview.widget.CardView>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="20dp"
+        android:layout_height="2dp"
+        android:background="@color/primaryText"
+        android:alpha="0.1"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginLeft="10dp"/>
 
 
 </FrameLayout>

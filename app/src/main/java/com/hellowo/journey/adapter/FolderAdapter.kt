@@ -25,8 +25,8 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
     : RecyclerView.Adapter<FolderAdapter.ViewHolder>() {
 
     val itemWidth = dpToPx(70)
-    val maxTextWidth = dpToPx(150)
-    val itemSpace = dpToPx(50)
+    val maxTextWidth = dpToPx(170)
+    val itemSpace = dpToPx(20)
     var itemTouchHelper: ItemTouchHelper? = null
 
     init {
@@ -39,7 +39,8 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
             setGlobalTheme(container)
-            itemView.rootLy.layoutParams.width = itemWidth
+            itemView.layoutParams.width = itemWidth
+            itemView.setBackgroundColor(AppTheme.disableText)
         }
         fun onItemSelected() {}
         fun onItemClear() {}
@@ -60,40 +61,54 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
                 folder.name
             }
             v.titleText.text = title
-
-            val textWidth = Math.min(maxTextWidth, v.titleText.paint.measureText(title).toInt())
-            v.contentLy.layoutParams.width = textWidth + itemSpace
+            //val textWidth = Math.min(maxTextWidth, v.titleText.paint.measureText(title).toInt())
+            val textWidth = maxTextWidth
+            v.contentLy.layoutParams.width = textWidth
             v.rootLy.layoutParams.height = textWidth + itemSpace
-
-            if(folder.id == MainActivity.getTargetFolder().id) {
-                v.contentLy.setCardBackgroundColor(AppTheme.backgroundColor)
-                v.contentLy.cardElevation = dpToPx(10f)
-                v.iconImg.setColorFilter(AppTheme.primaryText)
-                v.titleText.setTextColor(AppTheme.primaryText)
-                v.titleText.alpha = 1f
-            }else {
-                v.contentLy.setCardBackgroundColor(AppTheme.secondaryText)
-                v.contentLy.cardElevation = dpToPx(0f)
-                v.iconImg.setColorFilter(AppTheme.backgroundColor)
-                v.titleText.setTextColor(AppTheme.backgroundColor)
-                v.titleText.alpha = 0.5f
-            }
             v.requestLayout()
+            setTabViews(v, folder.id == MainActivity.getTargetFolder().id)
             v.setOnClickListener {
                 vibrate(context)
+                setTabViews(v, true)
                 adapterInterface.invoke(0, folder)
             }
         }else {
             v.titleText.text = ""
+            v.edgeTop.visibility = View.GONE
+            v.edgeBottom.visibility = View.GONE
+            v.divider.visibility = View.GONE
             v.contentLy.layoutParams.width = itemWidth
             v.contentLy.cardElevation = dpToPx(0f)
             v.rootLy.layoutParams.height = itemWidth
             v.iconImg.visibility = View.VISIBLE
             v.iconImg.setImageResource(R.drawable.sharp_add_black_48dp)
-            v.iconImg.setColorFilter(AppTheme.backgroundColor)
+            v.iconImg.setColorFilter(AppTheme.primaryText)
             v.iconImg.alpha = 0.5f
-            v.contentLy.setCardBackgroundColor(AppTheme.secondaryText)
+            v.contentLy.setCardBackgroundColor(AppTheme.disableText)
             v.setOnClickListener { adapterInterface.invoke(1, Folder()) }
+        }
+    }
+
+    private fun setTabViews(v: View, selected: Boolean) {
+        if(selected) {
+            v.edgeTop.visibility = View.VISIBLE
+            v.edgeBottom.visibility = View.VISIBLE
+            v.divider.visibility = View.GONE
+            v.contentLy.setCardBackgroundColor(AppTheme.backgroundColor)
+            v.contentLy.cardElevation = dpToPx(4f)
+            v.iconImg.setColorFilter(AppTheme.primaryText)
+            v.titleText.setTextColor(AppTheme.primaryText)
+            v.titleText.alpha = 1f
+            v.bringToFront()
+        }else {
+            v.edgeTop.visibility = View.GONE
+            v.edgeBottom.visibility = View.GONE
+            v.divider.visibility = View.VISIBLE
+            v.contentLy.setCardBackgroundColor(AppTheme.disableText)
+            v.contentLy.cardElevation = dpToPx(0f)
+            v.iconImg.setColorFilter(AppTheme.primaryText)
+            v.titleText.setTextColor(AppTheme.primaryText)
+            v.titleText.alpha = 0.5f
         }
     }
 
