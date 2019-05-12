@@ -87,7 +87,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var calendarStartTime = Long.MAX_VALUE
     var calendarEndTime = Long.MAX_VALUE
     var onDrawed: ((Calendar) -> Unit)? = null
-    var onSelectedDate: ((Long, Int, Boolean) -> Unit)? = null
+    var onSelectedDate: ((Long, Int, Int, Boolean) -> Unit)? = null
     var onTop: ((Boolean, Boolean) -> Unit)? = null
     var startCellNum = 0
     var endCellNum = 0
@@ -321,6 +321,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var selectedWeek = 0
     var selectedWeekIndex = -1
 
+    fun selectDate() {
+        selectDate(if(todayCellNum >= 0) todayCellNum else startCellNum)
+    }
+
     fun selectTime(time: Long) {
         selectToScrollFlag = true
         selectDate(((time - calendarStartTime) / DAY_MILL).toInt(), false)
@@ -383,7 +387,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             targetCellNum = cellNum
         }
         todayStatus = getDiffToday(targetCal)
-        onSelectedDate?.invoke(cellTimeMills[selectCellNum], selectCellNum, showDayView)
+        onSelectedDate?.invoke(cellTimeMills[selectCellNum], selectCellNum,
+                dateHeaders[cellNum].dateText.currentTextColor, showDayView)
     }
 
     private fun restoreDateHeader(holder: DateHeaderViewHolder) {

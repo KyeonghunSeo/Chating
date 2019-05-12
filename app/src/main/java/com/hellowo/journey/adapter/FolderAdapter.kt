@@ -1,14 +1,20 @@
 package com.hellowo.journey.adapter
 
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.FrameLayout
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.*
 import com.hellowo.journey.adapter.util.FolderDiffCallback
@@ -27,6 +33,7 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
     val itemWidth = dpToPx(70)
     val maxTextWidth = dpToPx(170)
     val itemSpace = dpToPx(20)
+    val edgeSize = dpToPx(10f)
     var itemTouchHelper: ItemTouchHelper? = null
 
     init {
@@ -40,7 +47,6 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
         init {
             setGlobalTheme(container)
             itemView.layoutParams.width = itemWidth
-            itemView.setBackgroundColor(AppTheme.disableText)
         }
         fun onItemSelected() {}
         fun onItemClear() {}
@@ -84,7 +90,8 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
             v.iconImg.setImageResource(R.drawable.sharp_add_black_48dp)
             v.iconImg.setColorFilter(AppTheme.primaryText)
             v.iconImg.alpha = 0.5f
-            v.contentLy.setCardBackgroundColor(AppTheme.disableText)
+            v.contentLy.setCardBackgroundColor(Color.TRANSPARENT)
+            v.contentLy.translationX = edgeSize
             v.setOnClickListener { adapterInterface.invoke(1, Folder()) }
         }
     }
@@ -106,6 +113,7 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
             v.divider.visibility = View.VISIBLE
             v.contentLy.setCardBackgroundColor(AppTheme.disableText)
             v.contentLy.cardElevation = dpToPx(0f)
+            v.contentLy.translationX = edgeSize
             v.iconImg.setColorFilter(AppTheme.primaryText)
             v.titleText.setTextColor(AppTheme.primaryText)
             v.titleText.alpha = 0.5f
@@ -138,22 +146,42 @@ class FolderAdapter(val context: Context, private val items: ArrayList<Folder>,
 
     private var selectedFolder: Folder? = null
 
-    fun setTargetFolder(newSelectedFolder: Folder?) {
+    fun setTargetFolder(newSelectedFolder: Folder?, layoutManager: LinearLayoutManager, panel: FrameLayout) {
+        val animSet = AnimatorSet()
+        animSet.duration = ANIM_DUR
+        animSet.interpolator = FastOutSlowInInterpolator()
+        val animList = ArrayList<Animator>()
         selectedFolder?.let { selectedFolder->
             items.firstOrNull { it.id == selectedFolder.id }?.let {
-                //notifyItemChanged(items.indexOf(it))
+                val pos = items.indexOf(it)
+                layoutManager.findViewByPosition(pos)?.let {
+                    setTabViews(it, false)
+                    animList.add(ObjectAnimator.ofFloat(it.contentLy, "translationX", 0f, edgeSize))
+                    animList.add(ObjectAnimator.ofFloat(it.contentLy, "elevation", dpToPx(4f), dpToPx(0f)))
+                }
             }
         }
 
         newSelectedFolder?.let { newSelectedFolder ->
             l("폴더 선택 : $newSelectedFolder")
             items.firstOrNull { it.id == newSelectedFolder.id }?.let {
-                //notifyItemChanged(items.indexOf(it))
+                val pos = items.indexOf(it)
+                layoutManager.findViewByPosition(pos)?.let {
+                    setTabViews(it, true)
+                    animList.add(ObjectAnimator.ofFloat(it.contentLy, "translationX", edgeSize, 0f))
+                    animList.add(ObjectAnimator.ofFloat(it.contentLy, "elevation", dpToPx(0f), dpToPx(4f)))
+                    animList.add(ObjectAnimator.ofFloat(it.edgeBottom, "translationX", edgeSize, 0f))
+                    animList.add(ObjectAnimator.ofFloat(it.edgeTop, "translationX", edgeSize, 0f))
+                }
             }
         }
+        animList.add(ObjectAnimator.ofFloat(panel, "translationX", edgeSize, 0f))
+        animList.add(ObjectAnimator.ofFloat(panel, "alpha", 0f, 1f))
 
         selectedFolder = newSelectedFolder
-        notifyDataSetChanged()
+        animSet.playTogether(animList)
+        animSet.start()
+        //notifyDataSetChanged()
     }
 
     inner class SimpleItemTouchHelperCallback(private val mAdapter: FolderAdapter) : ItemTouchHelper.Callback() {

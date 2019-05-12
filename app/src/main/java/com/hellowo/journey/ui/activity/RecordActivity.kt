@@ -552,7 +552,7 @@ class RecordActivity : BaseActivity() {
     }
 
     private fun deletedFinish() {
-        Toast.makeText(App.context, R.string.saved, Toast.LENGTH_SHORT).show()
+        Toast.makeText(App.context, R.string.deleted, Toast.LENGTH_SHORT).show()
         finish()
     }
 

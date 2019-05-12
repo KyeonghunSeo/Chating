@@ -47,7 +47,6 @@ class MainActivity : BaseActivity() {
         var isShowing = false
         fun getViewModel() = instance?.viewModel
         fun getDayPagerView() = instance?.dayPagerView
-        fun getMainAddBtn() = instance?.templateControlView?.getAddBtn()
         fun getMainPanel() = instance?.mainPanel
         fun getCalendarPagerView() = instance?.calendarPagerView
         fun getMainDateLy() = instance?.mainDateLy
@@ -112,8 +111,10 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initLayout() {
-        mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         rootLy.setOnDragListener(MainDragAndDropListener)
+        mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        mainDateLy.pivotX = 0f
+        mainDateLy.pivotY = dpToPx(34f)
         mainPanel.setOnClickListener {}
 
         profileView.initViews()
@@ -125,9 +126,12 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initCalendarView() {
-        calendarPagerView.onSelectedDate = { time, cellNum, isSameSeleted, calendarView ->
+        calendarPagerView.onSelectedDate = { time, cellNum, dateColor, isSameSeleted, calendarView ->
             viewModel.targetTime.value = time
             viewModel.targetCalendarView.value = calendarView
+            monthText.setTextColor(dateColor)
+            yearText.setTextColor(dateColor)
+            todayFlag.setColorFilter(dateColor)
             if(cellNum >= 0) {
                 if(isSameSeleted && dayPagerView.viewMode == ViewMode.CLOSED) dayPagerView.show()
                 refreshTodayView(calendarView.todayStatus)
@@ -264,8 +268,9 @@ class MainActivity : BaseActivity() {
         })
         viewModel.folderList.observe(this, Observer { list -> folderAdapter.refresh(list) })
         viewModel.targetFolder.observe(this, Observer { folder ->
-            folderAdapter.setTargetFolder(folder)
             refreshAll()
+            folderAdapter.setTargetFolder(folder, folderListView.layoutManager as LinearLayoutManager,
+                    if(folder.type == 0) calendarLy else noteView)
         })
         viewModel.openFolder.observe(this, Observer { updateFolderUI(it) })
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
@@ -357,6 +362,7 @@ class MainActivity : BaseActivity() {
         when {
             todayOffset != 0 -> {
                 todayBtn.visibility = View.VISIBLE
+                todayFlag.visibility = View.GONE
                 if(todayOffset < 0) {
                     todayText.setPadding(dpToPx(8), 0, 0, 0)
                     todayRightArrow.visibility = View.VISIBLE
@@ -367,8 +373,7 @@ class MainActivity : BaseActivity() {
                     todayLeftArrow.visibility = View.VISIBLE
                 }
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY",  todayBtn.translationY, 0f),
-                        ObjectAnimator.ofFloat(todayFlag, "translationY",  todayFlag.translationY, -dpToPx(100f)))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY",  todayBtn.translationY, 0f))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener {
@@ -376,9 +381,9 @@ class MainActivity : BaseActivity() {
                 }
             }
             else -> {
+                todayFlag.visibility = View.VISIBLE
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, dpToPx(60f)),
-                        ObjectAnimator.ofFloat(todayFlag, "translationY",  todayFlag.translationY, 0f))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, dpToPx(60f)))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener(null)

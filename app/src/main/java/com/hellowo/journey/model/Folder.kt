@@ -42,4 +42,7 @@ open class Folder(@PrimaryKey var id: String? = null,
         return "Folder(id=$id, name=$name, color=$color, type=$type, properties=$properties, order=$order)"
     }
 
+    fun isCalendar() = type == 0
+    fun isNote() = type == 1
+
 }
