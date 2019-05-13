@@ -102,7 +102,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         MainActivity.instance?.let {
             val profileBtn = MainActivity.getProfileBtn()
             val profileCard = profileBtn?.findViewById<CardView>(R.id.profileCard)
-            val addBtn = MainActivity.getMainAddBtn()
             profileBtn?.pivotX = (profileBtn?.width?.toFloat() ?: 0f) * 0.8f
             profileBtn?.pivotY = 0f
             profileBtn?.setOnClickListener {
@@ -115,7 +114,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY", 1f, 3f))
             animList.add(ObjectAnimator.ofFloat(profileBtn, "translationY", 0f, headerHeight))
             animList.add(ObjectAnimator.ofFloat(profileCard, "radius", dpToPx(15f), 0f))
-            animList.add(ObjectAnimator.ofFloat(addBtn, "translationY", 0f, headerHeight))
 
             targetPanel?.let {
                 animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, 0.7f))
@@ -141,7 +139,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         MainActivity.instance?.let {
             val profileBtn = MainActivity.getProfileBtn()
             val profileCard = profileBtn?.findViewById<CardView>(R.id.profileCard)
-            val addBtn = MainActivity.getMainAddBtn()
             profileBtn?.setOnClickListener { show() }
 
             val animSet = AnimatorSet()
@@ -150,7 +147,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY", 3f, 1f))
             animList.add(ObjectAnimator.ofFloat(profileBtn, "translationY", headerHeight, 0f))
             animList.add(ObjectAnimator.ofFloat(profileCard, "radius", 0f, dpToPx(15f)))
-            animList.add(ObjectAnimator.ofFloat(addBtn, "translationY", headerHeight, 0f))
 
             targetPanel?.let {
                 animList.add(ObjectAnimator.ofFloat(it, "scaleX", it.scaleX, 1f))

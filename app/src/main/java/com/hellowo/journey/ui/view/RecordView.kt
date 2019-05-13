@@ -55,7 +55,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
     }
 
     fun setLookByType() {
-        if(!record.inCalendar) {
+        if(!record.isInCalendar()) {
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
             gravity = Gravity.CENTER_VERTICAL
             maxLines = 1
@@ -152,7 +152,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
     }
 
     override fun onDraw(canvas: Canvas?) {
-        if(record.inCalendar) {
+        if(record.isInCalendar()) {
             canvas?.let {
                 paint.isAntiAlias = true
                 CalendarManager.drawBasicShape(canvas, this)
@@ -167,7 +167,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
     }
 
     fun getViewHeight(): Int {
-        if(record.inCalendar) {
+        if(record.isInCalendar()) {
             return when(record.getFormula()) {
                 TOP_FLOW -> {
                     val width =  mRight - mLeft - defaulMargin

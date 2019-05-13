@@ -42,7 +42,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             collapseNoAnim()
         }
 
-        addBtn.setOnClickListener { _ ->
+        addBtn.setOnClickListener {
             if(isExpanded) {
                 collapse()
             }else {
@@ -50,35 +50,40 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             }
         }
 
-        addBtn.setOnLongClickListener { _ ->
+        addBtn.setOnLongClickListener {
             MainActivity.getViewModel()?.let { it.makeNewTimeObject(0) }
             return@setOnLongClickListener false
         }
 
-        editTemplateBtn.setOnClickListener { _ ->
+        editTemplateBtn.setOnClickListener {
             MainActivity.instance?.let {
-            it.startActivity(Intent(it, TemplateEditActivity::class.java)) }}
+            it.startActivity(Intent(it, TemplateEditActivity::class.java)) }
+        }
 
-        addNewBtn.setOnClickListener { addNew() }
+        addNewBtn.setOnClickListener {
+            MainActivity.instance?.let {
+                it.startActivity(Intent(it, TemplateEditActivity::class.java))
+            }
+        }
 
         callAfterViewDrawed(this, Runnable{ restoreViews() })
     }
 
     @SuppressLint("SetTextI18n")
     private fun setDate(dtStart: Long, dtEnd: Long) {
-        val folder = MainActivity.instance?.viewModel?.targetFolder?.value
-        if(folder != null) {
+        val folder = MainActivity.getTargetFolder()
+        if(folder.isCalendar()) {
             startDateText.text = folder.name
-            endDateText.text = ""
-        }else {
             startCal.timeInMillis = dtStart
             endCal.timeInMillis = dtEnd
-            startDateText.text = AppDateFormat.mdeDate.format(startCal.time)
             if(isSameDay(startCal, endCal)) {
-                endDateText.text = ""
+                endDateText.text = AppDateFormat.mdeDate.format(startCal.time)
             }else {
-                endDateText.text = "  ~ ${AppDateFormat.mdeDate.format(endCal.time)}"
+                endDateText.text = "${AppDateFormat.mdeDate.format(startCal.time)}\n~ ${AppDateFormat.mdeDate.format(endCal.time)}"
             }
+        }else {
+            startDateText.text = folder.name
+            endDateText.text = ""
         }
         recyclerView.adapter?.notifyDataSetChanged()
     }
@@ -160,10 +165,8 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     private fun selectItem(template: Template) {
         Prefs.putInt("last_template_id", template.id)
         selectedPosition = items.indexOf(template)
-        MainActivity.instance?.viewModel?.targetTemplate?.value = template
+        MainActivity.getViewModel()?.targetTemplate?.value = template
     }
 
     private fun restoreViews() {}
-
-    fun getAddBtn() = addBtn
 }

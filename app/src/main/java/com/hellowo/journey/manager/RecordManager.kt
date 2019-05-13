@@ -8,6 +8,7 @@ import com.hellowo.journey.alarm.RegistedAlarm
 import com.hellowo.journey.model.Record
 import com.hellowo.journey.model.Folder
 import com.hellowo.journey.model.Tag
+import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmResults
@@ -17,11 +18,11 @@ import java.util.*
 @SuppressLint("StaticFieldLeak")
 object RecordManager {
 
-    fun getRecordList(startTime: Long, endTime: Long) : RealmResults<Record> {
+    fun getRecordList(startTime: Long, endTime: Long, folder: Folder) : RealmResults<Record> {
         val realm = Realm.getDefaultInstance()
         val result = realm.where(Record::class.java)
                 .beginGroup()
-                .isNull("folder")
+                .equalTo("folder.id", folder.id)
                 .greaterThan("dtCreated", 0)
                 .endGroup()
                 .and()
@@ -226,6 +227,7 @@ object RecordManager {
             dtStart = start
             dtEnd = end
             timeZone = TimeZone.getDefault().id
+            folder = MainActivity.getTargetFolder()
         }
     }
 

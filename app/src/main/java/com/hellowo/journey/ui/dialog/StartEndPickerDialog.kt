@@ -18,7 +18,7 @@ class StartEndPickerDialog(activity: Activity, private val record: Record,
     private val startCal = Calendar.getInstance()
     private val endCal = Calendar.getInstance()
     private var startEndMode = 0
-    private var timeMode = if(record.allday) 0 else 1
+    private var timeMode = if(record.isSetTime()) 0 else 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

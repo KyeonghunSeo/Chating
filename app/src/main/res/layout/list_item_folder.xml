@@ -1,35 +1,74 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp">
+    android:layout_width="70dp"
+    android:layout_height="140dp">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:rotation="90"
-        android:layout_gravity="center">
+    <ImageView
+        android:id="@+id/edgeTop"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:src="@drawable/tab_edge_top"
+        android:layout_gravity="right"
+        android:elevation="4dp"
+        android:tint="@color/white"/>
+
+    <ImageView
+        android:id="@+id/edgeBottom"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:src="@drawable/tab_edge_bottom"
+        android:layout_gravity="right|bottom"
+        android:elevation="4dp"
+        android:tint="@color/white"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/contentLy"
+        android:orientation="horizontal"
+        android:layout_width="120dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="15dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:rotation="-90"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/white">
 
         <ImageView
             android:id="@+id/iconImg"
-            android:layout_width="20dp"
-            android:layout_height="20dp"/>
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center"
+            android:src="@drawable/calendar"
+            android:tint="@color/white"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textSize="16dp"
-            android:lineSpacingExtra="0dp"
-            android:maxLines="1"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:gravity="center"
+            android:textSize="13dp"
+            android:maxLines="2"
             android:ellipsize="end"
-            android:textColor="@color/primaryText"
-            android:fontFamily="@font/bold"
-            android:text="새 할일"/>
+            android:textColor="@color/white"
+            android:text="Masdas"/>
 
-    </FrameLayout>
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="17dp"
+        android:layout_height="2dp"
+        android:background="@color/white"
+        android:alpha="0.3"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="17dp"/>
+
 
 </FrameLayout>

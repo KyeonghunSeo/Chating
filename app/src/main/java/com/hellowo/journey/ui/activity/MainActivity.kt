@@ -29,6 +29,7 @@ import com.hellowo.journey.adapter.FolderAdapter
 import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.manager.RecordManager
 import com.hellowo.journey.model.AppUser
+import com.hellowo.journey.model.Folder
 import com.hellowo.journey.ui.dialog.CalendarSettingsDialog
 import com.hellowo.journey.ui.dialog.DatePickerDialog
 import com.hellowo.journey.ui.dialog.EditFolderDialog
@@ -46,7 +47,6 @@ class MainActivity : BaseActivity() {
         var isShowing = false
         fun getViewModel() = instance?.viewModel
         fun getDayPagerView() = instance?.dayPagerView
-        fun getMainAddBtn() = instance?.templateControlView?.getAddBtn()
         fun getMainPanel() = instance?.mainPanel
         fun getCalendarPagerView() = instance?.calendarPagerView
         fun getMainDateLy() = instance?.mainDateLy
@@ -54,6 +54,7 @@ class MainActivity : BaseActivity() {
         fun getTargetCalendarView() = instance?.viewModel?.targetCalendarView?.value
         fun getTargetTime() = instance?.viewModel?.targetTime?.value
         fun getTargetCal() = instance?.viewModel?.targetCalendarView?.value?.targetCal
+        fun getTargetFolder() = instance?.viewModel?.targetFolder?.value ?: Folder()
     }
 
     lateinit var viewModel: MainViewModel
@@ -67,7 +68,6 @@ class MainActivity : BaseActivity() {
         initTheme(rootLy)
         initMain()
         viewModel.initRealm(SyncUser.current())
-
         if(FirebaseAuth.getInstance().currentUser == null) {
             startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
         }else {
@@ -110,10 +110,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initLayout() {
-        mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         rootLy.setOnDragListener(MainDragAndDropListener)
+        mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        mainDateLy.pivotX = 0f
+        mainDateLy.pivotY = dpToPx(34f)
         mainPanel.setOnClickListener {}
-
         profileView.initViews()
         callAfterViewDrawed(rootLy, Runnable{
             val location = IntArray(2)
@@ -123,9 +124,12 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initCalendarView() {
-        calendarPagerView.onSelectedDate = { time, cellNum, isSameSeleted, calendarView ->
+        calendarPagerView.onSelectedDate = { time, cellNum, dateColor, isSameSeleted, calendarView ->
             viewModel.targetTime.value = time
             viewModel.targetCalendarView.value = calendarView
+            monthText.setTextColor(dateColor)
+            yearText.setTextColor(dateColor)
+            todayFlag.setColorFilter(dateColor)
             if(cellNum >= 0) {
                 if(isSameSeleted && dayPagerView.viewMode == ViewMode.CLOSED) dayPagerView.show()
                 refreshTodayView(calendarView.todayStatus)
@@ -146,7 +150,7 @@ class MainActivity : BaseActivity() {
                         if(result) {
 
                         }else { // deleted
-
+                            viewModel.setTargetFolder()
                         }
                     }
                     showDialog(dialog, true, true, true, false)
@@ -170,7 +174,11 @@ class MainActivity : BaseActivity() {
         folderListView.layoutManager = LinearLayoutManager(this)
         folderListView.adapter = folderAdapter
         folderAdapter.itemTouchHelper?.attachToRecyclerView(folderListView)
-        folderBtn.setOnClickListener { viewModel.openFolder.value = viewModel.openFolder.value != true }
+        folderBtn.setOnClickListener {
+            vibrate(this)
+            //folderAdapter.notifyDataSetChanged()
+            viewModel.openFolder.value = viewModel.openFolder.value != true
+        }
     }
 
     private fun initDayView() {
@@ -259,14 +267,15 @@ class MainActivity : BaseActivity() {
         })
         viewModel.folderList.observe(this, Observer { list -> folderAdapter.refresh(list) })
         viewModel.targetFolder.observe(this, Observer { folder ->
-
+            refreshAll()
+            folderAdapter.setTargetFolder(folder, folderListView.layoutManager as LinearLayoutManager,
+                    if(folder.type == 0) calendarLy else noteView)
         })
         viewModel.openFolder.observe(this, Observer { updateFolderUI(it) })
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
     }
 
     private fun updateFolderUI(isOpen: Boolean) {
-        vibrate(this)
         TransitionManager.beginDelayedTransition(mainPanel, makeChangeBounceTransition())
         val animSet = AnimatorSet()
         animSet.duration = ANIM_DUR
@@ -282,7 +291,7 @@ class MainActivity : BaseActivity() {
                 it.leftMargin = dpToPx(5)
             }
             animSet.playTogether(ObjectAnimator.ofFloat(folderArrowImg, "rotation", 0f, 180f),
-                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", 0f, -dpToPx(15f)))
+                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", 0f, -dpToPx(13f)))
         }else {
             (folderListView.layoutParams as FrameLayout.LayoutParams).leftMargin = -dpToPx(70)
             (contentLy.layoutParams as FrameLayout.LayoutParams).let {
@@ -291,13 +300,30 @@ class MainActivity : BaseActivity() {
             }
             (folderBtn.layoutParams as FrameLayout.LayoutParams).let {
                 it.width = dpToPx(80)
-                it.leftMargin = -dpToPx(35)
+                it.leftMargin = -dpToPx(40)
             }
             animSet.playTogether(ObjectAnimator.ofFloat(folderArrowImg, "rotation", 180f, 0f),
-                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", -dpToPx(15f), 0f))
+                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", -dpToPx(13f), 0f))
         }
         animSet.start()
         mainPanel.requestLayout()
+    }
+
+    private fun refreshAll() {
+        l("refreshAll")
+        val folder = getTargetFolder()
+        if(folder.type == 0) {
+            calendarLy.visibility = View.VISIBLE
+            noteView.visibility = View.INVISIBLE
+        }else {
+            calendarLy.visibility = View.INVISIBLE
+            noteView.visibility = View.VISIBLE
+        }
+        calendarPagerView.redraw()
+        if(dayPagerView.isOpened()){
+            dayPagerView.notifyDateChanged()
+        }
+        noteView.notifyDataChanged()
     }
 
     private fun updateUserUI(appUser: AppUser) {
@@ -336,6 +362,7 @@ class MainActivity : BaseActivity() {
         when {
             todayOffset != 0 -> {
                 todayBtn.visibility = View.VISIBLE
+                todayFlag.visibility = View.GONE
                 if(todayOffset < 0) {
                     todayText.setPadding(dpToPx(8), 0, 0, 0)
                     todayRightArrow.visibility = View.VISIBLE
@@ -346,8 +373,7 @@ class MainActivity : BaseActivity() {
                     todayLeftArrow.visibility = View.VISIBLE
                 }
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY",  todayBtn.translationY, 0f),
-                        ObjectAnimator.ofFloat(todayFlag, "translationY",  todayFlag.translationY, -dpToPx(100f)))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY",  todayBtn.translationY, 0f))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener {
@@ -355,9 +381,9 @@ class MainActivity : BaseActivity() {
                 }
             }
             else -> {
+                todayFlag.visibility = View.VISIBLE
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, dpToPx(60f)),
-                        ObjectAnimator.ofFloat(todayFlag, "translationY",  todayFlag.translationY, 0f))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, dpToPx(60f)))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener(null)
@@ -439,6 +465,7 @@ class MainActivity : BaseActivity() {
             searchView.isOpened() -> searchView.hide()
             profileView.isOpened() -> profileView.hide()
             templateControlView.isExpanded -> templateControlView.collapse()
+            viewModel.openFolder.value == true -> viewModel.openFolder.value = false
             dayPagerView.isOpened() -> dayPagerView.hide()
             else -> super.onBackPressed()
         }
@@ -489,13 +516,6 @@ class MainActivity : BaseActivity() {
             profileView.hide()
             showDialog(CalendarSettingsDialog(this@MainActivity),
                     true, false, true, false)
-        }
-    }
-
-    private fun refreshAll() {
-        calendarPagerView.redraw()
-        if(dayPagerView.isOpened()){
-            dayPagerView.notifyDateChanged()
         }
     }
 

@@ -86,7 +86,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private fun makeTimeObjectView(record: Record) {
         var startCellNum = ((record.dtStart - calStartTime) / DAY_MILL).toInt()
         var endCellNum = ((record.dtEnd - calStartTime) / DAY_MILL).toInt()
-        if(record.inCalendar) {
+        if(record.isInCalendar()) {
             when(record.getFormula()){
                 TOP_FLOW -> {
                     val holder = viewHolderList
@@ -149,7 +149,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         }else {
             (startCellNum .. endCellNum).forEach { cellNum ->
                 val holder = viewHolderList
-                        .firstOrNull { !it.record.inCalendar && it.startCellNum == cellNum }
+                        .firstOrNull { !it.record.isInCalendar() && it.startCellNum == cellNum }
                         ?: TimeObjectViewHolder(record, cellNum, cellNum).apply { viewHolderList.add(this) }
                 val timeObjectView = holder.timeObjectViewList.firstOrNull() ?:
 

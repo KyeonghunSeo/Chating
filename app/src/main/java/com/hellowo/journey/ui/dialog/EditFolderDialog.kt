@@ -74,6 +74,7 @@ class EditFolderDialog(private val activity: Activity, private val folder: Folde
                     realm.createObject(Folder::class.java, UUID.randomUUID().toString()).apply {
                         name = input.text.toString()
                         order = realm.where(Folder::class.java).max("order")?.toInt()?.plus(1) ?: 0
+                        type = 1
                     }
                 }else {
                     realm.where(Folder::class.java).equalTo("id", folder.id).findFirst()?.let {

@@ -3,6 +3,7 @@ package com.hellowo.journey.adapter.util
 import androidx.recyclerview.widget.DiffUtil
 import com.hellowo.journey.model.Folder
 import com.hellowo.journey.model.Template
+import com.hellowo.journey.ui.activity.MainActivity
 
 class FolderDiffCallback(private val oldList: List<Folder>, private val newList: List<Folder>) : DiffUtil.Callback() {
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean

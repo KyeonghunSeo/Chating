@@ -18,9 +18,7 @@ open class Record(@PrimaryKey var id: String? = null,
                   var location: String? = null,
                   var description: String? = null,
                   var repeat: String? = null,
-                  var count: Int = 0,
                   var dtUntil: Long = Long.MIN_VALUE,
-                  var allday: Boolean = true,
                   var dtStart: Long = Long.MIN_VALUE,
                   var dtEnd: Long = Long.MIN_VALUE,
                   var dtDone: Long = Long.MIN_VALUE,
@@ -33,9 +31,15 @@ open class Record(@PrimaryKey var id: String? = null,
                   var links: RealmList<Link> = RealmList(),
                   var latitude: Double = Double.MIN_VALUE,
                   var longitude: Double = Double.MIN_VALUE,
-                  var inCalendar: Boolean = true,
                   var ordering: Int = Int.MIN_VALUE,
                   var folder: Folder? = null): RealmObject() {
+
+    companion object {
+        const val inCalendarFlag = 0b1
+        const val scheduleFlag = 0b10
+        const val timeFlag = 0b100
+        const val checkBoxFlag = 0b1000
+    }
 
     @Ignore var repeatKey: String? = null
 
@@ -48,7 +52,7 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     fun getFormula(): Formula {
-        return if(inCalendar) {
+        return if(isInCalendar()) {
             if(isScheduled()) Formula.TOP_STACK else Formula.TOP_STACK
         }else {
             Formula.TOP_LINEAR
@@ -58,19 +62,23 @@ open class Record(@PrimaryKey var id: String? = null,
     fun getDuration() = dtEnd - dtStart
 
     fun setDate(time: Long) {
-        setDateTime(allday, time, time + getDuration())
+        setDateTime(isSetTime(), time, time + getDuration())
     }
 
-    fun setDateTime(a: Boolean, s: Calendar, e: Calendar) {
-        if(a) {
-            setDateTime(a, getCalendarTime0(s), getCalendarTime0(e))
+    fun setDateTime(isSetTime: Boolean, s: Calendar, e: Calendar) {
+        if(isSetTime) {
+            setDateTime(isSetTime, s.timeInMillis, e.timeInMillis)
         }else {
-            setDateTime(a, s.timeInMillis, e.timeInMillis)
+            setDateTime(isSetTime, getCalendarTime0(s), getCalendarTime0(e))
         }
     }
 
-    fun setDateTime(a: Boolean, s: Long, e: Long) {
-        allday = a
+    fun setDateTime(isSetTime: Boolean, s: Long, e: Long) {
+        if(isSetTime) {
+            setTime()
+        }else {
+            clearTime()
+        }
         dtStart = s
         dtEnd = e
         alarms.forEach {
@@ -95,9 +103,7 @@ open class Record(@PrimaryKey var id: String? = null,
         location = data.location
         description = data.description
         repeat = data.repeat
-        count = data.count
         dtUntil = data.dtUntil
-        allday = data.allday
         dtStart = data.dtStart
         dtEnd = data.dtEnd
         dtDone = data.dtDone
@@ -120,9 +126,8 @@ open class Record(@PrimaryKey var id: String? = null,
         }
         latitude = data.latitude
         longitude = data.longitude
-        inCalendar = data.inCalendar
         ordering = data.ordering
-        folder = data.folder
+        data.folder?.let { folder = Folder(it) }
         repeatKey = data.repeatKey
     }
 
@@ -133,7 +138,7 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     override fun toString(): String {
-        return "Record(id=$id, type=$type, style=$style, title=$title, colorKey=$colorKey, location=$location, description=$description, repeat=$repeat, count=$count, dtUntil=$dtUntil, allday=$allday, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, latitude=$latitude, longitude=$longitude, inCalendar=$inCalendar)"
+        return "Record(id=$id, type=$type, style=$style, title=$title, colorKey=$colorKey, location=$location, description=$description, repeat=$repeat, dtUntil=$dtUntil, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, latitude=$latitude, longitude=$longitude, folder=${folder.toString()})"
     }
 
     override fun equals(other: Any?): Boolean { // 리스트 업데이트 비교시 사용
@@ -146,9 +151,7 @@ open class Record(@PrimaryKey var id: String? = null,
                     && location == other.location
                     && description == other.description
                     && repeat == other.repeat
-                    && count == other.count
                     && dtUntil == other.dtUntil
-                    && allday == other.allday
                     && dtStart == other.dtStart
                     && dtEnd == other.dtEnd
                     && dtDone == other.dtDone
@@ -159,7 +162,6 @@ open class Record(@PrimaryKey var id: String? = null,
                     && links.joinToString(",") == other.links.joinToString(",")
                     && latitude == other.latitude
                     && longitude == other.longitude
-                    && inCalendar == other.inCalendar
                     && folder == other.folder
         }
         return false
@@ -198,25 +200,25 @@ open class Record(@PrimaryKey var id: String? = null,
         return str.toString()
     }
 
-    fun isScheduled() = type and 0b1 == 0b1
+    fun isInCalendar() = type and inCalendarFlag == inCalendarFlag
+    fun setInCalendar() { type = type or inCalendarFlag }
+    fun clearInCalendar() { type = type and inCalendarFlag.inv() }
 
-    fun setSchedule() {
-        type = type or 0b1
-    }
-
+    fun isScheduled() = type and scheduleFlag == scheduleFlag
+    fun setSchedule() { type = type or scheduleFlag }
     fun clearSchdule() {
-        type = type and 0b1.inv()
-        setDateTime(allday, dtStart, dtStart)
+        type = type and scheduleFlag.inv()
+        setDateTime(isSetTime(), dtStart, dtStart)
     }
 
-    fun isSetCheckBox() = type and 0b10 == 0b10
+    fun isSetTime() = type and timeFlag == timeFlag
+    fun setTime() { type = type or timeFlag }
+    fun clearTime() { type = type and timeFlag.inv() }
 
-    fun setCheckBox() {
-        type = type or 0b10
-    }
-
+    fun isSetCheckBox() = type and checkBoxFlag == checkBoxFlag
+    fun setCheckBox() { type = type or checkBoxFlag }
     fun clearCheckBox() {
-        type = type and 0b10.inv()
+        type = type and checkBoxFlag.inv()
         undone()
     }
 

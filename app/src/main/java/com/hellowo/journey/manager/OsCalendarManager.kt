@@ -206,10 +206,9 @@ object OsCalendarManager {
                 else cur.getInt(INDEX_CAL_COLOR)),
                 location = cur.getString(INDEX_LOCATION),
                 description = cur.getString(INDEX_DESCRIPTION),
-                allday = cur.getInt(INDEX_ALLDAY) == 1,
                 dtStart = cur.getLong(INDEX_DTSTART),
                 dtEnd = cur.getLong(INDEX_DTEND))
-        if(block.allday) {
+        if(block.isSetTime()) {
             block.dtUpdated = block.dtStart
             block.dtCreated = block.dtEnd
             block.dtStart -= timeZone

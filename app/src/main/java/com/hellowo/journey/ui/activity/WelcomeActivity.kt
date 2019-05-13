@@ -169,6 +169,7 @@ class WelcomeActivity : BaseActivity() {
                     scriptNum++
                     setScript()
                     showScript()
+                    startMainActivity()
                 }, 1000)
             }
         }

@@ -95,7 +95,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.timeLy.visibility = View.VISIBLE
             val totalDate = getDiffDate(timeObject.dtStart, timeObject.dtEnd) + 1
             if(totalDate == 1) {
-                if(timeObject.allday) {
+                if(timeObject.isSetTime()) {
                     v.timeLy.visibility = View.GONE
                 }else {
                     if(timeObject.dtStart == timeObject.dtEnd) {
@@ -108,7 +108,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             }else {
                 tempCal.timeInMillis = timeObject.dtStart
                 val toDateNum = getDiffDate(tempCal, currentCal)
-                if(timeObject.allday) {
+                if(timeObject.isSetTime()) {
                     v.timeText.text = "${AppDateFormat.mdDate.format(Date(timeObject.dtStart))} ~ " +
                             AppDateFormat.mdDate.format(Date(timeObject.dtEnd)) +
                             " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"

@@ -125,7 +125,6 @@ class RecordActivity : BaseActivity() {
         titleInput.isFocusableInTouchMode = true
 
         callAfterViewDrawed(titleInput, Runnable{
-            updateTitleUI()
             if(record.id.isNullOrEmpty()) {
                 showKeyPad(titleInput)
             }
@@ -155,6 +154,7 @@ class RecordActivity : BaseActivity() {
     private fun updateUI() {
         updateHeaderUI()
         updateFolderUI()
+        updateTitleUI()
         updateTagUI()
         updateCheckBoxUI()
         updateCheckListUI()
@@ -189,17 +189,11 @@ class RecordActivity : BaseActivity() {
     private fun updateFolderUI() {
         colorBtn.setColorFilter(record.getColor())
 
-        if(record.folder != null) {
-            folderText.text = record.folder?.name
-            folderText.setOnClickListener { showFolderPickerDialog() }
-        }else {
+        if(record.folder?.isCalendar() == true) {
             folderText.text = AppDateFormat.simpleYmdDate.format(Date(record.dtStart))
             folderText.setOnClickListener { showDatePickerDialog() }
-        }
-
-        if(record.folder == null) {
             pinBtn.visibility = View.VISIBLE
-            if(record.inCalendar) {
+            if(record.isInCalendar()) {
                 pinBtn.alpha = 1f
                 styleBtn.visibility = View.VISIBLE
             }else {
@@ -207,18 +201,14 @@ class RecordActivity : BaseActivity() {
                 styleBtn.visibility = View.GONE
             }
         }else {
+            folderText.text = record.folder?.name
+            folderText.setOnClickListener { showFolderPickerDialog() }
             pinBtn.visibility = View.GONE
             styleBtn.visibility = View.GONE
         }
 
         folderText.setOnClickListener {
-            showDialog(CustomListDialog(this, getString(R.string.move_record),
-                    null, null, false,
-                    if(record.folder != null) listOf(getString(R.string.to_calendar), getString(R.string.change_folder))
-                    else listOf(getString(R.string.change_date), getString(R.string.to_folder))) { index ->
-                if(index == 0) showDatePickerDialog()
-                else showFolderPickerDialog()
-            }, true, true, true, false)
+            showFolderPickerDialog()
         }
 
         colorBtn.setOnClickListener {
@@ -229,9 +219,13 @@ class RecordActivity : BaseActivity() {
         }
 
         pinBtn.setOnClickListener {
-            record.inCalendar = !record.inCalendar
-            if(record.inCalendar) toast(R.string.show_in_calendar)
-            else toast(R.string.hide_in_calendar)
+            if(record.isInCalendar()) {
+                record.clearInCalendar()
+                toast(R.string.hide_in_calendar)
+            }else {
+                record.setInCalendar()
+                toast(R.string.show_in_calendar)
+            }
             updateFolderUI()
         }
 
@@ -367,7 +361,7 @@ class RecordActivity : BaseActivity() {
                 return@setOnLongClickListener true
             }
 
-            if(record.allday) {
+            if(record.isSetTime()) {
                 smallStartText.text = AppDateFormat.ymDate.format(startCal.time)
                 bigStartText.text = "${AppDateFormat.date.format(startCal.time)} ${AppDateFormat.simpleDow.format(startCal.time)}"
                 smallEndText.text = AppDateFormat.ymDate.format(endCal.time)
@@ -385,7 +379,7 @@ class RecordActivity : BaseActivity() {
             }else {
                 startEndDivider.visibility = View.VISIBLE
                 endLy.visibility = View.VISIBLE
-                durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, record.allday)
+                durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, record.isSetTime())
             }
         }else {
             timeLy.visibility = View.GONE
@@ -552,7 +546,7 @@ class RecordActivity : BaseActivity() {
     }
 
     private fun deletedFinish() {
-        Toast.makeText(App.context, R.string.saved, Toast.LENGTH_SHORT).show()
+        Toast.makeText(App.context, R.string.deleted, Toast.LENGTH_SHORT).show()
         finish()
     }
 

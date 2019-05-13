@@ -81,7 +81,7 @@ class MainViewModel : ViewModel() {
         realm.value?.let { realm ->
             templateList.value = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
             templateList.value?.addChangeListener { result, _ ->
-                templateList.value = result
+                templateList.postValue(result)
             }
             return@let
         }
@@ -91,9 +91,11 @@ class MainViewModel : ViewModel() {
         realm.value?.let { realm ->
             folderList.value = realm.where(Folder::class.java).sort("order", Sort.ASCENDING).findAllAsync()
             folderList.value?.addChangeListener { result, _ ->
-                folderList.value = result
+                if(openFolder.value == true) folderList.postValue(result)
                 if(result.size == 0) {
                     makePrimaryFolder()
+                }else {
+                    if(targetFolder.value == null) setTargetFolder()
                 }
             }
         }
@@ -123,8 +125,12 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun setTargetFolder() {
+        folderList.value?.get(0)?.let { setTargetFolder(it) }
+    }
+
     fun setTargetFolder(folder: Folder) {
-        targetFolder.value = folder
+        targetFolder.postValue(folder)
     }
 
     private fun makePrimaryFolder() {
@@ -162,10 +168,10 @@ class MainViewModel : ViewModel() {
                     type = it.type
                     style = it.style
                     colorKey = it.colorKey
-                    inCalendar = it.inCalendar
                     tags.addAll(it.tags)
                     return@let
                 }
+                setInCalendar()
                 folder = targetFolder.value
             }
 

@@ -22,7 +22,7 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
     private val viewCount = 3
     private val viewPager = PagingControlableViewPager(context)
     private val calendarViews = List(viewCount) { CalendarView(context) }
-    var onSelectedDate: ((Long, Int, Boolean, CalendarView) -> Unit)? = null
+    var onSelectedDate: ((Long, Int, Int, Boolean, CalendarView) -> Unit)? = null
     var onTop: ((Boolean, Boolean) -> Unit)? = null
 
     private val tempCal = Calendar.getInstance()
@@ -42,7 +42,7 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
             override fun onPageSelected(position: Int) {
                 selectedTargetCalendarView(calendarViews[position % viewCount])
                 if(selectDateTime == Long.MIN_VALUE) { // 스와이프로 선택된 경우
-                    targetCalendarView.selectDate(targetCalendarView.startCellNum)
+                    targetCalendarView.selectDate()
                 }else { // 날짜 이동 함수로 선택된 경우
                     targetCalendarView.draw(selectDateTime)
                     targetCalendarView.selectTime(selectDateTime)
@@ -69,8 +69,8 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
         targetCalendarView.onTop = null
         targetCalendarView.unselectDate()
         targetCalendarView = calendarView
-        targetCalendarView.onSelectedDate = { time, cellNum, isSameSeleted ->
-            onSelectedDate?.invoke(time, cellNum, isSameSeleted, targetCalendarView)
+        targetCalendarView.onSelectedDate = { time, cellNum, dateColor, isSameSeleted ->
+            onSelectedDate?.invoke(time, cellNum, dateColor, isSameSeleted, targetCalendarView)
         }
         targetCalendarView.onTop = onTop
     }

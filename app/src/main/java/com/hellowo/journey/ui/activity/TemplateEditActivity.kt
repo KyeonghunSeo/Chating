@@ -21,17 +21,22 @@ import java.util.*
 
 class TemplateEditActivity : BaseActivity() {
     private val realm = Realm.getDefaultInstance()
-    private var templateList : RealmResults<Template>? = null
-    private val items = ArrayList<Template>()
-    private val newItmes = ArrayList<Template>()
+    private val template = Template()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_template)
         initTheme(rootLy)
         backBtn.setOnClickListener { finish() }
-        addBtn.setOnClickListener { _ ->
-            realm.executeTransaction { it ->
+
+        if(!intent.getStringExtra("id").isNullOrEmpty()) {
+
+        }
+
+
+        /*
+        addBtn.setOnClickListener {
+            realm.executeTransaction {
                 var id = realm.where(Template::class.java).max("id")?.toInt()?.plus(1)
                 if(id == null) {
                     id = 0
@@ -84,7 +89,7 @@ class TemplateEditActivity : BaseActivity() {
                 2 -> {
                     realm.executeTransaction { _ ->
                         realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
-                            it.inCalendar = !it.inCalendar
+                            it.isInCalendar() = !it.isInCalendar()
                         }
                     }
                 }
@@ -107,7 +112,7 @@ class TemplateEditActivity : BaseActivity() {
                 }
                 5 -> {
                     showDialog(StylePickerDialog(this@TemplateEditActivity, template.colorKey, template.type, "") { style ->
-                        realm.executeTransaction { it ->
+                        realm.executeTransaction {
                             realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
                                 it.style = style
                             }
@@ -139,11 +144,12 @@ class TemplateEditActivity : BaseActivity() {
                 }.start()
             }
         }
+
+        */
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        templateList?.removeAllChangeListeners()
         realm.close()
     }
 }
