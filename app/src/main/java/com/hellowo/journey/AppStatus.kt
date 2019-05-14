@@ -6,7 +6,6 @@ import java.util.*
 
 object AppStatus {
     var statusBarHeight = 0
-
     var startDayOfWeek = Calendar.SUNDAY
     var isDowDisplay = true
     var holidayDisplay = 0

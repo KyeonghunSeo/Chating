@@ -208,11 +208,15 @@ object OsCalendarManager {
                 description = cur.getString(INDEX_DESCRIPTION),
                 dtStart = cur.getLong(INDEX_DTSTART),
                 dtEnd = cur.getLong(INDEX_DTEND))
-        if(block.isSetTime()) {
+        block.setInCalendar()
+        block.setSchedule()
+        if(cur.getInt(INDEX_ALLDAY) == 1) {
             block.dtUpdated = block.dtStart
             block.dtCreated = block.dtEnd
             block.dtStart -= timeZone
             block.dtEnd -= (timeZone + 1)
+        }else {
+            block.setTime()
         }
         return block
     }

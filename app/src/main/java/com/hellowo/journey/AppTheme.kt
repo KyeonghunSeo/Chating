@@ -60,7 +60,7 @@ object AppTheme {
         blankDrawable = resource.getDrawable(R.drawable.blank)
 
         tFont = ResourcesCompat.getFont(context, R.font.avenir_medium)!!
-        rFont = ResourcesCompat.getFont(context, R.font.avenir_medium)!!
+        rFont = ResourcesCompat.getFont(context, R.font.avenir_heavy)!!
         bFont = ResourcesCompat.getFont(context, R.font.avenir_black)!!
         thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
         regularFont = ResourcesCompat.getFont(context, R.font.regular)!!

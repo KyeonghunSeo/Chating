@@ -50,7 +50,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
                             android:textColor="@color/primaryText"
-                            android:textSize="20dp"
+                            android:textSize="22dp"
                             android:fontFamily="@font/avenir_black"
                             android:text="JUNE"/>
 
@@ -61,19 +61,9 @@
                             android:gravity="center_vertical"
                             android:layout_marginLeft="5dp"
                             android:textColor="@color/primaryText"
-                            android:textSize="20dp"
+                            android:textSize="22dp"
                             android:fontFamily="@font/avenir_black"
                             android:text="2019"/>
-
-                        <ImageView
-                            android:id="@+id/todayFlag"
-                            android:layout_width="15dp"
-                            android:layout_height="25dp"
-                            android:layout_gravity="center_vertical"
-                            android:paddingTop="2dp"
-                            android:layout_marginLeft="4dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/bookmark_fill"/>
 
                     </LinearLayout>
 
@@ -145,7 +135,7 @@
                     android:textColor="@color/primaryText"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/avenir_black"
-                    android:text="@string/today"/>
+                    android:text="@string/today_c"/>
 
                 <ImageView
                     android:id="@+id/todayRightArrow"

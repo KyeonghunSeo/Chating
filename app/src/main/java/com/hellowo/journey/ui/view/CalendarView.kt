@@ -23,7 +23,7 @@ import com.hellowo.journey.*
 import com.hellowo.journey.adapter.RecordCalendarAdapter
 import com.hellowo.journey.listener.MainDragAndDropListener
 import com.hellowo.journey.manager.CalendarManager
-import com.hellowo.journey.manager.HolidayManager
+import com.hellowo.journey.manager.DateInfoManager
 import com.hellowo.journey.manager.RecordManager
 import com.hellowo.journey.model.Record
 import com.hellowo.journey.ui.activity.MainActivity
@@ -34,7 +34,7 @@ import java.util.*
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
         const val maxCellNum = 42
-        const val animDur = 250L
+        const val animDur = 300L
         const val columns = 7
         val todayCal: Calendar = Calendar.getInstance()
         val dragStartYPos = dpToPx(58f)
@@ -54,7 +54,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     val dateCells = Array(maxCellNum) { FrameLayout(context)}
     private val dateHeaders = Array(maxCellNum) {
         DateHeaderViewHolder(LayoutInflater.from(context).inflate(R.layout.view_selected_bar, null, false))}
-    private val lunarCalendar = KoreanLunarCalendar.getInstance()
+    val dateInfos = Array(maxCellNum) { DateInfoManager.DateInfo() }
 
     inner class DateHeaderViewHolder(val container: View) {
         val dateText: TextView = container.findViewById(R.id.dateText)
@@ -62,12 +62,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dowText: TextView = container.findViewById(R.id.dowText)
         val holiText: TextView = container.findViewById(R.id.holiText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
-        val lunarText: TextView = container.findViewById(R.id.lunarText)
         init {
             dateText.typeface = AppTheme.rFont
             dowText.typeface = AppTheme.rFont
             holiText.typeface = AppTheme.thinFont
-            lunarText.typeface = AppTheme.bFont
             bar.scaleX = 0f
             dowText.visibility = View.GONE
         }
@@ -214,18 +212,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 for (j in 0..6){
                     val cellNum = i*7 + j
                     cellTimeMills[cellNum] = tempCal.timeInMillis
-                    lunarCalendar.setSolarDate(tempCal.get(Calendar.YEAR),
-                            tempCal.get(Calendar.MONTH) + 1,
-                            tempCal.get(Calendar.DATE))
-                    val holiday = HolidayManager.getHoliday(
-                            String.format("%02d%02d", tempCal.get(Calendar.MONTH) + 1, tempCal.get(Calendar.DATE)),
-                            lunarCalendar.lunarKey)
+                    val dateInfo = dateInfos[cellNum]
+                    DateInfoManager.getHoliday(dateInfo, tempCal)
+                    if(isSameDay(tempCal, targetCal)) { targetCellNum = cellNum }
+                    if(isSameDay(tempCal, todayCal)) { todayCellNum = cellNum }
                     val holiText = dateHeaders[cellNum].holiText
                     val dateText = dateHeaders[cellNum].dateText
                     val dowText = dateHeaders[cellNum].dowText
-                    val lunarText = dateHeaders[cellNum].lunarText
                     val bar = dateHeaders[cellNum].bar
-                    val color = getDateTextColor(cellNum, holiday?.isHoli == true)
+                    val color = getDateTextColor(cellNum, dateInfo.holiday?.isHoli == true)
                     val alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
                     dateText.alpha = alpha
                     dowText.alpha = alpha
@@ -235,19 +230,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     dateText.setTextColor(color)
                     holiText.setTextColor(color)
                     dowText.setTextColor(color)
-                    lunarText.setTextColor(color)
                     bar.setBackgroundColor(color)
-
-                    lunarText.text = ""
-                    holiText.text = holiday?.title ?: ""
-
-                    if(isSameDay(tempCal, targetCal)) {
-                        targetCellNum = cellNum
-                    }
-
-                    if(isSameDay(tempCal, todayCal)) {
-                        todayCellNum = cellNum
-                    }
+                    holiText.text = dateInfo.getUnSelectedString()
 
                     if(cellNum == 0) {
                         calendarStartTime = tempCal.timeInMillis
@@ -297,12 +281,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateText = dateHeaders[cellNum].dateText
         val dowText = dateHeaders[cellNum].dowText
         val holiText = dateHeaders[cellNum].holiText
-        val lunarText = dateHeaders[cellNum].lunarText
         dowText.visibility = View.GONE
-        lunarText.text = ""
         dateText.typeface = AppTheme.rFont
-        dowText.typeface = AppTheme.rFont
         holiText.typeface = AppTheme.thinFont
+        holiText.text = dateInfos[cellNum].getUnSelectedString()
 
         offViewEffect(cellNum)
         lastUnSelectDateAnimSet?.cancel()
@@ -341,28 +323,17 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             l("날짜선택 : ${AppDateFormat.ymdDate.format(Date(cellTimeMills[cellNum]))}")
             targetCal.timeInMillis = cellTimeMills[cellNum]
             if(selectCellNum >= 0) unselectDate(selectCellNum)
-
             selectCellNum = cellNum
             targetCellNum = cellNum
-
             val bar = dateHeaders[cellNum].bar
             val dateText = dateHeaders[cellNum].dateText
             val dowText = dateHeaders[cellNum].dowText
             val holiText = dateHeaders[cellNum].holiText
-            val lunarText = dateHeaders[cellNum].lunarText
-
             dateText.typeface = AppTheme.bFont
-            dowText.typeface = AppTheme.bFont
-            holiText.typeface = AppTheme.boldFont
-
+            holiText.typeface = AppTheme.regularFont
+            holiText.text = dateInfos[cellNum].getSelectedString()
             dowText.text = AppDateFormat.dowEng.format(targetCal.time).toUpperCase()
             if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
-            if(AppStatus.isLunarDisplay) {
-                lunarCalendar.setSolarDate(targetCal.get(Calendar.YEAR),
-                        targetCal.get(Calendar.MONTH) + 1,
-                        targetCal.get(Calendar.DATE))
-                lunarText.text = lunarCalendar.lunarSimpleFormat
-            }
 
             lastSelectDateAnimSet?.cancel()
             lastSelectDateAnimSet = AnimatorSet()
@@ -495,6 +466,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun onDrag(event: DragEvent) {
         var cellX = ((event.x - calendarPadding) / minWidth).toInt()
         if(cellX < 0) cellX = 0
+        if(MainActivity.getViewModel()?.openFolder?.value == true) cellX -= MainActivity.tabSize
         val yPos = event.y - dragStartYPos
         val yCalPos = yPos + scrollView.scrollY
         var cellY = -1

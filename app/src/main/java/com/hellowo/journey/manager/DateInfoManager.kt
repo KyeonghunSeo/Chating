@@ -1,18 +1,63 @@
 package com.hellowo.journey.manager
 
+import com.hellowo.journey.App
 import com.hellowo.journey.AppStatus
 import com.hellowo.journey.R
+import com.hellowo.journey.getDiffToday
+import com.hellowo.journey.model.KoreanLunarCalendar
+import java.lang.StringBuilder
 import java.util.*
 
-object HolidayManager {
+object DateInfoManager {
     private val solarHolidays = HashMap<String, Holiday>()
     private val lunarHolidays = HashMap<String, Holiday>()
+    private val lunarCalendar = KoreanLunarCalendar.getInstance()
+    private val todayString = App.resource.getString(R.string.today)
+    private val tomorrowString = App.resource.getString(R.string.tomorrow)
+    private val yesterdayString = App.resource.getString(R.string.yesterday)
 
     init {
         init()
     }
 
-    class Holiday(val title: String, val isHoli: Boolean)
+    class Holiday(val title: String = "", val isHoli: Boolean = false)
+    class DateInfo(var holiday: Holiday? = null, var diffDate: Int = 0, var lunar: String = "") {
+        fun getSelectedString(): String {
+            val result = StringBuilder()
+            when (diffDate) {
+                0 -> result.append(todayString)
+                1 -> result.append(tomorrowString)
+                -1 -> result.append(yesterdayString)
+                else -> {
+                    when{
+                        diffDate in 2..30 -> result.append(String.format(App.resource.getString(R.string.date_after), Math.abs(diffDate)))
+                        diffDate in -30..-2 -> result.append(String.format(App.resource.getString(R.string.date_before), Math.abs(diffDate)))
+                    }
+                }
+            }
+            holiday?.title?.let {
+                if (result.isNotEmpty()) result.append(", ")
+                result.append(it)
+            }
+            if(lunar.isNotEmpty()) {
+                if (result.isNotEmpty()) result.append(", ")
+                result.append(lunar)
+            }
+            return result.toString()
+        }
+
+        fun getUnSelectedString(): String {
+            val result = StringBuilder()
+            if(diffDate == 0) {
+                result.append(todayString)
+            }
+            holiday?.title?.let {
+                if (result.isNotEmpty()) result.append(", ")
+                result.append(it)
+            }
+            return result.toString()
+        }
+    }
 
     fun init() {
         when(AppStatus.holidayDisplay) {
@@ -77,12 +122,20 @@ object HolidayManager {
         lunarHolidays["0816"] = Holiday("추석 연휴", true)
     }
 
-    fun getHoliday(solarKey: String, lunarKey: String): Holiday? {
-        return if(AppStatus.holidayDisplay == 0) null
+    fun getHoliday(dateInfo: DateInfo, targetCal: Calendar) {
+        lunarCalendar.setSolarDate(targetCal.get(Calendar.YEAR),
+                targetCal.get(Calendar.MONTH) + 1,
+                targetCal.get(Calendar.DATE))
+        val solarKey = String.format("%02d%02d", targetCal.get(Calendar.MONTH) + 1, targetCal.get(Calendar.DATE))
+        val lunarKey = lunarCalendar.lunarKey
+        dateInfo.holiday = if(AppStatus.holidayDisplay == 0) null
         else when {
             solarHolidays.containsKey(solarKey) -> solarHolidays[solarKey]
             lunarHolidays.containsKey(lunarKey) -> lunarHolidays[lunarKey]
             else -> null
         }
+        dateInfo.diffDate = getDiffToday(targetCal)
+        dateInfo.lunar = if(AppStatus.isLunarDisplay) lunarCalendar.lunarSimpleFormat
+        else ""
     }
 }

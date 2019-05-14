@@ -45,6 +45,7 @@ class MainActivity : BaseActivity() {
     companion object {
         var instance: MainActivity? = null
         var isShowing = false
+        val tabSize = dpToPx(70)
         fun getViewModel() = instance?.viewModel
         fun getDayPagerView() = instance?.dayPagerView
         fun getMainPanel() = instance?.mainPanel
@@ -129,7 +130,6 @@ class MainActivity : BaseActivity() {
             viewModel.targetCalendarView.value = calendarView
             monthText.setTextColor(dateColor)
             yearText.setTextColor(dateColor)
-            todayFlag.setColorFilter(dateColor)
             if(cellNum >= 0) {
                 if(isSameSeleted && dayPagerView.viewMode == ViewMode.CLOSED) dayPagerView.show()
                 refreshTodayView(calendarView.todayStatus)
@@ -362,7 +362,6 @@ class MainActivity : BaseActivity() {
         when {
             todayOffset != 0 -> {
                 todayBtn.visibility = View.VISIBLE
-                todayFlag.visibility = View.GONE
                 if(todayOffset < 0) {
                     todayText.setPadding(dpToPx(8), 0, 0, 0)
                     todayRightArrow.visibility = View.VISIBLE
@@ -381,7 +380,6 @@ class MainActivity : BaseActivity() {
                 }
             }
             else -> {
-                todayFlag.visibility = View.VISIBLE
                 val animSet = AnimatorSet()
                 animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, dpToPx(60f)))
                 animSet.interpolator = FastOutSlowInInterpolator()

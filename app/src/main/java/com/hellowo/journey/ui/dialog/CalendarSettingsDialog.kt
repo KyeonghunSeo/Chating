@@ -7,7 +7,7 @@ import android.view.Gravity
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.hellowo.journey.*
 import com.hellowo.journey.manager.CalendarManager
-import com.hellowo.journey.manager.HolidayManager
+import com.hellowo.journey.manager.DateInfoManager
 import com.hellowo.journey.ui.activity.MainActivity
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.dialog_calendar_settings.*
@@ -120,7 +120,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
                     holiList) { index ->
                 AppStatus.holidayDisplay = index
                 Prefs.putInt("holidayDisplay", AppStatus.holidayDisplay)
-                HolidayManager.init()
+                DateInfoManager.init()
                 setHoliDisplay()
                 MainActivity.getCalendarPagerView()?.redraw()
             }, true, true, true, false)

@@ -50,7 +50,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         }
         viewHolderList.clear()
         viewLevelStatusMap.clear()
-        drawStartYOffset = if(AppStatus.holidayDisplay == 0) dpToPx(22f) else dpToPx(36f)
+        drawStartYOffset = if(false) dpToPx(22f) else dpToPx(33f)
         cellBottomArray.fill(drawStartYOffset)
         rowHeightArray.fill(drawStartYOffset)
         draw(items)

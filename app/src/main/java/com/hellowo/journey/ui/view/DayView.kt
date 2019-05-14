@@ -41,10 +41,11 @@ import java.util.Calendar.SUNDAY
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
 
-    val targetCal = Calendar.getInstance()
+    val targetCal : Calendar = Calendar.getInstance()
     private var recordList: RealmResults<Record>? = null
     private val currentList = ArrayList<Record>()
     private val newList = ArrayList<Record>()
+    private val dateInfo = DateInfoManager.DateInfo()
 
     private val adapter = RecordListAdapter(context, currentList, targetCal) { view, timeObject, action ->
         when(action) {
@@ -65,8 +66,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         elevation = 0f
         radius = 0f
         dateText.typeface = AppTheme.bFont
-        dowText.typeface = AppTheme.bFont
-        holiText.typeface = AppTheme.boldFont
+        dowText.typeface = AppTheme.rFont
+        holiText.typeface = AppTheme.regularFont
         dateLy.clipChildren = false
         dateLy.pivotX = 0f
         dateLy.pivotY = 0f
@@ -197,17 +198,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private fun setDateText() {
         dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
         dowText.text = AppDateFormat.dowfullEng.format(targetCal.time).toUpperCase()
-
-        val lunarCalendar = KoreanLunarCalendar.getInstance()
-        lunarCalendar.setSolarDate(targetCal.get(Calendar.YEAR),
-                targetCal.get(Calendar.MONTH) + 1,
-                targetCal.get(Calendar.DATE))
-
-        val holiday = HolidayManager.getHoliday(
-                String.format("%02d%02d", targetCal.get(Calendar.MONTH) + 1, targetCal.get(Calendar.DATE)),
-                lunarCalendar.lunarKey)
-
-        val color = if(holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
+        DateInfoManager.getHoliday(dateInfo, targetCal)
+        val color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
             CalendarManager.sundayColor
         }else if(targetCal.get(Calendar.DAY_OF_WEEK) == SATURDAY) {
             CalendarManager.saturdayColor
@@ -218,15 +210,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dateText.setTextColor(color)
         dowText.setTextColor(color)
         holiText.setTextColor(color)
-
         if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
         else dowText.visibility = View.GONE
-
-        holiText.text = holiday?.title ?: ""
-
-        if(isSameDay(CalendarView.todayCal, targetCal)) {
-        }else {
-        }
+        holiText.text = dateInfo.getSelectedString()
     }
 
     fun show(dayPagerView: DayPagerView) {
@@ -349,11 +335,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         val startZ = dpToPx(8f)
         val endZ = dpToPx(0f)
         val mainDateLyX = dpToPx(80.3f)
-        val mainDateScale = 0.75f
+        val mainDateScale = 0.70f
         val barX = dpToPx(100.0f)
         val barY = dpToPx(23.0f)
         val subScale = 0.3f
-        val barScale = 0.2f
+        val barScale = 0.25f
     }
 
 }

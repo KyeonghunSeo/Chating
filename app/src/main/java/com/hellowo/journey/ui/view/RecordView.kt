@@ -28,7 +28,9 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
         val defaulMargin = dpToPx(1.5f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
         val sidePadding = dpToPx(3.0f).toInt()
-        val topPadding = dpToPx(1.8f)
+        val smallTextPadding = dpToPx(2.5f)
+        val normalTextPadding = dpToPx(1.5f)
+        val bigTextPadding = dpToPx(1f)
         val bottomPadding = dpToPx(3.5f)
         val rectRadius = dpToPx(1f)
         val stampSize = dpToPx(16)
@@ -75,8 +77,12 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
         }else {
             sidePadding
         }
-        val topPadding = (topPadding + (AppStatus.calTextSize * -1.7f)).toInt() /*글씨 크기에 따른 탑 패딩 조정*/
-        setPadding(leftPadding, topPadding, sidePadding, 0)
+        val textPadding =  when(AppStatus.calTextSize) { /*글씨 크기에 따른 패딩 조정*/
+            -1 -> smallTextPadding
+            1 -> bigTextPadding
+            else -> normalTextPadding
+        }.toInt()
+        setPadding(leftPadding, textPadding, sidePadding, 0)
 
         when(record.getFormula()) {
             TOP_LINEAR, BOTTOM_LINEAR -> {
