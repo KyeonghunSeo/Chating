@@ -36,11 +36,11 @@ object DateInfoManager {
                 }
             }
             holiday?.title?.let {
-                if (result.isNotEmpty()) result.append(", ")
+                if (result.isNotEmpty()) result.append(" ")
                 result.append(it)
             }
             if(lunar.isNotEmpty()) {
-                if (result.isNotEmpty()) result.append(", ")
+                if (result.isNotEmpty()) result.append(" ")
                 result.append(lunar)
             }
             return result.toString()
@@ -52,7 +52,7 @@ object DateInfoManager {
                 result.append(todayString)
             }
             holiday?.title?.let {
-                if (result.isNotEmpty()) result.append(", ")
+                if (result.isNotEmpty()) result.append(" ")
                 result.append(it)
             }
             return result.toString()

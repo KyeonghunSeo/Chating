@@ -113,7 +113,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)
             layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
-                val xPos = location[0] + if(MainActivity.getViewModel()?.openFolder?.value == true) -MainActivity.tabSize else 0
+                val xPos = location[0] + if(MainActivity.isTabOpen()) -MainActivity.tabSize else 0
                 val yPos = location[1] - AppStatus.statusBarHeight
                 setMargins(xPos, yPos, 0, 0)
             }
@@ -187,7 +187,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             (layoutParams as FrameLayout.LayoutParams).let {
                 it.width = dateCell.width
                 it.height = dateCell.height
-                val xPos = location[0] + if(MainActivity.getViewModel()?.openFolder?.value == true) -MainActivity.tabSize else 0
+                val xPos = location[0] + if(MainActivity.isTabOpen()) -MainActivity.tabSize else 0
                 val yPos = location[1] - AppStatus.statusBarHeight
                 it.setMargins(xPos, yPos, 0, 0)
             }

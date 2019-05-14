@@ -52,10 +52,11 @@ class MainActivity : BaseActivity() {
         fun getCalendarPagerView() = instance?.calendarPagerView
         fun getMainDateLy() = instance?.mainDateLy
         fun getProfileBtn() = instance?.profileBtn
-        fun getTargetCalendarView() = instance?.viewModel?.targetCalendarView?.value
-        fun getTargetTime() = instance?.viewModel?.targetTime?.value
-        fun getTargetCal() = instance?.viewModel?.targetCalendarView?.value?.targetCal
-        fun getTargetFolder() = instance?.viewModel?.targetFolder?.value ?: Folder()
+        fun getTargetCalendarView() = getViewModel()?.targetCalendarView?.value
+        fun getTargetTime() = getViewModel()?.targetTime?.value
+        fun getTargetCal() = getViewModel()?.targetCalendarView?.value?.targetCal
+        fun getTargetFolder() = getViewModel()?.targetFolder?.value ?: Folder()
+        fun isTabOpen() = getViewModel()?.openFolder?.value == true
     }
 
     lateinit var viewModel: MainViewModel
@@ -176,7 +177,7 @@ class MainActivity : BaseActivity() {
         folderAdapter.itemTouchHelper?.attachToRecyclerView(folderListView)
         folderBtn.setOnClickListener {
             vibrate(this)
-            //folderAdapter.notifyDataSetChanged()
+            folderAdapter.notifyDataSetChanged()
             viewModel.openFolder.value = viewModel.openFolder.value != true
         }
     }

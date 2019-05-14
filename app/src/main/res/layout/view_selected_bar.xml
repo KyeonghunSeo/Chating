@@ -43,8 +43,10 @@
             android:id="@+id/holiText"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginRight="2dp"
             android:textSize="8dp"
-            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textColor="@color/primaryText"/>
 
     </LinearLayout>

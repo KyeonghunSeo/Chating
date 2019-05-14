@@ -32,10 +32,10 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>,
 
     val itemWidth = dpToPx(70)
     val maxTextWidth = dpToPx(170)
-    val itemSpace = dpToPx(20)
+    val itemSpace = dpToPx(25)
     val edgeSize = dpToPx(10f)
     val backColor = AppTheme.primaryText
-    val backTextColor = Color.WHITE
+    val backTextColor = AppTheme.primaryText
     var itemTouchHelper: ItemTouchHelper? = null
 
     init {
@@ -108,7 +108,6 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>,
             v.iconImg.setColorFilter(AppTheme.primaryText)
             v.titleText.setTextColor(AppTheme.primaryText)
             v.titleText.alpha = 1f
-            v.bringToFront()
         }else {
             v.edgeTop.visibility = View.GONE
             v.edgeBottom.visibility = View.GONE
@@ -142,7 +141,9 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>,
             val diffResult = DiffUtil.calculateDiff(FolderDiffCallback(items, newItems))
             items = newItems
             Handler(Looper.getMainLooper()).post{
-                diffResult.dispatchUpdatesTo(this)
+                if(MainActivity.isTabOpen()) {
+                    diffResult.dispatchUpdatesTo(this)
+                }
             }
         }.start()
     }

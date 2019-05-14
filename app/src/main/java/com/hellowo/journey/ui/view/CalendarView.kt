@@ -63,8 +63,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val holiText: TextView = container.findViewById(R.id.holiText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
-            dateText.typeface = AppTheme.rFont
-            dowText.typeface = AppTheme.rFont
+            dateText.typeface = AppTheme.tFont
+            dowText.typeface = AppTheme.bFont
             holiText.typeface = AppTheme.thinFont
             bar.scaleX = 0f
             dowText.visibility = View.GONE
@@ -282,7 +282,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dowText = dateHeaders[cellNum].dowText
         val holiText = dateHeaders[cellNum].holiText
         dowText.visibility = View.GONE
-        dateText.typeface = AppTheme.rFont
+        dateText.typeface = AppTheme.tFont
         holiText.typeface = AppTheme.thinFont
         holiText.text = dateInfos[cellNum].getUnSelectedString()
 
@@ -466,7 +466,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun onDrag(event: DragEvent) {
         var cellX = ((event.x - calendarPadding) / minWidth).toInt()
         if(cellX < 0) cellX = 0
-        if(MainActivity.getViewModel()?.openFolder?.value == true) cellX -= MainActivity.tabSize
+        if(MainActivity.isTabOpen()) cellX -= MainActivity.tabSize
         val yPos = event.y - dragStartYPos
         val yCalPos = yPos + scrollView.scrollY
         var cellY = -1
