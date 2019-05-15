@@ -464,9 +464,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun onDrag(event: DragEvent) {
-        var cellX = ((event.x - calendarPadding) / minWidth).toInt()
+        val xPos = if(MainActivity.isTabOpen()) event.x - MainActivity.tabSize else event.x
+        var cellX = ((xPos - calendarPadding) / minWidth).toInt()
         if(cellX < 0) cellX = 0
-        if(MainActivity.isTabOpen()) cellX -= MainActivity.tabSize
         val yPos = event.y - dragStartYPos
         val yCalPos = yPos + scrollView.scrollY
         var cellY = -1

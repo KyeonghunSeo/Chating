@@ -105,7 +105,7 @@
     <string name="empty_note">빈 노트</string>
     <string name="drawing">손글씨</string>
     <string name="calendar_settings">달력설정</string>
-    <string name="add">추가</string>
+    <string name="add">생성</string>
     <string name="tag">태그</string>
     <string name="enter_tag">태그 이름</string>
     <string name="no_tag">태그없음</string>
@@ -172,7 +172,7 @@
     <string name="duration_min">총 %1$s분</string>
     <string name="duration_hour">총 %1$s시간</string>
     <string name="duration_min_hour">총 %1$s시간 %2$s분</string>
-    <string name="edit">편집하기</string>
+    <string name="edit">편집</string>
     <string name="tasking">할 일 만들기</string>
     <string name="checkbox">체크박스</string>
     <string name="checklist">체크리스트</string>
@@ -231,5 +231,7 @@
     <string name="yesterday">어제</string>
     <string name="date_before">%1$s일 전</string>
     <string name="date_after">%1$s일 후</string>
+    <string name="color_c">COLOR</string>
+    <string name="new_template">새 템플릿</string>
 
 </resources>

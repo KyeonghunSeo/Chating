@@ -45,7 +45,7 @@ class MainActivity : BaseActivity() {
     companion object {
         var instance: MainActivity? = null
         var isShowing = false
-        val tabSize = dpToPx(70)
+        val tabSize = dpToPx(60)
         fun getViewModel() = instance?.viewModel
         fun getDayPagerView() = instance?.dayPagerView
         fun getMainPanel() = instance?.mainPanel
@@ -117,7 +117,7 @@ class MainActivity : BaseActivity() {
         mainDateLy.pivotX = 0f
         mainDateLy.pivotY = dpToPx(34f)
         mainPanel.setOnClickListener {}
-        profileView.initViews()
+        todayBtn.translationY = tabSize.toFloat()
         callAfterViewDrawed(rootLy, Runnable{
             val location = IntArray(2)
             rootLy.getLocationInWindow(location)
@@ -263,9 +263,7 @@ class MainActivity : BaseActivity() {
             }
         })
         viewModel.appUser.observe(this, Observer { appUser -> appUser?.let { updateUserUI(it) } })
-        viewModel.templateList.observe(this, Observer { list ->
-            list?.let { templateControlView.notify(it) }
-        })
+        viewModel.templateList.observe(this, Observer { templateControlView.notifyListChanged() })
         viewModel.folderList.observe(this, Observer { list -> folderAdapter.refresh(list) })
         viewModel.targetFolder.observe(this, Observer { folder ->
             refreshAll()
@@ -284,17 +282,17 @@ class MainActivity : BaseActivity() {
         if(isOpen) {
             (folderListView.layoutParams as FrameLayout.LayoutParams).leftMargin = 0
             (contentLy.layoutParams as FrameLayout.LayoutParams).let {
-                it.rightMargin = -dpToPx(70)
-                it.leftMargin = dpToPx(70)
+                it.rightMargin = -tabSize
+                it.leftMargin = tabSize
             }
             (folderBtn.layoutParams as FrameLayout.LayoutParams).let {
                 it.width = dpToPx(60)
-                it.leftMargin = dpToPx(5)
+                it.leftMargin = dpToPx(0)
             }
             animSet.playTogether(ObjectAnimator.ofFloat(folderArrowImg, "rotation", 0f, 180f),
                     ObjectAnimator.ofFloat(folderArrowImg, "translationX", 0f, -dpToPx(13f)))
         }else {
-            (folderListView.layoutParams as FrameLayout.LayoutParams).leftMargin = -dpToPx(70)
+            (folderListView.layoutParams as FrameLayout.LayoutParams).leftMargin = -tabSize
             (contentLy.layoutParams as FrameLayout.LayoutParams).let {
                 it.rightMargin = 0
                 it.leftMargin = 0
@@ -382,7 +380,7 @@ class MainActivity : BaseActivity() {
             }
             else -> {
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, dpToPx(60f)))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, tabSize.toFloat()))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener(null)

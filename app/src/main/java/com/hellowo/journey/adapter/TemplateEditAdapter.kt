@@ -76,17 +76,6 @@ class TemplateEditAdapter(val context: Context, private val items: ArrayList<Tem
 
         v.inCalendarBtn.setOnClickListener { adapterInterface.invoke(2, template) }
 
-        if(template.inCalendar) {
-            v.inCalendarImg.setColorFilter(AppTheme.primaryText)
-            v.inCalendarText.text = App.context.getString(R.string.show)
-            v.inCalendarText.setTextColor(AppTheme.primaryText)
-            v.styleBtn.visibility = View.VISIBLE
-        } else {
-            v.inCalendarImg.setColorFilter(AppTheme.disableText)
-            v.inCalendarText.text = App.context.getString(R.string.hide)
-            v.inCalendarText.setTextColor(AppTheme.disableText)
-            v.styleBtn.visibility = View.GONE
-        }
 
         (v.previewContainer.getChildAt(0) as RecordView).let {
             it.record.type = template.type

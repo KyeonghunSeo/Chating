@@ -5,12 +5,11 @@ import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import org.json.JSONObject
 
-open class Template(@PrimaryKey var id: Int = -1,
+open class Template(@PrimaryKey var id: String? = null,
                     var title: String? = null,
                     var type: Int = 0,
                     var colorKey: Int = -1,
                     var style: Int = 0,
-                    var inCalendar: Boolean = true,
                     var folder: Folder? = null,
                     var tags: RealmList<Tag> = RealmList(),
                     var order: Int = 0): RealmObject() {
@@ -23,15 +22,27 @@ open class Template(@PrimaryKey var id: Int = -1,
         if (type != other.type) return false
         if (colorKey != other.colorKey) return false
         if (style != other.style) return false
-        if (inCalendar != other.inCalendar) return false
         if (folder != other.folder) return false
         if (tags != other.tags) return false
 
         return true
     }
 
+    fun copy(data: Template) {
+        id = data.id
+        title = data.title
+        type = data.type
+        colorKey = data.colorKey
+        style = data.style
+        data.tags.forEach {
+            tags.add(Tag(it.id))
+        }
+        data.folder?.let { folder = Folder(it) }
+        order = data.order
+    }
+
     override fun toString(): String {
-        return "Template(id=$id, title=$title, type=$type, colorKey=$colorKey, style=$style, inCalendar=$inCalendar, folder=$folder, tags=$tags, order=$order)"
+        return "Template(id=$id, title=$title, type=$type, colorKey=$colorKey, style=$style, folder=$folder, tags=$tags, order=$order)"
     }
 
 }

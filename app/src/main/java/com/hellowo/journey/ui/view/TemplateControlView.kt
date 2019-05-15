@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
+import com.google.android.material.internal.FlowLayout
 import com.hellowo.journey.*
 import com.hellowo.journey.adapter.TemplateAdapter
 import com.hellowo.journey.model.Template
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.TemplateEditActivity
 import com.pixplicity.easyprefs.library.Prefs
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.view_template_control.view.*
 import java.util.*
 
@@ -27,20 +29,27 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     val layoutManager = LinearLayoutManager(context)
     val items = ArrayList<Template>()
     var selectedPosition = 0
-    var autoScrollFlag = 0
     var isExpanded = false
+    val adapter = TemplateAdapter(context, items) { template, mode ->
+        if(mode == 0) {
+            selectItem(template)
+            MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
+            collapseNoAnim()
+        }else {
+            MainActivity.instance?.let {
+                val intent = Intent(it, TemplateEditActivity::class.java)
+                intent.putExtra("id", template.id)
+                it.startActivity(intent)
+            }
+        }
+    }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_template_control, this, true)
-        dateLy.visibility = View.GONE
-        listLy.visibility = View.GONE
-        controlLy.visibility = View.GONE
+        initViews()
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = TemplateAdapter(context, items, startCal, endCal) {
-            selectItem(it)
-            MainActivity.instance?.viewModel?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
-            collapseNoAnim()
-        }
+        recyclerView.adapter = adapter
+        adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
 
         addBtn.setOnClickListener {
             if(isExpanded) {
@@ -51,22 +60,24 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         }
 
         addBtn.setOnLongClickListener {
-            MainActivity.getViewModel()?.let { it.makeNewTimeObject(0) }
+            MainActivity.getViewModel()?.makeNewTimeObject(0)
             return@setOnLongClickListener false
         }
 
         editTemplateBtn.setOnClickListener {
-            MainActivity.instance?.let {
-            it.startActivity(Intent(it, TemplateEditActivity::class.java)) }
+            if(adapter.mode == 0) {
+                adapter.mode = 1
+                editTemplateBtn.text = context.getString(R.string.done)
+            }else {
+                adapter.mode = 0
+                editTemplateBtn.text = context.getString(R.string.edit_template)
+            }
+            adapter.notifyItemRangeChanged(0, items.size)
         }
 
         addNewBtn.setOnClickListener {
-            MainActivity.instance?.let {
-                it.startActivity(Intent(it, TemplateEditActivity::class.java))
-            }
+            MainActivity.instance?.let { it.startActivity(Intent(it, TemplateEditActivity::class.java)) }
         }
-
-        callAfterViewDrawed(this, Runnable{ restoreViews() })
     }
 
     @SuppressLint("SetTextI18n")
@@ -85,35 +96,27 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             startDateText.text = folder.name
             endDateText.text = ""
         }
-        recyclerView.adapter?.notifyDataSetChanged()
-    }
-
-    private fun addNew() {
-        MainActivity.instance?.let {
-            collapse()
-            it.viewModel.makeNewTimeObject()
-        }
     }
 
     fun expand(dtStart: Long, dtEnd: Long) {
-        setDate(dtStart, dtEnd)
         val transitionSet = TransitionSet()
         val t1 = makeFromRightSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
-        t1.addTarget(listLy)
+        t1.addTarget(recyclerView)
         t2.addTarget(backgroundLy)
         t2.addTarget(dateLy)
         t2.addTarget(controlLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         TransitionManager.beginDelayedTransition(this, transitionSet)
-
+        setDate(dtStart, dtEnd)
+        setCurrentFolderTemplate()
         backgroundLy.setBackgroundColor(AppTheme.backgroundColor)
         backgroundLy.setOnClickListener { collapse() }
         backgroundLy.isClickable = true
+        recyclerView.visibility = View.VISIBLE
         backgroundLy.visibility = View.VISIBLE
         dateLy.visibility = View.VISIBLE
-        listLy.visibility = View.VISIBLE
         controlLy.visibility = View.VISIBLE
         ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f).start()
         elevation = dpToPx(30f)
@@ -121,52 +124,62 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     fun collapse() {
-        autoScrollFlag = 0
         val transitionSet = TransitionSet()
         val t1 = makeFromRightSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
-        t1.addTarget(listLy)
+        t1.addTarget(recyclerView)
         t2.addTarget(backgroundLy)
         t2.addTarget(dateLy)
         t2.addTarget(controlLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         TransitionManager.beginDelayedTransition(this, transitionSet)
-
-        backgroundLy.setOnClickListener(null)
-        backgroundLy.isClickable = false
-        backgroundLy.visibility = View.GONE
-        dateLy.visibility = View.GONE
-        listLy.visibility = View.GONE
-        controlLy.visibility = View.GONE
+        initViews()
         ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f).start()
-        isExpanded = false
     }
 
     private fun collapseNoAnim() {
-        autoScrollFlag = 0
         templateIconImg.rotation = 0f
+        initViews()
+    }
+
+    private fun initViews() {
+        clearTemplate()
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
+        recyclerView.visibility = View.GONE
         backgroundLy.visibility = View.GONE
         dateLy.visibility = View.GONE
-        listLy.visibility = View.GONE
         controlLy.visibility = View.GONE
+        adapter.mode = 0
+        editTemplateBtn.text = context.getString(R.string.edit_template)
         isExpanded = false
     }
 
-    fun notify(it: List<Template>) {
-        l("[템플릿 뷰 갱신]")
-        items.clear()
-        items.addAll(it)
-        recyclerView.adapter?.notifyDataSetChanged()
-    }
-
     private fun selectItem(template: Template) {
-        Prefs.putInt("last_template_id", template.id)
         selectedPosition = items.indexOf(template)
         MainActivity.getViewModel()?.targetTemplate?.value = template
     }
 
-    private fun restoreViews() {}
+    private fun setCurrentFolderTemplate() {
+        items.clear()
+        MainActivity.getViewModel()?.templateList?.value?.filter {
+            it.folder?.id == MainActivity.getTargetFolder().id
+        }?.forEach {
+            l(it.toString())
+            items.add(it)
+        }
+        recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    private fun clearTemplate() {
+        items.clear()
+        recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    fun notifyListChanged() {
+        if(isExpanded) {
+            setCurrentFolderTemplate()
+        }
+    }
 }

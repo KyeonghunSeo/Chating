@@ -5,9 +5,11 @@ import android.os.Handler
 import android.os.Looper
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.adapter.TemplateEditAdapter
 import com.hellowo.journey.adapter.util.TemplateDiffCallback
+import com.hellowo.journey.l
 import com.hellowo.journey.model.Tag
 import com.hellowo.journey.model.Template
 import com.hellowo.journey.showDialog
@@ -27,12 +29,23 @@ class TemplateEditActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_template)
         initTheme(rootLy)
-        backBtn.setOnClickListener { finish() }
-
-        if(!intent.getStringExtra("id").isNullOrEmpty()) {
-
+        backBtn.setOnClickListener { onBackPressed() }
+        deleteBtn.setOnClickListener {
+            showDialog(CustomDialog(this@TemplateEditActivity, template.title ?: "" ,
+                    getString(R.string.delete_template), null) { result, _, _ ->
+                if(result) { delete() }
+            }, true, true, true, false)
         }
 
+        if(!intent.getStringExtra("id").isNullOrEmpty()) {
+            realm.where(Template::class.java).equalTo("id", intent.getStringExtra("id"))
+                    .findFirst()?.let { template.copy(it) }
+        }else {
+            template.folder = MainActivity.getTargetFolder()
+        }
+        l(template.toString())
+
+        updateColorUI()
 
         /*
         addBtn.setOnClickListener {
@@ -67,13 +80,7 @@ class TemplateEditActivity : BaseActivity() {
                     }, true, true, true, false)
                 }
                 0 -> {
-                    showDialog(ColorPickerDialog(this@TemplateEditActivity, template.colorKey) { colorKey ->
-                        realm.executeTransaction { it ->
-                            realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
-                                it.colorKey = colorKey
-                            }
-                        }
-                    }, true, true, true, false)
+
                 }
                 1 -> {
                     val items = ArrayList<Tag>().apply { addAll(template.tags) }
@@ -146,6 +153,40 @@ class TemplateEditActivity : BaseActivity() {
         }
 
         */
+    }
+
+    private fun updateColorUI() {
+        colorImg.setColorFilter(AppTheme.getColor(template.colorKey))
+        colorBtn.setOnClickListener {
+            showDialog(ColorPickerDialog(this@TemplateEditActivity, template.colorKey) { colorKey ->
+                template.colorKey = colorKey
+                updateColorUI()
+            }, true, true, true, false)
+        }
+    }
+
+    private fun confirm() {
+        realm.executeTransaction {
+            template.title = titleInput.text.toString()
+            if(template.id.isNullOrEmpty()) {
+                template.id = UUID.randomUUID().toString()
+                template.order = realm.where(Template::class.java).max("order")?.toInt()?.plus(1) ?: 0
+            }
+            realm.insertOrUpdate(template)
+        }
+        finish()
+    }
+
+    private fun delete() {
+        realm.executeTransaction {
+            realm.where(Template::class.java).equalTo("id", template.id)
+                    .findFirst()?.deleteFromRealm()
+        }
+        finish()
+    }
+
+    override fun onBackPressed() {
+        confirm()
     }
 
     override fun onDestroy() {

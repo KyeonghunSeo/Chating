@@ -30,8 +30,8 @@ object DateInfoManager {
                 -1 -> result.append(yesterdayString)
                 else -> {
                     when{
-                        diffDate in 2..30 -> result.append(String.format(App.resource.getString(R.string.date_after), Math.abs(diffDate)))
-                        diffDate in -30..-2 -> result.append(String.format(App.resource.getString(R.string.date_before), Math.abs(diffDate)))
+                        diffDate > 0 -> result.append(String.format(App.resource.getString(R.string.date_after), Math.abs(diffDate)))
+                        diffDate < 0 -> result.append(String.format(App.resource.getString(R.string.date_before), Math.abs(diffDate)))
                     }
                 }
             }
