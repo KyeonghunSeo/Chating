@@ -31,7 +31,7 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>,
     : RecyclerView.Adapter<FolderAdapter.ViewHolder>() {
 
     val itemWidth = dpToPx(70)
-    val maxTextWidth = dpToPx(170)
+    val maxTextWidth = dpToPx(200)
     val itemSpace = dpToPx(25)
     val edgeSize = dpToPx(10f)
     val backColor = AppTheme.primaryText
@@ -89,7 +89,7 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>,
             v.contentLy.cardElevation = dpToPx(0f)
             v.rootLy.layoutParams.height = itemWidth
             v.iconImg.visibility = View.VISIBLE
-            v.iconImg.setImageResource(R.drawable.sharp_add_black_48dp)
+            v.iconImg.setImageResource(R.drawable.add)
             v.iconImg.setColorFilter(backTextColor)
             v.iconImg.alpha = 0.7f
             v.contentLy.setCardBackgroundColor(Color.TRANSPARENT)

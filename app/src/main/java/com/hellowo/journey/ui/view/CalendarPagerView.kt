@@ -116,7 +116,10 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
         return startPosition + getDiffYear(today, time) * 12 + getDiffMonth(today, time)
     }
 
-    fun redraw() { calendarViews.forEach { it.redraw() } }
+    fun redraw() {
+        calendarViews.forEach { it.redraw() }
+        targetCalendarView.selectDate()
+    }
 
     //↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓드래그 처리 부분↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 

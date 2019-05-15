@@ -67,7 +67,7 @@ class ScrapActivity : Activity() {
                                 Glide.with(this@ScrapActivity).load(metaData.favicon).into(linkImg)
                             else {
                                 linkImg.setColorFilter(AppTheme.secondaryText)
-                                Glide.with(this@ScrapActivity).load(R.drawable.sharp_language_black_48dp).into(linkImg)
+                                Glide.with(this@ScrapActivity).load(R.drawable.website).into(linkImg)
                             }
                             linkText.text = metaData.title
                         }

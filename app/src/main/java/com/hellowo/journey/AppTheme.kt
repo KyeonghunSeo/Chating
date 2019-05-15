@@ -35,8 +35,8 @@ object AppTheme {
     lateinit var hightlightCover: Drawable
     lateinit var blankDrawable: Drawable
 
-    val colors = Array(20){0}
-    val fontColors = Array(20){0}
+    val colors = Array(10){0}
+    val fontColors = Array(10){0}
 
     fun init(context: Context) {
         val typedValue = TypedValue()

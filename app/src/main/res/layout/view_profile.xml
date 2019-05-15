@@ -7,74 +7,75 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="280dp"
+        android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:paddingTop="80dp"
-        android:paddingBottom="20dp"
-        android:layout_gravity="right">
+        android:paddingBottom="20dp">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="right"
-            android:layout_marginRight="25dp"
-            android:layout_marginLeft="5dp">
+            android:layout_marginLeft="25dp">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="135dp"
-                android:layout_marginRight="100dp"
-                android:gravity="bottom">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="220dp">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/premiumTag"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_gravity="right"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/disableText">
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginLeft="2dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/crown"
-                        android:tint="@color/white"
-                        android:padding="2dp"/>
+                    android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/nameText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primaryText"
+                        android:textSize="12dp"
+                        android:text="name"
+                        android:fontFamily="@font/regular"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/premiumTag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="17dp"
-                        android:layout_marginRight="3dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_gravity="center_vertical"
-                        android:textColor="@color/white"
-                        android:textSize="8dp"
-                        android:text="@string/premium"
-                        android:fontFamily="@font/avenir_black"/>
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/disableText">
 
-                </androidx.cardview.widget.CardView>
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/crown"
+                            android:tint="@color/white"
+                            android:padding="2dp"/>
 
-                <TextView
-                    android:id="@+id/nameText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textColor="@color/primaryText"
-                    android:textSize="12dp"
-                    android:text="name"
-                    android:fontFamily="@font/regular"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="17dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="@color/white"
+                            android:textSize="8dp"
+                            android:text="@string/premium"
+                            android:fontFamily="@font/avenir_black"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/emailText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
                     android:textColor="@color/primaryText"
                     android:textSize="12dp"
                     android:text="email"
@@ -83,21 +84,20 @@
             </LinearLayout>
 
             <com.hellowo.journey.ui.view.base.Line
-                android:layout_width="20dp"
-                android:layout_height="2dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 app:colorFlag="primary"/>
 
             <TextView
                 android:id="@+id/mottoText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:lineSpacingExtra="2dp"
                 android:textColor="@color/primaryText"
-                android:gravity="right"
-                android:textSize="14dp"
+                android:fontFamily="@font/thin"
+                android:textSize="12dp"
                 android:hint="@string/motto"
                 android:text="@string/motto_sample"
                 android:background="?android:attr/selectableItemBackground"/>
@@ -114,7 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical|right"
+                android:gravity="center_vertical"
                 android:textColor="@color/primaryText"
                 android:textSize="12dp"
                 android:text="@string/premium"
@@ -125,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical|right"
+                android:gravity="center_vertical"
                 android:textColor="@color/primaryText"
                 android:textSize="12dp"
                 android:text="@string/setting"
@@ -136,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical|right"
+                android:gravity="center_vertical"
                 android:textColor="@color/primaryText"
                 android:textSize="12dp"
                 android:text="@string/about_us"
@@ -148,87 +148,43 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_gravity="center_vertical">
-
-            <LinearLayout
-                android:id="@+id/calendarBtn"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground">
-
-                <TextView
-                    android:id="@+id/calendarText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:gravity="center"
-                    android:textColor="@color/primaryText"
-                    android:textSize="18dp"
-                    android:text="@string/calendar"
-                    android:fontFamily="@font/avenir_black"/>
-
-                <View
-                    android:id="@+id/calendarBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_gravity="bottom"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@color/primaryText"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/inboxBtn"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <TextView
-                    android:id="@+id/inboxText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:gravity="center"
-                    android:textColor="@color/disableText"
-                    android:textSize="18dp"
-                    android:text="@string/inbox"
-                    android:fontFamily="@font/avenir_black"/>
-
-                <View
-                    android:id="@+id/inboxBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_gravity="bottom"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@color/primaryText"
-                    android:visibility="gone"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
+        android:layout_height="70dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <ImageView
             android:id="@+id/searchBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="10dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/search"
-            android:padding="13dp"
+            android:padding="15dp"
+            android:tint="@color/iconTint"/>
+
+        <ImageView
+            android:id="@+id/closeBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="center_vertical|right"
+            android:src="@drawable/close"
+            android:padding="15dp"
             android:tint="@color/iconTint"/>
 
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/versionText"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_margin="20dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:layout_gravity="bottom|right"
+        android:textColor="@color/disableText"
+        android:textSize="12dp"
+        android:text="V 1.0 (LATEST)"
+        android:fontFamily="@font/avenir_black"/>
 
 </FrameLayout>

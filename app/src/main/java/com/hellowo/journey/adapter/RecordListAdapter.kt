@@ -218,7 +218,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             else if(!favicon.isNullOrBlank())
                 Glide.with(context).load(favicon).into(v.linkImg)
             else {
-                Glide.with(context).load(R.drawable.sharp_language_black_48dp).into(v.linkImg)
+                Glide.with(context).load(R.drawable.website).into(v.linkImg)
             }
 
             v.linkLy.visibility = View.VISIBLE

@@ -32,7 +32,7 @@ class AddWebLinkDialog(activity: Activity, private val onResult: (Link) -> Unit)
                 Glide.with(context).load(metaData.favicon).into(linkImg)
             else {
                 linkImg.setColorFilter(AppTheme.iconColor)
-                Glide.with(context).load(R.drawable.sharp_language_black_48dp).into(linkImg)
+                Glide.with(context).load(R.drawable.website).into(linkImg)
             }
             linkText.text = metaData.title
         }

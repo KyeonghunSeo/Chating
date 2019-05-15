@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rootLy"
     android:orientation="vertical"
@@ -14,7 +14,6 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical">
 
@@ -22,7 +21,8 @@
                 android:id="@+id/backBtn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/sharp_arrow_back_black_48dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/back"
                 android:background="?android:attr/selectableItemBackground"
                 android:tint="@color/primaryText"
                 android:padding="10dp"/>
@@ -41,10 +41,11 @@
             android:id="@+id/deleteBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginRight="10dp"
             android:layout_gravity="right|center_vertical"
             android:src="@drawable/delete"
             android:tint="@color/primaryText"
-            android:padding="15dp"/>
+            android:padding="12dp"/>
 
     </FrameLayout>
 
@@ -52,17 +53,25 @@
         android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp">
+        android:layout_marginTop="70dp">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="50dp">
 
             <EditText
-                android:id="@+id/nameInput"
+                android:id="@+id/titleInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="28dp"
+                android:hint="@string/template_title"
+                android:textColorHint="@color/disableText"
+                android:background="@drawable/blank"
+                android:fontFamily="@font/bold"/>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -74,8 +83,53 @@
 
             </FrameLayout>
 
+            <LinearLayout
+                android:id="@+id/colorBtn"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/color"/>
+
+                <ImageView
+                    android:id="@+id/colorImg"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/circle_fill"
+                    android:tint="@color/primaryText"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tagBtn"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/tag"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</FrameLayout>

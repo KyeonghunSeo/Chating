@@ -432,7 +432,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         lastUpdatedItem = result[it.startIndex]
                         l("추가된 데이터 : ${lastUpdatedItem.toString()}")
                     }
-
                     timeObjectCalendarAdapter.refresh(result, withAnim)
                     withAnim = true
                     l("${AppDateFormat.mDate.format(targetCal.time)} 오브젝트 그리기 : 데이터 ${result.size} 개 / ${(System.currentTimeMillis() - t) / 1000f} 초")
@@ -464,9 +463,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun onDrag(event: DragEvent) {
-        var cellX = ((event.x - calendarPadding) / minWidth).toInt()
+        val xPos = if(MainActivity.isTabOpen()) event.x - MainActivity.tabSize else event.x
+        var cellX = ((xPos - calendarPadding) / minWidth).toInt()
         if(cellX < 0) cellX = 0
-        if(MainActivity.isTabOpen()) cellX -= MainActivity.tabSize
         val yPos = event.y - dragStartYPos
         val yCalPos = yPos + scrollView.scrollY
         var cellY = -1

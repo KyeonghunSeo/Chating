@@ -60,23 +60,15 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/listLy"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_marginTop="160dp"
-        android:layout_marginBottom="140dp"
+        android:layout_marginBottom="80dp"
         android:clipChildren="false">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clipChildren="false">
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </FrameLayout>
+    </androidx.recyclerview.widget.RecyclerView>
     
     <LinearLayout
         android:id="@+id/controlLy"
@@ -94,10 +86,10 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:background="?android:attr/selectableItemBackground"
-            android:gravity="center_vertical|right"
+            android:gravity="center"
             android:textColor="@color/primaryText"
-            android:textSize="12dp"
-            android:text="@string/add_c"
+            android:textSize="14dp"
+            android:text="@string/new_template"
             android:fontFamily="@font/avenir_black"/>
 
         <TextView
@@ -107,10 +99,10 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:background="?android:attr/selectableItemBackground"
-            android:gravity="center_vertical|right"
+            android:gravity="center"
             android:textColor="@color/primaryText"
-            android:textSize="12dp"
-            android:text="@string/edit_c"
+            android:textSize="14dp"
+            android:text="@string/edit_template"
             android:fontFamily="@font/avenir_black"/>
 
     </LinearLayout>

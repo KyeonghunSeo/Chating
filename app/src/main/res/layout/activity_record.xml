@@ -18,7 +18,7 @@
                 android:id="@+id/backBtn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/sharp_arrow_back_black_48dp"
+                android:src="@drawable/back"
                 android:background="?android:attr/selectableItemBackground"
                 android:tint="@color/primaryText"
                 android:padding="15dp"/>
