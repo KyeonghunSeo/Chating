@@ -45,7 +45,7 @@
             android:layout_gravity="right|center_vertical"
             android:src="@drawable/delete"
             android:tint="@color/primaryText"
-            android:padding="12dp"/>
+            android:padding="15dp"/>
 
     </FrameLayout>
 
@@ -73,15 +73,11 @@
                 android:background="@drawable/blank"
                 android:fontFamily="@font/bold"/>
 
-            <FrameLayout
+            <com.hellowo.journey.ui.view.TagView
+                android:id="@+id/tagView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </FrameLayout>
+            </com.hellowo.journey.ui.view.TagView>
 
             <LinearLayout
                 android:id="@+id/colorBtn"

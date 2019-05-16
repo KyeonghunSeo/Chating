@@ -10,6 +10,7 @@ import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
 import com.hellowo.journey.model.Template
+import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.list_item_template.view.*
@@ -32,12 +33,10 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
-            itemView.contentLy.setCardBackgroundColor(AppTheme.backgroundColor)
-            itemView.titleText.setTextColor(AppTheme.primaryText)
-            itemView.tagText.setTextColor(AppTheme.primaryText)
-            itemView.pinImg.setColorFilter(AppTheme.primaryText)
-            itemView.typeImg.setColorFilter(AppTheme.primaryText)
+            setGlobalTheme(container)
         }
+        fun onItemSelected() {}
+        fun onItemClear() {}
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
@@ -48,27 +47,31 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         val template = items[position]
 
         if(mode == 0) {
-            v.colorImg.setImageBitmap(null)
+            v.contentLy.setBackgroundResource(R.drawable.blank)
+            v.titleText.setTextColor(AppTheme.primaryText)
+            v.colorBtn.elevation = dpToPx(2f)
+            v.colorBtn.scaleX = 1f
+            v.colorBtn.scaleY = 1f
         }else {
-            v.colorImg.setImageResource(R.drawable.template_edit_forground)
+            v.contentLy.setBackgroundResource(R.drawable.template_edit_forground)
+            v.titleText.setTextColor(AppTheme.secondaryText)
+            v.colorBtn.elevation = 0f
+            v.colorBtn.scaleX = 0.7f
+            v.colorBtn.scaleY = 0.7f
         }
 
         v.titleText.text = template.title
-        v.titleText.setTextColor(AppTheme.getFontColor(template.colorKey))
         v.colorImg.setBackgroundColor(AppTheme.getColor(template.colorKey))
-        //v.typeImg.setColorFilter(AppTheme.getColor(template.colorKey))
+        v.colorImg.setColorFilter(AppTheme.getFontColor(template.colorKey))
 
         if(template.tags.isNotEmpty()) {
-            v.tagText.visibility = View.VISIBLE
+            v.tagText.visibility = View.GONE
             v.tagText.text = template.tags.joinToString("") { "#${it.id}" }
         }else {
             v.tagText.visibility = View.GONE
             v.tagText.text = context.getString(R.string.no_tag)
         }
 
-        val folder = MainActivity.instance?.viewModel?.targetFolder?.value
-        v.contentLy.cardElevation = dpToPx(3f)
-        v.contentLy.alpha = 1f
         v.setOnClickListener { adapterInterface.invoke(template, mode) }
     }
 
@@ -101,9 +104,9 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
             // We only want the active item to change
             if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-                if (viewHolder is TemplateEditAdapter.ViewHolder) {
+                if (viewHolder is TemplateAdapter.ViewHolder) {
                     // Let the view holder know that this item is being moved or dragged
-                    val itemViewHolder = viewHolder as TemplateEditAdapter.ViewHolder?
+                    val itemViewHolder = viewHolder as TemplateAdapter.ViewHolder?
                     itemViewHolder?.onItemSelected()
                 }
             }else if(reordering && actionState == ItemTouchHelper.ACTION_STATE_IDLE){
@@ -125,7 +128,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
             viewHolder.itemView.alpha = ALPHA_FULL
-            (viewHolder as? TemplateEditAdapter.ViewHolder)?.onItemClear()
+            (viewHolder as? TemplateAdapter.ViewHolder)?.onItemClear()
         }
     }
 }

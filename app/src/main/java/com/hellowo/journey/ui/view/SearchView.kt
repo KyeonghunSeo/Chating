@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
@@ -13,14 +14,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import androidx.transition.*
 import com.hellowo.journey.*
 import com.hellowo.journey.R
@@ -48,9 +45,6 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private val adapter = RecordListAdapter(context, items, Calendar.getInstance()) { view, timeObject, action ->
         when(action) {
             0 -> {
-                MainActivity.instance?.viewModel?.let {
-                    it.targetTimeObject.value = timeObject
-                }
             }
         }
     }
@@ -77,7 +71,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         })
 
         tagInput.setOnClickListener {
-            showDialog(TagDialog(MainActivity.instance!!, tags) {
+            showDialog(TagDialog(context as Activity, tags) {
                 if(tags.isNotEmpty()) {
                     tagInput.text = tags.joinToString("") { "#${it.id}" }
                 }else {

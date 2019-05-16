@@ -24,6 +24,8 @@ const val RC_OS_CALENDAR = 9092
 const val RC_IMAGE_ATTACHMENT = 9093
 const val RC_SETTING = 9094
 
+const val RESULT_CALENDAR_SETTING = 100
+
 var mainBarHeight = dpToPx(50)
 var smallMargin = dpToPx(10f)
 var normalMargin = dpToPx(16f)

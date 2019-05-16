@@ -12,6 +12,7 @@ import com.hellowo.journey.model.Tag
 import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.showDialog
 import io.realm.Realm
+import io.realm.RealmList
 import kotlinx.android.synthetic.main.dialog_tag.*
 import kotlin.collections.ArrayList
 

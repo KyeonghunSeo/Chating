@@ -233,5 +233,6 @@
     <string name="date_after">%1$s일후</string>
     <string name="color_c">COLOR</string>
     <string name="new_template">새 템플릿</string>
+    <string name="new_tag">새 태그</string>
 
 </resources>

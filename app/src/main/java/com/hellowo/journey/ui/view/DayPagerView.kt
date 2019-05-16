@@ -105,8 +105,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun show() {
         viewMode = ViewMode.ANIMATING
         visibility = View.VISIBLE
-        alpha = 0.85f
-
+        alpha = 0.9f
         initTime(MainActivity.getTargetCal()?.timeInMillis ?: System.currentTimeMillis())
 
         MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
@@ -121,12 +120,11 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val animSet = AnimatorSet()
             animSet.playTogether(
                     ObjectAnimator.ofFloat(this@DayPagerView, "elevation", 0f, startZ))
-            animSet.duration = 150
+            animSet.duration = 100
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.addListener(object : AnimatorListenerAdapter(){
                 override fun onAnimationEnd(p0: Animator?) {
                     val transiion = makeChangeBounceTransition()
-                    //transiion.setPathMotion(ArcMotion())
                     transiion.addListener(object : TransitionListenerAdapter(){
                         override fun onTransitionEnd(transition: Transition) {
                             dayViews.forEach { it.setDateOpenedStyle() }
@@ -161,14 +159,12 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)
             val transiion = makeChangeBounceTransition()
-            //transiion.setPathMotion(ArcMotion())
             transiion.addListener(object : TransitionListenerAdapter(){
                 override fun onTransitionEnd(transition: Transition) {
                     val animSet = AnimatorSet()
-                    animSet.playTogether(ObjectAnimator.ofFloat(this@DayPagerView,
-                            "elevation", startZ, 0f).setDuration(ANIM_DUR),
-                            ObjectAnimator.ofFloat(this@DayPagerView, "alpha", 1f, 0.85f).setDuration(ANIM_DUR))
+                    animSet.playTogether(ObjectAnimator.ofFloat(this@DayPagerView, "elevation", startZ, 0f))
                     animSet.interpolator = FastOutSlowInInterpolator()
+                    animSet.duration = 150L
                     animSet.addListener(object : AnimatorListenerAdapter(){
                         override fun onAnimationEnd(p0: Animator?) {
                             viewMode = ViewMode.CLOSED
@@ -180,7 +176,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
                 override fun onTransitionStart(transition: Transition) {
                     onVisibility?.invoke(false)
-                    targetDayView.hide()
+                    targetDayView.hide(this@DayPagerView)
                 }
             })
             TransitionManager.beginDelayedTransition(this, transiion)

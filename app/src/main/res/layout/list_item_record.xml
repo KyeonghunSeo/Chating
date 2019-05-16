@@ -8,9 +8,9 @@
 
    <FrameLayout
        android:id="@+id/iconArea"
-       android:layout_marginLeft="10dp"
        android:layout_width="50dp"
-       android:layout_height="50dp">
+       android:layout_height="50dp"
+       android:layout_marginLeft="8dp">
 
       <ImageView
           android:id="@+id/iconImg"
@@ -29,7 +29,7 @@
        android:layout_height="wrap_content"
        android:layout_marginTop="14dp"
        android:layout_marginBottom="15dp"
-       android:layout_marginLeft="60dp"
+       android:layout_marginLeft="58dp"
        android:layout_marginRight="@dimen/extra_margin">
 
       <LinearLayout

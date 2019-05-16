@@ -1,12 +1,8 @@
 package com.hellowo.journey.ui.activity
 
 import android.Manifest
-import android.animation.AnimatorSet
-import android.animation.LayoutTransition
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -16,9 +12,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -43,7 +36,6 @@ import com.hellowo.journey.model.Record
 import com.hellowo.journey.model.Tag
 import com.hellowo.journey.ui.dialog.*
 import kotlinx.android.synthetic.main.activity_record.*
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -57,7 +49,7 @@ class RecordActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record)
-        MainActivity.getViewModel()?.targetTimeObject?.value?.let {
+        MainActivity.getViewModel()?.targetRecord?.value?.let {
             initTheme(rootLy)
             initLayout()
             initInput()
@@ -272,8 +264,7 @@ class RecordActivity : BaseActivity() {
     }
 
     fun showTagDialog() {
-        val items = ArrayList<Tag>().apply { addAll(record.tags) }
-        showDialog(TagDialog(this, items) {
+        showDialog(TagDialog(this, ArrayList(record.tags)) {
             record.tags.clear()
             record.tags.addAll(it)
             updateTagUI()

@@ -1,23 +1,13 @@
 package com.hellowo.journey.ui.activity
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
-import com.hellowo.journey.adapter.TemplateEditAdapter
-import com.hellowo.journey.adapter.util.TemplateDiffCallback
 import com.hellowo.journey.l
-import com.hellowo.journey.model.Tag
 import com.hellowo.journey.model.Template
 import com.hellowo.journey.showDialog
 import com.hellowo.journey.ui.dialog.*
-import io.realm.OrderedCollectionChangeSet
 import io.realm.Realm
-import io.realm.RealmResults
-import io.realm.Sort
 import kotlinx.android.synthetic.main.activity_edit_template.*
 import java.util.*
 
@@ -45,7 +35,11 @@ class TemplateEditActivity : BaseActivity() {
         }
         l(template.toString())
 
+        if(!template.title.isNullOrBlank()) {
+            titleInput.setText(template.title.toString())
+        }
         updateColorUI()
+        updateTagUI()
 
         /*
         addBtn.setOnClickListener {
@@ -161,6 +155,17 @@ class TemplateEditActivity : BaseActivity() {
             showDialog(ColorPickerDialog(this@TemplateEditActivity, template.colorKey) { colorKey ->
                 template.colorKey = colorKey
                 updateColorUI()
+            }, true, true, true, false)
+        }
+    }
+
+    private fun updateTagUI() {
+        tagView.setItems(template.tags)
+        tagBtn.setOnClickListener {
+            showDialog(TagDialog(this@TemplateEditActivity, ArrayList(template.tags)) { tags ->
+                template.tags.clear()
+                template.tags.addAll(tags)
+                updateTagUI()
             }, true, true, true, false)
         }
     }

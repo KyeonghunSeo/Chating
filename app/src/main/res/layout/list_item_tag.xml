@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@drawable/normal_rect_stroke"
+    android:padding="10dp"
     android:gravity="center_vertical">
 
    <TextView
@@ -10,30 +12,29 @@
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:textSize="16dp"
-       android:layout_marginLeft="10dp"
        android:layout_gravity="center"
        android:gravity="center"
        android:textColor="@color/primaryText"
-       android:fontFamily="@font/regular"
+       android:fontFamily="@font/bold"
        android:text="#"/>
 
    <TextView
        android:id="@+id/tagText"
-       android:layout_width="0dp"
+       android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:layout_weight="1"
        android:textSize="16dp"
-       android:layout_margin="10dp"
+       android:layout_marginLeft="10dp"
        android:layout_gravity="center"
+       android:maxLines="1"
        android:gravity="center_vertical"
        android:textColor="@color/primaryText"/>
 
    <ImageView
        android:id="@+id/deleteBtn"
-       android:layout_width="30dp"
-       android:layout_height="30dp"
-       android:padding="7dp"
-       android:src="@drawable/pencil"
+       android:layout_width="20dp"
+       android:layout_height="20dp"
+       android:padding="3dp"
+       android:src="@drawable/close"
        android:tint="@color/iconTint"/>
 
 </LinearLayout>

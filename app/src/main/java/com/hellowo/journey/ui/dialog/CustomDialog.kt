@@ -27,9 +27,6 @@ class CustomDialog(activity: Activity, private val title: String, private val su
     }
 
     private fun setLayout() {
-        rootLy.layoutParams.width = WRAP_CONTENT
-        rootLy.requestLayout()
-
         titleText.text = title
 
         if(!sub.isNullOrEmpty()) {
@@ -41,7 +38,6 @@ class CustomDialog(activity: Activity, private val title: String, private val su
 
         if(options != null) {
             optionLy.visibility = View.VISIBLE
-            bottomDivider.visibility = View.GONE
             confirmBtn.visibility = View.GONE
             (0 until optionLy.childCount).forEach { index ->
                 if(index < options.size) {

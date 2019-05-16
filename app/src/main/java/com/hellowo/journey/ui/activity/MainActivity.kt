@@ -23,6 +23,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
 import com.hellowo.journey.*
 import com.hellowo.journey.adapter.FolderAdapter
@@ -257,7 +258,7 @@ class MainActivity : BaseActivity() {
         viewModel.loading.observe(this, Observer {
             if(it as Boolean) {}
         })
-        viewModel.targetTimeObject.observe(this, Observer { timeObject ->
+        viewModel.targetRecord.observe(this, Observer { timeObject ->
             if(timeObject != null) {
                 startActivity(Intent(this@MainActivity, RecordActivity::class.java))
             }
@@ -318,24 +319,30 @@ class MainActivity : BaseActivity() {
             calendarLy.visibility = View.INVISIBLE
             noteView.visibility = View.VISIBLE
         }
+        refreshCalendar()
+        noteView.notifyDataChanged()
+    }
+
+    private fun refreshCalendar() {
         calendarPagerView.redraw()
         if(dayPagerView.isOpened()){
             dayPagerView.notifyDateChanged()
         }
-        noteView.notifyDataChanged()
     }
 
     private fun updateUserUI(appUser: AppUser) {
+        updateProfileImage()
+        profileView.updateUserUI(appUser)
+    }
+
+    private fun updateProfileImage() {
         when {
-            appUser.profileImgUrl?.isNotEmpty() == true -> Glide.with(this).load(appUser.profileImgUrl)
-                    .apply(RequestOptions().override(dpToPx(90)))
-                    .into(profileImg)
-            FirebaseAuth.getInstance().currentUser?.photoUrl != null -> Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl)
+            FirebaseAuth.getInstance().currentUser?.photoUrl != null ->
+                Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl)
                     .apply(RequestOptions().override(dpToPx(90)))
                     .into(profileImg)
             else -> profileImg.setImageResource(R.drawable.menu)
         }
-        profileView.updateUserUI(appUser)
     }
 
     @SuppressLint("SetTextI18n")
@@ -485,7 +492,8 @@ class MainActivity : BaseActivity() {
                         .into(object : SimpleTarget<Bitmap>(){
                             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                                 l("사진 크기 : ${resource.rowBytes} 바이트")
-                                val ref = FirebaseStorage.getInstance().reference.child("${viewModel.appUser.value?.id}/profileImg.jpg")
+                                val ref = FirebaseStorage.getInstance().reference
+                                        .child("${viewModel.appUser.value?.id}/profileImg.jpg")
                                 val baos = ByteArrayOutputStream()
                                 resource.compress(Bitmap.CompressFormat.JPEG, 25, baos)
                                 val uploadTask = ref.putBytes(baos.toByteArray())
@@ -494,8 +502,17 @@ class MainActivity : BaseActivity() {
                                 }.addOnSuccessListener {
                                     ref.downloadUrl.addOnCompleteListener {
                                         l("다운로드 url : ${it.result.toString()}")
-                                        viewModel.saveProfileImage(it.result.toString())
-                                        hideProgressDialog()
+                                        val user = FirebaseAuth.getInstance().currentUser
+                                        val profileUpdates = UserProfileChangeRequest.Builder()
+                                                .setPhotoUri(it.result)
+                                                .build()
+                                        user?.updateProfile(profileUpdates)
+                                                ?.addOnCompleteListener { task ->
+                                                    if (task.isSuccessful) {
+                                                        updateProfileImage()
+                                                    }
+                                                    hideProgressDialog()
+                                                }
                                     }
                                 }
                             }
@@ -508,8 +525,11 @@ class MainActivity : BaseActivity() {
                 result.error.printStackTrace()
             }
         }else if(requestCode == RC_OS_CALENDAR) {
-            refreshAll()
-        }else if(requestCode == RC_SETTING && resultCode == RESULT_OK) {
+            refreshCalendar()
+        }else if(requestCode == RC_SETTING && resultCode == RESULT_CALENDAR_SETTING) {
+            if(!getTargetFolder().isCalendar()) viewModel.setCalendarFolder()
+            if(viewModel.openFolder.value == true) viewModel.openFolder.value = false
+            if(dayPagerView.isOpened()) dayPagerView.hide()
             profileView.hide()
             showDialog(CalendarSettingsDialog(this@MainActivity),
                     true, false, true, false)

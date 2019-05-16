@@ -1,12 +1,16 @@
 package com.hellowo.journey.adapter
 
 import android.annotation.SuppressLint
+import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
+import android.provider.CalendarContract
+import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
+import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.BackgroundColorSpan
@@ -23,6 +27,7 @@ import com.hellowo.journey.manager.RepeatManager
 import com.hellowo.journey.manager.RecordManager
 import com.hellowo.journey.model.Link
 import com.hellowo.journey.model.Record
+import com.hellowo.journey.ui.activity.MainActivity
 import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.list_item_record.view.*
 import org.json.JSONObject
@@ -61,7 +66,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         val timeObject = items[position]
         val v = holder.itemView
 
-        v.setOnClickListener { adapterInterface.invoke(it, timeObject, 0) }
+        v.setOnClickListener { onItemClick(timeObject) }
         v.setOnLongClickListener {
             itemTouchHelper?.startDrag(holder)
             return@setOnLongClickListener false
@@ -227,6 +232,24 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             }
         }else {
             v.linkLy.visibility = View.GONE
+        }
+    }
+
+    private fun onItemClick(record: Record) {
+        if(record.id?.startsWith("osInstance::") == true) {
+            val eventId = record.id?.substring("osInstance::".length, record.id!!.length)?.toLong() ?: -1
+            val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
+            val intent = Intent(Intent.ACTION_VIEW).setData(uri)
+            if(record.isSetTime()) {
+                intent.putExtra(EXTRA_EVENT_BEGIN_TIME, record.dtStart)
+                intent.putExtra(EXTRA_EVENT_END_TIME, record.dtEnd)
+            }else {
+                intent.putExtra(EXTRA_EVENT_BEGIN_TIME, record.dtUpdated)
+                intent.putExtra(EXTRA_EVENT_END_TIME, record.dtCreated)
+            }
+            MainActivity.instance?.startActivityForResult(intent, RC_OS_CALENDAR)
+        }else {
+            MainActivity.getViewModel()?.targetRecord?.value = record
         }
     }
 

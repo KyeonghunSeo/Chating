@@ -2,19 +2,24 @@ package com.hellowo.journey.ui.view
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.ContentUris
 import android.content.Context
-import android.content.Intent
 import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.*
+import com.hellowo.journey.adapter.RecordListAdapter
+import com.hellowo.journey.adapter.util.ListDiffCallback
+import com.hellowo.journey.adapter.util.RecordListComparator
+import com.hellowo.journey.manager.*
 import com.hellowo.journey.model.Record
 import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.OrderedCollectionChangeSet
@@ -22,20 +27,9 @@ import io.realm.RealmResults
 import kotlinx.android.synthetic.main.view_day.view.*
 import kotlinx.android.synthetic.main.view_selected_bar.view.*
 import java.util.*
-import kotlin.collections.ArrayList
-import android.os.Looper
-import android.provider.CalendarContract
-import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
-import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
-import android.view.Gravity
-import android.widget.FrameLayout
-import com.hellowo.journey.adapter.RecordListAdapter
-import com.hellowo.journey.adapter.util.ListDiffCallback
-import com.hellowo.journey.manager.*
-import com.hellowo.journey.adapter.util.RecordListComparator
-import com.hellowo.journey.model.KoreanLunarCalendar
 import java.util.Calendar.SATURDAY
 import java.util.Calendar.SUNDAY
+import kotlin.collections.ArrayList
 
 
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -49,7 +43,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private val adapter = RecordListAdapter(context, currentList, targetCal) { view, timeObject, action ->
         when(action) {
-            0 -> onItemClick(view, timeObject)
         }
     }
 
@@ -163,26 +156,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }.start()
     }
 
-    private fun onItemClick(view: View?, record: Record) {
-        MainActivity.instance?.viewModel?.let {
-            if(record.id?.startsWith("osInstance::") == true) {
-                val eventId = record.id!!.substring("osInstance::".length, record.id!!.length).toLong()
-                val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
-                val intent = Intent(Intent.ACTION_VIEW).setData(uri)
-                if(record.isSetTime()) {
-                    intent.putExtra(EXTRA_EVENT_BEGIN_TIME, record.dtUpdated)
-                    intent.putExtra(EXTRA_EVENT_END_TIME, record.dtCreated)
-                }else {
-                    intent.putExtra(EXTRA_EVENT_BEGIN_TIME, record.dtStart)
-                    intent.putExtra(EXTRA_EVENT_END_TIME, record.dtEnd)
-                }
-                MainActivity.instance?.startActivityForResult(intent, RC_OS_CALENDAR)
-            }else {
-                it.targetTimeObject.value = record
-            }
-        }
-    }
-
     fun clear() {
         recordList?.removeAllChangeListeners()
         currentList.clear()
@@ -218,8 +191,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     fun show(dayPagerView: DayPagerView) {
         dowText.text = AppDateFormat.dowfullEng.format(targetCal.time).toUpperCase()
         val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(dayPagerView, "elevation", startZ, endZ),
-                ObjectAnimator.ofFloat(dayPagerView, "alpha", 0.85f, 1f),
+        animSet.playTogether(ObjectAnimator.ofFloat(dayPagerView, "alpha", 0.9f, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleX", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dateLy, "scaleY", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dowText, "scaleX", 1f, subScale),
@@ -244,11 +216,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         animSet.start()
     }
 
-    fun hide() {
+    fun hide(dayPagerView: DayPagerView) {
         dowText.text = AppDateFormat.dowEng.format(targetCal.time).toUpperCase()
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
-        animSet.playTogether(
+        animSet.playTogether(ObjectAnimator.ofFloat(dayPagerView, "alpha", 1f, 0.9f),
                 ObjectAnimator.ofFloat(dateLy, "scaleX", headerTextScale, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleY", headerTextScale, 1f),
                 ObjectAnimator.ofFloat(dowText, "scaleX", subScale, 1f),

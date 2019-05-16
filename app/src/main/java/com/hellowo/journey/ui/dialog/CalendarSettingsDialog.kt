@@ -53,7 +53,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
                 AppStatus.startDayOfWeek = index + 1
                 Prefs.putInt("startDayOfWeek", AppStatus.startDayOfWeek)
                 setStartDow()
-                MainActivity.getCalendarPagerView()?.redraw()
+                MainActivity.getCalendarPagerView()?.redrawAndSelect()
             }, true, true, true, false)
         }
     }
@@ -70,7 +70,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
             AppStatus.isDowDisplay = !AppStatus.isDowDisplay
             Prefs.putBoolean("isDowDisplay", AppStatus.isDowDisplay)
             setDowDisplay()
-            MainActivity.getCalendarPagerView()?.redraw()
+            MainActivity.getCalendarPagerView()?.redrawAndSelect()
         }
     }
 
@@ -99,7 +99,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
                 }
             }
             setWeekendDisplay()
-            MainActivity.getCalendarPagerView()?.redraw()
+            MainActivity.getCalendarPagerView()?.redrawAndSelect()
         }
     }
 
@@ -122,7 +122,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
                 Prefs.putInt("holidayDisplay", AppStatus.holidayDisplay)
                 DateInfoManager.init()
                 setHoliDisplay()
-                MainActivity.getCalendarPagerView()?.redraw()
+                MainActivity.getCalendarPagerView()?.redrawAndSelect()
             }, true, true, true, false)
         }
     }
@@ -139,7 +139,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
             AppStatus.isLunarDisplay = !AppStatus.isLunarDisplay
             Prefs.putBoolean("isLunarDisplay", AppStatus.isLunarDisplay)
             setLunarDisplay()
-            MainActivity.getCalendarPagerView()?.redraw()
+            MainActivity.getCalendarPagerView()?.redrawAndSelect()
         }
     }
 
@@ -162,7 +162,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
             }
             Prefs.putFloat("outsideMonthAlpha", AppStatus.outsideMonthAlpha)
             setOutsideMonth()
-            MainActivity.getCalendarPagerView()?.redraw()
+            MainActivity.getCalendarPagerView()?.redrawAndSelect()
         }
     }
 
@@ -181,7 +181,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
             }
             Prefs.putInt("calTextSize", AppStatus.calTextSize)
             setCalTextSize()
-            MainActivity.getCalendarPagerView()?.redraw()
+            MainActivity.getCalendarPagerView()?.redrawAndSelect()
         }
     }
 
@@ -198,7 +198,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
             else AppStatus.weekLine = 0
             Prefs.putInt("weekLine", AppStatus.weekLine)
             setWeekLine()
-            MainActivity.getCalendarPagerView()?.redraw()
+            MainActivity.getCalendarPagerView()?.redrawAndSelect()
         }
     }
 

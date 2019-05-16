@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipChildren="false">
+    android:layout_height="match_parent">
 
     <View
         android:id="@+id/backgroundLy"
@@ -65,9 +64,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
+        android:paddingBottom="50dp"
+        android:clipToPadding="false"
         android:layout_marginTop="160dp"
-        android:layout_marginBottom="80dp"
-        android:clipChildren="false">
+        android:layout_marginBottom="30dp">
     </androidx.recyclerview.widget.RecyclerView>
     
     <LinearLayout

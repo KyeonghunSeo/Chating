@@ -1,6 +1,5 @@
 package com.hellowo.journey.viewmodel
 
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -16,7 +15,7 @@ import java.util.*
 class MainViewModel : ViewModel() {
     val realm = MutableLiveData<Realm>()
     val loading = MutableLiveData<Boolean>()
-    val targetTimeObject = MutableLiveData<Record?>()
+    val targetRecord = MutableLiveData<Record?>()
     val appUser = MutableLiveData<AppUser?>()
     val targetTemplate = MutableLiveData<Template>()
     val templateList = MutableLiveData<RealmResults<Template>>()
@@ -118,11 +117,15 @@ class MainViewModel : ViewModel() {
     fun setTargetTimeObjectById(id: String?) {
         realm.value?.let { realm ->
             id?.let {
-                targetTimeObject.value = realm.where(Record::class.java)
+                targetRecord.value = realm.where(Record::class.java)
                         .equalTo("id", it)
                         .findFirst()
             }
         }
+    }
+
+    fun setCalendarFolder() {
+        folderList.value?.first{ it.isCalendar() }?.let { setTargetFolder(it) }
     }
 
     fun setTargetFolder() {
@@ -144,22 +147,22 @@ class MainViewModel : ViewModel() {
     }
 
     fun clearTargetTimeObject() {
-        targetTimeObject.value = null
+        targetRecord.value = null
     }
 
     fun makeNewTimeObject(type: Int) {
         val timeObject = makeTimeObjectByTatgetTemplate(getCalendarTime0(targetTime.value!!), getCalendarTime23(targetTime.value!!))
         timeObject.type = type
-        targetTimeObject.value = timeObject
+        targetRecord.value = timeObject
     }
 
     fun makeNewTimeObject() {
-        targetTimeObject.value = makeTimeObjectByTatgetTemplate(
+        targetRecord.value = makeTimeObjectByTatgetTemplate(
                 getCalendarTime0(targetTime.value!!), getCalendarTime23(targetTime.value!!))
     }
 
     fun makeNewTimeObject(startTime: Long, endTime: Long) {
-        targetTimeObject.value = makeTimeObjectByTatgetTemplate(startTime, endTime)
+        targetRecord.value = makeTimeObjectByTatgetTemplate(startTime, endTime)
     }
 
     fun makeTimeObjectByTatgetTemplate(startTime: Long, endTime: Long) =

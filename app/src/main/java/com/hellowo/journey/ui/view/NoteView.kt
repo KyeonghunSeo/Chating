@@ -31,7 +31,6 @@ class NoteView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private val adapter = RecordListAdapter(context, items, Calendar.getInstance()) { view, timeObject, action ->
         when(action) {
             0 -> {
-                MainActivity.instance?.viewModel?.let { it.targetTimeObject.value = timeObject }
             }
         }
     }

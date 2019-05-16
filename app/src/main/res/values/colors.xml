@@ -9,7 +9,7 @@
     <color name="iconTint">#000000</color>
 
     <color name="primaryText">#000000</color>
-    <color name="secondaryText">#303033</color>
+    <color name="secondaryText">#606066</color>
     <color name="disableText">#e4e4e4</color>
     <color name="line">#e4e4e4</color>
 
@@ -19,24 +19,25 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="almostWhite">#F4F4F4</color>
-    <color name="red">#ed5958</color>
-    <color name="blue">#79a5c6</color>
+    <color name="red">#f7323f</color>
+    <color name="blue">#3da9f6</color>
     <color name="transparent">#00000000</color>
 
     <color name="grey">#e4e7ef</color>
 
     <string-array name="colors">
-        <item>#f44336</item>
-        <item>#f48fb1</item>
-        <item>#ab47bc</item>
-        <item>#3f51b5</item>
-        <item>#1e88e5</item>
-
-        <item>#388e3c</item>
-        <item>#fbc02d</item>
-        <item>#ff5722</item>
-        <item>#eeeeee</item>
-        <item>#212121</item>
+        <item>#3da9f6</item>
+        <item>#7ea0c4</item>
+        <item>#bb80d1</item>
+        <item>#ff4c00</item>
+        <item>#00b392</item>
+        <item>#69c9ba</item>
+        <item>#fd92a3</item>
+        <item>#f7323f</item>
+        <item>#72d54a</item>
+        <item>#d5d755</item>
+        <item>#ffd235</item>
+        <item>#ff9e16</item>
     </string-array>
 
     <string-array name="font_colors">
@@ -45,7 +46,8 @@
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
-
+        <item>#FFFFFFFF</item>
+        <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>

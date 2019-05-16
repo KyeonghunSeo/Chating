@@ -15,6 +15,7 @@
         android:id="@+id/mainPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:outlineSpotShadowColor="@color/secondaryText"
         app:cardCornerRadius="0dp"
         app:cardElevation="30dp">
 
@@ -184,7 +185,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="13dp"
                     android:src="@drawable/arrow_right"
-                    android:tint="@color/primaryText"/>
+                    android:tint="@color/secondaryText"/>
 
             </androidx.cardview.widget.CardView>
 

@@ -51,6 +51,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         settingsBtn.setOnClickListener { MainActivity.instance?.let {
             it.startActivityForResult(Intent(it, SettingsActivity::class.java), RC_SETTING) } }
         premiumBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, PremiumActivity::class.java)) } }
+        premiumTag.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, PremiumActivity::class.java)) } }
         aboutUsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, AboutUsActivity::class.java)) } }
         closeBtn.setOnClickListener { hide() }
     }

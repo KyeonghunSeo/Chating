@@ -86,6 +86,7 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
                 selectedTargetCalendarView(calendarView)
                 calendarView.onDrawed = {
                     calendarView.selectDate(calendarView.todayCellNum)
+                    calendarView.onDrawed = null
                 }
             }else {
                 calendarView.onDrawed = null
@@ -118,6 +119,10 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
 
     fun redraw() {
         calendarViews.forEach { it.redraw() }
+    }
+
+    fun redrawAndSelect(){
+        redraw()
         targetCalendarView.selectDate()
     }
 

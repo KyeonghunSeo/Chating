@@ -25,7 +25,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     lateinit var onSelceted: (Int) -> Unit
 
     init {
-        layoutManager = GridLayoutManager(context, 5)
+        layoutManager = GridLayoutManager(context, 4)
         adapter = PickerAdapter()
         addItemDecoration(SpacesItemDecoration(dpToPx(5)))
     }

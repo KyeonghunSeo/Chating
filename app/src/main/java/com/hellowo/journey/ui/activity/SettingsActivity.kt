@@ -10,6 +10,7 @@ import androidx.core.widget.NestedScrollView
 import com.google.firebase.auth.FirebaseAuth
 import com.hellowo.journey.R
 import com.hellowo.journey.RC_PERMISSIONS
+import com.hellowo.journey.RESULT_CALENDAR_SETTING
 import com.hellowo.journey.showDialog
 import com.hellowo.journey.ui.dialog.CalendarSettingsDialog
 import com.hellowo.journey.ui.dialog.CustomDialog
@@ -45,7 +46,7 @@ class SettingsActivity : BaseActivity() {
 
         calendarSettingBtn.setOnClickListener {
             MainActivity.instance?.let {
-                setResult(Activity.RESULT_OK)
+                setResult(RESULT_CALENDAR_SETTING)
                 finish()
             }
         }
