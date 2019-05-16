@@ -184,7 +184,7 @@
     <string name="shedule">스케쥴</string>
     <string name="delete_shedule_sub">스케쥴 정보를 제거합니다</string>
     <string name="weblink_sub">웹사이트 주소를 입력하세요</string>
-    <string name="motto">좌우명</string>
+    <string name="motto">메모</string>
     <string name="motto_sample">지혜란\n생각이 떠올랐을때\n바로 기록하는 것이다</string>
     <string name="about_us">ABOUT US</string>
     <string name="search">검색</string>
@@ -234,5 +234,10 @@
     <string name="color_c">COLOR</string>
     <string name="new_template">새 템플릿</string>
     <string name="new_tag">새 태그</string>
+    <string name="close">닫기</string>
+    <string name="new_tag_sub">기록에 태그를 붙이면 더 빠르게 검색할수 있고, 유용한 통계자료도 만들수 있어요.</string>
+    <string name="enter_tag_name">이곳에 태그이름을 입력</string>
+    <string name="edit_tag">태그 편집</string>
+    <string name="already_exist_tag">이미 존재하는 태그이름 입니다</string>
 
 </resources>

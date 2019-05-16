@@ -11,7 +11,6 @@ import com.hellowo.journey.R
 import com.hellowo.journey.dpToPx
 import com.hellowo.journey.model.Template
 import com.hellowo.journey.setGlobalTheme
-import com.hellowo.journey.ui.activity.MainActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.list_item_template.view.*
 import java.util.*
@@ -53,7 +52,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             v.colorBtn.scaleX = 1f
             v.colorBtn.scaleY = 1f
         }else {
-            v.contentLy.setBackgroundResource(R.drawable.template_edit_forground)
+            v.contentLy.setBackgroundResource(R.drawable.edit_dash_rect)
             v.titleText.setTextColor(AppTheme.secondaryText)
             v.colorBtn.elevation = 0f
             v.colorBtn.scaleX = 0.7f

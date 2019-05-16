@@ -1,40 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/normal_rect_stroke"
-    android:padding="10dp"
-    android:gravity="center_vertical">
+    android:layout_height="wrap_content">
 
-   <TextView
-       android:id="@+id/hashText"
+   <LinearLayout
+       android:id="@+id/contentLy"
+       android:orientation="horizontal"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:textSize="16dp"
-       android:layout_gravity="center"
-       android:gravity="center"
-       android:textColor="@color/primaryText"
-       android:fontFamily="@font/bold"
-       android:text="#"/>
-
-   <TextView
-       android:id="@+id/tagText"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:textSize="16dp"
-       android:layout_marginLeft="10dp"
-       android:layout_gravity="center"
-       android:maxLines="1"
+       android:background="@drawable/normal_rect_stroke"
+       android:foreground="?android:attr/selectableItemBackground"
+       android:padding="5dp"
        android:gravity="center_vertical"
-       android:textColor="@color/primaryText"/>
+       android:layout_marginRight="5dp"
+       android:layout_marginBottom="5dp">
 
-   <ImageView
-       android:id="@+id/deleteBtn"
-       android:layout_width="20dp"
-       android:layout_height="20dp"
-       android:padding="3dp"
-       android:src="@drawable/close"
-       android:tint="@color/iconTint"/>
+      <TextView
+          android:id="@+id/tagText"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="2dp"
+          android:layout_marginRight="2dp"
+          android:textSize="12dp"
+          android:layout_gravity="center"
+          android:maxLines="1"
+          android:gravity="center_vertical"
+          android:text="#hashtag"
+          android:textColor="@color/primaryText"/>
 
-</LinearLayout>
+      <ImageView
+          android:id="@+id/deleteBtn"
+          android:layout_width="16dp"
+          android:layout_height="16dp"
+          android:layout_marginLeft="3dp"
+          android:src="@drawable/delete_circle"
+          android:tint="@color/iconTint"/>
+
+   </LinearLayout>
+
+</FrameLayout>

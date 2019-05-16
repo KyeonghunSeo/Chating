@@ -1,84 +1,83 @@
 package com.hellowo.journey.ui.dialog
 
 import android.app.Activity
-import android.app.Dialog
 import android.os.Bundle
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.widget.Toast
+import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
-import com.hellowo.journey.adapter.TagAdapter
 import com.hellowo.journey.model.Tag
 import com.hellowo.journey.setGlobalTheme
 import com.hellowo.journey.showDialog
+import com.hellowo.journey.ui.view.TagView.Companion.MODE_CHECK
+import com.hellowo.journey.ui.view.TagView.Companion.MODE_EDIT
 import io.realm.Realm
-import io.realm.RealmList
 import kotlinx.android.synthetic.main.dialog_tag.*
-import kotlin.collections.ArrayList
 
 
 class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
-                private val onResult: (ArrayList<Tag>) -> Unit) : Dialog(activity) {
-    val realm = Realm.getDefaultInstance()
+                private val onResult: (ArrayList<Tag>) -> Unit) : BaseDialog(activity) {
+    private val realm = Realm.getDefaultInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.attributes.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_tag)
-        setGlobalTheme(rootLy)
         setLayout()
-        setOnShowListener {}
     }
 
     private fun setLayout() {
-        rootLy.layoutParams.width = WRAP_CONTENT
-        rootLy.requestLayout()
-
-        tagText.text = items.joinToString("") { "#${it.id}" }
-
-        addBtn.setOnClickListener { createAndAddTag() }
-        tagInput.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == IME_ACTION_DONE) { createAndAddTag() }
-            return@setOnEditorActionListener false
-        }
-
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = TagAdapter(realm.where(Tag::class.java).findAllAsync(), items) { action, tag ->
-            when(action) {
-                0 -> {
-                    if(items.any { it.id == tag.id }){
-                        items.remove(items.first { it.id == tag.id })
-                    }else {
-                        items.add(realm.copyFromRealm(tag))
-                    }
-                }
-                1 -> {
-                    showDialog(CustomDialog(activity, context.getString(R.string.delete_tag),
-                            context.getString(R.string.delete_tag_sub), null) { result, _, _ ->
-                        if(result) {
-                            deleteTag(tag)
-                        }
+        setGlobalTheme(rootLy)
+        tagView.mode = MODE_CHECK
+        tagView.onSelected = { tag, action ->
+            if(tagView.mode == MODE_EDIT) {
+                if(tag != null) {
+                    showDialog(InputDialog(activity, context.getString(R.string.edit_tag), null,
+                            context.getString(R.string.enter_tag_name), tag.title, true) { result, text ->
+                        if(result) { editTag(tag.title, text) }
+                    }, true, true, true, false)
+                }else {
+                    showDialog(InputDialog(activity, context.getString(R.string.new_tag),
+                            context.getString(R.string.new_tag_sub),
+                            context.getString(R.string.enter_tag_name), "", true) { result, text ->
+                        if(result) { createTag(text) }
                     }, true, true, true, false)
                 }
             }
-            tagText.text = items.joinToString("") { "#${it.id}" }
-            recyclerView.adapter?.notifyDataSetChanged()
-        }
+            if(tag == null) {
+            }else {
+                when(action) {
+                    0 -> {
 
-        cancelBtn.setOnClickListener { dismiss() }
+                    }
+                    1 -> {
+                        showDialog(CustomDialog(activity, context.getString(R.string.delete_tag),
+                                context.getString(R.string.delete_tag_sub), null) { result, _, _ ->
+                            if(result) {
+                                //deleteTag(tag)
+                            }
+                        }, true, true, true, false)
+                    }
+                }
+            }
+        }
+        realm.where(Tag::class.java).findAll()?.let { tagView.setItems(it, items) }
+
+        editBtn.setOnClickListener {
+            if(tagView.mode == MODE_CHECK) {
+                editBtn.setTextColor(AppTheme.blueColor)
+                editBtn.text = context.getString(R.string.done)
+                tagView.startEditMode()
+            }else {
+                editBtn.setTextColor(AppTheme.secondaryText)
+                editBtn.text = context.getString(R.string.edit)
+                tagView.endEditMode()
+            }
+        }
         confirmBtn.setOnClickListener {
-            createTag()
             onResult.invoke(items)
             dismiss()
         }
-    }
-
-    private fun createAndAddTag() {
-        createTag()
-        if(!tagInput.text.isNullOrBlank()){
-            tagText.text = items.joinToString("") { "#${it.id}" }
-            recyclerView.adapter?.notifyDataSetChanged()
-            tagInput.setText("")
+        setOnCancelListener {
+            onResult.invoke(items)
         }
     }
 
@@ -91,24 +90,29 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
                     .equalTo("id", tag.id)
                     .findFirst()?.deleteFromRealm()
         }
-        tagText.text = items.joinToString("") { "#${it.id}" }
     }
 
-    private fun createTag() {
-        if(!tagInput.text.isNullOrBlank()){
-            val id = tagInput.text.toString()
-            realm.executeTransaction {
-                var tag = realm.where(Tag::class.java)
-                        .equalTo("id", id)
-                        .findFirst()
-                if(tag == null) {
-                    tag = realm.createObject(Tag::class.java, id)
-                    val order = realm.where(Tag::class.java).max("order")?.toInt() ?: -1
-                    tag.order = order + 1
-                }
+    private fun createTag(id: String) {
+        realm.executeTransaction {
+            var tag = realm.where(Tag::class.java).equalTo("id", id).findFirst()
+            if(tag == null) {
+                tag = realm.createObject(Tag::class.java, id)
+                val order = realm.where(Tag::class.java).max("order")?.toInt() ?: -1
+                tag.order = order + 1
+                items.add(realm.copyFromRealm(tag))
+                tagView.addNewTag(tag)
+            }else {
+                Toast.makeText(context, context.getString(R.string.already_exist_tag), Toast.LENGTH_SHORT).show()
             }
-            if(!items.any { it.id == id }){
-                items.add(Tag(id))
+        }
+    }
+
+    private fun editTag(oldId: String, id: String) {
+        realm.executeTransaction {
+            val tag = realm.where(Tag::class.java).equalTo("id", oldId).findFirst()
+            if(tag != null) {
+                tag.id = id
+                tagView.changeTag(oldId, id)
             }
         }
     }

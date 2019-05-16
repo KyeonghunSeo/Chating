@@ -43,7 +43,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         LayoutInflater.from(context).inflate(R.layout.view_profile, this, true)
         mottoText.setOnClickListener {
             showDialog(InputDialog(context as Activity, context.getString(R.string.motto), null, null,
-                    mottoText.text.toString()) { result, text ->
+                    mottoText.text.toString(), false) { result, text ->
                 if(result) { MainActivity.getViewModel()?.saveMotto(text) }
             }, true, true, true, false)
         }

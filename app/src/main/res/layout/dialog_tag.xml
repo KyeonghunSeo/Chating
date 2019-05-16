@@ -12,122 +12,74 @@
         android:minWidth="300dp"
         android:background="@drawable/popup_dialog_background"
         android:elevation="10dp"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
         android:layout_gravity="center"
-        android:layout_margin="20dp">
-
-        <TextView
-            android:id="@+id/tagText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textSize="16dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/primaryText"
-            android:textColorHint="@color/disableText"
-            android:hint="@string/no_tag"
-            android:fontFamily="@font/bold"
-            android:text=""/>
+        android:orientation="vertical"
+        android:layout_margin="25dp">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/normal_rect_stroke">
+            android:padding="25dp">
 
             <TextView
+                android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/regular"
-                android:text="#"/>
-
-            <EditText
-                android:id="@+id/tagInput"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="10dp"
                 android:textSize="18dp"
-                android:hint="@string/enter_tag"
-                android:imeOptions="actionDone"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColorHint="@color/disableText"
-                android:background="@color/transparent"
-                android:fontFamily="@font/regular"/>
-
-            <TextView
-                android:id="@+id/addBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:padding="10dp"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:textColor="@color/primaryText"
-                android:fontFamily="@font/regular"
-                android:text="@string/add"/>
+                android:fontFamily="@font/bold"
+                android:text="@string/tag"/>
+
+            <com.hellowo.journey.ui.view.base.Line
+                android:layout_width="20dp"
+                android:layout_height="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="20dp"
+                app:colorFlag="primary"/>
+
+            <com.hellowo.journey.ui.view.TagView
+                android:id="@+id/tagView"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.hellowo.journey.ui.view.TagView>
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <com.hellowo.journey.ui.view.base.Line
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            app:colorFlag="disable"/>
-
-        <LinearLayout
+        <FrameLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_gravity="right">
 
             <TextView
-                android:id="@+id/cancelBtn"
-                android:layout_width="0dp"
+                android:id="@+id/editBtn"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="14dp"
+                android:padding="15dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:textSize="15dp"
                 android:gravity="center"
                 android:textColor="@color/secondaryText"
-                android:fontFamily="@font/regular"
-                android:text="@string/cancel"/>
-
-            <com.hellowo.journey.ui.view.base.Line
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                app:colorFlag="disable"/>
+                android:fontFamily="@font/bold"
+                android:text="@string/edit"/>
 
             <TextView
                 android:id="@+id/confirmBtn"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="14dp"
+                android:layout_gravity="right"
+                android:padding="15dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:textSize="15dp"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
                 android:fontFamily="@font/bold"
-                android:text="@string/confirm"/>
+                android:text="@string/close"/>
 
-        </LinearLayout>
+        </FrameLayout>
 
     </LinearLayout>
 

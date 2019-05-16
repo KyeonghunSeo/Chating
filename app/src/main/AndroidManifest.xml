@@ -39,7 +39,7 @@
         <activity android:name=".ui.activity.MapActivity" />
         <activity android:name=".ui.activity.DrawActivity" />
         <activity android:name=".ui.activity.TrashActivity" />
-        <activity android:name=".ui.activity.TemplateEditActivity" />
+        <activity android:name=".ui.activity.TemplateActivity" />
         <activity android:name=".ui.activity.SettingsActivity" />
         <activity android:name=".ui.activity.AboutUsActivity" />
         <activity android:name=".ui.activity.PremiumActivity" />

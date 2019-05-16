@@ -12,14 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
-import com.google.android.material.internal.FlowLayout
 import com.hellowo.journey.*
 import com.hellowo.journey.adapter.TemplateAdapter
 import com.hellowo.journey.model.Template
 import com.hellowo.journey.ui.activity.MainActivity
-import com.hellowo.journey.ui.activity.TemplateEditActivity
-import com.pixplicity.easyprefs.library.Prefs
-import io.realm.RealmResults
+import com.hellowo.journey.ui.activity.TemplateActivity
 import kotlinx.android.synthetic.main.view_template_control.view.*
 import java.util.*
 
@@ -37,7 +34,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
             collapseNoAnim()
         }else {
             MainActivity.instance?.let {
-                val intent = Intent(it, TemplateEditActivity::class.java)
+                val intent = Intent(it, TemplateActivity::class.java)
                 intent.putExtra("id", template.id)
                 it.startActivity(intent)
             }
@@ -76,7 +73,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         }
 
         addNewBtn.setOnClickListener {
-            MainActivity.instance?.let { it.startActivity(Intent(it, TemplateEditActivity::class.java)) }
+            MainActivity.instance?.let { it.startActivity(Intent(it, TemplateActivity::class.java)) }
         }
     }
 

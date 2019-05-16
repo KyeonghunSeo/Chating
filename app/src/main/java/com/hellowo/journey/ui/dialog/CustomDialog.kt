@@ -1,34 +1,28 @@
 package com.hellowo.journey.ui.dialog
 
 import android.app.Activity
-import android.app.Dialog
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.TextView
 import com.hellowo.journey.R
-import com.hellowo.journey.hideKeyPad
 import com.hellowo.journey.setGlobalTheme
 import kotlinx.android.synthetic.main.dialog_custom.*
 
 
 class CustomDialog(activity: Activity, private val title: String, private val sub: String?,
-                   private val options: Array<String>?, private val onResult: (Boolean, Int, String?) -> Unit) : Dialog(activity) {
+                   private val options: Array<String>?, private val onResult: (Boolean, Int, String?) -> Unit) : BaseDialog(activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.attributes.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_custom)
-        setGlobalTheme(rootLy)
         setLayout()
-        setOnShowListener {}
     }
 
     private fun setLayout() {
+        setGlobalTheme(rootLy)
         titleText.text = title
-
         if(!sub.isNullOrEmpty()) {
             subText.visibility = View.VISIBLE
             subText.text = sub

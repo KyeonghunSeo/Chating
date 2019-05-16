@@ -8,22 +8,21 @@ import com.hellowo.journey.model.Template
 import com.hellowo.journey.showDialog
 import com.hellowo.journey.ui.dialog.*
 import io.realm.Realm
-import kotlinx.android.synthetic.main.activity_edit_template.*
+import kotlinx.android.synthetic.main.activity_template.*
 import java.util.*
 
-class TemplateEditActivity : BaseActivity() {
+class TemplateActivity : BaseActivity() {
     private val realm = Realm.getDefaultInstance()
     private val template = Template()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_template)
+        setContentView(R.layout.activity_template)
         initTheme(rootLy)
         backBtn.setOnClickListener { onBackPressed() }
         deleteBtn.setOnClickListener {
-            showDialog(CustomDialog(this@TemplateEditActivity, template.title ?: "" ,
-                    getString(R.string.delete_template), null) { result, _, _ ->
-                if(result) { delete() }
+            showDialog(CustomDialog(this@TemplateActivity, template.title ?: "" ,
+                    getString(R.string.delete_template), null) { result, _, _ -> if(result) { delete() }
             }, true, true, true, false)
         }
 
@@ -60,7 +59,7 @@ class TemplateEditActivity : BaseActivity() {
         val adapter = TemplateEditAdapter(this, items){ action, template ->
             when(action) {
                 -1 -> {
-                    showDialog(CustomDialog(this@TemplateEditActivity,
+                    showDialog(CustomDialog(this@TemplateActivity,
                             template.title ?: "" ,
                             getString(R.string.delete_template), null) { result, _, _ ->
                         if(result) {
@@ -78,7 +77,7 @@ class TemplateEditActivity : BaseActivity() {
                 }
                 1 -> {
                     val items = ArrayList<Tag>().apply { addAll(template.tags) }
-                    showDialog(TagDialog(this@TemplateEditActivity, items) { tags ->
+                    showDialog(TagDialog(this@TemplateActivity, items) { tags ->
                         realm.executeTransaction { _ ->
                             realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
                                 it.tags.clear()
@@ -95,7 +94,7 @@ class TemplateEditActivity : BaseActivity() {
                     }
                 }
                 3 -> {
-                    val dialog = CustomDialog(this@TemplateEditActivity,
+                    val dialog = CustomDialog(this@TemplateActivity,
                             getString(R.string.template_title), null, null) { result, _, title ->
                         if(result) {
                             realm.executeTransaction { _ ->
@@ -112,7 +111,7 @@ class TemplateEditActivity : BaseActivity() {
 
                 }
                 5 -> {
-                    showDialog(StylePickerDialog(this@TemplateEditActivity, template.colorKey, template.type, "") { style ->
+                    showDialog(StylePickerDialog(this@TemplateActivity, template.colorKey, template.type, "") { style ->
                         realm.executeTransaction {
                             realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
                                 it.style = style
@@ -152,7 +151,7 @@ class TemplateEditActivity : BaseActivity() {
     private fun updateColorUI() {
         colorImg.setColorFilter(AppTheme.getColor(template.colorKey))
         colorBtn.setOnClickListener {
-            showDialog(ColorPickerDialog(this@TemplateEditActivity, template.colorKey) { colorKey ->
+            showDialog(ColorPickerDialog(this@TemplateActivity, template.colorKey) { colorKey ->
                 template.colorKey = colorKey
                 updateColorUI()
             }, true, true, true, false)
@@ -160,9 +159,12 @@ class TemplateEditActivity : BaseActivity() {
     }
 
     private fun updateTagUI() {
-        tagView.setItems(template.tags)
+        tagView.setItems(template.tags, null)
+        tagView.onSelected = { _, _ ->
+
+        }
         tagBtn.setOnClickListener {
-            showDialog(TagDialog(this@TemplateEditActivity, ArrayList(template.tags)) { tags ->
+            showDialog(TagDialog(this@TemplateActivity, ArrayList(template.tags)) { tags ->
                 template.tags.clear()
                 template.tags.addAll(tags)
                 updateTagUI()
