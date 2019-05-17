@@ -113,17 +113,11 @@ open class Record(@PrimaryKey var id: String? = null,
         exDates.clear()
         exDates.addAll(data.exDates)
         tags.clear()
-        data.tags.forEach {
-            tags.add(Tag(it.id))
-        }
+        data.tags.forEach { tags.add(Tag(it)) }
         alarms.clear()
-        data.alarms.forEach {
-            alarms.add(Alarm(it.id, it.dtAlarm, it.offset, it.action))
-        }
+        data.alarms.forEach { alarms.add(Alarm(it.id, it.dtAlarm, it.offset, it.action)) }
         links.clear()
-        data.links.forEach {
-            links.add(Link(it.id, it.type, it.title, it.properties))
-        }
+        data.links.forEach { links.add(Link(it.id, it.type, it.title, it.properties)) }
         latitude = data.latitude
         longitude = data.longitude
         ordering = data.ordering
@@ -138,7 +132,12 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     override fun toString(): String {
-        return "Record(id=$id, type=$type, style=$style, title=$title, colorKey=$colorKey, location=$location, description=$description, repeat=$repeat, dtUntil=$dtUntil, dtStart=$dtStart, dtEnd=$dtEnd, dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, latitude=$latitude, longitude=$longitude, folder=${folder.toString()})"
+        return "Record(id=$id, type=$type, style=$style, title=$title, colorKey=$colorKey, location=$location, " +
+                "description=$description, repeat=$repeat, dtUntil=$dtUntil, dtStart=$dtStart, dtEnd=$dtEnd, " +
+                "dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, " +
+                "exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, " +
+                "alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, " +
+                "latitude=$latitude, longitude=$longitude, folder=${folder.toString()})"
     }
 
     override fun equals(other: Any?): Boolean { // 리스트 업데이트 비교시 사용

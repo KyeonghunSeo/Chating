@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.R
+import com.hellowo.journey.dpToPx
 import com.hellowo.journey.model.Tag
 import com.hellowo.journey.setGlobalTheme
 import com.xiaofeng.flowlayoutmanager.Alignment
@@ -20,11 +21,12 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         const val MODE_NORMAL = 0
         const val MODE_CHECK = 1
         const val MODE_EDIT = 2
+        val tagSize = dpToPx(30)
     }
 
-    var onSelected : ((TagItem?, Int) -> Unit)? = null
-    val items = ArrayList<TagItem>()
-    var checkedItems: ArrayList<Tag>? = null
+    var onSelected : ((Tag?, Int) -> Unit)? = null
+    val items = ArrayList<Tag>()
+    var checkedItems = ArrayList<Tag>()
     var mode = MODE_NORMAL
 
     init {
@@ -38,10 +40,9 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun setItems(newList: List<Tag>, checkedList: ArrayList<Tag>?) {
         items.clear()
-        newList.mapTo(items) {
-            TagItem(it.id ?: "", it.order)
-        }
-        checkedItems = checkedList
+        checkedItems.clear()
+        newList.mapTo(items) { Tag(it.id, it.title, it.order) }
+        checkedList?.mapTo(checkedItems) { Tag(it.id, it.title, it.order) }
         adapter?.notifyDataSetChanged()
     }
 
@@ -57,28 +58,30 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun addNewTag(tag: Tag?) {
         tag?.let {
-            items.add(TagItem(it.id ?: "", it.order))
+            val newTag = Tag(it.id, it.title, it.order)
+            items.add(newTag)
+            checkedItems.add(newTag)
             adapter?.notifyItemInserted(items.size - 1)
         }
     }
 
-    fun changeTag(oldId: String, id: String) {
-        val index = items.indexOfFirst { it.title == oldId }
+    fun changeTag(oldTag: Tag) {
+        val index = items.indexOfFirst { it.id == oldTag.id }
         if(index >= 0) {
-            items[index].title = id
+            items[index].title = oldTag.title
             adapter?.notifyItemChanged(index)
         }
+        checkedItems.firstOrNull { it.id == oldTag.id }?.let { it.title = oldTag.title }
     }
 
-    fun deleteTag(oldId: String, id: String) {
-        val index = items.indexOfFirst { it.title == oldId }
+    fun deleteTag(oldTag: Tag) {
+        val index = items.indexOfFirst { it.id == oldTag.id }
         if(index >= 0) {
-            items[index].title = id
-            adapter?.notifyItemChanged(index)
+            items.removeAt(index)
+            adapter?.notifyItemRemoved(index)
         }
+        checkedItems.firstOrNull { it.id == oldTag.id }?.let { checkedItems.remove(it) }
     }
-
-    inner class TagItem(var title: String, var order: Int)
 
     inner class Adapter : RecyclerView.Adapter<ViewHolder>() {
         override fun getItemCount(): Int = items.size + if(mode == MODE_EDIT) 1 else 0
@@ -86,6 +89,7 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {
                 setGlobalTheme(container)
+                container.layoutParams.height = tagSize
             }
         }
 
@@ -97,30 +101,42 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             val v = holder.itemView
             if(position < items.size) {
                 val tag = items[position]
-                v.tagText.text = "#${tag.title}"
                 v.contentLy.setBackgroundResource(R.drawable.normal_rect_stroke)
+                when(mode) {
+                    MODE_NORMAL -> {
+                        v.tagText.text = "#${tag.title}"
+                        v.contentLy.alpha = 1f
+                        v.deleteBtn.visibility = View.GONE
+                    }
+                    MODE_CHECK, MODE_EDIT -> {
+                        if(checkedItems.any { tag.id == it.id }) {
+                            v.tagText.text = "#${tag.title}"
+                            v.contentLy.alpha = 1f
+                        }else {
+                            v.tagText.text = "${tag.title}"
+                            v.contentLy.alpha = 0.3f
+                        }
 
-                if(mode == MODE_EDIT) {
-                    v.deleteBtn.visibility = View.VISIBLE
-                    v.deleteBtn.setOnClickListener {
-                        onSelected?.invoke(tag, -1)
+                        if(mode == MODE_EDIT) {
+                            v.deleteBtn.visibility = View.VISIBLE
+                            v.deleteBtn.setOnClickListener {
+                                onSelected?.invoke(tag, -1)
+                            }
+                        }else {
+                            v.deleteBtn.visibility = View.GONE
+                        }
                     }
-                    v.contentLy.alpha = 1f
-                    v.setOnClickListener {
-                        onSelected?.invoke(tag, 0)
-                    }
-                }else {
-                    v.deleteBtn.visibility = View.GONE
+                }
+                v.setOnClickListener {
                     if(mode == MODE_CHECK) {
-                        v.contentLy.alpha = 1f
-                        v.setOnClickListener {
-                            onSelected?.invoke(tag, 0)
+                        if(checkedItems.any { tag.id == it.id }) {
+                            checkedItems.firstOrNull { tag.id == it.id }?.let { checkedItems.remove(it) }
+                        }else {
+                            checkedItems.add(tag)
                         }
+                        notifyItemChanged(position)
                     }else {
-                        v.contentLy.alpha = 1f
-                        v.setOnClickListener {
-                            onSelected?.invoke(tag, 0)
-                        }
+                        onSelected?.invoke(tag, 0)
                     }
                 }
             }else {

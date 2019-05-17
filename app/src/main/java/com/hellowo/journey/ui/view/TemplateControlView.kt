@@ -64,12 +64,14 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         editTemplateBtn.setOnClickListener {
             if(adapter.mode == 0) {
                 adapter.mode = 1
+                editTemplateBtn.setTextColor(AppTheme.blueColor)
                 editTemplateBtn.text = context.getString(R.string.done)
             }else {
                 adapter.mode = 0
+                editTemplateBtn.setTextColor(AppTheme.primaryText)
                 editTemplateBtn.text = context.getString(R.string.edit_template)
             }
-            adapter.notifyItemRangeChanged(0, items.size)
+            adapter.notifyDataSetChanged()
         }
 
         addNewBtn.setOnClickListener {

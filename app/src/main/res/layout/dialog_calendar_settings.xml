@@ -10,7 +10,7 @@
         android:layout_height="285dp"
         android:background="@color/dim"
         android:elevation="10dp"
-        android:layout_margin="25dp">
+        android:layout_marginLeft="25dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -19,7 +19,8 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="50dp">
 
                 <FrameLayout
                     android:id="@+id/startdowBtn"
@@ -253,19 +254,9 @@
 
                 </FrameLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
-
             </LinearLayout>
 
         </ScrollView>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/bottom_shadow_background"/>
 
     </FrameLayout>
 

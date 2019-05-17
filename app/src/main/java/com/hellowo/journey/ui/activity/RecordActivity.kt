@@ -53,7 +53,6 @@ class RecordActivity : BaseActivity() {
             initTheme(rootLy)
             initLayout()
             initInput()
-            initMap()
             setData(it)
             updateUI()
             MainActivity.getViewModel()?.clearTargetTimeObject()
@@ -136,10 +135,14 @@ class RecordActivity : BaseActivity() {
     }
 
     private fun initMap() {
-        (supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync { map ->
-            googleMap = map
-            mapTouchView.setOnTouchListener { v, event -> event.action == MotionEvent.ACTION_MOVE }
-            updateLocationUI()
+        if(!record.location.isNullOrBlank()) {
+            val supportMapFragment =  SupportMapFragment.newInstance()
+            supportMapFragment.getMapAsync {
+                googleMap = it
+                mapTouchView.setOnTouchListener { v, event -> event.action == MotionEvent.ACTION_MOVE }
+                updateLocationUI()
+            }
+            supportFragmentManager.beginTransaction().replace(R.id.mapLy, supportMapFragment).commit()
         }
     }
 
@@ -155,6 +158,7 @@ class RecordActivity : BaseActivity() {
         updateDdayUI()
         updateRepeatUI()
         updateAlarmUI()
+        updateLocationUI()
         updateMemoUI()
         updateLinkUI()
     }
@@ -255,7 +259,7 @@ class RecordActivity : BaseActivity() {
     private fun updateTagUI() {
         if(record.tags.isNotEmpty()) {
             tagText.visibility = View.VISIBLE
-            tagText.text = record.tags.joinToString("") { "#${it.id}" }
+            tagText.text = record.tags.joinToString("") { "#${it.title}" }
             tagText.setOnClickListener { showTagDialog() }
         }else {
             tagText.visibility = View.GONE
@@ -452,29 +456,31 @@ class RecordActivity : BaseActivity() {
         if(record.location.isNullOrBlank()) {
             locationLy.visibility = View.GONE
         }else {
-            locationLy.visibility = View.VISIBLE
-            locationText.text = record.location
+            googleMap?.let {
+                locationLy.visibility = View.VISIBLE
+                locationText.text = record.location
+                val latLng = LatLng(record.latitude, record.longitude)
+                it.clear()
+                it.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
+                it.addMarker(MarkerOptions().position(latLng))
 
-            val latLng = LatLng(record.latitude, record.longitude)
-            googleMap?.clear()
-            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
-            googleMap?.addMarker(MarkerOptions().position(latLng))
-
-            locationText.setOnClickListener {
-                showDialog(CustomDialog(this, getString(R.string.location),
-                        null, arrayOf(getString(R.string.delete), getString(R.string.edit)))
-                { result, index, _ ->
-                    if(result) {
-                        if(index == 0) {
-                            record.location = null
-                            updateLocationUI()
-                        }else {
-                            showPlacePicker()
+                locationText.setOnClickListener {
+                    showDialog(CustomDialog(this, getString(R.string.location), null,
+                            arrayOf(getString(R.string.delete), getString(R.string.edit))) { result, index, _ ->
+                        if(result) {
+                            if(index == 0) {
+                                record.location = null
+                                updateLocationUI()
+                            }else {
+                                showPlacePicker()
+                            }
                         }
-                    }
-                }, true, true, true, false)
+                    }, true, true, true, false)
+                }
+                mapTouchView.setOnClickListener{ openMapActivity() }
+                return
             }
-            mapTouchView.setOnClickListener{ openMapActivity() }
+            initMap()
         }
     }
 

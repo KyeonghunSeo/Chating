@@ -109,8 +109,7 @@
     <string name="tag">태그</string>
     <string name="enter_tag">태그 이름</string>
     <string name="no_tag">태그없음</string>
-    <string name="delete_tag">태그 삭제</string>
-    <string name="delete_tag_sub">정말 이 태그를 삭제할까요?</string>
+    <string name="delete_tag_sub">이 태그가 붙어있는 모든 기록(총 %1$s개)에서 해당 태그가 삭제됩니다.\n이 태그를 삭제할까요?</string>
     <string name="keep">보관함</string>
     <string name="attachment">첨부</string>
     <string name="edit_template">템플릿 편집</string>

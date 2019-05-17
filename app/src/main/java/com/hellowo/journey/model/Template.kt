@@ -10,6 +10,9 @@ open class Template(@PrimaryKey var id: String? = null,
                     var type: Int = 0,
                     var colorKey: Int = -1,
                     var style: Int = 0,
+                    var recordTitle: String? = null,
+                    var recordTitleSelection: String? = null,
+                    var alarmOffset: Long = Long.MIN_VALUE,
                     var folder: Folder? = null,
                     var tags: RealmList<Tag> = RealmList(),
                     var order: Int = 0): RealmObject() {
@@ -34,9 +37,8 @@ open class Template(@PrimaryKey var id: String? = null,
         type = data.type
         colorKey = data.colorKey
         style = data.style
-        data.tags.forEach {
-            tags.add(Tag(it.id))
-        }
+        tags.clear()
+        data.tags.forEach { tags.add(Tag(it)) }
         data.folder?.let { folder = Folder(it) }
         order = data.order
     }
