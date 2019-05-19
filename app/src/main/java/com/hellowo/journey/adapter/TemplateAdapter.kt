@@ -46,14 +46,14 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         val template = items[position]
 
         if(mode == 0) {
+            v.contentLy.alpha = 1f
             v.contentLy.setBackgroundResource(R.drawable.blank)
-            v.titleText.setTextColor(AppTheme.primaryText)
-            v.colorBtn.elevation = dpToPx(2f)
+            v.colorBtn.elevation = dpToPx(4f)
             v.colorBtn.scaleX = 1f
             v.colorBtn.scaleY = 1f
         }else {
+            v.contentLy.alpha = 0.5f
             v.contentLy.setBackgroundResource(R.drawable.edit_dash_rect)
-            v.titleText.setTextColor(AppTheme.secondaryText)
             v.colorBtn.elevation = 0f
             v.colorBtn.scaleX = 0.7f
             v.colorBtn.scaleY = 0.7f

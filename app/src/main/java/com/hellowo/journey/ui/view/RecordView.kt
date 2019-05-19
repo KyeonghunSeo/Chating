@@ -32,7 +32,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
         val normalTextPadding = dpToPx(1.5f)
         val bigTextPadding = dpToPx(1f)
         val bottomPadding = dpToPx(3.5f)
-        val rectRadius = dpToPx(0f)
+        val rectRadius = dpToPx(1f)
         val stampSize = dpToPx(16)
         val blockTypeSize = dpToPx(16.5f).toInt()
         val checkboxSize = dpToPx(10)

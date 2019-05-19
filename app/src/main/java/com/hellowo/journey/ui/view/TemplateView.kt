@@ -17,10 +17,10 @@ import com.hellowo.journey.adapter.TemplateAdapter
 import com.hellowo.journey.model.Template
 import com.hellowo.journey.ui.activity.MainActivity
 import com.hellowo.journey.ui.activity.TemplateActivity
-import kotlinx.android.synthetic.main.view_template_control.view.*
+import kotlinx.android.synthetic.main.view_template.view.*
 import java.util.*
 
-class TemplateControlView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
     private val startCal = Calendar.getInstance()
     private val endCal = Calendar.getInstance()
     val layoutManager = LinearLayoutManager(context)
@@ -30,8 +30,8 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     val adapter = TemplateAdapter(context, items) { template, mode ->
         if(mode == 0) {
             selectItem(template)
-            MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
             collapseNoAnim()
+            MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
         }else {
             MainActivity.instance?.let {
                 val intent = Intent(it, TemplateActivity::class.java)
@@ -42,7 +42,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_template_control, this, true)
+        LayoutInflater.from(context).inflate(R.layout.view_template, this, true)
         initViews()
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
@@ -71,7 +71,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
                 editTemplateBtn.setTextColor(AppTheme.primaryText)
                 editTemplateBtn.text = context.getString(R.string.edit_template)
             }
-            adapter.notifyDataSetChanged()
+            adapter.notifyItemRangeChanged(0, items.size)
         }
 
         addNewBtn.setOnClickListener {
@@ -101,12 +101,14 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         val transitionSet = TransitionSet()
         val t1 = makeFromRightSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
+        val t3 = makeFromLeftSlideTransition()
         t1.addTarget(recyclerView)
         t2.addTarget(backgroundLy)
-        t2.addTarget(dateLy)
-        t2.addTarget(controlLy)
+        t3.addTarget(dateLy)
+        t3.addTarget(controlLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
+        transitionSet.addTransition(t3)
         TransitionManager.beginDelayedTransition(this, transitionSet)
         setDate(dtStart, dtEnd)
         setCurrentFolderTemplate()
@@ -126,18 +128,20 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         val transitionSet = TransitionSet()
         val t1 = makeFromRightSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
+        val t3 = makeFromLeftSlideTransition()
         t1.addTarget(recyclerView)
         t2.addTarget(backgroundLy)
-        t2.addTarget(dateLy)
-        t2.addTarget(controlLy)
+        t3.addTarget(dateLy)
+        t3.addTarget(controlLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
+        transitionSet.addTransition(t3)
         TransitionManager.beginDelayedTransition(this, transitionSet)
         initViews()
         ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f).start()
     }
 
-    private fun collapseNoAnim() {
+    fun collapseNoAnim() {
         templateIconImg.rotation = 0f
         initViews()
     }
@@ -152,6 +156,7 @@ class TemplateControlView @JvmOverloads constructor(context: Context, attrs: Att
         controlLy.visibility = View.GONE
         adapter.mode = 0
         editTemplateBtn.text = context.getString(R.string.edit_template)
+        editTemplateBtn.setTextColor(AppTheme.primaryText)
         isExpanded = false
     }
 

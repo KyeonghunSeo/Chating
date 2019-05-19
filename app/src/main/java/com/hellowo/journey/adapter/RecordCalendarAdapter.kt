@@ -2,6 +2,8 @@ package com.hellowo.journey.adapter
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.view.animation.AnticipateOvershootInterpolator
+import android.view.animation.BounceInterpolator
 import android.widget.FrameLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
@@ -290,8 +292,8 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         animSet.playTogether(
                 ObjectAnimator.ofFloat(view, "translationY", blockTypeSize.toFloat(), 0f),
                 ObjectAnimator.ofFloat(view, "alpha", 0f, lastAlpha))
-        animSet.duration = 500
-        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.duration = 1000
+        animSet.interpolator = AnticipateOvershootInterpolator()
         animSet.start()
     }
 

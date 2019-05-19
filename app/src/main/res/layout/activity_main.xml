@@ -32,17 +32,17 @@
                 <FrameLayout
                     android:id="@+id/headerLy"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="100dp"
                     android:elevation="20dp">
 
                     <LinearLayout
                         android:id="@+id/mainDateLy"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
+                        android:layout_height="50dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:animateLayoutChanges="true"
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="20dp">
 
                         <TextView
@@ -80,7 +80,7 @@
                 <View
                     android:id="@+id/topShadow"
                     android:layout_width="match_parent"
-                    android:layout_height="3dp"
+                    android:layout_height="10dp"
                     android:layout_marginTop="70dp"
                     android:background="@drawable/line_top_shadow"/>
 
@@ -107,6 +107,7 @@
             android:layout_marginRight="80dp"
             android:layout_marginBottom="23dp"
             android:layout_gravity="right|bottom"
+            android:outlineSpotShadowColor="@color/secondaryText"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/white"
             app:cardElevation="4dp"
@@ -167,6 +168,7 @@
             android:layout_height="60dp"
             android:layout_marginLeft="-40dp"
             android:layout_marginBottom="10dp"
+            android:outlineSpotShadowColor="@color/secondaryText"
             android:layout_gravity="bottom">
 
             <androidx.cardview.widget.CardView
@@ -191,11 +193,11 @@
 
         </FrameLayout>
 
-        <com.hellowo.journey.ui.view.TemplateControlView
-            android:id="@+id/templateControlView"
+        <com.hellowo.journey.ui.view.TemplateView
+            android:id="@+id/templateView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </com.hellowo.journey.ui.view.TemplateControlView>
+        </com.hellowo.journey.ui.view.TemplateView>
 
     </androidx.cardview.widget.CardView>
 
@@ -212,7 +214,7 @@
             android:id="@+id/profileCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="9dp"
+            android:layout_margin="10dp"
             android:layout_gravity="center"
             app:cardElevation="0dp"
             app:cardCornerRadius="16dp">

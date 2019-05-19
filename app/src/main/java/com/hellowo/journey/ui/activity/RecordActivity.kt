@@ -64,14 +64,11 @@ class RecordActivity : BaseActivity() {
     private fun initLayout() {
         topShadow.visibility = View.GONE
         deleteBtn.visibility = View.GONE
-
         mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             if(scrollY > 0) topShadow.visibility = View.VISIBLE
             else topShadow.visibility = View.GONE
         }
-
         backBtn.setOnClickListener { confirm() }
-
         editorTimeBtn.setOnClickListener { editorAction("time") }
         editorQuoteBtn.setOnClickListener { editorAction("quote") }
         editorQuotesBtn.setOnClickListener { editorAction("quotes") }

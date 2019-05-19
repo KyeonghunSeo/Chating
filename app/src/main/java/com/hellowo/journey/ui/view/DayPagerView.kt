@@ -46,7 +46,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
         elevation = 0f
         radius = 0f
         addView(viewPager)
-        viewPager.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        viewPager.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         viewPager.adapter = CalendarPagerAdapter()
         viewPager.setCurrentItem(startPosition, false)
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{

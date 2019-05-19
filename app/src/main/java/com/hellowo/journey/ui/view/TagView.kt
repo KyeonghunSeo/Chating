@@ -135,9 +135,8 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                             checkedItems.add(tag)
                         }
                         notifyItemChanged(position)
-                    }else {
-                        onSelected?.invoke(tag, 0)
                     }
+                    onSelected?.invoke(tag, 0)
                 }
             }else {
                 v.contentLy.setBackgroundResource(R.drawable.edit_dash_rect)

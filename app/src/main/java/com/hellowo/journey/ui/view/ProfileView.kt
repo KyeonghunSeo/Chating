@@ -33,7 +33,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private val scale = 0.7f
     private val profileCloseMargin = dpToPx(10)
     private val profileOpenMargin = dpToPx(14)
-    private val profileOpenTopMargin = dpToPx(60)
+    private val profileOpenTopMargin = dpToPx(70)
     private val profileBtnSize = dpToPx(50)
     private val zOffset = dpToPx(30f)
     private val panelOffset = dpToPx(200f)
@@ -53,7 +53,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         premiumBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, PremiumActivity::class.java)) } }
         premiumTag.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, PremiumActivity::class.java)) } }
         aboutUsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, AboutUsActivity::class.java)) } }
-        closeBtn.setOnClickListener { hide() }
     }
 
     fun updateUserUI(appUser: AppUser) {
@@ -79,7 +78,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     val animSet = AnimatorSet()
                     val animList = ArrayList<Animator>()
                     val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
-                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(0f)))
+                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(1f)))
                     MainActivity.getMainPanel()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))
@@ -92,7 +91,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 }
             })
             TransitionManager.beginDelayedTransition(profileBtn, transiion)
-            (profileBtn.layoutParams as FrameLayout.LayoutParams).let {
+            (profileBtn.layoutParams as LayoutParams).let {
                 it.width = profileBtnSize * 3
                 it.height = profileBtnSize * 3
                 it.gravity = Gravity.LEFT
@@ -129,7 +128,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 }
             })
             TransitionManager.beginDelayedTransition(profileBtn, transiion)
-            (profileBtn.layoutParams as FrameLayout.LayoutParams).let {
+            (profileBtn.layoutParams as LayoutParams).let {
                 it.width = profileBtnSize
                 it.height = profileBtnSize
                 it.gravity = Gravity.RIGHT

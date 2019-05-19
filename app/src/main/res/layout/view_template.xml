@@ -19,8 +19,8 @@
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp">
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -33,17 +33,24 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/primaryText"
                 android:fontFamily="@font/bold"
-                android:textSize="20dp"
+                android:textSize="22dp"
                 android:text="2018"/>
+
+            <com.hellowo.journey.ui.view.base.Line
+                android:layout_width="20dp"
+                android:layout_height="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="20dp"
+                app:colorFlag="primary"/>
 
             <TextView
                 android:id="@+id/endDateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/primaryText"
                 android:fontFamily="@font/bold"
-                android:textSize="20dp"
+                android:textSize="22dp"
                 android:text="2019"/>
 
         </LinearLayout>
@@ -72,38 +79,41 @@
     
     <LinearLayout
         android:id="@+id/controlLy"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="20dp"
         android:layout_gravity="bottom">
+
+        <com.hellowo.journey.ui.view.base.Line
+            android:layout_width="20dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:colorFlag="primary"/>
 
         <TextView
             android:id="@+id/addNewBtn"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:layout_height="35dp"
             android:background="?android:attr/selectableItemBackground"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:textColor="@color/primaryText"
             android:textSize="14dp"
             android:text="@string/new_template"
-            android:fontFamily="@font/avenir_black"/>
+            android:fontFamily="@font/bold"/>
 
         <TextView
             android:id="@+id/editTemplateBtn"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:layout_height="35dp"
             android:background="?android:attr/selectableItemBackground"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:textColor="@color/primaryText"
             android:textSize="14dp"
             android:text="@string/edit_template"
-            android:fontFamily="@font/avenir_black"/>
+            android:fontFamily="@font/bold"/>
 
     </LinearLayout>
 
@@ -114,6 +124,7 @@
         android:layout_gravity="bottom|right"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="20dp"
+        android:outlineSpotShadowColor="@color/secondaryText"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="24dp"

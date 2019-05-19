@@ -129,7 +129,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
 
         if(timeObject.tags.isNotEmpty()) {
             v.tagText.visibility = View.VISIBLE
-            v.tagText.text = timeObject.tags.joinToString("") { "#${it.id}" }
+            v.tagText.text = timeObject.tags.joinToString("") { "#${it.title}" }
         }else {
             v.tagText.visibility = View.GONE
         }

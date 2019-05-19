@@ -1,6 +1,8 @@
 package com.hellowo.journey.ui.activity
 
 import android.os.Bundle
+import android.view.View
+import androidx.core.widget.NestedScrollView
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
 import com.hellowo.journey.l
@@ -20,6 +22,11 @@ class TemplateActivity : BaseActivity() {
         setContentView(R.layout.activity_template)
         initTheme(rootLy)
         backBtn.setOnClickListener { onBackPressed() }
+        mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
+            if(scrollY > 0) topShadow.visibility = View.VISIBLE
+            else topShadow.visibility = View.GONE
+        }
+
         deleteBtn.setOnClickListener {
             showDialog(CustomDialog(this@TemplateActivity, template.title ?: "" ,
                     getString(R.string.delete_template), null) { result, _, _ -> if(result) { delete() }
@@ -33,6 +40,8 @@ class TemplateActivity : BaseActivity() {
             template.folder = MainActivity.getTargetFolder()
         }
         l(template.toString())
+
+        folderText.text = template.folder?.name
 
         if(!template.title.isNullOrBlank()) {
             titleInput.setText(template.title.toString())

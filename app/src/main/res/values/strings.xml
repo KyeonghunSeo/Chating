@@ -114,7 +114,7 @@
     <string name="attachment">첨부</string>
     <string name="edit_template">템플릿 편집</string>
     <string name="show_in_calendar">달력에 게시</string>
-    <string name="delete_template">이 템플릿을 삭제하시겠습니까?</string>
+    <string name="delete_template">이 템플릿을 삭제하시겠습니까?\n템플릿을 삭제해도 이 템플릿으로 기록한 기록들은 삭제되지 않습니다.</string>
     <string name="template_title">템플릿 이름</string>
     <string name="show">표시</string>
     <string name="hide">숨김</string>
@@ -238,5 +238,7 @@
     <string name="enter_tag_name">이곳에 태그이름을 입력</string>
     <string name="edit_tag">태그 편집</string>
     <string name="already_exist_tag">이미 존재하는 태그이름 입니다</string>
+    <string name="back_c">BACK</string>
+    <string name="delete_c">DELETE</string>
 
 </resources>

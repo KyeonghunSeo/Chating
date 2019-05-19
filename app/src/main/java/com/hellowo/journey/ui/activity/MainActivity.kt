@@ -53,6 +53,7 @@ class MainActivity : BaseActivity() {
         fun getCalendarPagerView() = instance?.calendarPagerView
         fun getMainDateLy() = instance?.mainDateLy
         fun getProfileBtn() = instance?.profileBtn
+        fun getTemplateView() = instance?.templateView
         fun getTargetCalendarView() = getViewModel()?.targetCalendarView?.value
         fun getTargetTime() = getViewModel()?.targetTime?.value
         fun getTargetCal() = getViewModel()?.targetCalendarView?.value?.targetCal
@@ -264,7 +265,7 @@ class MainActivity : BaseActivity() {
             }
         })
         viewModel.appUser.observe(this, Observer { appUser -> appUser?.let { updateUserUI(it) } })
-        viewModel.templateList.observe(this, Observer { templateControlView.notifyListChanged() })
+        viewModel.templateList.observe(this, Observer { templateView.notifyListChanged() })
         viewModel.folderList.observe(this, Observer { list -> folderAdapter.refresh(list) })
         viewModel.targetFolder.observe(this, Observer { folder ->
             refreshAll()
@@ -461,14 +462,14 @@ class MainActivity : BaseActivity() {
     }
 
     fun expandControlView(dtStart: Long, dtEnd: Long) {
-        templateControlView.expand(dtStart, dtEnd)
+        templateView.expand(dtStart, dtEnd)
     }
 
     override fun onBackPressed() {
         when{
             searchView.isOpened() -> searchView.hide()
             profileView.isOpened() -> profileView.hide()
-            templateControlView.isExpanded -> templateControlView.collapse()
+            templateView.isExpanded -> templateView.collapse()
             viewModel.openFolder.value == true -> viewModel.openFolder.value = false
             dayPagerView.isOpened() -> dayPagerView.hide()
             else -> super.onBackPressed()

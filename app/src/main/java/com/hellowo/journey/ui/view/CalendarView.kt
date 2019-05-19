@@ -39,10 +39,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val todayCal: Calendar = Calendar.getInstance()
         val dragStartYPos = dpToPx(58f)
         val weekLyBottomPadding = dpToPx(10)
-        val calendarPadding = dpToPx(15)
+        val calendarPadding = dpToPx(20)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
-        val lineWidth = dpToPx(0.7f)
+        val lineWidth = dpToPx(1.0f)
     }
 
     private val scrollView = NestedScrollView(context)
@@ -111,23 +111,23 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun setLayout() {
         setBackgroundColor(AppTheme.backgroundColor)
-        scrollView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        scrollView.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         scrollView.isVerticalScrollBarEnabled = false
         scrollView.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
             onTop?.invoke(scrollY == 0, !v.canScrollVertically(1))
         }
 
-        calendarLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         calendarLy.setPadding(calendarPadding, 0, calendarPadding, calendarPadding * 2)
         calendarLy.orientation = LinearLayout.VERTICAL
 
         rowDividers.forEachIndexed { index, view ->
-            view.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, lineWidth.toInt())
+            view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt())
             view.setBackgroundColor(AppTheme.lineColor)
         }
 
         columnDividers.forEachIndexed { index, view ->
-            view.layoutParams = FrameLayout.LayoutParams(0, 0)
+            view.layoutParams = LayoutParams(0, 0)
             view.setBackgroundColor(AppTheme.lineColor)
         }
 
@@ -136,7 +136,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dateLy = dateLys[i]
             dateLy.clipChildren = false
             dateLy.orientation = HORIZONTAL
-            dateLy.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+            dateLy.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
             weekLy.addView(rowDividers[i])
 
