@@ -95,34 +95,6 @@
                 android:layout_marginTop="10dp">
             </com.hellowo.journey.ui.view.TagView>
 
-            <LinearLayout
-                android:id="@+id/colorBtn"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="50dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="16dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/regular"
-                    android:text="@string/color"/>
-
-                <ImageView
-                    android:id="@+id/colorImg"
-                    android:layout_width="50dp"
-                    android:layout_height="35dp"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:src="@drawable/primary_rect_fill_radius_1"
-                    android:tint="@color/primaryText"/>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/tagBtn"
@@ -142,8 +114,88 @@
 
             </LinearLayout>
 
+            <FrameLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.hellowo.journey.ui.view.base.Line
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    app:colorFlag="secondary"/>
+
+                <FrameLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold"
+                        android:text="@string/init_text"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:textSize="14dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold"
+                        android:text="커서위치 : 3"/>
+
+                </FrameLayout>
+
+                <EditText
+                    android:id="@+id/initTextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="14dp"
+                    android:hint="@string/init_text_hint"
+                    android:textColorHint="@color/disableText"
+                    android:background="@drawable/blank"
+                    android:fontFamily="@font/regular"/>
+
+            </FrameLayout>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/colorBtn"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16dp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/regular"
+            android:text="@string/color"/>
+
+        <ImageView
+            android:id="@+id/colorImg"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:src="@drawable/primary_rect_fill_radius_1"
+            android:tint="@color/primaryText"/>
+
+    </LinearLayout>
+
 
 </FrameLayout>

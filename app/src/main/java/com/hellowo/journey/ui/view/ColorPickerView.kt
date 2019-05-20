@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hellowo.journey.AppTheme
 import com.hellowo.journey.R
@@ -25,9 +26,9 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     lateinit var onSelceted: (Int) -> Unit
 
     init {
-        layoutManager = GridLayoutManager(context, 4)
+        layoutManager = LinearLayoutManager(context)
         adapter = PickerAdapter()
-        addItemDecoration(SpacesItemDecoration(dpToPx(5)))
+        //addItemDecoration(SpacesItemDecoration(dpToPx(5)))
     }
 
     inner class PickerAdapter : RecyclerView.Adapter<ViewHolder>() {
@@ -41,9 +42,9 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
                 = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_color_picker, parent, false))
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            val item = items[position]
+            val color = items[position]
             val v = holder.itemView
-            (v as CardView).setCardBackgroundColor(item)
+            v.colorImg.setColorFilter(color)
             v.setOnClickListener {
                 selectedPos = position
                 onSelceted.invoke(position)

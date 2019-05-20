@@ -205,7 +205,9 @@ class RecordActivity : BaseActivity() {
         }
 
         colorBtn.setOnClickListener {
-            showDialog(ColorPickerDialog(this, record.getColor()) { colorKey ->
+            val location = IntArray(2)
+            colorBtn.getLocationOnScreen(location)
+            showDialog(ColorPickerDialog(this, record.colorKey, location) { colorKey ->
                 record.colorKey = colorKey
                 updateFolderUI()
             }, true, true, true, false)

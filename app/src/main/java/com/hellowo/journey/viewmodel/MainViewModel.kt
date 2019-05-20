@@ -168,6 +168,7 @@ class MainViewModel : ViewModel() {
     fun makeTimeObjectByTatgetTemplate(startTime: Long, endTime: Long) =
             RecordManager.makeNewRecord(startTime, endTime).apply {
                 targetTemplate.value?.let {
+                    title = it.recordTitle ?: ""
                     type = it.type
                     style = it.style
                     colorKey = it.colorKey

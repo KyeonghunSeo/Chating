@@ -22,6 +22,7 @@ import com.hellowo.journey.adapter.util.RecordListComparator
 import com.hellowo.journey.manager.*
 import com.hellowo.journey.model.Record
 import com.hellowo.journey.ui.activity.MainActivity
+import com.hellowo.journey.ui.dialog.DatePickerDialog
 import io.realm.OrderedCollectionChangeSet
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.view_day.view.*
@@ -51,7 +52,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_day, this, true)
-        //rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         rootLy.setOnClickListener {}
         setGlobalTheme(rootLy)
         setCardBackgroundColor(CalendarManager.backgroundColor)
@@ -72,6 +72,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         (dateLy.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.NO_GRAVITY
         bar.visibility = View.VISIBLE
         topShadow.visibility = View.GONE
+        dateText.setBackgroundResource(AppTheme.selectableItemBackground)
+        dateText.setOnClickListener {
+            MainActivity.instance?.let {
+                showDialog(DatePickerDialog(it, targetCal.timeInMillis) { time ->
+                    it.selectDate(time)
+                }, true, true, true, false)
+            }
+        }
         setDateClosedStyle()
     }
 

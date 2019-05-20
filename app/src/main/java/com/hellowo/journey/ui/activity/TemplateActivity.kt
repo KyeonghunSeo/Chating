@@ -28,7 +28,8 @@ class TemplateActivity : BaseActivity() {
         }
 
         deleteBtn.setOnClickListener {
-            showDialog(CustomDialog(this@TemplateActivity, template.title ?: "" ,
+            showDialog(CustomDialog(this@TemplateActivity,
+                    String.format(getString(R.string.delete_something), template.title ?: ""),
                     getString(R.string.delete_template), null) { result, _, _ -> if(result) { delete() }
             }, true, true, true, false)
         }
@@ -48,6 +49,7 @@ class TemplateActivity : BaseActivity() {
         }
         updateColorUI()
         updateTagUI()
+        updataInitTextUI()
 
         /*
         addBtn.setOnClickListener {
@@ -160,7 +162,9 @@ class TemplateActivity : BaseActivity() {
     private fun updateColorUI() {
         colorImg.setColorFilter(AppTheme.getColor(template.colorKey))
         colorBtn.setOnClickListener {
-            showDialog(ColorPickerDialog(this@TemplateActivity, template.colorKey) { colorKey ->
+            val location = IntArray(2)
+            colorImg.getLocationOnScreen(location)
+            showDialog(ColorPickerDialog(this@TemplateActivity, template.colorKey, location) { colorKey ->
                 template.colorKey = colorKey
                 updateColorUI()
             }, true, true, true, false)
@@ -181,9 +185,14 @@ class TemplateActivity : BaseActivity() {
         }
     }
 
+    private fun updataInitTextUI() {
+        initTextInput.setText(template.recordTitle ?: "")
+    }
+
     private fun confirm() {
         realm.executeTransaction {
             template.title = titleInput.text.toString()
+            template.recordTitle = initTextInput.text.toString()
             if(template.id.isNullOrEmpty()) {
                 template.id = UUID.randomUUID().toString()
                 template.order = realm.where(Template::class.java).max("order")?.toInt()?.plus(1) ?: 0

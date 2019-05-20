@@ -25,7 +25,7 @@
     <string name="delete">삭제</string>
     <string name="start">시작</string>
     <string name="end">종료</string>
-    <string name="weekNum">%1$s주차</string>
+    <string name="weekNum">WEEK %1$s</string>
     <string name="setting">SETTINGS</string>
     <string name="add_option">다른 정보 추가</string>
     <string name="detail_info">자세한 정보</string>
@@ -109,12 +109,13 @@
     <string name="tag">태그</string>
     <string name="enter_tag">태그 이름</string>
     <string name="no_tag">태그없음</string>
-    <string name="delete_tag_sub">이 태그가 붙어있는 모든 기록(총 %1$s개)에서 해당 태그가 삭제됩니다.\n이 태그를 삭제할까요?</string>
+    <string name="delete_tag_sub">이 태그가 붙어있는 모든 기록(총 %1$s개)에서 해당 태그가 삭제됩니다.</string>
     <string name="keep">보관함</string>
     <string name="attachment">첨부</string>
     <string name="edit_template">템플릿 편집</string>
     <string name="show_in_calendar">달력에 게시</string>
-    <string name="delete_template">이 템플릿을 삭제하시겠습니까?\n템플릿을 삭제해도 이 템플릿으로 기록한 기록들은 삭제되지 않습니다.</string>
+    <string name="delete_template">템플릿을 삭제해도 템플릿으로 기록한 데이터는 유지됩니다.</string>
+    <string name="delete_something">%1$s 삭제</string>
     <string name="template_title">템플릿 이름</string>
     <string name="show">표시</string>
     <string name="hide">숨김</string>
@@ -240,5 +241,7 @@
     <string name="already_exist_tag">이미 존재하는 태그이름 입니다</string>
     <string name="back_c">BACK</string>
     <string name="delete_c">DELETE</string>
+    <string name="init_text">시작 내용</string>
+    <string name="init_text_hint">입력을 시작할때 미리 작성할 내용을 입력하세요</string>
 
 </resources>

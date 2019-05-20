@@ -2,14 +2,131 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rootLy"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <com.hellowo.journey.ui.view.ColorPickerView
-        android:id="@+id/colorPicker"
-        android:layout_width="250dp"
+    <FrameLayout
+        android:id="@+id/contentLy"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-    </com.hellowo.journey.ui.view.ColorPickerView>
+        android:background="@color/white"
+        android:elevation="20dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/colorBtn0"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/primary_rect_fill_radius_1"
+                android:tint="@color/primaryText"/>
+
+            <ImageView
+                android:id="@+id/colorBtn1"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/primary_rect_fill_radius_1"
+                android:tint="@color/primaryText"/>
+
+            <ImageView
+                android:id="@+id/colorBtn2"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/primary_rect_fill_radius_1"
+                android:tint="@color/primaryText"/>
+
+            <ImageView
+                android:id="@+id/colorBtn3"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/primary_rect_fill_radius_1"
+                android:tint="@color/primaryText"/>
+
+            <ImageView
+                android:id="@+id/colorBtn4"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/primary_rect_fill_radius_1"
+                android:tint="@color/primaryText"/>
+
+            <ImageView
+                android:id="@+id/colorBtn5"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/primary_rect_fill_radius_1"
+                android:tint="@color/primaryText"/>
+
+            <ImageView
+                android:id="@+id/colorBtn6"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/primary_rect_fill_radius_1"
+                android:tint="@color/primaryText"/>
+
+            <ImageView
+                android:id="@+id/colorBtn7"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/primary_rect_fill_radius_1"
+                android:tint="@color/primaryText"/>
+
+            <ImageView
+                android:id="@+id/colorBtn8"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/primary_rect_fill_radius_1"
+                android:tint="@color/primaryText"/>
+
+            <ImageView
+                android:id="@+id/colorBtn9"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/primary_rect_fill_radius_1"
+                android:tint="@color/primaryText"/>
+
+            <ImageView
+                android:id="@+id/colorBtn10"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/primary_rect_fill_radius_1"
+                android:tint="@color/primaryText"/>
+
+            <ImageView
+                android:id="@+id/colorBtn11"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/primary_rect_fill_radius_1"
+                android:tint="@color/primaryText"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
 
 </FrameLayout>

@@ -115,7 +115,7 @@ class MainActivity : BaseActivity() {
 
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
-        mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        mainMonthYearLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainDateLy.pivotX = 0f
         mainDateLy.pivotY = dpToPx(34f)
         mainPanel.setOnClickListener {}
@@ -133,6 +133,7 @@ class MainActivity : BaseActivity() {
             viewModel.targetCalendarView.value = calendarView
             monthText.setTextColor(dateColor)
             yearText.setTextColor(dateColor)
+            weekText.setTextColor(dateColor)
             if(cellNum >= 0) {
                 if(isSameSeleted && dayPagerView.viewMode == ViewMode.CLOSED) dayPagerView.show()
                 refreshTodayView(calendarView.todayStatus)
@@ -351,7 +352,7 @@ class MainActivity : BaseActivity() {
         getTargetCal()?.let {
             monthText.text = AppDateFormat.monthEng.format(it.time).toUpperCase()
             yearText.text = it.get(Calendar.YEAR).toString()
-            // + " " + String.format(getString(R.string.weekNum), it.get(Calendar.WEEK_OF_YEAR))
+            weekText.text = String.format(getString(R.string.weekNum), it.get(Calendar.WEEK_OF_YEAR))
         }
     }
 

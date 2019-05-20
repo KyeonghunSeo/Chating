@@ -32,39 +32,58 @@
                 <FrameLayout
                     android:id="@+id/headerLy"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="70dp"
                     android:elevation="20dp">
 
                     <LinearLayout
                         android:id="@+id/mainDateLy"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
+                        android:orientation="vertical"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:background="?android:attr/selectableItemBackground"
-                        android:animateLayoutChanges="true"
-                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="20dp">
 
-                        <TextView
-                            android:id="@+id/monthText"
+                        <LinearLayout
+                            android:id="@+id/mainMonthYearLy"
+                            android:orientation="horizontal"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:textColor="@color/primaryText"
-                            android:textSize="22dp"
-                            android:fontFamily="@font/avenir_black"
-                            android:text="JUNE"/>
+                            android:layout_height="27dp"
+                            android:animateLayoutChanges="true">
+
+                            <TextView
+                                android:id="@+id/monthText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:textColor="@color/primaryText"
+                                android:textSize="22dp"
+                                android:fontFamily="@font/avenir_black"
+                                android:text="JUNE"/>
+
+                            <TextView
+                                android:id="@+id/yearText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginLeft="5dp"
+                                android:textColor="@color/primaryText"
+                                android:textSize="22dp"
+                                android:fontFamily="@font/avenir_black"
+                                android:text="2019"/>
+
+                        </LinearLayout>
 
                         <TextView
-                            android:id="@+id/yearText"
+                            android:id="@+id/weekText"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="22dp"
+                            android:layout_marginLeft="2dp"
                             android:gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
                             android:textColor="@color/primaryText"
-                            android:textSize="22dp"
+                            android:textSize="14dp"
                             android:fontFamily="@font/avenir_black"
-                            android:text="2019"/>
+                            android:text="18 WEEKS"/>
 
                     </LinearLayout>
 
@@ -74,14 +93,14 @@
                     android:id="@+id/calendarPagerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="70dp">
+                    android:layout_marginTop="75dp">
                 </com.hellowo.journey.ui.view.CalendarPagerView>
 
                 <View
                     android:id="@+id/topShadow"
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:layout_marginTop="70dp"
+                    android:layout_marginTop="75dp"
                     android:background="@drawable/line_top_shadow"/>
 
                 <com.hellowo.journey.ui.view.DayPagerView

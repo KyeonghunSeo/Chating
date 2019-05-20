@@ -55,7 +55,7 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
                         if(tag != null) {
                             val count = realm.where(Record::class.java).equalTo("tags.id", tag.id).count()
                             showDialog(CustomDialog(activity,
-                                    "#${tag.title}",
+                                    String.format(context.getString(R.string.delete_something), "#${tag.title}"),
                                     String.format(context.getString(R.string.delete_tag_sub), count),
                                     null) { result, _, _ ->
                                 if(result) { deleteTag(tag) }

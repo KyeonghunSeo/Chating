@@ -410,8 +410,8 @@ fun setGlobalTheme(view: View?) {
                     }
                     is Line -> {
                         when(v.colorFlag) {
-                            1 -> v.setBackgroundColor(AppTheme.disableText)
-                            2 -> v.setBackgroundColor(AppTheme.lineColor)
+                            1 -> v.setBackgroundColor(AppTheme.secondaryText)
+                            2 -> v.setBackgroundColor(AppTheme.disableText)
                             else -> v.setBackgroundColor(AppTheme.primaryText)
                         }
                     }
@@ -428,6 +428,15 @@ fun toast(text: String) {
 
 fun toast(stringId: Int) {
     toast(App.context.getString(stringId))
+}
+
+fun getScreenSize(context: Context) : IntArray {
+    val size = IntArray(2)
+    context.resources.displayMetrics?.let {
+        size[0] = it.widthPixels
+        size[1] = it.heightPixels
+    }
+    return size
 }
 
 

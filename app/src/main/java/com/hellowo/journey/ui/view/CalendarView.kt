@@ -127,7 +127,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         columnDividers.forEachIndexed { index, view ->
-            view.layoutParams = LayoutParams(0, 0)
+            view.layoutParams = LayoutParams(lineWidth.toInt(), lineWidth.toInt() * 5)
             view.setBackgroundColor(AppTheme.lineColor)
         }
 
