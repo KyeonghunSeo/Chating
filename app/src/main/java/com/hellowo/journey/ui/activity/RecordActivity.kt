@@ -55,10 +55,24 @@ class RecordActivity : BaseActivity() {
             initInput()
             setData(it)
             updateUI()
+            setCallAfterViewDrawed()
             MainActivity.getViewModel()?.clearTargetTimeObject()
             return
         }
         finish()
+    }
+
+    private fun setCallAfterViewDrawed() {
+        callAfterViewDrawed(titleInput, Runnable{
+            if(record.id.isNullOrEmpty()) {
+                MainActivity.getTargetTemplate()?.let { template ->
+                    val initSelection = template.recordTitleSelection
+                    if(initSelection <= titleInput.text.length) titleInput.setSelection(initSelection)
+                    if(template.isSetMemo()) memoLy.visibility = View.VISIBLE
+                }
+                showKeyPad(titleInput)
+            }
+        })
     }
 
     private fun initLayout() {
@@ -111,12 +125,6 @@ class RecordActivity : BaseActivity() {
         }
         titleInput.isFocusable = true
         titleInput.isFocusableInTouchMode = true
-
-        callAfterViewDrawed(titleInput, Runnable{
-            if(record.id.isNullOrEmpty()) {
-                showKeyPad(titleInput)
-            }
-        })
 
         memoInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -186,13 +194,6 @@ class RecordActivity : BaseActivity() {
             folderText.text = AppDateFormat.simpleYmdDate.format(Date(record.dtStart))
             folderText.setOnClickListener { showDatePickerDialog() }
             pinBtn.visibility = View.VISIBLE
-            if(record.isInCalendar()) {
-                pinBtn.alpha = 1f
-                styleBtn.visibility = View.VISIBLE
-            }else {
-                pinBtn.alpha = 0.3f
-                styleBtn.visibility = View.GONE
-            }
         }else {
             folderText.text = record.folder?.name
             folderText.setOnClickListener { showFolderPickerDialog() }
@@ -214,13 +215,6 @@ class RecordActivity : BaseActivity() {
         }
 
         pinBtn.setOnClickListener {
-            if(record.isInCalendar()) {
-                record.clearInCalendar()
-                toast(R.string.hide_in_calendar)
-            }else {
-                record.setInCalendar()
-                toast(R.string.show_in_calendar)
-            }
             updateFolderUI()
         }
 
@@ -515,7 +509,7 @@ class RecordActivity : BaseActivity() {
     override fun onBackPressed() { confirm() }
 
     private fun confirm() {
-        if(originalData != record) {
+        if(record.id.isNullOrEmpty() || originalData != record) {
             if(originalData?.repeat.isNullOrEmpty()) {
                 RecordManager.save(record)
                 savedFinish()
@@ -537,12 +531,12 @@ class RecordActivity : BaseActivity() {
     }
 
     private fun savedFinish() {
-        Toast.makeText(App.context, R.string.saved, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show()
         finish()
     }
 
     private fun deletedFinish() {
-        Toast.makeText(App.context, R.string.deleted, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.deleted, Toast.LENGTH_SHORT).show()
         finish()
     }
 

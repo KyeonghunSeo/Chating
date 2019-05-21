@@ -88,79 +88,62 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private fun makeTimeObjectView(record: Record) {
         var startCellNum = ((record.dtStart - calStartTime) / DAY_MILL).toInt()
         var endCellNum = ((record.dtEnd - calStartTime) / DAY_MILL).toInt()
-        if(record.isInCalendar()) {
-            when(record.getFormula()){
-                TOP_FLOW -> {
-                    val holder = viewHolderList
-                            .firstOrNull { it.record.type == record.type && it.startCellNum == startCellNum }
-                            ?: TimeObjectViewHolder(record, startCellNum, endCellNum).apply { viewHolderList.add(this) }
-
-                    val timeObjectView = holder.timeObjectViewList.firstOrNull() ?:
-                        RecordView(context, record, startCellNum, 1).apply {
-                            childList = ArrayList()
-                            setLookByType()
-                            holder.timeObjectViewList.add(this) }
-
-                    timeObjectView.childList?.add(record)
-                }
-                else -> {
-                    var lOpen = false
-                    var rOpen = false
-
-                    if(startCellNum < 0) {
-                        startCellNum = 0
-                        lOpen = true
-                    }
-                    if(endCellNum >= maxCellNum) {
-                        endCellNum = maxCellNum - 1
-                        rOpen = true
-                    }
-
-                    val holder = TimeObjectViewHolder(record, startCellNum, endCellNum)
-                    var currentCell = holder.startCellNum
-                    var length = holder.endCellNum - holder.startCellNum + 1
-                    var margin = columns - currentCell % columns
-                    val size = 1 + (holder.endCellNum / columns - holder.startCellNum / columns)
-
-                    (0 until size).forEach { index ->
-                        holder.timeObjectViewList.add(
-                                RecordView(context, record, currentCell,
-                                        if (length <= margin) length else margin).apply {
-                                    currentCell += margin
-                                    length -= margin
-                                    margin = 7
-                                    when(holder.timeObjectViewList.size) {
-                                        0 -> {
-                                            leftOpen = lOpen
-                                            rightOpen = size > 1
-                                        }
-                                        size - 1 -> {
-                                            leftOpen = size > 1
-                                            rightOpen = rOpen
-                                        }
-                                        else -> {
-                                            leftOpen = true
-                                            rightOpen = true
-                                        }
-                                    }
-                                    setLookByType()
-                                })}
-                    viewHolderList.add(holder)
-                }
-            }
-        }else {
-            (startCellNum .. endCellNum).forEach { cellNum ->
+        when(record.getFormula()){
+            TOP_FLOW -> {
                 val holder = viewHolderList
-                        .firstOrNull { !it.record.isInCalendar() && it.startCellNum == cellNum }
-                        ?: TimeObjectViewHolder(record, cellNum, cellNum).apply { viewHolderList.add(this) }
+                        .firstOrNull { it.record.type == record.type && it.startCellNum == startCellNum }
+                        ?: TimeObjectViewHolder(record, startCellNum, endCellNum).apply { viewHolderList.add(this) }
                 val timeObjectView = holder.timeObjectViewList.firstOrNull() ?:
-
-                RecordView(context, record, cellNum, 1).apply {
+                RecordView(context, record, startCellNum, 1).apply {
                     childList = ArrayList()
                     setLookByType()
                     holder.timeObjectViewList.add(this) }
 
                 timeObjectView.childList?.add(record)
+            }
+            else -> {
+                var lOpen = false
+                var rOpen = false
+
+                if(startCellNum < 0) {
+                    startCellNum = 0
+                    lOpen = true
+                }
+                if(endCellNum >= maxCellNum) {
+                    endCellNum = maxCellNum - 1
+                    rOpen = true
+                }
+
+                val holder = TimeObjectViewHolder(record, startCellNum, endCellNum)
+                var currentCell = holder.startCellNum
+                var length = holder.endCellNum - holder.startCellNum + 1
+                var margin = columns - currentCell % columns
+                val size = 1 + (holder.endCellNum / columns - holder.startCellNum / columns)
+
+                (0 until size).forEach { index ->
+                    holder.timeObjectViewList.add(
+                            RecordView(context, record, currentCell,
+                                    if (length <= margin) length else margin).apply {
+                                currentCell += margin
+                                length -= margin
+                                margin = 7
+                                when(holder.timeObjectViewList.size) {
+                                    0 -> {
+                                        leftOpen = lOpen
+                                        rightOpen = size > 1
+                                    }
+                                    size - 1 -> {
+                                        leftOpen = size > 1
+                                        rightOpen = rOpen
+                                    }
+                                    else -> {
+                                        leftOpen = true
+                                        rightOpen = true
+                                    }
+                                }
+                                setLookByType()
+                            })}
+                viewHolderList.add(holder)
             }
         }
     }

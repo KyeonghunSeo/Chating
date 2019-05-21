@@ -57,6 +57,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
     }
 
     fun setLookByType() {
+        /*
         if(!record.isInCalendar()) {
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
             gravity = Gravity.CENTER_VERTICAL
@@ -69,7 +70,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
             setPadding((defaulMargin).toInt(), 0, sidePadding, 0)
             return
         }
-
+*/
         typeface = AppTheme.thinFont
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
         val leftPadding = if(record.isSetCheckBox()) {
@@ -158,7 +159,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
     }
 
     override fun onDraw(canvas: Canvas?) {
-        if(record.isInCalendar()) {
+        if(true) {
             canvas?.let {
                 paint.isAntiAlias = true
                 CalendarManager.drawBasicShape(canvas, this)
@@ -173,7 +174,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
     }
 
     fun getViewHeight(): Int {
-        if(record.isInCalendar()) {
+        if(true) {
             return when(record.getFormula()) {
                 TOP_FLOW -> {
                     val width =  mRight - mLeft - defaulMargin

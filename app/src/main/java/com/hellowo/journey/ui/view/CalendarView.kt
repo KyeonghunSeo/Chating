@@ -283,7 +283,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val holiText = dateHeaders[cellNum].holiText
         dowText.visibility = View.GONE
         dateText.typeface = AppTheme.tFont
-        holiText.typeface = AppTheme.thinFont
+        holiText.typeface = AppTheme.boldFont
         holiText.text = dateInfos[cellNum].getUnSelectedString()
 
         offViewEffect(cellNum)
@@ -330,7 +330,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dowText = dateHeaders[cellNum].dowText
             val holiText = dateHeaders[cellNum].holiText
             dateText.typeface = AppTheme.bFont
-            holiText.typeface = AppTheme.regularFont
+            holiText.typeface = AppTheme.boldFont
             holiText.text = dateInfos[cellNum].getSelectedString()
             dowText.text = AppDateFormat.dowEng.format(targetCal.time).toUpperCase()
             if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
@@ -371,14 +371,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun onViewEffect(cellNum: Int) {
         timeObjectCalendarAdapter.getViews(cellNum).let {
             it.forEach { view ->
-                if(!view.record.isInCalendar()) {
-                    view.ellipsize = TextUtils.TruncateAt.MARQUEE
-                    view.marqueeRepeatLimit = -1
-                    view.isFocusable = true
-                    view.postDelayed({
-                        view.isSelected = true
-                    }, 1000)
-                }
+                view.ellipsize = TextUtils.TruncateAt.MARQUEE
+                view.marqueeRepeatLimit = -1
+                view.isFocusable = true
+                view.postDelayed({
+                    view.isSelected = true
+                }, 1000)
             }
         }
     }
@@ -386,10 +384,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun offViewEffect(cellNum: Int) {
         timeObjectCalendarAdapter.getViews(cellNum).let {
             it.forEach { view ->
-                if(!view.record.isInCalendar()) {
-                    view.ellipsize = null
-                    view.isSelected = false
-                }
+                view.ellipsize = null
+                view.isSelected = false
             }
         }
     }

@@ -22,6 +22,7 @@ class CustomDialog(activity: Activity, private val title: String, private val su
 
     private fun setLayout() {
         setGlobalTheme(rootLy)
+        rootLy.setOnClickListener { dismiss() }
         titleText.text = title
         if(!sub.isNullOrEmpty()) {
             subText.visibility = View.VISIBLE

@@ -7,17 +7,16 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
 import com.hellowo.journey.R
+import com.hellowo.journey.model.Record
+import com.hellowo.journey.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.dialog_style_picker.*
 
-class StylePickerDialog(activity: Activity, private val colorKey: Int, private val type: Int,
-                        private val title: String, private val onResult: (Int) -> Unit) : Dialog(activity) {
-
-    init {}
+class CalendarBlockStyleDialog(activity: Activity, private val style: Int, private val record: Record?,
+                               private val onResult: (Int) -> Unit) : Dialog(activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.attributes.windowAnimations = R.style.DialogAnimation
-        window.attributes.gravity = Gravity.BOTTOM
         setContentView(R.layout.dialog_style_picker)
         setLayout()
         setOnShowListener {
@@ -26,15 +25,11 @@ class StylePickerDialog(activity: Activity, private val colorKey: Int, private v
     }
 
     private fun setLayout() {
-        rootLy.setBackgroundColor(Color.WHITE)
-        stylePicker.type = type
-        stylePicker.colorKey = colorKey
-        if(title.isNotEmpty()) stylePicker.title = title
-        stylePicker.onSelected = { style ->
-            onResult.invoke(style)
-            dismiss()
-        }
-        stylePicker.adapter?.notifyDataSetChanged()
+        rootLy.layoutParams.width = MainActivity.getMainPanel()?.width ?: 0
+        rootLy.layoutParams.height = MainActivity.getMainPanel()?.height ?: 0
+        rootLy.setOnClickListener { dismiss() }
+
+
     }
 
 }
