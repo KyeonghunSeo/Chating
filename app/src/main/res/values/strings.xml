@@ -248,4 +248,14 @@
     <string name="unuse">사용안함</string>
     <string name="calendarBlockStyle">달력에 표시방법</string>
 
+    <string-array name="record_in_calendar_style_types">
+        <item>자동</item>
+        <item>한줄</item>
+        <item>여러줄</item>
+        <item>범위</item>
+        <item>스티커</item>
+        <item>점</item>
+        <item>생략</item>
+    </string-array>
+
 </resources>

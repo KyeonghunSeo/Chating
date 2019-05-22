@@ -403,7 +403,7 @@ object CalendarManager {
     /*
                 4 -> { // 시계
                     val paint = Paint()
-                    paint.style = Paint.Style.TOP_STACK
+                    paint.style = Paint.Style.SINGLE_LINE_TOP_STACK
                     paint.strokeWidth = strokeWidth.toFloat()
                     paint.color = color
                     paint.isAntiAlias = true

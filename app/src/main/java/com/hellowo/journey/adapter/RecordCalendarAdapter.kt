@@ -3,9 +3,7 @@ package com.hellowo.journey.adapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.animation.AnticipateOvershootInterpolator
-import android.view.animation.BounceInterpolator
 import android.widget.FrameLayout
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
 import com.hellowo.journey.AppStatus
 import com.hellowo.journey.DAY_MILL
@@ -160,7 +158,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                 if(formula != currentFomula) {
                     currentFomula = formula
                     when(currentFomula) {
-                        BOTTOM_STACK -> {
+                        SINGLE_LINE_BOTTOM_STACK -> {
                             addBottomMargin(20f)
                             computeBottomStackStartPos()
                         }
@@ -176,11 +174,11 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                     it.mRight = it.mLeft + (minWidth * it.length).toInt()
                     if(true) {
                         when(formula) {
-                            TOP_STACK -> {
+                            SINGLE_LINE_TOP_STACK -> {
                                 it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
                                 it.mBottom = it.mTop + it.getViewHeight()
                             }
-                            TOP_FLOW, TOP_LINEAR -> {
+                            TOP_FLOW, MULTI_LINE_TOP -> {
                                 it.mTop = cellBottomArray[it.cellNum]
                                 it.mBottom = it.mTop + it.getViewHeight()
                             }
@@ -188,7 +186,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                                 it.mTop = cellBottomArray[it.cellNum]
                                 it.mBottom = it.mTop + it.getViewHeight()
                             }
-                            BOTTOM_STACK -> {
+                            SINGLE_LINE_BOTTOM_STACK -> {
                                 it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
                                 it.mBottom = it.mTop + it.getViewHeight()
                             }
@@ -309,7 +307,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
             }
 
             if(order >= s.length) {
-                s.append(CharArray(order - s.length + 1) { _-> '0'}) // 빈공간 채우기
+                s.append(CharArray(order - s.length + 1) {'0'}) // 빈공간 채우기
             }
             status.status[i] = s.replaceRange(order, order + 1, "1").toString() // 빈공간을 채우고 상태 갱신
         }

@@ -42,7 +42,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val calendarPadding = dpToPx(20)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
-        val lineWidth = dpToPx(1.0f)
+        val lineWidth = dpToPx(0.5f)
     }
 
     private val scrollView = NestedScrollView(context)
@@ -118,7 +118,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(calendarPadding, 0, calendarPadding, calendarPadding * 2)
+        calendarLy.setPadding(calendarPadding, calendarPadding, calendarPadding, calendarPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
 
         rowDividers.forEachIndexed { index, view ->
@@ -127,7 +127,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         columnDividers.forEachIndexed { index, view ->
-            view.layoutParams = LayoutParams(lineWidth.toInt(), lineWidth.toInt() * 5)
+            view.layoutParams = LayoutParams(lineWidth.toInt(), 0)
             view.setBackgroundColor(AppTheme.lineColor)
         }
 
@@ -137,14 +137,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateLy.clipChildren = false
             dateLy.orientation = HORIZONTAL
             dateLy.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-
             weekLy.addView(rowDividers[i])
 
             for (j in 0..6){
                 val cellNum = i*7 + j
 
-                //weekLy.addView(columnDividers[cellNum])
-                //if(j == 0) columnDividers[cellNum].visibility = View.GONE
+                weekLy.addView(columnDividers[cellNum])
+                if(j == 0) columnDividers[cellNum].visibility = View.GONE
 
                 val dateCell = dateCells[cellNum]
                 dateCell.setOnClickListener { onDateClick(cellNum) }
@@ -157,6 +156,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 dateCell.addView(dateHeaders[cellNum].container)
                 dateLy.addView(dateCell)
             }
+
             weekLy.addView(dateLy)
             calendarLy.addView(weekLy)
         }

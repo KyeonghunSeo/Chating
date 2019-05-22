@@ -71,7 +71,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
             return
         }
 */
-        typeface = AppTheme.thinFont
+        typeface = AppTheme.regularFont
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
         val leftPadding = if(record.isSetCheckBox()) {
             (sidePadding + checkboxSize + defaulMargin).toInt()
@@ -86,7 +86,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
         setPadding(leftPadding, textPadding, sidePadding, 0)
 
         when(record.getFormula()) {
-            TOP_LINEAR, BOTTOM_LINEAR -> {
+            MULTI_LINE_TOP, BOTTOM_LINEAR -> {
                 text = if(!record.title.isNullOrBlank()) record.title?.replace(System.getProperty("line.separator"), " ")
                 else context.getString(R.string.empty_note)
                 //setLineSpacing(defaulMargin, 1f)
@@ -184,7 +184,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
                     val rows = ((size * totalStampCnt + margin * (totalStampCnt - 1)) / width + 1).toInt()
                     (stampSize * rows)
                 }
-                TOP_LINEAR, BOTTOM_LINEAR -> {
+                MULTI_LINE_TOP, BOTTOM_LINEAR -> {
                     setSingleLine(false)
                     maxLines = 5
                     ellipsize = TextUtils.TruncateAt.END

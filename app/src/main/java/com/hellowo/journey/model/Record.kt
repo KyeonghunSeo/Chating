@@ -47,15 +47,23 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     enum class Formula {
-        BACKGROUND, TOP_STACK, TOP_FLOW, TOP_LINEAR, BOTTOM_LINEAR, BOTTOM_STACK, OVERLAY
+        BACKGROUND, SINGLE_LINE_TOP_STACK, TOP_FLOW, MULTI_LINE_TOP, SINGLE_LINE_BOTTOM_STACK, OVERLAY, INVISIBLE
     }
 
     fun getFormula(): Formula {
-        return if(isScheduled()) {
-            Formula.TOP_STACK
-        }else {
-            Formula.TOP_LINEAR
+        val type = style % 100
+        when(type) {
+
         }
+        return if(isScheduled()) {
+            Formula.SINGLE_LINE_TOP_STACK
+        }else {
+            Formula.MULTI_LINE_TOP
+        }
+    }
+
+    fun setInCalendarType(type: Int) {
+        style = style / 100 * 100 + type
     }
 
     fun getDuration() = dtEnd - dtStart

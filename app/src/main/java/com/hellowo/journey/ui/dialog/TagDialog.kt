@@ -29,6 +29,8 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
 
     private fun setLayout() {
         setGlobalTheme(rootLy)
+        rootLy.setOnClickListener { dismiss() }
+        contentLy.setOnClickListener {}
         tagView.mode = MODE_CHECK
         tagView.onSelected = { tag, action ->
             if(tagView.mode == MODE_EDIT) {
