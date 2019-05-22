@@ -2,12 +2,10 @@ package com.hellowo.journey.ui.activity
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.widget.NestedScrollView
-import com.hellowo.journey.AppTheme
-import com.hellowo.journey.R
-import com.hellowo.journey.l
+import com.hellowo.journey.*
 import com.hellowo.journey.model.Template
-import com.hellowo.journey.showDialog
 import com.hellowo.journey.ui.dialog.*
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_template.*
@@ -35,128 +33,104 @@ class TemplateActivity : BaseActivity() {
         }
 
         if(!intent.getStringExtra("id").isNullOrEmpty()) {
-            realm.where(Template::class.java).equalTo("id", intent.getStringExtra("id"))
+            realm.where(Template::class.java)
+                    .equalTo("id", intent.getStringExtra("id"))
                     .findFirst()?.let { template.copy(it) }
         }else {
             template.folder = MainActivity.getTargetFolder()
         }
         l(template.toString())
 
-        folderText.text = template.folder?.name
-
-        if(!template.title.isNullOrBlank()) {
-            titleInput.setText(template.title.toString())
-        }
+        updateCalendarBlockStyleUI()
+        updateAlarmUI()
+        updateMemoUI()
+        updateCheckBoxUI()
+        updateScheduleUI()
+        updateTitleUI()
+        updateFolderUI()
         updateColorUI()
         updateTagUI()
         updataInitTextUI()
+    }
 
-        /*
-        addBtn.setOnClickListener {
-            realm.executeTransaction {
-                var id = realm.where(Template::class.java).max("id")?.toInt()?.plus(1)
-                if(id == null) {
-                    id = 0
-                }
-                val template = realm.createObject(Template::class.java, id)
-                template.title = ""
-                template.order = id
-                template.type = 0
-            }
-            recyclerView.post { recyclerView.smoothScrollToPosition(items.size) }
+    private fun updateCalendarBlockStyleUI() {
+        calendarBlockStyleBtn.setOnClickListener {
+            showDialog(InCalendarStyleDialog(this, template.style, null) { style ->
+                l(""+style)
+                template.style = style
+            }, true, true, true, false)
         }
+    }
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = TemplateEditAdapter(this, items){ action, template ->
-            when(action) {
-                -1 -> {
-                    showDialog(CustomDialog(this@TemplateActivity,
-                            template.title ?: "" ,
-                            getString(R.string.delete_template), null) { result, _, _ ->
-                        if(result) {
-                            realm.executeTransaction { _ ->
-                                realm.where(Template::class.java).equalTo("id", template.id)
-                                        .findFirst()?.deleteFromRealm()
-                            }
-                        }else {
-                            (recyclerView.adapter as TemplateEditAdapter).notifyItemChanged(items.indexOf(template))
-                        }
-                    }, true, true, true, false)
-                }
-                0 -> {
+    private fun updateAlarmUI() {
+    }
 
-                }
-                1 -> {
-                    val items = ArrayList<Tag>().apply { addAll(template.tags) }
-                    showDialog(TagDialog(this@TemplateActivity, items) { tags ->
-                        realm.executeTransaction { _ ->
-                            realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
-                                it.tags.clear()
-                                it.tags.addAll(tags)
-                            }
-                        }
-                    }, true, true, true, false)
-                }
-                2 -> {
-                    realm.executeTransaction { _ ->
-                        realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
-                            it.isInCalendar() = !it.isInCalendar()
-                        }
-                    }
-                }
-                3 -> {
-                    val dialog = CustomDialog(this@TemplateActivity,
-                            getString(R.string.template_title), null, null) { result, _, title ->
-                        if(result) {
-                            realm.executeTransaction { _ ->
-                                realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
-                                    it.title = title
-                                }
-                            }
-                        }
-                    }
-                    showDialog(dialog, true, true, true, false)
-                    dialog.showInput(getString(R.string.template_title), template.title ?: "")
-                }
-                4 -> {
-
-                }
-                5 -> {
-                    showDialog(StylePickerDialog(this@TemplateActivity, template.colorKey, template.type, "") { style ->
-                        realm.executeTransaction {
-                            realm.where(Template::class.java).equalTo("id", template.id).findFirst()?.let{
-                                it.style = style
-                            }
-                        }
-                    }, true, true, true, false)
-                }
-            }
-
+    private fun updateMemoUI() {
+        if(template.isSetMemo()) {
+            memoText.setTextColor(AppTheme.primaryText)
+            memoText.text = getString(R.string.use)
+        }else {
+            memoText.setTextColor(AppTheme.disableText)
+            memoText.text = getString(R.string.unuse)
         }
-        recyclerView.adapter = adapter
-        adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
+        memoBtn.setOnClickListener {
+            if(template.isSetMemo()) template.clearMemo()
+            else template.setMemo()
+            updateMemoUI()
+        }
+    }
 
-        templateList = realm.where(Template::class.java).sort("order", Sort.ASCENDING).findAllAsync()
-        templateList?.addChangeListener { result, changeSet ->
-            if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
-                items.clear()
-                result.forEach { items.add(realm.copyFromRealm(it)) }
-                adapter.notifyDataSetChanged()
-            }else if(changeSet.state == OrderedCollectionChangeSet.State.UPDATE) {
-                newItmes.clear()
-                result.forEach { newItmes.add(realm.copyFromRealm(it)) }
-                Thread {
-                    val diffResult = DiffUtil.calculateDiff(TemplateDiffCallback(items, newItmes))
-                    items.clear()
-                    items.addAll(newItmes)
-                    Handler(Looper.getMainLooper()).post{
-                        diffResult.dispatchUpdatesTo(adapter)
-                    }
-                }.start()
+    private fun updateCheckBoxUI() {
+        if(template.isSetCheckBox()) {
+            checkBoxText.setTextColor(AppTheme.primaryText)
+            checkBoxText.text = getString(R.string.use)
+        }else {
+            checkBoxText.setTextColor(AppTheme.disableText)
+            checkBoxText.text = getString(R.string.unuse)
+        }
+        checkBoxBtn.setOnClickListener {
+            if(template.isSetCheckBox()) template.clearCheckBox()
+            else template.setCheckBox()
+            updateCheckBoxUI()
+        }
+    }
+
+    private fun updateScheduleUI() {
+        if(template.isScheduled()) {
+            scheduleText.setTextColor(AppTheme.primaryText)
+            scheduleText.text = getString(R.string.use)
+        }else {
+            scheduleText.setTextColor(AppTheme.disableText)
+            scheduleText.text = getString(R.string.unuse)
+        }
+        scheduleBtn.setOnClickListener {
+            if(template.isScheduled()) template.clearSchdule()
+            else template.setSchedule()
+            updateScheduleUI()
+        }
+    }
+
+    private fun updateTitleUI() {
+        if(!template.title.isNullOrBlank()) {
+            titleInput.setText(template.title.toString())
+        }
+    }
+
+    private fun updateFolderUI() {
+        folderBtn.setOnClickListener {
+            MainActivity.getViewModel()?.folderList?.value?.let { folderList ->
+                showDialog(CustomListDialog(this,
+                        getString(R.string.folder),
+                        null,
+                        null,
+                        false,
+                        folderList.map { if(it.name.isNullOrBlank()) getString(R.string.untitle) else it.name!! }) { index ->
+                    template.folder = folderList[index]
+                    updateFolderUI()
+                }, true, true, true, false)
             }
         }
-
-        */
+        folderText.text = template.folder?.name
     }
 
     private fun updateColorUI() {
@@ -186,7 +160,16 @@ class TemplateActivity : BaseActivity() {
     }
 
     private fun updataInitTextUI() {
-        initTextInput.setText(template.recordTitle ?: "")
+        val title = template.recordTitle ?: ""
+        initTextInput.setText(title)
+        initTextCursorText.text = String.format(getString(R.string.cursor_pos), template.recordTitleSelection)
+        if(template.recordTitleSelection <= title.length) {
+            initTextInput.setSelection(template.recordTitleSelection)
+        }
+        initTextInput.onSelectionChanged = { startPos, _ ->
+            template.recordTitleSelection = startPos
+            initTextCursorText.text = String.format(getString(R.string.cursor_pos), startPos)
+        }
     }
 
     private fun confirm() {
@@ -199,6 +182,7 @@ class TemplateActivity : BaseActivity() {
             }
             realm.insertOrUpdate(template)
         }
+        //Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show()
         finish()
     }
 
@@ -207,6 +191,7 @@ class TemplateActivity : BaseActivity() {
             realm.where(Template::class.java).equalTo("id", template.id)
                     .findFirst()?.deleteFromRealm()
         }
+        Toast.makeText(this, R.string.deleted, Toast.LENGTH_SHORT).show()
         finish()
     }
 

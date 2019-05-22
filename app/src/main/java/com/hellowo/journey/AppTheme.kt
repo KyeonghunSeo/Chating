@@ -60,9 +60,9 @@ object AppTheme {
         hightlightCover = resource.getDrawable(R.drawable.highlightcover)
         blankDrawable = resource.getDrawable(R.drawable.blank)
 
-        tFont = ResourcesCompat.getFont(context, R.font.avenir_medium)!!
-        rFont = ResourcesCompat.getFont(context, R.font.avenir_heavy)!!
-        bFont = ResourcesCompat.getFont(context, R.font.avenir_black)!!
+        tFont = ResourcesCompat.getFont(context, R.font.thin_c)!!
+        rFont = ResourcesCompat.getFont(context, R.font.regular_c)!!
+        bFont = ResourcesCompat.getFont(context, R.font.bold_c)!!
         thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
         regularFont = ResourcesCompat.getFont(context, R.font.regular)!!
         boldFont = ResourcesCompat.getFont(context, R.font.bold)!!
@@ -77,15 +77,15 @@ object AppTheme {
 
     fun getColor(colorKey: Int) : Int {
         return try{
-            AppTheme.colors[colorKey]
+            colors[colorKey]
         }catch (e: Exception){
-            AppTheme.primaryText
+            primaryText
         }
     }
 
     fun getFontColor(colorKey: Int) : Int {
         return try{
-            AppTheme.fontColors[colorKey]
+            fontColors[colorKey]
         }catch (e: Exception){
             Color.WHITE
         }

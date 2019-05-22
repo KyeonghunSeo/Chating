@@ -3,9 +3,7 @@ package com.hellowo.journey.adapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.animation.AnticipateOvershootInterpolator
-import android.view.animation.BounceInterpolator
 import android.widget.FrameLayout
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.TransitionManager
 import com.hellowo.journey.AppStatus
 import com.hellowo.journey.DAY_MILL
@@ -34,9 +32,9 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private var withAnimtion = false
     private var minWidth = 0f
     private var minHeight = 0f
-    private var drawStartYOffset = 0f
-    private val cellBottomArray = Array(42){ drawStartYOffset}
-    private val rowHeightArray = Array(6){ drawStartYOffset}
+    private var drawStartYOffset = CalendarView.dataStartYOffset
+    private val cellBottomArray = Array(42){ drawStartYOffset }
+    private val rowHeightArray = Array(6){ drawStartYOffset }
 
     fun draw(items : RealmResults<Record>?) {
         setCalendarData()
@@ -52,7 +50,6 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         }
         viewHolderList.clear()
         viewLevelStatusMap.clear()
-        drawStartYOffset = if(false) dpToPx(22f) else dpToPx(33f)
         cellBottomArray.fill(drawStartYOffset)
         rowHeightArray.fill(drawStartYOffset)
         draw(items)
@@ -88,79 +85,62 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private fun makeTimeObjectView(record: Record) {
         var startCellNum = ((record.dtStart - calStartTime) / DAY_MILL).toInt()
         var endCellNum = ((record.dtEnd - calStartTime) / DAY_MILL).toInt()
-        if(record.isInCalendar()) {
-            when(record.getFormula()){
-                TOP_FLOW -> {
-                    val holder = viewHolderList
-                            .firstOrNull { it.record.type == record.type && it.startCellNum == startCellNum }
-                            ?: TimeObjectViewHolder(record, startCellNum, endCellNum).apply { viewHolderList.add(this) }
-
-                    val timeObjectView = holder.timeObjectViewList.firstOrNull() ?:
-                        RecordView(context, record, startCellNum, 1).apply {
-                            childList = ArrayList()
-                            setLookByType()
-                            holder.timeObjectViewList.add(this) }
-
-                    timeObjectView.childList?.add(record)
-                }
-                else -> {
-                    var lOpen = false
-                    var rOpen = false
-
-                    if(startCellNum < 0) {
-                        startCellNum = 0
-                        lOpen = true
-                    }
-                    if(endCellNum >= maxCellNum) {
-                        endCellNum = maxCellNum - 1
-                        rOpen = true
-                    }
-
-                    val holder = TimeObjectViewHolder(record, startCellNum, endCellNum)
-                    var currentCell = holder.startCellNum
-                    var length = holder.endCellNum - holder.startCellNum + 1
-                    var margin = columns - currentCell % columns
-                    val size = 1 + (holder.endCellNum / columns - holder.startCellNum / columns)
-
-                    (0 until size).forEach { index ->
-                        holder.timeObjectViewList.add(
-                                RecordView(context, record, currentCell,
-                                        if (length <= margin) length else margin).apply {
-                                    currentCell += margin
-                                    length -= margin
-                                    margin = 7
-                                    when(holder.timeObjectViewList.size) {
-                                        0 -> {
-                                            leftOpen = lOpen
-                                            rightOpen = size > 1
-                                        }
-                                        size - 1 -> {
-                                            leftOpen = size > 1
-                                            rightOpen = rOpen
-                                        }
-                                        else -> {
-                                            leftOpen = true
-                                            rightOpen = true
-                                        }
-                                    }
-                                    setLookByType()
-                                })}
-                    viewHolderList.add(holder)
-                }
-            }
-        }else {
-            (startCellNum .. endCellNum).forEach { cellNum ->
+        when(record.getFormula()){
+            TOP_FLOW -> {
                 val holder = viewHolderList
-                        .firstOrNull { !it.record.isInCalendar() && it.startCellNum == cellNum }
-                        ?: TimeObjectViewHolder(record, cellNum, cellNum).apply { viewHolderList.add(this) }
+                        .firstOrNull { it.record.type == record.type && it.startCellNum == startCellNum }
+                        ?: TimeObjectViewHolder(record, startCellNum, endCellNum).apply { viewHolderList.add(this) }
                 val timeObjectView = holder.timeObjectViewList.firstOrNull() ?:
-
-                RecordView(context, record, cellNum, 1).apply {
+                RecordView(context, record, startCellNum, 1).apply {
                     childList = ArrayList()
                     setLookByType()
                     holder.timeObjectViewList.add(this) }
 
                 timeObjectView.childList?.add(record)
+            }
+            else -> {
+                var lOpen = false
+                var rOpen = false
+
+                if(startCellNum < 0) {
+                    startCellNum = 0
+                    lOpen = true
+                }
+                if(endCellNum >= maxCellNum) {
+                    endCellNum = maxCellNum - 1
+                    rOpen = true
+                }
+
+                val holder = TimeObjectViewHolder(record, startCellNum, endCellNum)
+                var currentCell = holder.startCellNum
+                var length = holder.endCellNum - holder.startCellNum + 1
+                var margin = columns - currentCell % columns
+                val size = 1 + (holder.endCellNum / columns - holder.startCellNum / columns)
+
+                (0 until size).forEach { index ->
+                    holder.timeObjectViewList.add(
+                            RecordView(context, record, currentCell,
+                                    if (length <= margin) length else margin).apply {
+                                currentCell += margin
+                                length -= margin
+                                margin = 7
+                                when(holder.timeObjectViewList.size) {
+                                    0 -> {
+                                        leftOpen = lOpen
+                                        rightOpen = size > 1
+                                    }
+                                    size - 1 -> {
+                                        leftOpen = size > 1
+                                        rightOpen = rOpen
+                                    }
+                                    else -> {
+                                        leftOpen = true
+                                        rightOpen = true
+                                    }
+                                }
+                                setLookByType()
+                            })}
+                viewHolderList.add(holder)
             }
         }
     }
@@ -177,7 +157,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                 if(formula != currentFomula) {
                     currentFomula = formula
                     when(currentFomula) {
-                        BOTTOM_STACK -> {
+                        SINGLE_LINE_BOTTOM_STACK -> {
                             addBottomMargin(20f)
                             computeBottomStackStartPos()
                         }
@@ -193,19 +173,15 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                     it.mRight = it.mLeft + (minWidth * it.length).toInt()
                     if(true) {
                         when(formula) {
-                            TOP_STACK -> {
+                            SINGLE_LINE_TOP_STACK -> {
                                 it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
                                 it.mBottom = it.mTop + it.getViewHeight()
                             }
-                            TOP_FLOW, TOP_LINEAR -> {
+                            TOP_FLOW, MULTI_LINE_TOP -> {
                                 it.mTop = cellBottomArray[it.cellNum]
                                 it.mBottom = it.mTop + it.getViewHeight()
                             }
-                            BOTTOM_LINEAR -> {
-                                it.mTop = cellBottomArray[it.cellNum]
-                                it.mBottom = it.mTop + it.getViewHeight()
-                            }
-                            BOTTOM_STACK -> {
+                            SINGLE_LINE_BOTTOM_STACK -> {
                                 it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
                                 it.mBottom = it.mTop + it.getViewHeight()
                             }
@@ -326,7 +302,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
             }
 
             if(order >= s.length) {
-                s.append(CharArray(order - s.length + 1) { _-> '0'}) // 빈공간 채우기
+                s.append(CharArray(order - s.length + 1) {'0'}) // 빈공간 채우기
             }
             status.status[i] = s.replaceRange(order, order + 1, "1").toString() // 빈공간을 채우고 상태 갱신
         }

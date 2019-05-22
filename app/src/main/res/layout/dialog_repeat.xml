@@ -12,384 +12,378 @@
         android:background="@drawable/popup_dialog_background"
         android:elevation="10dp"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
         android:layout_gravity="center"
-        android:layout_margin="10dp">
-
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textSize="16dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/primaryText"
-            android:fontFamily="@font/bold"
-            android:text="@string/repeat"/>
+        android:layout_margin="30dp">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:padding="25dp">
 
             <TextView
-                android:id="@+id/dailyBtn"
-                android:layout_width="70dp"
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/bold"
+                android:text="@string/repeat"/>
+
+            <com.hellowo.journey.ui.view.base.Line
+                android:layout_width="20dp"
+                android:layout_height="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="20dp"
+                app:colorFlag="primary"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/dailyBtn"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:textSize="14dp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/daily"
+                    android:background="@drawable/primary_rect_fill_radius_1"/>
+
+                <TextView
+                    android:id="@+id/weeklyBtn"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:textSize="14dp"
+                    android:gravity="center"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/thin"
+                    android:text="@string/weekly"/>
+
+                <TextView
+                    android:id="@+id/monthlyBtn"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:textSize="14dp"
+                    android:gravity="center"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/thin"
+                    android:text="@string/monthly"/>
+
+                <TextView
+                    android:id="@+id/yearlyBtn"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:textSize="14dp"
+                    android:gravity="center"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/thin"
+                    android:text="@string/yearly"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/advancedBtn"
+                android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/disableText"
                 android:textSize="14dp"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:fontFamily="@font/regular"
-                android:text="@string/daily"
-                android:background="@drawable/primary_rect_fill_radius_1"/>
-
-            <TextView
-                android:id="@+id/weeklyBtn"
-                android:layout_width="70dp"
-                android:layout_height="35dp"
-                android:textSize="14dp"
-                android:gravity="center"
-                android:textColor="@color/secondaryText"
-                android:fontFamily="@font/thin"
-                android:text="@string/weekly"/>
-
-            <TextView
-                android:id="@+id/monthlyBtn"
-                android:layout_width="70dp"
-                android:layout_height="35dp"
-                android:textSize="14dp"
-                android:gravity="center"
-                android:textColor="@color/secondaryText"
-                android:fontFamily="@font/thin"
-                android:text="@string/monthly"/>
-
-            <TextView
-                android:id="@+id/yearlyBtn"
-                android:layout_width="70dp"
-                android:layout_height="35dp"
-                android:textSize="14dp"
-                android:gravity="center"
-                android:textColor="@color/secondaryText"
-                android:fontFamily="@font/thin"
-                android:text="@string/yearly"/>
-
-        </LinearLayout>
-
-        <com.hellowo.journey.ui.view.base.Line
-            android:layout_width="30dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center_horizontal"
-            app:colorFlag="primary"/>
-
-        <TextView
-            android:id="@+id/advancedBtn"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:textSize="14dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/colorPrimary"
-            android:fontFamily="@font/regular"
-            android:text="@string/advanced_setting"/>
-
-        <LinearLayout
-            android:id="@+id/advancedLy"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+                android:text="@string/advanced_setting"/>
 
             <LinearLayout
-                android:id="@+id/weeklyLy"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/sunCheck"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:textSize="12dp"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/thin"
-                    android:text="@string/sun"
-                    android:gravity="center"
-                    android:background="@drawable/normal_rect_stroke"/>
-
-                <TextView
-                    android:id="@+id/monCheck"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:textSize="12dp"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/thin"
-                    android:text="@string/mon"
-                    android:gravity="center"
-                    android:background="@drawable/normal_rect_stroke"/>
-
-                <TextView
-                    android:id="@+id/tueCheck"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:textSize="12dp"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/thin"
-                    android:text="@string/tue"
-                    android:gravity="center"
-                    android:background="@drawable/normal_rect_stroke"/>
-
-                <TextView
-                    android:id="@+id/wedCheck"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:textSize="12dp"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/thin"
-                    android:text="@string/wed"
-                    android:gravity="center"
-                    android:background="@drawable/normal_rect_stroke"/>
-
-                <TextView
-                    android:id="@+id/thuCheck"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:textSize="12dp"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/thin"
-                    android:text="@string/thu"
-                    android:gravity="center"
-                    android:background="@drawable/normal_rect_stroke"/>
-
-                <TextView
-                    android:id="@+id/friCheck"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:textSize="12dp"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/thin"
-                    android:text="@string/fri"
-                    android:gravity="center"
-                    android:background="@drawable/normal_rect_stroke"/>
-
-                <TextView
-                    android:id="@+id/satCheck"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:textSize="12dp"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/thin"
-                    android:text="@string/sat"
-                    android:gravity="center"
-                    android:background="@drawable/normal_rect_stroke"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/intervalLy"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
+                android:id="@+id/advancedLy"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:layout_marginTop="15dp">
 
-                <EditText
-                    android:id="@+id/intervalEdit"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/normal_rect_stroke"
-                    android:fontFamily="@font/thin"
-                    android:gravity="center"
-                    android:inputType="numberSigned"
-                    android:maxLength="2"
-                    android:text="1"
-                    android:textColor="@color/primaryText"
-                    android:textSize="12dp" />
+                <LinearLayout
+                    android:id="@+id/weeklyLy"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/intervalText"
+                    <TextView
+                        android:id="@+id/sunCheck"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/thin"
+                        android:text="@string/sun"
+                        android:gravity="center"
+                        android:background="@drawable/normal_rect_stroke"/>
+
+                    <TextView
+                        android:id="@+id/monCheck"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/thin"
+                        android:text="@string/mon"
+                        android:gravity="center"
+                        android:background="@drawable/normal_rect_stroke"/>
+
+                    <TextView
+                        android:id="@+id/tueCheck"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/thin"
+                        android:text="@string/tue"
+                        android:gravity="center"
+                        android:background="@drawable/normal_rect_stroke"/>
+
+                    <TextView
+                        android:id="@+id/wedCheck"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/thin"
+                        android:text="@string/wed"
+                        android:gravity="center"
+                        android:background="@drawable/normal_rect_stroke"/>
+
+                    <TextView
+                        android:id="@+id/thuCheck"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/thin"
+                        android:text="@string/thu"
+                        android:gravity="center"
+                        android:background="@drawable/normal_rect_stroke"/>
+
+                    <TextView
+                        android:id="@+id/friCheck"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/thin"
+                        android:text="@string/fri"
+                        android:gravity="center"
+                        android:background="@drawable/normal_rect_stroke"/>
+
+                    <TextView
+                        android:id="@+id/satCheck"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/thin"
+                        android:text="@string/sat"
+                        android:gravity="center"
+                        android:background="@drawable/normal_rect_stroke"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/intervalLy"
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:textSize="12dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/thin"
-                    android:text="@string/daily_interval"
-                    android:gravity="center"/>
+                    android:gravity="center_vertical">
 
-            </LinearLayout>
+                    <EditText
+                        android:id="@+id/intervalEdit"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/normal_rect_stroke"
+                        android:fontFamily="@font/thin"
+                        android:gravity="center"
+                        android:inputType="numberSigned"
+                        android:maxLength="2"
+                        android:text="1"
+                        android:textColor="@color/primaryText"
+                        android:textSize="12dp" />
 
-            <LinearLayout
-                android:id="@+id/monthlyLy"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                    <TextView
+                        android:id="@+id/intervalText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/thin"
+                        android:text="@string/daily_interval"
+                        android:gravity="center"/>
 
-                <ImageView
-                    android:id="@+id/monthlyCheck"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/normal_rect_stroke"
-                    android:tint="@color/white"
-                    android:padding="7dp"
-                    android:fontFamily="@font/thin"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="@color/secondaryText"
-                    android:textSize="12dp" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/monthlyText"
+                <LinearLayout
+                    android:id="@+id/monthlyLy"
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:textSize="12dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/thin"
-                    android:text="@string/monthly_interval"
-                    android:gravity="center"/>
+                    android:gravity="center_vertical">
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/monthlyCheck"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/normal_rect_stroke"
+                        android:tint="@color/white"
+                        android:padding="7dp"
+                        android:fontFamily="@font/thin"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/secondaryText"
+                        android:textSize="12dp" />
 
-            <LinearLayout
-                android:id="@+id/monthlyWLy"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                    <TextView
+                        android:id="@+id/monthlyText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/thin"
+                        android:text="@string/monthly_interval"
+                        android:gravity="center"/>
 
-                <ImageView
-                    android:id="@+id/monthlyWCheck"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/normal_rect_stroke"
-                    android:tint="@color/white"
-                    android:padding="7dp"
-                    android:fontFamily="@font/thin"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="@color/secondaryText"
-                    android:textSize="12dp" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/monthlyWText"
+                <LinearLayout
+                    android:id="@+id/monthlyWLy"
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:textSize="12dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/thin"
-                    android:text="@string/monthly_w_interval"
-                    android:gravity="center"/>
+                    android:gravity="center_vertical">
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/monthlyWCheck"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/normal_rect_stroke"
+                        android:tint="@color/white"
+                        android:padding="7dp"
+                        android:fontFamily="@font/thin"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/secondaryText"
+                        android:textSize="12dp" />
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                    <TextView
+                        android:id="@+id/monthlyWText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/thin"
+                        android:text="@string/monthly_w_interval"
+                        android:gravity="center"/>
 
-                <ImageView
-                    android:id="@+id/untilCheck"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/primary_rect_fill_radius_1"
-                    android:tint="@color/white"
-                    android:src="@drawable/sharp_done_black_48dp"
-                    android:padding="7dp"
-                    android:fontFamily="@font/thin"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="@color/secondaryText"
-                    android:textSize="12dp" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/untilText"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:textSize="12dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/thin"
-                    android:text="@string/set_until_date"
-                    android:gravity="center"/>
+                    android:gravity="center_vertical">
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    <ImageView
+                        android:id="@+id/untilCheck"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/primary_rect_fill_radius_1"
+                        android:tint="@color/white"
+                        android:src="@drawable/sharp_done_black_48dp"
+                        android:padding="7dp"
+                        android:fontFamily="@font/thin"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/secondaryText"
+                        android:textSize="12dp" />
 
-                <TextView
-                    android:id="@+id/untilDateText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:textSize="12dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/thin"
-                    android:text="2018.10.19"
-                    android:background="@drawable/normal_rect_stroke"
-                    android:gravity="center"/>
+                    <TextView
+                        android:id="@+id/untilText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/thin"
+                        android:text="@string/set_until_date"
+                        android:gravity="center"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/untilDateText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/thin"
+                        android:text="2018.10.19"
+                        android:background="@drawable/normal_rect_stroke"
+                        android:gravity="center"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
-
-        <com.hellowo.journey.ui.view.base.Line
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="25dp"
-            app:colorFlag="secondary"/>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="right">
 
             <TextView
                 android:id="@+id/deleteBtn"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="14dp"
+                android:padding="15dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:textSize="15dp"
                 android:gravity="center"
                 android:textColor="@color/secondaryText"
-                android:fontFamily="@font/regular"
+                android:fontFamily="@font/bold"
                 android:text="@string/no_repeat"/>
-
-            <com.hellowo.journey.ui.view.base.Line
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                app:colorFlag="secondary"/>
 
             <TextView
                 android:id="@+id/confirmBtn"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="14dp"
+                android:padding="15dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:textSize="15dp"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
                 android:fontFamily="@font/bold"

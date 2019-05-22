@@ -17,7 +17,7 @@
     <string name="fri">금</string>
     <string name="sat">토</string>
     <string name="sun">일</string>
-    <string name="type">유형</string>
+    <string name="type">타입</string>
     <string name="style">스타일</string>
     <string name="color">컬러</string>
     <string name="visible">표시</string>
@@ -102,7 +102,7 @@
     <string name="apply_after">이 %1$s 포함 이후 모든 %1$s에 적용</string>
     <string name="apply_all">모두 적용</string>
     <string name="date_of_total">%1$s 일차</string>
-    <string name="empty_note">빈 노트</string>
+    <string name="empty_note">내용없음</string>
     <string name="drawing">손글씨</string>
     <string name="calendar_settings">달력설정</string>
     <string name="add">생성</string>
@@ -193,7 +193,7 @@
     <string name="vote_to_new_feature">새로운 기능 투표하기</string>
     <string name="evaluate_text">개발자에게 응원과 관심, 다양한 의견은 언제나 큰 도움이 됩니다 :)</string>
     <string name="email_text">문제가 발생했다면 이곳으로 이메일을 보내주세요.</string>
-    <string name="vote_text">\'기록의 계절\'은 사용자들과 함께 만들어가는 앱 입니다. 새로운 기능이 필요하다면 이곳에서 투표해 주세요.</string>
+    <string name="vote_text">\'12PAGE\'는 사용자들과 함께 만들어가는 앱 입니다. 새로운 기능이 필요하다면 이곳에서 투표해 주세요.</string>
     <string name="help">문의사항</string>
     <string name="no_records">이 날의 기록이 없습니다</string>
     <string name="no_records_in_this_folder">이 보관함에 기록이 없습니다</string>
@@ -217,7 +217,7 @@
     <string name="display_settings">화면 설정</string>
     <string name="hide_in_calendar">달력에서 숨김</string>
     <string name="record">기록</string>
-    <string name="deleted">삭제됨</string>
+    <string name="deleted">삭제되었습니다</string>
     <string name="move_record">기록 이동</string>
     <string name="to_calendar">달력으로 이동</string>
     <string name="change_folder">보관함 변경</string>
@@ -235,13 +235,28 @@
     <string name="new_template">새 템플릿</string>
     <string name="new_tag">새 태그</string>
     <string name="close">닫기</string>
-    <string name="new_tag_sub">기록에 태그를 붙이면 더 빠르게 검색할수 있고, 유용한 통계자료도 만들수 있어요.</string>
+    <string name="new_tag_sub">기록에 태그를 붙이면 빠르게 검색할수 있고, 유용한 통계자료도 만들수 있습니다.</string>
     <string name="enter_tag_name">이곳에 태그이름을 입력</string>
     <string name="edit_tag">태그 편집</string>
     <string name="already_exist_tag">이미 존재하는 태그이름 입니다</string>
     <string name="back_c">BACK</string>
     <string name="delete_c">DELETE</string>
-    <string name="init_text">시작 내용</string>
-    <string name="init_text_hint">입력을 시작할때 미리 작성할 내용을 입력하세요</string>
+    <string name="init_text">미리 입력</string>
+    <string name="init_text_hint">이곳에 미리 입력할 내용을 적어주세요. 커서의 시작 위치도 정할수 있습니다.</string>
+    <string name="cursor_pos">커서위치 : %1$s</string>
+    <string name="use">사용</string>
+    <string name="unuse">사용안함</string>
+    <string name="calendarBlockStyle">달력에 표시방법</string>
+    <string name="single_line_sample_string">뭔가 즐거운 일</string>
+
+    <string-array name="record_in_calendar_style_types">
+        <item>자동</item>
+        <item>한줄</item>
+        <item>여러줄</item>
+        <item>범위</item>
+        <item>스티커</item>
+        <item>점</item>
+        <item>생략</item>
+    </string-array>
 
 </resources>

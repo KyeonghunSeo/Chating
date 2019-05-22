@@ -57,6 +57,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
     }
 
     fun setLookByType() {
+        /*
         if(!record.isInCalendar()) {
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
             gravity = Gravity.CENTER_VERTICAL
@@ -69,8 +70,8 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
             setPadding((defaulMargin).toInt(), 0, sidePadding, 0)
             return
         }
-
-        typeface = AppTheme.thinFont
+*/
+        typeface = AppTheme.regularFont
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
         val leftPadding = if(record.isSetCheckBox()) {
             (sidePadding + checkboxSize + defaulMargin).toInt()
@@ -85,7 +86,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
         setPadding(leftPadding, textPadding, sidePadding, 0)
 
         when(record.getFormula()) {
-            TOP_LINEAR, BOTTOM_LINEAR -> {
+            MULTI_LINE_TOP, SINGLE_LINE_BOTTOM_STACK -> {
                 text = if(!record.title.isNullOrBlank()) record.title?.replace(System.getProperty("line.separator"), " ")
                 else context.getString(R.string.empty_note)
                 //setLineSpacing(defaulMargin, 1f)
@@ -158,7 +159,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
     }
 
     override fun onDraw(canvas: Canvas?) {
-        if(record.isInCalendar()) {
+        if(true) {
             canvas?.let {
                 paint.isAntiAlias = true
                 CalendarManager.drawBasicShape(canvas, this)
@@ -173,7 +174,7 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
     }
 
     fun getViewHeight(): Int {
-        if(record.isInCalendar()) {
+        if(true) {
             return when(record.getFormula()) {
                 TOP_FLOW -> {
                     val width =  mRight - mLeft - defaulMargin
@@ -183,12 +184,12 @@ class RecordView constructor(context: Context, val record: Record, val cellNum: 
                     val rows = ((size * totalStampCnt + margin * (totalStampCnt - 1)) / width + 1).toInt()
                     (stampSize * rows)
                 }
-                TOP_LINEAR, BOTTOM_LINEAR -> {
+                MULTI_LINE_TOP -> {
                     setSingleLine(false)
                     maxLines = 5
                     ellipsize = TextUtils.TruncateAt.END
                     val width =  mRight - mLeft - defaulMargin
-                    measure(View.MeasureSpec.makeMeasureSpec(width.toInt(), View.MeasureSpec.EXACTLY), heightMeasureSpec)
+                    measure(MeasureSpec.makeMeasureSpec(width.toInt(), MeasureSpec.EXACTLY), heightMeasureSpec)
                     //l("${record.title} 라인 : "+((paint.measureText(text.toString()) / width).toInt() + 1))
                     /* 블럭 사이즈로 맞추기
                     var lh = blockTypeSize

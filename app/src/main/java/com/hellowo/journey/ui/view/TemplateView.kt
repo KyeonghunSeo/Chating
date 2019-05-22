@@ -66,10 +66,12 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 adapter.mode = 1
                 editTemplateBtn.setTextColor(AppTheme.blueColor)
                 editTemplateBtn.text = context.getString(R.string.done)
+                addNewBtn.visibility = View.VISIBLE
             }else {
                 adapter.mode = 0
                 editTemplateBtn.setTextColor(AppTheme.primaryText)
                 editTemplateBtn.text = context.getString(R.string.edit_template)
+                addNewBtn.visibility = View.GONE
             }
             adapter.notifyItemRangeChanged(0, items.size)
         }
@@ -98,6 +100,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun expand(dtStart: Long, dtEnd: Long) {
+        vibrate(context)
         val transitionSet = TransitionSet()
         val t1 = makeFromRightSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
@@ -157,6 +160,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         adapter.mode = 0
         editTemplateBtn.text = context.getString(R.string.edit_template)
         editTemplateBtn.setTextColor(AppTheme.primaryText)
+        addNewBtn.visibility = View.GONE
         isExpanded = false
     }
 

@@ -111,7 +111,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
         MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)
-            layoutParams = FrameLayout.LayoutParams(dateCell.width, dateCell.height).apply {
+            layoutParams = LayoutParams(dateCell.width, dateCell.height).apply {
                 val xPos = location[0] + if(MainActivity.isTabOpen()) -MainActivity.tabSize else 0
                 val yPos = location[1] - AppStatus.statusBarHeight
                 setMargins(xPos, yPos, 0, 0)
@@ -138,7 +138,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         }
                     })
                     TransitionManager.beginDelayedTransition(this@DayPagerView, transiion)
-                    (layoutParams as FrameLayout.LayoutParams).let {
+                    (layoutParams as LayoutParams).let {
                         it.width = MATCH_PARENT
                         it.height = MATCH_PARENT
                         it.setMargins(0, 0, 0, 0)

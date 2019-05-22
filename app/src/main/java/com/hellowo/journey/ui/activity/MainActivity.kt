@@ -54,6 +54,7 @@ class MainActivity : BaseActivity() {
         fun getMainDateLy() = instance?.mainDateLy
         fun getProfileBtn() = instance?.profileBtn
         fun getTemplateView() = instance?.templateView
+        fun getTargetTemplate() = getViewModel()?.targetTemplate?.value
         fun getTargetCalendarView() = getViewModel()?.targetCalendarView?.value
         fun getTargetTime() = getViewModel()?.targetTime?.value
         fun getTargetCal() = getViewModel()?.targetCalendarView?.value?.targetCal
@@ -117,7 +118,7 @@ class MainActivity : BaseActivity() {
         rootLy.setOnDragListener(MainDragAndDropListener)
         mainMonthYearLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainDateLy.pivotX = 0f
-        mainDateLy.pivotY = dpToPx(34f)
+        mainDateLy.pivotY = 0f
         mainPanel.setOnClickListener {}
         todayBtn.translationY = tabSize.toFloat()
         callAfterViewDrawed(rootLy, Runnable{
@@ -444,7 +445,7 @@ class MainActivity : BaseActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
-            RC_IMAGE_ATTACHMENT, RC_PRFOFILE_IMAGE -> {
+            RC_PRFOFILE_IMAGE -> {
                 permissions.indices
                         .filter { permissions[it] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[it] == PackageManager.PERMISSION_GRANTED }
                         .forEach { _ -> showPhotoPicker(requestCode) }

@@ -19,7 +19,6 @@ class MainViewModel : ViewModel() {
     val appUser = MutableLiveData<AppUser?>()
     val targetTemplate = MutableLiveData<Template>()
     val templateList = MutableLiveData<RealmResults<Template>>()
-    val colorTagList = MutableLiveData<List<ColorTag>>()
     val targetFolder = MutableLiveData<Folder>()
     val folderList = MutableLiveData<RealmResults<Folder>>()
     val targetTime = MutableLiveData<Long>()
@@ -173,9 +172,10 @@ class MainViewModel : ViewModel() {
                     style = it.style
                     colorKey = it.colorKey
                     tags.addAll(it.tags)
+                    if(it.isScheduled()) setSchedule()
+                    if(it.isSetCheckBox()) setCheckBox()
                     return@let
                 }
-                setInCalendar()
                 folder = targetFolder.value
             }
 

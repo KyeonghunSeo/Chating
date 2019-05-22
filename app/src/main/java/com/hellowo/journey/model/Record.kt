@@ -14,7 +14,7 @@ open class Record(@PrimaryKey var id: String? = null,
                   var type: Int = 0,
                   var style: Int = 0,
                   var title: String? = null,
-                  var colorKey: Int = -1,
+                  var colorKey: Int = 0,
                   var location: String? = null,
                   var description: String? = null,
                   var repeat: String? = null,
@@ -35,10 +35,9 @@ open class Record(@PrimaryKey var id: String? = null,
                   var folder: Folder? = null): RealmObject() {
 
     companion object {
-        const val inCalendarFlag = 0b1
-        const val scheduleFlag = 0b10
-        const val timeFlag = 0b100
-        const val checkBoxFlag = 0b1000
+        const val scheduleFlag = 0b1
+        const val timeFlag = 0b10
+        const val checkBoxFlag = 0b100
     }
 
     @Ignore var repeatKey: String? = null
@@ -48,15 +47,23 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     enum class Formula {
-        BACKGROUND, TOP_STACK, TOP_FLOW, TOP_LINEAR, BOTTOM_LINEAR, BOTTOM_STACK, OVERLAY
+        BACKGROUND, SINGLE_LINE_TOP_STACK, TOP_FLOW, MULTI_LINE_TOP, SINGLE_LINE_BOTTOM_STACK, OVERLAY, INVISIBLE
     }
 
     fun getFormula(): Formula {
-        return if(isInCalendar()) {
-            if(isScheduled()) Formula.TOP_STACK else Formula.TOP_STACK
-        }else {
-            Formula.TOP_LINEAR
+        val type = style % 100
+        when(type) {
+
         }
+        return if(isScheduled()) {
+            Formula.SINGLE_LINE_TOP_STACK
+        }else {
+            Formula.MULTI_LINE_TOP
+        }
+    }
+
+    fun setInCalendarType(type: Int) {
+        style = style / 100 * 100 + type
     }
 
     fun getDuration() = dtEnd - dtStart
@@ -199,10 +206,6 @@ open class Record(@PrimaryKey var id: String? = null,
         return str.toString()
     }
 
-    fun isInCalendar() = type and inCalendarFlag == inCalendarFlag
-    fun setInCalendar() { type = type or inCalendarFlag }
-    fun clearInCalendar() { type = type and inCalendarFlag.inv() }
-
     fun isScheduled() = type and scheduleFlag == scheduleFlag
     fun setSchedule() { type = type or scheduleFlag }
     fun clearSchdule() {
@@ -222,11 +225,9 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     fun isSetCheckList(): Boolean = links.any { it.type == Link.Type.CHECKLIST.ordinal }
-
     fun clearCheckList() {
         links.first{ it.type == Link.Type.CHECKLIST.ordinal }?.let { links.remove(it) }
     }
-
     fun setCheckList() {
         if(!isSetCheckList()) {
             links.add(Link(type = Link.Type.CHECKLIST.ordinal))
@@ -234,11 +235,9 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     fun isSetPercentage(): Boolean = links.any { it.type == Link.Type.PERCENTAGE.ordinal }
-
     fun clearPercentage() {
         links.first{ it.type == Link.Type.PERCENTAGE.ordinal }?.let { links.remove(it) }
     }
-
     fun setPercentage() {
         if(!isSetPercentage()) {
             links.add(Link(type = Link.Type.PERCENTAGE.ordinal))
