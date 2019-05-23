@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">12Pages</string>
+    <string name="app_name">12 Pages</string>
     <string name="notification_default_channel" translatable="false">com.hellowo.alarm.default</string>
 
     <string name="cancel">취소</string>

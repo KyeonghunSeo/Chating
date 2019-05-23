@@ -22,7 +22,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDUzi0vU08ZJ_eXK-wE6_OhGN0yKMeyQnk" />
+            android:value="AIzaSyDqEQrjmuHV6uM26UDGvjIn05_sLBoZ4wk" />
 
         <activity
             android:name="com.ayaan.twelvepages.ui.activity.MainActivity"

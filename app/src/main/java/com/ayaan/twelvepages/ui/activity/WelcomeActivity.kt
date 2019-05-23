@@ -199,8 +199,7 @@ class WelcomeActivity : BaseActivity() {
     }
 
     private fun loginRealm(account: GoogleSignInAccount) {
-        val credentials = SyncCredentials.usernamePassword(account.email,
-                account.id, false)
+        val credentials = SyncCredentials.usernamePassword(account.email, account.id, false)
         SyncUser.logInAsync(credentials, AUTH_URL, object: SyncUser.Callback<SyncUser> {
             override fun onError(error: ObjectServerError?) {
                 l("[로그인 실패]"+error?.errorCode?.intValue())
@@ -216,7 +215,7 @@ class WelcomeActivity : BaseActivity() {
 
     private fun signInWithGoogle() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("730968307119-mrr5n2rriuc9dqnejfmni6fkae7h4t13.apps.googleusercontent.com")
+                .requestIdToken("358462425934-h4nqspsj9ujlh747amcgc65arehf4kvu.apps.googleusercontent.com")
                 .requestEmail()
                 .build()
         GoogleSignIn.getClient(this, gso).signOut().addOnCompleteListener {
