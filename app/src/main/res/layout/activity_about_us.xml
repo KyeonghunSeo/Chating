@@ -139,10 +139,10 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.hellowo.journey.ui.view.LeafFallFrameLayout
+    <com.ayaan.twelvepages.ui.view.LeafFallFrameLayout
         android:id="@+id/leafFallView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.hellowo.journey.ui.view.LeafFallFrameLayout>
+    </com.ayaan.twelvepages.ui.view.LeafFallFrameLayout>
 
 </FrameLayout>

@@ -1,52 +1,61 @@
 {
   "project_info": {
-    "project_number": "730968307119",
-    "firebase_url": "https://journey-e6590.firebaseio.com",
-    "project_id": "journey-e6590",
-    "storage_bucket": "journey-e6590.appspot.com"
+    "project_number": "358462425934",
+    "firebase_url": "https://pages-f2acc.firebaseio.com",
+    "project_id": "pages-f2acc",
+    "storage_bucket": "pages-f2acc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:730968307119:android:5f775c2ff8c0d457",
+        "mobilesdk_app_id": "1:358462425934:android:65ce23932d886ce5",
         "android_client_info": {
-          "package_name": "com.hellowo.journey"
+          "package_name": "com.ayaan.twelvepages"
         }
       },
       "oauth_client": [
         {
-          "client_id": "730968307119-od2bm44klhdplqcmktoip6s5b8ubnrvs.apps.googleusercontent.com",
+          "client_id": "358462425934-qn06a80ch9fu693ppidjkgojn7vl1ik3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.hellowo.journey",
+            "package_name": "com.ayaan.twelvepages",
+            "certificate_hash": "3c5ee37fa7f3d0c78faae7560c20667a2652696d"
+          }
+        },
+        {
+          "client_id": "358462425934-t2na0qp68kctsredq3md3q9tk29ofti4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ayaan.twelvepages",
             "certificate_hash": "e43e4e79f4a6b1ea85e237438adfa9950abddd10"
           }
         },
         {
-          "client_id": "730968307119-mrr5n2rriuc9dqnejfmni6fkae7h4t13.apps.googleusercontent.com",
+          "client_id": "358462425934-iapbv54r4qdeiv5ndn2tra301bcmfm47.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ayaan.twelvepages",
+            "certificate_hash": "06825339c778a6aea9c594149f6245e674ec251e"
+          }
+        },
+        {
+          "client_id": "358462425934-h4nqspsj9ujlh747amcgc65arehf4kvu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCBm2AAJB56ro6KmnFbcQrTYZzSHQfqpAk"
+          "current_key": "AIzaSyBF29Far7Y0Rv4ugfqIw53pyoazdJOd_ZE"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "730968307119-mrr5n2rriuc9dqnejfmni6fkae7h4t13.apps.googleusercontent.com",
+              "client_id": "358462425934-h4nqspsj9ujlh747amcgc65arehf4kvu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

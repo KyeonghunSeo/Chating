@@ -20,11 +20,11 @@
     <include layout="@layout/view_day_of_week">
     </include>
 
-    <com.hellowo.journey.ui.view.base.TouchControllFrameLayout
+    <com.ayaan.twelvepages.ui.view.base.TouchControllFrameLayout
         android:id="@+id/containter"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-    </com.hellowo.journey.ui.view.base.TouchControllFrameLayout>
+    </com.ayaan.twelvepages.ui.view.base.TouchControllFrameLayout>
 
 </LinearLayout>

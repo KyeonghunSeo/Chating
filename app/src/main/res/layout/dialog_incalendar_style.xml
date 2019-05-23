@@ -30,7 +30,7 @@
                 android:fontFamily="@font/bold"
                 android:text="@string/calendarBlockStyle"/>
 
-            <com.hellowo.journey.ui.view.base.Line
+            <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="20dp"
                 android:layout_height="2dp"
                 android:layout_marginLeft="2dp"
@@ -207,7 +207,7 @@
 
         </LinearLayout>
 
-        <com.hellowo.journey.ui.view.base.Line
+        <com.ayaan.twelvepages.ui.view.base.Line
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="22dp"
@@ -270,7 +270,7 @@
 
         </FrameLayout>
 
-        <com.hellowo.journey.ui.view.InCalendarStyleTypePickerView
+        <com.ayaan.twelvepages.ui.view.InCalendarStyleTypePickerView
             android:id="@+id/styleTypePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -278,7 +278,7 @@
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
             android:clipToPadding="false">
-        </com.hellowo.journey.ui.view.InCalendarStyleTypePickerView>
+        </com.ayaan.twelvepages.ui.view.InCalendarStyleTypePickerView>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -298,14 +298,14 @@
 
         </FrameLayout>
 
-        <com.hellowo.journey.ui.view.InCalendarStyleTypePickerView
+        <com.ayaan.twelvepages.ui.view.InCalendarStyleTypePickerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
             android:clipToPadding="false">
-        </com.hellowo.journey.ui.view.InCalendarStyleTypePickerView>
+        </com.ayaan.twelvepages.ui.view.InCalendarStyleTypePickerView>
 
         <LinearLayout
             android:orientation="horizontal"

@@ -6,7 +6,7 @@
     android:id="@+id/rootLy"
     android:background="#FFFFFF">
 
-    <com.hellowo.journey.ui.view.InkView
+    <com.ayaan.twelvepages.ui.view.InkView
         android:id="@+id/ink"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

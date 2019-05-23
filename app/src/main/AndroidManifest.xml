@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.hellowo.journey">
+    package="com.ayaan.twelvepages">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".App"
+        android:name="com.ayaan.twelvepages.App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,7 +25,7 @@
             android:value="AIzaSyDUzi0vU08ZJ_eXK-wE6_OhGN0yKMeyQnk" />
 
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name="com.ayaan.twelvepages.ui.activity.MainActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask">
@@ -35,17 +35,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.WelcomeActivity" />
-        <activity android:name=".ui.activity.MapActivity" />
-        <activity android:name=".ui.activity.DrawActivity" />
-        <activity android:name=".ui.activity.TrashActivity" />
-        <activity android:name=".ui.activity.TemplateActivity" />
-        <activity android:name=".ui.activity.SettingsActivity" />
-        <activity android:name=".ui.activity.AboutUsActivity" />
-        <activity android:name=".ui.activity.PremiumActivity" />
-        <activity android:name=".ui.activity.RecordActivity" />
+        <activity android:name="com.ayaan.twelvepages.ui.activity.WelcomeActivity" />
+        <activity android:name="com.ayaan.twelvepages.ui.activity.MapActivity" />
+        <activity android:name="com.ayaan.twelvepages.ui.activity.DrawActivity" />
+        <activity android:name="com.ayaan.twelvepages.ui.activity.TrashActivity" />
+        <activity android:name="com.ayaan.twelvepages.ui.activity.TemplateActivity" />
+        <activity android:name="com.ayaan.twelvepages.ui.activity.SettingsActivity" />
+        <activity android:name="com.ayaan.twelvepages.ui.activity.AboutUsActivity" />
+        <activity android:name="com.ayaan.twelvepages.ui.activity.PremiumActivity" />
+        <activity android:name="com.ayaan.twelvepages.ui.activity.RecordActivity" />
         <activity
-            android:name=".ui.activity.ScrapActivity"
+            android:name="com.ayaan.twelvepages.ui.activity.ScrapActivity"
             android:theme="@style/Theme.Transparent">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.SEND" />
@@ -60,12 +60,12 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
-        <receiver android:name=".alarm.BriefingAlarmReceiver" />
-        <receiver android:name=".alarm.RecordAlarmReceiver" />
+        <receiver android:name="com.ayaan.twelvepages.alarm.BriefingAlarmReceiver" />
+        <receiver android:name="com.ayaan.twelvepages.alarm.RecordAlarmReceiver" />
 
-        <service android:name=".alarm.NotiService" />
+        <service android:name="com.ayaan.twelvepages.alarm.NotiService" />
 
-        <receiver android:name=".widget.MonthlyCalendarWidget">
+        <receiver android:name="com.ayaan.twelvepages.widget.MonthlyCalendarWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

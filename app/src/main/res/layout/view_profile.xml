@@ -84,7 +84,7 @@
 
             </LinearLayout>
 
-            <com.hellowo.journey.ui.view.base.Line
+            <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
@@ -103,7 +103,7 @@
                 android:text="@string/motto_sample"
                 android:background="?android:attr/selectableItemBackground"/>
 
-            <com.hellowo.journey.ui.view.base.Line
+            <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="20dp"
                 android:layout_height="2dp"
                 android:layout_marginTop="10dp"

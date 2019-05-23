@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.hellowo.journey.ui.view.ProfileView
+    <com.ayaan.twelvepages.ui.view.ProfileView
         android:id="@+id/profileView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.hellowo.journey.ui.view.ProfileView>
+    </com.ayaan.twelvepages.ui.view.ProfileView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/mainPanel"
@@ -92,12 +92,12 @@
 
                 </FrameLayout>
 
-                <com.hellowo.journey.ui.view.CalendarPagerView
+                <com.ayaan.twelvepages.ui.view.CalendarPagerView
                     android:id="@+id/calendarPagerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="70dp">
-                </com.hellowo.journey.ui.view.CalendarPagerView>
+                </com.ayaan.twelvepages.ui.view.CalendarPagerView>
 
                 <View
                     android:id="@+id/topShadow"
@@ -106,19 +106,19 @@
                     android:layout_marginTop="70dp"
                     android:background="@drawable/line_top_shadow"/>
 
-                <com.hellowo.journey.ui.view.DayPagerView
+                <com.ayaan.twelvepages.ui.view.DayPagerView
                     android:id="@+id/dayPagerView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                </com.hellowo.journey.ui.view.DayPagerView>
+                </com.ayaan.twelvepages.ui.view.DayPagerView>
 
             </FrameLayout>
 
-            <com.hellowo.journey.ui.view.NoteView
+            <com.ayaan.twelvepages.ui.view.NoteView
                 android:id="@+id/noteView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            </com.hellowo.journey.ui.view.NoteView>
+            </com.ayaan.twelvepages.ui.view.NoteView>
 
         </FrameLayout>
 
@@ -215,11 +215,11 @@
 
         </FrameLayout>
 
-        <com.hellowo.journey.ui.view.TemplateView
+        <com.ayaan.twelvepages.ui.view.TemplateView
             android:id="@+id/templateView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </com.hellowo.journey.ui.view.TemplateView>
+        </com.ayaan.twelvepages.ui.view.TemplateView>
 
     </androidx.cardview.widget.CardView>
 
@@ -251,12 +251,12 @@
 
     </FrameLayout>
 
-    <com.hellowo.journey.ui.view.SearchView
+    <com.ayaan.twelvepages.ui.view.SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="30dp"
         android:visibility="gone">
-    </com.hellowo.journey.ui.view.SearchView>
+    </com.ayaan.twelvepages.ui.view.SearchView>
 
 </FrameLayout>

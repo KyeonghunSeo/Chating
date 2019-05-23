@@ -98,12 +98,12 @@
                 android:background="@drawable/blank"
                 android:fontFamily="@font/regular"/>
 
-            <com.hellowo.journey.ui.view.TagView
+            <com.ayaan.twelvepages.ui.view.TagView
                 android:id="@+id/tagView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp">
-            </com.hellowo.journey.ui.view.TagView>
+            </com.ayaan.twelvepages.ui.view.TagView>
 
 
             <FrameLayout
@@ -208,12 +208,12 @@
 
                 </FrameLayout>
 
-                <com.hellowo.journey.ui.view.base.Line
+                <com.ayaan.twelvepages.ui.view.base.Line
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     app:colorFlag="secondary"/>
 
-                <com.hellowo.journey.ui.view.base.CustomEditText
+                <com.ayaan.twelvepages.ui.view.base.CustomEditText
                     android:id="@+id/initTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

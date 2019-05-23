@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hellowo.journey.ui.view.CalendarView
+<com.ayaan.twelvepages.ui.view.CalendarView
     android:id="@+id/calendarView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

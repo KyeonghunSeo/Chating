@@ -153,7 +153,7 @@
                     android:src="@drawable/check"
                     android:background="?android:attr/selectableItemBackground"/>
 
-                <com.hellowo.journey.ui.view.base.AutoScaleEditText
+                <com.ayaan.twelvepages.ui.view.base.AutoScaleEditText
                     android:id="@+id/titleInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -352,7 +352,7 @@
 
                 </LinearLayout>
 
-                <com.hellowo.journey.ui.view.base.Line
+                <com.ayaan.twelvepages.ui.view.base.Line
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
@@ -403,7 +403,7 @@
 
                 </LinearLayout>
 
-                <com.hellowo.journey.ui.view.base.Line
+                <com.ayaan.twelvepages.ui.view.base.Line
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
@@ -453,7 +453,7 @@
 
                 </LinearLayout>
 
-                <com.hellowo.journey.ui.view.base.Line
+                <com.ayaan.twelvepages.ui.view.base.Line
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
@@ -502,7 +502,7 @@
 
                 </LinearLayout>
 
-                <com.hellowo.journey.ui.view.base.Line
+                <com.ayaan.twelvepages.ui.view.base.Line
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
@@ -551,7 +551,7 @@
 
                 </LinearLayout>
 
-                <com.hellowo.journey.ui.view.base.Line
+                <com.ayaan.twelvepages.ui.view.base.Line
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
@@ -559,7 +559,7 @@
                     android:layout_marginRight="25dp"
                     app:colorFlag="disable"/>
 
-                <com.hellowo.journey.ui.view.CheckListView
+                <com.ayaan.twelvepages.ui.view.CheckListView
                     android:id="@+id/checkListView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -602,7 +602,7 @@
 
                 </LinearLayout>
 
-                <com.hellowo.journey.ui.view.base.Line
+                <com.ayaan.twelvepages.ui.view.base.Line
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
@@ -666,7 +666,7 @@
 
                 </LinearLayout>
 
-                <com.hellowo.journey.ui.view.base.Line
+                <com.ayaan.twelvepages.ui.view.base.Line
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
@@ -717,13 +717,13 @@
 
                 </LinearLayout>
 
-                <com.hellowo.journey.ui.view.base.Line
+                <com.ayaan.twelvepages.ui.view.base.Line
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
                     app:colorFlag="disable"/>
 
-                <com.hellowo.journey.ui.view.LinkListView
+                <com.ayaan.twelvepages.ui.view.LinkListView
                     android:id="@+id/linkListView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

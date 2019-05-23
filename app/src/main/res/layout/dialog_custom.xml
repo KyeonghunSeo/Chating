@@ -31,7 +31,7 @@
                 android:fontFamily="@font/bold"
                 android:text="title"/>
 
-            <com.hellowo.journey.ui.view.base.Line
+            <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="20dp"
                 android:layout_height="2dp"
                 android:layout_marginLeft="2dp"

@@ -31,19 +31,19 @@
                 android:fontFamily="@font/bold"
                 android:text="@string/tag"/>
 
-            <com.hellowo.journey.ui.view.base.Line
+            <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="20dp"
                 android:layout_height="2dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="20dp"
                 app:colorFlag="primary"/>
 
-            <com.hellowo.journey.ui.view.TagView
+            <com.ayaan.twelvepages.ui.view.TagView
                 android:id="@+id/tagView"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            </com.hellowo.journey.ui.view.TagView>
+            </com.ayaan.twelvepages.ui.view.TagView>
 
         </LinearLayout>
 

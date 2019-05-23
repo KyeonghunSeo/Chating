@@ -241,7 +241,7 @@
                       android:background="@drawable/highlightcover"
                       android:text="+10"/>
 
-                  <com.hellowo.journey.ui.view.base.Line
+                  <com.ayaan.twelvepages.ui.view.base.Line
                       android:layout_width="1dp"
                       android:layout_height="match_parent"
                       app:colorFlag="secondary"/>
