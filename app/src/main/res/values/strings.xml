@@ -8,7 +8,7 @@
     <string name="prev">이전</string>
     <string name="next">다음</string>
     <string name="title">제목</string>
-    <string name="untitle">…</string>
+    <string name="untitle">내용없음</string>
 
     <string name="mon">월</string>
     <string name="tue">화</string>
@@ -102,7 +102,6 @@
     <string name="apply_after">이 %1$s 포함 이후 모든 %1$s에 적용</string>
     <string name="apply_all">모두 적용</string>
     <string name="date_of_total">%1$s 일차</string>
-    <string name="empty_note">내용없음</string>
     <string name="drawing">손글씨</string>
     <string name="calendar_settings">달력설정</string>
     <string name="add">생성</string>

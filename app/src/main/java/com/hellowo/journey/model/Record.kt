@@ -1,8 +1,6 @@
 package com.hellowo.journey.model
 
-import com.hellowo.journey.AppTheme
-import com.hellowo.journey.getCalendarTime0
-import com.hellowo.journey.getDiffDate
+import com.hellowo.journey.*
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -47,18 +45,33 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     enum class Formula {
-        BACKGROUND, SINGLE_LINE_TOP_STACK, TOP_FLOW, MULTI_LINE_TOP, SINGLE_LINE_BOTTOM_STACK, OVERLAY, INVISIBLE
+        BACKGROUND, TOP_STACK, TOP_FLOW, DOT_FLOW, MULTI_LINE, RANGE, OVERLAY, HIDE
     }
 
-    fun getFormula(): Formula {
+    fun getFormula(length: Int): Formula {
         val type = style % 100
-        when(type) {
-
-        }
-        return if(isScheduled()) {
-            Formula.SINGLE_LINE_TOP_STACK
-        }else {
-            Formula.MULTI_LINE_TOP
+        return when(type) {
+            1 -> Formula.TOP_STACK
+            2 -> {
+                if(length == 0) {
+                    Formula.MULTI_LINE
+                }else {
+                    Formula.TOP_STACK
+                }
+            }
+            3 -> Formula.RANGE
+            4 -> Formula.OVERLAY
+            5 -> Formula.DOT_FLOW
+            6 -> Formula.HIDE
+            else -> {
+                if(length >= 4) {
+                    Formula.RANGE
+                }else if(isSetCheckBox() || length == 0) {
+                    Formula.TOP_STACK
+                }else {
+                    Formula.MULTI_LINE
+                }
+            }
         }
     }
 
@@ -249,4 +262,8 @@ open class Record(@PrimaryKey var id: String? = null,
     fun isLunarRepeat(): Boolean = repeat?.contains("lunar") == true
 
     fun isSetLink(): Boolean = links.any { it.type == Link.Type.IMAGE.ordinal }
+
+    fun getTitleInCalendar() = if(!title.isNullOrBlank())
+        title?.replace(System.getProperty("line.separator"), " ")
+    else App.context.getString(R.string.untitle)
 }

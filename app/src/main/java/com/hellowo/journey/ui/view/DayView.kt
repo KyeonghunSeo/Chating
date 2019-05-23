@@ -202,10 +202,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         animSet.playTogether(ObjectAnimator.ofFloat(dayPagerView, "alpha", 0.9f, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleX", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dateLy, "scaleY", 1f, headerTextScale),
-                ObjectAnimator.ofFloat(dowText, "scaleX", 1f, subScale),
-                ObjectAnimator.ofFloat(dowText, "scaleY", 1f, subScale),
-                ObjectAnimator.ofFloat(holiText, "scaleX", 1f, subScale),
-                ObjectAnimator.ofFloat(holiText, "scaleY", 1f, subScale),
+                ObjectAnimator.ofFloat(dowText, "scaleX", 1f, dowScale),
+                ObjectAnimator.ofFloat(dowText, "scaleY", 1f, dowScale),
+                ObjectAnimator.ofFloat(holiText, "scaleX", 1f, holiScale),
+                ObjectAnimator.ofFloat(holiText, "scaleY", 1f, holiScale),
                 ObjectAnimator.ofFloat(dateLy, "translationX", 0f, datePosX),
                 ObjectAnimator.ofFloat(dateLy, "translationY", 0f, datePosY),
                 ObjectAnimator.ofFloat(dowText, "translationX", 0f, dowPosX),
@@ -232,10 +232,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         animSet.playTogether(ObjectAnimator.ofFloat(dayPagerView, "alpha", 1f, 0.9f),
                 ObjectAnimator.ofFloat(dateLy, "scaleX", headerTextScale, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleY", headerTextScale, 1f),
-                ObjectAnimator.ofFloat(dowText, "scaleX", subScale, 1f),
-                ObjectAnimator.ofFloat(dowText, "scaleY", subScale, 1f),
-                ObjectAnimator.ofFloat(holiText, "scaleX", subScale, 1f),
-                ObjectAnimator.ofFloat(holiText, "scaleY", subScale, 1f),
+                ObjectAnimator.ofFloat(dowText, "scaleX", dowScale, 1f),
+                ObjectAnimator.ofFloat(dowText, "scaleY", dowScale, 1f),
+                ObjectAnimator.ofFloat(holiText, "scaleX", holiScale, 1f),
+                ObjectAnimator.ofFloat(holiText, "scaleY", holiScale, 1f),
                 ObjectAnimator.ofFloat(dateLy, "translationX", datePosX, 0f),
                 ObjectAnimator.ofFloat(dateLy, "translationY", datePosY, 0f),
                 ObjectAnimator.ofFloat(dowText, "translationX", dowPosX, 0f),
@@ -259,10 +259,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         contentLy.visibility = View.VISIBLE
         dateLy.scaleY = headerTextScale
         dateLy.scaleX = headerTextScale
-        dowText.scaleY = subScale
-        dowText.scaleX = subScale
-        holiText.scaleY = subScale
-        holiText.scaleX = subScale
+        dowText.scaleY = dowScale
+        dowText.scaleX = dowScale
+        holiText.scaleY = holiScale
+        holiText.scaleX = holiScale
         dateLy.translationX = datePosX
         dateLy.translationY = datePosY
         dowText.translationX = dowPosX
@@ -314,9 +314,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         val datePosY = -dpToPx(1.0f)
         val dowPosX = -dpToPx(0.0f)
         val dowPosY = dpToPx(9.6f)
+        val dowScale = 0.27f
         val holiPosX = dpToPx(15.3f)
         val holiPosY = dpToPx(0.4f)
-        val subScale = 0.27f
+        val holiScale = 0.30f
         val mainDateLyX = dpToPx(80.7f)
         val mainDateLyY = dpToPx(15.0f)
         val mainDateScale = 0.90f

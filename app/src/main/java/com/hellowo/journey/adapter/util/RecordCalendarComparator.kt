@@ -6,10 +6,10 @@ import com.hellowo.journey.model.Record
 class RecordCalendarComparator : Comparator<RecordCalendarAdapter.TimeObjectViewHolder> {
     override fun compare(l: RecordCalendarAdapter.TimeObjectViewHolder, r: RecordCalendarAdapter.TimeObjectViewHolder): Int {
         return when{
-            l.record.getFormula() < r.record.getFormula() -> -1
-            l.record.getFormula() > r.record.getFormula() -> 1
+            l.formula < r.formula -> -1
+            l.formula > r.formula -> 1
             else -> {
-                if(l.record.getFormula() == Record.Formula.SINGLE_LINE_BOTTOM_STACK) {
+                if(l.formula == Record.Formula.RANGE) {
                     when{
                         l.startCellNum > r.startCellNum -> -1
                         l.startCellNum < r.startCellNum -> 1
