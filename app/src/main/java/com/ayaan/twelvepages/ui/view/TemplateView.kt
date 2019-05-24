@@ -91,7 +91,9 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             if(isSameDay(startCal, endCal)) {
                 endDateText.text = AppDateFormat.mdeDate.format(startCal.time)
             }else {
-                endDateText.text = "${AppDateFormat.mdeDate.format(startCal.time)}\n~ ${AppDateFormat.mdeDate.format(endCal.time)}"
+                endDateText.text = "${AppDateFormat.mdeDate.format(startCal.time)}\n" +
+                        "~ ${AppDateFormat.mdeDate.format(endCal.time)}\n" +
+                        getDurationText(startCal.timeInMillis, endCal.timeInMillis, true)
             }
         }else {
             startDateText.text = folder.name

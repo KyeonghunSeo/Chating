@@ -9,7 +9,7 @@ class RecordCalendarComparator : Comparator<RecordCalendarAdapter.TimeObjectView
             l.formula < r.formula -> -1
             l.formula > r.formula -> 1
             else -> {
-                if(l.formula == Record.Formula.RANGE) {
+                if(l.formula == RecordCalendarAdapter.Formula.RANGE) {
                     when{
                         l.startCellNum > r.startCellNum -> -1
                         l.startCellNum < r.startCellNum -> 1

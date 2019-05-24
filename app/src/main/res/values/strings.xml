@@ -248,14 +248,36 @@
     <string name="calendarBlockStyle">달력에 표시방법</string>
     <string name="single_line_sample_string">뭔가 즐거운 일</string>
 
-    <string-array name="record_in_calendar_style_types">
-        <item>자동</item>
+    <string-array name="formulas">
+        <item>기본</item>
         <item>한줄</item>
         <item>여러줄</item>
         <item>범위</item>
         <item>스티커</item>
         <item>점</item>
         <item>생략</item>
+    </string-array>
+
+    <string-array name="shape_single_line">
+        <item>기본</item>
+        <item>각진 모서리 채우기</item>
+        <item>각진 모서리 선</item>
+        <item>둥근 모서리 채우기</item>
+        <item>둥근 모서리 선</item>
+        <item>굵은 빗금</item>
+        <item>얇은 빗금</item>
+        <item>윗줄</item>
+        <item>밑줄</item>
+    </string-array>
+
+    <string-array name="shape_multi_line">
+        <item>기본</item>
+        <item>각진 모서리 채우기</item>
+        <item>각진 모서리 선</item>
+        <item>굵은 빗금</item>
+        <item>얇은 빗금</item>
+        <item>윗줄</item>
+        <item>밑줄</item>
     </string-array>
 
 </resources>

@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
@@ -15,9 +16,9 @@ import com.ayaan.twelvepages.ui.view.RecordView
 import kotlinx.android.synthetic.main.dialog_incalendar_style.*
 import java.util.*
 
-class InCalendarStyleDialog(private val activity: Activity, record: Record?,
+class RecordViewStyleDialog(private val activity: Activity, record: Record?,
                             template: Template?, private val onResult: (Int, Int) -> Unit) : Dialog(activity) {
-    private val recordView = RecordView(context, Record(), Record.Formula.TOP_STACK, 0, 0)
+    private val recordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.TOP_STACK, 0, 0)
 
     init {
         if(record != null) {
@@ -38,7 +39,8 @@ class InCalendarStyleDialog(private val activity: Activity, record: Record?,
         setLayout()
         setOnShowListener {
             drawRecord()
-            styleTypePicker.scrollToPosition(recordView.record.style % 100)
+            formulaPicker.scrollToPosition(recordView.record.style % 100)
+            shapePickerView.scrollToPosition(recordView.record.style / 100)
         }
     }
 
@@ -74,12 +76,20 @@ class InCalendarStyleDialog(private val activity: Activity, record: Record?,
             }, true, true, true, false)
         }
 
-        styleTypePicker.type = recordView.record.style % 100
-        styleTypePicker.onSelected = { type ->
-            recordView.record.setInCalendarType(type)
+        formulaPicker.formula = recordView.record.style % 100
+        formulaPicker.onSelected = { formulaNum ->
+            recordView.record.setStyleFormulaNumber(formulaNum)
+            recordView.formula = RecordCalendarAdapter.getFormula(recordView.record, 0)
+            shapePickerView.refresh(recordView.formula)
             drawRecord()
         }
-        styleTypePicker.adapter?.notifyDataSetChanged()
+        formulaPicker.adapter?.notifyDataSetChanged()
+
+        shapePickerView.shape = recordView.record.style / 100
+        shapePickerView.onSelected = { shape ->
+            recordView.record.setStyleShape(shape)
+            drawRecord()
+        }
 
         cancelBtn.setOnClickListener { dismiss() }
         confirmBtn.setOnClickListener {
@@ -89,11 +99,9 @@ class InCalendarStyleDialog(private val activity: Activity, record: Record?,
     }
 
     private fun drawRecord() {
-        recordView.setLookByType()
-
+        recordView.setStyle()
         recordView.layoutParams.width = dpToPx(60)
-        recordView.layoutParams.height = RecordView.blockTypeSize
-
+        recordView.layoutParams.height = recordView.getViewHeight()
         recordView.textSpaceWidth = recordView.paint.measureText(recordView.text.toString())
         recordView.invalidate()
         recordView.requestLayout()

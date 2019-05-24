@@ -12,17 +12,16 @@ import com.ayaan.twelvepages.makeChangeBounceTransition
 import com.ayaan.twelvepages.manager.OsCalendarManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.model.Record
-import com.ayaan.twelvepages.model.Record.Formula.*
 import com.ayaan.twelvepages.ui.view.CalendarView
 import com.ayaan.twelvepages.ui.view.CalendarView.Companion.weekLyBottomPadding
 import com.ayaan.twelvepages.ui.view.RecordView
 import com.ayaan.twelvepages.ui.view.RecordView.Companion.blockTypeSize
 import io.realm.RealmResults
-
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 
 class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private val viewHolderList = ArrayList<TimeObjectViewHolder>()
-    private val viewLevelStatusMap = HashMap<Record.Formula, ViewLevelStatus>()
+    private val viewLevelStatusMap = HashMap<Formula, ViewLevelStatus>()
     private val context = calendarView.context
     private val columns = CalendarView.columns
     private var rows = 0
@@ -34,6 +33,37 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private var drawStartYOffset = CalendarView.dataStartYOffset
     private val cellBottomArray = Array(42){ drawStartYOffset }
     private val rowHeightArray = Array(6){ drawStartYOffset }
+
+    enum class Formula { BACKGROUND, TOP_STACK, TOP_FLOW, DOT_FLOW, MULTI_LINE, RANGE, OVERLAY, HIDE }
+
+    companion object {
+        fun getFormula(record: Record, length: Int): Formula {
+            val formulaNum = record.style % 100
+            return when(formulaNum) {
+                1 -> TOP_STACK
+                2 -> {
+                    if(length == 0) {
+                        MULTI_LINE
+                    }else {
+                        TOP_STACK
+                    }
+                }
+                3 -> RANGE
+                4 -> OVERLAY
+                5 -> DOT_FLOW
+                6 -> HIDE
+                else -> {
+                    if(length >= 7) {
+                        RANGE
+                    }else if(record.isSetCheckBox() || length == 0) {
+                        TOP_STACK
+                    }else {
+                        MULTI_LINE
+                    }
+                }
+            }
+        }
+    }
 
     fun draw(items : RealmResults<Record>?) {
         setCalendarData()
@@ -94,7 +124,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
             endCellNum = maxCellNum - 1
             rOpen = true
         }
-        val formula = record.getFormula(endCellNum - startCellNum)
+        val formula = getFormula(record, endCellNum - startCellNum)
         when(formula){
             TOP_FLOW -> {
                 val holder = viewHolderList
@@ -141,7 +171,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
     }
 
     private fun calculateTimeObjectViewsPosition() {
-        var currentFomula = Record.Formula.BACKGROUND
+        var currentFomula = BACKGROUND
         viewHolderList.forEach { viewHolder ->
             try{
                 val formula = viewHolder.formula
@@ -310,7 +340,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         return result
     }
 
-    inner class TimeObjectViewHolder(val formula: Record.Formula, val record: Record,
+    inner class TimeObjectViewHolder(val formula: Formula, val record: Record,
                                      val startCellNum: Int, val endCellNum: Int) {
         val timeObjectViewList = ArrayList<RecordView>()
     }

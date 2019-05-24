@@ -55,7 +55,7 @@ class TemplateActivity : BaseActivity() {
 
     private fun updateCalendarBlockStyleUI() {
         calendarBlockStyleBtn.setOnClickListener {
-            showDialog(InCalendarStyleDialog(this, null, template) { style, colorKey ->
+            showDialog(RecordViewStyleDialog(this, null, template) { style, colorKey ->
                 template.style = style
                 template.colorKey = colorKey
                 updateColorUI()
