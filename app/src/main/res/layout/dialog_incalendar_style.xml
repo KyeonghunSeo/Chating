@@ -219,8 +219,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:paddingLeft="25dp"
-            android:paddingRight="10dp"
-            android:background="?android:attr/selectableItemBackground">
+            android:paddingRight="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -270,15 +269,15 @@
 
         </FrameLayout>
 
-        <com.ayaan.twelvepages.ui.view.InCalendarStyleTypePickerView
-            android:id="@+id/styleTypePicker"
+        <com.ayaan.twelvepages.ui.view.FormulaPickerView
+            android:id="@+id/formulaPicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
             android:clipToPadding="false">
-        </com.ayaan.twelvepages.ui.view.InCalendarStyleTypePickerView>
+        </com.ayaan.twelvepages.ui.view.FormulaPickerView>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -298,14 +297,15 @@
 
         </FrameLayout>
 
-        <com.ayaan.twelvepages.ui.view.InCalendarStyleTypePickerView
+        <com.ayaan.twelvepages.ui.view.ShapePickerView
+            android:id="@+id/shapePickerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
             android:clipToPadding="false">
-        </com.ayaan.twelvepages.ui.view.InCalendarStyleTypePickerView>
+        </com.ayaan.twelvepages.ui.view.ShapePickerView>
 
         <LinearLayout
             android:orientation="horizontal"

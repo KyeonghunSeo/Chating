@@ -200,7 +200,7 @@ object OsCalendarManager {
     private fun makeTimeObject(cur: Cursor) : Record{
         val block = Record(
                 id = "osInstance::${cur.getLong(INDEX_ID)}",
-                style = Record.Style.RECT_FILL.ordinal,
+                style = 100,
                 title = cur.getString(INDEX_TITLE),
                 colorKey = AppTheme.getColorKey(if(cur.getInt(INDEX_EVENT_COLOR) != 0) cur.getInt(INDEX_EVENT_COLOR)
                 else cur.getInt(INDEX_CAL_COLOR)),

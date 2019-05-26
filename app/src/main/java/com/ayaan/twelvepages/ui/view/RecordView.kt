@@ -3,7 +3,6 @@ package com.ayaan.twelvepages.ui.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
-import android.graphics.Typeface.ITALIC
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
@@ -14,14 +13,14 @@ import com.ayaan.twelvepages.App.Companion.resource
 import com.ayaan.twelvepages.AppStatus
 import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.manager.StampManager
 import com.ayaan.twelvepages.model.Record
-import com.ayaan.twelvepages.model.Record.Style.*
-import com.ayaan.twelvepages.model.Record.Formula.*
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 
 @SuppressLint("ViewConstructor")
-class RecordView constructor(context: Context, val record: Record, var formula: Record.Formula,
+class RecordView constructor(context: Context, val record: Record, var formula: RecordCalendarAdapter.Formula,
                              val cellNum: Int, val length: Int) : TextView(context) {
     companion object {
         var standardTextSize = 9f
@@ -39,6 +38,19 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val checkboxSize = dpToPx(10)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
     }
+
+    enum class Shape(val fillColor: Boolean) {
+        DEFAULT(false),
+        RECT_FILL(true),
+        RECT_STROKE(false),
+        ROUND_FILL(true),
+        ROUND_STROKE(false),
+        BOLD_HATCHED(true),
+        THIN_HATCHED(false),
+        UPPER_LINE(false),
+        UNDER_LINE(false)
+    }
+
     var mLeft = 0f
     var mTop = 0f
     var mRight = 0f
@@ -50,10 +62,11 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     var childList: ArrayList<Record>? = null
     var paintColor = AppTheme.backgroundColor
     var fontColor = AppTheme.primaryText
+    var shape = Shape.DEFAULT
 
     init {
         includeFontPadding = false
-        typeface = AppTheme.regularFont
+        typeface = AppTheme.thinFont
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
         val leftPadding = if(record.isSetCheckBox()) {
             (sidePadding + checkboxSize + defaulMargin).toInt()
@@ -66,14 +79,16 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             else -> normalTextPadding
         }.toInt()
         setPadding(leftPadding, textPadding, sidePadding, 0)
-        setLookByType()
+        setStyle()
     }
 
-    fun setLookByType() {
+    fun setStyle() {
+        val shapeNum = record.style / 100
         when(formula) {
             BACKGROUND -> {}
             TOP_STACK -> {
-                setText()
+                shape = Shape.values().filter { true }[shapeNum]
+                text = record.getTitleInCalendar()
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
@@ -82,66 +97,39 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             TOP_FLOW -> {}
             DOT_FLOW -> {}
             MULTI_LINE -> {
-                setText()
+                shape = Shape.values().filter { true }[shapeNum]
+                text = record.getTitleInCalendar()
                 maxLines = 5
                 setSingleLine(false)
                 setHorizontallyScrolling(false)
                 ellipsize = TextUtils.TruncateAt.END
             }
             RANGE -> {
-                setText()
+                shape = Shape.values().filter { true }[shapeNum]
+                text = record.getTitleInCalendar()
                 gravity = Gravity.CENTER_HORIZONTAL
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
                 ellipsize = null
-                when(record.style){
-                    1 -> {
-                        typeface = AppTheme.regularFont
-                        gravity = Gravity.CENTER_HORIZONTAL
-                        setPadding(sidePadding, 0, sidePadding, 0)
-                        setTextColor(record.getColor())
-                    }
-                    2 -> {
-                        setTypeface(AppTheme.regularFont, ITALIC)
-                        gravity = Gravity.CENTER
-                        setPadding(sidePadding, 0, sidePadding, 0)
-                        setTextColor(record.getColor())
-                    }
-                    else -> {
-                        typeface = AppTheme.regularFont
-                        gravity = Gravity.CENTER
-                        setPadding(sidePadding * 4, 0, sidePadding * 4, 0)
-                        setTextColor(record.getColor())
-                    }
-                }
             }
             OVERLAY -> {}
             HIDE -> {}
         }
-    }
 
-    private fun setText() {
-        text = record.getTitleInCalendar()
+        paintColor = AppTheme.getColor(record.colorKey)
+        fontColor = if(shape.fillColor) {
+            AppTheme.getFontColor(record.colorKey)
+        }else {
+            AppTheme.getColor(record.colorKey)
+        }
+        setTextColor(fontColor)
     }
 
     override fun onDraw(canvas: Canvas?) {
-        when(Record.Style.values()[record.style]){
-            ROUND_FILL, RECT_FILL, CANDY -> {
-                paintColor = AppTheme.getColor(record.colorKey)
-                fontColor = AppTheme.getFontColor(record.colorKey)
-            }
-            else -> {
-                paintColor = AppTheme.getColor(record.colorKey)
-                fontColor = AppTheme.getColor(record.colorKey)
-            }
-        }
-        setTextColor(fontColor)
-
         canvas?.let {
             when(formula) {
                 RANGE -> {
-                    if(record.isSetCheckBox()) canvas.translate((checkboxSize + defaulMargin) / 2, 0f)
                     super.onDraw(canvas)
                     drawRange(it)
                 }
@@ -194,19 +182,19 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     private fun drawBasicShape(canvas: Canvas) {
         paint.isAntiAlias = true
         paint.color = paintColor
-        when(Record.Style.values()[record.style]){
-            RECT_FILL -> {
+        when(shape){
+            Shape.RECT_FILL -> {
                 canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
                 paint.color = fontColor
             }
-            RECT_STROKE -> {
+            Shape.RECT_STROKE -> {
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = strokeWidth * 0.8f
                 canvas.drawRect(strokeWidth / 2, strokeWidth / 2,
                         width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2, paint)
                 paint.style = Paint.Style.FILL
             }
-            ROUND_STROKE -> {
+            Shape.ROUND_STROKE -> {
                 paint.isAntiAlias = true
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = strokeWidth * 1f
@@ -215,12 +203,12 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                         height / 2f, height / 2f, paint)
                 paint.style = Paint.Style.FILL
             }
-            ROUND_FILL -> {
+            Shape.ROUND_FILL -> {
                 paint.isAntiAlias = true
                 canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), height / 2f, height / 2f, paint)
                 paint.color = fontColor
             }
-            CANDY -> {
+            Shape.BOLD_HATCHED -> {
                 canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), rectRadius, rectRadius, paint)
                 val dashWidth = strokeWidth * 6
                 paint.strokeWidth = strokeWidth * 5
@@ -232,7 +220,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 }
                 paint.color = fontColor
             }
-            HATCHED -> {
+            Shape.THIN_HATCHED -> {
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = strokeWidth * 2
                 canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
@@ -248,11 +236,11 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 paint.alpha = 255
                 paint.style = Paint.Style.FILL
             }
-            TOP_LINE -> {
+            Shape.UPPER_LINE -> {
                 val strokeWidth = strokeWidth * 1f
                 canvas.drawRect(0f, 0f, width.toFloat(), strokeWidth, paint)
             }
-            BOTTOM_LINE -> {
+            Shape.UNDER_LINE -> {
                 val strokeWidth = strokeWidth * 0.8f
                 canvas.drawRect(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat(), paint)
             }
@@ -272,12 +260,12 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     private fun drawRange(canvas: Canvas) {
         paint.color = paintColor
-        canvas.translate(scrollX.toFloat() - if(record.isSetCheckBox()) (checkboxSize + defaulMargin) / 2 else 0f, 0f)
+        canvas.translate(scrollX.toFloat(), 0f)
         val space = textSpaceWidth + if(record.isSetCheckBox()) (checkboxSize + defaulMargin) else 0f
         var textLPos = width / 2 - space / 2 - defaulMargin
-        if(textLPos < paddingLeft) textLPos = paddingLeft.toFloat()
+        if(textLPos < sidePadding) textLPos = sidePadding.toFloat()
         var textRPos = width / 2 + space / 2 + defaulMargin
-        if(textRPos > width - paddingRight) textRPos = width - paddingRight.toFloat()
+        if(textRPos > width - sidePadding) textRPos = width - sidePadding.toFloat()
         when(record.style){
             1 -> {
                 val periodLine = (strokeWidth * 3).toInt()
@@ -342,7 +330,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 canvas.drawPath(rightArrow, paint)
             }
             else -> {
-                val periodLine = (strokeWidth * 1.8f).toInt()
+                val periodLine = (strokeWidth * 1.5f).toInt()
                 val rectl = RectF(periodLine.toFloat(),
                         height / 2f - periodLine / 2,
                         textLPos,

@@ -14,12 +14,12 @@ import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.setGlobalTheme
 import kotlinx.android.synthetic.main.list_item_tab.view.*
 
-class InCalendarStyleTypePickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : RecyclerView(context, attrs, defStyleAttr) {
 
-    private val items = context.resources.getStringArray(R.array.record_in_calendar_style_types)
+    private val items = context.resources.getStringArray(R.array.formulas)
     var onSelected : ((Int) -> Unit)? = null
-    var type = 0
+    var formula = 0
 
     init {
         layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
@@ -44,7 +44,7 @@ class InCalendarStyleTypePickerView @JvmOverloads constructor(context: Context, 
             v.titleText.text = items[position]
             v.iconImg.setImageResource(R.drawable.menu)
 
-            if(position == type) {
+            if(position == formula) {
                 v.titleText.setTextColor(Color.WHITE)
                 v.titleText.typeface = AppTheme.boldFont
                 v.contentLy.setBackgroundColor(AppTheme.primaryColor)
@@ -55,10 +55,10 @@ class InCalendarStyleTypePickerView @JvmOverloads constructor(context: Context, 
             }
 
             v.setOnClickListener {
-                if(type != position) {
-                    notifyItemChanged(type)
+                if(formula != position) {
+                    notifyItemChanged(formula)
                     notifyItemChanged(position)
-                    type = position
+                    formula = position
                     onSelected?.invoke(position)
                 }
             }

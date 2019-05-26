@@ -40,43 +40,12 @@ open class Record(@PrimaryKey var id: String? = null,
 
     @Ignore var repeatKey: String? = null
 
-    enum class Style {
-        DEFAULT, RECT_STROKE, RECT_FILL, ROUND_STROKE, ROUND_FILL, CANDY, HATCHED, TOP_LINE, BOTTOM_LINE
+    fun setStyleFormulaNumber(formulaNum: Int) {
+        style = formulaNum
     }
 
-    enum class Formula {
-        BACKGROUND, TOP_STACK, TOP_FLOW, DOT_FLOW, MULTI_LINE, RANGE, OVERLAY, HIDE
-    }
-
-    fun getFormula(length: Int): Formula {
-        val type = style % 100
-        return when(type) {
-            1 -> Formula.TOP_STACK
-            2 -> {
-                if(length == 0) {
-                    Formula.MULTI_LINE
-                }else {
-                    Formula.TOP_STACK
-                }
-            }
-            3 -> Formula.RANGE
-            4 -> Formula.OVERLAY
-            5 -> Formula.DOT_FLOW
-            6 -> Formula.HIDE
-            else -> {
-                if(length >= 4) {
-                    Formula.RANGE
-                }else if(isSetCheckBox() || length == 0) {
-                    Formula.TOP_STACK
-                }else {
-                    Formula.MULTI_LINE
-                }
-            }
-        }
-    }
-
-    fun setInCalendarType(type: Int) {
-        style = style / 100 * 100 + type
+    fun setStyleShape(shape: Int) {
+        style = style % 100 + shape * 100
     }
 
     fun getDuration() = dtEnd - dtStart
