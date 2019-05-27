@@ -11,15 +11,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.setGlobalTheme
 import kotlinx.android.synthetic.main.list_item_tab.view.*
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 
 class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : RecyclerView(context, attrs, defStyleAttr) {
 
     private val items = context.resources.getStringArray(R.array.formulas)
-    var onSelected : ((Int) -> Unit)? = null
-    var formula = 0
+    private val formulas = arrayOf(DEFAULT, EXPANDED, RANGE, DOT, IMAGE)
+
+    var onSelected : ((RecordCalendarAdapter.Formula) -> Unit)? = null
+    var formula = DEFAULT
 
     init {
         layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
@@ -44,22 +48,24 @@ class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: Attri
             v.titleText.text = items[position]
             v.iconImg.setImageResource(R.drawable.menu)
 
-            if(position == formula) {
+            if(formulas[position] == formula) {
                 v.titleText.setTextColor(Color.WHITE)
                 v.titleText.typeface = AppTheme.boldFont
                 v.contentLy.setBackgroundColor(AppTheme.primaryColor)
+                v.contentLy.alpha = 1f
             }else {
-                v.titleText.setTextColor(AppTheme.secondaryText)
+                v.titleText.setTextColor(AppTheme.primaryColor)
                 v.titleText.typeface = AppTheme.regularFont
-                v.contentLy.setBackgroundResource(R.drawable.blank)
+                v.contentLy.setBackgroundResource(R.drawable.normal_rect_stroke)
+                v.contentLy.alpha = 0.4f
             }
 
             v.setOnClickListener {
-                if(formula != position) {
-                    notifyItemChanged(formula)
+                if(formulas[position] != formula) {
+                    notifyItemChanged(formulas.indexOf(formula))
                     notifyItemChanged(position)
-                    formula = position
-                    onSelected?.invoke(position)
+                    formula = formulas[position]
+                    onSelected?.invoke(formula)
                 }
             }
         }

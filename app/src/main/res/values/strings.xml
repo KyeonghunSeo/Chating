@@ -19,7 +19,7 @@
     <string name="sun">일</string>
     <string name="type">타입</string>
     <string name="style">스타일</string>
-    <string name="color">컬러</string>
+    <string name="color">색상</string>
     <string name="visible">표시</string>
     <string name="unvisible">표시 안함</string>
     <string name="delete">삭제</string>
@@ -245,17 +245,17 @@
     <string name="cursor_pos">커서위치 : %1$s</string>
     <string name="use">사용</string>
     <string name="unuse">사용안함</string>
-    <string name="calendarBlockStyle">달력에 표시방법</string>
-    <string name="single_line_sample_string">뭔가 즐거운 일</string>
+    <string name="calendarBlockStyle">캘린더 표시 스타일</string>
+    <string name="image">그림</string>
+    <string name="shape">모양</string>
+    <string name="preview">미리보기</string>
 
     <string-array name="formulas">
         <item>기본</item>
-        <item>한줄</item>
-        <item>여러줄</item>
-        <item>범위</item>
-        <item>스티커</item>
+        <item>확장</item>
+        <item>구간</item>
+        <item>그림</item>
         <item>점</item>
-        <item>생략</item>
     </string-array>
 
     <string-array name="shape_single_line">
@@ -278,6 +278,12 @@
         <item>얇은 빗금</item>
         <item>윗줄</item>
         <item>밑줄</item>
+    </string-array>
+
+    <string-array name="sample_texts">
+        <item>지혜란 생각이 떠올랐을때 바로 기록하는 것이다</item>
+        <item>간결이 지혜의 본질이다</item>
+        <item>별을 노래하는 마음으로 모든 죽어가는 것들을 사랑해야지</item>
     </string-array>
 
 </resources>

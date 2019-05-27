@@ -439,6 +439,12 @@ fun getScreenSize(context: Context) : IntArray {
     return size
 }
 
+fun getSampleText(): String {
+    App.resource.getStringArray(R.array.sample_texts).let {
+        return it[Random().nextInt(it.size)]
+    }
+}
+
 
 /* 코드
 class MyAsyncTask() : AsyncTask<String, String, String?>() {

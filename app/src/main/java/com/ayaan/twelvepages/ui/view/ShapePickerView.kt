@@ -21,7 +21,7 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     lateinit var items: Array<String>
     var onSelected : ((Int) -> Unit)? = null
     var shape = 0
-    var formula = TOP_STACK
+    var formula = DEFAULT
 
     init {
         setItems()
@@ -30,7 +30,7 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     private fun setItems() {
-        if(formula == MULTI_LINE) {
+        if(formula == EXPANDED) {
             items = context.resources.getStringArray(R.array.shape_multi_line)
         }else {
             items = context.resources.getStringArray(R.array.shape_single_line)
@@ -67,10 +67,12 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
                 v.titleText.setTextColor(Color.WHITE)
                 v.titleText.typeface = AppTheme.boldFont
                 v.contentLy.setBackgroundColor(AppTheme.primaryColor)
+                v.contentLy.alpha = 1f
             }else {
-                v.titleText.setTextColor(AppTheme.secondaryText)
+                v.titleText.setTextColor(AppTheme.primaryColor)
                 v.titleText.typeface = AppTheme.regularFont
-                v.contentLy.setBackgroundResource(R.drawable.blank)
+                v.contentLy.setBackgroundResource(R.drawable.normal_rect_stroke)
+                v.contentLy.alpha = 0.4f
             }
 
             v.setOnClickListener {

@@ -17,7 +17,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.widget.NestedScrollView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
-import com.google.android.gms.location.places.ui.PlacePicker
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -33,6 +32,10 @@ import com.ayaan.twelvepages.model.Alarm
 import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.*
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.android.synthetic.main.activity_record.*
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 import java.io.ByteArrayOutputStream
@@ -539,8 +542,14 @@ class RecordActivity : BaseActivity() {
     }
 
     fun showPlacePicker() {
-        val builder = PlacePicker.IntentBuilder()
-        startActivityForResult(builder.build(this), RC_LOCATION)
+        if (!Places.isInitialized()) {
+            Places.initialize(this, "AIzaSyDqEQrjmuHV6uM26UDGvjIn05_sLBoZ4wk")
+        }
+        val fields = Arrays.asList(Place.Field.ID,
+                Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS)
+        val intent = Autocomplete.IntentBuilder(
+            AutocompleteActivityMode.OVERLAY, fields).build(this)
+        startActivityForResult(intent, RC_LOCATION)
     }
 
     private fun openMapActivity() {
@@ -623,11 +632,15 @@ class RecordActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RC_LOCATION && resultCode == Activity.RESULT_OK) {
-            val place = PlacePicker.getPlace(this, data)
-            record.location = "${place.name}\n${place.address}"
-            record.latitude = place.latLng.latitude
-            record.longitude = place.latLng.longitude
-            updateLocationUI()
+            data?.let {
+                val place = Autocomplete.getPlaceFromIntent(data)
+                record.location = "${place.name}\n${place.address}"
+                place.latLng?.let {
+                    record.latitude = it.latitude
+                    record.longitude = it.longitude
+                }
+                updateLocationUI()
+            }
         }else if (requestCode == RC_IMAGE_ATTACHMENT && resultCode == RESULT_OK) {
             if (data != null) {
                 val uri = data.data

@@ -304,7 +304,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var selectedWeekIndex = -1
 
     fun selectDate() {
-        selectDate(if(todayCellNum >= 0) todayCellNum else startCellNum)
+        selectDate(if(todayCellNum >= startCellNum) todayCellNum else startCellNum)
     }
 
     fun selectTime(time: Long) {

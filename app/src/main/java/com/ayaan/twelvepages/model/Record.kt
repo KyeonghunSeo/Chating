@@ -40,9 +40,11 @@ open class Record(@PrimaryKey var id: String? = null,
 
     @Ignore var repeatKey: String? = null
 
-    fun setStyleFormulaNumber(formulaNum: Int) {
-        style = formulaNum
+    fun setFormula(formula: Int) {
+        style = formula
     }
+
+    fun getFormula() = style % 100
 
     fun setStyleShape(shape: Int) {
         style = style % 100 + shape * 100

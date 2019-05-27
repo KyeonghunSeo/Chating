@@ -34,35 +34,14 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private val cellBottomArray = Array(42){ drawStartYOffset }
     private val rowHeightArray = Array(6){ drawStartYOffset }
 
-    enum class Formula { BACKGROUND, TOP_STACK, TOP_FLOW, DOT_FLOW, MULTI_LINE, RANGE, OVERLAY, HIDE }
-
-    companion object {
-        fun getFormula(record: Record, length: Int): Formula {
-            val formulaNum = record.style % 100
-            return when(formulaNum) {
-                1 -> TOP_STACK
-                2 -> {
-                    if(length == 0) {
-                        MULTI_LINE
-                    }else {
-                        TOP_STACK
-                    }
-                }
-                3 -> RANGE
-                4 -> OVERLAY
-                5 -> DOT_FLOW
-                6 -> HIDE
-                else -> {
-                    if(length >= 7) {
-                        RANGE
-                    }else if(record.isSetCheckBox() || length == 0) {
-                        TOP_STACK
-                    }else {
-                        MULTI_LINE
-                    }
-                }
-            }
-        }
+    enum class Formula {
+        BACKGROUND,
+        DEFAULT,
+        STAMP,
+        DOT,
+        EXPANDED,
+        RANGE,
+        IMAGE
     }
 
     fun draw(items : RealmResults<Record>?) {
@@ -124,9 +103,9 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
             endCellNum = maxCellNum - 1
             rOpen = true
         }
-        val formula = getFormula(record, endCellNum - startCellNum)
+        val formula = Formula.values()[record.getFormula()]
         when(formula){
-            TOP_FLOW -> {
+            STAMP -> {
                 val holder = viewHolderList
                         .firstOrNull { it.record.type == record.type && it.startCellNum == startCellNum }
                         ?: TimeObjectViewHolder(formula, record, startCellNum, endCellNum).apply { viewHolderList.add(this) }
@@ -185,7 +164,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                             addBottomMargin(20f)
                             computeBottomStackStartPos()
                         }
-                        OVERLAY -> {
+                        IMAGE -> {
                             computeMaxRowHeight()
                         }
                         else -> {}
@@ -196,11 +175,11 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                     it.mLeft = (minWidth * (it.cellNum % columns)) + CalendarView.calendarPadding
                     it.mRight = it.mLeft + (minWidth * it.length).toInt()
                     when(formula) {
-                        TOP_STACK -> {
+                        DEFAULT -> {
                             it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
                             it.mBottom = it.mTop + it.getViewHeight()
                         }
-                        TOP_FLOW, MULTI_LINE -> {
+                        STAMP, EXPANDED -> {
                             it.mTop = cellBottomArray[it.cellNum]
                             it.mBottom = it.mTop + it.getViewHeight()
                         }
@@ -208,7 +187,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                             it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
                             it.mBottom = it.mTop + it.getViewHeight()
                         }
-                        OVERLAY -> {
+                        IMAGE -> {
                             it.mTop = drawStartYOffset
                             it.mBottom = minHeight
                         }

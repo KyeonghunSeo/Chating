@@ -115,6 +115,13 @@
 
         </LinearLayout>
 
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="180dp"
+            android:layout_height="480dp"
+            android:layout_marginLeft="70dp">
+        </androidx.viewpager.widget.ViewPager>
+
     </FrameLayout>
 
 </FrameLayout>
