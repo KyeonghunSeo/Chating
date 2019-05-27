@@ -21,7 +21,7 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     lateinit var items: Array<String>
     var onSelected : ((Int) -> Unit)? = null
     var shape = 0
-    var formula = TOP_STACK
+    var formula = DEFAULT
 
     init {
         setItems()
@@ -30,7 +30,7 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     private fun setItems() {
-        if(formula == MULTI_LINE) {
+        if(formula == EXPANDED) {
             items = context.resources.getStringArray(R.array.shape_multi_line)
         }else {
             items = context.resources.getStringArray(R.array.shape_single_line)

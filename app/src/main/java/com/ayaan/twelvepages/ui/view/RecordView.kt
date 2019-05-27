@@ -82,23 +82,26 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         setStyle()
     }
 
+    @SuppressLint("RtlHardcoded")
     fun setStyle() {
         val shapeNum = record.style / 100
         when(formula) {
             BACKGROUND -> {}
-            TOP_STACK -> {
+            DEFAULT -> {
                 shape = Shape.values().filter { true }[shapeNum]
                 text = record.getTitleInCalendar()
+                gravity = Gravity.LEFT
                 maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
                 ellipsize = null
             }
-            TOP_FLOW -> {}
-            DOT_FLOW -> {}
-            MULTI_LINE -> {
+            STAMP -> {}
+            DOT -> {}
+            EXPANDED -> {
                 shape = Shape.values().filter { true }[shapeNum]
                 text = record.getTitleInCalendar()
+                gravity = Gravity.LEFT
                 maxLines = 5
                 setSingleLine(false)
                 setHorizontallyScrolling(false)
@@ -113,8 +116,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 setHorizontallyScrolling(true)
                 ellipsize = null
             }
-            OVERLAY -> {}
-            HIDE -> {}
+            IMAGE -> {}
         }
 
         paintColor = AppTheme.getColor(record.colorKey)
@@ -143,7 +145,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     fun getViewHeight(): Int {
         return when(formula) {
-            TOP_FLOW -> {
+            STAMP -> {
                 val width =  mRight - mLeft - defaulMargin
                 val margin = defaulMargin.toInt()
                 val size = stampSize - defaulMargin
@@ -151,7 +153,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 val rows = ((size * totalStampCnt + margin * (totalStampCnt - 1)) / width + 1).toInt()
                 (stampSize * rows)
             }
-            MULTI_LINE -> {
+            EXPANDED -> {
                 val width =  mRight - mLeft - defaulMargin
                 measure(MeasureSpec.makeMeasureSpec(width.toInt(), MeasureSpec.EXACTLY), heightMeasureSpec)
                 //l("${record.title} 라인 : "+((paint.measureText(text.toString()) / width).toInt() + 1))
@@ -267,28 +269,28 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         var textRPos = width / 2 + space / 2 + defaulMargin
         if(textRPos > width - sidePadding) textRPos = width - sidePadding.toFloat()
         when(record.style){
-            1 -> {
-                val periodLine = (strokeWidth * 3).toInt()
-                val rectl = RectF(0f,
+            1 -> { // ㅣ----ㅣ
+                val periodLine = (strokeWidth * 1.5f).toInt()
+                val rectl = RectF(periodLine.toFloat(),
                         height / 2f - periodLine / 2,
-                        width / 2 - textSpaceWidth / 2 - sidePadding,
+                        textLPos,
                         height / 2f + periodLine / 2)
                 canvas.drawRect(rectl, paint)
 
-                val rectr = RectF(width / 2 + textSpaceWidth / 2 + sidePadding,
+                val rectr = RectF(textRPos,
                         height / 2f - periodLine / 2,
-                        width.toFloat(),
+                        width - periodLine.toFloat(),
                         height / 2f + periodLine / 2)
                 canvas.drawRect(rectr, paint)
 
-                canvas.drawRect(0f, height / 2f - periodLine * 2,
+                canvas.drawRect(0f, height / 2f - periodLine * 2.5f,
                         periodLine.toFloat(), height / 2f + periodLine * 2, paint)
 
-                canvas.drawRect(width - periodLine.toFloat(), height / 2f - periodLine * 2,
+                canvas.drawRect(width - periodLine.toFloat(), height / 2f - periodLine * 2.5f,
                         width.toFloat(), height / 2f + periodLine * 2, paint)
             }
-            2 -> { // 두꺼운 화살표
-                val periodLine = (strokeWidth * 2).toInt()
+            2 -> { // <---->
+                val periodLine = (strokeWidth * 1.5f).toInt()
                 val rectl = RectF(periodLine.toFloat(),
                         height / 2f - periodLine / 2,
                         textLPos,
@@ -329,6 +331,11 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 rightArrow.close()
                 canvas.drawPath(rightArrow, paint)
             }
+            3 -> { // neon
+                paint.alpha = 17
+                canvas.drawRoundRect(0f, height / 2f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
+                paint.alpha = 255
+            }
             else -> {
                 val periodLine = (strokeWidth * 1.5f).toInt()
                 val rectl = RectF(periodLine.toFloat(),
@@ -343,11 +350,33 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                         height / 2f + periodLine / 2)
                 canvas.drawRect(rectr, paint)
 
-                canvas.drawRect(0f, height / 2f - periodLine * 2.5f,
-                        periodLine.toFloat(), height / 2f + periodLine * 2, paint)
+                val arrowSize = (periodLine * 2.5f).toInt()
 
-                canvas.drawRect(width - periodLine.toFloat(), height / 2f - periodLine * 2.5f,
-                        width.toFloat(), height / 2f + periodLine * 2, paint)
+                val a = Point(0, height / 2)
+                val b = Point(arrowSize, height / 2 - arrowSize)
+                val c = Point(arrowSize, height / 2  + arrowSize)
+
+                val leftArrow = Path()
+                leftArrow.fillType = Path.FillType.EVEN_ODD
+                leftArrow.moveTo(a.x.toFloat(), a.y.toFloat())
+                leftArrow.lineTo(b.x.toFloat(), b.y.toFloat())
+                leftArrow.lineTo(c.x.toFloat(), c.y.toFloat())
+                leftArrow.lineTo(a.x.toFloat(), a.y.toFloat())
+                leftArrow.close()
+                canvas.drawPath(leftArrow, paint)
+
+                val e = Point(width, height / 2)
+                val f = Point(width - arrowSize, height / 2 - arrowSize)
+                val g = Point(width - arrowSize, height / 2  + arrowSize)
+
+                val rightArrow = Path()
+                rightArrow.fillType = Path.FillType.EVEN_ODD
+                rightArrow.moveTo(e.x.toFloat(), e.y.toFloat())
+                rightArrow.lineTo(f.x.toFloat(), f.y.toFloat())
+                rightArrow.lineTo(g.x.toFloat(), g.y.toFloat())
+                rightArrow.lineTo(e.x.toFloat(), e.y.toFloat())
+                rightArrow.close()
+                canvas.drawPath(rightArrow, paint)
             }
         }
         if(record.isSetCheckBox()) {
@@ -481,7 +510,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     /*
                 4 -> { // 시계
                     val paint = Paint()
-                    paint.style = Paint.Style.TOP_STACK
+                    paint.style = Paint.Style.DEFAULT
                     paint.strokeWidth = strokeWidth.toFloat()
                     paint.color = color
                     paint.isAntiAlias = true

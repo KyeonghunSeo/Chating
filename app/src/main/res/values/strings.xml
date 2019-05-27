@@ -250,12 +250,10 @@
 
     <string-array name="formulas">
         <item>기본</item>
-        <item>한줄</item>
-        <item>여러줄</item>
-        <item>범위</item>
-        <item>스티커</item>
+        <item>확장</item>
+        <item>구간</item>
+        <item>그림</item>
         <item>점</item>
-        <item>생략</item>
     </string-array>
 
     <string-array name="shape_single_line">
@@ -278,6 +276,11 @@
         <item>얇은 빗금</item>
         <item>윗줄</item>
         <item>밑줄</item>
+    </string-array>
+
+    <string-array name="sample_texts">
+        <item>지혜란 생각이 떠올랐을때 바로 기록하는 것이다</item>
+        <item>간결이 지혜의 본질이다</item>
     </string-array>
 
 </resources>

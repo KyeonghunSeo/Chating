@@ -46,8 +46,8 @@
                     android:id="@+id/previewContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleX="1.5"
-                    android:scaleY="1.5"
+                    android:scaleX="1.0"
+                    android:scaleY="1.0"
                     android:transformPivotX="0dp"
                     android:transformPivotY="0dp">
 

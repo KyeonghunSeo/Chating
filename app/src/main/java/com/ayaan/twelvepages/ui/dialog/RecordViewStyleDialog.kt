@@ -18,15 +18,15 @@ import java.util.*
 
 class RecordViewStyleDialog(private val activity: Activity, record: Record?,
                             template: Template?, private val onResult: (Int, Int) -> Unit) : Dialog(activity) {
-    private val recordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.TOP_STACK, 0, 0)
+    private val recordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.DEFAULT, 0, 0)
 
     init {
         if(record != null) {
-            recordView.record.title = record.getTitleInCalendar()
+            recordView.formula = RecordCalendarAdapter.Formula.values()[record.getFormula()]
             recordView.record.style = record.style
             recordView.record.colorKey = record.colorKey
         }else if(template != null) {
-            recordView.record.title = template.title
+            recordView.formula = RecordCalendarAdapter.Formula.values()[template.style % 100]
             recordView.record.style = template.style
             recordView.record.colorKey = template.colorKey
         }
@@ -76,11 +76,11 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
             }, true, true, true, false)
         }
 
-        formulaPicker.formula = recordView.record.style % 100
-        formulaPicker.onSelected = { formulaNum ->
-            recordView.record.setStyleFormulaNumber(formulaNum)
-            recordView.formula = RecordCalendarAdapter.getFormula(recordView.record, 0)
-            shapePickerView.refresh(recordView.formula)
+        formulaPicker.formula = RecordCalendarAdapter.Formula.values()[recordView.record.style % 100]
+        formulaPicker.onSelected = { formula ->
+            recordView.record.setFormula(formula.ordinal)
+            recordView.formula = formula
+            shapePickerView.refresh(formula)
             drawRecord()
         }
         formulaPicker.adapter?.notifyDataSetChanged()
@@ -99,12 +99,25 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
     }
 
     private fun drawRecord() {
+        recordView.record.title = getSampleText()
         recordView.setStyle()
-        recordView.layoutParams.width = dpToPx(60)
-        recordView.layoutParams.height = recordView.getViewHeight()
-        recordView.textSpaceWidth = recordView.paint.measureText(recordView.text.toString())
+        val topMargin = if(recordView.formula == RecordCalendarAdapter.Formula.RANGE) {
+            CalendarView.dataStartYOffset + dpToPx(40f)
+        }else {
+            CalendarView.dataStartYOffset
+        }
+
+        val length = when(recordView.formula) {
+            RecordCalendarAdapter.Formula.RANGE -> 3
+            RecordCalendarAdapter.Formula.DEFAULT -> 2
+            else -> 1
+        }
+        recordView.mLeft = 0f
+        recordView.mRight = dpToPx(60f) * length
+        recordView.mTop = topMargin
+        recordView.mBottom = topMargin + recordView.getViewHeight().toFloat()
+        recordView.setLayout()
         recordView.invalidate()
-        recordView.requestLayout()
     }
 
 }
