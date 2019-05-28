@@ -10,9 +10,9 @@ import com.ayaan.twelvepages.App.Companion.resource
 import java.lang.Exception
 
 object AppTheme {
-    var rFont: Typeface = Typeface.DEFAULT
-    var bFont: Typeface = Typeface.DEFAULT
-    var tFont: Typeface = Typeface.DEFAULT
+    var thinCFont: Typeface = Typeface.DEFAULT
+    var regularCFont: Typeface = Typeface.DEFAULT
+    var boldCFont: Typeface = Typeface.DEFAULT
     var thinFont: Typeface = Typeface.DEFAULT
     var regularFont: Typeface = Typeface.DEFAULT
     var boldFont: Typeface = Typeface.DEFAULT
@@ -30,8 +30,6 @@ object AppTheme {
     var blueColor = 0
     var iconColor = 0
 
-    lateinit var starDrawable: Drawable
-    lateinit var ideaDrawable: Drawable
     lateinit var hightlightCover: Drawable
     lateinit var blankDrawable: Drawable
 
@@ -55,14 +53,12 @@ object AppTheme {
         blueColor = resource.getColor(R.color.blue)
         iconColor = resource.getColor(R.color.iconTint)
 
-        starDrawable = resource.getDrawable(R.drawable.sharp_star_rate_black_48dp)
-        ideaDrawable = resource.getDrawable(R.drawable.sharp_perm_identity_black_48dp)
         hightlightCover = resource.getDrawable(R.drawable.highlightcover)
         blankDrawable = resource.getDrawable(R.drawable.blank)
 
-        tFont = ResourcesCompat.getFont(context, R.font.thin_c)!!
-        rFont = ResourcesCompat.getFont(context, R.font.regular_c)!!
-        bFont = ResourcesCompat.getFont(context, R.font.bold_c)!!
+        thinCFont = ResourcesCompat.getFont(context, R.font.thin_c)!!
+        regularCFont = ResourcesCompat.getFont(context, R.font.regular_c)!!
+        boldCFont = ResourcesCompat.getFont(context, R.font.bold_c)!!
         thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
         regularFont = ResourcesCompat.getFont(context, R.font.regular)!!
         boldFont = ResourcesCompat.getFont(context, R.font.bold)!!

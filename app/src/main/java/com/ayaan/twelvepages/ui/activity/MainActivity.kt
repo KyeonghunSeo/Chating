@@ -344,7 +344,7 @@ class MainActivity : BaseActivity() {
                 Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl)
                     .apply(RequestOptions().override(dpToPx(90)))
                     .into(profileImg)
-            else -> profileImg.setImageResource(R.drawable.menu)
+            else -> profileImg.setImageResource(R.drawable.profile)
         }
     }
 

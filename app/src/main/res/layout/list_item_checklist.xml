@@ -11,7 +11,7 @@
        android:padding="5dp"
        android:layout_gravity="center_vertical"
        android:tint="@color/primaryText"
-       android:src="@drawable/check_circle"
+       android:src="@drawable/check"
        android:background="?android:attr/selectableItemBackground"/>
 
    <TextView

@@ -63,8 +63,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val holiText: TextView = container.findViewById(R.id.holiText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
-            dateText.typeface = AppTheme.tFont
-            dowText.typeface = AppTheme.bFont
+            dateText.typeface = AppTheme.thinCFont
+            dowText.typeface = AppTheme.boldCFont
             holiText.typeface = AppTheme.thinFont
             bar.scaleX = 0f
             dowText.visibility = View.GONE
@@ -118,7 +118,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(calendarPadding, calendarPadding, calendarPadding, calendarPadding * 2)
+        calendarLy.setPadding(calendarPadding, weekLyBottomPadding, calendarPadding, calendarPadding * 2)
         calendarLy.orientation = LinearLayout.VERTICAL
 
         rowDividers.forEachIndexed { index, view ->
@@ -187,7 +187,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         todayCellNum = -1
         targetCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height.toFloat() - calendarPadding * 3
+        minCalendarHeight = height.toFloat() - calendarPadding * 2 - weekLyBottomPadding
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {
@@ -282,8 +282,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dowText = dateHeaders[cellNum].dowText
         val holiText = dateHeaders[cellNum].holiText
         dowText.visibility = View.GONE
-        dateText.typeface = AppTheme.tFont
-        holiText.typeface = AppTheme.boldFont
+        dateText.typeface = AppTheme.thinCFont
+        holiText.typeface = AppTheme.thinFont
         holiText.text = dateInfos[cellNum].getUnSelectedString()
 
         offViewEffect(cellNum)
@@ -329,7 +329,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dateText = dateHeaders[cellNum].dateText
             val dowText = dateHeaders[cellNum].dowText
             val holiText = dateHeaders[cellNum].holiText
-            dateText.typeface = AppTheme.bFont
+            dateText.typeface = AppTheme.boldCFont
             holiText.typeface = AppTheme.boldFont
             holiText.text = dateInfos[cellNum].getSelectedString()
             dowText.text = AppDateFormat.dowEng.format(targetCal.time).toUpperCase()

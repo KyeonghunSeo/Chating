@@ -58,7 +58,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             v.colorImg.setColorFilter(AppTheme.getFontColor(template.colorKey))
 
             when{
-                template.isSetCheckBox() -> v.colorImg.setImageResource(R.drawable.check_circle)
+                template.isSetCheckBox() -> v.colorImg.setImageResource(R.drawable.check)
                 template.isScheduled() -> v.colorImg.setImageResource(R.drawable.schedule)
                 else -> v.colorImg.setImageResource(R.drawable.note)
             }

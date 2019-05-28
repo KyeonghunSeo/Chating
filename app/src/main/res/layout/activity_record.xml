@@ -226,7 +226,7 @@
                             android:layout_height="30dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:padding="7dp"
-                            android:src="@drawable/outline_date_range_black_48dp"
+                            android:src="@drawable/check"
                             android:tint="@color/iconTint"/>
 
                     </LinearLayout>
@@ -340,7 +340,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:tint="@color/disableText"
-                        android:src="@drawable/dday"/>
+                        android:src="@drawable/countdown"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -590,7 +590,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:tint="@color/disableText"
-                        android:src="@drawable/outline_place_black_48dp"/>
+                        android:src="@drawable/location"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -791,7 +791,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/empty"
+                android:src="@drawable/add"
                 android:padding="12dp"
                 android:tint="@color/disableText"/>
 
@@ -800,7 +800,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/empty"
+                android:src="@drawable/add"
                 android:padding="12dp"
                 android:tint="@color/disableText"/>
 
@@ -809,7 +809,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/empty"
+                android:src="@drawable/add"
                 android:padding="12dp"
                 android:tint="@color/disableText"/>
 
@@ -818,7 +818,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/empty"
+                android:src="@drawable/add"
                 android:padding="12dp"
                 android:tint="@color/disableText"/>
 
@@ -828,7 +828,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/empty"
+                android:src="@drawable/add"
                 android:padding="12dp"
                 android:tint="@color/disableText"/>
 
@@ -838,7 +838,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/empty"
+                android:src="@drawable/add"
                 android:padding="12dp"
                 android:tint="@color/disableText"/>
 
@@ -848,7 +848,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/empty"
+                android:src="@drawable/add"
                 android:padding="12dp"
                 android:tint="@color/disableText"/>
 

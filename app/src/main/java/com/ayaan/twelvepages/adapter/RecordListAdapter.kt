@@ -39,6 +39,8 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                         val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    val circlePadding = dpToPx(21)
+    val checkBoxPadding = dpToPx(15)
     val tempCal = Calendar.getInstance()
     var itemTouchHelper: ItemTouchHelper? = null
     var query: String? = null
@@ -75,6 +77,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         v.iconImg.setColorFilter(timeObject.getColor())
 
         if(timeObject.isSetCheckBox()) {
+            v.iconImg.setPadding(checkBoxPadding, checkBoxPadding, checkBoxPadding, checkBoxPadding)
             if(timeObject.isDone()) {
                 v.iconImg.setImageResource(R.drawable.check)
                 v.iconImg.alpha = 0.4f
@@ -86,14 +89,17 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                 v.contentLy.alpha = 1f
                 v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
             }
-            v.iconArea.setOnClickListener {
+            v.iconImg.setOnClickListener {
                 vibrate(context)
                 RecordManager.done(timeObject)
             }
         }else {
+            v.iconImg.setPadding(circlePadding, circlePadding, circlePadding, circlePadding)
             v.iconImg.setImageResource(R.drawable.circle_fill)
             v.iconImg.alpha = 1f
-            v.iconArea.setOnClickListener(null)
+            v.contentLy.alpha = 1f
+            v.iconImg.setOnClickListener(null)
+            v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 
         if(timeObject.isScheduled()) {

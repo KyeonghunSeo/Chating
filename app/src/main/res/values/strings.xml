@@ -272,17 +272,20 @@
 
     <string-array name="shape_expand">
         <item>기본</item>
-        <item>글씨만</item>
+        <item>채우기</item>
         <item>테두리</item>
+        <item>빗금</item>
+        <item>굵은 사선</item>
         <item>윗줄</item>
         <item>밑줄</item>
     </string-array>
 
     <string-array name="shape_range">
         <item>기본</item>
-        <item>화살표</item>
-        <item>굵은 화살표</item>
         <item>점선</item>
+        <item>화살표</item>
+        <item>점선 화살표</item>
+        <item>채우기</item>
         <item>형광팬</item>
         <item>윗줄</item>
         <item>밑줄</item>
