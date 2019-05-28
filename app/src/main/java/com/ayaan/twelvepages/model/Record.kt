@@ -1,6 +1,7 @@
 package com.ayaan.twelvepages.model
 
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -10,7 +11,7 @@ import java.util.*
 
 open class Record(@PrimaryKey var id: String? = null,
                   var type: Int = 0,
-                  var style: Int = 0,
+                  var style: Int = RecordCalendarAdapter.Formula.STACK.ordinal,
                   var title: String? = null,
                   var colorKey: Int = 0,
                   var location: String? = null,

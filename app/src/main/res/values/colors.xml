@@ -40,6 +40,21 @@
         <item>#c8c6c6</item>
     </string-array>
 
+    <string-array name="colors_summer">
+        <item>#e4f2f5</item>
+        <item>#acc4e0</item>
+        <item>#b8de62</item>
+        <item>#4e8784</item>
+        <item>#a9babe</item>
+        <item>#6cb1ea</item>
+        <item>#647b30</item>
+        <item>#14625e</item>
+        <item>#6a797c</item>
+        <item>#3988c7</item>
+        <item>#3b4d12</item>
+        <item>#012f20</item>
+    </string-array>
+
     <string-array name="font_colors">
         <item>#FFFFFFFF</item>
         <item>#FFFFFFFF</item>

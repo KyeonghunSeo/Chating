@@ -20,10 +20,10 @@ class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: Attri
     : RecyclerView(context, attrs, defStyleAttr) {
 
     private val items = context.resources.getStringArray(R.array.formulas)
-    private val formulas = arrayOf(DEFAULT, EXPANDED, RANGE, DOT, IMAGE)
+    private val formulas = arrayOf(STACK, EXPANDED, RANGE, IMAGE, DOT)
 
     var onSelected : ((RecordCalendarAdapter.Formula) -> Unit)? = null
-    var formula = DEFAULT
+    var formula = STACK
 
     init {
         layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
@@ -52,10 +52,12 @@ class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: Attri
                 v.titleText.setTextColor(Color.WHITE)
                 v.titleText.typeface = AppTheme.boldFont
                 v.contentLy.setBackgroundColor(AppTheme.primaryColor)
+                v.contentLy.alpha = 1f
             }else {
-                v.titleText.setTextColor(AppTheme.secondaryText)
+                v.titleText.setTextColor(AppTheme.primaryColor)
                 v.titleText.typeface = AppTheme.regularFont
-                v.contentLy.setBackgroundResource(R.drawable.blank)
+                v.contentLy.setBackgroundResource(R.drawable.normal_rect_stroke)
+                v.contentLy.alpha = 0.4f
             }
 
             v.setOnClickListener {

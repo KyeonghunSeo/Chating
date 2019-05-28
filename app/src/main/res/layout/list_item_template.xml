@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:textSize="14dp"
+                android:textSize="13dp"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="@color/primaryText"
@@ -50,11 +50,11 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/colorBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="5dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="7dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp">
 
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/note"
-                android:padding="10dp"/>
+                android:padding="8dp"/>
 
         </androidx.cardview.widget.CardView>
 

@@ -230,7 +230,7 @@ object RecordManager {
         }
     }
 
-    fun getTimeObjectById(id: String): Record? {
+    fun getRecordById(id: String): Record? {
         val realm = Realm.getDefaultInstance()
         val result =  realm.where(Record::class.java)
                 .equalTo("id", id)

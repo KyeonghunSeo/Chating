@@ -71,7 +71,7 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
         editBtn.setOnClickListener {
             if(tagView.mode == MODE_CHECK) {
                 editBtn.setTextColor(AppTheme.blueColor)
-                editBtn.text = context.getString(R.string.done)
+                editBtn.text = context.getString(R.string.edit_done)
                 tagView.startEditMode()
             }else {
                 editBtn.setTextColor(AppTheme.secondaryText)

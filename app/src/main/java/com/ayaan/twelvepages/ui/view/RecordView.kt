@@ -7,21 +7,19 @@ import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.TextView
+import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.App.Companion.resource
-import com.ayaan.twelvepages.AppStatus
-import com.ayaan.twelvepages.AppTheme
-import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
-import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.manager.StampManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 
 @SuppressLint("ViewConstructor")
 class RecordView constructor(context: Context, val record: Record, var formula: RecordCalendarAdapter.Formula,
-                             val cellNum: Int, val length: Int) : TextView(context) {
+                             val cellNum: Int, var length: Int) : TextView(context) {
     companion object {
         var standardTextSize = 9f
         val baseSize = dpToPx(0.5f)
@@ -33,8 +31,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val bigTextPadding = -dpToPx(1.0f)
         val bottomPadding = dpToPx(3.0f)
         val rectRadius = dpToPx(1f)
-        val stampSize = dpToPx(16)
         val blockTypeSize = dpToPx(16.5f).toInt()
+        val dotSize = dpToPx(5)
         val checkboxSize = dpToPx(10)
         val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
     }
@@ -48,7 +46,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         BOLD_HATCHED(true),
         THIN_HATCHED(false),
         UPPER_LINE(false),
-        UNDER_LINE(false)
+        UNDER_LINE(false),
+        NEON_PEN(false)
     }
 
     var mLeft = 0f
@@ -84,39 +83,42 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     @SuppressLint("RtlHardcoded")
     fun setStyle() {
-        val shapeNum = record.style / 100
         when(formula) {
             BACKGROUND -> {}
-            DEFAULT -> {
-                shape = Shape.values().filter { true }[shapeNum]
+            STACK -> {
+                setStackShape()
                 text = record.getTitleInCalendar()
                 gravity = Gravity.LEFT
-                maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
+                maxLines = 1
                 ellipsize = null
             }
             STAMP -> {}
-            DOT -> {}
+            DOT -> {
+                gravity = Gravity.LEFT
+            }
             EXPANDED -> {
-                shape = Shape.values().filter { true }[shapeNum]
+                setExpandShape()
                 text = record.getTitleInCalendar()
                 gravity = Gravity.LEFT
-                maxLines = 5
                 setSingleLine(false)
                 setHorizontallyScrolling(false)
+                maxLines = 5
                 ellipsize = TextUtils.TruncateAt.END
             }
             RANGE -> {
-                shape = Shape.values().filter { true }[shapeNum]
+                setRangeShape()
                 text = record.getTitleInCalendar()
                 gravity = Gravity.CENTER_HORIZONTAL
-                maxLines = 1
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
+                maxLines = 1
                 ellipsize = null
             }
-            IMAGE -> {}
+            IMAGE -> {
+                gravity = Gravity.LEFT
+            }
         }
 
         paintColor = AppTheme.getColor(record.colorKey)
@@ -133,25 +135,57 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             when(formula) {
                 RANGE -> {
                     super.onDraw(canvas)
-                    drawRange(it)
+                    drawRange(canvas)
+                }
+                DOT -> {
+                    drawDot(canvas)
+                }
+                IMAGE -> {
+                    drawImage(canvas)
                 }
                 else -> {
-                    drawBasicShape(it)
+                    drawBasicShape(canvas)
                     super.onDraw(canvas)
                 }
             }
         }
     }
 
+    private fun setStackShape() {
+        shape = when(record.style / 100) {
+            1 -> Shape.DEFAULT
+            2 -> Shape.RECT_STROKE
+            3 -> Shape.THIN_HATCHED
+            4 -> Shape.BOLD_HATCHED
+            5 -> Shape.NEON_PEN
+            6 -> Shape.UPPER_LINE
+            7 -> Shape.UNDER_LINE
+            else -> Shape.RECT_FILL
+        }
+    }
+
+    private fun setExpandShape() {
+        shape = when(record.style / 100) {
+            else -> Shape.DEFAULT
+        }
+    }
+
+    private fun setRangeShape() {
+        shape = when(record.style / 100) {
+            else -> Shape.DEFAULT
+        }
+    }
+
     fun getViewHeight(): Int {
         return when(formula) {
-            STAMP -> {
+            STAMP, DOT -> {
+                val itemSize = if(formula == DOT) dotSize else blockTypeSize
                 val width =  mRight - mLeft - defaulMargin
                 val margin = defaulMargin.toInt()
-                val size = stampSize - defaulMargin
-                val totalStampCnt = childList?.size ?: 0
-                val rows = ((size * totalStampCnt + margin * (totalStampCnt - 1)) / width + 1).toInt()
-                (stampSize * rows)
+                val size = itemSize - defaulMargin
+                val totalCnt = childList?.size ?: 0
+                val rows = ((size * totalCnt + margin * (totalCnt - 1)) / width + 1).toInt()
+                (itemSize * rows)
             }
             EXPANDED -> {
                 val width =  mRight - mLeft - defaulMargin
@@ -177,12 +211,15 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     }
 
     fun setLayout() {
-        layoutParams = FrameLayout.LayoutParams((mRight - mLeft - defaulMargin).toInt(),
-                (mBottom - mTop - defaulMargin).toInt()).apply { topMargin = mTop.toInt() }
+        if(formula == IMAGE) {
+            layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        }else {
+            layoutParams = FrameLayout.LayoutParams((mRight - mLeft - defaulMargin).toInt(),
+                    (mBottom - mTop - defaulMargin).toInt()).apply { topMargin = mTop.toInt() }
+        }
     }
 
     private fun drawBasicShape(canvas: Canvas) {
-        paint.isAntiAlias = true
         paint.color = paintColor
         when(shape){
             Shape.RECT_FILL -> {
@@ -384,20 +421,35 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         }
     }
 
-    fun drawStamp(canvas: Canvas, view: RecordView) {
-        val margin = defaulMargin.toInt()
-        val size = (stampSize - defaulMargin).toInt()
-        var top = 0
-        var left = 0
-        view.childList?.forEachIndexed { index, timeObject ->
+    private fun drawDot(canvas: Canvas) {
+        val margin = defaulMargin
+        val size = dotSize - defaulMargin
+        var top = 0f
+        var left = sidePadding + margin
+        childList?.forEach { child ->
+            paint.color = child.getColor()
+            canvas.drawRect(left, top, left + size, top + size, paint)
+            left += size + margin
+            if (left + size >= width) {
+                top += dotSize
+                left = sidePadding + margin
+            }
+        }
+    }
 
+    fun drawStamp(canvas: Canvas) {
+        val margin = defaulMargin.toInt()
+        val size = (dotSize - defaulMargin).toInt()
+        var top = 0
+        var left = sidePadding
+        childList?.forEach { child ->
             val circle = resource.getDrawable(R.drawable.primary_rect_fill_radius_1)
-            circle.setColorFilter(timeObject.getColor(), PorterDuff.Mode.SRC_ATOP)
+            circle.setColorFilter(child.getColor(), PorterDuff.Mode.SRC_ATOP)
             circle.setBounds(left + 1, top + 1, left + size - 1, top + size - 1)
             circle.draw(canvas)
 
-            val stamp = resource.getDrawable(StampManager.stamps[index])
-            stamp.setColorFilter(AppTheme.getFontColor(timeObject.colorKey), PorterDuff.Mode.SRC_ATOP)
+            val stamp = resource.getDrawable(StampManager.stamps[0])
+            stamp.setColorFilter(AppTheme.getFontColor(child.colorKey), PorterDuff.Mode.SRC_ATOP)
             stamp.setBounds(left + margin, top + margin, left + size - margin, top + size - margin)
             stamp.draw(canvas)
 /*
@@ -407,9 +459,9 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             stroke.draw(canvas)
 */
             left += size + margin
-            if(left + size >= view.width) {
-                top += stampSize
-                left = 0
+            if(left + size >= width) {
+                top += dotSize
+                left = sidePadding
             }
         }
         /* 겹치기
@@ -440,6 +492,17 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             }
         }
         */
+    }
+
+    private fun drawImage(canvas: Canvas) {
+        val size = blockTypeSize * 2
+        var top = height - size - sidePadding
+        var left = sidePadding
+        childList?.forEach { child ->
+            val circle = resource.getDrawable(R.drawable.s_608)
+            circle.setBounds(left, top, (left + size), (top + size))
+            circle.draw(canvas)
+        }
     }
 
     private fun drawDot(view: RecordView, paint: Paint, canvas: Canvas) {
@@ -510,7 +573,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     /*
                 4 -> { // 시계
                     val paint = Paint()
-                    paint.style = Paint.Style.DEFAULT
+                    paint.style = Paint.Style.STACK
                     paint.strokeWidth = strokeWidth.toFloat()
                     paint.color = color
                     paint.isAntiAlias = true

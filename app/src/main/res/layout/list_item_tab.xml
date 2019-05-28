@@ -8,7 +8,8 @@
        android:id="@+id/contentLy"
        android:orientation="horizontal"
        android:layout_width="wrap_content"
-       android:layout_height="35dp"
+       android:layout_height="25dp"
+       android:layout_margin="5dp"
        android:paddingLeft="15dp"
        android:paddingRight="15dp"
        android:background="@color/colorPrimary">
@@ -29,9 +30,7 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           android:includeFontPadding="false"
-          android:layout_marginLeft="10dp"
-          android:layout_marginRight="10dp"
-          android:textSize="14dp"
+          android:textSize="11dp"
           android:textColor="@color/white"
           android:fontFamily="@font/bold"
           android:text="자동"/>

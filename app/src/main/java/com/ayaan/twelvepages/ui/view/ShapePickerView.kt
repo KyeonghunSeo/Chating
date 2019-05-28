@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import kotlinx.android.synthetic.main.list_item_tab.view.*
@@ -21,28 +20,27 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     lateinit var items: Array<String>
     var onSelected : ((Int) -> Unit)? = null
     var shape = 0
-    var formula = DEFAULT
+    var formula = STACK
 
     init {
-        setItems()
         layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
         adapter = Adapter()
+        setItems()
     }
 
     private fun setItems() {
-        if(formula == EXPANDED) {
-            items = context.resources.getStringArray(R.array.shape_multi_line)
-        }else {
-            items = context.resources.getStringArray(R.array.shape_single_line)
+        items = when(formula) {
+            EXPANDED -> context.resources.getStringArray(R.array.shape_expand)
+            RANGE -> context.resources.getStringArray(R.array.shape_range)
+            else -> context.resources.getStringArray(R.array.shape_stack)
         }
+        adapter?.notifyDataSetChanged()
     }
 
     fun refresh(formula: RecordCalendarAdapter.Formula) {
         this.formula = formula
         shape = 0
         setItems()
-        TransitionManager.beginDelayedTransition(this, makeFromBottomSlideTransition())
-        adapter?.notifyDataSetChanged()
     }
 
     inner class Adapter : RecyclerView.Adapter<ViewHolder>() {
@@ -67,10 +65,12 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
                 v.titleText.setTextColor(Color.WHITE)
                 v.titleText.typeface = AppTheme.boldFont
                 v.contentLy.setBackgroundColor(AppTheme.primaryColor)
+                v.contentLy.alpha = 1f
             }else {
-                v.titleText.setTextColor(AppTheme.secondaryText)
+                v.titleText.setTextColor(AppTheme.primaryColor)
                 v.titleText.typeface = AppTheme.regularFont
-                v.contentLy.setBackgroundResource(R.drawable.blank)
+                v.contentLy.setBackgroundResource(R.drawable.normal_rect_stroke)
+                v.contentLy.alpha = 0.4f
             }
 
             v.setOnClickListener {

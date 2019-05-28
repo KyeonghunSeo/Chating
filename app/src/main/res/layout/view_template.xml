@@ -85,17 +85,6 @@
             app:colorFlag="primary"/>
 
         <TextView
-            android:id="@+id/addNewBtn"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:textColor="@color/primaryText"
-            android:textSize="14dp"
-            android:text="@string/new_template"
-            android:fontFamily="@font/regular"/>
-
-        <TextView
             android:id="@+id/editTemplateBtn"
             android:layout_width="match_parent"
             android:layout_height="35dp"

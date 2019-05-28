@@ -28,16 +28,20 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var selectedPosition = 0
     var isExpanded = false
     val adapter = TemplateAdapter(context, items) { template, mode ->
-        if(mode == 0) {
-            selectItem(template)
-            collapseNoAnim()
-            MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
-        }else {
-            MainActivity.instance?.let {
-                val intent = Intent(it, TemplateActivity::class.java)
-                intent.putExtra("id", template.id)
-                it.startActivity(intent)
+        if(template != null) {
+            if(mode == 0) {
+                selectItem(template)
+                collapseNoAnim()
+                MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
+            }else {
+                MainActivity.instance?.let {
+                    val intent = Intent(it, TemplateActivity::class.java)
+                    intent.putExtra("id", template.id)
+                    it.startActivity(intent)
+                }
             }
+        }else {
+            MainActivity.instance?.let { it.startActivity(Intent(it, TemplateActivity::class.java)) }
         }
     }
 
@@ -62,22 +66,19 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         editTemplateBtn.setOnClickListener {
+            vibrate(context)
             if(adapter.mode == 0) {
                 adapter.mode = 1
                 editTemplateBtn.setTextColor(AppTheme.blueColor)
-                editTemplateBtn.text = context.getString(R.string.done)
-                addNewBtn.visibility = View.VISIBLE
+                editTemplateBtn.text = context.getString(R.string.edit_done)
+                adapter.notifyItemRangeChanged(0, items.size)
             }else {
                 adapter.mode = 0
                 editTemplateBtn.setTextColor(AppTheme.primaryText)
                 editTemplateBtn.text = context.getString(R.string.edit_template)
-                addNewBtn.visibility = View.GONE
+                adapter.notifyItemRangeChanged(0, items.size - 1)
+                adapter.notifyItemRemoved(items.size)
             }
-            adapter.notifyItemRangeChanged(0, items.size)
-        }
-
-        addNewBtn.setOnClickListener {
-            MainActivity.instance?.let { it.startActivity(Intent(it, TemplateActivity::class.java)) }
         }
     }
 
@@ -162,7 +163,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         adapter.mode = 0
         editTemplateBtn.text = context.getString(R.string.edit_template)
         editTemplateBtn.setTextColor(AppTheme.primaryText)
-        addNewBtn.visibility = View.GONE
         isExpanded = false
     }
 

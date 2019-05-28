@@ -1,6 +1,7 @@
 package com.ayaan.twelvepages.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.list_item_template.view.*
 import java.util.*
 
 class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
-                      private val adapterInterface: (template: Template, mode: Int) -> Unit)
+                      private val adapterInterface: (template: Template?, mode: Int) -> Unit)
     : RecyclerView.Adapter<TemplateAdapter.ViewHolder>() {
 
     var itemTouchHelper: ItemTouchHelper? = null
@@ -28,7 +29,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
 
     var mode = 0
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = items.size + if(mode == 1) 1 else 0
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
@@ -43,35 +44,42 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val v = holder.itemView
-        val template = items[position]
-
-        if(mode == 0) {
+        if(position < items.size) {
+            val template = items[position]
             v.contentLy.alpha = 1f
             v.contentLy.setBackgroundResource(R.drawable.blank)
-            v.colorBtn.elevation = dpToPx(4f)
-            v.colorBtn.scaleX = 1f
-            v.colorBtn.scaleY = 1f
+            if(mode == 0) {
+
+            }else {
+
+            }
+            v.titleText.text = template.title
+            v.colorImg.setBackgroundColor(AppTheme.getColor(template.colorKey))
+            v.colorImg.setColorFilter(AppTheme.getFontColor(template.colorKey))
+
+            when{
+                template.isSetCheckBox() -> v.colorImg.setImageResource(R.drawable.check_circle)
+                template.isScheduled() -> v.colorImg.setImageResource(R.drawable.schedule)
+                else -> v.colorImg.setImageResource(R.drawable.note)
+            }
+
+            if(template.tags.isNotEmpty()) {
+                v.tagText.visibility = View.GONE
+                v.tagText.text = template.tags.joinToString("") { "#${it.id}" }
+            }else {
+                v.tagText.visibility = View.GONE
+                v.tagText.text = context.getString(R.string.no_tag)
+            }
+            v.setOnClickListener { adapterInterface.invoke(template, mode) }
         }else {
-            v.contentLy.alpha = 0.5f
+            v.contentLy.alpha = 0.3f
             v.contentLy.setBackgroundResource(R.drawable.edit_dash_rect)
-            v.colorBtn.elevation = 0f
-            v.colorBtn.scaleX = 0.7f
-            v.colorBtn.scaleY = 0.7f
-        }
-
-        v.titleText.text = template.title
-        v.colorImg.setBackgroundColor(AppTheme.getColor(template.colorKey))
-        v.colorImg.setColorFilter(AppTheme.getFontColor(template.colorKey))
-
-        if(template.tags.isNotEmpty()) {
+            v.titleText.text = context.getString(R.string.new_template)
             v.tagText.visibility = View.GONE
-            v.tagText.text = template.tags.joinToString("") { "#${it.id}" }
-        }else {
-            v.tagText.visibility = View.GONE
-            v.tagText.text = context.getString(R.string.no_tag)
+            v.colorImg.setBackgroundColor(AppTheme.backgroundColor)
+            v.colorImg.setColorFilter(AppTheme.primaryText)
+            v.setOnClickListener { adapterInterface.invoke(null, mode) }
         }
-
-        v.setOnClickListener { adapterInterface.invoke(template, mode) }
     }
 
     private fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {

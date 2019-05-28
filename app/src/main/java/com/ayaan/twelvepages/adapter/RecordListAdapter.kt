@@ -77,8 +77,8 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         if(timeObject.isSetCheckBox()) {
             if(timeObject.isDone()) {
                 v.iconImg.setImageResource(R.drawable.check)
-                v.iconImg.alpha = 0.6f
-                v.contentLy.alpha = 0.6f
+                v.iconImg.alpha = 0.4f
+                v.contentLy.alpha = 0.4f
                 v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }else {
                 v.iconImg.setImageResource(R.drawable.uncheck)

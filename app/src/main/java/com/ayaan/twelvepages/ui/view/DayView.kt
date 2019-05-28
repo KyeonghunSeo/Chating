@@ -44,6 +44,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private val adapter = RecordListAdapter(context, currentList, targetCal) { view, timeObject, action ->
         when(action) {
+
         }
     }
 

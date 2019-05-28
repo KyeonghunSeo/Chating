@@ -440,10 +440,9 @@ fun getScreenSize(context: Context) : IntArray {
 }
 
 fun getSampleText(): String {
-    App.resource.getStringArray(R.array.sample_texts)?.let {
+    App.resource.getStringArray(R.array.sample_texts).let {
         return it[Random().nextInt(it.size)]
     }
-    return ""
 }
 
 

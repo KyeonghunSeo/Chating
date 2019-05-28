@@ -1,10 +1,9 @@
 package com.ayaan.twelvepages.adapter.util
 
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
-import com.ayaan.twelvepages.model.Record
 
-class RecordCalendarComparator : Comparator<RecordCalendarAdapter.TimeObjectViewHolder> {
-    override fun compare(l: RecordCalendarAdapter.TimeObjectViewHolder, r: RecordCalendarAdapter.TimeObjectViewHolder): Int {
+class RecordCalendarComparator : Comparator<RecordCalendarAdapter.RecordViewHolder> {
+    override fun compare(l: RecordCalendarAdapter.RecordViewHolder, r: RecordCalendarAdapter.RecordViewHolder): Int {
         return when{
             l.formula < r.formula -> -1
             l.formula > r.formula -> 1
