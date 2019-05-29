@@ -1,6 +1,7 @@
 package com.ayaan.twelvepages.ui.dialog
 
 import android.app.Activity
+import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
@@ -12,15 +13,14 @@ import kotlinx.android.synthetic.main.dialog_input.*
 
 class InputDialog(activity: Activity, private val title: String, private val sub: String?, private val hint: String?,
                   private val text: String, private val isSingleLine: Boolean, private val onResult: (Boolean, String) -> Unit)
-    : BaseDialog(activity) {
+    : Dialog(activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window?.attributes?.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_input)
         setLayout()
-        setOnShowListener {
-            showKeyPad(input)
-        }
+        setOnShowListener { showKeyPad(input) }
     }
 
     private fun setLayout() {

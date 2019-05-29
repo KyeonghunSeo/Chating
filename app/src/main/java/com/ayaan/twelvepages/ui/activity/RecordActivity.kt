@@ -438,7 +438,7 @@ class RecordActivity : BaseActivity() {
         if(record.alarms.isNotEmpty()) {
             alarmLy.visibility = View.VISIBLE
             record.alarms[0]?.let { alarm ->
-                alarmText.text = AlarmManager.getTimeObjectAlarmText(this, alarm)
+                alarmText.text = AlarmManager.getTimeObjectAlarmText(alarm)
                 alarmLy.setOnClickListener { showAlarmDialog(alarm) }
             }
         }else {
@@ -532,12 +532,14 @@ class RecordActivity : BaseActivity() {
     }
 
     private fun savedFinish() {
-        //Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show()
+        toast(R.string.saved, R.drawable.done)
+        MainActivity.getTemplateView()?.collapseNoAnim()
         finish()
     }
 
     private fun deletedFinish() {
-        Toast.makeText(this, R.string.deleted, Toast.LENGTH_SHORT).show()
+        toast(R.string.deleted, R.drawable.delete)
+        MainActivity.getTemplateView()?.collapseNoAnim()
         finish()
     }
 

@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/contentLy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="300dp"
         android:background="@drawable/popup_dialog_background"
         android:elevation="10dp"
         android:layout_gravity="center"
@@ -18,9 +17,13 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="25dp">
+            android:minWidth="320dp"
+            android:paddingTop="25dp"
+            android:paddingRight="25dp"
+            android:paddingLeft="25dp"
+            android:paddingBottom="80dp">>
 
             <TextView
                 android:id="@+id/titleText"
@@ -61,7 +64,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="40dp"
-                    android:layout_weight="1"
                     android:textSize="16dp"
                     android:imeOptions="actionDone"
                     android:singleLine="true"
@@ -78,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_gravity="right">
+            android:layout_gravity="right|bottom">
 
             <TextView
                 android:id="@+id/cancelBtn"
@@ -106,6 +108,6 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </FrameLayout>
 
 </FrameLayout>

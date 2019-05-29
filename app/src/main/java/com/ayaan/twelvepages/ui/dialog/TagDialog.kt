@@ -1,14 +1,11 @@
 package com.ayaan.twelvepages.ui.dialog
 
 import android.app.Activity
+import android.app.Dialog
 import android.os.Bundle
-import android.widget.Toast
-import com.ayaan.twelvepages.AppTheme
-import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.model.Tag
-import com.ayaan.twelvepages.setGlobalTheme
-import com.ayaan.twelvepages.showDialog
 import com.ayaan.twelvepages.ui.view.TagView.Companion.MODE_CHECK
 import com.ayaan.twelvepages.ui.view.TagView.Companion.MODE_EDIT
 import io.realm.Realm
@@ -17,11 +14,12 @@ import java.util.*
 
 
 class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
-                private val onResult: (ArrayList<Tag>) -> Unit) : BaseDialog(activity) {
+                private val onResult: (ArrayList<Tag>) -> Unit) : Dialog(activity) {
     private val realm = Realm.getDefaultInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window?.attributes?.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_tag)
         setLayout()
     }
@@ -111,7 +109,7 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
                 items.add(realm.copyFromRealm(tag))
                 tagView.addNewTag(tag)
             }else {
-                Toast.makeText(context, context.getString(R.string.already_exist_tag), Toast.LENGTH_SHORT).show()
+                toast(R.string.already_exist_tag, R.drawable.info)
             }
         }
     }
@@ -127,7 +125,7 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
                     tagView.changeTag(oldTag)
                 }
             }else {
-                Toast.makeText(context, context.getString(R.string.already_exist_tag), Toast.LENGTH_SHORT).show()
+                toast(R.string.already_exist_tag, R.drawable.info)
             }
         }
     }

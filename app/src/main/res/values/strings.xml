@@ -63,7 +63,7 @@
     </string-array>
 
     <string-array name="alarms">
-        <item>이벤트 당시</item>
+        <item>@string/event_at_time</item>
         <item>당일 오전 9시</item>
         <item>당일 오후 12시</item>
         <item>당일 오후 6시</item>
@@ -90,7 +90,7 @@
     <string name="advanced_setting">고급 설정</string>
     <string name="until">%1$s 까지</string>
 
-
+    <string name="event_at_time">이벤트 당시</string>
     <string name="passed_alarm">지난 알림</string>
     <string name="ring_alarm_at_time">%1$s 알림</string>
     <string name="repeat">반복</string>
@@ -127,7 +127,7 @@
     <string name="scrap_in_calendar">달력에 쓰기</string>
     <string name="select_date">날짜 선택</string>
     <string name="invalid_info">잘못된 정보입니다</string>
-    <string name="saved">저장됨</string>
+    <string name="saved">저장되었습니다</string>
     <string name="today">오늘</string>
     <string name="schedule">스케줄</string>
     <string name="first_text_1">또렷한 기억보다</string>
@@ -250,6 +250,8 @@
     <string name="shape">모양</string>
     <string name="preview">미리보기</string>
     <string name="edit_done">편집 완료</string>
+    <string name="apply_textcolor">글씨에도 적용</string>
+    <string name="custom_time">맞춤 시간</string>
 
     <string-array name="formulas">
         <item>기본</item>

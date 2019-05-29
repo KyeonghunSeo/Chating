@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ayaan.twelvepages.ui.view.AlarmPickerView
+        android:id="@+id/alarmPicker"
+        android:layout_width="300dp"
+        android:layout_height="300dp">
+    </com.ayaan.twelvepages.ui.view.AlarmPickerView>
+
+    <TextView
+        android:id="@+id/atTimeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="5dp"
+        android:includeFontPadding="false"
+        android:textSize="14dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/bold"
+        android:background="@color/primaryText"
+        android:gravity="center"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="@string/event_at_time"/>
+
+    <TextView
+        android:id="@+id/customTimeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="5dp"
+        android:includeFontPadding="false"
+        android:textSize="14dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/bold"
+        android:background="@color/primaryText"
+        android:gravity="center"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="@string/custom_time"/>
+
+</LinearLayout>

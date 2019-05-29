@@ -91,6 +91,14 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
             }, true, true, true, false)
         }
 
+        textColorBtn.setOnClickListener {
+            if(recordView.record.isTextColored()) {
+
+            }else {
+
+            }
+        }
+
         formulaPicker.formula = recordView.formula
         formulaPicker.onSelected = { formula ->
             recordView.record.setFormula(formula.ordinal)
@@ -105,8 +113,8 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
         shapePickerView.formula = recordView.formula
         shapePickerView.shape = recordView.record.style / 100
         shapePickerView.onSelected = { shape ->
-            recordView.record.setStyleShape(shape)
-            subRecordView.record.setStyleShape(shape)
+            recordView.record.setShapeNum(shape)
+            subRecordView.record.setShapeNum(shape)
             drawRecord()
         }
         shapePickerView.setItems()
@@ -116,6 +124,10 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
             onResult.invoke(recordView.record.style, recordView.record.colorKey)
             dismiss()
         }
+    }
+
+    private fun setTextColerBtn() {
+
     }
 
     private val dateWidth = dpToPx(60f)

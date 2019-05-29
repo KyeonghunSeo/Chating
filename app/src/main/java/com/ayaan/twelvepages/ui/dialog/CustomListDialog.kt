@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.setGlobalTheme
 import kotlinx.android.synthetic.main.dialog_normal_list.*
 import kotlinx.android.synthetic.main.list_item_normal.view.*
@@ -22,17 +23,13 @@ class CustomListDialog(activity: Activity, private val title: String, private va
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.attributes.windowAnimations = R.style.DialogAnimation
+        window?.attributes?.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_normal_list)
-        setGlobalTheme(rootLy)
         setLayout()
-        setOnShowListener {}
     }
 
     private fun setLayout() {
-        rootLy.layoutParams.width = WRAP_CONTENT
-        rootLy.requestLayout()
-
+        setGlobalTheme(rootLy)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = ItemAdapter()
 
@@ -46,10 +43,12 @@ class CustomListDialog(activity: Activity, private val title: String, private va
 
         if(isMultiChoice) {
             bottomBtnsLy.visibility = View.VISIBLE
-            confirmBtn.setOnClickListener { _ -> dismiss() }
+            confirmBtn.setOnClickListener { dismiss() }
             cancelBtn.setOnClickListener { dismiss() }
         }else {
             bottomBtnsLy.visibility = View.GONE
+            val padding = dpToPx(25)
+            contentLy.setPadding(padding, padding, padding, padding)
         }
     }
 

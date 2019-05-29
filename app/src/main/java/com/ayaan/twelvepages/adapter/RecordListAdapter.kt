@@ -175,7 +175,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
 
         if(timeObject.alarms.isNotEmpty()) {
             v.alarmText.text = timeObject.alarms.joinToString(", ") {
-                AlarmManager.getTimeObjectAlarmText(context, it) }
+                AlarmManager.getTimeObjectAlarmText(it) }
             v.alarmLy.visibility = View.VISIBLE
         }else {
             v.alarmLy.visibility = View.GONE

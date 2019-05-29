@@ -67,7 +67,7 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             }else {
                 v.titleText.setTextColor(AppTheme.primaryColor)
                 v.titleText.typeface = AppTheme.regularFont
-                v.contentLy.setBackgroundResource(R.drawable.normal_rect_stroke)
+                v.contentLy.setBackgroundColor(AppTheme.disableText)
                 v.contentLy.alpha = 0.4f
             }
 

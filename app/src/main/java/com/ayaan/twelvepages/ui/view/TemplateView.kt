@@ -31,7 +31,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if(template != null) {
             if(mode == 0) {
                 selectItem(template)
-                collapseNoAnim()
                 MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
             }else {
                 MainActivity.instance?.let {

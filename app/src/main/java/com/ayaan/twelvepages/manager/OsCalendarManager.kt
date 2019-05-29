@@ -10,6 +10,7 @@ import android.provider.CalendarContract
 import android.text.TextUtils
 import androidx.core.app.ActivityCompat
 import com.ayaan.twelvepages.AppTheme
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.model.Record
 import com.pixplicity.easyprefs.library.Prefs
 import java.util.*
@@ -200,7 +201,7 @@ object OsCalendarManager {
     private fun makeTimeObject(cur: Cursor) : Record{
         val block = Record(
                 id = "osInstance::${cur.getLong(INDEX_ID)}",
-                style = 100,
+                style = RecordCalendarAdapter.Formula.STACK.ordinal,
                 title = cur.getString(INDEX_TITLE),
                 colorKey = AppTheme.getColorKey(if(cur.getInt(INDEX_EVENT_COLOR) != 0) cur.getInt(INDEX_EVENT_COLOR)
                 else cur.getInt(INDEX_CAL_COLOR)),

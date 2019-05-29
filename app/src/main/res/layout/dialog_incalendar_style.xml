@@ -382,21 +382,51 @@
                 android:text="@string/color"/>
 
             <LinearLayout
-                android:id="@+id/colorBtn"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/colorImg"
-                    android:layout_width="70dp"
-                    android:layout_height="40dp"
-                    android:padding="15dp"
-                    android:src="@drawable/normal_rect_fill"
-                    android:tint="@color/primaryText"/>
+                <FrameLayout
+                    android:id="@+id/colorBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/colorImg"
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:padding="15dp"
+                        android:src="@drawable/normal_rect_fill"
+                        android:tint="@color/primaryText"/>
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/textColorBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:background="@color/colorPrimary"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/textColorText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:textSize="12dp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/bold"
+                        android:text="@string/apply_textcolor"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

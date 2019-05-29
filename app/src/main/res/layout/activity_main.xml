@@ -27,7 +27,8 @@
             <FrameLayout
                 android:id="@+id/calendarLy"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="invisible">
 
                 <FrameLayout
                     android:id="@+id/headerLy"
@@ -117,7 +118,8 @@
             <com.ayaan.twelvepages.ui.view.NoteView
                 android:id="@+id/noteView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="invisible">
             </com.ayaan.twelvepages.ui.view.NoteView>
 
         </FrameLayout>

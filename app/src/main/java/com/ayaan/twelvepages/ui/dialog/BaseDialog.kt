@@ -3,12 +3,24 @@ package com.ayaan.twelvepages.ui.dialog
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
+import android.view.View
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.dpToPx
+import kotlinx.android.synthetic.main.dialog_base.*
 
 
 open class BaseDialog(activity: Activity) : Dialog(activity) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window?.attributes?.windowAnimations = R.style.DialogAnimation
+        setContentView(R.layout.dialog_base)
+        rootLy.setOnClickListener { dismiss() }
+    }
+
+    fun hideBottomBtnsLy(){
+        bottomBtnsLy.visibility = View.GONE
+        (contentLy.layoutParams as FrameLayout.LayoutParams).bottomMargin = dpToPx(25)
     }
 }

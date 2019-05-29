@@ -1,6 +1,7 @@
 package com.ayaan.twelvepages.ui.dialog
 
 import android.app.Activity
+import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -12,10 +13,11 @@ import kotlinx.android.synthetic.main.dialog_custom.*
 
 
 class CustomDialog(activity: Activity, private val title: String, private val sub: String?,
-                   private val options: Array<String>?, private val onResult: (Boolean, Int, String?) -> Unit) : BaseDialog(activity) {
+                   private val options: Array<String>?, private val onResult: (Boolean, Int, String?) -> Unit) : Dialog(activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window?.attributes?.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_custom)
         setLayout()
     }

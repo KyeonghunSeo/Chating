@@ -1,13 +1,17 @@
 package com.ayaan.twelvepages.ui.view
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.dpToPx
+import com.ayaan.twelvepages.setGlobalTheme
 import kotlinx.android.synthetic.main.list_item_alarm_picker.view.*
 
 class AlarmPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -26,8 +30,7 @@ class AlarmPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             -1000L * 60 * 60 * 24,
             -1000L * 60 * 60 * 24 * 2,
             -1000L * 60 * 60 * 24 * 7,
-            Long.MIN_VALUE
-    )
+            Long.MIN_VALUE)
 
     init {
         layoutManager = GridLayoutManager(context, 4)
@@ -44,9 +47,10 @@ class AlarmPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {
-                (container.layoutParams as RecyclerView.LayoutParams).let {
-
-                }
+                setGlobalTheme(container)
+                container.layoutParams.width = dpToPx(70)
+                container.layoutParams.height = dpToPx(70)
+                container.requestLayout()
             }
         }
 
@@ -56,7 +60,19 @@ class AlarmPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val item = items[position]
             val v = holder.itemView
-            v.textView.text = item.title
+            v.titleText.text = item.title
+
+            if(false) {
+                v.titleText.setTextColor(Color.WHITE)
+                v.titleText.typeface = AppTheme.boldFont
+                v.contentLy.setBackgroundColor(AppTheme.primaryColor)
+                v.contentLy.alpha = 1f
+            }else {
+                v.titleText.setTextColor(AppTheme.primaryColor)
+                v.titleText.typeface = AppTheme.regularFont
+                v.contentLy.setBackgroundColor(AppTheme.disableText)
+                v.contentLy.alpha = 0.4f
+            }
 
             v.setOnClickListener {
                 notifyItemChanged(position)
