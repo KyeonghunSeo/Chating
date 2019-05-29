@@ -20,7 +20,6 @@
           android:layout_height="20dp"
           android:layout_marginLeft="10dp"
           android:layout_gravity="center_vertical"
-          android:src="@drawable/menu"
           android:tint="@color/white"
           android:visibility="gone"/>
 
@@ -30,7 +29,7 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           android:includeFontPadding="false"
-          android:textSize="11dp"
+          android:textSize="12dp"
           android:textColor="@color/white"
           android:fontFamily="@font/bold"
           android:text="자동"/>

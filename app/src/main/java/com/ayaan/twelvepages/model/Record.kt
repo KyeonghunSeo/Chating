@@ -47,9 +47,19 @@ open class Record(@PrimaryKey var id: String? = null,
 
     fun getFormula() = style % 100
 
-    fun setStyleShape(shape: Int) {
-        style = style % 100 + shape * 100
+    fun setShapeNum(shape: Int) {
+        style = getTextColred() + shape * 100 + getFormula()
     }
+
+    fun getShapeNum() = style % 10000 / 100
+
+    fun isTextColored() = getTextColred() > 10000
+
+    fun setTextColored(colored: Boolean) {
+        style = getShapeNum() + getFormula() + if(colored) 10000 else 0
+    }
+
+    fun getTextColred() = style / 10000 * 10000
 
     fun getDuration() = dtEnd - dtStart
 

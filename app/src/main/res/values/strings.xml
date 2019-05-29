@@ -127,7 +127,7 @@
     <string name="scrap_in_calendar">달력에 쓰기</string>
     <string name="select_date">날짜 선택</string>
     <string name="invalid_info">잘못된 정보입니다</string>
-    <string name="saved">저장됨</string>
+    <string name="saved">저장되었습니다</string>
     <string name="today">오늘</string>
     <string name="schedule">스케줄</string>
     <string name="first_text_1">또렷한 기억보다</string>
@@ -250,6 +250,7 @@
     <string name="shape">모양</string>
     <string name="preview">미리보기</string>
     <string name="edit_done">편집 완료</string>
+    <string name="apply_textcolor">글씨에도 적용</string>
 
     <string-array name="formulas">
         <item>기본</item>
@@ -272,17 +273,20 @@
 
     <string-array name="shape_expand">
         <item>기본</item>
-        <item>글씨만</item>
+        <item>채우기</item>
         <item>테두리</item>
+        <item>빗금</item>
+        <item>굵은 사선</item>
         <item>윗줄</item>
         <item>밑줄</item>
     </string-array>
 
     <string-array name="shape_range">
         <item>기본</item>
-        <item>화살표</item>
-        <item>굵은 화살표</item>
         <item>점선</item>
+        <item>화살표</item>
+        <item>점선 화살표</item>
+        <item>채우기</item>
         <item>형광팬</item>
         <item>윗줄</item>
         <item>밑줄</item>

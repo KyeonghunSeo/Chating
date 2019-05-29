@@ -45,58 +45,62 @@
 
                 <TextView
                     android:id="@+id/dailyBtn"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:textSize="14dp"
+                    android:layout_width="65dp"
+                    android:layout_height="25dp"
+                    android:textSize="12dp"
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:fontFamily="@font/regular"
                     android:text="@string/daily"
-                    android:background="@drawable/primary_rect_fill_radius_1"/>
+                    android:background="@drawable/primary_rect_fill_radius_1"
+                    android:foreground="?android:attr/selectableItemBackground"/>
 
                 <TextView
                     android:id="@+id/weeklyBtn"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:textSize="14dp"
+                    android:layout_width="65dp"
+                    android:layout_height="25dp"
+                    android:textSize="12dp"
                     android:gravity="center"
                     android:textColor="@color/secondaryText"
                     android:fontFamily="@font/thin"
-                    android:text="@string/weekly"/>
+                    android:text="@string/weekly"
+                    android:foreground="?android:attr/selectableItemBackground"/>
 
                 <TextView
                     android:id="@+id/monthlyBtn"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:textSize="14dp"
+                    android:layout_width="65dp"
+                    android:layout_height="25dp"
+                    android:textSize="12dp"
                     android:gravity="center"
                     android:textColor="@color/secondaryText"
                     android:fontFamily="@font/thin"
-                    android:text="@string/monthly"/>
+                    android:text="@string/monthly"
+                    android:foreground="?android:attr/selectableItemBackground"/>
 
                 <TextView
                     android:id="@+id/yearlyBtn"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:textSize="14dp"
+                    android:layout_width="65dp"
+                    android:layout_height="25dp"
+                    android:textSize="12dp"
                     android:gravity="center"
                     android:textColor="@color/secondaryText"
                     android:fontFamily="@font/thin"
-                    android:text="@string/yearly"/>
+                    android:text="@string/yearly"
+                    android:foreground="?android:attr/selectableItemBackground"/>
 
             </LinearLayout>
 
             <TextView
                 android:id="@+id/advancedBtn"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginTop="15dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/disableText"
-                android:textSize="14dp"
+                android:textSize="12dp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:textColor="@color/white"
-                android:fontFamily="@font/regular"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/thin"
                 android:text="@string/advanced_setting"/>
 
             <LinearLayout
@@ -313,7 +317,7 @@
                         android:layout_margin="5dp"
                         android:background="@drawable/primary_rect_fill_radius_1"
                         android:tint="@color/white"
-                        android:src="@drawable/sharp_done_black_48dp"
+                        android:src="@drawable/done"
                         android:padding="7dp"
                         android:fontFamily="@font/thin"
                         android:gravity="center"

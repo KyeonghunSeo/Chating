@@ -12,64 +12,66 @@
         android:minWidth="300dp"
         android:background="@drawable/popup_dialog_background"
         android:elevation="10dp"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
         android:layout_gravity="center"
-        android:layout_margin="20dp">
+        android:orientation="vertical"
+        android:layout_margin="25dp">
 
-        <TextView
-            android:id="@+id/tagText"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textSize="16dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/primaryText"
-            android:textColorHint="@color/disableText"
-            android:hint="@string/set_alarm"
-            android:fontFamily="@font/bold"
-            android:text=""/>
+            android:padding="25dp">
 
-        <com.ayaan.twelvepages.ui.view.AlarmPickerView
-            android:id="@+id/alarmPicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </com.ayaan.twelvepages.ui.view.AlarmPickerView>
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/bold"
+                android:text="title"/>
 
-        <com.ayaan.twelvepages.ui.view.base.Line
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            app:colorFlag="disable"/>
+            <com.ayaan.twelvepages.ui.view.base.Line
+                android:layout_width="20dp"
+                android:layout_height="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="20dp"
+                app:colorFlag="primary"/>
+
+            <com.ayaan.twelvepages.ui.view.AlarmPickerView
+                android:id="@+id/alarmPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </com.ayaan.twelvepages.ui.view.AlarmPickerView>
+
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_gravity="right">
 
             <TextView
                 android:id="@+id/deleteBtn"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="14dp"
+                android:padding="15dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:textSize="15dp"
                 android:gravity="center"
-                android:textColor="@color/secondaryText"
-                android:fontFamily="@font/regular"
-                android:text="@string/delete"/>
-
-            <com.ayaan.twelvepages.ui.view.base.Line
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                app:colorFlag="disable"/>
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/bold"
+                android:text="@string/cancel"/>
 
             <TextView
                 android:id="@+id/confirmBtn"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="14dp"
+                android:padding="15dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:textSize="15dp"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
                 android:fontFamily="@font/bold"

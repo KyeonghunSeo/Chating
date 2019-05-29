@@ -20,15 +20,11 @@ class AlarmPickerDialog(activity: Activity, private val record: Record, private 
         super.onCreate(savedInstanceState)
         window.attributes.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_alarm_picker)
-        setGlobalTheme(rootLy)
         setLayout()
-        setOnShowListener {}
     }
 
     private fun setLayout() {
-        rootLy.layoutParams.width = WRAP_CONTENT
-        rootLy.requestLayout()
-
+        setGlobalTheme(rootLy)
         alarmPicker.onSelected = { offset ->
             onResult.invoke(true, offset)
             dismiss()

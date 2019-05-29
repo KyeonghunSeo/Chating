@@ -24,15 +24,11 @@ class CustomListDialog(activity: Activity, private val title: String, private va
         super.onCreate(savedInstanceState)
         window.attributes.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_normal_list)
-        setGlobalTheme(rootLy)
         setLayout()
-        setOnShowListener {}
     }
 
     private fun setLayout() {
-        rootLy.layoutParams.width = WRAP_CONTENT
-        rootLy.requestLayout()
-
+        setGlobalTheme(rootLy)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = ItemAdapter()
 

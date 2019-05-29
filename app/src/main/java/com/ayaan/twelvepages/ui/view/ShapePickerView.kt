@@ -25,10 +25,9 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     init {
         layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
         adapter = Adapter()
-        setItems()
     }
 
-    private fun setItems() {
+    fun setItems() {
         items = when(formula) {
             EXPANDED -> context.resources.getStringArray(R.array.shape_expand)
             RANGE -> context.resources.getStringArray(R.array.shape_range)
@@ -59,7 +58,6 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val v = holder.itemView
             v.titleText.text = items[position]
-            v.iconImg.setImageResource(R.drawable.menu)
 
             if(position == shape) {
                 v.titleText.setTextColor(Color.WHITE)
@@ -69,7 +67,7 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             }else {
                 v.titleText.setTextColor(AppTheme.primaryColor)
                 v.titleText.typeface = AppTheme.regularFont
-                v.contentLy.setBackgroundResource(R.drawable.normal_rect_stroke)
+                v.contentLy.setBackgroundColor(AppTheme.disableText)
                 v.contentLy.alpha = 0.4f
             }
 

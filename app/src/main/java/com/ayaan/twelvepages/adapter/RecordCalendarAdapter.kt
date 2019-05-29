@@ -18,6 +18,7 @@ import com.ayaan.twelvepages.ui.view.RecordView
 import com.ayaan.twelvepages.ui.view.RecordView.Companion.blockTypeSize
 import io.realm.RealmResults
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
+import com.ayaan.twelvepages.dpToPx
 
 class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private val viewHolderList = ArrayList<RecordViewHolder>()
@@ -162,21 +163,20 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         viewHolderList.forEach { viewHolder ->
             try{
                 val formula = viewHolder.formula
-                val status
-                        = viewLevelStatusMap[formula]?: ViewLevelStatus().apply { viewLevelStatusMap[formula] = this }
+                val status = viewLevelStatusMap[formula]?: ViewLevelStatus().apply { viewLevelStatusMap[formula] = this }
 
                 if(formula != currentFomula) {
                     currentFomula = formula
                     when(currentFomula) {
                         DOT -> {
-                            addBottomMargin(10f)
+                            addBottomMargin(dpToPx(10f), currentFomula)
                         }
                         RANGE -> {
-                            addBottomMargin(20f)
+                            addBottomMargin(dpToPx(20f), currentFomula)
                             computeBottomStackStartPos()
                         }
                         IMAGE -> {
-                            addBottomMargin(40f)
+                            addBottomMargin(dpToPx(10f), currentFomula)
                         }
                         else -> {}
                     }
@@ -185,21 +185,17 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                 viewHolder.items.forEach {
                     it.mLeft = (minWidth * (it.cellNum % columns)) + CalendarView.calendarPadding
                     it.mRight = it.mLeft + (minWidth * it.length).toInt()
+                    val viewHeight = it.getViewHeight()
                     when(formula) {
-                        STACK -> {
-                            it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
-                            it.mBottom = it.mTop + it.getViewHeight()
+                        STACK, RANGE -> {
+                            it.mTop = computeOrder(it, status) * viewHeight + rowHeightArray[it.cellNum / columns]
                         }
                         EXPANDED, STAMP, DOT -> {
                             it.mTop = cellBottomArray[it.cellNum]
-                            it.mBottom = it.mTop + it.getViewHeight()
-                        }
-                        RANGE -> {
-                            it.mTop = computeOrder(it, status) * it.getViewHeight() + rowHeightArray[it.cellNum / columns]
-                            it.mBottom = it.mTop + it.getViewHeight()
                         }
                         else -> {}
                     }
+                    it.mBottom = it.mTop + viewHeight
                     (it.cellNum until it.cellNum + it.length).forEach{ index ->
                         cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom)
                     }
@@ -227,8 +223,12 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         }
     }
 
-    private fun addBottomMargin(margin: Float) {
-        cellBottomArray.forEachIndexed { index, i -> cellBottomArray[index] += margin }
+    private fun addBottomMargin(margin: Float, formula: Formula) {
+        (0 until maxCellNum).forEach { index ->
+            if(viewHolderList.any { it.formula == formula && index >= it.startCellNum && index <= it.endCellNum }){
+                cellBottomArray[index] += margin
+            }
+        }
     }
 
     private fun drawRecordViewOnCalendarView() {

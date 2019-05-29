@@ -5,8 +5,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.dialog.*
+import es.dmoral.toasty.Toasty
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_template.*
 import java.util.*
@@ -14,6 +16,7 @@ import java.util.*
 class TemplateActivity : BaseActivity() {
     private val realm = Realm.getDefaultInstance()
     private val template = Template()
+    private val originalTemplate = Template()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +38,13 @@ class TemplateActivity : BaseActivity() {
         if(!intent.getStringExtra("id").isNullOrEmpty()) {
             realm.where(Template::class.java)
                     .equalTo("id", intent.getStringExtra("id"))
-                    .findFirst()?.let { template.copy(it) }
+                    .findFirst()?.let {
+                        template.copy(it)
+                        originalTemplate.copy(it)
+                    }
         }else {
             template.folder = MainActivity.getTargetFolder()
+            originalTemplate.folder = MainActivity.getTargetFolder()
         }
         l(template.toString())
 
@@ -64,6 +71,11 @@ class TemplateActivity : BaseActivity() {
     }
 
     private fun updateAlarmUI() {
+        if(template.alarmOffset != Long.MIN_VALUE) {
+            //alarmText.text = AlarmManager.getTimeObjectAlarmText(alarm)
+        }else {
+            //alarmText.text = AlarmManager.getTimeObjectAlarmText(alarm)
+        }
     }
 
     private fun updateMemoUI() {
@@ -174,16 +186,18 @@ class TemplateActivity : BaseActivity() {
     }
 
     private fun confirm() {
-        realm.executeTransaction {
-            template.title = titleInput.text.toString()
-            template.recordTitle = initTextInput.text.toString()
-            if(template.id.isNullOrEmpty()) {
-                template.id = UUID.randomUUID().toString()
-                template.order = realm.where(Template::class.java).max("order")?.toInt()?.plus(1) ?: 0
+        template.title = titleInput.text.toString()
+        template.recordTitle = initTextInput.text.toString()
+        if(template != originalTemplate) {
+            realm.executeTransaction {
+                if(template.id.isNullOrEmpty()) {
+                    template.id = UUID.randomUUID().toString()
+                    template.order = realm.where(Template::class.java).max("order")?.toInt()?.plus(1) ?: 0
+                }
+                realm.insertOrUpdate(template)
             }
-            realm.insertOrUpdate(template)
+            toast(R.string.saved, R.drawable.done)
         }
-        //Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show()
         finish()
     }
 
@@ -192,7 +206,7 @@ class TemplateActivity : BaseActivity() {
             realm.where(Template::class.java).equalTo("id", template.id)
                     .findFirst()?.deleteFromRealm()
         }
-        Toast.makeText(this, R.string.deleted, Toast.LENGTH_SHORT).show()
+        toast(R.string.deleted, R.drawable.delete)
         finish()
     }
 

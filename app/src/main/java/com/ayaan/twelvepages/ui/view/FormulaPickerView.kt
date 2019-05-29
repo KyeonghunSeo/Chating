@@ -46,7 +46,6 @@ class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: Attri
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val v = holder.itemView
             v.titleText.text = items[position]
-            v.iconImg.setImageResource(R.drawable.menu)
 
             if(formulas[position] == formula) {
                 v.titleText.setTextColor(Color.WHITE)
@@ -56,7 +55,7 @@ class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: Attri
             }else {
                 v.titleText.setTextColor(AppTheme.primaryColor)
                 v.titleText.typeface = AppTheme.regularFont
-                v.contentLy.setBackgroundResource(R.drawable.normal_rect_stroke)
+                v.contentLy.setBackgroundColor(AppTheme.disableText)
                 v.contentLy.alpha = 0.4f
             }
 

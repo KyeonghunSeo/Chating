@@ -47,7 +47,6 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         if(position < items.size) {
             val template = items[position]
             v.contentLy.alpha = 1f
-            v.contentLy.setBackgroundResource(R.drawable.blank)
             if(mode == 0) {
 
             }else {
@@ -56,26 +55,15 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             v.titleText.text = template.title
             v.colorImg.setBackgroundColor(AppTheme.getColor(template.colorKey))
             v.colorImg.setColorFilter(AppTheme.getFontColor(template.colorKey))
-
             when{
-                template.isSetCheckBox() -> v.colorImg.setImageResource(R.drawable.check_circle)
+                template.isSetCheckBox() -> v.colorImg.setImageResource(R.drawable.check)
                 template.isScheduled() -> v.colorImg.setImageResource(R.drawable.schedule)
                 else -> v.colorImg.setImageResource(R.drawable.note)
-            }
-
-            if(template.tags.isNotEmpty()) {
-                v.tagText.visibility = View.GONE
-                v.tagText.text = template.tags.joinToString("") { "#${it.id}" }
-            }else {
-                v.tagText.visibility = View.GONE
-                v.tagText.text = context.getString(R.string.no_tag)
             }
             v.setOnClickListener { adapterInterface.invoke(template, mode) }
         }else {
             v.contentLy.alpha = 0.3f
-            v.contentLy.setBackgroundResource(R.drawable.edit_dash_rect)
             v.titleText.text = context.getString(R.string.new_template)
-            v.tagText.visibility = View.GONE
             v.colorImg.setBackgroundColor(AppTheme.backgroundColor)
             v.colorImg.setColorFilter(AppTheme.primaryText)
             v.setOnClickListener { adapterInterface.invoke(null, mode) }

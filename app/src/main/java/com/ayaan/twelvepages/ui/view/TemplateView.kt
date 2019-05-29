@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
@@ -23,7 +24,6 @@ import java.util.*
 class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
     private val startCal = Calendar.getInstance()
     private val endCal = Calendar.getInstance()
-    val layoutManager = LinearLayoutManager(context)
     val items = ArrayList<Template>()
     var selectedPosition = 0
     var isExpanded = false
@@ -31,7 +31,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if(template != null) {
             if(mode == 0) {
                 selectItem(template)
-                collapseNoAnim()
                 MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
             }else {
                 MainActivity.instance?.let {
@@ -48,7 +47,8 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     init {
         LayoutInflater.from(context).inflate(R.layout.view_template, this, true)
         initViews()
-        recyclerView.layoutManager = layoutManager
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        //recyclerView.layoutManager = GridLayoutManager(context, 2)
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
 
@@ -71,14 +71,12 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 adapter.mode = 1
                 editTemplateBtn.setTextColor(AppTheme.blueColor)
                 editTemplateBtn.text = context.getString(R.string.edit_done)
-                adapter.notifyItemRangeChanged(0, items.size)
             }else {
                 adapter.mode = 0
                 editTemplateBtn.setTextColor(AppTheme.primaryText)
                 editTemplateBtn.text = context.getString(R.string.edit_template)
-                adapter.notifyItemRangeChanged(0, items.size - 1)
-                adapter.notifyItemRemoved(items.size)
             }
+            adapter.notifyDataSetChanged()
         }
     }
 

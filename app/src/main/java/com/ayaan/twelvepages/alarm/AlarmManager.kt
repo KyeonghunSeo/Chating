@@ -31,7 +31,7 @@ object AlarmManager {
         socialAlarm = Prefs.getLong("socialAlarm", Long.MIN_VALUE)
         briefingAlarm = Prefs.getLong("briefingAlarm", Long.MIN_VALUE)
         manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        //registBriefingAlarm()
+        registBriefingAlarm()
     }
 
     private fun createNotificationChannel(context: Context) {
@@ -54,7 +54,7 @@ object AlarmManager {
             val sender = PendingIntent.getBroadcast(App.context, 0, intent, PendingIntent.FLAG_NO_CREATE)
             if(sender == null) {
                 val pIntent = PendingIntent.getBroadcast(App.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-                manager.setRepeating(RTC_WAKEUP, System.currentTimeMillis() + 5000, MIN_MILL, pIntent)
+                manager.setRepeating(RTC_WAKEUP, System.currentTimeMillis() + 5000, HOUR_MILL, pIntent)
             }
         }
     }
@@ -104,7 +104,7 @@ object AlarmManager {
         }
     }
 
-    fun getTimeObjectAlarmText(context: Context, alarm: Alarm) : String = when(alarm.offset) {
+    fun getTimeObjectAlarmText(alarm: Alarm) : String = when(alarm.offset) {
         0L -> alarmOffsetStrings[0]
         1000L * 60 * 60 * 9 -> alarmOffsetStrings[1]
         1000L * 60 * 60 * 12 -> alarmOffsetStrings[2]

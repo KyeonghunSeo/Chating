@@ -8,6 +8,7 @@ import android.content.res.Resources
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.ayaan.twelvepages.alarm.AlarmManager
 import com.pixplicity.easyprefs.library.Prefs
+import es.dmoral.toasty.Toasty
 import io.realm.Realm
 
 class App : Application() {
@@ -33,5 +34,11 @@ class App : Application() {
         Realm.init(this)
         AlarmManager.init(this)
         Fresco.initialize(this)
+        Toasty.Config.getInstance()
+                .tintIcon(true)
+                .setToastTypeface(AppTheme.regularFont)
+                .setTextSize(14)
+                .allowQueue(false)
+                .apply()
     }
 }

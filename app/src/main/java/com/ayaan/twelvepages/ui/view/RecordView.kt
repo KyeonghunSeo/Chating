@@ -6,7 +6,6 @@ import android.graphics.*
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -16,6 +15,9 @@ import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.manager.StampManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
+import android.graphics.DashPathEffect
+
+
 
 @SuppressLint("ViewConstructor")
 class RecordView constructor(context: Context, val record: Record, var formula: RecordCalendarAdapter.Formula,
@@ -30,11 +32,12 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val normalTextPadding = dpToPx(0.0f)
         val bigTextPadding = -dpToPx(1.0f)
         val bottomPadding = dpToPx(3.0f)
-        val rectRadius = dpToPx(1f)
+        val rectRadius = dpToPx(0.5f)
         val blockTypeSize = dpToPx(16.5f).toInt()
         val dotSize = dpToPx(5)
         val checkboxSize = dpToPx(10)
-        val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        val dashPath = DashPathEffect(floatArrayOf(dpToPx(3.0f), dpToPx(1.0f)), 2f)
     }
 
     enum class Shape(val fillColor: Boolean) {
@@ -47,14 +50,16 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         THIN_HATCHED(false),
         UPPER_LINE(false),
         UNDER_LINE(false),
-        NEON_PEN(false)
+        NEON_PEN(false),
+        DASH(false),
+        ARROW(false),
+        DASH_ARROW(false)
     }
 
     var mLeft = 0f
     var mTop = 0f
     var mRight = 0f
     var mBottom = 0f
-    var mLine = 0
     var leftOpen = false
     var rightOpen = false
     var textSpaceWidth = 0f
@@ -65,24 +70,15 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     init {
         includeFontPadding = false
-        typeface = AppTheme.thinFont
+        typeface = AppTheme.regularFont
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
-        val leftPadding = if(record.isSetCheckBox()) {
-            (sidePadding + checkboxSize + defaulMargin).toInt()
-        }else {
-            sidePadding
-        }
-        val textPadding =  when(AppStatus.calTextSize) { /*글씨 크기에 따른 패딩 조정*/
-            -1 -> smallTextPadding
-            1 -> bigTextPadding
-            else -> normalTextPadding
-        }.toInt()
-        setPadding(leftPadding, textPadding, sidePadding, 0)
         setStyle()
     }
 
     @SuppressLint("RtlHardcoded")
     fun setStyle() {
+        var sPadding = sidePadding
+
         when(formula) {
             BACKGROUND -> {}
             STACK -> {
@@ -115,18 +111,28 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 setHorizontallyScrolling(true)
                 maxLines = 1
                 ellipsize = null
+                sPadding *= 3
             }
             IMAGE -> {
                 gravity = Gravity.LEFT
             }
         }
 
-        paintColor = AppTheme.getColor(record.colorKey)
-        fontColor = if(shape.fillColor) {
-            AppTheme.getFontColor(record.colorKey)
+        val leftPadding = if(record.isSetCheckBox()) {
+            (sPadding + checkboxSize + defaulMargin).toInt()
         }else {
-            AppTheme.getColor(record.colorKey)
+            sPadding
         }
+        val textPadding =  when(AppStatus.calTextSize) { /*글씨 크기에 따른 패딩 조정*/
+            -1 -> smallTextPadding
+            1 -> bigTextPadding
+            else -> normalTextPadding
+        }.toInt()
+        setPadding(leftPadding, textPadding, sPadding, 0)
+
+        paintColor = AppTheme.getColor(record.colorKey)
+        fontColor = if(shape.fillColor) AppTheme.getFontColor(record.colorKey)
+        else AppTheme.getColor(record.colorKey)
         setTextColor(fontColor)
     }
 
@@ -134,8 +140,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         canvas?.let {
             when(formula) {
                 RANGE -> {
-                    super.onDraw(canvas)
                     drawRange(canvas)
+                    super.onDraw(canvas)
                 }
                 DOT -> {
                     drawDot(canvas)
@@ -152,7 +158,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     }
 
     private fun setStackShape() {
-        shape = when(record.style / 100) {
+        shape = when(record.getShapeNum()) {
             1 -> Shape.DEFAULT
             2 -> Shape.RECT_STROKE
             3 -> Shape.THIN_HATCHED
@@ -165,13 +171,26 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     }
 
     private fun setExpandShape() {
-        shape = when(record.style / 100) {
+        shape = when(record.getShapeNum()) {
+            1 -> Shape.RECT_FILL
+            2 -> Shape.RECT_STROKE
+            3 -> Shape.THIN_HATCHED
+            4 -> Shape.BOLD_HATCHED
+            5 -> Shape.UPPER_LINE
+            6 -> Shape.UNDER_LINE
             else -> Shape.DEFAULT
         }
     }
 
     private fun setRangeShape() {
-        shape = when(record.style / 100) {
+        shape = when(record.getShapeNum()) {
+            1 -> Shape.DASH
+            2 -> Shape.ARROW
+            3 -> Shape.DASH_ARROW
+            4 -> Shape.RECT_FILL
+            5 -> Shape.NEON_PEN
+            6 -> Shape.UPPER_LINE
+            7 -> Shape.UNDER_LINE
             else -> Shape.DEFAULT
         }
     }
@@ -223,7 +242,12 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         paint.color = paintColor
         when(shape){
             Shape.RECT_FILL -> {
-                canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
+                canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), rectRadius, rectRadius, paint)
+                paint.color = fontColor
+            }
+            Shape.ROUND_FILL -> {
+                paint.isAntiAlias = true
+                canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), height / 2f, height / 2f, paint)
                 paint.color = fontColor
             }
             Shape.RECT_STROKE -> {
@@ -242,16 +266,11 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                         height / 2f, height / 2f, paint)
                 paint.style = Paint.Style.FILL
             }
-            Shape.ROUND_FILL -> {
-                paint.isAntiAlias = true
-                canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), height / 2f, height / 2f, paint)
-                paint.color = fontColor
-            }
             Shape.BOLD_HATCHED -> {
                 canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), rectRadius, rectRadius, paint)
                 val dashWidth = strokeWidth * 6
                 paint.strokeWidth = strokeWidth * 5
-                paint.color = Color.parseColor("#30FFFFFF")
+                paint.color = Color.parseColor("#40FFFFFF")
                 var x = 0f
                 while (x < width + height) {
                     canvas.drawLine(x, -defaulMargin, x - height, height + defaulMargin, paint)
@@ -262,7 +281,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             Shape.THIN_HATCHED -> {
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = strokeWidth * 2
-                canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+                //canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
 
                 paint.strokeWidth = strokeWidth * 1
                 val dashWidth = strokeWidth * 2
@@ -276,12 +295,15 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 paint.style = Paint.Style.FILL
             }
             Shape.UPPER_LINE -> {
-                val strokeWidth = strokeWidth * 1f
                 canvas.drawRect(0f, 0f, width.toFloat(), strokeWidth, paint)
             }
             Shape.UNDER_LINE -> {
-                val strokeWidth = strokeWidth * 0.8f
                 canvas.drawRect(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat(), paint)
+            }
+            Shape.NEON_PEN -> {
+                paint.alpha = 70
+                canvas.drawRoundRect(0f, height / 2f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
+                paint.alpha = 255
             }
             else -> {
                 if(length > 1) {
@@ -302,123 +324,78 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         canvas.translate(scrollX.toFloat(), 0f)
         val space = textSpaceWidth + if(record.isSetCheckBox()) (checkboxSize + defaulMargin) else 0f
         var textLPos = width / 2 - space / 2 - defaulMargin
-        if(textLPos < sidePadding) textLPos = sidePadding.toFloat()
+        val sPadding = sidePadding * 3
+        if(textLPos < sPadding) textLPos = sPadding.toFloat()
         var textRPos = width / 2 + space / 2 + defaulMargin
-        if(textRPos > width - sidePadding) textRPos = width - sidePadding.toFloat()
-        when(record.style){
-            1 -> { // ㅣ----ㅣ
-                val periodLine = (strokeWidth * 1.5f).toInt()
-                val rectl = RectF(periodLine.toFloat(),
-                        height / 2f - periodLine / 2,
-                        textLPos,
-                        height / 2f + periodLine / 2)
-                canvas.drawRect(rectl, paint)
-
-                val rectr = RectF(textRPos,
-                        height / 2f - periodLine / 2,
-                        width - periodLine.toFloat(),
-                        height / 2f + periodLine / 2)
-                canvas.drawRect(rectr, paint)
-
-                canvas.drawRect(0f, height / 2f - periodLine * 2.5f,
-                        periodLine.toFloat(), height / 2f + periodLine * 2, paint)
-
-                canvas.drawRect(width - periodLine.toFloat(), height / 2f - periodLine * 2.5f,
-                        width.toFloat(), height / 2f + periodLine * 2, paint)
+        if(textRPos > width - sPadding) textRPos = width - sPadding.toFloat()
+        when(shape){
+            Shape.RECT_FILL -> {
+                val arrowSize = (strokeWidth * 5f).toInt()
+                canvas.drawRect(arrowSize.toFloat(), 0f, width.toFloat() - arrowSize, height.toFloat(), paint)
+                drawArrow(canvas, 0, height / 2, arrowSize, 0, arrowSize, height)
+                drawArrow(canvas, width, height / 2, width - arrowSize, 0, width - arrowSize, height)
             }
-            2 -> { // <---->
-                val periodLine = (strokeWidth * 1.5f).toInt()
-                val rectl = RectF(periodLine.toFloat(),
-                        height / 2f - periodLine / 2,
-                        textLPos,
-                        height / 2f + periodLine / 2)
-                canvas.drawRect(rectl, paint)
-
-                val rectr = RectF(textRPos,
-                        height / 2f - periodLine / 2,
-                        width - periodLine.toFloat(),
-                        height / 2f + periodLine / 2)
-                canvas.drawRect(rectr, paint)
-
-                val arrowSize = periodLine * 2
-
-                val a = Point(0, height / 2)
-                val b = Point(arrowSize, height / 2 - arrowSize)
-                val c = Point(arrowSize, height / 2  + arrowSize)
-
-                val leftArrow = Path()
-                leftArrow.fillType = Path.FillType.EVEN_ODD
-                leftArrow.moveTo(a.x.toFloat(), a.y.toFloat())
-                leftArrow.lineTo(b.x.toFloat(), b.y.toFloat())
-                leftArrow.lineTo(c.x.toFloat(), c.y.toFloat())
-                leftArrow.lineTo(a.x.toFloat(), a.y.toFloat())
-                leftArrow.close()
-                canvas.drawPath(leftArrow, paint)
-
-                val e = Point(width, height / 2)
-                val f = Point(width - arrowSize, height / 2 - arrowSize)
-                val g = Point(width - arrowSize, height / 2  + arrowSize)
-
-                val rightArrow = Path()
-                rightArrow.fillType = Path.FillType.EVEN_ODD
-                rightArrow.moveTo(e.x.toFloat(), e.y.toFloat())
-                rightArrow.lineTo(f.x.toFloat(), f.y.toFloat())
-                rightArrow.lineTo(g.x.toFloat(), g.y.toFloat())
-                rightArrow.lineTo(e.x.toFloat(), e.y.toFloat())
-                rightArrow.close()
-                canvas.drawPath(rightArrow, paint)
-            }
-            3 -> { // neon
-                paint.alpha = 17
-                canvas.drawRoundRect(0f, height / 2f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
+            Shape.NEON_PEN -> {
+                paint.alpha = 70
+                val arrowSize = (strokeWidth * 3f).toInt()
+                canvas.drawRect(arrowSize.toFloat(), height / 2f, width.toFloat() - arrowSize, height.toFloat(), paint)
+                drawArrow(canvas, 0, height, arrowSize, height / 2, arrowSize, height)
+                drawArrow(canvas, width, height / 2, width - arrowSize, height, width - arrowSize, height / 2)
                 paint.alpha = 255
             }
+            Shape.UPPER_LINE -> {
+                val arrowSize = (strokeWidth * 4.0f).toInt()
+                canvas.drawRect(arrowSize.toFloat(), 0f, width.toFloat() - arrowSize, strokeWidth, paint)
+                drawArrow(canvas, 0, 0, arrowSize, arrowSize, arrowSize, 0)
+                drawArrow(canvas, width, 0, width - arrowSize, arrowSize, width - arrowSize, 0)
+            }
+            Shape.UNDER_LINE -> {
+                val arrowSize = (strokeWidth * 4.0f).toInt()
+                canvas.drawRect(arrowSize.toFloat(), height.toFloat() - strokeWidth, width.toFloat() - arrowSize, height.toFloat(), paint)
+                drawArrow(canvas, 0, height, arrowSize, height - arrowSize, arrowSize, height)
+                drawArrow(canvas, width, height, width - arrowSize, height - arrowSize, width - arrowSize, height)
+            }
             else -> {
-                val periodLine = (strokeWidth * 1.5f).toInt()
-                val rectl = RectF(periodLine.toFloat(),
-                        height / 2f - periodLine / 2,
-                        textLPos,
-                        height / 2f + periodLine / 2)
-                canvas.drawRect(rectl, paint)
+                val periodLine = strokeWidth * 1.5f
+                paint.style = Paint.Style.STROKE
+                paint.strokeWidth = periodLine
+                if(shape == Shape.DASH || shape == Shape.DASH_ARROW) {
+                    paint.pathEffect = dashPath
+                }else {
+                    paint.pathEffect = null
+                }
+                canvas.drawLine(periodLine, height / 2f, textLPos, height / 2f, paint)
+                canvas.drawLine(textRPos, height / 2f, width - periodLine, height / 2f, paint)
+                paint.style = Paint.Style.FILL
 
-                val rectr = RectF(textRPos,
-                        height / 2f - periodLine / 2,
-                        width - periodLine.toFloat(),
-                        height / 2f + periodLine / 2)
-                canvas.drawRect(rectr, paint)
-
-                val arrowSize = (periodLine * 2.5f).toInt()
-
-                val a = Point(0, height / 2)
-                val b = Point(arrowSize, height / 2 - arrowSize)
-                val c = Point(arrowSize, height / 2  + arrowSize)
-
-                val leftArrow = Path()
-                leftArrow.fillType = Path.FillType.EVEN_ODD
-                leftArrow.moveTo(a.x.toFloat(), a.y.toFloat())
-                leftArrow.lineTo(b.x.toFloat(), b.y.toFloat())
-                leftArrow.lineTo(c.x.toFloat(), c.y.toFloat())
-                leftArrow.lineTo(a.x.toFloat(), a.y.toFloat())
-                leftArrow.close()
-                canvas.drawPath(leftArrow, paint)
-
-                val e = Point(width, height / 2)
-                val f = Point(width - arrowSize, height / 2 - arrowSize)
-                val g = Point(width - arrowSize, height / 2  + arrowSize)
-
-                val rightArrow = Path()
-                rightArrow.fillType = Path.FillType.EVEN_ODD
-                rightArrow.moveTo(e.x.toFloat(), e.y.toFloat())
-                rightArrow.lineTo(f.x.toFloat(), f.y.toFloat())
-                rightArrow.lineTo(g.x.toFloat(), g.y.toFloat())
-                rightArrow.lineTo(e.x.toFloat(), e.y.toFloat())
-                rightArrow.close()
-                canvas.drawPath(rightArrow, paint)
+                if(shape == Shape.ARROW || shape == Shape.DASH_ARROW) {
+                    val arrowSize = (periodLine * 2.5f).toInt()
+                    drawArrow(canvas, 0, height / 2, arrowSize, height / 2 - arrowSize, arrowSize, height / 2  + arrowSize)
+                    drawArrow(canvas, width, height / 2, width - arrowSize, height / 2 - arrowSize, width - arrowSize, height / 2  + arrowSize)
+                }else {
+                    canvas.drawRect(0f, height / 2f - periodLine * 2.5f, periodLine, height / 2f + periodLine * 2, paint)
+                    canvas.drawRect(width - periodLine, height / 2f - periodLine * 2.5f, width.toFloat(), height / 2f + periodLine * 2, paint)
+                }
             }
         }
         if(record.isSetCheckBox()) {
             drawCheckBox(canvas, (textLPos + defaulMargin).toInt())
         }
+        canvas.translate(-scrollX.toFloat(), 0f)
+    }
+
+    private fun drawArrow(canvas: Canvas, x1: Int, y1: Int, x2: Int, y2: Int, x3: Int, y3: Int){
+        val a = Point(x1, y1)
+        val b = Point(x2, y2)
+        val c = Point(x3, y3)
+        val arrow = Path()
+        arrow.fillType = Path.FillType.EVEN_ODD
+        arrow.moveTo(a.x.toFloat(), a.y.toFloat())
+        arrow.lineTo(b.x.toFloat(), b.y.toFloat())
+        arrow.lineTo(c.x.toFloat(), c.y.toFloat())
+        arrow.lineTo(a.x.toFloat(), a.y.toFloat())
+        arrow.close()
+        canvas.drawPath(arrow, paint)
     }
 
     private fun drawDot(canvas: Canvas) {
@@ -499,7 +476,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         var top = height - size - sidePadding
         var left = sidePadding
         childList?.forEach { child ->
-            val circle = resource.getDrawable(R.drawable.s_608)
+            val circle = resource.getDrawable(R.drawable.s_coin)
             circle.setBounds(left, top, (left + size), (top + size))
             circle.draw(canvas)
         }
@@ -517,14 +494,14 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         if(record.isDone()) {
             //view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             val check = resource.getDrawable(R.drawable.check)
-            check.setColorFilter(record.getColor(), PorterDuff.Mode.SRC_ATOP)
+            check.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
             check.setBounds(xOffset, (centerY - radius).toInt(),
                     xOffset + checkboxSize, (centerY + radius).toInt())
             check.draw(canvas)
         }else {
             paint.style = Paint.Style.STROKE
             val check = resource.getDrawable(R.drawable.uncheck)
-            check.setColorFilter(record.getColor(), PorterDuff.Mode.SRC_ATOP)
+            check.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
             check.setBounds(xOffset, (centerY - radius).toInt(),
                     xOffset + checkboxSize, (centerY + radius).toInt())
             check.draw(canvas)

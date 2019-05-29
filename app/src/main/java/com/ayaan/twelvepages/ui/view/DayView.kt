@@ -59,8 +59,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         initRecyclerView()
         elevation = 0f
         radius = 0f
-        dateText.typeface = AppTheme.bFont
-        dowText.typeface = AppTheme.bFont
+        dateText.typeface = AppTheme.boldCFont
+        dowText.typeface = AppTheme.boldCFont
         holiText.typeface = AppTheme.boldFont
         dateLy.clipChildren = false
         dateLy.pivotX = 0f

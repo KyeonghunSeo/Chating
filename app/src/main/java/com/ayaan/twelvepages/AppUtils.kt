@@ -31,6 +31,7 @@ import androidx.transition.Slide
 import androidx.transition.Transition
 import com.ayaan.twelvepages.ui.view.CalendarView
 import com.ayaan.twelvepages.ui.view.base.Line
+import es.dmoral.toasty.Toasty
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -422,12 +423,12 @@ fun setGlobalTheme(view: View?) {
     }
 }
 
-fun toast(text: String) {
-    Toast.makeText(App.context, text, Toast.LENGTH_SHORT).show()
+fun toast(strId: Int) {
+    Toasty.custom(App.context, strId, 0, R.color.dim, Toast.LENGTH_SHORT, false, true).show()
 }
 
-fun toast(stringId: Int) {
-    toast(App.context.getString(stringId))
+fun toast(strId: Int, imgId: Int) {
+    Toasty.custom(App.context, strId, imgId, R.color.dim, Toast.LENGTH_SHORT, true, true).show()
 }
 
 fun getScreenSize(context: Context) : IntArray {

@@ -175,7 +175,7 @@ class RepeatDialog(private val activity: Activity, record: Record,
             untilDateText.visibility = View.GONE
             untilText.setTextColor(AppTheme.secondaryText)
         }else {
-            untilCheck.setImageResource(R.drawable.sharp_done_black_48dp)
+            untilCheck.setImageResource(R.drawable.done)
             untilCheck.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
             untilDateText.visibility = View.VISIBLE
             untilText.setTextColor(AppTheme.primaryText)
@@ -185,7 +185,7 @@ class RepeatDialog(private val activity: Activity, record: Record,
 
     private fun setMonthlyLy() {
         if(monthOption == 0) {
-            monthlyCheck.setImageResource(R.drawable.sharp_done_black_48dp)
+            monthlyCheck.setImageResource(R.drawable.done)
             monthlyCheck.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
             monthlyText.setTextColor(AppTheme.primaryText)
 
@@ -197,7 +197,7 @@ class RepeatDialog(private val activity: Activity, record: Record,
             monthlyCheck.setBackgroundResource(R.drawable.normal_rect_stroke)
             monthlyText.setTextColor(AppTheme.secondaryText)
 
-            monthlyWCheck.setImageResource(R.drawable.sharp_done_black_48dp)
+            monthlyWCheck.setImageResource(R.drawable.done)
             monthlyWCheck.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
             monthlyWText.setTextColor(AppTheme.primaryText)
         }
