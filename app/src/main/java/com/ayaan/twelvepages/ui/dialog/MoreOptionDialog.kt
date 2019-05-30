@@ -59,7 +59,7 @@ class MoreOptionDialog(activity: Activity, private val record: Record,
         }
 
         alarmBtn.setOnClickListener {
-            recordActivity.addNewAlarm()
+            recordActivity.showAlarmDialog()
             dismiss()
         }
 

@@ -1,6 +1,11 @@
 package com.ayaan.twelvepages.model
 
+import com.ayaan.twelvepages.App
+import com.ayaan.twelvepages.AppDateFormat
+import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
+import com.ayaan.twelvepages.alarm.AlarmManager
+import com.ayaan.twelvepages.tempCal
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -32,8 +37,11 @@ open class Template(@PrimaryKey var id: String? = null,
         if (type != other.type) return false
         if (colorKey != other.colorKey) return false
         if (style != other.style) return false
+        if (recordTitle != other.recordTitle) return false
+        if (recordTitleSelection != other.recordTitleSelection) return false
+        if (alarmOffset != other.alarmOffset) return false
         if (folder != other.folder) return false
-        if (tags != other.tags) return false
+        if (tags.joinToString(",") != other.tags.joinToString(",")) return false
 
         return true
     }
@@ -68,6 +76,20 @@ open class Template(@PrimaryKey var id: String? = null,
     fun isSetMemo() = type and memoFlag == memoFlag
     fun setMemo() { type = type or memoFlag }
     fun clearMemo() { type = type and memoFlag.inv() }
+
+    fun getAlarmText(): String {
+        return if(alarmOffset != Long.MIN_VALUE) {
+            val result = AlarmManager.getTimeObjectAlarmText(alarmOffset)
+            if(result != null) {
+                result
+            }else {
+                tempCal.timeInMillis = alarmOffset
+                AppDateFormat.time.format(tempCal.time)
+            }
+        }else {
+            App.context.getString(R.string.unuse)
+        }
+    }
 
     override fun toString(): String {
         return "Template(id=$id, title=$title, type=$type, colorKey=$colorKey, style=$style, folder=$folder, tags=$tags, order=$order)"

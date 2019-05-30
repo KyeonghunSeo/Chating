@@ -2,6 +2,7 @@ package com.ayaan.twelvepages.model
 
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
+import com.ayaan.twelvepages.alarm.AlarmManager
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -248,4 +249,39 @@ open class Record(@PrimaryKey var id: String? = null,
     fun getTitleInCalendar() = if(!title.isNullOrBlank())
         title?.replace(System.getProperty("line.separator"), " ")
     else App.context.getString(R.string.untitle)
+
+    fun setAlarm(offset: Long, dtAlarm: Long) {
+        if(alarms.isEmpty()) {
+            alarms.add(Alarm(UUID.randomUUID().toString()).apply {
+                this.offset = offset
+                if (offset != Long.MIN_VALUE) {
+                    this.dtAlarm = dtStart + offset
+                } else {
+                    this.dtAlarm = dtAlarm
+                }
+            })
+        }else {
+            alarms.first()?.let {
+                it.offset = offset
+                if (offset != Long.MIN_VALUE) {
+                    it.dtAlarm = dtStart + offset
+                } else {
+                    it.dtAlarm = dtAlarm
+                }
+            }
+        }
+    }
+    fun getAlarmOffset(): Long {
+        return if(alarms.isEmpty()) 0
+        else alarms.first()!!.offset
+    }
+    fun getDtAlarm(): Long {
+        return if(alarms.isEmpty()) Long.MIN_VALUE
+        else alarms.first()!!.dtAlarm
+    }
+    fun removeAlarm() { alarms.clear() }
+    fun isSetAlarm() = alarms.isNotEmpty()
+    fun getAlarmText(): String = alarms.joinToString(", ") {
+        AlarmManager.getTimeObjectAlarmText(it.offset) ?: AppDateFormat.dateTime.format(it.dtAlarm)
+    }
 }

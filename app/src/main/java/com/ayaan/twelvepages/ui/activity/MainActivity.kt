@@ -52,6 +52,8 @@ class MainActivity : BaseActivity() {
         fun getMainPanel() = instance?.mainPanel
         fun getCalendarPagerView() = instance?.calendarPagerView
         fun getMainDateLy() = instance?.mainDateLy
+        fun getMainMonthText() = instance?.mainMonthYearLy
+        fun getWeekText() = instance?.weekText
         fun getProfileBtn() = instance?.profileBtn
         fun getTemplateView() = instance?.templateView
         fun getTargetTemplate() = getViewModel()?.targetTemplate?.value
@@ -108,7 +110,7 @@ class MainActivity : BaseActivity() {
         when(action) {
             2 -> {
                 bundle?.let {
-                    viewModel.setTargetTimeObjectById(bundle.getString("timeObjectId"))
+                    viewModel.setTargetTimeObjectById(bundle.getString("recordId"))
                 }
             }
         }
@@ -313,7 +315,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun refreshAll() {
-        l("refreshAll")
+        l("[메인 새로고침]")
         val folder = getTargetFolder()
         if(folder.type == 0) {
             calendarLy.visibility = View.VISIBLE
@@ -334,6 +336,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun updateUserUI(appUser: AppUser) {
+        l("[프로필 갱신]")
         updateProfileImage()
         profileView.updateUserUI(appUser)
     }

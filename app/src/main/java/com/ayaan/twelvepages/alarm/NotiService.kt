@@ -15,7 +15,7 @@ class NotiService : Service() {
             val bundle = Bundle()
 
             when(action) {
-                2 -> bundle.putString("timeObjectId", intent.getStringExtra("timeObjectId"))
+                2 -> bundle.putString("recordId", intent.getStringExtra("recordId"))
             }
 
             if(MainActivity.isShowing) {

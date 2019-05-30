@@ -62,19 +62,25 @@
         <item>Sat</item>
     </string-array>
 
+    <string name="alarm_at_time">당일 당시</string>
+    <string name="alarm_at_9h">당일 오전 9시</string>
+    <string name="alarm_at_12h">당일 정오</string>
+    <string name="alarm_at_18h">당일 오후 6시</string>
+    <string name="alarm_at_b30m">30분 전</string>
+    <string name="alarm_at_b1h">1시간 전</string>
+    <string name="alarm_at_b1d">하루 전</string>
+    <string name="alarm_at_b1w">1주일 전</string>
+    <string name="delete_alarm">알림제거</string>
+
     <string-array name="alarms">
-        <item>@string/event_at_time</item>
-        <item>당일 오전 9시</item>
-        <item>당일 오후 12시</item>
-        <item>당일 오후 6시</item>
-        <item>10분 전</item>
-        <item>30분 전</item>
-        <item>1시간 전</item>
-        <item>2시간 전</item>
-        <item>하루 전</item>
-        <item>이틀 전</item>
-        <item>1주일 전</item>
-        <item>직접입력</item>
+        <item>@string/alarm_at_time</item>
+        <item>@string/alarm_at_9h</item>
+        <item>@string/alarm_at_12h</item>
+        <item>@string/alarm_at_18h</item>
+        <item>@string/alarm_at_b30m</item>
+        <item>@string/alarm_at_b1h</item>
+        <item>@string/alarm_at_b1d</item>
+        <item>@string/alarm_at_b1w</item>
     </string-array>
 
     <string name="no_repeat">반복없음</string>
@@ -90,7 +96,6 @@
     <string name="advanced_setting">고급 설정</string>
     <string name="until">%1$s 까지</string>
 
-    <string name="event_at_time">이벤트 당시</string>
     <string name="passed_alarm">지난 알림</string>
     <string name="ring_alarm_at_time">%1$s 알림</string>
     <string name="repeat">반복</string>
@@ -243,15 +248,15 @@
     <string name="init_text">미리 입력</string>
     <string name="init_text_hint">이곳에 미리 입력할 내용을 적어주세요. 커서의 시작 위치도 정할수 있습니다.</string>
     <string name="cursor_pos">커서위치 : %1$s</string>
-    <string name="use">사용</string>
-    <string name="unuse">사용안함</string>
+    <string name="use">활성</string>
+    <string name="unuse">비활성</string>
     <string name="calendarBlockStyle">캘린더 표시 스타일</string>
     <string name="image">그림</string>
     <string name="shape">모양</string>
     <string name="preview">미리보기</string>
     <string name="edit_done">편집 완료</string>
     <string name="apply_textcolor">글씨에도 적용</string>
-    <string name="custom_time">맞춤 시간</string>
+    <string name="custom_time">맞춤 알림 시간</string>
 
     <string-array name="formulas">
         <item>기본</item>

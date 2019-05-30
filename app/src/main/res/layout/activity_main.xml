@@ -50,7 +50,8 @@
                             android:orientation="horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="23dp"
-                            android:animateLayoutChanges="true">
+                            android:animateLayoutChanges="true"
+                            android:transformPivotX="0dp">
 
                             <TextView
                                 android:id="@+id/monthText"
@@ -59,7 +60,7 @@
                                 android:gravity="center_vertical"
                                 android:textColor="@color/primaryText"
                                 android:includeFontPadding="false"
-                                android:textSize="20dp"
+                                android:textSize="19dp"
                                 android:fontFamily="@font/bold_c"
                                 android:text="JUNE"/>
 
@@ -71,7 +72,7 @@
                                 android:includeFontPadding="false"
                                 android:layout_marginLeft="5dp"
                                 android:textColor="@color/primaryText"
-                                android:textSize="20dp"
+                                android:textSize="19dp"
                                 android:fontFamily="@font/bold_c"
                                 android:text="2019"/>
 

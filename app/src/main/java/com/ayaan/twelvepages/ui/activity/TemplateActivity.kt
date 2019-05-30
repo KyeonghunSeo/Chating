@@ -11,6 +11,7 @@ import com.ayaan.twelvepages.ui.dialog.*
 import es.dmoral.toasty.Toasty
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_template.*
+import java.text.DateFormat
 import java.util.*
 
 class TemplateActivity : BaseActivity() {
@@ -71,10 +72,21 @@ class TemplateActivity : BaseActivity() {
     }
 
     private fun updateAlarmUI() {
-        if(template.alarmOffset != Long.MIN_VALUE) {
-            //alarmText.text = AlarmManager.getTimeObjectAlarmText(alarm)
-        }else {
-            //alarmText.text = AlarmManager.getTimeObjectAlarmText(alarm)
+        alarmText.text = template.getAlarmText()
+        alarmBtn.setOnClickListener {
+            showDialog(AlarmPickerDialog(this, if(template.alarmOffset != Long.MIN_VALUE) template.alarmOffset else 0,
+                    Long.MAX_VALUE) { result, offset, dtAlarm ->
+                if (result) {
+                    if(offset != Long.MIN_VALUE) {
+                        template.alarmOffset = offset
+                    }else {
+                        template.alarmOffset = dtAlarm
+                    }
+                } else {
+                    template.alarmOffset = Long.MIN_VALUE
+                }
+                updateAlarmUI()
+            }, true, true, true, false)
         }
     }
 

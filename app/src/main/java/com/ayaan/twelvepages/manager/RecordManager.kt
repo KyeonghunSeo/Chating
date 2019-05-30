@@ -114,7 +114,7 @@ object RecordManager {
             if(record.alarms.isNotEmpty()) {
                 record.alarms.sortBy { it.dtAlarm }
                 var registedAlarm = realm.where(RegistedAlarm::class.java)
-                        .equalTo("timeObjectId", record.id).findFirst()
+                        .equalTo("recordId", record.id).findFirst()
 
                 if(registedAlarm != null){
                     AlarmManager.unRegistTimeObjectAlarm(registedAlarm.requestCode)

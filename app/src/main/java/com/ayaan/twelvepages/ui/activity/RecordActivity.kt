@@ -351,15 +351,15 @@ class RecordActivity : BaseActivity() {
             }
 
             if(record.isSetTime()) {
-                smallStartText.text = AppDateFormat.ymDate.format(startCal.time)
-                bigStartText.text = "${AppDateFormat.date.format(startCal.time)} ${AppDateFormat.simpleDow.format(startCal.time)}"
-                smallEndText.text = AppDateFormat.ymDate.format(endCal.time)
-                bigEndText.text = "${AppDateFormat.date.format(endCal.time)} ${AppDateFormat.simpleDow.format(endCal.time)}"
-            }else {
                 smallStartText.text = AppDateFormat.ymdDate.format(startCal.time)
                 bigStartText.text = AppDateFormat.time.format(startCal.time)
                 smallEndText.text = AppDateFormat.ymdDate.format(endCal.time)
                 bigEndText.text = AppDateFormat.time.format(endCal.time)
+            }else {
+                smallStartText.text = AppDateFormat.ymDate.format(startCal.time)
+                bigStartText.text = "${AppDateFormat.date.format(startCal.time)} ${AppDateFormat.simpleDow.format(startCal.time)}"
+                smallEndText.text = AppDateFormat.ymDate.format(endCal.time)
+                bigEndText.text = "${AppDateFormat.date.format(endCal.time)} ${AppDateFormat.simpleDow.format(endCal.time)}"
             }
 
             if(startCal == endCal) {
@@ -376,9 +376,9 @@ class RecordActivity : BaseActivity() {
     }
 
     fun showStartEndDialog() {
-        showDialog(StartEndPickerDialog(this, record) { sCal, eCal, allday ->
+        showDialog(StartEndPickerDialog(this, record) { sCal, eCal, isSetTime ->
             record.setSchedule()
-            record.setDateTime(allday, sCal, eCal)
+            record.setDateTime(isSetTime, sCal, eCal)
             updateUI()
         }, true, true, true, false)
     }
@@ -435,11 +435,11 @@ class RecordActivity : BaseActivity() {
     }
 
     private fun updateAlarmUI() {
-        if(record.alarms.isNotEmpty()) {
+        if(record.isSetAlarm()) {
             alarmLy.visibility = View.VISIBLE
             record.alarms[0]?.let { alarm ->
-                alarmText.text = AlarmManager.getTimeObjectAlarmText(alarm)
-                alarmLy.setOnClickListener { showAlarmDialog(alarm) }
+                alarmText.text = record.getAlarmText()
+                alarmLy.setOnClickListener { showAlarmDialog() }
             }
         }else {
             alarmLy.visibility = View.GONE
@@ -562,27 +562,12 @@ class RecordActivity : BaseActivity() {
         startActivity(intent)
     }
 
-    fun addNewAlarm() {
-        val alarm = Alarm(UUID.randomUUID().toString(), record.dtStart, 0, 0)
-        record.alarms.add(alarm)
-        showAlarmDialog(alarm)
-    }
-
-    private fun showAlarmDialog(alarm: Alarm) {
-        showDialog(AlarmPickerDialog(this, record, alarm) { result, offset ->
+    fun showAlarmDialog() {
+        showDialog(AlarmPickerDialog(this, record.getAlarmOffset(), record.getDtAlarm()) { result, offset, dtAlarm ->
             if (result) {
-                alarm.offset = offset
-                if (offset != Long.MIN_VALUE) {
-                    alarm.dtAlarm = record.dtStart + offset
-                } else {
-                    alarm.dtAlarm = record.dtStart
-                    showTimePicker(alarm.dtAlarm) {
-                        alarm.dtAlarm = it
-                        updateAlarmUI()
-                    }
-                }
+                record.setAlarm(offset, dtAlarm)
             } else {
-                record.alarms.remove(alarm)
+                record.removeAlarm()
             }
             updateAlarmUI()
         }, true, true, true, false)

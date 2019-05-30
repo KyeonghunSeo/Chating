@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ayaan.twelvepages.*
-import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Link
@@ -65,20 +64,20 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val timeObject = items[position]
+        val record = items[position]
         val v = holder.itemView
 
-        v.setOnClickListener { onItemClick(timeObject) }
+        v.setOnClickListener { onItemClick(record) }
         v.setOnLongClickListener {
             itemTouchHelper?.startDrag(holder)
             return@setOnLongClickListener false
         }
 
-        v.iconImg.setColorFilter(timeObject.getColor())
+        v.iconImg.setColorFilter(record.getColor())
 
-        if(timeObject.isSetCheckBox()) {
+        if(record.isSetCheckBox()) {
             v.iconImg.setPadding(checkBoxPadding, checkBoxPadding, checkBoxPadding, checkBoxPadding)
-            if(timeObject.isDone()) {
+            if(record.isDone()) {
                 v.iconImg.setImageResource(R.drawable.check)
                 v.iconImg.alpha = 0.4f
                 v.contentLy.alpha = 0.4f
@@ -91,7 +90,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             }
             v.iconImg.setOnClickListener {
                 vibrate(context)
-                RecordManager.done(timeObject)
+                RecordManager.done(record)
             }
         }else {
             v.iconImg.setPadding(circlePadding, circlePadding, circlePadding, circlePadding)
@@ -102,30 +101,30 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 
-        if(timeObject.isScheduled()) {
+        if(record.isScheduled()) {
             v.timeLy.visibility = View.VISIBLE
-            val totalDate = getDiffDate(timeObject.dtStart, timeObject.dtEnd) + 1
+            val totalDate = getDiffDate(record.dtStart, record.dtEnd) + 1
             if(totalDate == 1) {
-                if(timeObject.isSetTime()) {
-                    if(timeObject.dtStart == timeObject.dtEnd) {
-                        v.timeText.text = AppDateFormat.time.format(Date(timeObject.dtStart))
+                if(record.isSetTime()) {
+                    if(record.dtStart == record.dtEnd) {
+                        v.timeText.text = AppDateFormat.time.format(Date(record.dtStart))
                     }else {
-                        v.timeText.text = "${AppDateFormat.time.format(Date(timeObject.dtStart))} ~ " +
-                                AppDateFormat.time.format(Date(timeObject.dtEnd))
+                        v.timeText.text = "${AppDateFormat.time.format(Date(record.dtStart))} ~ " +
+                                AppDateFormat.time.format(Date(record.dtEnd))
                     }
                 }else {
                     v.timeLy.visibility = View.GONE
                 }
             }else {
-                tempCal.timeInMillis = timeObject.dtStart
+                tempCal.timeInMillis = record.dtStart
                 val toDateNum = getDiffDate(tempCal, currentCal)
-                if(timeObject.isSetTime()) {
-                    v.timeText.text = "${AppDateFormat.dateTime.format(Date(timeObject.dtStart))} ~ " +
-                            AppDateFormat.dateTime.format(Date(timeObject.dtEnd)) +
+                if(record.isSetTime()) {
+                    v.timeText.text = "${AppDateFormat.dateTime.format(Date(record.dtStart))} ~ " +
+                            AppDateFormat.dateTime.format(Date(record.dtEnd)) +
                             " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"
                 }else {
-                    v.timeText.text = "${AppDateFormat.mdDate.format(Date(timeObject.dtStart))} ~ " +
-                            AppDateFormat.mdDate.format(Date(timeObject.dtEnd)) +
+                    v.timeText.text = "${AppDateFormat.mdDate.format(Date(record.dtStart))} ~ " +
+                            AppDateFormat.mdDate.format(Date(record.dtEnd)) +
                             " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"
                 }
             }
@@ -133,39 +132,39 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.timeLy.visibility = View.GONE
         }
 
-        if(timeObject.tags.isNotEmpty()) {
+        if(record.tags.isNotEmpty()) {
             v.tagText.visibility = View.VISIBLE
-            v.tagText.text = timeObject.tags.joinToString("") { "#${it.title}" }
+            v.tagText.text = record.tags.joinToString("") { "#${it.title}" }
         }else {
             v.tagText.visibility = View.GONE
         }
 
-        if(timeObject.title.isNullOrBlank()) {
+        if(record.title.isNullOrBlank()) {
             v.titleText.text = context.getString(R.string.untitle)
         }else {
             if(!query.isNullOrEmpty()){
-                highlightQuery(v.titleText, timeObject.title!!)
+                highlightQuery(v.titleText, record.title!!)
             }else {
-                v.titleText.text = timeObject.title?.trim()
+                v.titleText.text = record.title?.trim()
             }
         }
 
-        if(timeObject.description.isNullOrBlank()) {
+        if(record.description.isNullOrBlank()) {
             v.memoLy.visibility = View.GONE
         }else {
             v.memoLy.visibility = View.VISIBLE
             if(!query.isNullOrEmpty()){
-                highlightQuery(v.memoText, timeObject.description!!)
+                highlightQuery(v.memoText, record.description!!)
             }else {
-                v.memoText.text = timeObject.description?.trim()
+                v.memoText.text = record.description?.trim()
             }
         }
 
-        if(timeObject.location.isNullOrBlank()) {
+        if(record.location.isNullOrBlank()) {
             v.locationLy.visibility = View.GONE
         }else {
             v.locationLy.visibility = View.VISIBLE
-            val locText = timeObject.location?.replace("\n", " - ")
+            val locText = record.location?.replace("\n", " - ")
             if(!query.isNullOrEmpty()){
                 highlightQuery(v.locationText, locText!!)
             }else {
@@ -173,23 +172,22 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             }
         }
 
-        if(timeObject.alarms.isNotEmpty()) {
-            v.alarmText.text = timeObject.alarms.joinToString(", ") {
-                AlarmManager.getTimeObjectAlarmText(it) }
+        if(record.alarms.isNotEmpty()) {
+            v.alarmText.text = record.getAlarmText()
             v.alarmLy.visibility = View.VISIBLE
         }else {
             v.alarmLy.visibility = View.GONE
         }
 
-        if(!timeObject.repeat.isNullOrBlank()) {
+        if(!record.repeat.isNullOrBlank()) {
             v.repeatLy.visibility = View.VISIBLE
-            v.repeatText.text = RepeatManager.makeRepeatText(timeObject)
+            v.repeatText.text = RepeatManager.makeRepeatText(record)
         }else {
             v.repeatLy.visibility = View.GONE
         }
 
-        if(timeObject.links.any { it.type == Link.Type.IMAGE.ordinal }){
-            val list = timeObject.links.filter{ it.type == Link.Type.IMAGE.ordinal }
+        if(record.links.any { it.type == Link.Type.IMAGE.ordinal }){
+            val list = record.links.filter{ it.type == Link.Type.IMAGE.ordinal }
 
             Glide.with(context).load(list[0].properties).into(v.mainImgView)
 
@@ -216,8 +214,8 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.imageLy.visibility = View.GONE
         }
 
-        if(timeObject.links.any { it.type == Link.Type.WEB.ordinal }){
-            val link = timeObject.links.first{ it.type == Link.Type.WEB.ordinal }
+        if(record.links.any { it.type == Link.Type.WEB.ordinal }){
+            val link = record.links.first{ it.type == Link.Type.WEB.ordinal }
             val properties = JSONObject(link.properties)
             val url = properties.getString("url")
             val imageurl = properties.getString("imageurl")

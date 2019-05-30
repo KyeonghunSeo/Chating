@@ -70,7 +70,7 @@ object AlarmManager {
 
     fun registTimeObjectAlarm(record: Record, registedAlarm: RegistedAlarm) {
         val intent = Intent(App.context, RecordAlarmReceiver::class.java)
-        intent.putExtra("timeObjectId", record.id)
+        intent.putExtra("recordId", record.id)
         record.alarms
                 .asSequence()
                 .filter { it.dtAlarm >= System.currentTimeMillis() }
@@ -104,18 +104,16 @@ object AlarmManager {
         }
     }
 
-    fun getTimeObjectAlarmText(alarm: Alarm) : String = when(alarm.offset) {
+    fun getTimeObjectAlarmText(offset: Long) : String? = when(offset) {
         0L -> alarmOffsetStrings[0]
         1000L * 60 * 60 * 9 -> alarmOffsetStrings[1]
         1000L * 60 * 60 * 12 -> alarmOffsetStrings[2]
         1000L * 60 * 60 * 18 -> alarmOffsetStrings[3]
-        -1000L * 60 * 10 -> alarmOffsetStrings[4]
-        -1000L * 60 * 30 -> alarmOffsetStrings[5]
-        -1000L * 60 * 60 -> alarmOffsetStrings[6]
-        -1000L * 60 * 120 -> alarmOffsetStrings[7]
-        -1000L * 60 * 60 * 24 -> alarmOffsetStrings[8]
-        -1000L * 60 * 60 * 24 * 2 -> alarmOffsetStrings[9]
-        -1000L * 60 * 60 * 24 * 7 -> alarmOffsetStrings[10]
-        else -> AppDateFormat.dateTime.format(Date(alarm.dtAlarm))
+        -1000L * 60 * 30 -> alarmOffsetStrings[4]
+        -1000L * 60 * 60 -> alarmOffsetStrings[5]
+        -1000L * 60 * 60 * 24 -> alarmOffsetStrings[6]
+        -1000L * 60 * 60 * 24 * 7 -> alarmOffsetStrings[7]
+        else -> null
     }
+
 }

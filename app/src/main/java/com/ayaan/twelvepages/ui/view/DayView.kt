@@ -42,11 +42,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val newList = ArrayList<Record>()
     private val dateInfo = DateInfoManager.DateInfo()
 
-    private val adapter = RecordListAdapter(context, currentList, targetCal) { view, timeObject, action ->
-        when(action) {
-
-        }
-    }
+    private val adapter = RecordListAdapter(context, currentList, targetCal) { view, record, action -> }
 
     var startTime: Long = 0
     var endTime: Long = 0
@@ -213,10 +209,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "translationY", 0f, dowPosY),
                 ObjectAnimator.ofFloat(holiText, "translationX", 0f, holiPosX),
                 ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", 1f, mainDateScale),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", 1f, mainDateScale),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "scaleX", 1f, mainDateScale),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "scaleY", 1f, mainDateScale),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationX", 0f, mainDateLyX),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", 0f, mainDateLyY),
+                ObjectAnimator.ofFloat(MainActivity.getWeekText(), "translationY", 0f, weekTextY),
                 ObjectAnimator.ofFloat(bar, "scaleX", 1f, barScale),
                 ObjectAnimator.ofFloat(bar, "scaleY", 1f, 2f),
                 ObjectAnimator.ofFloat(bar, "translationX", 0f, barX),
@@ -243,10 +240,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "translationY", dowPosY, 0f),
                 ObjectAnimator.ofFloat(holiText, "translationX", holiPosX, 0f),
                 ObjectAnimator.ofFloat(holiText, "translationY", holiPosY, 0f),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", mainDateScale, 1f),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", mainDateScale, 1f),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "scaleX", mainDateScale, 1f),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "scaleY", mainDateScale, 1f),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationX", mainDateLyX, 0f),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", mainDateLyY, 0f),
+                ObjectAnimator.ofFloat(MainActivity.getWeekText(), "translationY", weekTextY, 0f),
                 ObjectAnimator.ofFloat(bar, "scaleX", barScale, 1f),
                 ObjectAnimator.ofFloat(bar, "scaleY", 2f, 1f),
                 ObjectAnimator.ofFloat(bar, "translationX", barX, 0f),
@@ -271,11 +269,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.translationX = holiPosX
         holiText.translationY = holiPosY
         MainActivity.getMainDateLy()?.let {
-            it.scaleX = mainDateScale
-            it.scaleY = mainDateScale
             it.translationX = mainDateLyX
             it.translationY = mainDateLyY
         }
+        MainActivity.getMainMonthText()?.let {
+            it.scaleX = mainDateScale
+            it.scaleY = mainDateScale
+        }
+        MainActivity.getWeekText()?.translationY = weekTextY
         bar.scaleX = barScale
         bar.scaleY = 2f
         bar.translationX = barX
@@ -298,11 +299,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.translationX = 0f
         holiText.translationY = 0f
         MainActivity.getMainDateLy()?.let {
-            it.scaleX = 1f
-            it.scaleY = 1f
             it.translationX = 0f
             it.translationY = 0f
         }
+        MainActivity.getMainMonthText()?.let {
+            it.scaleX = 1f
+            it.scaleY = 1f
+        }
+        MainActivity.getWeekText()?.translationY = 0f
         bar.scaleX = 1f
         bar.scaleY = 1f
         bar.translationX = 0f
@@ -311,17 +315,18 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     companion object {
         const val headerTextScale = 5.5f
+        val weekTextY = -dpToPx(3.0f)
         val datePosX = dpToPx(16.0f)
         val datePosY = -dpToPx(1.0f)
         val dowPosX = -dpToPx(0.00f)
         val dowPosY = dpToPx(9.6f)
-        val dowScale = 0.27f
+        val dowScale = 0.315f
         val holiPosX = dpToPx(15.1f)
-        val holiPosY = dpToPx(0.4f)
-        val holiScale = 0.30f
+        val holiPosY = dpToPx(0.65f)
+        val holiScale = 0.33f
         val mainDateLyX = dpToPx(80.7f)
-        val mainDateLyY = dpToPx(15.0f)
-        val mainDateScale = 0.90f
+        val mainDateLyY = dpToPx(14.6f)
+        val mainDateScale = 0.83f
         val barX = dpToPx(100.0f)
         val barY = dpToPx(23.0f)
         val barScale = 0.25f

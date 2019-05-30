@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.*
 import com.ayaan.twelvepages.ui.activity.MainActivity
@@ -41,7 +42,7 @@ class MainViewModel : ViewModel() {
             loadAppUser()
         }else {
             loading.value = true
-            val config = SyncUser.current()
+            val config = syncUser
                     .createConfiguration(USER_URL)
                     .fullSynchronization()
                     .waitForInitialRemoteData()
@@ -164,7 +165,7 @@ class MainViewModel : ViewModel() {
         targetRecord.value = makeTimeObjectByTatgetTemplate(startTime, endTime)
     }
 
-    fun makeTimeObjectByTatgetTemplate(startTime: Long, endTime: Long) =
+    private fun makeTimeObjectByTatgetTemplate(startTime: Long, endTime: Long) =
             RecordManager.makeNewRecord(startTime, endTime).apply {
                 targetTemplate.value?.let {
                     title = it.recordTitle ?: ""
@@ -174,6 +175,19 @@ class MainViewModel : ViewModel() {
                     tags.addAll(it.tags)
                     if(it.isScheduled()) setSchedule()
                     if(it.isSetCheckBox()) setCheckBox()
+                    if(it.alarmOffset != Long.MIN_VALUE) {
+                        if(AlarmManager.getTimeObjectAlarmText(it.alarmOffset) != null) {
+                            setAlarm(it.alarmOffset, 0)
+                        }else {
+                            tempCal.timeInMillis = it.alarmOffset
+                            val hour = tempCal.get(Calendar.HOUR_OF_DAY)
+                            val min = tempCal.get(Calendar.MINUTE)
+                            tempCal.timeInMillis = startTime
+                            tempCal.set(Calendar.HOUR_OF_DAY, hour)
+                            tempCal.set(Calendar.MINUTE, min)
+                            setAlarm(Long.MIN_VALUE, tempCal.timeInMillis)
+                        }
+                    }
                     return@let
                 }
                 folder = targetFolder.value

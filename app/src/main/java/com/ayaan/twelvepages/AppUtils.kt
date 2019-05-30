@@ -35,7 +35,7 @@ import es.dmoral.toasty.Toasty
 import java.io.ByteArrayOutputStream
 import java.util.*
 
-private val tempCal = Calendar.getInstance()
+val tempCal = Calendar.getInstance()
 private val tempCal2 = Calendar.getInstance()
 
 fun l(s: String){
@@ -140,6 +140,14 @@ fun getDiffYear(t1: Long, t2: Long): Int {
     tempCal.timeInMillis = t1
     tempCal2.timeInMillis = t2
     return tempCal2.get(Calendar.YEAR) - tempCal.get(Calendar.YEAR)
+}
+
+fun getTommorow9oclock() : Long {
+    tempCal.timeInMillis = System.currentTimeMillis()
+    tempCal.add(Calendar.DATE, 1)
+    getCalendarTime0(tempCal)
+    tempCal.set(Calendar.HOUR_OF_DAY, 9)
+    return tempCal.timeInMillis
 }
 
 fun copyYearMonthDate(toCal: Calendar, fromCal: Calendar) {

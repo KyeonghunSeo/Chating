@@ -18,7 +18,7 @@ class StartEndPickerDialog(activity: Activity, private val record: Record,
     private val startCal = Calendar.getInstance()
     private val endCal = Calendar.getInstance()
     private var startEndMode = 0
-    private var timeMode = if(record.isSetTime()) 0 else 1
+    private var timeMode = if(record.isSetTime()) 1 else 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,13 +44,13 @@ class StartEndPickerDialog(activity: Activity, private val record: Record,
         }
 
         confirmBtn.setOnClickListener {
-            onConfirmed.invoke(startCal, endCal, timeMode == 0)
+            onConfirmed.invoke(startCal, endCal, timeMode == 1)
             dismiss()
         }
 
         cancelBtn.setOnClickListener { dismiss() }
 
-        setTimeBtn.setOnClickListener { _ ->
+        setTimeBtn.setOnClickListener {
             timeMode = if(timeMode == 0) {
                 setTimeNearOClock(startCal)
                 setTime1HourInterval(startCal, endCal)
