@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
-import kotlinx.android.synthetic.main.list_item_tab.view.*
+import kotlinx.android.synthetic.main.list_item_chip.view.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 
 class ShapePickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -53,7 +53,7 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_tab, parent, false))
+                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_chip, parent, false))
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val v = holder.itemView

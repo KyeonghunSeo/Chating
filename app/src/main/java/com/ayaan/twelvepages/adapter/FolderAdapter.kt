@@ -72,7 +72,7 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>,
             //val textWidth = Math.min(maxTextWidth, v.titleText.paint.measureText(title).toInt())
             val textWidth = maxTextWidth
             v.contentLy.layoutParams.width = textWidth
-            v.rootLy.layoutParams.height = textWidth + itemSpace
+            v.rootLy.layoutParams.height = textWidth
             v.requestLayout()
             setTabViews(v, folder.id == MainActivity.getTargetFolder().id, position)
             v.setOnClickListener {
