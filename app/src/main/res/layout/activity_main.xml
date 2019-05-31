@@ -182,8 +182,6 @@
             android:layout_height="match_parent"
             android:layout_margin="-60dp"
             android:paddingBottom="90dp"
-            android:clipToPadding="false"
-            android:clipChildren="false"
             android:background="@color/disableText">
         </androidx.recyclerview.widget.RecyclerView>
 

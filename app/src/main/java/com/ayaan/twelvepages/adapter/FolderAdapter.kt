@@ -30,10 +30,10 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>,
                     private val adapterInterface: (action: Int, folder: Folder) -> Unit)
     : RecyclerView.Adapter<FolderAdapter.ViewHolder>() {
 
-    val itemWidth = dpToPx(70)
-    val maxTextWidth = dpToPx(200)
+    val itemWidth = dpToPx(60)
+    val maxTextWidth = dpToPx(160)
     val itemSpace = dpToPx(25)
-    val edgeSize = dpToPx(10f)
+    val edgeSize = dpToPx(25f)
     val backColor = AppTheme.primaryText
     val backTextColor = AppTheme.primaryText
     var itemTouchHelper: ItemTouchHelper? = null
@@ -49,6 +49,8 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>,
         init {
             setGlobalTheme(container)
             itemView.layoutParams.width = itemWidth
+            itemView.contentLy.layoutParams.width = maxTextWidth + 1
+            itemView.rootLy.layoutParams.height = maxTextWidth + 1
         }
         fun onItemSelected() {}
         fun onItemClear() {}
@@ -62,37 +64,23 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>,
         if(position < items.size) {
             val folder = items[position]
             v.iconImg.visibility = View.GONE
-
-            val title = if(folder.name.isNullOrBlank()) {
-                context.getString(R.string.untitle)
-            }else {
-                folder.name
-            }
-            v.titleText.text = title
-            //val textWidth = Math.min(maxTextWidth, v.titleText.paint.measureText(title).toInt())
-            val textWidth = maxTextWidth
-            v.contentLy.layoutParams.width = textWidth
-            v.rootLy.layoutParams.height = textWidth + itemSpace
-            v.requestLayout()
-            setTabViews(v, folder.id == MainActivity.getTargetFolder().id, position)
+            v.titleText.text = if(folder.name.isNullOrBlank()) context.getString(R.string.untitle) else folder.name
             v.setOnClickListener {
                 vibrate(context)
-                setTabViews(v, true, position)
                 adapterInterface.invoke(0, folder)
             }
-        }else {
-            v.titleText.text = ""
+            setTabViews(v, folder.id == MainActivity.getTargetFolder().id, position)
             v.edgeTop.visibility = View.GONE
             v.edgeBottom.visibility = View.GONE
-            v.divider.visibility = View.VISIBLE
+        }else {
+            v.titleText.text = ""
             v.contentLy.layoutParams.width = itemWidth
-            v.contentLy.cardElevation = dpToPx(0f)
             v.rootLy.layoutParams.height = itemWidth
             v.iconImg.visibility = View.VISIBLE
             v.iconImg.setImageResource(R.drawable.add)
             v.iconImg.setColorFilter(backTextColor)
             v.iconImg.alpha = 0.7f
-            v.contentLy.setCardBackgroundColor(Color.TRANSPARENT)
+            v.contentLy.setBackgroundColor(Color.TRANSPARENT)
             v.contentLy.translationX = edgeSize
             v.setOnClickListener { adapterInterface.invoke(1, Folder()) }
         }
@@ -100,21 +88,12 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>,
 
     private fun setTabViews(v: View, selected: Boolean, position: Int) {
         if(selected) {
-            v.edgeTop.visibility = View.VISIBLE
-            v.edgeBottom.visibility = View.VISIBLE
-            v.divider.visibility = if(position == 0) View.GONE else  View.VISIBLE
-            v.contentLy.setCardBackgroundColor(AppTheme.backgroundColor)
-            v.contentLy.cardElevation = dpToPx(4f)
+            v.contentLy.setBackgroundColor(AppTheme.backgroundColor)
             v.iconImg.setColorFilter(AppTheme.primaryText)
             v.titleText.setTextColor(AppTheme.primaryText)
             v.titleText.alpha = 1f
         }else {
-            v.edgeTop.visibility = View.GONE
-            v.edgeBottom.visibility = View.GONE
-            v.divider.visibility = View.VISIBLE
-            v.contentLy.setCardBackgroundColor(AppTheme.disableText)
-            v.contentLy.cardElevation = dpToPx(0f)
-            v.contentLy.translationX = edgeSize
+            v.contentLy.setBackgroundColor(AppTheme.disableText)
             v.iconImg.setColorFilter(backTextColor)
             v.titleText.setTextColor(backTextColor)
             v.titleText.alpha = 0.7f
@@ -133,59 +112,78 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>,
     fun refresh(list: RealmResults<Folder>) {
         l("[FolderList refresh]")
         val newItems = ArrayList<Folder>()
-        list.mapTo(newItems) {
-            l(it.toString())
-            Folder(it)
-        }
-        Thread {
-            val diffResult = DiffUtil.calculateDiff(FolderDiffCallback(items, newItems))
-            items = newItems
-            Handler(Looper.getMainLooper()).post{
-                if(MainActivity.isTabOpen()) {
-                    diffResult.dispatchUpdatesTo(this)
+        list.mapTo(newItems) { Folder(it) }
+        if(MainActivity.isFolderOpen()) {
+            Thread {
+                val diffResult = DiffUtil.calculateDiff(FolderDiffCallback(items, newItems))
+                items = newItems
+                Handler(Looper.getMainLooper()).post{
+                    if(MainActivity.isFolderOpen()) {
+                        diffResult.dispatchUpdatesTo(this)
+                    }
                 }
-            }
-        }.start()
+            }.start()
+        }else {
+            items = newItems
+            notifyDataSetChanged()
+        }
     }
 
-    private var selectedFolder: Folder? = null
+    private var selectedItemId : String? = null
 
-    fun setTargetFolder(newSelectedFolder: Folder?, layoutManager: LinearLayoutManager, panel: FrameLayout) {
+    fun setTargetFolder(newSelectedFolder: Folder, layoutManager: LinearLayoutManager, panel: FrameLayout) {
         l("[setTargetFolder]")
-        val animSet = AnimatorSet()
-        animSet.duration = ANIM_DUR
-        animSet.interpolator = FastOutSlowInInterpolator()
-        val animList = ArrayList<Animator>()
-        selectedFolder?.let { selectedFolder->
-            items.firstOrNull { it.id == selectedFolder.id }?.let { folder ->
-                val pos = items.indexOf(folder)
-                layoutManager.findViewByPosition(pos)?.let {
-                    setTabViews(it, false, pos)
-                    animList.add(ObjectAnimator.ofFloat(it.contentLy, "translationX", 0f, edgeSize))
-                    animList.add(ObjectAnimator.ofFloat(it.contentLy, "elevation", dpToPx(4f), dpToPx(0f)))
+        val firstPos = layoutManager.findFirstVisibleItemPosition()
+        val prevSelectedItemPos = items.indexOfFirst { it.id == selectedItemId }
+        val selectedItemPos = items.indexOfFirst { it.id == newSelectedFolder.id }
+        selectedItemId = newSelectedFolder.id
+        if(MainActivity.isFolderOpen()) {
+            val animSet = AnimatorSet()
+            animSet.duration = ANIM_DUR
+            animSet.interpolator = FastOutSlowInInterpolator()
+            val animList = ArrayList<Animator>()
+            (0 until layoutManager.childCount).forEach { index ->
+                val realPos = firstPos + index
+                layoutManager.findViewByPosition(realPos)?.let {
+                    if(realPos == prevSelectedItemPos) {
+                        setTabViews(it, false, realPos)
+                        animList.add(ObjectAnimator.ofFloat(it.contentLy, "translationX", 0f, edgeSize))
+                        animList.add(ObjectAnimator.ofFloat(it.contentLy, "elevation", dpToPx(4f), dpToPx(0f)))
+                    }
+                    if(realPos == prevSelectedItemPos + 1) {
+                        animList.add(ObjectAnimator.ofFloat(it.edgeTop, "translationX", 0f, edgeSize))
+                    }
+                    if(realPos == prevSelectedItemPos - 1) {
+                        animList.add(ObjectAnimator.ofFloat(it.edgeBottom, "translationX", 0f, edgeSize))
+                    }
+                    if(realPos == selectedItemPos) {
+                        setTabViews(it, true, realPos)
+                        it.edgeTop.visibility = View.GONE
+                        it.edgeBottom.visibility = View.GONE
+                        animList.add(ObjectAnimator.ofFloat(it.contentLy, "translationX", edgeSize, 0f))
+                        animList.add(ObjectAnimator.ofFloat(it.contentLy, "elevation", dpToPx(0f), dpToPx(4f)))
+                        animList.add(ObjectAnimator.ofFloat(it.edgeBottom, "translationX", edgeSize, 0f))
+                        animList.add(ObjectAnimator.ofFloat(it.edgeTop, "translationX", edgeSize, 0f))
+                    }
+                    if(realPos == selectedItemPos + 1) {
+                        it.edgeTop.visibility = View.VISIBLE
+                        it.edgeBottom.visibility = View.GONE
+                        animList.add(ObjectAnimator.ofFloat(it.edgeTop, "translationX", edgeSize, 0f))
+                    }
+                    if(realPos == selectedItemPos - 1) {
+                        it.edgeTop.visibility = View.GONE
+                        it.edgeBottom.visibility = View.VISIBLE
+                        animList.add(ObjectAnimator.ofFloat(it.edgeBottom, "translationX", edgeSize, 0f))
+                    }
                 }
             }
-        }
+            animList.add(ObjectAnimator.ofFloat(panel, "translationX", edgeSize, 0f))
+            animList.add(ObjectAnimator.ofFloat(panel, "alpha", 0f, 1f))
+            animSet.playTogether(animList)
+            animSet.start()
+        }else {
 
-        newSelectedFolder?.let { newSelectedFolder ->
-            l("폴더 선택 : $newSelectedFolder")
-            items.firstOrNull { it.id == newSelectedFolder.id }?.let { folder ->
-                val pos = items.indexOf(folder)
-                layoutManager.findViewByPosition(pos)?.let {
-                    setTabViews(it, true, pos)
-                    animList.add(ObjectAnimator.ofFloat(it.contentLy, "translationX", edgeSize, 0f))
-                    animList.add(ObjectAnimator.ofFloat(it.contentLy, "elevation", dpToPx(0f), dpToPx(4f)))
-                    animList.add(ObjectAnimator.ofFloat(it.edgeBottom, "translationX", edgeSize, 0f))
-                    animList.add(ObjectAnimator.ofFloat(it.edgeTop, "translationX", edgeSize, 0f))
-                }
-            }
         }
-        animList.add(ObjectAnimator.ofFloat(panel, "translationX", edgeSize, 0f))
-        animList.add(ObjectAnimator.ofFloat(panel, "alpha", 0f, 1f))
-
-        selectedFolder = newSelectedFolder
-        animSet.playTogether(animList)
-        animSet.start()
     }
 
     inner class SimpleItemTouchHelperCallback(private val mAdapter: FolderAdapter) : ItemTouchHelper.Callback() {

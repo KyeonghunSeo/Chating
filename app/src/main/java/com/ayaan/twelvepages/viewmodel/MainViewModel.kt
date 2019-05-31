@@ -90,7 +90,7 @@ class MainViewModel : ViewModel() {
         realm.value?.let { realm ->
             folderList.value = realm.where(Folder::class.java).sort("order", Sort.ASCENDING).findAllAsync()
             folderList.value?.addChangeListener { result, _ ->
-                if(openFolder.value == true) folderList.postValue(result)
+                folderList.postValue(result)
                 if(result.size == 0) {
                     makePrimaryFolder()
                 }else {

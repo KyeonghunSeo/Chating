@@ -52,6 +52,9 @@ class EditFolderDialog(private val activity: Activity, private val folder: Folde
             cancelBtn.setTextColor(AppTheme.redColor)
             cancelBtn.text = context.getString(R.string.delete)
             cancelBtn.setOnClickListener {
+
+                // 총 갯수 계산
+
                 showDialog(CustomDialog(activity, context.getString(R.string.delete_folder),
                         context.getString(R.string.delete_folder_sub), null) { result, _, _ ->
                     if(result) {

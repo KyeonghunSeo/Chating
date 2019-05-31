@@ -13,7 +13,7 @@ import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.setGlobalTheme
-import kotlinx.android.synthetic.main.list_item_tab.view.*
+import kotlinx.android.synthetic.main.list_item_chip.view.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 
 class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -41,7 +41,7 @@ class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: Attri
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_tab, parent, false))
+                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_chip, parent, false))
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val v = holder.itemView

@@ -61,7 +61,7 @@ class MainActivity : BaseActivity() {
         fun getTargetTime() = getViewModel()?.targetTime?.value
         fun getTargetCal() = getViewModel()?.targetCalendarView?.value?.targetCal
         fun getTargetFolder() = getViewModel()?.targetFolder?.value ?: Folder()
-        fun isTabOpen() = getViewModel()?.openFolder?.value == true
+        fun isFolderOpen() = getViewModel()?.openFolder?.value == true
     }
 
     lateinit var viewModel: MainViewModel
@@ -183,7 +183,7 @@ class MainActivity : BaseActivity() {
         folderAdapter.itemTouchHelper?.attachToRecyclerView(folderListView)
         folderBtn.setOnClickListener {
             vibrate(this)
-            folderAdapter.notifyDataSetChanged()
+            //folderAdapter.notifyDataSetChanged()
             viewModel.openFolder.value = viewModel.openFolder.value != true
         }
     }
@@ -273,8 +273,8 @@ class MainActivity : BaseActivity() {
         viewModel.folderList.observe(this, Observer { list -> folderAdapter.refresh(list) })
         viewModel.targetFolder.observe(this, Observer { folder ->
             refreshAll()
-            folderAdapter.setTargetFolder(folder, folderListView.layoutManager as LinearLayoutManager,
-                    if(folder.type == 0) calendarLy else noteView)
+            folder?.let { folderAdapter.setTargetFolder(it, folderListView.layoutManager as LinearLayoutManager,
+                        if(folder.type == 0) calendarLy else noteView) }
         })
         viewModel.openFolder.observe(this, Observer { updateFolderUI(it) })
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
