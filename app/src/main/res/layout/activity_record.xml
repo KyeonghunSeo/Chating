@@ -218,7 +218,7 @@
                             android:layout_height="30dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:padding="7dp"
-                            android:src="@drawable/sharp_access_time_black_48dp"
+                            android:src="@drawable/time"
                             android:tint="@color/iconTint"/>
 
                         <ImageView
@@ -491,7 +491,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:tint="@color/disableText"
-                        android:src="@drawable/outline_pie_chart_black_48dp"/>
+                        android:src="@drawable/progress"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -788,7 +788,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/sharp_access_time_black_48dp"
+                android:src="@drawable/time"
                 android:padding="12dp"
                 android:tint="@color/disableText"/>
 

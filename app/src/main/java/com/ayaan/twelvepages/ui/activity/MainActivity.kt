@@ -149,33 +149,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private val folderAdapter = FolderAdapter(this, ArrayList()) { action, folder ->
-        when(action) {
-            0 -> {
-                if(viewModel.targetFolder.value == folder) {
-                    val dialog = EditFolderDialog(this@MainActivity, folder) { result ->
-                        if(result) {
-
-                        }else { // deleted
-                            viewModel.setTargetFolder()
-                        }
-                    }
-                    showDialog(dialog, true, true, true, false)
-                }else {
-                    viewModel.setTargetFolder(folder)
-                }
-            }
-            1 -> {
-                val dialog = EditFolderDialog(this@MainActivity, folder) { result ->
-                    if(result) {
-                        folderListView.post { folderListView.smoothScrollToPosition(
-                                viewModel.folderList.value?.size ?: 0) }
-                    }
-                }
-                showDialog(dialog, true, true, true, false)
-            }
-        }
-    }
+    private val folderAdapter = FolderAdapter(this, ArrayList())
 
     private fun initFolderView() {
         folderListView.layoutManager = LinearLayoutManager(this)
@@ -183,7 +157,6 @@ class MainActivity : BaseActivity() {
         folderAdapter.itemTouchHelper?.attachToRecyclerView(folderListView)
         folderBtn.setOnClickListener {
             vibrate(this)
-            //folderAdapter.notifyDataSetChanged()
             viewModel.openFolder.value = viewModel.openFolder.value != true
         }
     }
@@ -200,10 +173,13 @@ class MainActivity : BaseActivity() {
         }
 
         profileBtn.setOnLongClickListener {
+            /*
             AppTheme.thinFont = ResourcesCompat.getFont(this, R.font.thin_s)!!
             AppTheme.regularFont = ResourcesCompat.getFont(this, R.font.regular_s)!!
             AppTheme.boldFont = ResourcesCompat.getFont(this, R.font.bold_s)!!
             initTheme(rootLy)
+            */
+            RecordManager.deleteAllRecord()
             return@setOnLongClickListener true
         }
 
@@ -273,8 +249,7 @@ class MainActivity : BaseActivity() {
         viewModel.folderList.observe(this, Observer { list -> folderAdapter.refresh(list) })
         viewModel.targetFolder.observe(this, Observer { folder ->
             refreshAll()
-            folder?.let { folderAdapter.setTargetFolder(it, folderListView.layoutManager as LinearLayoutManager,
-                        if(folder.type == 0) calendarLy else noteView) }
+            folder?.let { folderAdapter.setTargetFolder(it, folderListView, if(folder.type == 0) calendarLy else noteView) }
         })
         viewModel.openFolder.observe(this, Observer { updateFolderUI(it) })
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
@@ -387,9 +362,7 @@ class MainActivity : BaseActivity() {
                 animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY",  todayBtn.translationY, 0f))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
-                todayBtn.setOnClickListener {
-                    MainActivity.instance?.selectDate(System.currentTimeMillis())
-                }
+                todayBtn.setOnClickListener { selectDate(System.currentTimeMillis()) }
             }
             else -> {
                 val animSet = AnimatorSet()

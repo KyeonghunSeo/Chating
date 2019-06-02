@@ -20,10 +20,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.ChangeBounds
 import androidx.transition.Fade
@@ -451,6 +448,26 @@ fun getScreenSize(context: Context) : IntArray {
 fun getSampleText(): String {
     App.resource.getStringArray(R.array.sample_texts).let {
         return it[Random().nextInt(it.size)]
+    }
+}
+
+fun checkView(view: View) {
+    view.setBackgroundColor(AppTheme.primaryColor)
+    view.alpha = 1f
+    view.findViewWithTag<ImageView>("icon")?.setColorFilter(AppTheme.backgroundColor)
+    view.findViewWithTag<TextView>("text")?.let {
+        it.setTextColor(AppTheme.backgroundColor)
+        it.typeface = AppTheme.boldFont
+    }
+}
+
+fun uncheckView(view: View) {
+    view.setBackgroundColor(AppTheme.disableText)
+    view.alpha = 0.4f
+    view.findViewWithTag<ImageView>("icon")?.setColorFilter(AppTheme.primaryColor)
+    view.findViewWithTag<TextView>("text")?.let {
+        it.setTextColor(AppTheme.primaryColor)
+        it.typeface = AppTheme.regularFont
     }
 }
 

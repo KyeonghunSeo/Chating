@@ -32,6 +32,4 @@ var normalMargin = dpToPx(16f)
 var bigMargin = dpToPx(20f)
 var extraMargin = dpToPx(32f)
 
-enum class ViewMode {
-    CLOSED, OPENED, ANIMATING
-}
+enum class ViewMode { CLOSED, OPENED, ANIMATING }

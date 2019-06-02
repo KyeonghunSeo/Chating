@@ -41,7 +41,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val calendarPadding = dpToPx(20)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
-        val lineWidth = dpToPx(0.5f)
+        val lineWidth = dpToPx(1.0f)
         val dataStartYOffset = dpToPx(33f)
     }
 

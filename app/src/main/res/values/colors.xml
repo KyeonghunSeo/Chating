@@ -11,7 +11,7 @@
     <color name="primaryText">#000000</color>
     <color name="secondaryText">#606066</color>
     <color name="disableText">#e4e4e4</color>
-    <color name="line">#606066</color>
+    <color name="line">#eeeeee</color>
 
     <color name="transitionDimWhite">#ccffffff</color>
     <color name="dim">#90000000</color>

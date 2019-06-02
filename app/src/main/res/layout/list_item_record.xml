@@ -92,7 +92,7 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:tint="@color/iconTint"
-                android:src="@drawable/sharp_access_alarm_black_48dp"/>
+                android:src="@drawable/alarm"/>
 
             <TextView
                 android:id="@+id/alarmText"
@@ -176,7 +176,7 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:tint="@color/iconTint"
-                android:src="@drawable/sharp_notes_black_48dp"/>
+                android:src="@drawable/memo"/>
 
             <TextView
                 android:id="@+id/memoText"

@@ -1,48 +1,54 @@
 package com.ayaan.twelvepages.ui.dialog
 
 import android.app.Activity
-import android.app.Dialog
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import com.ayaan.twelvepages.AppTheme
-import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
-import com.ayaan.twelvepages.setGlobalTheme
-import com.ayaan.twelvepages.showDialog
+import com.ayaan.twelvepages.ui.activity.MainActivity
 import io.realm.Realm
-import kotlinx.android.synthetic.main.dialog_edit_folder.*
+import kotlinx.android.synthetic.main.dialog_base.*
+import kotlinx.android.synthetic.main.container_edit_folder.*
 import java.util.*
 
 
 class EditFolderDialog(private val activity: Activity, private val folder: Folder,
-                       private val onResult: (Boolean) -> Unit) : Dialog(activity) {
+                       private val onResult: (Boolean) -> Unit) : BaseDialog(activity) {
     val realm = Realm.getDefaultInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.attributes.windowAnimations = R.style.DialogAnimation
-        setContentView(R.layout.dialog_edit_folder)
-        setGlobalTheme(rootLy)
+        setLayout(R.layout.container_edit_folder, dpToPx(300))
         setLayout()
         setOnShowListener {}
     }
 
     private fun setLayout() {
-        rootLy.layoutParams.width = WRAP_CONTENT
-        rootLy.requestLayout()
-
         titleText.text = if (folder.id.isNullOrEmpty()) context.getString(R.string.create_folder)
         else context.getString(R.string.edit_folder)
+        titleIcon.setImageResource(R.drawable.tab)
 
         if (folder.id.isNullOrEmpty()){
+            typeLy.visibility = View.VISIBLE
             titleText.text = context.getString(R.string.create_folder)
-
             cancelBtn.setOnClickListener {
                 onResult.invoke(false)
                 dismiss()
             }
+            calendarBtn.setOnClickListener {
+                folder.type = 0
+                checkView(calendarBtn)
+                uncheckView(noteBtn)
+            }
+            noteBtn.setOnClickListener {
+                folder.type = 1
+                checkView(noteBtn)
+                uncheckView(calendarBtn)
+            }
         }else {
+            typeLy.visibility = View.GONE
             titleText.text = context.getString(R.string.edit_folder)
             if(!folder.name.isNullOrEmpty()){
                 input.setText(folder.name)
@@ -52,11 +58,9 @@ class EditFolderDialog(private val activity: Activity, private val folder: Folde
             cancelBtn.setTextColor(AppTheme.redColor)
             cancelBtn.text = context.getString(R.string.delete)
             cancelBtn.setOnClickListener {
-
-                // 총 갯수 계산
-
+                val count = realm.where(Record::class.java).equalTo("folder.id", folder.id).count()
                 showDialog(CustomDialog(activity, context.getString(R.string.delete_folder),
-                        context.getString(R.string.delete_folder_sub), null) { result, _, _ ->
+                        String.format(context.getString(R.string.delete_folder_sub), count), null) { result, _, _ ->
                     if(result) {
                         realm.executeTransaction {
                             realm.where(Record::class.java).equalTo("folder.id", folder.id)
@@ -74,11 +78,12 @@ class EditFolderDialog(private val activity: Activity, private val folder: Folde
         confirmBtn.setOnClickListener {
             realm.executeTransaction {
                 if(folder.id.isNullOrEmpty()) {
-                    realm.createObject(Folder::class.java, UUID.randomUUID().toString()).apply {
+                    val newfolder = realm.createObject(Folder::class.java, UUID.randomUUID().toString()).apply {
                         name = input.text.toString()
                         order = realm.where(Folder::class.java).max("order")?.toInt()?.plus(1) ?: 0
-                        type = 1
+                        type = folder.type
                     }
+                    rootLy.postDelayed({ MainActivity.getViewModel()?.setTargetFolder(newfolder) }, 300)
                 }else {
                     realm.where(Folder::class.java).equalTo("id", folder.id).findFirst()?.let {
                         it.name = input.text.toString()

@@ -248,7 +248,7 @@ open class Record(@PrimaryKey var id: String? = null,
 
     fun getTitleInCalendar() = if(!title.isNullOrBlank())
         title?.replace(System.getProperty("line.separator"), " ")
-    else App.context.getString(R.string.untitle)
+    else App.context.getString(R.string.empty)
 
     fun setAlarm(offset: Long, dtAlarm: Long) {
         if(alarms.isEmpty()) {

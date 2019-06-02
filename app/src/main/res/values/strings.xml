@@ -8,6 +8,7 @@
     <string name="prev">이전</string>
     <string name="next">다음</string>
     <string name="title">제목</string>
+    <string name="empty">비어있음</string>
     <string name="untitle">내용없음</string>
 
     <string name="mon">월</string>
@@ -125,8 +126,8 @@
     <string name="hide">숨김</string>
     <string name="contents_example">Title</string>
     <string name="add_new">새로입력</string>
-    <string name="create_folder">서랍 만들기</string>
-    <string name="enter_folder_name">서랍 이름을 입력해주세요</string>
+    <string name="create_folder">폴더 생성</string>
+    <string name="enter_folder_name">폴더 제목을 입력하세요</string>
     <string name="scrap_in_today">오늘 %1$s</string>
     <string name="scrap_in_folder">서랍에 보관</string>
     <string name="scrap_in_calendar">달력에 쓰기</string>
@@ -143,9 +144,9 @@
     <string name="init_setting_script_1">무엇을 기록하고 싶으신가요?\n원하는것을 모두 선택 해주세요.</string>
     <string name="select_os_calendar">외부캘린더 가져오기</string>
     <string name="search_tag">태그로 검색하기</string>
-    <string name="edit_folder">서랍 편집하기</string>
-    <string name="delete_folder">서랍 삭제하기</string>
-    <string name="delete_folder_sub">이 서랍에 보관된 모든 기록이 삭제됩니다.\n정말 삭제할까요?</string>
+    <string name="edit_folder">폴더 편집</string>
+    <string name="delete_folder">서랍 삭제</string>
+    <string name="delete_folder_sub">이 서랍에 보관된 모든 기록(총 %1$s개)이 삭제됩니다.\n정말 삭제할까요?</string>
     <string name="search_title_location_memo">제목, 장소, 메모 검색하기</string>
     <string name="startdow">한 주의 시작</string>
     <string name="startdow_sub">한 주의 시작요일을 설정합니다</string>
@@ -214,7 +215,7 @@
     <string name="weekline_display">주간 경계선 표시</string>
     <string name="enter_here">이곳에 입력하세요</string>
     <string name="delete_sub">이 기록을 삭제할까요?</string>
-    <string name="calendar">CALENDAR</string>
+    <string name="calendar">달력</string>
     <string name="folder">보관함</string>
     <string name="check_option">완료된 기록 표시방법</string>
     <string name="check_option_3">흐리게만</string>
@@ -257,6 +258,13 @@
     <string name="edit_done">편집 완료</string>
     <string name="apply_textcolor">글씨에도 적용</string>
     <string name="custom_time">맞춤 알림 시간</string>
+    <string name="folder_type">폴더 유형</string>
+    <string name="note">노트</string>
+    <string name="default_color_palette_name">기본</string>
+    <string name="apring">봄</string>
+    <string name="summer">여름</string>
+    <string name="fall">가을</string>
+    <string name="winter">겨울</string>
 
     <string-array name="formulas">
         <item>기본</item>

@@ -131,8 +131,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         setPadding(leftPadding, textPadding, sPadding, 0)
 
         paintColor = AppTheme.getColor(record.colorKey)
-        fontColor = if(shape.fillColor) AppTheme.getFontColor(record.colorKey)
-        else AppTheme.getColor(record.colorKey)
+        fontColor = if(shape.fillColor) AppTheme.getFontColor(paintColor)
+        else paintColor
         setTextColor(fontColor)
     }
 
@@ -426,7 +426,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             circle.draw(canvas)
 
             val stamp = resource.getDrawable(StampManager.stamps[0])
-            stamp.setColorFilter(AppTheme.getFontColor(child.colorKey), PorterDuff.Mode.SRC_ATOP)
+            stamp.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
             stamp.setBounds(left + margin, top + margin, left + size - margin, top + size - margin)
             stamp.draw(canvas)
 /*
@@ -472,12 +472,19 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     }
 
     private fun drawImage(canvas: Canvas) {
-        val size = blockTypeSize * 2
+        /*
+        val size = (blockTypeSize * 1.5f).toInt()
         var top = height - size - sidePadding
         var left = sidePadding
         childList?.forEach { child ->
-            val circle = resource.getDrawable(R.drawable.s_coin)
+            val circle = resource.getDrawable(R.drawable.bg2)
             circle.setBounds(left, top, (left + size), (top + size))
+            circle.draw(canvas)
+        }
+        */
+        childList?.forEach { child ->
+            val circle = resource.getDrawable(R.drawable.bg2)
+            circle.setBounds(0, CalendarView.dataStartYOffset.toInt(), width, height)
             circle.draw(canvas)
         }
     }

@@ -2,16 +2,12 @@ package com.ayaan.twelvepages.ui.activity
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import com.ayaan.twelvepages.*
-import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.dialog.*
-import es.dmoral.toasty.Toasty
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_template.*
-import java.text.DateFormat
 import java.util.*
 
 class TemplateActivity : BaseActivity() {
@@ -149,7 +145,7 @@ class TemplateActivity : BaseActivity() {
                         null,
                         null,
                         false,
-                        folderList.map { if(it.name.isNullOrBlank()) getString(R.string.untitle) else it.name!! }) { index ->
+                        folderList.map { if(it.name.isNullOrBlank()) getString(R.string.empty) else it.name!! }) { index ->
                     template.folder = folderList[index]
                     updateFolderUI()
                 }, true, true, true, false)

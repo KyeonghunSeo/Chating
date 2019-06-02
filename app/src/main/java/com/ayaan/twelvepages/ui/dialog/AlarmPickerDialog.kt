@@ -37,7 +37,6 @@ class AlarmPickerDialog(private val activity: Activity, private var offset: Long
         setLayout(R.layout.container_alarm_picker, dpToPx(325))
         titleText.text = context.getString(R.string.set_alarm)
         titleIcon.setImageResource(R.drawable.alarm)
-        setGlobalTheme(rootLy)
 
         confirmBtn.setOnClickListener {
             onResult.invoke(true, offset, dtAlarm)

@@ -136,10 +136,9 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
         recordView.setStyle()
         subRecordView.setStyle()
 
-        val topMargin = if(recordView.formula == RecordCalendarAdapter.Formula.RANGE) {
-            CalendarView.dataStartYOffset + dateWidth
-        }else {
-            CalendarView.dataStartYOffset
+        val topMargin = when {
+            recordView.formula == RecordCalendarAdapter.Formula.RANGE -> CalendarView.dataStartYOffset + dateWidth
+            else -> CalendarView.dataStartYOffset
         }
 
         recordView.length = when(recordView.formula) {
@@ -153,6 +152,11 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
         recordView.mTop = topMargin
         recordView.mBottom = recordView.mTop + recordView.getViewHeight().toFloat()
         recordView.setLayout()
+        if(recordView.formula == RecordCalendarAdapter.Formula.IMAGE) {
+            recordView.translationY = -dpToPx(10f)
+        }else {
+            recordView.translationY = 0f
+        }
         recordView.invalidate()
 
         when(recordView.formula) {
@@ -164,6 +168,7 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
                 subRecordView.mBottom = subRecordView.mTop + subRecordView.getViewHeight().toFloat()
                 subRecordView.setLayout()
                 subRecordView.translationX = dateWidth * 2
+                subRecordView.translationY = 0f
                 subRecordView.invalidate()
                 shapeLy.visibility = View.VISIBLE
                 colorLy.visibility = View.VISIBLE
@@ -177,6 +182,7 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
                 subRecordView.mBottom = subRecordView.mTop + subRecordView.getViewHeight().toFloat()
                 subRecordView.setLayout()
                 subRecordView.translationX = dateWidth * 2
+                subRecordView.translationY = 0f
                 subRecordView.invalidate()
                 shapeLy.visibility = View.VISIBLE
                 colorLy.visibility = View.VISIBLE
@@ -190,6 +196,7 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
                 subRecordView.mBottom = subRecordView.mTop + subRecordView.getViewHeight().toFloat()
                 subRecordView.setLayout()
                 subRecordView.translationX = 0f
+                subRecordView.translationY = 0f
                 subRecordView.invalidate()
                 shapeLy.visibility = View.VISIBLE
                 colorLy.visibility = View.VISIBLE
@@ -203,6 +210,7 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
                 subRecordView.mBottom = subRecordView.mTop + subRecordView.getViewHeight().toFloat()
                 subRecordView.setLayout()
                 subRecordView.translationX = dateWidth * 2
+                subRecordView.translationY = 0f
                 subRecordView.invalidate()
                 shapeLy.visibility = View.GONE
                 colorLy.visibility = View.VISIBLE
@@ -216,6 +224,7 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
                 subRecordView.mBottom = subRecordView.mTop + subRecordView.getViewHeight().toFloat()
                 subRecordView.setLayout()
                 subRecordView.translationX = dateWidth * 2
+                subRecordView.translationY = -dpToPx(10f)
                 subRecordView.invalidate()
                 shapeLy.visibility = View.GONE
                 colorLy.visibility = View.GONE

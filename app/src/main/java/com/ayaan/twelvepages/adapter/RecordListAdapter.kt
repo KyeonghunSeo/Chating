@@ -140,7 +140,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         }
 
         if(record.title.isNullOrBlank()) {
-            v.titleText.text = context.getString(R.string.untitle)
+            v.titleText.text = context.getString(R.string.empty)
         }else {
             if(!query.isNullOrEmpty()){
                 highlightQuery(v.titleText, record.title!!)

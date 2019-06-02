@@ -1,5 +1,6 @@
 package com.ayaan.twelvepages.ui.dialog
 
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.ui.activity.MainActivity
+import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.dialog_color_picker.*
 import kotlinx.android.synthetic.main.pager_item_color_palette.view.*
 
@@ -22,13 +24,18 @@ class ColorPickerDialog(activity: Activity, private val colorKey: Int, private v
                         private val onResult: (Int) -> Unit) : Dialog(activity) {
     private val colorBtns = ArrayList<ImageView>()
     private val buttonSize = dpToPx(35)
+    private val colorPaletteSize = 11
+    private var colorPalette = AppTheme.ColorPalette.values()[colorKey / colorPaletteSize]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.attributes.windowAnimations = R.style.DialogFadeAnimation
+        window?.attributes?.windowAnimations = R.style.DialogFadeAnimation
         setContentView(R.layout.dialog_color_picker)
         setLayout()
-        setOnShowListener { rootLy.postDelayed({ expand() }, 100) }
+        setOnShowListener {
+            viewPager.currentItem = colorPalette.ordinal
+            rootLy.postDelayed({ expand() }, 100)
+        }
     }
 
     private fun setLayout() {
@@ -47,18 +54,9 @@ class ColorPickerDialog(activity: Activity, private val colorKey: Int, private v
         colorBtns.add(colorBtn8)
         colorBtns.add(colorBtn9)
         colorBtns.add(colorBtn10)
-        colorBtns.add(colorBtn11)
-
-        val colors = AppTheme.colors
-        colorBtns.forEachIndexed { index, colorBtn ->
-            colorBtn.setColorFilter(colors[index])
-            colorBtn.setOnClickListener {
-                onResult.invoke(index)
-                dismiss()
-            }
-            colorBtn.visibility = View.GONE
-        }
-        colorBtns[colorKey].visibility = View.VISIBLE
+        colorBtns.forEach { it.visibility = View.GONE }
+        colorBtns[colorKey % colorPaletteSize].visibility = View.VISIBLE
+        setColorBtns()
 
         (contentLy.layoutParams as FrameLayout.LayoutParams).setMargins(
                 location[0], location[1] - AppStatus.statusBarHeight, 0 , 0)
@@ -68,10 +66,33 @@ class ColorPickerDialog(activity: Activity, private val colorKey: Int, private v
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
-
+                colorPalette = AppTheme.ColorPalette.values()[position]
+                setColorBtns()
+                ObjectAnimator.ofFloat(btnsLy, "translationY", dpToPx(10f), 0f).start()
+                ObjectAnimator.ofFloat(btnsLy, "alpha", 0f, 1f).start()
             }
         })
-        viewPager.visibility = View.GONE
+        pagerIndicator.setViewPager(viewPager)
+        pagerLy.visibility = View.GONE
+        changeBtn.visibility = View.GONE
+
+        changeBtn.setOnClickListener {
+            TransitionManager.beginDelayedTransition(contentLy, makeChangeBounceTransition())
+            changeBtn.visibility = View.GONE
+            pagerLy.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setColorBtns() {
+        colorBtns.forEachIndexed { index, colorBtn ->
+            colorBtn.setColorFilter(colorPalette.colors[index])
+            colorBtn.setOnClickListener {
+                Prefs.putInt("colorPalette", colorPalette.ordinal)
+                AppTheme.colorPalette = colorPalette
+                onResult.invoke(colorPalette.ordinal * colorPaletteSize + index)
+                dismiss()
+            }
+        }
     }
 
     private fun expand() {
@@ -92,25 +113,23 @@ class ColorPickerDialog(activity: Activity, private val colorKey: Int, private v
         }
 
         colorBtns.forEach { it.visibility = View.VISIBLE }
+        changeBtn.visibility = View.VISIBLE
     }
-
-    val ss = arrayOf(R.drawable.color_palette_0, R.drawable.color_palette_1, R.drawable.color_palette_2,
-            R.drawable.color_palette_3, R.drawable.color_palette_4)
 
     inner class ColorPalettePagerAdapter : PagerAdapter() {
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             val v = LayoutInflater.from(context).inflate(R.layout.pager_item_color_palette, null, false)
-            v.imageView.setImageResource(ss[position])
-            v.titleText.text = "Spring"
+            val palette = AppTheme.ColorPalette.values()[position]
+            v.imageView.setImageResource(palette.coverImgId)
+            v.titleText.text = context.getString(palette.titleId)
             container.addView(v)
             return v
         }
-
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
             container.removeView(`object` as View)
         }
         override fun isViewFromObject(view: View, `object`: Any): Boolean = view == `object`
-        override fun getCount(): Int = 5
+        override fun getCount(): Int = AppTheme.ColorPalette.values().size
     }
 
 }

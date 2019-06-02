@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp">
+
+    <LinearLayout
+        android:id="@+id/inputLy"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
+            android:textSize="16dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:hint="@string/enter_folder_name"
+            android:textColorHint="@color/disableText"
+            android:background="@color/transparent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/typeLy"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/bold"
+            android:text="@string/folder_type"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/calendarBtn"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@color/primaryText"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_marginRight="3dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:tag="icon"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginRight="5dp"
+                    android:tint="@color/white"
+                    android:src="@drawable/calendar"/>
+
+                <TextView
+                    android:tag="text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:textSize="12dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/bold"
+                    android:text="@string/calendar"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/noteBtn"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@color/disableText"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_marginLeft="3dp"
+                android:gravity="center"
+                android:alpha="0.4">
+
+                <ImageView
+                    android:tag="icon"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:tint="@color/primaryText"
+                    android:src="@drawable/list"/>
+
+                <TextView
+                    android:tag="text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:includeFontPadding="false"
+                    android:textSize="12dp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:gravity="center"
+                    android:text="@string/note"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

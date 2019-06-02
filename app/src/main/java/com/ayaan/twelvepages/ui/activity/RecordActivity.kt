@@ -12,7 +12,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.widget.NestedScrollView
 import com.bumptech.glide.Glide
@@ -25,10 +24,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.ayaan.twelvepages.*
-import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.manager.RepeatManager
-import com.ayaan.twelvepages.model.Alarm
 import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.*
@@ -243,7 +240,7 @@ class RecordActivity : BaseActivity() {
                     null,
                     null,
                     false,
-                    folderList.map { if(it.name.isNullOrBlank()) getString(R.string.untitle) else it.name!! }) { index ->
+                    folderList.map { if(it.name.isNullOrBlank()) getString(R.string.empty) else it.name!! }) { index ->
                 record.folder = folderList[index]
                 updateFolderUI()
             }, true, true, true, false)

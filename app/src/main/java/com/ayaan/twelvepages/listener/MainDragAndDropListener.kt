@@ -9,9 +9,7 @@ import android.view.View
 import com.ayaan.twelvepages.ui.activity.MainActivity
 
 object MainDragAndDropListener : View.OnDragListener {
-    enum class DragMode {
-        NONE, INSERT, MOVE
-    }
+    enum class DragMode { NONE, INSERT, MOVE }
 
     var dragMode = DragMode.NONE
 

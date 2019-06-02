@@ -96,9 +96,7 @@ class ScrapActivity : Activity() {
                         val items = ArrayList<Folder>()
                         items.addAll(realm.where(Folder::class.java).sort("order", Sort.ASCENDING).findAll())
                         folderListView.layoutManager = LinearLayoutManager(this@ScrapActivity, HORIZONTAL, false)
-                        folderListView.adapter = FolderAdapter(this@ScrapActivity, items) { action, folder ->
-                            saveTimeObject(makeTimeObject(folder, Long.MIN_VALUE))
-                        }
+                        folderListView.adapter = FolderAdapter(this@ScrapActivity, items)
 
                         saveTodayBtn.setOnClickListener { saveTimeObject(makeTimeObject(null, System.currentTimeMillis())) }
                         selectDateBtn.setOnClickListener { _ ->

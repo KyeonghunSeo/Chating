@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.dpToPx
+import com.ayaan.twelvepages.setGlobalTheme
 import kotlinx.android.synthetic.main.dialog_base.*
 
 
@@ -25,6 +26,7 @@ open class BaseDialog(activity: Activity) : Dialog(activity) {
         LayoutInflater.from(context).inflate(layoutId, container, true)
         panel.layoutParams.width = containerWidth
         panel.requestLayout()
+        setGlobalTheme(rootLy)
     }
 
     fun hideBottomBtnsLy(){
