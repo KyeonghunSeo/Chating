@@ -52,8 +52,8 @@ class MainActivity : BaseActivity() {
         fun getMainPanel() = instance?.mainPanel
         fun getCalendarPagerView() = instance?.calendarPagerView
         fun getMainDateLy() = instance?.mainDateLy
-        fun getMainMonthText() = instance?.mainMonthYearLy
-        fun getWeekText() = instance?.weekText
+        fun getMonthLy() = instance?.mainMonthYearLy
+        fun getWeekLy() = instance?.mainWeekLy
         fun getProfileBtn() = instance?.profileBtn
         fun getTemplateView() = instance?.templateView
         fun getTargetTemplate() = getViewModel()?.targetTemplate?.value
@@ -119,6 +119,7 @@ class MainActivity : BaseActivity() {
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
         mainMonthYearLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        mainWeekLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainDateLy.pivotX = 0f
         mainDateLy.pivotY = 0f
         mainPanel.setOnClickListener {}
@@ -136,11 +137,11 @@ class MainActivity : BaseActivity() {
             viewModel.targetCalendarView.value = calendarView
             monthText.setTextColor(dateColor)
             yearText.setTextColor(dateColor)
+            weekCText.setTextColor(dateColor)
             weekText.setTextColor(dateColor)
             if(cellNum >= 0) {
                 if(isSameSeleted && dayPagerView.viewMode == ViewMode.CLOSED) dayPagerView.show()
                 refreshTodayView(calendarView.todayStatus)
-
             }
         }
         calendarPagerView.onTop = { isTop, isBottom ->
@@ -331,7 +332,7 @@ class MainActivity : BaseActivity() {
         getTargetCal()?.let {
             monthText.text = AppDateFormat.monthEng.format(it.time).toUpperCase()
             yearText.text = it.get(Calendar.YEAR).toString()
-            weekText.text = String.format(getString(R.string.weekNum), it.get(Calendar.WEEK_OF_YEAR))
+            weekText.text = it.get(Calendar.WEEK_OF_YEAR).toString()
         }
     }
 

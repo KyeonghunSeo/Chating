@@ -64,7 +64,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
             dateText.typeface = AppTheme.thinCFont
-            dowText.typeface = AppTheme.boldCFont
+            dowText.typeface = AppTheme.regularCFont
             holiText.typeface = AppTheme.thinFont
             bar.scaleX = 0f
             dowText.visibility = View.GONE
@@ -285,7 +285,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         dateText.typeface = AppTheme.thinCFont
         holiText.typeface = AppTheme.thinFont
         holiText.text = dateInfos[cellNum].getUnSelectedString()
-
         offViewEffect(cellNum)
         lastUnSelectDateAnimSet?.cancel()
         lastUnSelectDateAnimSet = AnimatorSet()
@@ -332,7 +331,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.typeface = AppTheme.boldCFont
             holiText.typeface = AppTheme.boldFont
             holiText.text = dateInfos[cellNum].getSelectedString()
-            dowText.text = AppDateFormat.dowEng.format(targetCal.time)
+            dowText.text = AppDateFormat.dowEng.format(targetCal.time).toUpperCase()
             if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
 
             lastSelectDateAnimSet?.cancel()

@@ -60,7 +60,7 @@
                                 android:gravity="center_vertical"
                                 android:textColor="@color/primaryText"
                                 android:includeFontPadding="false"
-                                android:textSize="19dp"
+                                android:textSize="20dp"
                                 android:fontFamily="@font/bold_c"
                                 android:text="June"/>
 
@@ -72,23 +72,44 @@
                                 android:includeFontPadding="false"
                                 android:layout_marginLeft="5dp"
                                 android:textColor="@color/primaryText"
-                                android:textSize="19dp"
-                                android:fontFamily="@font/bold_c"
+                                android:textSize="20dp"
+                                android:fontFamily="@font/thin_c"
                                 android:text="2020"/>
 
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/weekText"
+                        <LinearLayout
+                            android:id="@+id/mainWeekLy"
+                            android:orientation="horizontal"
                             android:layout_width="wrap_content"
-                            android:layout_height="19dp"
-                            android:includeFontPadding="false"
-                            android:layout_marginLeft="1dp"
-                            android:gravity="center_vertical"
-                            android:textColor="@color/primaryText"
-                            android:textSize="16dp"
-                            android:fontFamily="@font/bold_c"
-                            android:text="week 18"/>
+                            android:layout_height="wrap_content"
+                            android:animateLayoutChanges="true">
+
+                            <TextView
+                                android:id="@+id/weekCText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="19dp"
+                                android:includeFontPadding="false"
+                                android:layout_marginLeft="1dp"
+                                android:gravity="center_vertical"
+                                android:textColor="@color/primaryText"
+                                android:textSize="15dp"
+                                android:fontFamily="@font/bold_c"
+                                android:text="WEEK"/>
+
+                            <TextView
+                                android:id="@+id/weekText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="19dp"
+                                android:includeFontPadding="false"
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:textColor="@color/primaryText"
+                                android:textSize="15dp"
+                                android:fontFamily="@font/thin_c"
+                                android:text="week 18"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 

@@ -87,7 +87,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
             val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
             val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
-            return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, swipeFlags)
+            return makeMovementFlags(dragFlags, swipeFlags)
         }
 
         override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
@@ -100,9 +100,9 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
             // We only want the active item to change
             if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-                if (viewHolder is TemplateAdapter.ViewHolder) {
+                if (viewHolder is ViewHolder) {
                     // Let the view holder know that this item is being moved or dragged
-                    val itemViewHolder = viewHolder as TemplateAdapter.ViewHolder?
+                    val itemViewHolder = viewHolder as ViewHolder?
                     itemViewHolder?.onItemSelected()
                 }
             }else if(reordering && actionState == ItemTouchHelper.ACTION_STATE_IDLE){
@@ -124,7 +124,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
             viewHolder.itemView.alpha = ALPHA_FULL
-            (viewHolder as? TemplateAdapter.ViewHolder)?.onItemClear()
+            (viewHolder as? ViewHolder)?.onItemClear()
         }
     }
 }
