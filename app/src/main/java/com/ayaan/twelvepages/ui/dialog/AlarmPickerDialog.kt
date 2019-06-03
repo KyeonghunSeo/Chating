@@ -5,22 +5,14 @@ import android.app.Activity
 import android.os.Bundle
 import android.widget.TextView
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.alarm.AlarmManager
 import kotlinx.android.synthetic.main.container_alarm_picker.*
 import kotlinx.android.synthetic.main.dialog_base.*
 import java.util.*
 
 class AlarmPickerDialog(private val activity: Activity, private var offset: Long, private var dtAlarm: Long,
                         private val onResult: (Boolean, Long, Long) -> Unit) : BaseDialog(activity) {
-    private val offsets = arrayOf(
-            0,
-            1000L * 60 * 60 * 9,
-            1000L * 60 * 60 * 12,
-            1000L * 60 * 60 * 18,
-            -1000L * 60 * 30,
-            -1000L * 60 * 60,
-            -1000L * 60 * 60 * 24,
-            -1000L * 60 * 60 * 24 * 7)
-
+    private val offsets = AlarmManager.offsets
     private var isTemplate = false
 
     init {

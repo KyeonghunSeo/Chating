@@ -48,10 +48,11 @@ class RecordActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record)
         MainActivity.getViewModel()?.targetRecord?.value?.let {
+            l(it.toString())
+            setData(it)
             initTheme(rootLy)
             initLayout()
             initInput()
-            setData(it)
             updateUI()
             setCallAfterViewDrawed()
             MainActivity.getViewModel()?.clearTargetTimeObject()

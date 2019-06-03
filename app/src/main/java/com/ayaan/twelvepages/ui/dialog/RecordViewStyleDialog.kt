@@ -66,7 +66,7 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
 
         val cal = Calendar.getInstance()
         dateText.text = cal.get(Calendar.DATE).toString()
-        dowText.text = AppDateFormat.dowEng.format(cal.time).toUpperCase()
+        dowText.text = AppDateFormat.dowEng.format(cal.time)
         cal.add(Calendar.DATE, 1)
         dateText2.text = cal.get(Calendar.DATE).toString()
         cal.add(Calendar.DATE, 1)

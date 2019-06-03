@@ -61,7 +61,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         addBtn.setOnLongClickListener {
-            MainActivity.getViewModel()?.makeNewTimeObject(0)
             return@setOnLongClickListener false
         }
 

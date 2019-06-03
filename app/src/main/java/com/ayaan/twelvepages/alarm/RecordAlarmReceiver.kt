@@ -9,11 +9,9 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.USER_URL
 import com.ayaan.twelvepages.l
 import com.ayaan.twelvepages.model.Record
 import io.realm.Realm
-import io.realm.SyncUser
 import java.lang.Exception
 
 class RecordAlarmReceiver : BroadcastReceiver() {
@@ -61,15 +59,34 @@ class RecordAlarmReceiver : BroadcastReceiver() {
 
         val mCompatBuilder = NotificationCompat.Builder(context, context.getString(R.string.notification_default_channel))
         mCompatBuilder.setSmallIcon(R.mipmap.ic_launcher_round)
-        mCompatBuilder.setTicker("ticker")
-        mCompatBuilder.color = AppTheme.primaryColor
+        mCompatBuilder.setTicker(record.getTitleInCalendar())
+        mCompatBuilder.color = record.getColor()
         mCompatBuilder.setWhen(System.currentTimeMillis())
-        mCompatBuilder.setContentTitle(record.title)
-        mCompatBuilder.setContentText("contents")
+        mCompatBuilder.setContentTitle(record.getTitleInCalendar())
+        val contents = StringBuilder()
+        if(record.dtStart != Long.MIN_VALUE && record.alarms.isNotEmpty()) {
+            contents.append(AlarmManager.getAlarmNotiText(record))
+        }
+        if(!record.location.isNullOrEmpty()) {
+            if(contents.isNotEmpty()) contents.append("\n")
+            contents.append(record.location)
+        }
+        if(!record.description.isNullOrEmpty()) {
+            if(contents.isNotEmpty()) contents.append("\n")
+            contents.append(record.description)
+        }
+        if(contents.isNotEmpty()) {
+            val lines = contents.lines()
+            if (lines.size == 1) {
+                mCompatBuilder.setContentText(contents.toString())
+            }else {
+                mCompatBuilder.setContentText(lines[0])
+                mCompatBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(contents.toString()))
+            }
+        }
         mCompatBuilder.setDefaults(Notification.DEFAULT_SOUND or Notification.DEFAULT_VIBRATE)
         mCompatBuilder.setContentIntent(pendingIntent)
         mCompatBuilder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC) // public
-        mCompatBuilder.priority = Notification.PRIORITY_MAX // max
         mCompatBuilder.setAutoCancel(true)
         nm.notify(System.currentTimeMillis().toInt(), mCompatBuilder.build())
     }

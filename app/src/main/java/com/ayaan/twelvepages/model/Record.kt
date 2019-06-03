@@ -282,6 +282,6 @@ open class Record(@PrimaryKey var id: String? = null,
     fun removeAlarm() { alarms.clear() }
     fun isSetAlarm() = alarms.isNotEmpty()
     fun getAlarmText(): String = alarms.joinToString(", ") {
-        AlarmManager.getTimeObjectAlarmText(it.offset) ?: AppDateFormat.dateTime.format(it.dtAlarm)
+        AlarmManager.getOffsetText(it.offset) ?: AppDateFormat.dateTime.format(it.dtAlarm)
     }
 }

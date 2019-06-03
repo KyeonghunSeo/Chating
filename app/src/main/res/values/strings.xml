@@ -26,7 +26,7 @@
     <string name="delete">삭제</string>
     <string name="start">시작</string>
     <string name="end">종료</string>
-    <string name="weekNum">WEEK %1$s</string>
+    <string name="weekNum">Week %1$s</string>
     <string name="setting">SETTINGS</string>
     <string name="add_option">다른 정보 추가</string>
     <string name="detail_info">자세한 정보</string>
@@ -234,8 +234,13 @@
     <string name="today_c">TODAY</string>
     <string name="tomorrow">내일</string>
     <string name="yesterday">어제</string>
-    <string name="date_before">%1$s일전</string>
-    <string name="date_after">%1$s일후</string>
+    <string name="min_before">%1$s분 전</string>
+    <string name="hour_before">%1$s시간 전</string>
+    <string name="date_before">%1$s일 전</string>
+    <string name="min_after">%1$s분 후</string>
+    <string name="hour_after">%1$s시간 후</string>
+    <string name="hour_min_after">%1$s시간 %2$s분 후</string>
+    <string name="date_after">%1$s일 후</string>
     <string name="color_c">COLOR</string>
     <string name="new_template">새 템플릿</string>
     <string name="new_tag">새 태그</string>
@@ -265,6 +270,7 @@
     <string name="summer">여름</string>
     <string name="fall">가을</string>
     <string name="winter">겨울</string>
+    <string name="now">지금</string>
 
     <string-array name="formulas">
         <item>기본</item>

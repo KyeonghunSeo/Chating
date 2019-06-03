@@ -175,7 +175,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun setDateText() {
         dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
-        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time).toUpperCase()
+        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
         DateInfoManager.getHoliday(dateInfo, targetCal)
         val color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
             CalendarManager.sundayColor
@@ -194,7 +194,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun show(dayPagerView: DayPagerView) {
-        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time).toUpperCase()
+        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(dayPagerView, "alpha", 0.9f, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleX", 1f, headerTextScale),
@@ -224,7 +224,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun hide(dayPagerView: DayPagerView) {
-        dowText.text = AppDateFormat.dowEng.format(targetCal.time).toUpperCase()
+        dowText.text = AppDateFormat.dowEng.format(targetCal.time)
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(dayPagerView, "alpha", 1f, 0.9f),
@@ -315,21 +315,21 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     companion object {
         const val headerTextScale = 5.5f
-        val weekTextY = -dpToPx(3.7f)
+        val weekTextY = -dpToPx(3.0f)
         val datePosX = dpToPx(16.0f)
         val datePosY = -dpToPx(1.0f)
         val dowPosX = -dpToPx(0.00f)
         val dowPosY = dpToPx(9.6f)
         val dowScale = 0.310f
         val holiPosX = dpToPx(15.2f)
-        val holiPosY = dpToPx(0.70f)
+        val holiPosY = dpToPx(0.95f)
         val holiScale = 0.32f
-        val mainDateLyX = dpToPx(80.7f)
-        val mainDateLyY = dpToPx(14.6f)
-        val mainDateScale = 0.83f
+        val mainDateLyX = dpToPx(81.0f)
+        val mainDateLyY = dpToPx(13.5f)
+        val mainDateScale = 0.84f
         val barX = dpToPx(100.0f)
         val barY = dpToPx(23.0f)
-        val barScale = 0.25f
+        val barScale = 0.20f
     }
 
 }

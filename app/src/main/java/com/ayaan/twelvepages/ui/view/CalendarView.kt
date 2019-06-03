@@ -332,7 +332,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.typeface = AppTheme.boldCFont
             holiText.typeface = AppTheme.boldFont
             holiText.text = dateInfos[cellNum].getSelectedString()
-            dowText.text = AppDateFormat.dowEng.format(targetCal.time).toUpperCase()
+            dowText.text = AppDateFormat.dowEng.format(targetCal.time)
             if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
 
             lastSelectDateAnimSet?.cancel()

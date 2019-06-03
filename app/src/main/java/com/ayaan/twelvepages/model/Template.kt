@@ -79,7 +79,7 @@ open class Template(@PrimaryKey var id: String? = null,
 
     fun getAlarmText(): String {
         return if(alarmOffset != Long.MIN_VALUE) {
-            val result = AlarmManager.getTimeObjectAlarmText(alarmOffset)
+            val result = AlarmManager.getOffsetText(alarmOffset)
             if(result != null) {
                 result
             }else {

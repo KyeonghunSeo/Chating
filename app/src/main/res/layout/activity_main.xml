@@ -62,7 +62,7 @@
                                 android:includeFontPadding="false"
                                 android:textSize="19dp"
                                 android:fontFamily="@font/bold_c"
-                                android:text="JUNE"/>
+                                android:text="June"/>
 
                             <TextView
                                 android:id="@+id/yearText"
@@ -74,7 +74,7 @@
                                 android:textColor="@color/primaryText"
                                 android:textSize="19dp"
                                 android:fontFamily="@font/bold_c"
-                                android:text="2019"/>
+                                android:text="2020"/>
 
                         </LinearLayout>
 
@@ -88,7 +88,7 @@
                             android:textColor="@color/primaryText"
                             android:textSize="16dp"
                             android:fontFamily="@font/bold_c"
-                            android:text="18 WEEKS"/>
+                            android:text="week 18"/>
 
                     </LinearLayout>
 

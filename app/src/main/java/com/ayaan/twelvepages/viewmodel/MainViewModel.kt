@@ -150,22 +150,13 @@ class MainViewModel : ViewModel() {
         targetRecord.value = null
     }
 
-    fun makeNewTimeObject(type: Int) {
-        val timeObject = makeTimeObjectByTatgetTemplate(getCalendarTime0(targetTime.value!!), getCalendarTime23(targetTime.value!!))
-        timeObject.type = type
-        targetRecord.value = timeObject
-    }
-
-    fun makeNewTimeObject() {
-        targetRecord.value = makeTimeObjectByTatgetTemplate(
-                getCalendarTime0(targetTime.value!!), getCalendarTime23(targetTime.value!!))
-    }
-
     fun makeNewTimeObject(startTime: Long, endTime: Long) {
-        targetRecord.value = makeTimeObjectByTatgetTemplate(startTime, endTime)
+        val folder = targetFolder.value
+        targetRecord.value = if(folder?.type == 0) makeTimeObjectByTatgetTemplate(folder, startTime, endTime)
+        else makeTimeObjectByTatgetTemplate(folder, Long.MIN_VALUE, Long.MIN_VALUE)
     }
 
-    private fun makeTimeObjectByTatgetTemplate(startTime: Long, endTime: Long) =
+    private fun makeTimeObjectByTatgetTemplate(targetFolder: Folder?, startTime: Long, endTime: Long) =
             RecordManager.makeNewRecord(startTime, endTime).apply {
                 targetTemplate.value?.let {
                     title = it.recordTitle ?: ""
@@ -176,7 +167,7 @@ class MainViewModel : ViewModel() {
                     if(it.isScheduled()) setSchedule()
                     if(it.isSetCheckBox()) setCheckBox()
                     if(it.alarmOffset != Long.MIN_VALUE) {
-                        if(AlarmManager.getTimeObjectAlarmText(it.alarmOffset) != null) {
+                        if(AlarmManager.getOffsetText(it.alarmOffset) != null) {
                             setAlarm(it.alarmOffset, 0)
                         }else {
                             tempCal.timeInMillis = it.alarmOffset
@@ -190,14 +181,8 @@ class MainViewModel : ViewModel() {
                     }
                     return@let
                 }
-                folder = targetFolder.value
+                folder = targetFolder
             }
-
-    fun saveDirectByTemplate() {
-        MainActivity.getTargetCal()?.let {
-            RecordManager.save(makeTimeObjectByTatgetTemplate(getCalendarTime0(it), getCalendarTime23(it)))
-        }
-    }
 
     override fun onCleared() {
         super.onCleared()

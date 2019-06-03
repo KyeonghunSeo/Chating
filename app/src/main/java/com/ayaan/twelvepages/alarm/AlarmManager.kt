@@ -15,6 +15,15 @@ import java.util.*
 object AlarmManager {
     private lateinit var manager: android.app.AlarmManager
     private lateinit var alarmOffsetStrings: Array<String>
+    val offsets = arrayOf(
+            0L,
+            1000L * 60 * 60 * 9,
+            1000L * 60 * 60 * 12,
+            1000L * 60 * 60 * 18,
+            -1000L * 60 * 30,
+            -1000L * 60 * 60,
+            -1000L * 60 * 60 * 24,
+            -1000L * 60 * 60 * 24 * 7)
     var eventAlarm = Long.MIN_VALUE
     var todoAlarm = Long.MIN_VALUE
     var socialAlarm = Long.MIN_VALUE
@@ -104,16 +113,55 @@ object AlarmManager {
         }
     }
 
-    fun getTimeObjectAlarmText(offset: Long) : String? = when(offset) {
-        0L -> alarmOffsetStrings[0]
-        1000L * 60 * 60 * 9 -> alarmOffsetStrings[1]
-        1000L * 60 * 60 * 12 -> alarmOffsetStrings[2]
-        1000L * 60 * 60 * 18 -> alarmOffsetStrings[3]
-        -1000L * 60 * 30 -> alarmOffsetStrings[4]
-        -1000L * 60 * 60 -> alarmOffsetStrings[5]
-        -1000L * 60 * 60 * 24 -> alarmOffsetStrings[6]
-        -1000L * 60 * 60 * 24 * 7 -> alarmOffsetStrings[7]
-        else -> null
+    fun getOffsetText(offset: Long) : String? {
+        val index = offsets.indexOf(offset)
+        return if(index >= 0) alarmOffsetStrings[index]
+        else null
+    }
+
+    fun getAlarmNotiText(record: Record) : String {
+        val alarm = record.alarms[0]!!
+        val timeStr = if(record.isSetTime()) AppDateFormat.dateTime.format(Date(record.dtStart))
+        else AppDateFormat.mdeDate.format(Date(record.dtStart))
+        val diffStr = getDiffStr(alarm.dtAlarm, record.dtStart)
+        return "$timeStr ($diffStr)"
+    }
+
+    fun getDiffStr(dtAlarm: Long, dtStart: Long) : String {
+        val diff = dtAlarm - dtStart
+        return when  {
+            diff == 0L -> App.context.getString(R.string.now)
+            diff > 0 -> {
+                tempCal.timeInMillis = dtAlarm
+                val diffToday = Math.abs(getDiffToday(tempCal))
+                when (diffToday) {
+                    0 -> App.context.getString(R.string.today)
+                    1 -> App.context.getString(R.string.yesterday)
+                    else -> String.format(App.context.getString(R.string.date_before), diffToday)
+                }
+            }
+            else -> {
+                val diffMin = Math.abs(diff / MIN_MILL)
+                when {
+                    diffMin < 60 -> String.format(App.context.getString(R.string.min_after), Math.abs(diffMin))
+                    diffMin < 60 * 24 -> {
+                        val diffHour = Math.abs(diff / HOUR_MILL)
+                        val diffMinHour = diffMin % 60
+                        when (diffMinHour) {
+                            0L -> String.format(App.context.getString(R.string.hour_after), diffHour)
+                            else -> String.format(App.context.getString(R.string.hour_min_after), diffHour, diffMinHour)
+                        }
+                    }
+                    else -> {
+                        val diffDate = Math.abs(diff / DAY_MILL)
+                        when (diffDate) {
+                            1L -> App.context.getString(R.string.tomorrow)
+                            else ->String.format(App.context.getString(R.string.date_after), diffDate)
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

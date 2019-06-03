@@ -34,33 +34,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="100dp"
-                android:layout_gravity="center">
-
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/calendar"
-                    android:tint="@color/backgroundDark"
-                    android:layout_gravity="center"/>
+                android:layout_margin="30dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center"
                     android:textColor="@color/line"
-                    android:textSize="16dp"
+                    android:textSize="18dp"
                     android:layout_marginTop="15dp"
+                    android:fontFamily="@font/bold"
+                    android:textStyle="italic"
                     android:text="@string/no_records"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center"
                     android:textColor="@color/line"
-                    android:textSize="14dp"
+                    android:textSize="16dp"
                     android:layout_marginTop="10dp"
+                    android:textStyle="italic"
                     android:text="@string/motto_sample"/>
 
             </LinearLayout>

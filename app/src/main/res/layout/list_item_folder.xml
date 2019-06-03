@@ -9,8 +9,8 @@
     <FrameLayout
         android:id="@+id/edgeBottom"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginBottom="-20dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="-30dp"
         android:layout_gravity="bottom"
         android:elevation="10dp">
 
@@ -18,16 +18,16 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:translationY="-10dp"
-            app:cardCornerRadius="10dp"
+            android:translationY="-15dp"
+            app:cardCornerRadius="15dp"
             app:cardElevation="10dp"
             app:cardBackgroundColor="@color/white">
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:orientation="horizontal"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:layout_gravity="right"
             app:cardCornerRadius="0dp"
             app:cardElevation="10dp"
@@ -35,8 +35,8 @@
         </androidx.cardview.widget.CardView>
 
         <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:src="@drawable/tab_edge_bottom"
             android:layout_gravity="right|bottom"
             android:elevation="10dp"
@@ -47,24 +47,24 @@
     <FrameLayout
         android:id="@+id/edgeTop"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginTop="-20dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="-30dp"
         android:elevation="10dp">
 
         <androidx.cardview.widget.CardView
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:translationY="10dp"
-            app:cardCornerRadius="10dp"
+            android:translationY="15dp"
+            app:cardCornerRadius="15dp"
             app:cardElevation="10dp"
             app:cardBackgroundColor="@color/white">
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:orientation="horizontal"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:layout_gravity="right|bottom"
             app:cardCornerRadius="0dp"
             app:cardElevation="10dp"
@@ -72,8 +72,8 @@
         </androidx.cardview.widget.CardView>
 
         <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:src="@drawable/tab_edge_top"
             android:layout_gravity="right"
             android:elevation="10dp"
@@ -107,8 +107,9 @@
             android:rotation="-90"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="14dp"
+            android:textSize="15dp"
             android:maxLines="2"
+            android:lineSpacingExtra="-3dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:ellipsize="end"

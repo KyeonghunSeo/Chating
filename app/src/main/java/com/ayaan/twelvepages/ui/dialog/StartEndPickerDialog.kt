@@ -12,6 +12,8 @@ import com.ayaan.twelvepages.model.Record
 import kotlinx.android.synthetic.main.dialog_start_end_picker.*
 import java.util.*
 
+
+
 @SuppressLint("ValidFragment")
 class StartEndPickerDialog(activity: Activity, private val record: Record,
                            private val onConfirmed: (Calendar, Calendar, Boolean) -> Unit) : Dialog(activity) {
