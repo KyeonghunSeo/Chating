@@ -84,7 +84,7 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     inner class Adapter : RecyclerView.Adapter<ViewHolder>() {
-        override fun getItemCount(): Int = items.size + if(mode == MODE_EDIT) 1 else 0
+        override fun getItemCount(): Int = items.size + if(mode == MODE_EDIT || mode == MODE_NORMAL) 1 else 0
 
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {
@@ -140,9 +140,13 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 }
             }else {
                 v.contentLy.setBackgroundResource(R.drawable.edit_dash_rect)
+                if(mode == MODE_NORMAL) {
+                    v.tagText.text = context.getString(R.string.select_tag)
+                }else {
+                    v.tagText.text = context.getString(R.string.new_tag)
+                }
                 v.contentLy.alpha = 0.3f
                 v.deleteBtn.visibility = View.GONE
-                v.tagText.text = context.getString(R.string.new_tag)
                 v.setOnClickListener {
                     onSelected?.invoke(null, 0)
                 }

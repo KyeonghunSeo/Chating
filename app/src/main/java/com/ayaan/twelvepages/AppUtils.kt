@@ -21,6 +21,7 @@ import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.ChangeBounds
 import androidx.transition.Fade
@@ -471,6 +472,7 @@ fun uncheckView(view: View) {
     }
 }
 
+fun str(stringId: Int) = App.context.getString(stringId)
 
 /* 코드
 class MyAsyncTask() : AsyncTask<String, String, String?>() {

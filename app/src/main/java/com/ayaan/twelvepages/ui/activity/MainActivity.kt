@@ -192,39 +192,47 @@ class MainActivity : BaseActivity() {
 
         mainDateLy.setOnLongClickListener {
             val cal = Calendar.getInstance()
-            cal.set(2019, 4, 1)
+            cal.set(2019, 5, 1)
             val s = cal.timeInMillis
             RecordManager.save(RecordManager.makeNewRecord(s, s).apply {
                 title = "점심약속"
                 type = 1
+                colorKey = Random().nextInt(11)
             })
             RecordManager.save(RecordManager.makeNewRecord(s, s).apply {
                 title = "오후미팅"
                 type = 1
+                colorKey = Random().nextInt(11)
             })
             RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL, s+DAY_MILL).apply {
                 title = "헬스장"
                 type = 1
+                colorKey = Random().nextInt(11)
             })
             RecordManager.save(RecordManager.makeNewRecord(s, s+DAY_MILL*3).apply {
                 title = "회사 프로젝트"
                 type = 1
+                colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*28, s+DAY_MILL*28).apply {
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*14, s+DAY_MILL*17).apply {
                 title = "점심약속"
                 type = 1
+                colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*28, s+DAY_MILL*29).apply {
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*22, s+DAY_MILL*23).apply {
                 title = "오후미팅"
                 type = 1
+                colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*28, s+DAY_MILL*30).apply {
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*27, s+DAY_MILL*30).apply {
                 title = "헬스장"
                 type = 1
+                colorKey = Random().nextInt(11)
             })
             RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*29, s+DAY_MILL*29).apply {
                 title = "회사 프로젝트"
                 type = 1
+                colorKey = Random().nextInt(11)
             })
             return@setOnLongClickListener false
         }

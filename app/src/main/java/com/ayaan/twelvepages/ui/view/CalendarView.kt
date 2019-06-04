@@ -38,7 +38,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val todayCal: Calendar = Calendar.getInstance()
         val dragStartYPos = dpToPx(58f)
         val weekLyBottomPadding = dpToPx(10)
-        val calendarPadding = dpToPx(20)
+        val calendarPadding = dpToPx(19)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(1.0f)
@@ -65,7 +65,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         init {
             dateText.typeface = AppTheme.thinCFont
             dowText.typeface = AppTheme.regularCFont
-            holiText.typeface = AppTheme.thinFont
+            holiText.typeface = AppTheme.regularFont
             bar.scaleX = 0f
             dowText.visibility = View.GONE
         }
@@ -118,7 +118,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(calendarPadding, weekLyBottomPadding, calendarPadding, calendarPadding * 2)
+        calendarLy.setPadding(calendarPadding, calendarPadding, calendarPadding, calendarPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
 
         rowDividers.forEachIndexed { index, view ->
@@ -187,7 +187,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         todayCellNum = -1
         targetCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height.toFloat() - calendarPadding * 2 - weekLyBottomPadding
+        minCalendarHeight = height.toFloat() - calendarPadding * 2
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {
@@ -283,7 +283,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val holiText = dateHeaders[cellNum].holiText
         dowText.visibility = View.GONE
         dateText.typeface = AppTheme.thinCFont
-        holiText.typeface = AppTheme.thinFont
+        holiText.typeface = AppTheme.regularFont
         holiText.text = dateInfos[cellNum].getUnSelectedString()
         offViewEffect(cellNum)
         lastUnSelectDateAnimSet?.cancel()

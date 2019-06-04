@@ -63,6 +63,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun selectedTargetDayView(dayView: DayView) {
         targetDayView = dayView
+        targetDayView.targeted()
     }
 
     inner class CalendarPagerAdapter : PagerAdapter() {

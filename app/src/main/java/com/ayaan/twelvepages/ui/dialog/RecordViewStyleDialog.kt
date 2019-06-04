@@ -22,24 +22,22 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
     private val subRecordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.STACK, 0, 0)
 
     init {
-        recordView.record.title = getSampleText()
         recordView.childList = ArrayList()
         recordView.childList?.add(recordView.record)
-        subRecordView.record.title = getSampleText()
         subRecordView.childList = ArrayList()
         subRecordView.childList?.add(subRecordView.record)
         if(record != null) {
-            recordView.formula = RecordCalendarAdapter.Formula.values()[record.getFormula()]
+            recordView.formula = record.getFormula()
             recordView.record.style = record.style
             recordView.record.colorKey = record.colorKey
-            subRecordView.formula = RecordCalendarAdapter.Formula.values()[record.getFormula()]
+            subRecordView.formula = record.getFormula()
             subRecordView.record.style = record.style
             subRecordView.record.colorKey = record.colorKey
         }else if(template != null) {
-            recordView.formula = RecordCalendarAdapter.Formula.values()[template.style % 100]
+            recordView.formula = RecordCalendarAdapter.Formula.styleToFormula(template.style)
             recordView.record.style = template.style
             recordView.record.colorKey = template.colorKey
-            subRecordView.formula = RecordCalendarAdapter.Formula.values()[template.style % 100]
+            subRecordView.formula = RecordCalendarAdapter.Formula.styleToFormula(template.style)
             subRecordView.record.style = template.style
             subRecordView.record.colorKey = template.colorKey
         }
@@ -101,23 +99,21 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
 
         formulaPicker.formula = recordView.formula
         formulaPicker.onSelected = { formula ->
-            recordView.record.setFormula(formula.ordinal)
+            recordView.record.setFormula(formula)
             recordView.formula = formula
-            subRecordView.record.setFormula(formula.ordinal)
+            subRecordView.record.setFormula(formula)
             subRecordView.formula = formula
-            shapePickerView.refresh(formula)
+            shapePickerView.refresh(formula, formula.shapes[0])
             drawRecord()
         }
         formulaPicker.adapter?.notifyDataSetChanged()
 
-        shapePickerView.formula = recordView.formula
-        shapePickerView.shape = recordView.record.style / 100
         shapePickerView.onSelected = { shape ->
-            recordView.record.setShapeNum(shape)
-            subRecordView.record.setShapeNum(shape)
+            recordView.record.setShape(shape)
+            subRecordView.record.setShape(shape)
             drawRecord()
         }
-        shapePickerView.setItems()
+        shapePickerView.refresh(recordView.formula, recordView.record.getShape())
 
         cancelBtn.setOnClickListener { dismiss() }
         confirmBtn.setOnClickListener {
@@ -133,6 +129,8 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
     private val dateWidth = dpToPx(60f)
 
     private fun drawRecord() {
+        recordView.record.title = getSampleText()
+        subRecordView.record.title = getSampleText()
         recordView.setStyle()
         subRecordView.setStyle()
 
@@ -152,7 +150,7 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
         recordView.mTop = topMargin
         recordView.mBottom = recordView.mTop + recordView.getViewHeight().toFloat()
         recordView.setLayout()
-        if(recordView.formula == RecordCalendarAdapter.Formula.IMAGE) {
+        if(recordView.formula == RecordCalendarAdapter.Formula.STICKER) {
             recordView.translationY = -dpToPx(10f)
         }else {
             recordView.translationY = 0f
@@ -216,7 +214,7 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
                 colorLy.visibility = View.VISIBLE
                 imageLy.visibility = View.GONE
             }
-            RecordCalendarAdapter.Formula.IMAGE -> {
+            RecordCalendarAdapter.Formula.STICKER -> {
                 subRecordView.length = 1
                 subRecordView.mLeft = 0f
                 subRecordView.mRight = dateWidth

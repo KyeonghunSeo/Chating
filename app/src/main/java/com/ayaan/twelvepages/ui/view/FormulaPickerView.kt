@@ -19,8 +19,7 @@ import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : RecyclerView(context, attrs, defStyleAttr) {
 
-    private val items = context.resources.getStringArray(R.array.formulas)
-    private val formulas = arrayOf(STACK, EXPANDED, RANGE, IMAGE, DOT)
+    private val formulas = arrayOf(STACK, EXPANDED, RANGE, STICKER, DOT)
 
     var onSelected : ((RecordCalendarAdapter.Formula) -> Unit)? = null
     var formula = STACK
@@ -31,7 +30,7 @@ class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     inner class Adapter : RecyclerView.Adapter<ViewHolder>() {
-        override fun getItemCount(): Int = items.size
+        override fun getItemCount(): Int = formulas.size
 
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {
@@ -45,9 +44,10 @@ class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: Attri
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val v = holder.itemView
-            v.titleText.text = items[position]
+            val item = formulas[position]
+            v.titleText.text = context.getString(item.nameId)
 
-            if(formulas[position] == formula) {
+            if(item == formula) {
                 v.titleText.setTextColor(Color.WHITE)
                 v.titleText.typeface = AppTheme.boldFont
                 v.contentLy.setBackgroundColor(AppTheme.primaryColor)
@@ -60,7 +60,7 @@ class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: Attri
             }
 
             v.setOnClickListener {
-                if(formulas[position] != formula) {
+                if(item != formula) {
                     notifyItemChanged(formulas.indexOf(formula))
                     notifyItemChanged(position)
                     formula = formulas[position]

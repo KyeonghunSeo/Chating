@@ -129,7 +129,7 @@
                         android:layout_height="30dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:padding="7dp"
-                        android:src="@drawable/check"
+                        android:src="@drawable/sticker"
                         android:tint="@color/iconTint"/>
 
                 </LinearLayout>

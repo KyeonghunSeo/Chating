@@ -103,19 +103,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 updateData(result, currentList)
                 adapter.notifyDataSetChanged()
             }else if(changeSet.state == OrderedCollectionChangeSet.State.UPDATE) {
-                updateData(result, newList)
-                updateChange(adapter, currentList, newList)
+                if(MainActivity.getDayPagerView()?.isOpened() == true) {
+                    updateData(result, newList)
+                    updateChange(adapter, currentList, newList)
+                }
             }
-/*
-                val imageItem = result.firstOrNull { item -> item.links.any{ it.type == Link.Type.IMAGE.ordinal } }
-
-                if(imageItem != null) {
-                    val imageLink = imageItem.links.first { it.type == Link.Type.IMAGE.ordinal }
-                    Glide.with(context).load(imageLink.data).into(headerCoverImg)
-                    headerCoverImg.setColorFilter(resource.getColor(R.color.transitionDimWhite), PorterDuff.Mode.SRC_OVER)
-                }else {
-                    headerCoverImg.setImageBitmap(null)
-                }*/
             l("${AppDateFormat.mdDate.format(targetCal.time)} 데이뷰 갱신 : ${(System.currentTimeMillis() - t) / 1000f} 초")
         }
     }
@@ -215,7 +207,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationX", 0f, mainDateLyX),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", 0f, mainDateLyY),
                 ObjectAnimator.ofFloat(MainActivity.getWeekLy(), "translationY", 0f, weekTextY),
-                ObjectAnimator.ofFloat(bar, "scaleX", 1f, barScale),
+                ObjectAnimator.ofFloat(bar, "scaleX", 1f, 1f),
                 ObjectAnimator.ofFloat(bar, "scaleY", 1f, 2f),
                 ObjectAnimator.ofFloat(bar, "translationX", 0f, barX),
                 ObjectAnimator.ofFloat(bar, "translationY", 0f, barY))
@@ -247,7 +239,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationX", mainDateLyX, 0f),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", mainDateLyY, 0f),
                 ObjectAnimator.ofFloat(MainActivity.getWeekLy(), "translationY", weekTextY, 0f),
-                ObjectAnimator.ofFloat(bar, "scaleX", barScale, 1f),
+                ObjectAnimator.ofFloat(bar, "scaleX", 1f, 1f),
                 ObjectAnimator.ofFloat(bar, "scaleY", 2f, 1f),
                 ObjectAnimator.ofFloat(bar, "translationX", barX, 0f),
                 ObjectAnimator.ofFloat(bar, "translationY", barY, 0f))
@@ -280,7 +272,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.translationX = mainMonthX
         }
         MainActivity.getWeekLy()?.translationY = weekTextY
-        bar.scaleX = barScale
+        bar.scaleX = 1f
         bar.scaleY = 2f
         bar.translationX = barX
         bar.translationY = barY
@@ -315,6 +307,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         bar.scaleY = 1f
         bar.translationX = 0f
         bar.translationY = 0f
+    }
+
+    fun targeted() {
+
     }
 
     companion object {

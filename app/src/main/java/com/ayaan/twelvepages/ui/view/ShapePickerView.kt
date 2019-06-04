@@ -13,13 +13,13 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import kotlinx.android.synthetic.main.list_item_chip.view.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
+import com.ayaan.twelvepages.ui.view.RecordView.Shape.*
 
 class ShapePickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : RecyclerView(context, attrs, defStyleAttr) {
-
-    lateinit var items: Array<String>
-    var onSelected : ((Int) -> Unit)? = null
-    var shape = 0
+    lateinit var items: Array<RecordView.Shape>
+    var onSelected : ((RecordView.Shape) -> Unit)? = null
+    var shape = TEXT
     var formula = STACK
 
     init {
@@ -27,19 +27,11 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         adapter = Adapter()
     }
 
-    fun setItems() {
-        items = when(formula) {
-            EXPANDED -> context.resources.getStringArray(R.array.shape_expand)
-            RANGE -> context.resources.getStringArray(R.array.shape_range)
-            else -> context.resources.getStringArray(R.array.shape_stack)
-        }
+    fun refresh(f: RecordCalendarAdapter.Formula, s: RecordView.Shape) {
+        formula = f
+        shape = s
+        items = formula.shapes
         adapter?.notifyDataSetChanged()
-    }
-
-    fun refresh(formula: RecordCalendarAdapter.Formula) {
-        this.formula = formula
-        shape = 0
-        setItems()
     }
 
     inner class Adapter : RecyclerView.Adapter<ViewHolder>() {
@@ -57,9 +49,10 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val v = holder.itemView
-            v.titleText.text = items[position]
+            val item = items[position]
+            v.titleText.text = context.getString(items[position].nameId)
 
-            if(position == shape) {
+            if(item == shape) {
                 v.titleText.setTextColor(Color.WHITE)
                 v.titleText.typeface = AppTheme.boldFont
                 v.contentLy.setBackgroundColor(AppTheme.primaryColor)
@@ -72,11 +65,11 @@ class ShapePickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
 
             v.setOnClickListener {
-                if(shape != position) {
-                    notifyItemChanged(shape)
+                if(item != shape) {
+                    notifyItemChanged(items.indexOf(shape))
                     notifyItemChanged(position)
-                    shape = position
-                    onSelected?.invoke(position)
+                    shape = item
+                    onSelected?.invoke(shape)
                 }
             }
         }

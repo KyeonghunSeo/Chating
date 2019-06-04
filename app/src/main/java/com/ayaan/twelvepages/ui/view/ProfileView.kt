@@ -75,7 +75,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     val animSet = AnimatorSet()
                     val animList = ArrayList<Animator>()
                     val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
-                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(1f)))
+                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(0.5f)))
                     MainActivity.getMainPanel()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))
@@ -110,7 +110,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     val animSet = AnimatorSet()
                     val animList = ArrayList<Animator>()
                     val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
-                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(16f)))
+                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(18f)))
                     MainActivity.getMainPanel()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", it.scaleX, 1f))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", it.scaleY, 1f))

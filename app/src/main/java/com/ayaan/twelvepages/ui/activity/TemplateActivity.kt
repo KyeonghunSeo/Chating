@@ -6,6 +6,7 @@ import androidx.core.widget.NestedScrollView
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.dialog.*
+import com.ayaan.twelvepages.ui.view.RecordView
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_template.*
 import java.util.*
@@ -26,8 +27,7 @@ class TemplateActivity : BaseActivity() {
         }
 
         deleteBtn.setOnClickListener {
-            showDialog(CustomDialog(this@TemplateActivity,
-                    String.format(getString(R.string.delete_something), template.title ?: ""),
+            showDialog(CustomDialog(this@TemplateActivity, getString(R.string.delete),
                     getString(R.string.delete_template), null) { result, _, _ -> if(result) { delete() }
             }, true, true, true, false)
         }
@@ -58,10 +58,12 @@ class TemplateActivity : BaseActivity() {
     }
 
     private fun updateCalendarBlockStyleUI() {
-        calendarBlockStyleBtn.setOnClickListener {
+        recordViewStyleText.text = RecordView.getStyleText(template.style)
+        recordViewStyleBtn.setOnClickListener {
             showDialog(RecordViewStyleDialog(this, null, template) { style, colorKey ->
                 template.style = style
                 template.colorKey = colorKey
+                updateCalendarBlockStyleUI()
                 updateColorUI()
             }, true, true, true, false)
         }
@@ -169,9 +171,6 @@ class TemplateActivity : BaseActivity() {
     private fun updateTagUI() {
         tagView.setItems(template.tags, null)
         tagView.onSelected = { _, _ ->
-
-        }
-        tagBtn.setOnClickListener {
             showDialog(TagDialog(this@TemplateActivity, ArrayList(template.tags)) { tags ->
                 template.tags.clear()
                 template.tags.addAll(tags)

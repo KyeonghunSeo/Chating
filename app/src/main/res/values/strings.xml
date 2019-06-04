@@ -109,7 +109,7 @@
     <string name="apply_all">모두 적용</string>
     <string name="date_of_total">%1$s 일차</string>
     <string name="drawing">손글씨</string>
-    <string name="calendar_settings">달력설정</string>
+    <string name="calendar_settings">캘린더 설정</string>
     <string name="add">생성</string>
     <string name="tag">태그</string>
     <string name="enter_tag">태그 이름</string>
@@ -118,7 +118,7 @@
     <string name="keep">보관함</string>
     <string name="attachment">첨부</string>
     <string name="edit_template">템플릿 편집</string>
-    <string name="show_in_calendar">달력에 게시</string>
+    <string name="show_in_calendar">캘린더에 게시</string>
     <string name="delete_template">템플릿을 삭제해도 템플릿으로 기록한 데이터는 유지됩니다.</string>
     <string name="delete_something">%1$s 삭제</string>
     <string name="template_title">템플릿 이름</string>
@@ -130,7 +130,6 @@
     <string name="enter_folder_name">폴더 제목을 입력하세요</string>
     <string name="scrap_in_today">오늘 %1$s</string>
     <string name="scrap_in_folder">서랍에 보관</string>
-    <string name="scrap_in_calendar">달력에 쓰기</string>
     <string name="select_date">날짜 선택</string>
     <string name="invalid_info">잘못된 정보입니다</string>
     <string name="saved">저장되었습니다</string>
@@ -148,8 +147,8 @@
     <string name="delete_folder">서랍 삭제</string>
     <string name="delete_folder_sub">이 서랍에 보관된 모든 기록(총 %1$s개)이 삭제됩니다.\n정말 삭제할까요?</string>
     <string name="search_title_location_memo">제목, 장소, 메모 검색하기</string>
-    <string name="startdow">한 주의 시작</string>
-    <string name="startdow_sub">한 주의 시작요일을 설정합니다</string>
+    <string name="startdow">시작 요일</string>
+    <string name="startdow_sub">한 주가 시작되는 요일을 선택해주세요</string>
     <string name="week_display">주말 표시</string>
     <string name="lunar_display">음력 표시</string>
     <string name="account_settings">계정 설정</string>
@@ -178,7 +177,7 @@
     <string name="duration_hour">총 %1$s시간</string>
     <string name="duration_min_hour">총 %1$s시간 %2$s분</string>
     <string name="edit">편집</string>
-    <string name="tasking">할 일 만들기</string>
+    <string name="tasking">할일 만들기</string>
     <string name="checkbox">체크박스</string>
     <string name="checklist">체크리스트</string>
     <string name="percentage">성취도</string>
@@ -215,16 +214,16 @@
     <string name="weekline_display">주간 경계선 표시</string>
     <string name="enter_here">이곳에 입력하세요</string>
     <string name="delete_sub">이 기록을 삭제할까요?</string>
-    <string name="calendar">달력</string>
+    <string name="calendar">캘린더</string>
     <string name="folder">보관함</string>
     <string name="check_option">완료된 기록 표시방법</string>
     <string name="check_option_3">흐리게만</string>
     <string name="display_settings">화면 설정</string>
-    <string name="hide_in_calendar">달력에서 숨김</string>
+    <string name="hide_in_calendar">캘린더에서 숨김</string>
     <string name="record">기록</string>
     <string name="deleted">삭제되었습니다</string>
     <string name="move_record">기록 이동</string>
-    <string name="to_calendar">달력으로 이동</string>
+    <string name="to_calendar">캘린더로 이동</string>
     <string name="change_folder">보관함 변경</string>
     <string name="change_date">날짜 변경</string>
     <string name="to_folder">보관함으로 이동</string>
@@ -247,7 +246,7 @@
     <string name="close">닫기</string>
     <string name="new_tag_sub">기록에 태그를 붙이면 빠르게 검색할수 있고, 유용한 통계자료도 만들수 있습니다.</string>
     <string name="enter_tag_name">이곳에 태그이름을 입력</string>
-    <string name="edit_tag">태그 편집</string>
+    <string name="edit_tag">태그편집</string>
     <string name="already_exist_tag">이미 존재하는 태그이름 입니다</string>
     <string name="back_c">BACK</string>
     <string name="delete_c">DELETE</string>
@@ -260,9 +259,9 @@
     <string name="image">그림</string>
     <string name="shape">모양</string>
     <string name="preview">미리보기</string>
-    <string name="edit_done">편집 완료</string>
+    <string name="edit_done">편집완료</string>
     <string name="apply_textcolor">글씨에도 적용</string>
-    <string name="custom_time">맞춤 알림 시간</string>
+    <string name="custom_time">맞춤 알림시간</string>
     <string name="folder_type">폴더 유형</string>
     <string name="note">노트</string>
     <string name="default_color_palette_name">기본</string>
@@ -271,46 +270,31 @@
     <string name="fall">가을</string>
     <string name="winter">겨울</string>
     <string name="now">지금</string>
+    <string name="select_tag">태그선택</string>
 
-    <string-array name="formulas">
-        <item>기본</item>
-        <item>확장</item>
-        <item>구간</item>
-        <item>그림</item>
-        <item>점</item>
-    </string-array>
+    <string name="formula_background">배경</string>
+    <string name="formula_stack">한줄</string>
+    <string name="formula_expanded">여러줄</string>
+    <string name="formula_stamp">스탬프</string>
+    <string name="formula_dot">도트</string>
+    <string name="formula_range">구간</string>
+    <string name="formula_sticker">스티커</string>
 
-    <string-array name="shape_stack">
-        <item>기본</item>
-        <item>글씨만</item>
-        <item>테두리</item>
-        <item>빗금</item>
-        <item>굵은 사선</item>
-        <item>형광팬</item>
-        <item>윗줄</item>
-        <item>밑줄</item>
-    </string-array>
-
-    <string-array name="shape_expand">
-        <item>기본</item>
-        <item>채우기</item>
-        <item>테두리</item>
-        <item>빗금</item>
-        <item>굵은 사선</item>
-        <item>윗줄</item>
-        <item>밑줄</item>
-    </string-array>
-
-    <string-array name="shape_range">
-        <item>기본</item>
-        <item>점선</item>
-        <item>화살표</item>
-        <item>점선 화살표</item>
-        <item>채우기</item>
-        <item>형광팬</item>
-        <item>윗줄</item>
-        <item>밑줄</item>
-    </string-array>
+    <string name="shape_blank">공백</string>
+    <string name="shape_text">텍스트</string>
+    <string name="shape_rect_fill">채우기</string>
+    <string name="shape_rect_stroke">테두리</string>
+    <string name="shape_round_fill">둥근채우기</string>
+    <string name="shape_round_stroke">둥근테두리</string>
+    <string name="shape_bold_hatched">굵은사선</string>
+    <string name="shape_thin_hatched">빗금</string>
+    <string name="shape_upper_line">윗줄</string>
+    <string name="shape_under_line">밑줄</string>
+    <string name="shape_neon_pen">형광팬</string>
+    <string name="shape_line">선</string>
+    <string name="shape_dash">점선</string>
+    <string name="shape_arrow">화살표</string>
+    <string name="shape_dash_arrow">점선화살표</string>
 
     <string-array name="sample_texts">
         <item>지혜란 생각이 떠올랐을때 바로 기록하는 것이다</item>

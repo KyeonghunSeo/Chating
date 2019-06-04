@@ -38,22 +38,33 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val checkboxSize = dpToPx(10)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         val dashPath = DashPathEffect(floatArrayOf(dpToPx(3.0f), dpToPx(1.0f)), 2f)
+        fun getStyleText(style: Int) : String{
+            val formula = RecordCalendarAdapter.Formula.styleToFormula(style)
+            val shape = Shape.styleToShape(style)
+            return str(formula.nameId) + str(shape.nameId)
+        }
     }
 
-    enum class Shape(val fillColor: Boolean) {
-        DEFAULT(false),
-        RECT_FILL(true),
-        RECT_STROKE(false),
-        ROUND_FILL(true),
-        ROUND_STROKE(false),
-        BOLD_HATCHED(true),
-        THIN_HATCHED(false),
-        UPPER_LINE(false),
-        UNDER_LINE(false),
-        NEON_PEN(false),
-        DASH(false),
-        ARROW(false),
-        DASH_ARROW(false)
+    enum class Shape(val nameId: Int, val fillColor: Boolean) {
+        BLANK(R.string.shape_blank, false),
+        TEXT(R.string.shape_text, false),
+        LINE(R.string.shape_line, false),
+        RECT_FILL(R.string.shape_rect_fill, true),
+        RECT_STROKE(R.string.shape_rect_stroke, false),
+        ROUND_FILL(R.string.shape_round_fill, true),
+        ROUND_STROKE(R.string.shape_round_stroke, false),
+        BOLD_HATCHED(R.string.shape_bold_hatched, true),
+        THIN_HATCHED(R.string.shape_thin_hatched, false),
+        UPPER_LINE(R.string.shape_upper_line, false),
+        UNDER_LINE(R.string.shape_under_line, false),
+        NEON_PEN(R.string.shape_neon_pen, false),
+        DASH(R.string.shape_dash, false),
+        ARROW(R.string.shape_arrow, false),
+        DASH_ARROW(R.string.shape_dash_arrow, false);
+
+        companion object {
+            fun styleToShape(style: Int) = values()[style % 10000 / 100]
+        }
     }
 
     var mLeft = 0f
@@ -66,7 +77,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     var childList: ArrayList<Record>? = null
     var paintColor = AppTheme.backgroundColor
     var fontColor = AppTheme.primaryText
-    var shape = Shape.DEFAULT
+    var shape = Shape.TEXT
 
     init {
         includeFontPadding = false
@@ -78,11 +89,10 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     @SuppressLint("RtlHardcoded")
     fun setStyle() {
         var sPadding = sidePadding
-
+        shape = record.getShape()
         when(formula) {
             BACKGROUND -> {}
             STACK -> {
-                setStackShape()
                 text = record.getTitleInCalendar()
                 gravity = Gravity.LEFT
                 setSingleLine(true)
@@ -95,7 +105,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 gravity = Gravity.LEFT
             }
             EXPANDED -> {
-                setExpandShape()
                 text = record.getTitleInCalendar()
                 gravity = Gravity.LEFT
                 setSingleLine(false)
@@ -104,7 +113,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 ellipsize = TextUtils.TruncateAt.END
             }
             RANGE -> {
-                setRangeShape()
                 text = record.getTitleInCalendar()
                 gravity = Gravity.CENTER_HORIZONTAL
                 setSingleLine(true)
@@ -113,13 +121,13 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 ellipsize = null
                 sPadding *= 3
             }
-            IMAGE -> {
+            STICKER -> {
                 gravity = Gravity.LEFT
             }
         }
 
         val leftPadding = if(record.isSetCheckBox()) {
-            (sPadding + checkboxSize + defaulMargin).toInt()
+            sPadding + checkboxSize
         }else {
             sPadding
         }
@@ -146,7 +154,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 DOT -> {
                     drawDot(canvas)
                 }
-                IMAGE -> {
+                STICKER -> {
                     drawImage(canvas)
                 }
                 else -> {
@@ -154,44 +162,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                     super.onDraw(canvas)
                 }
             }
-        }
-    }
-
-    private fun setStackShape() {
-        shape = when(record.getShapeNum()) {
-            1 -> Shape.DEFAULT
-            2 -> Shape.RECT_STROKE
-            3 -> Shape.THIN_HATCHED
-            4 -> Shape.BOLD_HATCHED
-            5 -> Shape.NEON_PEN
-            6 -> Shape.UPPER_LINE
-            7 -> Shape.UNDER_LINE
-            else -> Shape.RECT_FILL
-        }
-    }
-
-    private fun setExpandShape() {
-        shape = when(record.getShapeNum()) {
-            1 -> Shape.RECT_FILL
-            2 -> Shape.RECT_STROKE
-            3 -> Shape.THIN_HATCHED
-            4 -> Shape.BOLD_HATCHED
-            5 -> Shape.UPPER_LINE
-            6 -> Shape.UNDER_LINE
-            else -> Shape.DEFAULT
-        }
-    }
-
-    private fun setRangeShape() {
-        shape = when(record.getShapeNum()) {
-            1 -> Shape.DASH
-            2 -> Shape.ARROW
-            3 -> Shape.DASH_ARROW
-            4 -> Shape.RECT_FILL
-            5 -> Shape.NEON_PEN
-            6 -> Shape.UPPER_LINE
-            7 -> Shape.UNDER_LINE
-            else -> Shape.DEFAULT
         }
     }
 
@@ -230,7 +200,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     }
 
     fun setLayout() {
-        if(formula == IMAGE) {
+        if(formula == STICKER) {
             layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         }else {
             layoutParams = FrameLayout.LayoutParams((mRight - mLeft - defaulMargin).toInt(),
@@ -315,14 +285,14 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         }
 
         if(record.isSetCheckBox()) {
-            drawCheckBox(canvas, sidePadding)
+            drawCheckBox(canvas, (sidePadding - defaulMargin / 2).toInt())
         }
     }
 
     private fun drawRange(canvas: Canvas) {
         paint.color = paintColor
         canvas.translate(scrollX.toFloat(), 0f)
-        val space = textSpaceWidth + if(record.isSetCheckBox()) (checkboxSize + defaulMargin) else 0f
+        val space = textSpaceWidth + if(record.isSetCheckBox()) checkboxSize else 0
         var textLPos = width / 2 - space / 2 - defaulMargin
         val sPadding = sidePadding * 3
         if(textLPos < sPadding) textLPos = sPadding.toFloat()

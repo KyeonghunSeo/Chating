@@ -5,10 +5,8 @@ import android.animation.ObjectAnimator
 import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.FrameLayout
 import androidx.transition.TransitionManager
-import com.ayaan.twelvepages.AppStatus
-import com.ayaan.twelvepages.DAY_MILL
+import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.util.RecordCalendarComparator
-import com.ayaan.twelvepages.makeChangeBounceTransition
 import com.ayaan.twelvepages.manager.OsCalendarManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.model.Record
@@ -18,7 +16,7 @@ import com.ayaan.twelvepages.ui.view.RecordView
 import com.ayaan.twelvepages.ui.view.RecordView.Companion.blockTypeSize
 import io.realm.RealmResults
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
-import com.ayaan.twelvepages.dpToPx
+import com.ayaan.twelvepages.ui.view.RecordView.Shape.*
 
 class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private val viewHolderList = ArrayList<RecordViewHolder>()
@@ -35,14 +33,18 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private val cellBottomArray = Array(42){ drawStartYOffset }
     private val rowHeightArray = Array(6){ drawStartYOffset }
 
-    enum class Formula {
-        BACKGROUND,
-        STACK,
-        EXPANDED,
-        STAMP,
-        DOT,
-        RANGE,
-        IMAGE
+    enum class Formula(val nameId: Int, val shapes: Array<RecordView.Shape>) {
+        BACKGROUND(R.string.formula_background, arrayOf(BLANK)),
+        STACK(R.string.formula_stack, arrayOf(RECT_FILL, TEXT, RECT_STROKE, THIN_HATCHED, BOLD_HATCHED, NEON_PEN, UPPER_LINE, UNDER_LINE)),
+        EXPANDED(R.string.formula_expanded, arrayOf(TEXT, RECT_FILL, RECT_STROKE, THIN_HATCHED, BOLD_HATCHED, UPPER_LINE, UNDER_LINE)),
+        STAMP(R.string.formula_stamp, arrayOf(BLANK)),
+        DOT(R.string.formula_dot, arrayOf(BLANK)),
+        RANGE(R.string.formula_range, arrayOf(LINE, DASH, ARROW, DASH_ARROW, RECT_FILL, NEON_PEN, UPPER_LINE, UNDER_LINE)),
+        STICKER(R.string.formula_sticker, arrayOf(BLANK));
+
+        companion object {
+            fun styleToFormula(style: Int) = values()[style % 100]
+        }
     }
 
     fun draw(items : RealmResults<Record>?) {
@@ -105,14 +107,14 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
             endCellNum = maxCellNum - 1
             rOpen = true
         }
-        var formula = Formula.values()[record.getFormula()]
+        var formula = record.getFormula()
 
         if(formula == EXPANDED && endCellNum != startCellNum) { // 하루짜리가 아닐때 예외
             formula = STACK
         }
 
         when(formula){
-            STAMP, DOT, IMAGE -> {
+            STAMP, DOT, STICKER -> {
                 (startCellNum .. endCellNum).forEach { cellnum ->
                     val holder =
                             viewHolderList.firstOrNull{ it.formula == formula && it.startCellNum == cellnum }
@@ -175,7 +177,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                             addBottomMargin(dpToPx(20f), currentFomula)
                             computeBottomStackStartPos()
                         }
-                        IMAGE -> {
+                        STICKER -> {
                             addBottomMargin(dpToPx(10f), currentFomula)
                         }
                         else -> {}

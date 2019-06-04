@@ -29,7 +29,7 @@
                 android:textSize="18dp"
                 android:textColor="@color/primaryText"
                 android:fontFamily="@font/bold"
-                android:text="@string/tag"/>
+                android:text="@string/select_tag"/>
 
             <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="20dp"

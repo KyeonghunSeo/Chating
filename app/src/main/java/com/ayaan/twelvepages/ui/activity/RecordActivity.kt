@@ -218,7 +218,11 @@ class RecordActivity : BaseActivity() {
         }
 
         styleBtn.setOnClickListener {
-
+            showDialog(RecordViewStyleDialog(this, record, null) { style, colorKey ->
+                record.style = style
+                record.colorKey = colorKey
+                updateFolderUI()
+            }, true, true, true, false)
         }
     }
 

@@ -3,6 +3,7 @@ package com.ayaan.twelvepages.model
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.alarm.AlarmManager
+import com.ayaan.twelvepages.ui.view.RecordView
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -42,22 +43,22 @@ open class Record(@PrimaryKey var id: String? = null,
 
     @Ignore var repeatKey: String? = null
 
-    fun setFormula(formula: Int) {
-        style = formula
+    fun setFormula(formula: RecordCalendarAdapter.Formula) {
+        style = getTextColred() + formula.shapes[0].ordinal * 100 + formula.ordinal
     }
 
-    fun getFormula() = style % 100
+    fun getFormula() = RecordCalendarAdapter.Formula.styleToFormula(style)
 
-    fun setShapeNum(shape: Int) {
-        style = getTextColred() + shape * 100 + getFormula()
+    fun setShape(shape: RecordView.Shape) {
+        style = getTextColred() + shape.ordinal * 100 + getFormula().ordinal
     }
 
-    fun getShapeNum() = style % 10000 / 100
+    fun getShape() = RecordView.Shape.styleToShape(style)
 
     fun isTextColored() = getTextColred() > 10000
 
     fun setTextColored(colored: Boolean) {
-        style = getShapeNum() + getFormula() + if(colored) 10000 else 0
+        style = if(colored) 10000 else 0 + getShape().ordinal * 100 + getFormula().ordinal
     }
 
     fun getTextColred() = style / 10000 * 10000
