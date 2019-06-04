@@ -41,7 +41,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val calendarPadding = dpToPx(19)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
-        val lineWidth = dpToPx(1.0f)
+        val lineWidth = dpToPx(0.5f)
         val dataStartYOffset = dpToPx(33f)
     }
 
@@ -328,8 +328,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dateText = dateHeaders[cellNum].dateText
             val dowText = dateHeaders[cellNum].dowText
             val holiText = dateHeaders[cellNum].holiText
-            dateText.typeface = AppTheme.boldCFont
-            holiText.typeface = AppTheme.boldFont
+            dateText.typeface = AppTheme.regularCFont
+            holiText.typeface = AppTheme.regularFont
             holiText.text = dateInfos[cellNum].getSelectedString()
             dowText.text = AppDateFormat.dowEng.format(targetCal.time).toUpperCase()
             if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE

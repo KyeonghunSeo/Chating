@@ -5,7 +5,8 @@
 	<item android:drawable="@color/background"/>
 	<item>
 		<bitmap
+			android:alpha="0"
 			android:gravity="center"
-			android:src="@drawable/bg2"/>
+			android:src="@drawable/done"/>
 	</item>
 </layer-list>

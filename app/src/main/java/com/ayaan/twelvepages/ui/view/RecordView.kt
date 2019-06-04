@@ -16,7 +16,7 @@ import com.ayaan.twelvepages.manager.StampManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import android.graphics.DashPathEffect
-
+import com.ayaan.twelvepages.adapter.util.RecordListComparator
 
 
 @SuppressLint("ViewConstructor")
@@ -169,11 +169,11 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         return when(formula) {
             STAMP, DOT -> {
                 val itemSize = if(formula == DOT) dotSize else blockTypeSize
-                val width =  mRight - mLeft - defaulMargin
+                val width =  mRight - mLeft - defaulMargin - sidePadding * 2
                 val margin = defaulMargin.toInt()
                 val size = itemSize - defaulMargin
                 val totalCnt = childList?.size ?: 0
-                val rows = ((size * totalCnt + margin * (totalCnt - 1)) / width + 1).toInt()
+                val rows = ((size * totalCnt + margin * (totalCnt - 1)) / width).toInt() + 1
                 (itemSize * rows)
             }
             EXPANDED -> {
@@ -373,11 +373,13 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val size = dotSize - defaulMargin
         var top = 0f
         var left = sidePadding + margin
+        val right = width - sidePadding
+        childList?.sortWith(RecordListComparator())
         childList?.forEach { child ->
             paint.color = child.getColor()
             canvas.drawRect(left, top, left + size, top + size, paint)
             left += size + margin
-            if (left + size >= width) {
+            if (left + size >= right) {
                 top += dotSize
                 left = sidePadding + margin
             }

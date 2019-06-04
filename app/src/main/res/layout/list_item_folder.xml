@@ -114,7 +114,6 @@
             android:paddingRight="20dp"
             android:ellipsize="end"
             android:textColor="@color/white"
-            android:textStyle="italic"
             android:text="Masdas"/>
 
     </FrameLayout>

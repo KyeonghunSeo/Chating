@@ -52,8 +52,8 @@ class MainActivity : BaseActivity() {
         fun getMainPanel() = instance?.mainPanel
         fun getCalendarPagerView() = instance?.calendarPagerView
         fun getMainDateLy() = instance?.mainDateLy
-        fun getMonthLy() = instance?.mainMonthYearLy
-        fun getWeekLy() = instance?.mainWeekLy
+        fun getMonthTextLy() = instance?.mainMonthYearLy
+        fun getWeekTextLy() = instance?.mainWeekLy
         fun getProfileBtn() = instance?.profileBtn
         fun getTemplateView() = instance?.templateView
         fun getTargetTemplate() = getViewModel()?.targetTemplate?.value
@@ -338,7 +338,7 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            monthText.text = AppDateFormat.monthEng.format(it.time).toUpperCase()
+            monthText.text = AppDateFormat.monthEng.format(it.time)
             yearText.text = it.get(Calendar.YEAR).toString()
             weekText.text = it.get(Calendar.WEEK_OF_YEAR).toString()
         }

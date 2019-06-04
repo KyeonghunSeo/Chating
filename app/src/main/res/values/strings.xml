@@ -89,6 +89,12 @@
     <string name="weekly">매주</string>
     <string name="monthly">매월</string>
     <string name="yearly">매년</string>
+    <string name="some_min">%1$s분</string>
+    <string name="some_hour">%1$s시간</string>
+    <string name="some_date">%1$s일</string>
+    <string name="some_week">%1$s주</string>
+    <string name="some_month">%1$s월</string>
+    <string name="some_year">%1$s년</string>
 
     <string name="daily_interval">%1$s일 간격으로 반복</string>
     <string name="weekly_interval">%1$s주 간격으로%2$s반복</string>
@@ -230,7 +236,7 @@
     <string name="inbox">INBOX</string>
     <string name="edit_c">EDIT</string>
     <string name="add_c">ADD</string>
-    <string name="today_c">TODAY</string>
+    <string name="today_c">Today</string>
     <string name="tomorrow">내일</string>
     <string name="yesterday">어제</string>
     <string name="min_before">%1$s분 전</string>
