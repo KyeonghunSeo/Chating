@@ -328,8 +328,8 @@ fun showKeyPad(input: EditText) {
     input.post { (input.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(input, 0) }
 }
 
-fun hideKeyPad(windowToken: IBinder, input: EditText) {
-    input.post{ (input.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(windowToken, 0) }
+fun hideKeyPad(input: EditText) {
+    input.post{ (input.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(input.windowToken, 0) }
 }
 
 fun loadBitmapFromView(v: View): Bitmap {

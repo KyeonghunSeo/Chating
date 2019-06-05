@@ -103,18 +103,17 @@
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/bold"
+            android:fontFamily="@font/regular"
             android:rotation="-90"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="15dp"
+            android:textSize="14dp"
             android:maxLines="2"
             android:lineSpacingExtra="-3dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:ellipsize="end"
             android:textColor="@color/white"
-            android:textStyle="italic"
             android:text="Masdas"/>
 
     </FrameLayout>

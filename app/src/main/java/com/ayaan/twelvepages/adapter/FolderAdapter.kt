@@ -31,9 +31,9 @@ import kotlin.collections.ArrayList
 class FolderAdapter(val context: Context, private var items: ArrayList<Folder>)
     : RecyclerView.Adapter<FolderAdapter.ViewHolder>() {
 
-    val itemWidth = dpToPx(60)
+    val itemWidth = dpToPx(50)
     val maxTextWidth = dpToPx(180)
-    val edgeSize = dpToPx(10f)
+    val edgeSize = dpToPx(5f)
     val backTextColor = AppTheme.primaryText
     var itemTouchHelper: ItemTouchHelper? = null
     val viewHolders = ArrayList<ViewHolder>()
@@ -95,7 +95,7 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>)
         }else {
             v.titleText.text = ""
             v.contentLy.setBackgroundColor(Color.TRANSPARENT)
-            v.contentLy.alpha = 0.3f
+            v.contentLy.alpha = 0.4f
             v.edgeTop.visibility = View.GONE
             v.edgeBottom.visibility = View.GONE
             v.divider.visibility = View.GONE
@@ -144,7 +144,7 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>)
             v.contentLy.setBackgroundColor(Color.TRANSPARENT)
             v.iconImg.setColorFilter(backTextColor)
             v.titleText.setTextColor(backTextColor)
-            v.contentLy.alpha = 0.7f
+            v.contentLy.alpha = 0.4f
             v.edgeTop.visibility = View.GONE
             v.edgeBottom.visibility = View.GONE
             v.contentLy.translationX = edgeSize

@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.l
 import com.ayaan.twelvepages.model.Record
@@ -30,23 +29,27 @@ class RecordAlarmReceiver : BroadcastReceiver() {
                 }
             })
             */
-            checkVaildAlarm(context, Realm.getDefaultInstance(), intent.getStringExtra("recordId"))
+            checkVaildAlarm(context, Realm.getDefaultInstance(),
+                    intent.getStringExtra("recordId"), intent.getLongExtra("dtStart", Long.MIN_VALUE))
         }catch (e: Exception){
             e.printStackTrace()
         }
     }
 
-    private fun checkVaildAlarm(context: Context, realm: Realm, recordId: String) {
+    private fun checkVaildAlarm(context: Context, realm: Realm, recordId: String, dtStart: Long) {
         realm.where(Record::class.java)
                 .equalTo("id", recordId)
                 .findFirst()?.let {
-                    val timeObject = realm.copyFromRealm(it)
-                    realm.where(RegistedAlarm::class.java)
-                            .equalTo("recordId", timeObject.id).findFirst()?.let { registedAlarm ->
-                                showNotification(context, timeObject)
-                                AlarmManager.unRegistTimeObjectAlarm(registedAlarm.requestCode)
-                                AlarmManager.registTimeObjectAlarm(timeObject, registedAlarm)
-                            }}
+                    val record = realm.copyFromRealm(it)
+                    if (!record.isDeleted()) {
+                        if(dtStart != Long.MIN_VALUE) {
+                            val duration = record.getDuration()
+                            record.setDateTime(record.isSetTime(), dtStart, dtStart + duration)
+                        }
+                        showNotification(context, record)
+                        AlarmManager.registRecordAlarm(realm, record)
+                    }
+                }
         realm.close()
     }
 
@@ -54,6 +57,7 @@ class RecordAlarmReceiver : BroadcastReceiver() {
         val intent = Intent(context, NotiService::class.java)
         intent.putExtra("action", 2)
         intent.putExtra("recordId", record.id)
+        intent.putExtra("dtStart", record.dtStart)
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 

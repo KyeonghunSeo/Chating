@@ -9,17 +9,19 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:layout_marginTop="2dp"
         android:layout_marginLeft="2.5dp">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
+            android:animateLayoutChanges="true"
             android:layout_height="15dp">
 
             <TextView
                 android:id="@+id/dateText"
-                android:layout_width="15dp"
+                android:layout_width="wrap_content"
                 android:layout_height="13dp"
                 android:layout_marginTop="0.8dp"
                 android:includeFontPadding="false"

@@ -285,4 +285,6 @@ open class Record(@PrimaryKey var id: String? = null,
     fun getAlarmText(): String = alarms.joinToString(", ") {
         AlarmManager.getOffsetText(it.offset) ?: AppDateFormat.dateTime.format(it.dtAlarm)
     }
+
+    fun isDeleted() = dtCreated == -1L
 }

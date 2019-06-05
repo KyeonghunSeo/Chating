@@ -7,6 +7,7 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.manager.RecordManager
+import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.model.*
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.view.CalendarView
@@ -114,12 +115,19 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun setTargetTimeObjectById(id: String?) {
+    fun setTargetTimeObjectById(id: String?, dtStart: Long) {
         realm.value?.let { realm ->
             id?.let {
-                targetRecord.value = realm.where(Record::class.java)
+                realm.where(Record::class.java)
                         .equalTo("id", it)
-                        .findFirst()
+                        .findFirst()?.let { record ->
+                            if(dtStart != Long.MIN_VALUE) {
+                                targetRecord.value = RepeatManager.makeRepeatInstance(record, dtStart)
+                            }else {
+                                targetRecord.value = record.makeCopyObject()
+                            }
+
+                        }
             }
         }
     }

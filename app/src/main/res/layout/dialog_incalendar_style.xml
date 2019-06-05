@@ -87,8 +87,8 @@
                                             android:includeFontPadding="false"
                                             android:textSize="11dp"
                                             android:textColor="@color/primaryText"
-                                            android:text="27"
-                                            android:fontFamily="@font/bold_c"/>
+                                            android:fontFamily="@font/regular_c"
+                                            android:text="27"/>
 
                                         <TextView
                                             android:id="@+id/dowText"
@@ -100,8 +100,8 @@
                                             android:textSize="9dp"
                                             android:maxLines="1"
                                             android:textColor="@color/primaryText"
-                                            android:text="WED"
-                                            android:fontFamily="@font/bold_c"/>
+                                            android:fontFamily="@font/regular_c"
+                                            android:text="WED"/>
 
                                     </LinearLayout>
 
@@ -115,7 +115,7 @@
                                         android:ellipsize="end"
                                         android:text="@string/today"
                                         android:textColor="@color/primaryText"
-                                        android:fontFamily="@font/bold"/>
+                                        android:fontFamily="@font/thin"/>
 
                                 </LinearLayout>
 
@@ -151,8 +151,8 @@
                                             android:includeFontPadding="false"
                                             android:textSize="11dp"
                                             android:textColor="@color/primaryText"
-                                            android:text="27"
-                                            android:fontFamily="@font/bold_c"/>
+                                            android:fontFamily="@font/regular_c"
+                                            android:text="27"/>
 
                                     </LinearLayout>
 
@@ -190,8 +190,8 @@
                                             android:includeFontPadding="false"
                                             android:textSize="11dp"
                                             android:textColor="@color/primaryText"
-                                            android:text="27"
-                                            android:fontFamily="@font/bold_c"/>
+                                            android:fontFamily="@font/regular_c"
+                                            android:text="27"/>
 
                                     </LinearLayout>
 
@@ -229,8 +229,8 @@
                                             android:includeFontPadding="false"
                                             android:textSize="11dp"
                                             android:textColor="@color/primaryText"
-                                            android:text="27"
-                                            android:fontFamily="@font/bold_c"/>
+                                            android:fontFamily="@font/regular_c"
+                                            android:text="27"/>
 
                                     </LinearLayout>
 
@@ -268,8 +268,8 @@
                                             android:includeFontPadding="false"
                                             android:textSize="11dp"
                                             android:textColor="@color/primaryText"
-                                            android:text="27"
-                                            android:fontFamily="@font/bold_c"/>
+                                            android:fontFamily="@font/regular_c"
+                                            android:text="27"/>
 
                                     </LinearLayout>
 

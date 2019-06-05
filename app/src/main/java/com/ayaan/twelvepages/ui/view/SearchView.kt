@@ -133,8 +133,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     fun show() {
         visibility = View.VISIBLE
         val animSet = AnimatorSet()
-        animSet.playTogether(
-                ObjectAnimator.ofFloat(headerLy, "elevation", 0f, dpToPx(10f)))
+        animSet.playTogether(ObjectAnimator.ofFloat(headerLy, "elevation", 0f, dpToPx(10f)))
         animSet.duration = 150
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.addListener(object : AnimatorListenerAdapter() {
@@ -154,7 +153,8 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
                 })
                 TransitionManager.beginDelayedTransition(this@SearchView, transitionSet)
                 backgroundLy.visibility = View.VISIBLE
-                (headerLy.layoutParams as FrameLayout.LayoutParams).let {
+                backgroundLy.setOnClickListener { hide() }
+                (headerLy.layoutParams as LayoutParams).let {
                     it.width = MATCH_PARENT
                     it.height = dpToPx(80)
                     it.setMargins(0, 0, 0, 0)
@@ -168,6 +168,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     fun hide() {
         clear()
+        hideKeyPad(searchInput)
         val transitionSet = TransitionSet()
         val t1 = makeChangeBounceTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
@@ -179,8 +180,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         transitionSet.addListener(object : TransitionListenerAdapter(){
             override fun onTransitionEnd(transition: Transition) {
                 val animSet = AnimatorSet()
-                animSet.playTogether(
-                        ObjectAnimator.ofFloat(headerLy, "elevation", 10f, dpToPx(0f)))
+                animSet.playTogether(ObjectAnimator.ofFloat(headerLy, "elevation", 10f, dpToPx(0f)))
                 animSet.duration = 150
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.addListener(object : AnimatorListenerAdapter() {
@@ -193,7 +193,8 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         })
         TransitionManager.beginDelayedTransition(this@SearchView, transitionSet)
         backgroundLy.visibility = View.GONE
-        (headerLy.layoutParams as FrameLayout.LayoutParams).let {
+        backgroundLy.setOnClickListener(null)
+        (headerLy.layoutParams as LayoutParams).let {
             it.width = dpToPx(50)
             it.height = dpToPx(50)
             it.setMargins(dpToPx(10), dpToPx(10), 0, 0)

@@ -80,7 +80,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                 if(record.repeat.isNullOrEmpty()) {
                     makeRecordViewHolder(record)
                 }else {
-                    RepeatManager.makeRepeatInstance(record,
+                    RepeatManager.makeRepeatInstances(record,
                             calendarView.calendarStartTime,
                             calendarView.calendarEndTime)
                             .forEach { makeRecordViewHolder(it) }

@@ -7,9 +7,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.model.Alarm
 import com.ayaan.twelvepages.model.Record
 import com.pixplicity.easyprefs.library.Prefs
+import io.realm.Realm
 import java.util.*
 
 object AlarmManager {
@@ -24,9 +26,6 @@ object AlarmManager {
             -1000L * 60 * 60,
             -1000L * 60 * 60 * 24,
             -1000L * 60 * 60 * 24 * 7)
-    var eventAlarm = Long.MIN_VALUE
-    var todoAlarm = Long.MIN_VALUE
-    var socialAlarm = Long.MIN_VALUE
     var briefingAlarm = Long.MIN_VALUE
 
     fun init(context: Context) {
@@ -35,9 +34,6 @@ object AlarmManager {
             createNotificationChannel(context)
             Prefs.putBoolean("createNotificationChannel", true)
         }
-        eventAlarm = Prefs.getLong("eventAlarm", Long.MIN_VALUE)
-        todoAlarm = Prefs.getLong("todoAlarm", Long.MIN_VALUE)
-        socialAlarm = Prefs.getLong("socialAlarm", Long.MIN_VALUE)
         briefingAlarm = Prefs.getLong("briefingAlarm", Long.MIN_VALUE)
         manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         registBriefingAlarm()
@@ -62,8 +58,9 @@ object AlarmManager {
             val intent = Intent(App.context, BriefingAlarmReceiver::class.java)
             val sender = PendingIntent.getBroadcast(App.context, 0, intent, PendingIntent.FLAG_NO_CREATE)
             if(sender == null) {
+                l("[브리핑 알람 등록]")
                 val pIntent = PendingIntent.getBroadcast(App.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-                manager.setRepeating(RTC_WAKEUP, System.currentTimeMillis() + 5000, HOUR_MILL, pIntent)
+                manager.setInexactRepeating(RTC_WAKEUP, System.currentTimeMillis() + 3000, HOUR_MILL, pIntent)
             }
         }
     }
@@ -77,39 +74,70 @@ object AlarmManager {
         }
     }
 
-    fun registTimeObjectAlarm(record: Record, registedAlarm: RegistedAlarm) {
-        val intent = Intent(App.context, RecordAlarmReceiver::class.java)
-        intent.putExtra("recordId", record.id)
-        record.alarms
-                .asSequence()
-                .filter { it.dtAlarm >= System.currentTimeMillis() }
-                .firstOrNull()?.let { alarm ->
-                    val pIntent = PendingIntent.getBroadcast(App.context, registedAlarm.requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-                    registAlarm(alarm, pIntent)
+    fun registRecordAlarm(realm: Realm, record: Record) {
+        if(record.alarms.isNotEmpty()) {
+            var registedAlarm = realm.where(RegistedAlarm::class.java)
+                    .equalTo("recordId", record.id).findFirst()
+
+            if(registedAlarm != null){
+                unRegistRecordAlarm(registedAlarm.requestCode)
+            }
+
+            var validAlarm : Alarm? = null
+            var dtStart : Long = Long.MIN_VALUE
+
+            if(record.isRepeat()) {
+                RepeatManager.getNextAlarmInstance(record)?.let {
+                    dtStart = it.dtStart
+                    validAlarm = it.alarms[0]
                 }
+            }else {
+                record.alarms[0]?.let { alarm ->
+                    if(alarm.dtAlarm >= System.currentTimeMillis()) {
+                        validAlarm = alarm
+                    }
+                }
+            }
+
+            validAlarm?.let { validAlarm ->
+                if(registedAlarm == null) {
+                    registedAlarm = realm.createObject(RegistedAlarm::class.java, record.id)?.apply {
+                        val requestCode = realm.where(RegistedAlarm::class.java).max("requestCode")
+                        if(requestCode != null) {
+                            this.requestCode = requestCode.toInt() + 1
+                        }else {
+                            this.requestCode = 0
+                        }
+                    }
+                }
+
+                registedAlarm?.let {
+                    val intent = Intent(App.context, RecordAlarmReceiver::class.java)
+                    intent.putExtra("recordId", record.id)
+                    intent.putExtra("dtStart", dtStart)
+                    val pIntent = PendingIntent.getBroadcast(App.context, it.requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    registAlarm(validAlarm, pIntent)
+                }
+            }
+        }
     }
 
-    fun unRegistTimeObjectAlarm(requestCode: Int) {
+    private fun registAlarm(alarm: Alarm, pendingIntent: PendingIntent) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarm.dtAlarm, pendingIntent)
+        }else {
+            manager.set(AlarmManager.RTC_WAKEUP, alarm.dtAlarm, pendingIntent)
+        }
+        l("알람 등록 : ${AppDateFormat.ymdDate.format(Date(alarm.dtAlarm))} ${AppDateFormat.time.format(Date(alarm.dtAlarm))}")
+    }
+
+    fun unRegistRecordAlarm(requestCode: Int) {
         val intent = Intent(App.context, RecordAlarmReceiver::class.java)
         val sender = PendingIntent.getBroadcast(App.context, requestCode, intent, PendingIntent.FLAG_NO_CREATE)
         if(sender != null) {
             manager.cancel(sender)
             sender.cancel()
             l("알람 삭제 : $requestCode")
-        }
-    }
-
-    private fun registAlarm(alarm: Alarm, pendingIntent: PendingIntent) {
-        try {
-            if (alarm.dtAlarm >= System.currentTimeMillis()) {
-                when {
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarm.dtAlarm, pendingIntent)
-                    else -> manager.set(AlarmManager.RTC_WAKEUP, alarm.dtAlarm, pendingIntent)
-                }
-                l("알람 등록 : ${AppDateFormat.ymdDate.format(Date(alarm.dtAlarm))} ${AppDateFormat.time.format(Date(alarm.dtAlarm))}")
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 
@@ -162,6 +190,10 @@ object AlarmManager {
                 }
             }
         }
+    }
+
+    fun setDailyRecordAlarm() {
+
     }
 
 }

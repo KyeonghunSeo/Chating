@@ -100,63 +100,36 @@ object RecordManager {
     fun save(record: Record) {
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction{
-            if(record.id.isNullOrEmpty()) {
-                record.id = UUID.randomUUID().toString()
-                record.dtCreated = System.currentTimeMillis()
-            }
-
-            if(record.dtStart > record.dtEnd) {
-                val t = record.dtStart
-                record.dtStart = record.dtEnd
-                record.dtEnd = t
-            }
-
-            if(record.alarms.isNotEmpty()) {
-                record.alarms.sortBy { it.dtAlarm }
-                var registedAlarm = realm.where(RegistedAlarm::class.java)
-                        .equalTo("recordId", record.id).findFirst()
-
-                if(registedAlarm != null){
-                    AlarmManager.unRegistTimeObjectAlarm(registedAlarm.requestCode)
-                }else {
-                    registedAlarm = realm.createObject(RegistedAlarm::class.java, record.id)?.apply {
-                        val requestCode = realm.where(RegistedAlarm::class.java).max("requestCode")
-                        if(requestCode != null) {
-                            this.requestCode = requestCode.toInt() + 1
-                        }else {
-                            this.requestCode = 0
-                        }
-                    }
-                }
-                registedAlarm?.let { AlarmManager.registTimeObjectAlarm(record, it) }
-            }
-
-            record.dtUpdated = System.currentTimeMillis()
+            commonSave(realm, record)
             realm.insertOrUpdate(record)
         }
         realm.close()
     }
 
+    private fun commonSave(realm: Realm, record: Record) {
+        if(record.id.isNullOrEmpty()) {
+            record.id = UUID.randomUUID().toString()
+            record.dtCreated = System.currentTimeMillis()
+        }
+        if(record.dtStart > record.dtEnd) {
+            val t = record.dtStart
+            record.dtStart = record.dtEnd
+            record.dtEnd = t
+        }
+        AlarmManager.registRecordAlarm(realm, record)
+        record.dtUpdated = System.currentTimeMillis()
+    }
+
     fun done(record: Record) {
         val realm = Realm.getDefaultInstance()
         val id = record.id
-        if(record.repeat.isNullOrEmpty()) {
-            realm.executeTransaction{ realm ->
-                realm.where(Record::class.java).equalTo("id", id).findFirst()?.let {
-                    if(it.dtDone == Long.MIN_VALUE) {
-                        it.dtDone = System.currentTimeMillis()
-                    }else {
-                        it.dtDone = Long.MIN_VALUE
-                    }
-                    it.dtUpdated = it.dtDone
-                }
-            }
-        }else {
+        if(record.isRepeat()) {
             val ymdKey = AppDateFormat.ymdkey.format(Date(record.dtStart))
-            realm.executeTransaction{ realm ->
+            realm.executeTransaction{
                 realm.where(Record::class.java).equalTo("id", id).findFirst()?.let {
                     it.exDates.add(ymdKey)
-                    it.dtUpdated = System.currentTimeMillis()
+                    commonSave(realm, it)
+
                     val new = Record()
                     new.copy(record)
                     new.id = UUID.randomUUID().toString()
@@ -166,7 +139,19 @@ object RecordManager {
                     }else {
                         new.dtDone = Long.MIN_VALUE
                     }
+                    commonSave(realm, new)
                     realm.insertOrUpdate(new)
+                }
+            }
+        }else {
+            realm.executeTransaction{
+                realm.where(Record::class.java).equalTo("id", id).findFirst()?.let {
+                    if(it.dtDone == Long.MIN_VALUE) {
+                        it.dtDone = System.currentTimeMillis()
+                    }else {
+                        it.dtDone = Long.MIN_VALUE
+                    }
+                    commonSave(realm, it)
                 }
             }
         }
@@ -180,7 +165,7 @@ object RecordManager {
                 realm.executeTransaction{ realm ->
                     realm.where(Record::class.java).equalTo("id", id).findFirst()?.let {
                         it.exDates.add(ymdKey)
-                        it.dtUpdated = System.currentTimeMillis()
+                        commonSave(realm, it)
                     }
                 }
             }
@@ -195,14 +180,14 @@ object RecordManager {
         cal.timeInMillis = record.dtStart
 
         cal.add(Calendar.DATE, -1)
-        realm.executeTransaction{ realm ->
+        realm.executeTransaction{
             realm.where(Record::class.java).equalTo("id", id).findFirst()?.let {
                 val dtUntil = getCalendarTime23(cal)
                 if(dtUntil < it.dtStart) { // 기한보다 작으면 완전히 제거
                     it.deleteFromRealm()
                 }else {
                     it.dtUntil = getCalendarTime23(cal)
-                    it.dtUpdated = System.currentTimeMillis()
+                    commonSave(realm, it)
                 }
             }
         }
@@ -212,10 +197,10 @@ object RecordManager {
     fun delete(record: Record) {
         val realm = Realm.getDefaultInstance()
         val id = record.id
-        realm.executeTransaction{ realm ->
+        realm.executeTransaction{
             realm.where(Record::class.java).equalTo("id", id).findFirst()?.let {
                 it.dtCreated = -1
-                it.dtUpdated = System.currentTimeMillis()
+                commonSave(realm, it)
             }
         }
         realm.close()
