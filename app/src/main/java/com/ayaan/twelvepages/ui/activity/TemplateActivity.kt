@@ -20,7 +20,6 @@ class TemplateActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_template)
         initTheme(rootLy)
-        backBtn.setOnClickListener { onBackPressed() }
         mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             if(scrollY > 0) topShadow.visibility = View.VISIBLE
             else topShadow.visibility = View.GONE

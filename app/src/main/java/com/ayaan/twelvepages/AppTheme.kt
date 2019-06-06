@@ -64,8 +64,9 @@ object AppTheme {
     }
 
     enum class ColorPalette(val titleId: Int, val coverImgId: Int, val colors: Array<Int>){
-        BASIC(R.string.default_color_palette_name, R.drawable.bg,
-                arrayOf(Color.parseColor("#d50000"),
+        BASIC(R.string.default_color_palette_name, R.drawable.color_palette_0,
+                arrayOf(Color.parseColor("#606066"),
+                        Color.parseColor("#d50000"),
                         Color.parseColor("#f4511e"),
                         Color.parseColor("#e67c73"),
                         Color.parseColor("#f6bf26"),
@@ -74,8 +75,7 @@ object AppTheme {
                         Color.parseColor("#039be5"),
                         Color.parseColor("#3f51b5"),
                         Color.parseColor("#7986cb"),
-                        Color.parseColor("#8e24aa"),
-                        Color.parseColor("#606066"))),
+                        Color.parseColor("#8e24aa"))),
         SPRING(R.string.apring, R.drawable.color_palette_1,
                 arrayOf(Color.parseColor("#EC748F"),
                         Color.parseColor("#E7D06C"),

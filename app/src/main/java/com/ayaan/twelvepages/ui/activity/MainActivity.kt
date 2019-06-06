@@ -46,7 +46,7 @@ class MainActivity : BaseActivity() {
     companion object {
         var instance: MainActivity? = null
         var isShowing = false
-        val tabSize = dpToPx(60)
+        val tabSize = dpToPx(40)
         fun getViewModel() = instance?.viewModel
         fun getDayPagerView() = instance?.dayPagerView
         fun getMainPanel() = instance?.mainPanel
@@ -278,7 +278,7 @@ class MainActivity : BaseActivity() {
             }
             (folderBtn.layoutParams as FrameLayout.LayoutParams).let {
                 it.width = dpToPx(60)
-                it.leftMargin = -dpToPx(5)
+                it.leftMargin = dpToPx(10)
             }
             animSet.playTogether(ObjectAnimator.ofFloat(folderArrowImg, "rotation", 0f, 180f),
                     ObjectAnimator.ofFloat(folderArrowImg, "translationX", 0f, -dpToPx(13f)))

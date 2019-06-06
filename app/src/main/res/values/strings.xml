@@ -102,6 +102,8 @@
     <string name="monthly_w_interval">매월 %1$s %2$s 반복</string>
     <string name="advanced_setting">고급 설정</string>
     <string name="until">%1$s 까지</string>
+    <string name="from">%1$s 부터</string>
+    <string name="to">%1$s 까지</string>
 
     <string name="passed_alarm">지난 알림</string>
     <string name="ring_alarm_at_time">%1$s 알림</string>
@@ -255,7 +257,7 @@
     <string name="edit_tag">태그편집</string>
     <string name="already_exist_tag">이미 존재하는 태그이름 입니다</string>
     <string name="back_c">BACK</string>
-    <string name="delete_c">DELETE</string>
+    <string name="delete_c">Delete</string>
     <string name="init_text">미리 입력</string>
     <string name="init_text_hint">이곳에 미리 입력할 내용을 적어주세요. 커서의 시작 위치도 정할수 있습니다.</string>
     <string name="cursor_pos">커서위치 : %1$s</string>

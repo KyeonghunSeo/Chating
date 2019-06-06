@@ -8,6 +8,7 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,9 +32,9 @@ import kotlin.collections.ArrayList
 class FolderAdapter(val context: Context, private var items: ArrayList<Folder>)
     : RecyclerView.Adapter<FolderAdapter.ViewHolder>() {
 
-    val itemWidth = dpToPx(50)
-    val maxTextWidth = dpToPx(180)
-    val edgeSize = dpToPx(5f)
+    val itemWidth = dpToPx(40)
+    val maxTextWidth = dpToPx(200)
+    val edgeSize = dpToPx(3f)
     val backTextColor = AppTheme.primaryText
     var itemTouchHelper: ItemTouchHelper? = null
     val viewHolders = ArrayList<ViewHolder>()
@@ -47,16 +48,11 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>)
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         var id: String? = null
-
         init {
             setGlobalTheme(container)
             itemView.layoutParams.width = itemWidth
             itemView.layoutParams.height = maxTextWidth
             (itemView.contentLy.layoutParams as FrameLayout.LayoutParams).let {
-                it.width = itemWidth
-                it.height = maxTextWidth
-            }
-            (itemView.titleText.layoutParams as FrameLayout.LayoutParams).let {
                 it.width = maxTextWidth
                 it.height = itemWidth
             }
@@ -74,11 +70,16 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>)
         if(position < items.size) {
             val folder = items[position]
             holder.id = folder.id
-            v.iconImg.visibility = View.GONE
+
+            v.titleText.text = if(folder.name.isNullOrBlank()) context.getString(R.string.untitle) else folder.name
+            v.iconImg.visibility = View.VISIBLE
+            if(folder.isCalendar()) v.iconImg.setImageResource(R.drawable.calendar)
+            else v.iconImg.setImageResource(R.drawable.memo)
             v.divider.visibility = View.VISIBLE
             v.divider.translationX = edgeSize
-            v.titleText.text = if(folder.name.isNullOrBlank()) context.getString(R.string.untitle) else folder.name
+            v.contentLy.gravity = Gravity.CENTER
             setFolderViews(v, folder.id == MainActivity.getTargetFolder().id)
+
             v.setOnClickListener {
                 vibrate(context)
                 if(folder.id != MainActivity.getTargetFolder().id) {
@@ -96,6 +97,7 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>)
             v.titleText.text = ""
             v.contentLy.setBackgroundColor(Color.TRANSPARENT)
             v.contentLy.alpha = 0.4f
+            v.contentLy.gravity = Gravity.RIGHT or Gravity.CENTER_VERTICAL
             v.edgeTop.visibility = View.GONE
             v.edgeBottom.visibility = View.GONE
             v.divider.visibility = View.GONE

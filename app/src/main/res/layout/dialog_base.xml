@@ -32,8 +32,8 @@
 
                 <ImageView
                     android:id="@+id/titleIcon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_marginRight="7dp"/>
 
                 <TextView
@@ -49,7 +49,7 @@
 
             <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="20dp"
-                android:layout_height="3dp"
+                android:layout_height="2dp"
                 android:layout_marginLeft="27dp"
                 android:layout_marginTop="20dp"
                 app:colorFlag="primary"/>

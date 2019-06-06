@@ -4,10 +4,13 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Fade
@@ -15,11 +18,14 @@ import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.TemplateAdapter
+import com.ayaan.twelvepages.adapter.util.FolderDiffCallback
+import com.ayaan.twelvepages.adapter.util.TemplateDiffCallback
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.activity.TemplateActivity
 import kotlinx.android.synthetic.main.view_template.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
     private val startCal = Calendar.getInstance()
@@ -61,6 +67,8 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         addBtn.setOnLongClickListener {
+            MainActivity.getViewModel()?.targetTemplate?.value = null
+            MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
             return@setOnLongClickListener false
         }
 
@@ -89,9 +97,9 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             if(isSameDay(startCal, endCal)) {
                 endDateText.text = AppDateFormat.mdeDate.format(startCal.time)
             }else {
-                endDateText.text = "${AppDateFormat.mdeDate.format(startCal.time)}\n" +
-                        "~ ${AppDateFormat.mdeDate.format(endCal.time)}\n" +
-                        getDurationText(startCal.timeInMillis, endCal.timeInMillis, true)
+                endDateText.text = String.format(str(R.string.from), AppDateFormat.mdeDate.format(startCal.time)) +
+                        "\n" + String.format(str(R.string.to), AppDateFormat.mdeDate.format(endCal.time)) +
+                        ", " + getDurationText(startCal.timeInMillis, endCal.timeInMillis, true)
             }
         }else {
             startDateText.text = folder.name
@@ -114,7 +122,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         transitionSet.addTransition(t3)
         TransitionManager.beginDelayedTransition(this, transitionSet)
         setDate(dtStart, dtEnd)
-        setCurrentFolderTemplate()
+        notifyListChanged()
         backgroundLy.setBackgroundColor(AppTheme.backgroundColor)
         backgroundLy.setOnClickListener { collapse() }
         backgroundLy.isClickable = true
@@ -168,25 +176,39 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         MainActivity.getViewModel()?.targetTemplate?.value = template
     }
 
-    private fun setCurrentFolderTemplate() {
-        items.clear()
-        MainActivity.getViewModel()?.templateList?.value?.filter {
-            it.folder?.id == MainActivity.getTargetFolder().id
-        }?.forEach {
-            l(it.toString())
-            items.add(it)
-        }
-        recyclerView.adapter?.notifyDataSetChanged()
-    }
-
     private fun clearTemplate() {
         items.clear()
-        recyclerView.adapter?.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
     }
 
     fun notifyListChanged() {
         if(isExpanded) {
-            setCurrentFolderTemplate()
+            val newItems = ArrayList<Template>()
+            filterCurrentFolder(newItems)
+            Thread {
+                val diffResult = DiffUtil.calculateDiff(TemplateDiffCallback(items, newItems))
+                Handler(Looper.getMainLooper()).post{
+                    if(isExpanded) {
+                        items.clear()
+                        items.addAll(newItems)
+                        diffResult.dispatchUpdatesTo(adapter)
+                    }
+                }
+            }.start()
+        }else {
+            filterCurrentFolder(items)
+            adapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun filterCurrentFolder(result: ArrayList<Template>) {
+        result.clear()
+        MainActivity.getViewModel()?.templateList?.value?.filter {
+            it.folder?.id == MainActivity.getTargetFolder().id
+        }?.forEach {
+            val template = Template()
+            template.copy(it)
+            result.add(template)
         }
     }
 }

@@ -9,37 +9,37 @@
     <FrameLayout
         android:id="@+id/edgeBottom"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginBottom="-30dp"
+        android:layout_height="8dp"
+        android:layout_marginBottom="-8dp"
         android:layout_gravity="bottom"
-        android:elevation="10dp">
+        android:elevation="5dp">
 
         <androidx.cardview.widget.CardView
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:translationY="-15dp"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="10dp"
+            android:translationY="-4dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="5dp"
             app:cardBackgroundColor="@color/white">
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:orientation="horizontal"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
             android:layout_gravity="right"
+            android:outlineSpotShadowColor="@color/transparent"
             app:cardCornerRadius="0dp"
-            app:cardElevation="10dp"
+            app:cardElevation="5dp"
             app:cardBackgroundColor="@color/white">
         </androidx.cardview.widget.CardView>
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
             android:src="@drawable/tab_edge_bottom"
+            android:scaleType="fitXY"
             android:layout_gravity="right|bottom"
-            android:elevation="10dp"
+            android:elevation="5dp"
             android:tint="@color/white"/>
 
     </FrameLayout>
@@ -47,76 +47,77 @@
     <FrameLayout
         android:id="@+id/edgeTop"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="-30dp"
-        android:elevation="10dp">
+        android:layout_height="8dp"
+        android:layout_marginTop="-8dp"
+        android:elevation="5dp">
 
         <androidx.cardview.widget.CardView
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:translationY="15dp"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="10dp"
+            android:translationY="4dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="5dp"
             app:cardBackgroundColor="@color/white">
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:orientation="horizontal"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
             android:layout_gravity="right|bottom"
+            android:outlineSpotShadowColor="@color/transparent"
             app:cardCornerRadius="0dp"
-            app:cardElevation="10dp"
+            app:cardElevation="5dp"
             app:cardBackgroundColor="@color/white">
         </androidx.cardview.widget.CardView>
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
             android:src="@drawable/tab_edge_top"
+            android:scaleType="fitXY"
             android:layout_gravity="right"
-            android:elevation="10dp"
+            android:elevation="5dp"
             android:tint="@color/white"/>
 
     </FrameLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/contentLy"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="10dp">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:rotation="-90"
+        android:elevation="5dp">
 
         <ImageView
             android:id="@+id/iconImg"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_marginTop="25dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/calendar"
             android:tint="@color/white"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/regular"
-            android:rotation="-90"
+            android:fontFamily="@font/bold"
+            android:background="?android:attr/selectableItemBackground"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="14dp"
-            android:maxLines="2"
-            android:lineSpacingExtra="-3dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:textSize="12dp"
+            android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@color/white"
             android:text="Masdas"/>
 
-    </FrameLayout>
+    </LinearLayout>
 
     <View
         android:id="@+id/divider"

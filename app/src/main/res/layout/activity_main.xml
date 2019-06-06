@@ -19,6 +19,16 @@
         app:cardCornerRadius="0dp"
         app:cardElevation="30dp">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/folderListView"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_margin="-40dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:background="@color/disableText">
+        </androidx.recyclerview.widget.RecyclerView>
+
         <FrameLayout
             android:id="@+id/contentLy"
             android:layout_width="match_parent"
@@ -49,7 +59,7 @@
                             android:id="@+id/mainMonthYearLy"
                             android:orientation="horizontal"
                             android:layout_width="wrap_content"
-                            android:layout_height="28dp"
+                            android:layout_height="30dp"
                             android:animateLayoutChanges="true"
                             android:transformPivotX="0dp">
 
@@ -60,7 +70,7 @@
                                 android:gravity="center_vertical"
                                 android:textColor="@color/primaryText"
                                 android:includeFontPadding="false"
-                                android:textSize="22dp"
+                                android:textSize="26dp"
                                 android:fontFamily="@font/regular_c"
                                 android:text="June"/>
 
@@ -72,7 +82,7 @@
                                 android:includeFontPadding="false"
                                 android:layout_marginLeft="5dp"
                                 android:textColor="@color/primaryText"
-                                android:textSize="22dp"
+                                android:textSize="26dp"
                                 android:fontFamily="@font/thin_c"
                                 android:text="2020"/>
 
@@ -84,7 +94,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:animateLayoutChanges="true"
-                            android:visibility="visible">
+                            android:visibility="gone">
 
                             <TextView
                                 android:id="@+id/weekCText"
@@ -197,16 +207,6 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/folderListView"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_margin="-50dp"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:background="@color/disableText">
-        </androidx.recyclerview.widget.RecyclerView>
 
         <FrameLayout
             android:id="@+id/folderBtn"
