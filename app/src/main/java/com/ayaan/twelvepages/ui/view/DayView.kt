@@ -22,6 +22,7 @@ import com.ayaan.twelvepages.manager.*
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
+import com.ayaan.twelvepages.ui.dialog.PopupOptionDialog
 import io.realm.OrderedCollectionChangeSet
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.view_day.view.*
@@ -41,7 +42,16 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val newList = ArrayList<Record>()
     private val dateInfo = DateInfoManager.DateInfo()
 
-    private val adapter = RecordListAdapter(context, currentList, targetCal) { view, record, action -> }
+    private val adapter = RecordListAdapter(context, currentList, targetCal) { view, record, action ->
+        MainActivity.instance?.let {
+            showDialog(PopupOptionDialog(it,
+                    arrayOf(PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.redColor)), view) { index ->
+                if(index == 0) {
+
+                }
+            }, true, false, true, false)
+        }
+    }
 
     var startTime: Long = 0
     var endTime: Long = 0

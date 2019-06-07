@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLy"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/contentLy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="10dp">
+
+        <LinearLayout
+            android:id="@+id/btnsLy"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/btn0"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:tag="icon"
+                    android:layout_marginLeft="2dp"
+                    android:padding="13dp"
+                    android:src="@drawable/delete" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:tag="title"
+                    android:textColor="@color/primaryText"
+                    android:gravity="center_vertical"
+                    android:paddingRight="20dp"
+                    android:text="Delete"
+                    android:fontFamily="@font/bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn1"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:tag="icon"
+                    android:layout_marginLeft="2dp"
+                    android:padding="13dp"
+                    android:src="@drawable/delete" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:tag="title"
+                    android:textColor="@color/primaryText"
+                    android:gravity="center_vertical"
+                    android:paddingRight="20dp"
+                    android:text="Delete"
+                    android:fontFamily="@font/bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn2"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:tag="icon"
+                    android:layout_marginLeft="2dp"
+                    android:padding="13dp"
+                    android:src="@drawable/delete" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:tag="title"
+                    android:textColor="@color/primaryText"
+                    android:gravity="center_vertical"
+                    android:paddingRight="20dp"
+                    android:text="Delete"
+                    android:fontFamily="@font/bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn3"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:tag="icon"
+                    android:layout_marginLeft="2dp"
+                    android:padding="13dp"
+                    android:src="@drawable/delete" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:tag="title"
+                    android:textColor="@color/primaryText"
+                    android:gravity="center_vertical"
+                    android:paddingRight="20dp"
+                    android:text="Delete"
+                    android:fontFamily="@font/bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn4"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:tag="icon"
+                    android:layout_marginLeft="2dp"
+                    android:padding="13dp"
+                    android:src="@drawable/delete" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:tag="title"
+                    android:textColor="@color/primaryText"
+                    android:gravity="center_vertical"
+                    android:paddingRight="20dp"
+                    android:text="Delete"
+                    android:fontFamily="@font/bold"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</FrameLayout>

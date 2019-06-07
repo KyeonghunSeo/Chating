@@ -8,25 +8,23 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.TextView
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.setGlobalTheme
-import kotlinx.android.synthetic.main.dialog_custom.*
+import kotlinx.android.synthetic.main.dialog_base.*
+import kotlinx.android.synthetic.main.container_custom_dlg.*
 
 
 class CustomDialog(activity: Activity, private val title: String, private val sub: String?,
-                   private val options: Array<String>?, private val onResult: (Boolean, Int, String?) -> Unit) : Dialog(activity) {
+                   private val options: Array<String>?, private val icon: Int = Int.MIN_VALUE,
+                   private val onResult: (Boolean, Int, String?) -> Unit) : BaseDialog(activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window?.attributes?.windowAnimations = R.style.DialogAnimation
-        setContentView(R.layout.dialog_custom)
-        setLayout()
-    }
-
-    private fun setLayout() {
-        setGlobalTheme(rootLy)
-        rootLy.setOnClickListener { dismiss() }
-        contentLy.setOnClickListener {}
+        setLayout(R.layout.container_custom_dlg, dpToPx(300))
         titleText.text = title
+        if(icon != Int.MIN_VALUE) titleIcon.setImageResource(icon)
+        else titleIcon.visibility = View.GONE
+
         if(!sub.isNullOrEmpty()) {
             subText.visibility = View.VISIBLE
             subText.text = sub

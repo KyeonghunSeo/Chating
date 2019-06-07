@@ -72,9 +72,9 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             itemTouchHelper?.startDrag(holder)
             return@setOnLongClickListener false
         }
+        v.moreImg.setOnClickListener { adapterInterface.invoke(v, record, 0) }
 
         v.iconImg.setColorFilter(record.getColor())
-
         if(record.isSetCheckBox()) {
             v.iconImg.setPadding(checkBoxPadding, checkBoxPadding, checkBoxPadding, checkBoxPadding)
             if(record.isDone()) {
@@ -302,7 +302,6 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         private var reordering = false
 
         override fun isLongPressDragEnabled(): Boolean = true
-
         override fun isItemViewSwipeEnabled(): Boolean = false
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {

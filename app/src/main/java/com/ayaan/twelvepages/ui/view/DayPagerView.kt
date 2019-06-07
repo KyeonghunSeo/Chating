@@ -51,8 +51,8 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
-                selectedTargetDayView(dayViews[position % viewCount])
                 if(viewMode == ViewMode.OPENED) {
+                    selectedTargetDayView(dayViews[position % viewCount])
                     MainActivity.getCalendarPagerView()?.selectDate(targetDayView.targetCal.timeInMillis)
                 }
             }

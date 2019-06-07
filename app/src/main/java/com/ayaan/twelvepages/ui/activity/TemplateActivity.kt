@@ -26,9 +26,14 @@ class TemplateActivity : BaseActivity() {
         }
 
         deleteBtn.setOnClickListener {
-            showDialog(CustomDialog(this@TemplateActivity, getString(R.string.delete),
-                    getString(R.string.delete_template), null) { result, _, _ -> if(result) { delete() }
-            }, true, true, true, false)
+            showDialog(PopupOptionDialog(this@TemplateActivity,
+                    arrayOf(PopupOptionDialog.Item(getString(R.string.delete), R.drawable.delete, AppTheme.redColor)), deleteBtn) { index ->
+                if(index == 0) {
+                    showDialog(CustomDialog(this@TemplateActivity, getString(R.string.delete),
+                            getString(R.string.delete_template), null, R.drawable.delete) { result, _, _ -> if(result) { delete() }
+                    }, true, true, true, false)
+                }
+            }, true, false, true, false)
         }
 
         if(!intent.getStringExtra("id").isNullOrEmpty()) {
