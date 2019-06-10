@@ -2,6 +2,7 @@ package com.ayaan.twelvepages.ui.view
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
@@ -22,6 +23,7 @@ import com.ayaan.twelvepages.manager.*
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
+import com.ayaan.twelvepages.ui.dialog.PopupOptionDialog
 import io.realm.OrderedCollectionChangeSet
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.view_day.view.*
@@ -41,7 +43,18 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val newList = ArrayList<Record>()
     private val dateInfo = DateInfoManager.DateInfo()
 
-    private val adapter = RecordListAdapter(context, currentList, targetCal) { view, record, action -> }
+    private val adapter = RecordListAdapter(context, currentList, targetCal) { view, record, action ->
+        MainActivity.instance?.let {
+            showDialog(PopupOptionDialog(it,
+                    arrayOf(PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.redColor)), view) { index ->
+                if(index == 0) {
+                    RecordManager.delete(context as Activity, record, Runnable {
+                        toast(R.string.deleted, R.drawable.delete)
+                    })
+                }
+            }, true, false, true, false)
+        }
+    }
 
     var startTime: Long = 0
     var endTime: Long = 0
@@ -103,7 +116,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 updateData(result, currentList)
                 adapter.notifyDataSetChanged()
             }else if(changeSet.state == OrderedCollectionChangeSet.State.UPDATE) {
-                if(MainActivity.getDayPagerView()?.isOpened() == true) {
+                if(MainActivity.getDayPager()?.isOpened() == true) {
                     updateData(result, newList)
                     updateChange(adapter, currentList, newList)
                 }
@@ -185,10 +198,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.text = dateInfo.getSelectedString()
     }
 
-    fun show(dayPagerView: DayPagerView) {
+    fun show(dayPager: DayPager) {
         dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
         val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(dayPagerView, "alpha", 0.9f, 1f),
+        animSet.playTogether(ObjectAnimator.ofFloat(dayPager, "alpha", 0.9f, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleX", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dateLy, "scaleY", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dowText, "scaleX", 1f, dowScale),
@@ -216,11 +229,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         animSet.start()
     }
 
-    fun hide(dayPagerView: DayPagerView) {
+    fun hide(dayPager: DayPager) {
         dowText.text = AppDateFormat.dowEng.format(targetCal.time)
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(dayPagerView, "alpha", 1f, 0.9f),
+        animSet.playTogether(ObjectAnimator.ofFloat(dayPager, "alpha", 1f, 0.9f),
                 ObjectAnimator.ofFloat(dateLy, "scaleX", headerTextScale, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleY", headerTextScale, 1f),
                 ObjectAnimator.ofFloat(dowText, "scaleX", dowScale, 1f),

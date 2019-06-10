@@ -21,11 +21,9 @@ class DatePickerDialog(activity: Activity, time: Long,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window?.attributes?.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_date_picker)
         setLayout()
-        setOnShowListener {
-            startDialogShowAnimation(contentLy)
-        }
     }
 
     private fun setLayout() {

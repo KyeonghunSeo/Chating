@@ -36,7 +36,7 @@ object AlarmManager {
         }
         briefingAlarm = Prefs.getLong("briefingAlarm", Long.MIN_VALUE)
         manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        registBriefingAlarm()
+        //registBriefingAlarm()
     }
 
     private fun createNotificationChannel(context: Context) {

@@ -156,11 +156,11 @@
 
         </FrameLayout>
 
-        <CalendarView
+        <com.ayaan.twelvepages.ui.view.CalendarPickerPager
             android:id="@+id/calendarView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </CalendarView>
+            android:layout_width="320dp"
+            android:layout_height="300dp">
+        </com.ayaan.twelvepages.ui.view.CalendarPickerPager>
 
         <com.ayaan.twelvepages.ui.view.base.Line
             android:layout_width="30dp"

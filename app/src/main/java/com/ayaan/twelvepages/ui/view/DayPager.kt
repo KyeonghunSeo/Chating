@@ -24,7 +24,7 @@ import com.ayaan.twelvepages.ui.view.base.PagingControlableViewPager
 import java.util.*
 
 
-class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
     val startZ = dpToPx(8f)
     var viewMode = ViewMode.CLOSED
@@ -52,9 +52,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
                 selectedTargetDayView(dayViews[position % viewCount])
-                if(viewMode == ViewMode.OPENED) {
-                    MainActivity.getCalendarPagerView()?.selectDate(targetDayView.targetCal.timeInMillis)
-                }
+                MainActivity.getCalendarPager()?.selectDate(targetDayView.targetCal.timeInMillis)
             }
         })
         viewPager.setPagingEnabled(false)
@@ -118,7 +116,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             val animSet = AnimatorSet()
             animSet.playTogether(
-                    ObjectAnimator.ofFloat(this@DayPagerView, "elevation", 0f, startZ))
+                    ObjectAnimator.ofFloat(this@DayPager, "elevation", 0f, startZ))
             animSet.duration = 100
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.addListener(object : AnimatorListenerAdapter(){
@@ -133,10 +131,10 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         }
                         override fun onTransitionStart(transition: Transition) {
                             notifyDateChanged()
-                            targetDayView.show(this@DayPagerView)
+                            targetDayView.show(this@DayPager)
                         }
                     })
-                    TransitionManager.beginDelayedTransition(this@DayPagerView, transiion)
+                    TransitionManager.beginDelayedTransition(this@DayPager, transiion)
                     (layoutParams as LayoutParams).let {
                         it.width = MATCH_PARENT
                         it.height = MATCH_PARENT
@@ -161,7 +159,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
             transiion.addListener(object : TransitionListenerAdapter(){
                 override fun onTransitionEnd(transition: Transition) {
                     val animSet = AnimatorSet()
-                    animSet.playTogether(ObjectAnimator.ofFloat(this@DayPagerView, "elevation", startZ, 0f))
+                    animSet.playTogether(ObjectAnimator.ofFloat(this@DayPager, "elevation", startZ, 0f))
                     animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.duration = 150L
                     animSet.addListener(object : AnimatorListenerAdapter(){
@@ -175,7 +173,7 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
                 override fun onTransitionStart(transition: Transition) {
                     onVisibility?.invoke(false)
-                    targetDayView.hide(this@DayPagerView)
+                    targetDayView.hide(this@DayPager)
                 }
             })
             TransitionManager.beginDelayedTransition(this, transiion)
@@ -191,5 +189,6 @@ class DayPagerView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED
+    fun isClosed(): Boolean = viewMode == ViewMode.CLOSED
 
 }

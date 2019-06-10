@@ -306,7 +306,7 @@
             android:fontFamily="@font/bold"
             android:text="@string/type"/>
 
-        <com.ayaan.twelvepages.ui.view.FormulaPickerView
+        <com.ayaan.twelvepages.ui.view.FormulaPicker
             android:id="@+id/formulaPicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -314,7 +314,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:clipToPadding="false">
-        </com.ayaan.twelvepages.ui.view.FormulaPickerView>
+        </com.ayaan.twelvepages.ui.view.FormulaPicker>
 
         <LinearLayout
             android:id="@+id/shapeLy"
@@ -334,15 +334,15 @@
                 android:fontFamily="@font/bold"
                 android:text="@string/shape"/>
 
-            <com.ayaan.twelvepages.ui.view.ShapePickerView
-                android:id="@+id/shapePickerView"
+            <com.ayaan.twelvepages.ui.view.ShapePicker
+                android:id="@+id/shapePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:clipToPadding="false">
-            </com.ayaan.twelvepages.ui.view.ShapePickerView>
+            </com.ayaan.twelvepages.ui.view.ShapePicker>
 
         </LinearLayout>
 

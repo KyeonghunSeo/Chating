@@ -6,6 +6,7 @@ import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.tempCal
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.STACK
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -14,7 +15,7 @@ open class Template(@PrimaryKey var id: String? = null,
                     var title: String? = null,
                     var type: Int = 0,
                     var colorKey: Int = 0,
-                    var style: Int = RecordCalendarAdapter.Formula.STACK.ordinal,
+                    var style: Int = STACK.shapes[0].ordinal * 100 + STACK.ordinal,
                     var recordTitle: String? = null,
                     var recordTitleSelection: Int = 0,
                     var alarmOffset: Long = Long.MIN_VALUE,

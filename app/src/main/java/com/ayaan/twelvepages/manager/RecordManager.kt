@@ -1,6 +1,7 @@
 package com.ayaan.twelvepages.manager
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.alarm.RegistedAlarm
@@ -192,6 +193,15 @@ object RecordManager {
             }
         }
         realm.close()
+    }
+
+    fun delete(activity: Activity, record: Record, callback: Runnable) {
+        if(record.isRepeat()) {
+            RepeatManager.delete(activity, record, callback)
+        }else {
+            delete(record)
+            callback.run()
+        }
     }
 
     fun delete(record: Record) {

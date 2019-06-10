@@ -16,7 +16,7 @@ import com.ayaan.twelvepages.setGlobalTheme
 import kotlinx.android.synthetic.main.list_item_chip.view.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 
-class FormulaPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+class FormulaPicker @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : RecyclerView(context, attrs, defStyleAttr) {
 
     private val formulas = arrayOf(STACK, EXPANDED, RANGE, STICKER, DOT)

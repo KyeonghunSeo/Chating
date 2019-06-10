@@ -21,11 +21,9 @@ class TimePickerDialog(activity: Activity, time: Long,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window?.attributes?.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_time_picker)
         setLayout()
-        setOnShowListener {
-            startDialogShowAnimation(contentLy)
-        }
     }
 
     private fun setLayout() {

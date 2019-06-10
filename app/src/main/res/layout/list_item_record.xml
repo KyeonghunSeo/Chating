@@ -15,6 +15,16 @@
        android:src="@drawable/circle_fill"
        android:tint="@color/primaryText"/>
 
+   <ImageView
+       android:id="@+id/moreImg"
+       android:layout_width="50dp"
+       android:layout_height="50dp"
+       android:padding="17dp"
+       android:layout_gravity="right"
+       android:src="@drawable/more"
+       android:tint="@color/primaryText"
+       android:background="?android:attr/selectableItemBackground"/>
+
    <LinearLayout
        android:id="@+id/contentLy"
        android:orientation="vertical"

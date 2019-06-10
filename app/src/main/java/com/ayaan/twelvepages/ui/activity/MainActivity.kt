@@ -12,7 +12,6 @@ import android.view.DragEvent
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -33,7 +32,6 @@ import com.ayaan.twelvepages.model.AppUser
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.ui.dialog.CalendarSettingsDialog
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
-import com.ayaan.twelvepages.ui.dialog.EditFolderDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.theartofdev.edmodo.cropper.CropImage
 import io.realm.SyncUser
@@ -48,9 +46,9 @@ class MainActivity : BaseActivity() {
         var isShowing = false
         val tabSize = dpToPx(40)
         fun getViewModel() = instance?.viewModel
-        fun getDayPagerView() = instance?.dayPagerView
+        fun getDayPager() = instance?.dayPager
         fun getMainPanel() = instance?.mainPanel
-        fun getCalendarPagerView() = instance?.calendarPagerView
+        fun getCalendarPager() = instance?.calendarPager
         fun getMainDateLy() = instance?.mainDateLy
         fun getMonthTextLy() = instance?.mainMonthYearLy
         fun getWeekTextLy() = instance?.mainWeekLy
@@ -133,7 +131,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initCalendarView() {
-        calendarPagerView.onSelectedDate = { time, cellNum, dateColor, isSameSeleted, calendarView ->
+        calendarPager.onSelectedDate = { time, cellNum, dateColor, isSameSeleted, calendarView ->
             viewModel.targetTime.value = time
             viewModel.targetCalendarView.value = calendarView
             monthText.setTextColor(dateColor)
@@ -141,11 +139,11 @@ class MainActivity : BaseActivity() {
             weekCText.setTextColor(dateColor)
             weekText.setTextColor(dateColor)
             if(cellNum >= 0) {
-                if(isSameSeleted && dayPagerView.viewMode == ViewMode.CLOSED) dayPagerView.show()
+                if(isSameSeleted && dayPager.viewMode == ViewMode.CLOSED) dayPager.show()
                 refreshTodayView(calendarView.todayStatus)
             }
         }
-        calendarPagerView.onTop = { isTop, isBottom ->
+        calendarPager.onTop = { isTop, isBottom ->
             if(isTop) topShadow.visibility = View.GONE
             else topShadow.visibility = View.VISIBLE
         }
@@ -164,7 +162,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initDayView() {
-        dayPagerView.onVisibility = { show -> }
+        dayPager.onVisibility = { show -> }
     }
 
     private fun initBtns() {
@@ -314,9 +312,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun refreshCalendar() {
-        calendarPagerView.redraw()
-        if(dayPagerView.isOpened()){
-            dayPagerView.notifyDateChanged()
+        calendarPager.redraw()
+        if(dayPager.isOpened()){
+            dayPager.notifyDateChanged()
         }
     }
 
@@ -341,15 +339,20 @@ class MainActivity : BaseActivity() {
         getTargetCal()?.let {
             monthText.text = AppDateFormat.monthEng.format(it.time)
             yearText.text = it.get(Calendar.YEAR).toString()
-            weekText.text = it.get(Calendar.WEEK_OF_YEAR).toString()
+            if(AppStatus.isWeekNumDisplay) {
+                mainWeekLy.visibility = View.VISIBLE
+                weekText.text = it.get(Calendar.WEEK_OF_YEAR).toString()
+            }else {
+                mainWeekLy.visibility = View.GONE
+            }
         }
     }
 
     fun selectDate(time: Long) {
-        calendarPagerView.selectDate(time)
-        if(dayPagerView.isOpened()){
-            dayPagerView.initTime(time)
-            dayPagerView.notifyDateChanged()
+        calendarPager.selectDate(time)
+        if(dayPager.isOpened()){
+            dayPager.initTime(time)
+            dayPager.notifyDateChanged()
         }
     }
 
@@ -376,13 +379,13 @@ class MainActivity : BaseActivity() {
             }
             else -> {
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, tabSize.toFloat()))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, tabSize * 2f))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener(null)
                 /*
                 todayBtn.setOnClickListener { _ ->
-                    MainActivity.getDayPagerView()?.let {
+                    MainActivity.getdayPager()?.let {
                         if(it.isOpened()) {
                             it.hide()
                         }else if(it.viewMode == ViewMode.CLOSED){
@@ -407,15 +410,15 @@ class MainActivity : BaseActivity() {
                 deliveryDragEvent(event)
             }
             DragEvent.ACTION_DRAG_ENDED -> {
-                calendarPagerView.endDrag()
+                calendarPager.endDrag()
                 MainDragAndDropListener.end()
             }
         }
     }
 
     private fun deliveryDragEvent(event: DragEvent) {
-        if(event.y > calendarPagerView.top && event.y < calendarPagerView.bottom) {
-            calendarPagerView.onDrag(event)
+        if(event.y > calendarPager.top && event.y < calendarPager.bottom) {
+            calendarPager.onDrag(event)
         }else {
 
         }
@@ -459,7 +462,7 @@ class MainActivity : BaseActivity() {
             profileView.isOpened() -> profileView.hide()
             templateView.isExpanded -> templateView.collapse()
             viewModel.openFolder.value == true -> viewModel.openFolder.value = false
-            dayPagerView.isOpened() -> dayPagerView.hide()
+            dayPager.isOpened() -> dayPager.hide()
             else -> super.onBackPressed()
         }
     }
@@ -518,7 +521,7 @@ class MainActivity : BaseActivity() {
         }else if(requestCode == RC_SETTING && resultCode == RESULT_CALENDAR_SETTING) {
             if(!getTargetFolder().isCalendar()) viewModel.setCalendarFolder()
             if(viewModel.openFolder.value == true) viewModel.openFolder.value = false
-            if(dayPagerView.isOpened()) dayPagerView.hide()
+            if(dayPager.isOpened()) dayPager.hide()
             profileView.hide()
             showDialog(CalendarSettingsDialog(this@MainActivity),
                     true, false, true, false)

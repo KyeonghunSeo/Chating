@@ -41,7 +41,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         fun getStyleText(style: Int) : String{
             val formula = RecordCalendarAdapter.Formula.styleToFormula(style)
             val shape = Shape.styleToShape(style)
-            return str(formula.nameId) + str(shape.nameId)
+            return str(formula.nameId) + " / " + str(shape.nameId)
         }
     }
 
