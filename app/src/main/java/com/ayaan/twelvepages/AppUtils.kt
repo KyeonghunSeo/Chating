@@ -9,7 +9,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
-import android.os.IBinder
 import android.os.Vibrator
 import android.text.Spannable
 import android.text.SpannableString
@@ -21,7 +20,6 @@ import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.ChangeBounds
 import androidx.transition.Fade
@@ -446,8 +444,8 @@ fun getScreenSize(context: Context) : IntArray {
     return size
 }
 
-fun getSampleText(): String {
-    App.resource.getStringArray(R.array.sample_texts).let {
+fun getRandomText(arrayId: Int): String {
+    App.resource.getStringArray(arrayId).let {
         return it[Random().nextInt(it.size)]
     }
 }

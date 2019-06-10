@@ -21,41 +21,36 @@
             android:layout_height="wrap_content">
         </TimePicker>
 
-        <com.ayaan.twelvepages.ui.view.base.Line
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:colorFlag="secondary"/>
-
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="right">
 
             <TextView
                 android:id="@+id/cancelBtn"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="14dp"
+                android:padding="10dp"
+                android:layout_marginRight="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:textSize="16dp"
                 android:gravity="center"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/bold"
                 android:text="@string/cancel"/>
-
-            <com.ayaan.twelvepages.ui.view.base.Line
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                app:colorFlag="secondary"/>
 
             <TextView
                 android:id="@+id/confirmBtn"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="14dp"
+                android:padding="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:textSize="16dp"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
-                android:fontFamily="@font/regular"
+                android:fontFamily="@font/bold"
                 android:text="@string/confirm"/>
 
         </LinearLayout>

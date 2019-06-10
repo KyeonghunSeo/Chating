@@ -51,7 +51,7 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
         setOnShowListener {
             drawRecord()
             formulaPicker.scrollToPosition(recordView.record.style % 100)
-            shapePickerView.scrollToPosition(recordView.record.style / 100)
+            shapePicker.scrollToPosition(recordView.record.style / 100)
         }
     }
 
@@ -97,23 +97,29 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
             }
         }
 
+        imageBtn.setOnClickListener {
+            showDialog(StickerPickerDialog(activity) { sticker ->
+
+            }, true, true, true, false)
+        }
+
         formulaPicker.formula = recordView.formula
         formulaPicker.onSelected = { formula ->
             recordView.record.setFormula(formula)
             recordView.formula = formula
             subRecordView.record.setFormula(formula)
             subRecordView.formula = formula
-            shapePickerView.refresh(formula, formula.shapes[0])
+            shapePicker.refresh(formula, formula.shapes[0])
             drawRecord()
         }
         formulaPicker.adapter?.notifyDataSetChanged()
 
-        shapePickerView.onSelected = { shape ->
+        shapePicker.onSelected = { shape ->
             recordView.record.setShape(shape)
             subRecordView.record.setShape(shape)
             drawRecord()
         }
-        shapePickerView.refresh(recordView.formula, recordView.record.getShape())
+        shapePicker.refresh(recordView.formula, recordView.record.getShape())
 
         cancelBtn.setOnClickListener { dismiss() }
         confirmBtn.setOnClickListener {
@@ -129,8 +135,22 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
     private val dateWidth = dpToPx(60f)
 
     private fun drawRecord() {
-        recordView.record.title = getSampleText()
-        subRecordView.record.title = getSampleText()
+        when(recordView.formula) {
+            RecordCalendarAdapter.Formula.STACK -> {
+                recordView.record.title = getRandomText(R.array.singleline_texts)
+                subRecordView.record.title = getRandomText(R.array.singleline_texts)
+            }
+            RecordCalendarAdapter.Formula.EXPANDED -> {
+                recordView.record.title = getRandomText(R.array.multiline_texts)
+                subRecordView.record.title = getRandomText(R.array.multiline_texts)
+            }
+            RecordCalendarAdapter.Formula.RANGE -> {
+                recordView.record.title = getRandomText(R.array.range_texts)
+                subRecordView.record.title = getRandomText(R.array.range_texts)
+            }
+            else -> {}
+        }
+
         recordView.setStyle()
         subRecordView.setStyle()
 
@@ -149,13 +169,11 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
         recordView.mRight = dateWidth * recordView.length
         recordView.mTop = topMargin
         recordView.mBottom = recordView.mTop + recordView.getViewHeight().toFloat()
-        recordView.setLayout()
         if(recordView.formula == RecordCalendarAdapter.Formula.STICKER) {
             recordView.translationY = -dpToPx(10f)
         }else {
             recordView.translationY = 0f
         }
-        recordView.invalidate()
 
         when(recordView.formula) {
             RecordCalendarAdapter.Formula.STACK -> {
@@ -164,10 +182,8 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
                 subRecordView.mRight = dateWidth * 2
                 subRecordView.mTop = topMargin
                 subRecordView.mBottom = subRecordView.mTop + subRecordView.getViewHeight().toFloat()
-                subRecordView.setLayout()
                 subRecordView.translationX = dateWidth * 2
                 subRecordView.translationY = 0f
-                subRecordView.invalidate()
                 shapeLy.visibility = View.VISIBLE
                 colorLy.visibility = View.VISIBLE
                 imageLy.visibility = View.GONE
@@ -178,10 +194,8 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
                 subRecordView.mRight = dateWidth
                 subRecordView.mTop = topMargin
                 subRecordView.mBottom = subRecordView.mTop + subRecordView.getViewHeight().toFloat()
-                subRecordView.setLayout()
                 subRecordView.translationX = dateWidth * 2
                 subRecordView.translationY = 0f
-                subRecordView.invalidate()
                 shapeLy.visibility = View.VISIBLE
                 colorLy.visibility = View.VISIBLE
                 imageLy.visibility = View.GONE
@@ -192,10 +206,8 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
                 subRecordView.mRight = dateWidth * 3
                 subRecordView.mTop = topMargin - subRecordView.getViewHeight().toFloat()
                 subRecordView.mBottom = subRecordView.mTop + subRecordView.getViewHeight().toFloat()
-                subRecordView.setLayout()
                 subRecordView.translationX = 0f
                 subRecordView.translationY = 0f
-                subRecordView.invalidate()
                 shapeLy.visibility = View.VISIBLE
                 colorLy.visibility = View.VISIBLE
                 imageLy.visibility = View.GONE
@@ -206,10 +218,8 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
                 subRecordView.mRight = dateWidth
                 subRecordView.mTop = topMargin
                 subRecordView.mBottom = subRecordView.mTop + subRecordView.getViewHeight().toFloat()
-                subRecordView.setLayout()
                 subRecordView.translationX = dateWidth * 2
                 subRecordView.translationY = 0f
-                subRecordView.invalidate()
                 shapeLy.visibility = View.GONE
                 colorLy.visibility = View.VISIBLE
                 imageLy.visibility = View.GONE
@@ -220,15 +230,18 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
                 subRecordView.mRight = dateWidth
                 subRecordView.mTop = topMargin
                 subRecordView.mBottom = subRecordView.mTop + subRecordView.getViewHeight().toFloat()
-                subRecordView.setLayout()
                 subRecordView.translationX = dateWidth * 2
                 subRecordView.translationY = -dpToPx(10f)
-                subRecordView.invalidate()
                 shapeLy.visibility = View.GONE
                 colorLy.visibility = View.GONE
                 imageLy.visibility = View.VISIBLE
             }
+            else -> {}
         }
+        recordView.setLayout()
+        subRecordView.setLayout()
+        recordView.invalidate()
+        subRecordView.invalidate()
     }
 
 }

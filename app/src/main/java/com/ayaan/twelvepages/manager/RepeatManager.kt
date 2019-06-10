@@ -308,7 +308,7 @@ object RepeatManager {
         }, true, true, true, false)
     }
 
-    fun delete(activity: Activity, record: Record, runnable: Runnable) {
+    fun delete(activity: Activity, record: Record, callback: Runnable) {
         val typeName = activity.getString(R.string.record)
         val title = String.format(activity.getString(R.string.repeat_delete), typeName)
         val sub = activity.getString(R.string.how_apply)
@@ -323,7 +323,7 @@ object RepeatManager {
                     1 -> RecordManager.deleteAfter(record)
                     2 -> RecordManager.delete(record)
                 }
-                runnable.run()
+                callback.run()
             }
         }, true, true, true, false)
     }

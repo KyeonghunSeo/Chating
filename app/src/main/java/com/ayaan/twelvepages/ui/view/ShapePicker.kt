@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.list_item_chip.view.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import com.ayaan.twelvepages.ui.view.RecordView.Shape.*
 
-class ShapePickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+class ShapePicker @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : RecyclerView(context, attrs, defStyleAttr) {
     lateinit var items: Array<RecordView.Shape>
     var onSelected : ((RecordView.Shape) -> Unit)? = null

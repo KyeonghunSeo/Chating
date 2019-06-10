@@ -1,32 +1,29 @@
 package com.ayaan.twelvepages.ui.view
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Handler
-import android.os.Message
 import android.util.AttributeSet
-import android.view.DragEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.getDiffMonth
+import com.ayaan.twelvepages.getDiffYear
 import com.ayaan.twelvepages.ui.view.base.PagingControlableViewPager
 import java.util.*
 
-class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+class CalendarPickerPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
     private val startPosition = 1000
     private val viewCount = 3
     private val viewPager = PagingControlableViewPager(context)
-    private val calendarViews = List(viewCount) { CalendarView(context) }
-    var onSelectedDate: ((Long, Int, Int, Boolean, CalendarView) -> Unit)? = null
+    private val calendarViews = List(viewCount) { CalendarPicker(context) }
+    var onSelectedDate: ((Long, Int, Int, Boolean, CalendarPicker) -> Unit)? = null
     var onTop: ((Boolean, Boolean) -> Unit)? = null
 
     private val tempCal = Calendar.getInstance()
-    private var targetCalendarView : CalendarView = calendarViews[startPosition % viewCount]
+    private var targetCalendarView : CalendarPicker = calendarViews[startPosition % viewCount]
     private var firstSelectDateFlag = false
     private var selectDateTime = Long.MIN_VALUE
 
@@ -48,23 +45,11 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
                     targetCalendarView.selectTime(selectDateTime)
                     selectDateTime = Long.MIN_VALUE
                 }
-                l("$position 페이지 선택됨 : ${AppDateFormat.ymdDate.format(targetCalendarView.targetCal.time)}")
             }
-        })/*
-        viewPager.setPageTransformer(true) { view, position ->
-            val pageWidth = view.width
-            when {
-                position > -1 && position < 0 -> {
-                    (view as CalendarView).calendarLy.translationX = pageWidth * position * -0.4f
-                }
-                else -> {
-                    (view as CalendarView).calendarLy.translationX = 0f
-                }
-            }
-        }*/
+        })
     }
 
-    private fun selectedTargetCalendarView(calendarView: CalendarView) {
+    private fun selectedTargetCalendarView(calendarView: CalendarPicker) {
         targetCalendarView.onSelectedDate = null
         targetCalendarView.onTop = null
         targetCalendarView.unselectDate()
@@ -85,7 +70,7 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
                 firstSelectDateFlag = true
                 selectedTargetCalendarView(calendarView)
                 calendarView.onDrawed = {
-                    calendarView.selectDate(calendarView.todayCellNum)
+                    calendarView.postDelayed({calendarView.selectDate(calendarView.todayCellNum)}, 100)
                     calendarView.onDrawed = null
                 }
             }else {
@@ -120,60 +105,4 @@ class CalendarPagerView @JvmOverloads constructor(context: Context, attrs: Attri
     fun redraw() {
         calendarViews.forEach { it.redraw() }
     }
-
-    fun redrawAndSelect(){
-        redraw()
-        targetCalendarView.selectDate()
-    }
-
-    //↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓드래그 처리 부분↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-
-    private val autoPagingThreshold = dpToPx(30)
-    private var autoPagingFlag = 0
-    private val autoPaginglHandler = @SuppressLint("HandlerLeak")
-    object : Handler() {
-        override fun handleMessage(msg: Message) {
-            if (autoPagingFlag != 0) {
-                if (autoPagingFlag == -1) {
-                    viewPager.currentItem = viewPager.currentItem - 1
-                } else if (autoPagingFlag == 1) {
-                    viewPager.currentItem = viewPager.currentItem + 1
-                }
-                this.sendEmptyMessageDelayed(0, 700)
-            }
-        }
-    }
-
-    fun onDrag(event: DragEvent) {
-        targetCalendarView.onDrag(event)
-
-        when {
-            event.x < autoPagingThreshold -> {
-                if(autoPagingFlag != -1) {
-                    autoPagingFlag = -1
-                    autoPaginglHandler.sendEmptyMessageDelayed(0, 700)
-                }
-            }
-            event.x > width - autoPagingThreshold -> {
-                if(autoPagingFlag != 1) {
-                    autoPagingFlag = 1
-                    autoPaginglHandler.sendEmptyMessageDelayed(0, 700)
-                }
-            }
-            else -> {
-                if(autoPagingFlag != 0){
-                    autoPagingFlag = 0
-                    autoPaginglHandler.removeMessages(0)
-                }
-            }
-        }
-    }
-
-    fun endDrag() {
-        autoPagingFlag = 0
-        autoPaginglHandler.removeMessages(0)
-        calendarViews.forEach { it.endDrag() }
-    }
-
-    //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑드래그 처리 부분↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 }

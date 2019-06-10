@@ -525,12 +525,7 @@ class RecordActivity : BaseActivity() {
     }
 
     private fun delete() {
-        if(originalData?.repeat.isNullOrEmpty()) {
-            RecordManager.delete(record)
-            deletedFinish()
-        }else {
-            RepeatManager.delete(this, record, Runnable { deletedFinish() })
-        }
+        originalData?.let { RecordManager.delete(this, it, Runnable { deletedFinish() }) }
     }
 
     private fun savedFinish() {

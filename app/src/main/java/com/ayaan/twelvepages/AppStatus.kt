@@ -13,6 +13,7 @@ object AppStatus {
     var outsideMonthAlpha = 0f
     var calTextSize = 0
     var weekLine = 0
+    var isWeekNumDisplay = true
 
     fun init(context: Context) {
         startDayOfWeek = Prefs.getInt("startDayOfWeek", Calendar.SUNDAY)
@@ -22,5 +23,6 @@ object AppStatus {
         outsideMonthAlpha = Prefs.getFloat("outsideMonthAlpha", 0f)
         calTextSize = Prefs.getInt("calTextSize", 0)
         weekLine = Prefs.getInt("weekLine", 0)
+        isWeekNumDisplay = Prefs.getBoolean("isWeekNumDisplay", true)
     }
 }

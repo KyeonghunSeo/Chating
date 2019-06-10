@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">12 Pages</string>
+    <string name="app_name">12Page</string>
     <string name="notification_default_channel" translatable="false">com.hellowo.alarm.default</string>
 
     <string name="cancel">취소</string>
@@ -157,7 +157,7 @@
     <string name="search_title_location_memo">제목, 장소, 메모 검색하기</string>
     <string name="startdow">시작 요일</string>
     <string name="startdow_sub">한 주가 시작되는 요일을 선택해주세요</string>
-    <string name="week_display">주말 표시</string>
+    <string name="week_display">공휴일, 주말 색상</string>
     <string name="lunar_display">음력 표시</string>
     <string name="account_settings">계정 설정</string>
     <string name="logout">로그아웃</string>
@@ -203,9 +203,9 @@
     <string name="evaluation">앱 평가하기</string>
     <string name="send_email">개발자에게 이메일 보내기</string>
     <string name="vote_to_new_feature">새로운 기능 투표하기</string>
-    <string name="evaluate_text">개발자에게 응원과 관심, 다양한 의견은 언제나 큰 도움이 됩니다 :)</string>
-    <string name="email_text">문제가 발생했다면 이곳으로 이메일을 보내주세요.</string>
-    <string name="vote_text">\'12PAGE\'는 사용자들과 함께 만들어가는 앱 입니다. 새로운 기능이 필요하다면 이곳에서 투표해 주세요.</string>
+    <string name="evaluate_text">개발자에게 관심과 응원은 언제나 큰 힘이 됩니다:)</string>
+    <string name="email_text">문제가 발생했다면 이곳으로 이메일을 보내주세요</string>
+    <string name="vote_text">\'12Page\'는 사용자들과 함께 만들어가는 앱 입니다\n가장 많은 선택을 받은 기능이 우선적으로 개발됩니다</string>
     <string name="help">문의사항</string>
     <string name="no_records">이 날의 기록이 없습니다</string>
     <string name="no_records_in_this_folder">이 보관함에 기록이 없습니다</string>
@@ -252,14 +252,14 @@
     <string name="new_template">새 템플릿</string>
     <string name="new_tag">새 태그</string>
     <string name="close">닫기</string>
-    <string name="new_tag_sub">기록에 태그를 붙이면 빠르게 검색할수 있고, 유용한 통계자료도 만들수 있습니다.</string>
+    <string name="new_tag_sub">기록에 태그를 붙이면 빠르게 검색할수 있고, 유용한 통계자료도 만들수 있습니다</string>
     <string name="enter_tag_name">이곳에 태그이름을 입력</string>
     <string name="edit_tag">태그편집</string>
     <string name="already_exist_tag">이미 존재하는 태그이름 입니다</string>
     <string name="back_c">BACK</string>
     <string name="delete_c">Delete</string>
     <string name="init_text">미리 입력</string>
-    <string name="init_text_hint">이곳에 미리 입력할 내용을 적어주세요. 커서의 시작 위치도 정할수 있습니다.</string>
+    <string name="init_text_hint">이곳에 미리 내용을 적고 커서의 시작위치를 정해놓을수 있습니다</string>
     <string name="cursor_pos">커서위치 : %1$s</string>
     <string name="use">활성</string>
     <string name="unuse">비활성</string>
@@ -303,8 +303,27 @@
     <string name="shape_dash">점선</string>
     <string name="shape_arrow">화살표</string>
     <string name="shape_dash_arrow">점선화살표</string>
+    <string name="weekNumDisplay">주차 표시</string>
 
-    <string-array name="sample_texts">
+    <string-array name="singleline_texts">
+        <item>저녁약속</item>
+        <item>택배</item>
+        <item>생일파티</item>
+        <item>헬스</item>
+        <item>요가</item>
+        <item>2시 미팅</item>
+    </string-array>
+
+    <string-array name="range_texts">
+        <item>여 름 휴 가</item>
+        <item>중 간 고 사</item>
+        <item>다 이 어 트</item>
+        <item>프 로 젝 트</item>
+    </string-array>
+
+    <string-array name="multiline_texts">
+        <item>오늘은 기분이 너무 좋은날</item>
+        <item>포기하지 말고 천천히 조금씩!</item>
         <item>지혜란 생각이 떠올랐을때 바로 기록하는 것이다</item>
         <item>간결이 지혜의 본질이다</item>
         <item>별을 노래하는 마음으로 모든 죽어가는 것들을 사랑해야지</item>

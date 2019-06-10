@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:translationY="-4dp"
-            app:cardCornerRadius="4dp"
+            app:cardCornerRadius="0dp"
             app:cardElevation="5dp"
             app:cardBackgroundColor="@color/white">
         </androidx.cardview.widget.CardView>
@@ -34,8 +34,8 @@
         </androidx.cardview.widget.CardView>
 
         <ImageView
-            android:layout_width="4dp"
-            android:layout_height="4dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:src="@drawable/tab_edge_bottom"
             android:scaleType="fitXY"
             android:layout_gravity="right|bottom"
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:translationY="4dp"
-            app:cardCornerRadius="4dp"
+            app:cardCornerRadius="0dp"
             app:cardElevation="5dp"
             app:cardBackgroundColor="@color/white">
         </androidx.cardview.widget.CardView>
@@ -71,8 +71,8 @@
         </androidx.cardview.widget.CardView>
 
         <ImageView
-            android:layout_width="4dp"
-            android:layout_height="4dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:src="@drawable/tab_edge_top"
             android:scaleType="fitXY"
             android:layout_gravity="right"
@@ -111,7 +111,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="12dp"
+            android:textSize="13dp"
             android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@color/white"

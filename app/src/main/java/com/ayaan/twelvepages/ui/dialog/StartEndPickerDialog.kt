@@ -12,8 +12,6 @@ import com.ayaan.twelvepages.model.Record
 import kotlinx.android.synthetic.main.dialog_start_end_picker.*
 import java.util.*
 
-
-
 @SuppressLint("ValidFragment")
 class StartEndPickerDialog(activity: Activity, private val record: Record,
                            private val onConfirmed: (Calendar, Calendar, Boolean) -> Unit) : Dialog(activity) {
@@ -22,12 +20,15 @@ class StartEndPickerDialog(activity: Activity, private val record: Record,
     private var startEndMode = 0
     private var timeMode = if(record.isSetTime()) 1 else 0
 
+    init {
+        startCal.timeInMillis = record.dtStart
+        endCal.timeInMillis = record.dtEnd
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_start_end_picker)
         setGlobalTheme(rootLy)
-        startCal.timeInMillis = record.dtStart
-        endCal.timeInMillis = record.dtEnd
         setLayout()
         setOnShowListener {
             startDialogShowAnimation(contentLy)
@@ -89,6 +90,7 @@ class StartEndPickerDialog(activity: Activity, private val record: Record,
     }
 
     private fun setDateView(cal: Calendar) {
+        /*
         calendarView.date = cal.timeInMillis
         calendarView.firstDayOfWeek = AppStatus.startDayOfWeek
         calendarView.setOnDateChangeListener { view, year, month, date ->
@@ -109,6 +111,7 @@ class StartEndPickerDialog(activity: Activity, private val record: Record,
             }
             setDateText()
         }
+        */
     }
 
     private fun setTimeView(cal: Calendar) {

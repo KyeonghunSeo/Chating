@@ -26,11 +26,9 @@ class LunarRepeatDialog(activity: Activity, record: Record,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window?.attributes?.windowAnimations = R.style.DialogAnimation
         setContentView(R.layout.dialog_lunar_repeat)
         setLayout()
-        setOnShowListener {
-            startDialogShowAnimation(contentLy)
-        }
     }
 
     private fun setLayout() {
@@ -53,7 +51,6 @@ class LunarRepeatDialog(activity: Activity, record: Record,
             jsonObject.put("weekNum", "0000000")
             jsonObject.put("monthOption", 0)
             jsonObject.put("lunar", true)
-
             onResult.invoke(jsonObject.toString(), datePicker.date)
             dismiss()
         }

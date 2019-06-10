@@ -33,7 +33,7 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>)
     : RecyclerView.Adapter<FolderAdapter.ViewHolder>() {
 
     val itemWidth = dpToPx(40)
-    val maxTextWidth = dpToPx(200)
+    val maxTextWidth = dpToPx(220)
     val edgeSize = dpToPx(3f)
     val backTextColor = AppTheme.primaryText
     var itemTouchHelper: ItemTouchHelper? = null
@@ -220,7 +220,7 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>)
                     return@let
                 }
             }
-            animList.add(ObjectAnimator.ofFloat(panel, "translationX", edgeSize, 0f))
+            animList.add(ObjectAnimator.ofFloat(panel, "translationX", edgeSize * 5, 0f))
             animList.add(ObjectAnimator.ofFloat(panel, "alpha", 0f, 1f))
             animSet.playTogether(animList)
             animSet.start()

@@ -30,19 +30,15 @@ import com.ayaan.twelvepages.ui.activity.MainActivity
 import io.realm.RealmResults
 import java.util.*
 
-class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
+class CalendarPicker @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
         const val maxCellNum = 42
         const val animDur = 300L
         const val columns = 7
         val todayCal: Calendar = Calendar.getInstance()
-        val dragStartYPos = dpToPx(58f)
-        val weekLyBottomPadding = dpToPx(10)
         val calendarPadding = dpToPx(19)
-        val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
-        val dataStartYOffset = dpToPx(33f)
     }
 
     private val scrollView = NestedScrollView(context)
@@ -247,8 +243,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         }
 
-        //if(SyncUser.current() != null) RecordManager.setTimeObjectCalendarAdapter(this)
-        setTimeObjectCalendarAdapter()
         l("${AppDateFormat.mDate.format(targetCal.time)} 캘린더 그리기 : ${(System.currentTimeMillis() - t) / 1000f} 초")
     }
 
@@ -285,7 +279,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         dateText.typeface = AppTheme.thinCFont
         holiText.typeface = AppTheme.regularFont
         holiText.text = dateInfos[cellNum].getUnSelectedString()
-        offViewEffect(cellNum)
         lastUnSelectDateAnimSet?.cancel()
         lastUnSelectDateAnimSet = AnimatorSet()
         lastUnSelectDateAnimSet?.let {
@@ -297,9 +290,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             it.start()
         }
     }
-
-    var selectedWeek = 0
-    var selectedWeekIndex = -1
 
     fun selectDate() {
         selectDate(if(todayCellNum >= startCellNum) todayCellNum else startCellNum)
@@ -352,7 +342,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 scrollView.post { scrollView.scrollTo(0, weekLys[cellNum / columns].top - calendarPadding) }
             }
             scrollView.post{ onTop?.invoke(scrollView.scrollY == 0, !scrollView.canScrollVertically(1)) }
-            onViewEffect(cellNum)
         }else {
             selectCellNum = cellNum
             targetCellNum = cellNum
@@ -367,169 +356,4 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         holder.dateLy.scaleY = 1f
     }
 
-    private fun onViewEffect(cellNum: Int) {
-        timeObjectCalendarAdapter.getViews(cellNum).let {
-            it.forEach { view ->
-                view.ellipsize = TextUtils.TruncateAt.MARQUEE
-                view.marqueeRepeatLimit = -1
-                view.isFocusable = true
-                view.postDelayed({
-                    view.isSelected = true
-                }, 1000)
-            }
-        }
-    }
-
-    private fun offViewEffect(cellNum: Int) {
-        timeObjectCalendarAdapter.getViews(cellNum).let {
-            it.forEach { view ->
-                view.ellipsize = null
-                view.isSelected = false
-            }
-        }
-    }
-
-    fun getSelectedView(): View = dateCells[selectCellNum]
-
-    private fun highlightCells(start: Int, end: Int) {
-        val s = if(start < end) start else end
-        val e = if(start < end) end else start
-        dateCells.forEachIndexed { index, view ->
-           if(index in s..e) {
-               view.background = AppTheme.hightlightCover
-           }else {
-               view.background = AppTheme.blankDrawable
-           }
-        }
-    }
-
-    private fun clearHighlight() {
-        dateCells.forEachIndexed { index, view ->
-            view.background = AppTheme.blankDrawable
-        }
-    }
-
-    private var recordList: RealmResults<Record>? = null
-    private var withAnim = false
-    private val timeObjectCalendarAdapter = RecordCalendarAdapter(this)
-    var lastUpdatedItem: Record? = null
-
-    private fun setTimeObjectCalendarAdapter() {
-        withAnim = false
-        recordList?.removeAllChangeListeners()
-        recordList = RecordManager.getRecordList(calendarStartTime, calendarEndTime, MainActivity.getTargetFolder()).apply {
-            try{
-                addChangeListener { result, changeSet ->
-                    //l("result.isLoaded ${result.isLoaded}")
-                    //l("changeSet ${changeSet.isCompleteResult}")
-                    val t = System.currentTimeMillis()
-                    changeSet.insertionRanges.firstOrNull()?.let {
-                        lastUpdatedItem = result[it.startIndex]
-                        l("추가된 데이터 : ${lastUpdatedItem.toString()}")
-                    }
-                    timeObjectCalendarAdapter.refresh(result, withAnim)
-                    withAnim = true
-                    l("${AppDateFormat.mDate.format(targetCal.time)} 오브젝트 그리기 : 데이터 ${result.size} 개 / ${(System.currentTimeMillis() - t) / 1000f} 초")
-                    onDrawed?.invoke(monthCal)
-                }
-            }catch (e: Exception){e.printStackTrace()}
-        }
-    }
-
-    //↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓드래그 처리 부분↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-
-    var startDragCell = -1
-    var startDragTime = Long.MIN_VALUE
-    var currentDragCell = -1
-    var endDragTime = Long.MIN_VALUE
-    var autoScrollFlag = 0
-
-    private val autoScrollHandler = @SuppressLint("HandlerLeak")
-    object : Handler() {
-        override fun handleMessage(msg: Message) {
-            if (autoScrollFlag != 0) {
-                if (autoScrollFlag == -1) {
-                    scrollView.scrollBy(0, -autoScrollOffset)
-                } else if (autoScrollFlag == 1) {
-                    scrollView.scrollBy(0, autoScrollOffset)
-                }
-                this.sendEmptyMessageDelayed(0, 1)
-            }
-        }
-    }
-
-    fun onDrag(event: DragEvent) {
-        val xPos = if(MainActivity.isFolderOpen()) event.x - MainActivity.tabSize else event.x
-        var cellX = ((xPos - calendarPadding) / minWidth).toInt()
-        if(cellX < 0) cellX = 0
-        val yPos = event.y - dragStartYPos
-        val yCalPos = yPos + scrollView.scrollY
-        var cellY = -1
-
-        weekLys.forEachIndexed { index, view ->
-            if(index < rows && yCalPos > view.top && yCalPos < view.bottom) {
-                cellY = index
-                return@forEachIndexed
-            }
-        }
-
-        when {
-            yPos < autoScrollThreshold -> {
-                if(autoScrollFlag != -1) {
-                    autoScrollFlag = -1
-                    autoScrollHandler.sendEmptyMessage(0)
-                }
-            }
-            yPos > height - autoScrollThreshold -> {
-                if(autoScrollFlag != 1) {
-                    autoScrollFlag = 1
-                    autoScrollHandler.sendEmptyMessage(0)
-                }
-            }
-            else -> {
-                if(autoScrollFlag != 0) {
-                    autoScrollFlag = 0
-                    autoScrollHandler.removeMessages(0)
-                }
-            }
-        }
-
-        if(cellY >= 0) {
-            currentDragCell = cellY * columns + cellX
-            endDragTime = cellTimeMills[currentDragCell]
-
-            when(event.action) {
-                DragEvent.ACTION_DRAG_STARTED -> {
-                    startDragCell = currentDragCell
-                    startDragTime = cellTimeMills[startDragCell]
-                    highlightCells(startDragCell, currentDragCell)
-                }
-                DragEvent.ACTION_DRAG_LOCATION -> {
-                    highlightCells(startDragCell, currentDragCell)
-                }
-                DragEvent.ACTION_DROP -> {
-                    if(MainDragAndDropListener.dragMode == MainDragAndDropListener.DragMode.INSERT) {
-                        if(endDragTime < startDragTime) {
-                            val t = startDragTime
-                            startDragTime = endDragTime
-                            endDragTime = t
-                        }
-                        MainActivity.instance?.expandControlView(startDragTime, endDragTime)
-                    }
-                }
-            }
-        }
-    }
-
-    fun endDrag() {
-        clearHighlight()
-        startDragCell = -1
-        startDragTime = Long.MIN_VALUE
-        currentDragCell = -1
-        endDragTime = Long.MIN_VALUE
-        autoScrollFlag = 0
-        autoScrollHandler.removeMessages(0)
-    }
-
-    //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑드래그 처리 부분↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 }

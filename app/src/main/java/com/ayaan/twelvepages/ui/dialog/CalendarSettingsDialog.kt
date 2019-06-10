@@ -18,7 +18,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.attributes.windowAnimations = R.style.DialogAnimation
-        window.setGravity(Gravity.BOTTOM or Gravity.LEFT)
+        window.setGravity(Gravity.BOTTOM)
         setContentView(R.layout.dialog_calendar_settings)
         setGlobalTheme(rootLy)
         setLayout()
@@ -28,7 +28,9 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
     private fun setLayout() {
         rootLy.layoutParams.width = WRAP_CONTENT
         rootLy.requestLayout()
+        rootLy.setOnClickListener { dismiss() }
         setStartDow()
+        setWeekNumDisplay()
         setDowDisplay()
         setWeekendDisplay()
         setHoliDisplay()
@@ -53,7 +55,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
                 AppStatus.startDayOfWeek = index + 1
                 Prefs.putInt("startDayOfWeek", AppStatus.startDayOfWeek)
                 setStartDow()
-                MainActivity.getCalendarPagerView()?.redrawAndSelect()
+                MainActivity.getCalendarPager()?.redrawAndSelect()
             }, true, true, true, false)
         }
     }
@@ -70,7 +72,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
             AppStatus.isDowDisplay = !AppStatus.isDowDisplay
             Prefs.putBoolean("isDowDisplay", AppStatus.isDowDisplay)
             setDowDisplay()
-            MainActivity.getCalendarPagerView()?.redrawAndSelect()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
         }
     }
 
@@ -99,7 +101,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
                 }
             }
             setWeekendDisplay()
-            MainActivity.getCalendarPagerView()?.redrawAndSelect()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
         }
     }
 
@@ -122,7 +124,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
                 Prefs.putInt("holidayDisplay", AppStatus.holidayDisplay)
                 DateInfoManager.init()
                 setHoliDisplay()
-                MainActivity.getCalendarPagerView()?.redrawAndSelect()
+                MainActivity.getCalendarPager()?.redrawAndSelect()
             }, true, true, true, false)
         }
     }
@@ -139,7 +141,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
             AppStatus.isLunarDisplay = !AppStatus.isLunarDisplay
             Prefs.putBoolean("isLunarDisplay", AppStatus.isLunarDisplay)
             setLunarDisplay()
-            MainActivity.getCalendarPagerView()?.redrawAndSelect()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
         }
     }
 
@@ -162,7 +164,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
             }
             Prefs.putFloat("outsideMonthAlpha", AppStatus.outsideMonthAlpha)
             setOutsideMonth()
-            MainActivity.getCalendarPagerView()?.redrawAndSelect()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
         }
     }
 
@@ -181,7 +183,7 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
             }
             Prefs.putInt("calTextSize", AppStatus.calTextSize)
             setCalTextSize()
-            MainActivity.getCalendarPagerView()?.redrawAndSelect()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
         }
     }
 
@@ -198,7 +200,23 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
             else AppStatus.weekLine = 0
             Prefs.putInt("weekLine", AppStatus.weekLine)
             setWeekLine()
-            MainActivity.getCalendarPagerView()?.redrawAndSelect()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
+        }
+    }
+
+    private fun setWeekNumDisplay() {
+        if(AppStatus.isWeekNumDisplay) {
+            weekNumDisplayText.text = context.getString(R.string.visible)
+            weekNumDisplayText.setTextColor(AppTheme.primaryText)
+        }else {
+            weekNumDisplayText.text = context.getString(R.string.unvisible)
+            weekNumDisplayText.setTextColor(AppTheme.disableText)
+        }
+        weekNumDisplayBtn.setOnClickListener {
+            AppStatus.isWeekNumDisplay = !AppStatus.isWeekNumDisplay
+            Prefs.putBoolean("isWeekNumDisplay", AppStatus.isWeekNumDisplay)
+            setWeekNumDisplay()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
         }
     }
 
