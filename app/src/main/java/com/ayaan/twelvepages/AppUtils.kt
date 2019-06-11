@@ -472,6 +472,19 @@ fun uncheckView(view: View) {
 
 fun str(stringId: Int) = App.context.getString(stringId)
 
+fun setImageViewGrayFilter(v: ImageView) {
+    val matrix = ColorMatrix()
+    matrix.setSaturation(0f) //0 means grayscale
+    val cf = ColorMatrixColorFilter(matrix)
+    v.colorFilter = cf
+    v.alpha = 0.5f
+}
+
+fun removeImageViewFilter(v: ImageView) {
+    v.colorFilter = null
+    v.alpha = 1f
+}
+
 /* 코드
 class MyAsyncTask() : AsyncTask<String, String, String?>() {
     override fun doInBackground(vararg args: String): String? {
