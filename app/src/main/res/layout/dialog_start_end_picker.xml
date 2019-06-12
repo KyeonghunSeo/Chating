@@ -159,7 +159,7 @@
         <com.ayaan.twelvepages.ui.view.CalendarPickerPager
             android:id="@+id/calendarView"
             android:layout_width="320dp"
-            android:layout_height="300dp">
+            android:layout_height="260dp">
         </com.ayaan.twelvepages.ui.view.CalendarPickerPager>
 
         <com.ayaan.twelvepages.ui.view.base.Line

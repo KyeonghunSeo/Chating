@@ -34,11 +34,9 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                 root.recyclerView.adapter?.notifyDataSetChanged()
             }
         })
-
         root.recyclerView.setBackgroundColor(AppTheme.backgroundColor)
         root.recyclerView.layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
         root.recyclerView.adapter = TabAdapter()
-
         dialog.setOnShowListener { onShow() }
     }
 
