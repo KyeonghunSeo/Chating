@@ -19,10 +19,13 @@ class CalendarPickerPager @JvmOverloads constructor(context: Context, attrs: Att
     private val viewCount = 3
     private val viewPager = PagingControlableViewPager(context)
     private val calendarViews = List(viewCount) { CalendarPicker(context) }
-    var onSelectedDate: ((Long, Int, Int, Boolean, CalendarPicker) -> Unit)? = null
+    var onSelectedDate: ((Calendar, Calendar) -> Unit)? = null
     var onTop: ((Boolean, Boolean) -> Unit)? = null
 
     private val tempCal = Calendar.getInstance()
+    private val startCal = Calendar.getInstance()
+    private val endCal = Calendar.getInstance()
+
     private var targetCalendarView : CalendarPicker = calendarViews[startPosition % viewCount]
     private var firstSelectDateFlag = false
     private var selectDateTime = Long.MIN_VALUE
@@ -54,8 +57,8 @@ class CalendarPickerPager @JvmOverloads constructor(context: Context, attrs: Att
         targetCalendarView.onTop = null
         targetCalendarView.unselectDate()
         targetCalendarView = calendarView
-        targetCalendarView.onSelectedDate = { time, cellNum, dateColor, isSameSeleted ->
-            onSelectedDate?.invoke(time, cellNum, dateColor, isSameSeleted, targetCalendarView)
+        targetCalendarView.onSelectedDate = { _, _ ->
+            onSelectedDate?.invoke(startCal, endCal)
         }
         targetCalendarView.onTop = onTop
     }

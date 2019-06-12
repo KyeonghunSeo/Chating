@@ -160,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_gravity="center_vertical"
-                    android:textColorHint="@color/line"
+                    android:textColorHint="@color/disableText"
                     android:textSize="28dp"
                     android:hint="@string/write_everything"
                     android:background="@color/transparent"/>

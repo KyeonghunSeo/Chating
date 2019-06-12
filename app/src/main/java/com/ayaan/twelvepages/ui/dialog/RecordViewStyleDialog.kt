@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import androidx.fragment.app.FragmentActivity
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.model.Record
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.dialog_incalendar_style.*
 import java.util.*
 
 
-class RecordViewStyleDialog(private val activity: Activity, record: Record?,
+class RecordViewStyleDialog(private val activity: FragmentActivity, record: Record?,
                             template: Template?, private val onResult: (Int, Int) -> Unit) : Dialog(activity) {
     private val recordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.STACK, 0, 0)
     private val subRecordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.STACK, 0, 0)
@@ -98,9 +99,9 @@ class RecordViewStyleDialog(private val activity: Activity, record: Record?,
         }
 
         imageBtn.setOnClickListener {
-            showDialog(StickerPickerDialog(activity) { sticker ->
+            StickerPickerDialog{ index ->
 
-            }, true, true, true, false)
+            }.show(activity.supportFragmentManager, null)
         }
 
         formulaPicker.formula = recordView.formula

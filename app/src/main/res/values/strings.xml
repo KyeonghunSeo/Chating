@@ -304,6 +304,9 @@
     <string name="shape_arrow">화살표</string>
     <string name="shape_dash_arrow">점선화살표</string>
     <string name="weekNumDisplay">주차 표시</string>
+    <string name="s_basic">기본</string>
+    <string name="s_work">업무</string>
+    <string name="recent_sticker_empty">최근 사용한 스티커가 없습니다</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

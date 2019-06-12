@@ -337,7 +337,7 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            monthText.text = AppDateFormat.monthEng.format(it.time)
+            monthText.text = AppDateFormat.mDate.format(it.time)
             yearText.text = it.get(Calendar.YEAR).toString()
             if(AppStatus.isWeekNumDisplay) {
                 mainWeekLy.visibility = View.VISIBLE

@@ -81,7 +81,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     init {
         includeFontPadding = false
-        typeface = AppTheme.regularFont
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
         setStyle()
     }
@@ -93,6 +92,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         when(formula) {
             BACKGROUND -> {}
             STACK -> {
+                typeface = AppTheme.regularFont
                 text = record.getTitleInCalendar()
                 gravity = Gravity.LEFT
                 setSingleLine(true)
@@ -105,6 +105,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 gravity = Gravity.LEFT
             }
             EXPANDED -> {
+                typeface = AppTheme.regularFont
                 text = record.getTitleInCalendar()
                 gravity = Gravity.LEFT
                 setSingleLine(false)
@@ -113,6 +114,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 ellipsize = TextUtils.TruncateAt.END
             }
             RANGE -> {
+                typeface = AppTheme.boldFont
                 text = record.getTitleInCalendar()
                 gravity = Gravity.CENTER_HORIZONTAL
                 setSingleLine(true)
@@ -339,12 +341,12 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 paint.style = Paint.Style.FILL
 
                 if(shape == Shape.ARROW || shape == Shape.DASH_ARROW) {
-                    val arrowSize = (periodLine * 2.5f).toInt()
+                    val arrowSize = (periodLine * 3.0f).toInt()
                     drawArrow(canvas, 0, height / 2, arrowSize, height / 2 - arrowSize, arrowSize, height / 2  + arrowSize)
                     drawArrow(canvas, width, height / 2, width - arrowSize, height / 2 - arrowSize, width - arrowSize, height / 2  + arrowSize)
                 }else {
-                    canvas.drawRect(0f, height / 2f - periodLine * 2.5f, periodLine, height / 2f + periodLine * 2, paint)
-                    canvas.drawRect(width - periodLine, height / 2f - periodLine * 2.5f, width.toFloat(), height / 2f + periodLine * 2, paint)
+                    canvas.drawRect(0f, height / 2f - periodLine * 3.0f, periodLine, height / 2f + periodLine * 3.0f, paint)
+                    canvas.drawRect(width - periodLine, height / 2f - periodLine * 3.0f, width.toFloat(), height / 2f + periodLine * 3.0f, paint)
                 }
             }
         }

@@ -44,10 +44,8 @@ class LinkListView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         .show()
             }
         }
-
         imageView.setOnLongClickListener {
-            showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_item),
-                    null, null) { result, _, _ ->
+            showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_item), null, null) { result, _, _ ->
                 if(result) {
                     record?.links?.remove(link)
                     removeView(v)

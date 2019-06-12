@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.CalendarManager
@@ -26,8 +27,6 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
     }
 
     private fun setLayout() {
-        rootLy.layoutParams.width = WRAP_CONTENT
-        rootLy.requestLayout()
         rootLy.setOnClickListener { dismiss() }
         setStartDow()
         setWeekNumDisplay()
@@ -39,8 +38,6 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
         setCalTextSize()
         setWeekLine()
     }
-
-
 
     private fun setStartDow() {
         val dowList = context.resources.getStringArray(R.array.day_of_weeks).toList()

@@ -47,13 +47,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private val scrollView = NestedScrollView(context)
     val calendarLy = LinearLayout(context)
-    val weekLys = Array(6) { FrameLayout(context)}
-    private val columnDividers = Array(maxCellNum) { View(context)}
-    private val rowDividers = Array(6) { View(context)}
-    private val dateLys = Array(6) { LinearLayout(context)}
-    val dateCells = Array(maxCellNum) { FrameLayout(context)}
-    private val dateHeaders = Array(maxCellNum) {
-        DateHeaderViewHolder(LayoutInflater.from(context).inflate(R.layout.view_selected_bar, null, false))}
+    val weekLys = Array(6) { FrameLayout(context) }
+    private val columnDividers = Array(maxCellNum) { View(context) }
+    private val rowDividers = Array(6) { View(context) }
+    private val dateLys = Array(6) { LinearLayout(context) }
+    val dateCells = Array(maxCellNum) { FrameLayout(context) }
+    private val dateHeaders = Array(maxCellNum) { DateHeaderViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.view_selected_bar, null, false)) }
     val dateInfos = Array(maxCellNum) { DateInfoManager.DateInfo() }
 
     inner class DateHeaderViewHolder(val container: View) {
@@ -76,10 +76,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private val tempCal: Calendar = Calendar.getInstance()
     private val monthCal: Calendar = Calendar.getInstance()
-
     val targetCal: Calendar = Calendar.getInstance()
+
     var targetCellNum = -1
-    var selectCellNum = -1
     var todayCellNum = -1
     val cellTimeMills = LongArray(maxCellNum) { Long.MIN_VALUE}
     var calendarStartTime = Long.MAX_VALUE
@@ -148,7 +147,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 val dateCell = dateCells[cellNum]
                 dateCell.setOnClickListener { onDateClick(cellNum) }
                 dateCell.setOnLongClickListener {
-                    if(selectCellNum != cellNum) onDateClick(cellNum)
+                    if(targetCellNum != cellNum) onDateClick(cellNum)
                     MainDragAndDropListener.start(it, MainDragAndDropListener.DragMode.INSERT)
                     return@setOnLongClickListener true
                 }
@@ -267,16 +266,16 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 (AppStatus.outsideMonthAlpha > 0f || cellNum in startCellNum..endCellNum)) {
             tempCal.timeInMillis = cellTimeMills[cellNum]
             selectToScrollFlag = weekLys[cellNum / columns].top < scrollView.scrollY
-            selectDate(cellNum, selectCellNum == cellNum)
+            selectDate(cellNum, targetCellNum == cellNum)
         }
     }
 
     fun unselectDate() {
-        if(selectCellNum >= 0) unselectDate(selectCellNum)
+        if(targetCellNum >= 0) unselectDate(targetCellNum)
     }
 
     fun unselectDate(cellNum: Int) {
-        selectCellNum = -1
+        targetCellNum = -1
         val bar = dateHeaders[cellNum].bar
         val dateText = dateHeaders[cellNum].dateText
         val dowText = dateHeaders[cellNum].dowText
@@ -298,9 +297,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    var selectedWeek = 0
-    var selectedWeekIndex = -1
-
     fun selectDate() {
         selectDate(if(todayCellNum >= startCellNum) todayCellNum else startCellNum)
     }
@@ -320,8 +316,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if(!showDayView) {
             l("날짜선택 : ${AppDateFormat.ymdDate.format(Date(cellTimeMills[cellNum]))}")
             targetCal.timeInMillis = cellTimeMills[cellNum]
-            if(selectCellNum >= 0) unselectDate(selectCellNum)
-            selectCellNum = cellNum
+            if(targetCellNum >= 0) unselectDate(targetCellNum)
             targetCellNum = cellNum
             val bar = dateHeaders[cellNum].bar
             val dateText = dateHeaders[cellNum].dateText
@@ -354,11 +349,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             scrollView.post{ onTop?.invoke(scrollView.scrollY == 0, !scrollView.canScrollVertically(1)) }
             onViewEffect(cellNum)
         }else {
-            selectCellNum = cellNum
             targetCellNum = cellNum
         }
         todayStatus = getDiffToday(targetCal)
-        onSelectedDate?.invoke(cellTimeMills[selectCellNum], selectCellNum, dateHeaders[cellNum].dateText.currentTextColor, showDayView)
+        onSelectedDate?.invoke(cellTimeMills[targetCellNum], targetCellNum, dateHeaders[cellNum].dateText.currentTextColor, showDayView)
     }
 
     private fun restoreDateHeader(holder: DateHeaderViewHolder) {
@@ -389,7 +383,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    fun getSelectedView(): View = dateCells[selectCellNum]
+    fun getSelectedView(): View = dateCells[targetCellNum]
 
     private fun highlightCells(start: Int, end: Int) {
         val s = if(start < end) start else end

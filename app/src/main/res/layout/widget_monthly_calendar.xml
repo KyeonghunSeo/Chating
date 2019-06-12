@@ -115,7 +115,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/line"
+            android:background="@color/disableText"
             android:orientation="vertical" >
         </LinearLayout>
 
@@ -143,7 +143,7 @@
 
                     <LinearLayout
                         android:layout_width="2px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical"
                         android:layout_height="1px">
                     </LinearLayout>
@@ -158,7 +158,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -172,7 +172,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -186,7 +186,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -200,7 +200,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -214,7 +214,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -248,7 +248,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -262,7 +262,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -276,7 +276,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -290,7 +290,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -304,7 +304,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -318,7 +318,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -352,7 +352,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -366,7 +366,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -380,7 +380,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -394,7 +394,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -408,7 +408,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -422,7 +422,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -456,7 +456,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -470,7 +470,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -484,7 +484,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -498,7 +498,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -512,7 +512,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -526,7 +526,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -560,7 +560,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -574,7 +574,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -588,7 +588,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -602,7 +602,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -616,7 +616,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -630,7 +630,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -664,7 +664,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -678,7 +678,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -692,7 +692,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -706,7 +706,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -720,7 +720,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -734,7 +734,7 @@
                     <LinearLayout
                         android:layout_width="2px"
                         android:layout_height="1px"
-                        android:background="@color/line"
+                        android:background="@color/disableText"
                         android:orientation="vertical" >
                     </LinearLayout>
 
@@ -988,7 +988,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/line"
+                    android:background="@color/disableText"
                     android:orientation="vertical" >
                 </LinearLayout>
 
@@ -1230,7 +1230,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/line"
+                    android:background="@color/disableText"
                     android:orientation="vertical" >
                 </LinearLayout>
 
@@ -1472,7 +1472,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/line"
+                    android:background="@color/disableText"
                     android:orientation="vertical" >
                 </LinearLayout>
 
@@ -1714,7 +1714,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/line"
+                    android:background="@color/disableText"
                     android:orientation="vertical" >
                 </LinearLayout>
 
@@ -1956,7 +1956,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/line"
+                    android:background="@color/disableText"
                     android:orientation="vertical" >
                 </LinearLayout>
 
