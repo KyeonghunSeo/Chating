@@ -67,8 +67,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         initRecyclerView()
         elevation = 0f
         radius = 0f
-        dateText.typeface = AppTheme.regularCFont
-        dowText.typeface = AppTheme.regularCFont
+        dateText.typeface = AppTheme.boldCFont
+        dowText.typeface = AppTheme.regularFont
         holiText.typeface = AppTheme.regularFont
         dateLy.clipChildren = false
         dateLy.pivotX = 0f
@@ -180,14 +180,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun setDateText() {
         dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
-        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
+        dowText.text = AppDateFormat.dow.format(targetCal.time)
         DateInfoManager.getHoliday(dateInfo, targetCal)
         val color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
             CalendarManager.sundayColor
         }else if(targetCal.get(Calendar.DAY_OF_WEEK) == SATURDAY) {
             CalendarManager.saturdayColor
         }else {
-            CalendarManager.dateColor
+            CalendarManager.selectedDateColor
         }
         bar.setBackgroundColor(color)
         dateText.setTextColor(color)
@@ -199,7 +199,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun show(dayPager: DayPager) {
-        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
+        dowText.text = AppDateFormat.dow.format(targetCal.time)
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(dayPager, "alpha", 0.9f, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleX", 1f, headerTextScale),
@@ -221,7 +221,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", 0f, mainDateLyY),
                 ObjectAnimator.ofFloat(MainActivity.getWeekTextLy(), "translationY", 0f, weekTextY),
                 ObjectAnimator.ofFloat(bar, "scaleX", 1f, 1f),
-                ObjectAnimator.ofFloat(bar, "scaleY", 1f, 1.5f),
+                ObjectAnimator.ofFloat(bar, "scaleY", 1f, 2.5f),
                 ObjectAnimator.ofFloat(bar, "translationX", 0f, barX),
                 ObjectAnimator.ofFloat(bar, "translationY", 0f, barY))
         animSet.duration = ANIM_DUR
@@ -230,7 +230,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun hide(dayPager: DayPager) {
-        dowText.text = AppDateFormat.dowEng.format(targetCal.time)
+        dowText.text = AppDateFormat.dow.format(targetCal.time)
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(dayPager, "alpha", 1f, 0.9f),
@@ -253,7 +253,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", mainDateLyY, 0f),
                 ObjectAnimator.ofFloat(MainActivity.getWeekTextLy(), "translationY", weekTextY, 0f),
                 ObjectAnimator.ofFloat(bar, "scaleX", 1f, 1f),
-                ObjectAnimator.ofFloat(bar, "scaleY", 1.5f, 1f),
+                ObjectAnimator.ofFloat(bar, "scaleY", 2.5f, 1f),
                 ObjectAnimator.ofFloat(bar, "translationX", barX, 0f),
                 ObjectAnimator.ofFloat(bar, "translationY", barY, 0f))
         animSet.duration = ANIM_DUR
@@ -286,7 +286,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }
         MainActivity.getWeekTextLy()?.translationY = weekTextY
         bar.scaleX = 1f
-        bar.scaleY = 1.5f
+        bar.scaleY = 2.5f
         bar.translationX = barX
         bar.translationY = barY
 

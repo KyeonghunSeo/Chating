@@ -370,7 +370,7 @@ class RecordActivity : BaseActivity() {
             }else {
                 startEndDivider.visibility = View.VISIBLE
                 endLy.visibility = View.VISIBLE
-                durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, record.isSetTime())
+                durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, !record.isSetTime())
             }
         }else {
             timeLy.visibility = View.GONE
@@ -378,9 +378,9 @@ class RecordActivity : BaseActivity() {
     }
 
     fun showStartEndDialog() {
-        showDialog(StartEndPickerDialog(this, record) { sCal, eCal, isSetTime ->
+        showDialog(SchedulingDialog(this, record) { sCal, eCal ->
             record.setSchedule()
-            record.setDateTime(isSetTime, sCal, eCal)
+            record.setDateTime(sCal, eCal)
             updateUI()
         }, true, true, true, false)
     }

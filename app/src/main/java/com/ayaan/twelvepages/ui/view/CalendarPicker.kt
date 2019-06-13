@@ -36,8 +36,10 @@ class CalendarPicker @JvmOverloads constructor(context: Context, attrs: Attribut
     inner class DateHeaderViewHolder(val container: View) {
         val dateText: TextView = container.findViewById(R.id.dateText)
         val selectImg: ImageView = container.findViewById(R.id.selectImg)
+        val leftImg: ImageView = container.findViewById(R.id.leftImg)
+        val rightImg: ImageView = container.findViewById(R.id.rightImg)
         init {
-            dateText.typeface = AppTheme.thinCFont
+            dateText.typeface = AppTheme.regularCFont
             container.setBackgroundResource(AppTheme.selectableItemBackground)
         }
     }
@@ -46,8 +48,6 @@ class CalendarPicker @JvmOverloads constructor(context: Context, attrs: Attribut
     private val monthCal = Calendar.getInstance()
     private val todayCal = Calendar.getInstance()
     val targetCal: Calendar = Calendar.getInstance()
-    private val startCal = Calendar.getInstance()
-    private val endCal = Calendar.getInstance()
 
     var targetCellNum = -1
     var todayCellNum = -1
@@ -55,8 +55,8 @@ class CalendarPicker @JvmOverloads constructor(context: Context, attrs: Attribut
     var calendarStartTime = Long.MAX_VALUE
     var calendarEndTime = Long.MAX_VALUE
     var onDrawed: ((Calendar) -> Unit)? = null
-    var onSelectedDate: ((Calendar, Calendar) -> Unit)? = null
-    var onTop: ((Boolean, Boolean) -> Unit)? = null
+    var onSelectedDate: ((Long) -> Unit)? = null
+    var onClicked: ((Int, Int, Int) -> Unit)? = null
     var startCellNum = 0
     var endCellNum = 0
     var minCalendarHeight = 0f
@@ -117,8 +117,6 @@ class CalendarPicker @JvmOverloads constructor(context: Context, attrs: Attribut
         }
     }
 
-    fun redraw() { drawCalendar(targetCal.timeInMillis) }
-
     private fun drawCalendar(time: Long) {
         val t = System.currentTimeMillis()
         todayCal.timeInMillis = System.currentTimeMillis()
@@ -178,8 +176,6 @@ class CalendarPicker @JvmOverloads constructor(context: Context, attrs: Attribut
                 weekLy.visibility = View.GONE
             }
         }
-
-        l("${AppDateFormat.mDate.format(targetCal.time)} 캘린더 그리기 : ${(System.currentTimeMillis() - t) / 1000f} 초")
     }
 
     private fun getDateTextColor(cellNum: Int, isHoli: Boolean) : Int {
@@ -192,9 +188,12 @@ class CalendarPicker @JvmOverloads constructor(context: Context, attrs: Attribut
         }
     }
 
+
+
     private fun onDateClick(cellNum: Int) {
         tempCal.timeInMillis = cellTimeMills[cellNum]
         selectDate(cellNum)
+        onClicked?.invoke(tempCal.get(Calendar.YEAR), tempCal.get(Calendar.MONTH), tempCal.get(Calendar.DATE))
     }
 
     fun unselectDate() {
@@ -215,15 +214,64 @@ class CalendarPicker @JvmOverloads constructor(context: Context, attrs: Attribut
 
     @SuppressLint("SetTextI18n")
     fun selectDate(cellNum: Int) {
-        l("날짜선택 : ${AppDateFormat.ymdDate.format(Date(cellTimeMills[cellNum]))}")
         targetCal.timeInMillis = cellTimeMills[cellNum]
         if(targetCellNum >= 0) unselectDate(targetCellNum)
         targetCellNum = cellNum
-        val dateText = dateHeaders[cellNum].dateText
         todayStatus = getDiffToday(targetCal)
-        onSelectedDate?.invoke(startCal, endCal)
+        onSelectedDate?.invoke(cellTimeMills[cellNum])
     }
 
-
+    fun drawRange(color: Int, startTime: Long, endTime: Long) {
+        val s = ((startTime - calendarStartTime) / DAY_MILL).toInt()
+        val e = ((endTime - calendarStartTime) / DAY_MILL).toInt()
+        dateHeaders.forEachIndexed { index, holder ->
+            when (index) {
+                in s..e -> {
+                    val fontColor = AppTheme.getFontColor(color)
+                    holder.selectImg.setColorFilter(color)
+                    holder.rightImg.setColorFilter(color)
+                    holder.leftImg.setColorFilter(color)
+                    when {
+                        index == s && index == e -> {
+                            holder.selectImg.visibility = View.VISIBLE
+                            holder.leftImg.visibility = View.INVISIBLE
+                            holder.rightImg.visibility = View.INVISIBLE
+                            holder.selectImg.setImageResource(R.drawable.circle_fill)
+                        }
+                        index == s -> {
+                            holder.selectImg.visibility = View.VISIBLE
+                            holder.leftImg.visibility = View.INVISIBLE
+                            holder.rightImg.visibility = View.VISIBLE
+                            holder.rightImg.setImageResource(R.drawable.normal_rect_fill)
+                            holder.selectImg.setImageResource(R.drawable.circle_fill)
+                        }
+                        index == e -> {
+                            holder.selectImg.visibility = View.VISIBLE
+                            holder.leftImg.visibility = View.VISIBLE
+                            holder.rightImg.visibility = View.INVISIBLE
+                            holder.selectImg.setImageResource(R.drawable.circle_fill)
+                            holder.leftImg.setImageResource(R.drawable.normal_rect_fill)
+                        }
+                        else -> {
+                            holder.selectImg.visibility = View.INVISIBLE
+                            holder.leftImg.visibility = View.VISIBLE
+                            holder.rightImg.visibility = View.VISIBLE
+                            holder.leftImg.setImageResource(R.drawable.normal_rect_fill)
+                            holder.rightImg.setImageResource(R.drawable.normal_rect_fill)
+                        }
+                    }
+                    holder.dateText.setTextColor(fontColor)
+                }
+                else -> {
+                    val dateInfo = dateInfos[index]
+                    val fontColor = getDateTextColor(index, dateInfo.holiday?.isHoli == true)
+                    holder.selectImg.visibility = View.INVISIBLE
+                    holder.rightImg.visibility = View.INVISIBLE
+                    holder.leftImg.visibility = View.INVISIBLE
+                    holder.dateText.setTextColor(fontColor)
+                }
+            }
+        }
+    }
 
 }

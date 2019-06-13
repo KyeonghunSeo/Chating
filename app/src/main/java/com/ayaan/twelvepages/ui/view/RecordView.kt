@@ -278,7 +278,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 paint.alpha = 255
             }
             else -> {
-                if(leftOpen || rightOpen) {
+                if(leftOpen || rightOpen || length > 1) {
                     paint.alpha = 17
                     canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
                     paint.alpha = 255

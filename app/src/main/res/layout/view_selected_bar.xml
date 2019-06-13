@@ -15,25 +15,25 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="15dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/dateText"
                 android:layout_width="wrap_content"
-                android:layout_height="13dp"
+                android:layout_height="16dp"
                 android:layout_marginTop="0.8dp"
                 android:includeFontPadding="false"
-                android:textSize="12dp"
+                android:textSize="13dp"
                 android:textColor="@color/primaryText"
                 android:text="27"/>
 
             <TextView
                 android:id="@+id/dowText"
                 android:layout_width="wrap_content"
-                android:layout_height="13dp"
+                android:layout_height="16dp"
                 android:includeFontPadding="false"
-                android:layout_marginLeft="1dp"
-                android:textSize="10dp"
+                android:layout_marginLeft="2dp"
+                android:textSize="9dp"
                 android:maxLines="1"
                 android:textColor="@color/primaryText"
                 android:text="@string/wed"/>

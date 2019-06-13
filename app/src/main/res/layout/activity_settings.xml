@@ -8,20 +8,19 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="100dp">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical">
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical">
 
             <ImageView
                 android:id="@+id/backBtn"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:src="@drawable/back"
                 android:background="?android:attr/selectableItemBackground"
                 android:tint="@color/primaryText"
@@ -31,9 +30,11 @@
                 android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
                 android:textColor="@color/primaryText"
-                android:fontFamily="@font/bold_c"
-                android:textSize="20dp"
+                android:fontFamily="@font/bold"
+                android:textSize="22dp"
                 android:text="@string/setting"/>
 
         </LinearLayout>
@@ -43,8 +44,8 @@
     <View
         android:id="@+id/topShadow"
         android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:layout_marginTop="80dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="70dp"
         android:visibility="gone"
         android:background="@drawable/line_top_shadow"/>
 
@@ -52,7 +53,9 @@
         android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp">
+        android:layout_marginTop="100dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -61,9 +64,8 @@
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp">
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -79,7 +81,7 @@
             <FrameLayout
                 android:id="@+id/calendarSettingBtn"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
@@ -103,7 +105,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
@@ -129,7 +131,147 @@
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/alarm_setting"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="18dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/default_alarm_time"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="16dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/morningAlarmTimeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/morningAlarmTime"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="14dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/check_option_3"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="12dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/afternoonAlarmTimeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/afternoonAlarmTime"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="14dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/check_option_3"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="12dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/eveningAlarmTimeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/eveningAlarmTime"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="14dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/check_option_3"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="12dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/nightAlarmTimeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/nightAlarmTime"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="14dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/check_option_3"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="12dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp">
 
@@ -147,7 +289,7 @@
             <FrameLayout
                 android:id="@+id/osCalendarBtn"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
@@ -163,7 +305,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
@@ -179,7 +321,7 @@
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp">
 
@@ -197,7 +339,7 @@
             <FrameLayout
                 android:id="@+id/logoutBtn"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView

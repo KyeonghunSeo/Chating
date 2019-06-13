@@ -47,7 +47,7 @@ object AppTheme {
         primaryText = resource.getColor(R.color.primaryText)
         secondaryText = resource.getColor(R.color.secondaryText)
         disableText = resource.getColor(R.color.disableText)
-        lineColor = resource.getColor(R.color.line)
+        lineColor = resource.getColor(R.color.disableText)
         redColor = resource.getColor(R.color.red)
         blueColor = resource.getColor(R.color.blue)
         iconColor = resource.getColor(R.color.iconTint)
@@ -65,7 +65,7 @@ object AppTheme {
 
     enum class ColorPalette(val titleId: Int, val coverImgId: Int, val colors: Array<Int>){
         BASIC(R.string.default_color_palette_name, R.drawable.color_palette_0,
-                arrayOf(Color.parseColor("#606066"),
+                arrayOf(Color.parseColor("#303033"),
                         Color.parseColor("#d50000"),
                         Color.parseColor("#f4511e"),
                         Color.parseColor("#e67c73"),

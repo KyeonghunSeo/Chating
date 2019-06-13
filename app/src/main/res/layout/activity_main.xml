@@ -44,7 +44,7 @@
                 <FrameLayout
                     android:id="@+id/headerLy"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="100dp"
                     android:elevation="20dp">
 
                     <LinearLayout
@@ -72,7 +72,7 @@
                                 android:textColor="@color/primaryText"
                                 android:includeFontPadding="false"
                                 android:textSize="26dp"
-                                android:fontFamily="@font/regular_c"
+                                android:fontFamily="@font/bold_c"
                                 android:text="June"/>
 
                             <TextView
@@ -84,7 +84,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:textColor="@color/primaryText"
                                 android:textSize="26dp"
-                                android:fontFamily="@font/thin_c"
+                                android:fontFamily="@font/regular_c"
                                 android:text="2020"/>
 
                         </LinearLayout>
@@ -131,14 +131,14 @@
                     android:id="@+id/calendarPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="70dp">
+                    android:layout_marginTop="100dp">
                 </com.ayaan.twelvepages.ui.view.CalendarPager>
 
                 <View
                     android:id="@+id/topShadow"
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_marginTop="70dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="100dp"
                     android:background="@drawable/line_top_shadow"/>
 
                 <com.ayaan.twelvepages.ui.view.DayPager
@@ -155,6 +155,12 @@
                 android:layout_height="match_parent"
                 android:visibility="invisible">
             </com.ayaan.twelvepages.ui.view.NoteView>
+
+            <com.ayaan.twelvepages.ui.view.TemplateView
+                android:id="@+id/templateView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </com.ayaan.twelvepages.ui.view.TemplateView>
 
         </FrameLayout>
 
@@ -194,8 +200,8 @@
                     android:textSize="11dp"
                     android:textColor="@color/primaryText"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/regular_c"
-                    android:text="@string/today_c"/>
+                    android:fontFamily="@font/regular"
+                    android:text="@string/today"/>
 
                 <ImageView
                     android:id="@+id/todayRightArrow"
@@ -269,13 +275,6 @@
         </androidx.cardview.widget.CardView>
 
     </FrameLayout>
-
-    <com.ayaan.twelvepages.ui.view.TemplateView
-        android:id="@+id/templateView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="30dp">
-    </com.ayaan.twelvepages.ui.view.TemplateView>
 
     <com.ayaan.twelvepages.ui.view.SearchView
         android:id="@+id/searchView"
