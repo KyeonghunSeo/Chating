@@ -41,7 +41,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val calendarPadding = dpToPx(19)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
-        val lineWidth = dpToPx(0.5f)
+        val lineWidth = dpToPx(1.0f)
         val dataStartYOffset = dpToPx(33f)
     }
 
@@ -63,8 +63,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val holiText: TextView = container.findViewById(R.id.holiText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
-            dateText.typeface = AppTheme.thinCFont
-            dowText.typeface = AppTheme.regularCFont
+            dateText.typeface = AppTheme.regularCFont
+            dowText.typeface = AppTheme.regularFont
             holiText.typeface = AppTheme.regularFont
             bar.scaleX = 0f
             dowText.visibility = View.GONE
@@ -122,12 +122,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         rowDividers.forEachIndexed { index, view ->
             view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt())
-            view.setBackgroundColor(AppTheme.lineColor)
+            view.setBackgroundColor(AppTheme.secondaryText)
         }
 
         columnDividers.forEachIndexed { index, view ->
             view.layoutParams = LayoutParams(lineWidth.toInt(), 0)
-            view.setBackgroundColor(AppTheme.lineColor)
+            view.setBackgroundColor(AppTheme.secondaryText)
         }
 
         for(i in 0..5) {
@@ -281,7 +281,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dowText = dateHeaders[cellNum].dowText
         val holiText = dateHeaders[cellNum].holiText
         dowText.visibility = View.GONE
-        dateText.typeface = AppTheme.thinCFont
+        dateText.typeface = AppTheme.regularCFont
         holiText.typeface = AppTheme.regularFont
         holiText.text = dateInfos[cellNum].getUnSelectedString()
         offViewEffect(cellNum)
@@ -322,10 +322,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dateText = dateHeaders[cellNum].dateText
             val dowText = dateHeaders[cellNum].dowText
             val holiText = dateHeaders[cellNum].holiText
-            dateText.typeface = AppTheme.regularCFont
+            dateText.typeface = AppTheme.boldCFont
             holiText.typeface = AppTheme.regularFont
             holiText.text = dateInfos[cellNum].getSelectedString()
-            dowText.text = AppDateFormat.dowEng.format(targetCal.time)
+            dowText.text = AppDateFormat.dow.format(targetCal.time)
             if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
             lastSelectDateAnimSet?.cancel()
             lastSelectDateAnimSet = AnimatorSet()

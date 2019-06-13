@@ -21,6 +21,7 @@ class CustomDialog(activity: Activity, private val title: String, private val su
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setLayout(R.layout.container_custom_dlg, dpToPx(300))
+
         titleText.text = title
         if(icon != Int.MIN_VALUE) titleIcon.setImageResource(icon)
         else titleIcon.visibility = View.GONE

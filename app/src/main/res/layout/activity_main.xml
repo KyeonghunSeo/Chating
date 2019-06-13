@@ -72,7 +72,7 @@
                                 android:textColor="@color/primaryText"
                                 android:includeFontPadding="false"
                                 android:textSize="26dp"
-                                android:fontFamily="@font/regular"
+                                android:fontFamily="@font/bold_c"
                                 android:text="June"/>
 
                             <TextView
@@ -84,7 +84,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:textColor="@color/primaryText"
                                 android:textSize="26dp"
-                                android:fontFamily="@font/thin"
+                                android:fontFamily="@font/regular_c"
                                 android:text="2020"/>
 
                         </LinearLayout>
@@ -162,8 +162,8 @@
             android:id="@+id/todayBtn"
             android:layout_width="wrap_content"
             android:layout_height="26dp"
-            android:layout_marginRight="80dp"
-            android:layout_marginBottom="23dp"
+            android:layout_marginRight="85dp"
+            android:layout_marginBottom="28dp"
             android:layout_gravity="right|bottom"
             android:outlineSpotShadowColor="@color/secondaryText"
             android:foreground="?android:attr/selectableItemBackground"
@@ -194,8 +194,8 @@
                     android:textSize="11dp"
                     android:textColor="@color/primaryText"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/regular_c"
-                    android:text="@string/today_c"/>
+                    android:fontFamily="@font/regular"
+                    android:text="@string/today"/>
 
                 <ImageView
                     android:id="@+id/todayRightArrow"
@@ -240,6 +240,12 @@
 
         </FrameLayout>
 
+        <com.ayaan.twelvepages.ui.view.TemplateView
+            android:id="@+id/templateView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.ayaan.twelvepages.ui.view.TemplateView>
+
     </androidx.cardview.widget.CardView>
 
     <FrameLayout
@@ -269,13 +275,6 @@
         </androidx.cardview.widget.CardView>
 
     </FrameLayout>
-
-    <com.ayaan.twelvepages.ui.view.TemplateView
-        android:id="@+id/templateView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="30dp">
-    </com.ayaan.twelvepages.ui.view.TemplateView>
 
     <com.ayaan.twelvepages.ui.view.SearchView
         android:id="@+id/searchView"

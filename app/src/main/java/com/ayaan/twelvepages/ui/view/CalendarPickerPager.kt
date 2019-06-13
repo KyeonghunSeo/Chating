@@ -19,13 +19,11 @@ class CalendarPickerPager @JvmOverloads constructor(context: Context, attrs: Att
     private val viewCount = 3
     private val viewPager = PagingControlableViewPager(context)
     private val calendarViews = List(viewCount) { CalendarPicker(context) }
-    var onSelectedDate: ((Calendar, Calendar) -> Unit)? = null
+    var onTargetedDate: ((Long) -> Unit)? = null
+    var onSelectedDate: ((Unit) -> Unit)? = null
     var onTop: ((Boolean, Boolean) -> Unit)? = null
 
     private val tempCal = Calendar.getInstance()
-    private val startCal = Calendar.getInstance()
-    private val endCal = Calendar.getInstance()
-
     private var targetCalendarView : CalendarPicker = calendarViews[startPosition % viewCount]
     private var firstSelectDateFlag = false
     private var selectDateTime = Long.MIN_VALUE
@@ -52,15 +50,44 @@ class CalendarPickerPager @JvmOverloads constructor(context: Context, attrs: Att
         })
     }
 
+    private lateinit var startCal: Calendar
+    private lateinit var endCal: Calendar
+    private var color: Int = 0
+    private var mode = 0
+
+    fun setStartEndCalendar(sCal: Calendar, eCal: Calendar) {
+        startCal = sCal
+        endCal = eCal
+    }
+
+    fun setColor(c: Int) {
+        color = c
+    }
+
     private fun selectedTargetCalendarView(calendarView: CalendarPicker) {
         targetCalendarView.onSelectedDate = null
-        targetCalendarView.onTop = null
         targetCalendarView.unselectDate()
         targetCalendarView = calendarView
-        targetCalendarView.onSelectedDate = { _, _ ->
-            onSelectedDate?.invoke(startCal, endCal)
+        targetCalendarView.onSelectedDate = { time ->
+            drawRange()
+            onTargetedDate?.invoke(time)
         }
-        targetCalendarView.onTop = onTop
+        targetCalendarView.onClicked = { y, m, d ->
+            if(mode == 0) {
+                startCal.set(y, m, d)
+                endCal.set(y, m, d)
+                mode = 1
+            }else {
+                endCal.set(y, m, d)
+                if(endCal < startCal) {
+                    startCal.set(y, m, d)
+                }else {
+                    mode = 0
+                }
+            }
+            drawRange()
+            onSelectedDate?.invoke(Unit)
+        }
     }
 
     inner class CalendarPagerAdapter : PagerAdapter() {
@@ -72,14 +99,11 @@ class CalendarPickerPager @JvmOverloads constructor(context: Context, attrs: Att
             if(!firstSelectDateFlag && targetCalendarView == calendarView) {
                 firstSelectDateFlag = true
                 selectedTargetCalendarView(calendarView)
-                calendarView.onDrawed = {
-                    calendarView.postDelayed({calendarView.selectDate(calendarView.todayCellNum)}, 100)
-                    calendarView.onDrawed = null
-                }
             }else {
                 calendarView.onDrawed = null
             }
             calendarView.draw(tempCal.timeInMillis)
+            calendarView.drawRange(color, startCal.timeInMillis, endCal.timeInMillis)
 
             if(calendarView.parent == null) container.addView(calendarView)
             return calendarView
@@ -100,12 +124,16 @@ class CalendarPickerPager @JvmOverloads constructor(context: Context, attrs: Att
         }
     }
 
+    fun moveMonth(offset: Int) {
+        viewPager.setCurrentItem(viewPager.currentItem + offset, true)
+    }
+
     private fun getPagePosition(time: Long) : Int {
         val today = System.currentTimeMillis()
         return startPosition + getDiffYear(today, time) * 12 + getDiffMonth(today, time)
     }
 
-    fun redraw() {
-        calendarViews.forEach { it.redraw() }
+    private fun drawRange() {
+        calendarViews.forEach { it.drawRange(color, startCal.timeInMillis, endCal.timeInMillis) }
     }
 }

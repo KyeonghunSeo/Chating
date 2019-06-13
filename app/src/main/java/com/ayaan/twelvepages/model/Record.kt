@@ -69,11 +69,15 @@ open class Record(@PrimaryKey var id: String? = null,
         setDateTime(isSetTime(), time, time + getDuration())
     }
 
+    fun setDateTime(s: Calendar, e: Calendar) {
+        setDateTime(isSetTime(), s, e)
+    }
+
     fun setDateTime(isSetTime: Boolean, s: Calendar, e: Calendar) {
         if(isSetTime) {
             setDateTime(isSetTime, s.timeInMillis, e.timeInMillis)
         }else {
-            setDateTime(isSetTime, getCalendarTime0(s), getCalendarTime0(e))
+            setDateTime(isSetTime, getCalendarTime0(s), getCalendarTime23(e))
         }
     }
 

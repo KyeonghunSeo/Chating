@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:id="@+id/leftBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="left"
+            android:padding="2dp"
+            android:tint="@color/primaryText"
+            android:src="@drawable/arrow_left"
+            android:background="?android:attr/selectableItemBackground"/>
+
+        <ImageView
+            android:id="@+id/rightBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:padding="2dp"
+            android:tint="@color/primaryText"
+            android:src="@drawable/arrow_right"
+            android:background="?android:attr/selectableItemBackground"/>
+
+        <TextView
+            android:id="@+id/monthYearText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="16dp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/bold"/>
+
+    </FrameLayout>
+
+    <include layout="@layout/view_day_of_week"/>
+
+    <com.ayaan.twelvepages.ui.view.CalendarPickerPager
+        android:id="@+id/calendarPicker"
+        android:layout_marginTop="5dp"
+        android:layout_width="320dp"
+        android:layout_height="260dp">
+    </com.ayaan.twelvepages.ui.view.CalendarPickerPager>
+
+    <TextView
+        android:id="@+id/lunarText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/secondaryText"
+        android:fontFamily="@font/regular"/>
+
+</LinearLayout>

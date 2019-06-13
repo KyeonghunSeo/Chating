@@ -76,7 +76,6 @@ class RecordActivity : BaseActivity() {
 
     private fun initLayout() {
         topShadow.visibility = View.GONE
-        deleteBtn.visibility = View.GONE
         mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             if(scrollY > 0) topShadow.visibility = View.VISIBLE
             else topShadow.visibility = View.GONE
@@ -173,16 +172,16 @@ class RecordActivity : BaseActivity() {
                     true, true, true, false)
         }
 
-        deleteBtn.setOnClickListener {
-            showDialog(CustomDialog(this, getString(R.string.delete),
-                    getString(R.string.delete_sub), null) { result, _, _ ->
-                if(result) delete()
-            }, true, true, true, false)
-        }
-
         moreBtn.setOnClickListener {
-            moreBtn.visibility = View.GONE
-            deleteBtn.visibility = View.VISIBLE
+            showDialog(PopupOptionDialog(this,
+                    arrayOf(PopupOptionDialog.Item(getString(R.string.delete), R.drawable.delete, AppTheme.redColor)), moreBtn) { index ->
+                if(index == 0) {
+                    showDialog(CustomDialog(this, getString(R.string.delete),
+                            getString(R.string.delete_sub), null) { result, _, _ ->
+                        if(result) delete()
+                    }, true, true, true, false)
+                }
+            }, true, false, true, false)
         }
     }
 
@@ -370,7 +369,7 @@ class RecordActivity : BaseActivity() {
             }else {
                 startEndDivider.visibility = View.VISIBLE
                 endLy.visibility = View.VISIBLE
-                durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, record.isSetTime())
+                durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, !record.isSetTime())
             }
         }else {
             timeLy.visibility = View.GONE
@@ -378,9 +377,9 @@ class RecordActivity : BaseActivity() {
     }
 
     fun showStartEndDialog() {
-        showDialog(StartEndPickerDialog(this, record) { sCal, eCal, isSetTime ->
+        showDialog(SchedulingDialog(this, record) { sCal, eCal ->
             record.setSchedule()
-            record.setDateTime(isSetTime, sCal, eCal)
+            record.setDateTime(sCal, eCal)
             updateUI()
         }, true, true, true, false)
     }

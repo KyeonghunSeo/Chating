@@ -29,6 +29,7 @@ object AppTheme {
     var secondaryText = 0
     var disableText = 0
     var lineColor = 0
+    var lightLineColor = 0
     var redColor = 0
     var blueColor = 0
     var iconColor = 0
@@ -47,7 +48,8 @@ object AppTheme {
         primaryText = resource.getColor(R.color.primaryText)
         secondaryText = resource.getColor(R.color.secondaryText)
         disableText = resource.getColor(R.color.disableText)
-        lineColor = resource.getColor(R.color.disableText)
+        lineColor = resource.getColor(R.color.line)
+        lightLineColor = resource.getColor(R.color.light_line)
         redColor = resource.getColor(R.color.red)
         blueColor = resource.getColor(R.color.blue)
         iconColor = resource.getColor(R.color.iconTint)

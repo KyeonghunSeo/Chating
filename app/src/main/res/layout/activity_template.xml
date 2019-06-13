@@ -8,7 +8,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="100dp">
 
         <ImageView
             android:id="@+id/deleteBtn"
@@ -17,7 +17,7 @@
             android:layout_marginRight="10dp"
             android:layout_gravity="center_vertical|right"
             android:src="@drawable/more"
-            android:padding="15dp"
+            android:padding="12dp"
             android:background="?android:attr/selectableItemBackground"/>
 
     </FrameLayout>
@@ -26,7 +26,7 @@
         android:id="@+id/topShadow"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="100dp"
         android:visibility="gone"
         android:background="@drawable/line_top_shadow"/>
 
@@ -34,14 +34,13 @@
         android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp">
+        android:layout_marginTop="100dp">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
-            android:paddingTop="30dp"
             android:paddingBottom="50dp">
 
             <FrameLayout

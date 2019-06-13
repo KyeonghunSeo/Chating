@@ -417,6 +417,8 @@ fun setGlobalTheme(view: View?) {
                         when(v.colorFlag) {
                             1 -> v.setBackgroundColor(AppTheme.secondaryText)
                             2 -> v.setBackgroundColor(AppTheme.disableText)
+                            3 -> v.setBackgroundColor(AppTheme.lineColor)
+                            4 -> v.setBackgroundColor(AppTheme.lightLineColor)
                             else -> v.setBackgroundColor(AppTheme.primaryText)
                         }
                     }

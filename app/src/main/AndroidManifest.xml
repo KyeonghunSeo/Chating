@@ -31,9 +31,11 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="com.ayaan.twelvepages.ui.activity.RecordActivity"
+            android:windowSoftInputMode="adjustResize">
         </activity>
         <activity android:name="com.ayaan.twelvepages.ui.activity.WelcomeActivity" />
         <activity android:name="com.ayaan.twelvepages.ui.activity.MapActivity" />
@@ -43,7 +45,6 @@
         <activity android:name="com.ayaan.twelvepages.ui.activity.SettingsActivity" />
         <activity android:name="com.ayaan.twelvepages.ui.activity.AboutUsActivity" />
         <activity android:name="com.ayaan.twelvepages.ui.activity.PremiumActivity" />
-        <activity android:name="com.ayaan.twelvepages.ui.activity.RecordActivity" />
         <activity
             android:name="com.ayaan.twelvepages.ui.activity.ScrapActivity"
             android:theme="@style/Theme.Transparent">

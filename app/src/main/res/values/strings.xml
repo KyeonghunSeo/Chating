@@ -27,7 +27,7 @@
     <string name="start">시작</string>
     <string name="end">종료</string>
     <string name="weekNum">Week %1$s</string>
-    <string name="setting">SETTINGS</string>
+    <string name="setting">환경설정</string>
     <string name="add_option">다른 정보 추가</string>
     <string name="detail_info">자세한 정보</string>
     <string name="memo">메모</string>
@@ -117,7 +117,7 @@
     <string name="apply_all">모두 적용</string>
     <string name="date_of_total">%1$s 일차</string>
     <string name="drawing">손글씨</string>
-    <string name="calendar_settings">캘린더 설정</string>
+    <string name="calendar_settings">캘린더 스타일</string>
     <string name="add">생성</string>
     <string name="tag">태그</string>
     <string name="enter_tag">태그 이름</string>
@@ -161,11 +161,10 @@
     <string name="lunar_display">음력 표시</string>
     <string name="account_settings">계정 설정</string>
     <string name="logout">로그아웃</string>
-    <string name="ask_logout">로그아웃 하면 다시 해당 계정으로 다시 로그인하기 전까지 기존 데이터를 볼 수 없습니다.</string>
+    <string name="ask_logout">로그아웃 하시겠습니까?</string>
     <string name="small">작게</string>
     <string name="normal">기본</string>
     <string name="big">크게</string>
-    <string name="advanced_settings">고급 설정</string>
     <string name="export">txt파일로 내보내기</string>
     <string name="holi_display">공휴일, 기념일 표시</string>
     <string name="kr">대한민국</string>
@@ -173,7 +172,7 @@
     <string name="holi_display_sub">공휴일을 표시 할 국가를 설정합니다</string>
     <string name="cal_text_size">글씨 크기</string>
     <string name="outside_month">이전, 다음달 표시</string>
-    <string name="connect_os_calendar">외부 캘린더 가져오기</string>
+    <string name="connect_os_calendar">외부 서비스 일정 참조</string>
     <string name="dday">디데이</string>
     <string name="planning">계획하기</string>
     <string name="write_everything">무엇을 기록할까요?</string>
@@ -226,7 +225,7 @@
     <string name="folder">폴더</string>
     <string name="check_option">완료된 기록 표시방법</string>
     <string name="check_option_3">흐리게만</string>
-    <string name="display_settings">화면 설정</string>
+    <string name="display_settings">인터페이스</string>
     <string name="hide_in_calendar">캘린더에서 숨김</string>
     <string name="record">기록</string>
     <string name="deleted">삭제되었습니다</string>
@@ -307,6 +306,15 @@
     <string name="s_basic">기본</string>
     <string name="s_work">업무</string>
     <string name="recent_sticker_empty">최근 사용한 스티커가 없습니다</string>
+    <string name="alarm_setting">알림설정</string>
+    <string name="default_alarm_time">기본 알림시간</string>
+    <string name="morningAlarmTime">아침 알림시간</string>
+    <string name="afternoonAlarmTime">점심 알림시간</string>
+    <string name="eveningAlarmTime">저녁 알림시간</string>
+    <string name="nightAlarmTime">밤 알림시간</string>
+    <string name="device_calendar">외부 서비스 일정</string>
+    <string name="task_setting">완료된 기록</string>
+    <string name="os_calendar_style">외부 서비스 일정 스타일</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

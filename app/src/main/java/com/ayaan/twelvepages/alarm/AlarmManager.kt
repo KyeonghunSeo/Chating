@@ -15,7 +15,7 @@ import io.realm.Realm
 import java.util.*
 
 object AlarmManager {
-    private lateinit var manager: android.app.AlarmManager
+    private lateinit var manager: AlarmManager
     private lateinit var alarmOffsetStrings: Array<String>
     val offsets = arrayOf(
             0L,
@@ -26,6 +26,11 @@ object AlarmManager {
             -1000L * 60 * 60,
             -1000L * 60 * 60 * 24,
             -1000L * 60 * 60 * 24 * 7)
+    val defaultAlarmTime = arrayOf(
+            Prefs.getLong("defaultAlarmTime0", HOUR_MILL * 8),
+            Prefs.getLong("defaultAlarmTime1", HOUR_MILL * 12),
+            Prefs.getLong("defaultAlarmTime2", HOUR_MILL * 18),
+            Prefs.getLong("defaultAlarmTime3", HOUR_MILL * 22))
     var briefingAlarm = Long.MIN_VALUE
 
     fun init(context: Context) {

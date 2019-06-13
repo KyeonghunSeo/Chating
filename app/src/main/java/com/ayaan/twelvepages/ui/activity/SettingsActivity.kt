@@ -6,14 +6,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.widget.NestedScrollView
+import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.alarm.AlarmManager
 import com.google.firebase.auth.FirebaseAuth
-import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.RC_PERMISSIONS
-import com.ayaan.twelvepages.RESULT_CALENDAR_SETTING
-import com.ayaan.twelvepages.showDialog
 import com.ayaan.twelvepages.ui.dialog.CustomDialog
 import com.ayaan.twelvepages.ui.dialog.OsCalendarDialog
+import com.ayaan.twelvepages.ui.dialog.TimePickerDialog
+import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_settings.*
+import java.util.*
 
 class SettingsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,13 +26,22 @@ class SettingsActivity : BaseActivity() {
 
     private fun initLayout() {
         backBtn.setOnClickListener { onBackPressed() }
-        mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
-            if(scrollY > 0) topShadow.visibility = View.VISIBLE
-            else topShadow.visibility = View.GONE
+
+        var lastY = 0
+        mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, y: Int, _: Int, _: Int ->
+            /*
+            if(y > lastY) {
+                headerLy.translationY = -Math.min(y, headerLy.height).toFloat()
+            }else {
+                headerLy.translationY = Math.min(0f, headerLy.translationY + (y - lastY))
+            }
+            lastY = y*/
         }
 
+        setDefaultAlarmTime()
         setConnectOsCalendar()
 
+        emailText.text = FirebaseAuth.getInstance().currentUser?.email
         logoutBtn.setOnClickListener {
             showDialog(CustomDialog(this@SettingsActivity, getString(R.string.logout),
                     getString(R.string.ask_logout), null) { result, _, _ ->
@@ -47,6 +57,47 @@ class SettingsActivity : BaseActivity() {
                 setResult(RESULT_CALENDAR_SETTING)
                 finish()
             }
+        }
+    }
+
+    private fun setDefaultAlarmTime() {
+        setCalendarTime0(tempCal)
+        val time0 = tempCal.timeInMillis
+        morningAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[0]))
+        afternoonAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[1]))
+        eveningAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[2]))
+        nightAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[3]))
+        morningAlarmTimeBtn.setOnClickListener {
+            showDialog(TimePickerDialog(this, time0 + AlarmManager.defaultAlarmTime[0]) { time ->
+                tempCal.timeInMillis = time
+                AlarmManager.defaultAlarmTime[0] = tempCal.get(Calendar.HOUR_OF_DAY) * HOUR_MILL + tempCal.get(Calendar.MINUTE) * MIN_MILL
+                Prefs.putLong("defaultAlarmTime0", AlarmManager.defaultAlarmTime[0])
+                morningAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[0]))
+            }, true, true, true, false)
+        }
+        afternoonAlarmTimeBtn.setOnClickListener {
+            showDialog(TimePickerDialog(this, time0 + AlarmManager.defaultAlarmTime[1]) { time ->
+                tempCal.timeInMillis = time
+                AlarmManager.defaultAlarmTime[1] = tempCal.get(Calendar.HOUR_OF_DAY) * HOUR_MILL + tempCal.get(Calendar.MINUTE) * MIN_MILL
+                Prefs.putLong("defaultAlarmTime1", AlarmManager.defaultAlarmTime[1])
+                afternoonAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[1]))
+            }, true, true, true, false)
+        }
+        eveningAlarmTimeBtn.setOnClickListener {
+            showDialog(TimePickerDialog(this, time0 + AlarmManager.defaultAlarmTime[2]) { time ->
+                tempCal.timeInMillis = time
+                AlarmManager.defaultAlarmTime[2] = tempCal.get(Calendar.HOUR_OF_DAY) * HOUR_MILL + tempCal.get(Calendar.MINUTE) * MIN_MILL
+                Prefs.putLong("defaultAlarmTime2", AlarmManager.defaultAlarmTime[2])
+                eveningAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[2]))
+            }, true, true, true, false)
+        }
+        nightAlarmTimeBtn.setOnClickListener {
+            showDialog(TimePickerDialog(this, time0 + AlarmManager.defaultAlarmTime[3]) { time ->
+                tempCal.timeInMillis = time
+                AlarmManager.defaultAlarmTime[3] = tempCal.get(Calendar.HOUR_OF_DAY) * HOUR_MILL + tempCal.get(Calendar.MINUTE) * MIN_MILL
+                Prefs.putLong("defaultAlarmTime3", AlarmManager.defaultAlarmTime[3])
+                nightAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[3]))
+            }, true, true, true, false)
         }
     }
 
