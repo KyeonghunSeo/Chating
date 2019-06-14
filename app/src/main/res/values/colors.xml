@@ -4,27 +4,23 @@
     <color name="colorAccent">#303033</color>
 
     <color name="background">#ffffff</color>
-    <!--<color name="background">#f7f7f7</color>-->
     <color name="backgroundDark">#eeeeee</color>
-    <color name="iconTint">#000000</color>
+    <color name="whiteAlpha">#ccffffff</color>
+    <color name="dim">#90000000</color>
 
     <color name="primaryText">#303033</color>
     <color name="secondaryText">#606066</color>
     <color name="disableText">#e4e4e4</color>
     <color name="line">#d4d4d4</color>
     <color name="light_line">#e8e8e8</color>
-
-    <color name="transitionDimWhite">#ccffffff</color>
-    <color name="dim">#90000000</color>
+    <color name="iconTint">#303033</color>
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="almostWhite">#F4F4F4</color>
     <color name="red">#d50000</color>
     <color name="blue">#039be5</color>
-    <color name="transparent">#00000000</color>
-
     <color name="grey">#e4e7ef</color>
+    <color name="transparent">#00000000</color>
 
     <string-array name="colors">
         <item>#d50000</item>

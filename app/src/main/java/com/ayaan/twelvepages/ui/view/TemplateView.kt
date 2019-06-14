@@ -11,14 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.TemplateAdapter
-import com.ayaan.twelvepages.adapter.util.FolderDiffCallback
 import com.ayaan.twelvepages.adapter.util.TemplateDiffCallback
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
@@ -76,7 +74,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             vibrate(context)
             if(adapter.mode == 0) {
                 adapter.mode = 1
-                editTemplateBtn.setTextColor(AppTheme.blueColor)
+                editTemplateBtn.setTextColor(AppTheme.blue)
                 editTemplateBtn.text = context.getString(R.string.edit_done)
             }else {
                 adapter.mode = 0
@@ -123,7 +121,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         TransitionManager.beginDelayedTransition(this, transitionSet)
         setDate(dtStart, dtEnd)
         notifyListChanged()
-        backgroundLy.setBackgroundColor(AppTheme.backgroundColor)
+        backgroundLy.setBackgroundColor(AppTheme.background)
         backgroundLy.setOnClickListener { collapse() }
         backgroundLy.isClickable = true
         recyclerView.visibility = View.VISIBLE

@@ -417,8 +417,8 @@ fun setGlobalTheme(view: View?) {
                         when(v.colorFlag) {
                             1 -> v.setBackgroundColor(AppTheme.secondaryText)
                             2 -> v.setBackgroundColor(AppTheme.disableText)
-                            3 -> v.setBackgroundColor(AppTheme.lineColor)
-                            4 -> v.setBackgroundColor(AppTheme.lightLineColor)
+                            3 -> v.setBackgroundColor(AppTheme.line)
+                            4 -> v.setBackgroundColor(AppTheme.lightLine)
                             else -> v.setBackgroundColor(AppTheme.primaryText)
                         }
                     }
@@ -453,11 +453,11 @@ fun getRandomText(arrayId: Int): String {
 }
 
 fun checkView(view: View) {
-    view.setBackgroundColor(AppTheme.primaryColor)
+    view.setBackgroundColor(AppTheme.primary)
     view.alpha = 1f
-    view.findViewWithTag<ImageView>("icon")?.setColorFilter(AppTheme.backgroundColor)
+    view.findViewWithTag<ImageView>("icon")?.setColorFilter(AppTheme.background)
     view.findViewWithTag<TextView>("text")?.let {
-        it.setTextColor(AppTheme.backgroundColor)
+        it.setTextColor(AppTheme.background)
         it.typeface = AppTheme.boldFont
     }
 }
@@ -465,9 +465,9 @@ fun checkView(view: View) {
 fun uncheckView(view: View) {
     view.setBackgroundColor(AppTheme.disableText)
     view.alpha = 0.4f
-    view.findViewWithTag<ImageView>("icon")?.setColorFilter(AppTheme.primaryColor)
+    view.findViewWithTag<ImageView>("icon")?.setColorFilter(AppTheme.primary)
     view.findViewWithTag<TextView>("text")?.let {
-        it.setTextColor(AppTheme.primaryColor)
+        it.setTextColor(AppTheme.primary)
         it.typeface = AppTheme.regularFont
     }
 }

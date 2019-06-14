@@ -7,10 +7,8 @@ import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
-import com.ayaan.twelvepages.App.Companion.context
 import com.ayaan.twelvepages.App.Companion.resource
 import com.pixplicity.easyprefs.library.Prefs
-import java.lang.Exception
 
 object AppTheme {
     var thinCFont: Typeface = Typeface.DEFAULT
@@ -21,18 +19,18 @@ object AppTheme {
     var boldFont: Typeface = Typeface.DEFAULT
 
     var selectableItemBackground = 0
-    var backgroundColor = 0
-    var backgroundDarkColor = 0
-    var almostWhite = 0
-    var primaryColor = 0
+    var background = 0
+    var backgroundDark = 0
+    var backgroundAlpha = 0
+    var primary = 0
     var primaryText = 0
     var secondaryText = 0
     var disableText = 0
-    var lineColor = 0
-    var lightLineColor = 0
-    var redColor = 0
-    var blueColor = 0
-    var iconColor = 0
+    var line = 0
+    var lightLine = 0
+    var red = 0
+    var blue = 0
+    var icon = 0
 
     lateinit var hightlightCover: Drawable
     lateinit var blankDrawable: Drawable
@@ -41,18 +39,18 @@ object AppTheme {
         val typedValue = TypedValue()
         context.theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)
         selectableItemBackground = typedValue.resourceId
-        backgroundColor = resource.getColor(R.color.background)
-        backgroundDarkColor = resource.getColor(R.color.backgroundDark)
-        almostWhite = resource.getColor(R.color.almostWhite)
-        primaryColor = resource.getColor(R.color.colorPrimary)
+        background = resource.getColor(R.color.background)
+        backgroundDark = resource.getColor(R.color.backgroundDark)
+        backgroundAlpha = resource.getColor(R.color.whiteAlpha)
+        primary = resource.getColor(R.color.colorPrimary)
         primaryText = resource.getColor(R.color.primaryText)
         secondaryText = resource.getColor(R.color.secondaryText)
         disableText = resource.getColor(R.color.disableText)
-        lineColor = resource.getColor(R.color.line)
-        lightLineColor = resource.getColor(R.color.light_line)
-        redColor = resource.getColor(R.color.red)
-        blueColor = resource.getColor(R.color.blue)
-        iconColor = resource.getColor(R.color.iconTint)
+        line = resource.getColor(R.color.line)
+        lightLine = resource.getColor(R.color.light_line)
+        red = resource.getColor(R.color.red)
+        blue = resource.getColor(R.color.blue)
+        icon = resource.getColor(R.color.iconTint)
 
         hightlightCover = resource.getDrawable(R.drawable.highlightcover)
         blankDrawable = resource.getDrawable(R.drawable.blank)
@@ -132,7 +130,7 @@ object AppTheme {
     var colorPalette = ColorPalette.values()[Prefs.getInt("colorPalette", 0)]
 
     fun getColor(colorKey: Int) = ColorPalette.values()[colorKey / colorPaletteSize].colors[colorKey % colorPaletteSize]
-    fun getFontColor(color: Int) = if(ColorUtils.calculateLuminance(color) < 0.8f) backgroundColor else secondaryText
+    fun getFontColor(color: Int) = if(ColorUtils.calculateLuminance(color) < 0.8f) background else secondaryText
     fun getColorKey(color: Int): Int {
         val colors = colorPalette.colors
         var colorKey = 0

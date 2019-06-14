@@ -50,10 +50,10 @@ class FormulaPicker @JvmOverloads constructor(context: Context, attrs: Attribute
             if(item == formula) {
                 v.titleText.setTextColor(Color.WHITE)
                 v.titleText.typeface = AppTheme.boldFont
-                v.contentLy.setBackgroundColor(AppTheme.primaryColor)
+                v.contentLy.setBackgroundColor(AppTheme.primary)
                 v.contentLy.alpha = 1f
             }else {
-                v.titleText.setTextColor(AppTheme.primaryColor)
+                v.titleText.setTextColor(AppTheme.primary)
                 v.titleText.typeface = AppTheme.regularFont
                 v.contentLy.setBackgroundColor(AppTheme.disableText)
                 v.contentLy.alpha = 0.4f

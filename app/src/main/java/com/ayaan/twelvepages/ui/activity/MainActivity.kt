@@ -143,10 +143,7 @@ class MainActivity : BaseActivity() {
                 refreshTodayView(calendarView.todayStatus)
             }
         }
-        calendarPager.onTop = { isTop, isBottom ->
-            if(isTop) topShadow.visibility = View.GONE
-            else topShadow.visibility = View.VISIBLE
-        }
+        calendarPager.onTop = { isTop, isBottom -> }
     }
 
     private val folderAdapter = FolderAdapter(this, ArrayList())

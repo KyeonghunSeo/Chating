@@ -8,10 +8,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.widget.NestedScrollView
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.alarm.AlarmManager
+import com.ayaan.twelvepages.manager.OsCalendarManager
+import com.ayaan.twelvepages.model.Record
 import com.google.firebase.auth.FirebaseAuth
 import com.ayaan.twelvepages.ui.dialog.CustomDialog
 import com.ayaan.twelvepages.ui.dialog.OsCalendarDialog
+import com.ayaan.twelvepages.ui.dialog.RecordViewStyleDialog
 import com.ayaan.twelvepages.ui.dialog.TimePickerDialog
+import com.ayaan.twelvepages.ui.view.RecordView
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
@@ -102,15 +106,33 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun setConnectOsCalendar() {
+        val size = OsCalendarManager.getConnectedCalendarIdsSet().size
+        osCalendarText.text = if(size == 0) {
+            osCalendarText.setTextColor(AppTheme.disableText)
+            str(R.string.no_reference)
+        } else {
+            osCalendarText.setTextColor(AppTheme.primaryText)
+            str(R.string.reference)
+        }
         osCalendarBtn.setOnClickListener {
-            if (ActivityCompat.checkSelfPermission(
-                            this@SettingsActivity, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(
-                        this@SettingsActivity, arrayOf(Manifest.permission.READ_CALENDAR), RC_PERMISSIONS)
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CALENDAR), RC_PERMISSIONS)
             } else {
-                showDialog(OsCalendarDialog(this@SettingsActivity),
-                        true, true, true, false)
+                showDialog(OsCalendarDialog(this) { result -> if(result) setConnectOsCalendar()
+                }, true, true, true, false)
             }
+        }
+
+        osCalendarStyleText.text = RecordView.getStyleText(OsCalendarManager.style)
+        osCalendarStyleBtn.setOnClickListener {
+            val record = Record(
+                    id = "osInstance::",
+                    style = OsCalendarManager.style,
+                    colorKey = 0)
+            showDialog(RecordViewStyleDialog(this, record, null) { style, colorKey ->
+                OsCalendarManager.saveStyle(style)
+                setConnectOsCalendar()
+            }, true, true, true, false)
         }
     }
 
@@ -120,8 +142,8 @@ class SettingsActivity : BaseActivity() {
                 permissions.indices
                         .filter { permissions[it] == Manifest.permission.READ_CALENDAR
                                 && grantResults[it] == PackageManager.PERMISSION_GRANTED }
-                        .forEach { _ -> showDialog(OsCalendarDialog(this@SettingsActivity),
-                                true, true, true, false) }
+                        .forEach { _ -> showDialog(OsCalendarDialog(this) { result -> if(result) setConnectOsCalendar()
+                        }, true, true, true, false) }
                 return
             }
         }

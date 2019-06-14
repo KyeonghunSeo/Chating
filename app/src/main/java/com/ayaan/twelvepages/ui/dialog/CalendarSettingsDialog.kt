@@ -4,8 +4,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.manager.DateInfoManager
@@ -78,21 +76,21 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
         weekDisplaySatText.setTextColor(CalendarManager.saturdayColor)
         weekDisplayBtn.setOnClickListener {
             when {
-                CalendarManager.sundayColor == AppTheme.redColor && CalendarManager.saturdayColor == AppTheme.blueColor -> {
-                    CalendarManager.saturdayColor = AppTheme.redColor
+                CalendarManager.sundayColor == AppTheme.red && CalendarManager.saturdayColor == AppTheme.blue -> {
+                    CalendarManager.saturdayColor = AppTheme.red
                     Prefs.putInt("saturdayColor", CalendarManager.saturdayColor)
                 }
-                CalendarManager.sundayColor == AppTheme.redColor && CalendarManager.saturdayColor == AppTheme.redColor -> {
+                CalendarManager.sundayColor == AppTheme.red && CalendarManager.saturdayColor == AppTheme.red -> {
                     CalendarManager.saturdayColor = CalendarManager.dateColor
                     Prefs.putInt("saturdayColor", CalendarManager.saturdayColor)
                 }
-                CalendarManager.sundayColor == AppTheme.redColor && CalendarManager.saturdayColor == CalendarManager.dateColor -> {
+                CalendarManager.sundayColor == AppTheme.red && CalendarManager.saturdayColor == CalendarManager.dateColor -> {
                     CalendarManager.sundayColor = CalendarManager.dateColor
                     Prefs.putInt("sundayColor", CalendarManager.sundayColor)
                 }
                 CalendarManager.sundayColor == CalendarManager.dateColor && CalendarManager.saturdayColor == CalendarManager.dateColor -> {
-                    CalendarManager.sundayColor = AppTheme.redColor
-                    CalendarManager.saturdayColor = AppTheme.blueColor
+                    CalendarManager.sundayColor = AppTheme.red
+                    CalendarManager.saturdayColor = AppTheme.blue
                     Prefs.putInt("sundayColor", CalendarManager.sundayColor)
                     Prefs.putInt("saturdayColor", CalendarManager.saturdayColor)
                 }

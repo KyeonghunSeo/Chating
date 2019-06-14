@@ -21,26 +21,31 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
                             template: Template?, private val onResult: (Int, Int) -> Unit) : Dialog(activity) {
     private val recordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.STACK, 0, 0)
     private val subRecordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.STACK, 0, 0)
+    private var noColor = false
 
     init {
         recordView.childList = ArrayList()
         recordView.childList?.add(recordView.record)
         subRecordView.childList = ArrayList()
         subRecordView.childList?.add(subRecordView.record)
-        if(record != null) {
-            recordView.formula = record.getFormula()
-            recordView.record.style = record.style
-            recordView.record.colorKey = record.colorKey
-            subRecordView.formula = record.getFormula()
-            subRecordView.record.style = record.style
-            subRecordView.record.colorKey = record.colorKey
-        }else if(template != null) {
-            recordView.formula = RecordCalendarAdapter.Formula.styleToFormula(template.style)
-            recordView.record.style = template.style
-            recordView.record.colorKey = template.colorKey
-            subRecordView.formula = RecordCalendarAdapter.Formula.styleToFormula(template.style)
-            subRecordView.record.style = template.style
-            subRecordView.record.colorKey = template.colorKey
+        when {
+            record != null -> {
+                recordView.formula = record.getFormula()
+                recordView.record.style = record.style
+                recordView.record.colorKey = record.colorKey
+                subRecordView.formula = record.getFormula()
+                subRecordView.record.style = record.style
+                subRecordView.record.colorKey = record.colorKey
+                if(record.id == "osInstance::") noColor = true
+            }
+            template != null -> {
+                recordView.formula = RecordCalendarAdapter.Formula.styleToFormula(template.style)
+                recordView.record.style = template.style
+                recordView.record.colorKey = template.colorKey
+                subRecordView.formula = RecordCalendarAdapter.Formula.styleToFormula(template.style)
+                subRecordView.record.style = template.style
+                subRecordView.record.colorKey = template.colorKey
+            }
         }
     }
 
@@ -239,6 +244,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
             }
             else -> {}
         }
+        if(noColor) colorLy.visibility = View.GONE
         recordView.setLayout()
         subRecordView.setLayout()
         recordView.invalidate()

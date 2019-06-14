@@ -1,7 +1,6 @@
 package com.ayaan.twelvepages.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.setGlobalTheme
 import io.realm.Realm
@@ -65,7 +63,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         }else {
             v.contentLy.alpha = 0.3f
             v.titleText.text = context.getString(R.string.new_template)
-            v.colorImg.setBackgroundColor(AppTheme.backgroundColor)
+            v.colorImg.setBackgroundColor(AppTheme.background)
             v.colorImg.setColorFilter(AppTheme.primaryText)
             v.setOnClickListener { adapterInterface.invoke(null, mode) }
         }

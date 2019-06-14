@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.list_item_normal.view.*
 import java.util.HashSet
 
 
-class OsCalendarDialog(activity: Activity) : Dialog(activity) {
+class OsCalendarDialog(activity: Activity, val onResult: (Boolean) -> Unit) : Dialog(activity) {
     private val selectedItems = HashSet<String>(Prefs.getStringSet("osCalendarIds", HashSet<String>()))
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,9 +41,10 @@ class OsCalendarDialog(activity: Activity) : Dialog(activity) {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = ItemAdapter()
 
-        confirmBtn.setOnClickListener { _ ->
+        confirmBtn.setOnClickListener {
             Prefs.putStringSet("osCalendarIds", selectedItems)
             dismiss()
+            onResult.invoke(true)
             MainActivity.getCalendarPager()?.redraw()
         }
         cancelBtn.setOnClickListener { dismiss() }

@@ -133,7 +133,7 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>)
 
     private fun setFolderViews(v: View, selected: Boolean) {
         if(selected) {
-            v.contentLy.setBackgroundColor(AppTheme.backgroundColor)
+            v.contentLy.setBackgroundColor(AppTheme.background)
             v.iconImg.setColorFilter(AppTheme.primaryText)
             v.titleText.setTextColor(AppTheme.primaryText)
             v.contentLy.alpha = 1f

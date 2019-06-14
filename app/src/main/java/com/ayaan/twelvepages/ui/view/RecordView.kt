@@ -75,7 +75,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     var rightOpen = false
     var textSpaceWidth = 0f
     var childList: ArrayList<Record>? = null
-    var paintColor = AppTheme.backgroundColor
+    var paintColor = AppTheme.background
     var fontColor = AppTheme.primaryText
     var shape = Shape.TEXT
 
@@ -423,7 +423,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 (totalStampCnt - 1 downTo 0).forEach { index ->
                     view.childList?.get(index)?.let { record ->
                         val circle = resource.getDrawable(R.drawable.circle_fill)
-                        circle.setColorFilter(CalendarManager.backgroundColor, PorterDuff.Mode.SRC_ATOP)
+                        circle.setColorFilter(CalendarManager.background, PorterDuff.Mode.SRC_ATOP)
                         circle.setBounds(right - size + 1, 1, right - 1, size - 1)
                         circle.draw(canvas)
 

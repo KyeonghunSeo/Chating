@@ -11,10 +11,10 @@ object CalendarManager {
     var selectedDateColor: Int = 0
 
     init {
-        backgroundColor = AppTheme.backgroundColor
+        backgroundColor = AppTheme.background
         dateColor = AppTheme.primaryText
-        sundayColor = Prefs.getInt("sundayColor", AppTheme.redColor)
-        saturdayColor = Prefs.getInt("saturdayColor", AppTheme.primaryColor)
+        sundayColor = Prefs.getInt("sundayColor", AppTheme.red)
+        saturdayColor = Prefs.getInt("saturdayColor", AppTheme.primary)
         selectedDateColor = AppTheme.primaryText
     }
 }

@@ -46,7 +46,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val adapter = RecordListAdapter(context, currentList, targetCal) { view, record, action ->
         MainActivity.instance?.let {
             showDialog(PopupOptionDialog(it,
-                    arrayOf(PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.redColor)), view) { index ->
+                    arrayOf(PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)), view) { index ->
                 if(index == 0) {
                     RecordManager.delete(context as Activity, record, Runnable {
                         toast(R.string.deleted, R.drawable.delete)

@@ -22,15 +22,15 @@ open class BaseActivity : AppCompatActivity() {
 
     fun initTheme(rootLy: View) {
         setGlobalTheme(rootLy)
-        rootLy.setBackgroundColor(AppTheme.backgroundColor)
+        rootLy.setBackgroundColor(AppTheme.background)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             var flags = window.peekDecorView().systemUiVisibility
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             }
             window.peekDecorView().systemUiVisibility = flags
-            window.statusBarColor = AppTheme.backgroundColor
-            window.navigationBarColor = AppTheme.backgroundColor
+            window.statusBarColor = AppTheme.background
+            window.navigationBarColor = AppTheme.background
         }
     }
 

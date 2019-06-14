@@ -16,7 +16,6 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
 import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.manager.DateInfoManager
-import com.ayaan.twelvepages.ui.activity.MainActivity
 import java.util.*
 
 class CalendarPicker @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
@@ -77,7 +76,7 @@ class CalendarPicker @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     private fun setLayout() {
-        setBackgroundColor(AppTheme.backgroundColor)
+        setBackgroundColor(AppTheme.background)
         calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         calendarLy.setPadding(0, 0, 0, 0)
         calendarLy.orientation = LinearLayout.VERTICAL

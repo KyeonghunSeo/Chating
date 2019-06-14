@@ -76,12 +76,18 @@ object OsCalendarManager {
             CalendarContract.Events.CALENDAR_ID,
             CalendarContract.Events.ORIGINAL_INSTANCE_TIME)
 
-    init {}
+    var style: Int = Prefs.getInt("osCalendarStyle",
+            RecordCalendarAdapter.Formula.STACK.shapes[0].ordinal * 100 + RecordCalendarAdapter.Formula.STACK.ordinal)
 
     class OsCalendar(val id: Long, val title: String, val color: Int, val accountName: String) {
         override fun toString(): String {
             return "OsCalendar(id=$id, title='$title', color=$color)"
         }
+    }
+
+    fun saveStyle(style: Int) {
+        this.style = style
+        Prefs.putInt("osCalendarStyle", style)
     }
 
     private fun checkPermission(context: Context)
@@ -109,6 +115,8 @@ object OsCalendarManager {
         return categoryList
     }
 
+    fun getConnectedCalendarIdsSet() = Prefs.getStringSet("osCalendarIds", HashSet<String>())
+
     @SuppressLint("MissingPermission")
     fun getInstances(context: Context, keyWord: String, startMillis: Long, endMillis: Long): List<Record> {
         val list = ArrayList<Record>()
@@ -118,7 +126,7 @@ object OsCalendarManager {
             val selectionArgs: Array<String>?
             val cur: Cursor?
 
-            val osCalendarIds = Prefs.getStringSet("osCalendarIds", HashSet<String>())
+            val osCalendarIds = getConnectedCalendarIdsSet()
             if (osCalendarIds.size > 0) {
                 val categoryQuery = osCalendarIds.joinToString(" OR ") { "(${CalendarContract.Instances.CALENDAR_ID}=$it)" }
 
@@ -201,7 +209,7 @@ object OsCalendarManager {
     private fun makeTimeObject(cur: Cursor) : Record{
         val block = Record(
                 id = "osInstance::${cur.getLong(INDEX_ID)}",
-                style = RecordCalendarAdapter.Formula.STACK.shapes[0].ordinal * 100 + RecordCalendarAdapter.Formula.STACK.ordinal,
+                style = style,
                 title = cur.getString(INDEX_TITLE),
                 colorKey = AppTheme.getColorKey(if(cur.getInt(INDEX_EVENT_COLOR) != 0) cur.getInt(INDEX_EVENT_COLOR)
                 else cur.getInt(INDEX_CAL_COLOR)),

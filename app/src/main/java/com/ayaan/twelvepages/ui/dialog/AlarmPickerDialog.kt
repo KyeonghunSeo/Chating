@@ -84,14 +84,14 @@ class AlarmPickerDialog(private val activity: Activity, private var offset: Long
     }
 
     private fun activeBtn(view: TextView) {
-        view.setTextColor(AppTheme.backgroundColor)
+        view.setTextColor(AppTheme.background)
         view.typeface = AppTheme.boldFont
         view.setBackgroundColor(AppTheme.primaryText)
         view.alpha = 1f
     }
 
     private fun inActiveBtn(view: TextView) {
-        view.setTextColor(AppTheme.primaryColor)
+        view.setTextColor(AppTheme.primary)
         view.typeface = AppTheme.regularFont
         view.setBackgroundColor(AppTheme.disableText)
         view.alpha = 0.4f

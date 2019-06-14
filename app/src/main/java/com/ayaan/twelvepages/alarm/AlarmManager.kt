@@ -50,7 +50,7 @@ object AlarmManager {
                 val notificationChannel = NotificationChannel(context.getString(R.string.notification_default_channel),
                         context.getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH)
                 notificationChannel.enableLights(true)
-                notificationChannel.lightColor = AppTheme.primaryColor
+                notificationChannel.lightColor = AppTheme.primary
                 notificationChannel.setShowBadge(true)
                 notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
                 (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(notificationChannel)

@@ -3,7 +3,6 @@ package com.ayaan.twelvepages.ui.dialog
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
@@ -55,7 +54,7 @@ class EditFolderDialog(private val activity: Activity, private val folder: Folde
                 input.setSelection(folder.name?.length ?: 0)
             }
 
-            cancelBtn.setTextColor(AppTheme.redColor)
+            cancelBtn.setTextColor(AppTheme.red)
             cancelBtn.text = context.getString(R.string.delete)
             cancelBtn.setOnClickListener {
                 val count = realm.where(Record::class.java).equalTo("folder.id", folder.id).count()

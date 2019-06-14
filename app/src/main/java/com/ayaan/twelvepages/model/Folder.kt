@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey
 
 open class Folder(@PrimaryKey var id: String? = null,
                   var name: String? = null,
-                  var color: Int = AppTheme.primaryColor,
+                  var color: Int = AppTheme.primary,
                   var type: Int = 0,
                   var properties: String? = null,
                   var order: Int = 0): RealmObject() {

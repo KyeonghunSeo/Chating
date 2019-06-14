@@ -34,7 +34,7 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                 root.recyclerView.adapter?.notifyDataSetChanged()
             }
         })
-        root.recyclerView.setBackgroundColor(AppTheme.backgroundColor)
+        root.recyclerView.setBackgroundColor(AppTheme.background)
         root.recyclerView.layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
         root.recyclerView.adapter = TabAdapter()
         dialog.setOnShowListener { onShow() }
@@ -127,9 +127,9 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
             }
 
             if(position == root.viewPager.currentItem) {
-                v.iconImg.setBackgroundColor(AppTheme.backgroundDarkColor)
+                v.iconImg.setBackgroundColor(AppTheme.backgroundDark)
                 if(position == 0) {
-                    v.iconImg.setColorFilter(AppTheme.blueColor)
+                    v.iconImg.setColorFilter(AppTheme.blue)
                     v.iconImg.alpha = 1f
                 }else {
                     removeImageViewFilter(v.iconImg)

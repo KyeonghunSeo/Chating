@@ -13,7 +13,7 @@ import com.ayaan.twelvepages.callAfterViewDrawed
 class PinView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     var isPin = false
     val pinImg = ImageView(context)
-    var color = AppTheme.iconColor
+    var color = AppTheme.icon
     var backColor = Color.WHITE
     var showPinBtn = true
 
@@ -33,9 +33,9 @@ class PinView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     fun pin(isPin: Boolean) {
         this.isPin = isPin
         if(isPin) {
-            pinImg.setColorFilter(AppTheme.iconColor)
+            pinImg.setColorFilter(AppTheme.icon)
         }else {
-            pinImg.setColorFilter(AppTheme.lineColor)
+            pinImg.setColorFilter(AppTheme.line)
         }
     }
 }

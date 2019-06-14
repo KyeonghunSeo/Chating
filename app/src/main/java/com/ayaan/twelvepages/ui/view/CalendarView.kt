@@ -43,6 +43,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(1.0f)
         val dataStartYOffset = dpToPx(33f)
+        val headerHeight = dpToPx(100)
     }
 
     private val scrollView = NestedScrollView(context)
@@ -55,6 +56,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val dateHeaders = Array(maxCellNum) { DateHeaderViewHolder(
             LayoutInflater.from(context).inflate(R.layout.view_selected_bar, null, false)) }
     val dateInfos = Array(maxCellNum) { DateInfoManager.DateInfo() }
+    val headerView = View(context)
 
     inner class DateHeaderViewHolder(val container: View) {
         val dateText: TextView = container.findViewById(R.id.dateText)
@@ -106,10 +108,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun createViews() {
         addView(scrollView)
         scrollView.addView(calendarLy)
+        addView(headerView)
     }
 
     private fun setLayout() {
-        setBackgroundColor(AppTheme.backgroundColor)
+        headerView.layoutParams = LayoutParams(MATCH_PARENT, headerHeight)
+        headerView.setBackgroundColor(AppTheme.backgroundAlpha)
+
         scrollView.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         scrollView.isVerticalScrollBarEnabled = false
         scrollView.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
@@ -117,7 +122,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(calendarPadding, calendarPadding, calendarPadding, calendarPadding)
+        calendarLy.setPadding(calendarPadding, headerHeight + calendarPadding, calendarPadding, calendarPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
 
         rowDividers.forEachIndexed { index, view ->
@@ -186,7 +191,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         todayCellNum = -1
         targetCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height.toFloat() - calendarPadding * 2
+        minCalendarHeight = height.toFloat() - calendarPadding * 2 - headerHeight
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {

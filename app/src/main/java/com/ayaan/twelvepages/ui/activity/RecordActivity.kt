@@ -174,7 +174,7 @@ class RecordActivity : BaseActivity() {
 
         moreBtn.setOnClickListener {
             showDialog(PopupOptionDialog(this,
-                    arrayOf(PopupOptionDialog.Item(getString(R.string.delete), R.drawable.delete, AppTheme.redColor)), moreBtn) { index ->
+                    arrayOf(PopupOptionDialog.Item(getString(R.string.delete), R.drawable.delete, AppTheme.red)), moreBtn) { index ->
                 if(index == 0) {
                     showDialog(CustomDialog(this, getString(R.string.delete),
                             getString(R.string.delete_sub), null) { result, _, _ ->
@@ -543,10 +543,8 @@ class RecordActivity : BaseActivity() {
         if (!Places.isInitialized()) {
             Places.initialize(this, "AIzaSyDqEQrjmuHV6uM26UDGvjIn05_sLBoZ4wk")
         }
-        val fields = Arrays.asList(Place.Field.ID,
-                Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS)
-        val intent = Autocomplete.IntentBuilder(
-            AutocompleteActivityMode.OVERLAY, fields).build(this)
+        val fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS)
+        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields).build(this)
         startActivityForResult(intent, RC_LOCATION)
     }
 

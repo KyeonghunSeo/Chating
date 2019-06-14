@@ -30,7 +30,7 @@ class BriefingAlarmReceiver : BroadcastReceiver() {
         val mCompatBuilder = NotificationCompat.Builder(context, context.getString(R.string.notification_default_channel))
         mCompatBuilder.setSmallIcon(R.mipmap.ic_launcher_round)
         mCompatBuilder.setTicker("오늘의 알림 리셋")
-        mCompatBuilder.color = AppTheme.primaryColor
+        mCompatBuilder.color = AppTheme.primary
         mCompatBuilder.setWhen(System.currentTimeMillis())
         mCompatBuilder.setContentTitle("오늘의 알림 리셋")
         mCompatBuilder.setDefaults(Notification.DEFAULT_SOUND or Notification.DEFAULT_VIBRATE)
