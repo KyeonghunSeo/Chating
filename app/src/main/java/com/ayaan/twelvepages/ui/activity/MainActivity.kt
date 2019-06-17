@@ -48,9 +48,10 @@ class MainActivity : BaseActivity() {
         fun getViewModel() = instance?.viewModel
         fun getDayPager() = instance?.dayPager
         fun getMainPanel() = instance?.mainPanel
+        fun getCalendarLy() = instance?.calendarLy
         fun getCalendarPager() = instance?.calendarPager
         fun getMainDateLy() = instance?.mainDateLy
-        fun getMonthTextLy() = instance?.mainMonthYearLy
+        fun getMainSubDateLy() = instance?.mainSubDateLy
         fun getWeekTextLy() = instance?.mainWeekLy
         fun getProfileBtn() = instance?.profileBtn
         fun getTemplateView() = instance?.templateView
@@ -117,7 +118,7 @@ class MainActivity : BaseActivity() {
 
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
-        mainMonthYearLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainWeekLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainDateLy.pivotX = 0f
         mainDateLy.pivotY = 0f
@@ -134,10 +135,9 @@ class MainActivity : BaseActivity() {
         calendarPager.onSelectedDate = { time, cellNum, dateColor, isSameSeleted, calendarView ->
             viewModel.targetTime.value = time
             viewModel.targetCalendarView.value = calendarView
-            monthText.setTextColor(dateColor)
-            yearText.setTextColor(dateColor)
-            weekCText.setTextColor(dateColor)
-            weekText.setTextColor(dateColor)
+            mainMonthText.setTextColor(dateColor)
+            mainYearText.setTextColor(dateColor)
+            mainWeekText.setTextColor(dateColor)
             if(cellNum >= 0) {
                 if(isSameSeleted && dayPager.viewMode == ViewMode.CLOSED) dayPager.show()
                 refreshTodayView(calendarView.todayStatus)
@@ -334,11 +334,12 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            monthText.text = AppDateFormat.mDate.format(it.time)
-            yearText.text = it.get(Calendar.YEAR).toString()
+            //mainMonthText.text = AppDateFormat.mDate.format(it.time)
+            mainMonthText.text = (it.get(Calendar.MONTH) + 1).toString()
+            mainYearText.text = it.get(Calendar.YEAR).toString()
             if(AppStatus.isWeekNumDisplay) {
                 mainWeekLy.visibility = View.VISIBLE
-                weekText.text = it.get(Calendar.WEEK_OF_YEAR).toString()
+                mainWeekText.text = String.format(str(R.string.weekNum), it.get(Calendar.WEEK_OF_YEAR))
             }else {
                 mainWeekLy.visibility = View.GONE
             }

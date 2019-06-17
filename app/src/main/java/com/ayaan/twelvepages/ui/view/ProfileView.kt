@@ -28,7 +28,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     : FrameLayout(context, attrs, defStyleAttr) {
 
     private val scale = 0.7f
-    private val profileCloseMargin = dpToPx(10)
+    private val profileCloseMargin = dpToPx(20)
     private val profileOpenMargin = dpToPx(14)
     private val profileOpenTopMargin = dpToPx(70)
     private val profileBtnSize = dpToPx(50)

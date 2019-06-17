@@ -40,13 +40,14 @@
                     android:text="@string/display_settings"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
-                    android:textSize="18dp"/>
+                    android:textSize="16dp"/>
 
             </FrameLayout>
 
             <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="20dp"
-                android:layout_height="3dp"
+                android:layout_height="2.5dp"
+                android:layout_marginLeft="2dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 app:colorFlag="primary"/>
@@ -64,7 +65,7 @@
                     android:text="@string/calendar_settings"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
-                    android:textSize="16dp"/>
+                    android:textSize="14dp"/>
 
                 <ImageView
                     android:layout_width="30dp"
@@ -87,7 +88,7 @@
                     android:text="@string/task_setting"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
-                    android:textSize="16dp"/>
+                    android:textSize="14dp"/>
 
             </FrameLayout>
 
@@ -129,13 +130,14 @@
                     android:text="@string/alarm"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
-                    android:textSize="18dp"/>
+                    android:textSize="16dp"/>
 
             </FrameLayout>
 
             <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="20dp"
-                android:layout_height="3dp"
+                android:layout_height="2.5dp"
+                android:layout_marginLeft="2dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 app:colorFlag="primary"/>
@@ -152,7 +154,7 @@
                     android:text="@string/default_alarm_time"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
-                    android:textSize="16dp"/>
+                    android:textSize="14dp"/>
 
             </FrameLayout>
 
@@ -280,13 +282,14 @@
                     android:text="@string/device_calendar"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
-                    android:textSize="18dp"/>
+                    android:textSize="16dp"/>
 
             </FrameLayout>
 
             <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="20dp"
-                android:layout_height="3dp"
+                android:layout_height="2.5dp"
+                android:layout_marginLeft="2dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 app:colorFlag="primary"/>
@@ -359,13 +362,14 @@
                     android:text="@string/advanced_setting"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
-                    android:textSize="18dp"/>
+                    android:textSize="16dp"/>
 
             </FrameLayout>
 
             <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="20dp"
-                android:layout_height="3dp"
+                android:layout_height="2.5dp"
+                android:layout_marginLeft="2dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 app:colorFlag="primary"/>
@@ -398,9 +402,17 @@
                     android:text="@string/account_settings"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
-                    android:textSize="18dp"/>
+                    android:textSize="16dp"/>
 
             </FrameLayout>
+
+            <com.ayaan.twelvepages.ui.view.base.Line
+                android:layout_width="20dp"
+                android:layout_height="2.5dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                app:colorFlag="primary"/>
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -414,7 +426,7 @@
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
-                    android:textSize="16dp"/>
+                    android:textSize="14dp"/>
 
             </FrameLayout>
 

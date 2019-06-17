@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.manager.DateInfoManager
