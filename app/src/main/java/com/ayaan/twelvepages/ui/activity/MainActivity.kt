@@ -28,8 +28,10 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
 import com.ayaan.twelvepages.manager.RecordManager
+import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.model.AppUser
 import com.ayaan.twelvepages.model.Folder
+import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.CalendarSettingsDialog
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
@@ -258,6 +260,50 @@ class MainActivity : BaseActivity() {
         })
         viewModel.openFolder.observe(this, Observer { updateFolderUI(it) })
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
+        viewModel.clipRecord.observe(this, Observer { updateClipUI(it) })
+    }
+
+    private fun updateClipUI(record: Record?) {
+        TransitionManager.beginDelayedTransition(clipView, makeFromBottomSlideTransition())
+        if(record == null) {
+            clipView.visibility = View.INVISIBLE
+        }else {
+            clipView.visibility = View.VISIBLE
+            if(record.id.isNullOrEmpty()) {
+                clipTypeText.text = str(R.string.copy)
+            }else {
+                clipTypeText.text = str(R.string.cut)
+            }
+            clipText.text = record.getTitleInCalendar()
+            clipIconImg.setColorFilter(record.getColor())
+            clipPasteBtn.setOnClickListener {
+                record.folder = viewModel.targetFolder.value
+                record.setDate(viewModel.targetTime.value ?: Long.MIN_VALUE)
+                if(record.id.isNullOrEmpty()) {
+                    if(record.isRepeat()) {
+                        record.clearRepeat()
+                    }
+                    RecordManager.save(record)
+                    toast(R.string.copied, R.drawable.copy)
+                }else {
+                    if(record.isRepeat()) {
+                        RecordManager.deleteOnly(record)
+                        record.clearRepeat()
+                        record.id = null
+                        RecordManager.save(record)
+                    }else {
+                        RecordManager.delete(record)
+                        record.id = null
+                        RecordManager.save(record)
+                    }
+                    toast(R.string.moved, R.drawable.change)
+                }
+                viewModel.clipRecord.value = null
+            }
+            clipCloseBtn.setOnClickListener {
+                viewModel.clipRecord.value = null
+            }
+        }
     }
 
     private fun updateFolderUI(isOpen: Boolean) {
@@ -295,13 +341,14 @@ class MainActivity : BaseActivity() {
     }
 
     private fun refreshAll() {
-        l("[메인 새로고침]")
         val folder = getTargetFolder()
         if(folder.type == 0) {
             calendarLy.visibility = View.VISIBLE
+            todayBtn.visibility = View.VISIBLE
             noteView.visibility = View.INVISIBLE
         }else {
             calendarLy.visibility = View.INVISIBLE
+            todayBtn.visibility = View.INVISIBLE
             noteView.visibility = View.VISIBLE
         }
         refreshCalendar()
@@ -335,7 +382,7 @@ class MainActivity : BaseActivity() {
     private fun setDateText() {
         getTargetCal()?.let {
             //mainMonthText.text = AppDateFormat.mDate.format(it.time)
-            mainMonthText.text = (it.get(Calendar.MONTH) + 1).toString()
+            mainMonthText.text = String.format("%02d", (it.get(Calendar.MONTH) + 1))
             mainYearText.text = it.get(Calendar.YEAR).toString()
             if(AppStatus.isWeekNumDisplay) {
                 mainWeekLy.visibility = View.VISIBLE

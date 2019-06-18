@@ -86,19 +86,11 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setDate(dtStart: Long, dtEnd: Long) {
+    private fun setDate() {
         val folder = MainActivity.getTargetFolder()
         if(folder.isCalendar()) {
             startDateText.text = folder.name
-            startCal.timeInMillis = dtStart
-            endCal.timeInMillis = dtEnd
-            if(isSameDay(startCal, endCal)) {
-                endDateText.text = AppDateFormat.mdeDate.format(startCal.time)
-            }else {
-                endDateText.text = String.format(str(R.string.from), AppDateFormat.mdeDate.format(startCal.time)) +
-                        "\n" + String.format(str(R.string.to), AppDateFormat.mdeDate.format(endCal.time)) +
-                        ", " + getDurationText(startCal.timeInMillis, endCal.timeInMillis, true)
-            }
+            endDateText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis)
         }else {
             startDateText.text = folder.name
             endDateText.text = ""
@@ -107,6 +99,8 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun expand(dtStart: Long, dtEnd: Long) {
         vibrate(context)
+        startCal.timeInMillis = dtStart
+        endCal.timeInMillis = dtEnd
         val transitionSet = TransitionSet()
         val t1 = makeFromRightSlideTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
@@ -119,7 +113,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         transitionSet.addTransition(t2)
         transitionSet.addTransition(t3)
         TransitionManager.beginDelayedTransition(this, transitionSet)
-        setDate(dtStart, dtEnd)
+        setDate()
         notifyListChanged()
         backgroundLy.setBackgroundColor(AppTheme.background)
         backgroundLy.setOnClickListener { collapse() }
@@ -129,7 +123,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         dateLy.visibility = View.VISIBLE
         controlLy.visibility = View.VISIBLE
         ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f).start()
-        elevation = dpToPx(30f)
         isExpanded = true
     }
 

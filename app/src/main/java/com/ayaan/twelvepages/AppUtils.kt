@@ -25,6 +25,7 @@ import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.Transition
+import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.view.CalendarView
 import com.ayaan.twelvepages.ui.view.base.Line
 import es.dmoral.toasty.Toasty
@@ -472,7 +473,7 @@ fun uncheckView(view: View) {
     }
 }
 
-fun str(stringId: Int) = App.context.getString(stringId)
+fun str(stringId: Int): String = App.context.getString(stringId)
 
 fun setImageViewGrayFilter(v: ImageView) {
     val matrix = ColorMatrix()
@@ -485,6 +486,47 @@ fun setImageViewGrayFilter(v: ImageView) {
 fun removeImageViewFilter(v: ImageView) {
     v.colorFilter = null
     v.alpha = 1f
+}
+
+fun makeSheduleText(dtStart: Long, dtEnd: Long) : String {
+    tempCal.timeInMillis = dtStart
+    tempCal2.timeInMillis = dtEnd
+    return if(isSameDay(tempCal, tempCal2)) {
+        AppDateFormat.mdeDate.format(tempCal.time)
+    }else {
+        String.format(str(R.string.from), AppDateFormat.mdeDate.format(tempCal.time)) +
+                "\n" + String.format(str(R.string.to), AppDateFormat.mdeDate.format(tempCal2.time)) +
+                ", " + getDurationText(tempCal.timeInMillis, tempCal2.timeInMillis, true)
+    }
+}
+
+fun makeTimeText(dtStart: Long, dtEnd: Long) : String {
+    tempCal.timeInMillis = dtStart
+    tempCal2.timeInMillis = dtEnd
+    return if(dtStart == dtEnd) {
+        AppDateFormat.time.format(tempCal.time)
+    }else {
+        String.format(str(R.string.from), AppDateFormat.time.format(tempCal.time)) +
+                "\n" + String.format(str(R.string.to), AppDateFormat.time.format(tempCal2.time))
+    }
+}
+
+fun makeShareContentsByRecord(record: Record) : String {
+    val result = StringBuilder()
+    record.title?.let { result.append("$it\n") }
+    if(record.dtStart != Long.MIN_VALUE) {
+        result.append("[${str(R.string.date_time)}]\n${makeSheduleText(record.dtStart, record.dtEnd)}\n")
+        if(record.isSetTime()) {
+            result.append("[${str(R.string.time)}]\n${makeTimeText(record.dtStart, record.dtEnd)}\n")
+        }
+    }
+    if(!record.location.isNullOrEmpty()) {
+        result.append("[${str(R.string.location)}]\n${record.location}\n")
+    }
+    if(!record.description.isNullOrEmpty()) {
+        result.append("[${str(R.string.memo)}]\n${record.description}\n")
+    }
+    return result.toString().trim()
 }
 
 /* 코드

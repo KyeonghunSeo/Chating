@@ -26,7 +26,7 @@ import java.util.*
 
 class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
-    val startZ = dpToPx(8f)
+    val startZ = dpToPx(4f)
     var viewMode = ViewMode.CLOSED
     var onVisibility: ((Boolean) -> Unit)? = null
 
@@ -52,7 +52,9 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
                 selectedTargetDayView(dayViews[position % viewCount])
-                MainActivity.getCalendarPager()?.selectDate(targetDayView.targetCal.timeInMillis)
+                if(isOpened()) {
+                    MainActivity.getCalendarPager()?.selectDate(targetDayView.targetCal.timeInMillis)
+                }
             }
         })
         viewPager.setPagingEnabled(false)

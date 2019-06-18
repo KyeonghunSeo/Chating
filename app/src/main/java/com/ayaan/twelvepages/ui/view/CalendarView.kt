@@ -36,7 +36,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val animDur = 300L
         const val columns = 7
         val todayCal: Calendar = Calendar.getInstance()
-        val dragStartYPos = dpToPx(58f)
+        val dragStartYPos = dpToPx(0f)
         val weekLyBottomPadding = dpToPx(10)
         val calendarPadding = dpToPx(19)
         val autoScrollThreshold = dpToPx(70)

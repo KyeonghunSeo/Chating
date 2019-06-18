@@ -13,8 +13,8 @@ class AutoScaleEditText @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : EditText(context, attrs, defStyleAttr) {
     companion object {
         private const val WITHOUT_SIZE = 0
-        private const val DEFAULT_TEXT_SCALE = 0.6f
-        private const val DEFAULT_ANIMATION_DURATION = 200
+        private const val DEFAULT_TEXT_SCALE = 0.5f
+        private const val DEFAULT_ANIMATION_DURATION = 250
         private const val DEFAULT_LINES_LIMIT = 0.8f
     }
 

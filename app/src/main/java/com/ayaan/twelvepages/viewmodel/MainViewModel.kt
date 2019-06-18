@@ -18,6 +18,7 @@ class MainViewModel : ViewModel() {
     val realm = MutableLiveData<Realm>()
     val loading = MutableLiveData<Boolean>()
     val targetRecord = MutableLiveData<Record?>()
+    val clipRecord = MutableLiveData<Record?>()
     val appUser = MutableLiveData<AppUser?>()
     val targetTemplate = MutableLiveData<Template>()
     val templateList = MutableLiveData<RealmResults<Template>>()
@@ -32,6 +33,7 @@ class MainViewModel : ViewModel() {
     init {
         targetTime.value = System.currentTimeMillis()
         openFolder.value = false
+        clipRecord.value = null
     }
 
     fun initRealm(syncUser: SyncUser?) {
@@ -198,6 +200,10 @@ class MainViewModel : ViewModel() {
         realm.value?.close()
         realm.value = null
         realmAsyncTask?.cancel()
+    }
+
+    fun clip(record: Record) {
+        clipRecord.value = record
     }
 
 }

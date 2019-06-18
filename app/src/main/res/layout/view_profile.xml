@@ -86,7 +86,7 @@
 
             <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="2.5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 app:colorFlag="secondary"/>
@@ -105,7 +105,7 @@
 
             <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="20dp"
-                android:layout_height="2dp"
+                android:layout_height="2.5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 app:colorFlag="primary"/>
@@ -117,7 +117,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:textColor="@color/primaryText"
-                android:textSize="12dp"
+                android:textSize="14dp"
                 android:text="@string/premium"
                 android:fontFamily="@font/bold_c"/>
 
@@ -128,7 +128,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:textColor="@color/primaryText"
-                android:textSize="12dp"
+                android:textSize="14dp"
                 android:text="@string/setting"
                 android:fontFamily="@font/bold_c"/>
 
@@ -139,7 +139,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:textColor="@color/primaryText"
-                android:textSize="12dp"
+                android:textSize="14dp"
                 android:text="@string/about_us"
                 android:fontFamily="@font/bold_c"/>
 

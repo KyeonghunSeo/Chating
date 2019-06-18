@@ -53,8 +53,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:animateLayoutChanges="true"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="25dp">
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="20dp">
 
                         <TextView
                             android:id="@+id/mainMonthText"
@@ -64,7 +64,7 @@
                             android:textColor="@color/primaryText"
                             android:includeFontPadding="false"
                             android:textSize="73dp"
-                            android:fontFamily="@font/bold_c"/>
+                            android:fontFamily="@font/regular_c"/>
 
                         <LinearLayout
                             android:id="@+id/mainSubDateLy"
@@ -190,7 +190,7 @@
             android:layout_width="80dp"
             android:layout_height="60dp"
             android:layout_marginLeft="-40dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:outlineSpotShadowColor="@color/secondaryText"
             android:layout_gravity="bottom">
 
@@ -215,6 +215,103 @@
             </androidx.cardview.widget.CardView>
 
         </FrameLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/clipView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="bottom"
+            android:outlineSpotShadowColor="@color/secondaryText"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="0dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="5dp">
+
+                <TextView
+                    android:id="@+id/clipTypeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="16dp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:text="title"/>
+
+                <ImageView
+                    android:id="@+id/clipCloseBtn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:padding="10dp"
+                    android:src="@drawable/close"
+                    android:tint="@color/secondaryText"/>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp">
+
+                <ImageView
+                    android:id="@+id/clipIconImg"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/circle_fill"
+                    android:tint="@color/primaryText"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/clipText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:textSize="16dp"
+                        android:textColor="@color/primaryText"
+                        android:text="title"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/clipPasteBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/primaryText"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:textSize="14dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/paste"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <com.ayaan.twelvepages.ui.view.TemplateView
             android:id="@+id/templateView"

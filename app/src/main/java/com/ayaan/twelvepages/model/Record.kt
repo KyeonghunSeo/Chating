@@ -6,6 +6,7 @@ import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.ui.view.RecordView
 import io.realm.RealmList
 import io.realm.RealmObject
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.STACK
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Ignore
 import java.util.*
@@ -13,7 +14,7 @@ import java.util.*
 
 open class Record(@PrimaryKey var id: String? = null,
                   var type: Int = 0,
-                  var style: Int = RecordCalendarAdapter.Formula.STACK.ordinal,
+                  var style: Int = STACK.shapes[0].ordinal * 100 + STACK.ordinal,
                   var title: String? = null,
                   var colorKey: Int = 0,
                   var location: String? = null,

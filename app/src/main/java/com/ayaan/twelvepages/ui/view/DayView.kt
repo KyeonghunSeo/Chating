@@ -27,6 +27,7 @@ import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
 import com.ayaan.twelvepages.ui.dialog.PopupOptionDialog
+import com.ayaan.twelvepages.ui.dialog.SchedulingDialog
 import io.realm.OrderedCollectionChangeSet
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.view_day.view.*
@@ -47,13 +48,36 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val dateInfo = DateInfoManager.DateInfo()
 
     private val adapter = RecordListAdapter(context, currentList, targetCal) { view, record, action ->
-        MainActivity.instance?.let {
-            showDialog(PopupOptionDialog(it,
-                    arrayOf(PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)), view) { index ->
-                if(index == 0) {
-                    RecordManager.delete(context as Activity, record, Runnable {
-                        toast(R.string.deleted, R.drawable.delete)
-                    })
+        MainActivity.instance?.let { activity ->
+            showDialog(PopupOptionDialog(activity,
+                    arrayOf(PopupOptionDialog.Item(str(R.string.copy), R.drawable.copy, AppTheme.primaryText),
+                            PopupOptionDialog.Item(str(R.string.cut), R.drawable.cut, AppTheme.primaryText),
+                            PopupOptionDialog.Item(str(R.string.move_date), R.drawable.schedule, AppTheme.primaryText),
+                            PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red))
+                    , view) { index ->
+                when(index) {
+                    0 -> {
+                        record.id = null
+                        activity.viewModel.clip(record)
+                    }
+                    1 -> {
+                        activity.viewModel.clip(record)
+                    }
+                    2 -> {
+                        showDialog(SchedulingDialog(activity, record) { sCal, eCal ->
+                            record.setSchedule()
+                            record.setDateTime(sCal, eCal)
+                            if(record.isRepeat()) {
+                                RepeatManager.save(activity, record, Runnable { toast(R.string.moved, R.drawable.schedule) })
+                            }else {
+                                RecordManager.save(record)
+                                toast(R.string.moved, R.drawable.schedule)
+                            }
+                        }, true, true, true, false)
+                    }
+                    3 -> {
+                        RecordManager.delete(context as Activity, record, Runnable { toast(R.string.deleted, R.drawable.delete) })
+                    }
                 }
             }, true, false, true, false)
         }
@@ -220,7 +244,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainSubDateLy(), "translationX", 0f, mainMonthX),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", 0f, mainDateLyY),
                 ObjectAnimator.ofFloat(bar, "scaleX", 1f, 1f),
-                ObjectAnimator.ofFloat(bar, "scaleY", 1f, 2.5f),
                 ObjectAnimator.ofFloat(bar, "translationX", 0f, barX),
                 ObjectAnimator.ofFloat(bar, "translationY", 0f, barY))
         animSet.duration = ANIM_DUR
@@ -250,7 +273,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainSubDateLy(), "translationX", mainMonthX, 0f),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", mainDateLyY, 0f),
                 ObjectAnimator.ofFloat(bar, "scaleX", 1f, 1f),
-                ObjectAnimator.ofFloat(bar, "scaleY", 2.5f, 1f),
                 ObjectAnimator.ofFloat(bar, "translationX", barX, 0f),
                 ObjectAnimator.ofFloat(bar, "translationY", barY, 0f))
         animSet.duration = ANIM_DUR
@@ -281,7 +303,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.translationX = mainMonthX
         }
         bar.scaleX = 1f
-        bar.scaleY = 2.5f
         bar.translationX = barX
         bar.translationY = barY
 
@@ -310,7 +331,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.translationX = 0f
         }
         bar.scaleX = 1f
-        bar.scaleY = 1f
         bar.translationX = 0f
         bar.translationY = 0f
     }

@@ -317,6 +317,15 @@
     <string name="os_calendar_style">외부 서비스 일정 스타일</string>
     <string name="reference">참조중</string>
     <string name="no_reference">참조안함</string>
+    <string name="share">공유</string>
+    <string name="date_time">일시</string>
+    <string name="time">시간</string>
+    <string name="copy">복사</string>
+    <string name="move_date">날짜이동</string>
+    <string name="moved">이동되었습니다</string>
+    <string name="paste">붙여넣기</string>
+    <string name="copied">복사되었습니다</string>
+    <string name="cut">잘라내기</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

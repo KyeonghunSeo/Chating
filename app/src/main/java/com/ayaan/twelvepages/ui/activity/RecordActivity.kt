@@ -116,9 +116,9 @@ class RecordActivity : BaseActivity() {
         })
         titleInput.onScaleChanged = { isNormalScale ->
             if(isNormalScale) {
-                //titleInput.typeface = AppTheme.boldFont
+
             }else {
-                //titleInput.typeface = AppTheme.regularFont
+
             }
         }
         titleInput.isFocusable = true
@@ -174,12 +174,23 @@ class RecordActivity : BaseActivity() {
 
         moreBtn.setOnClickListener {
             showDialog(PopupOptionDialog(this,
-                    arrayOf(PopupOptionDialog.Item(getString(R.string.delete), R.drawable.delete, AppTheme.red)), moreBtn) { index ->
-                if(index == 0) {
-                    showDialog(CustomDialog(this, getString(R.string.delete),
-                            getString(R.string.delete_sub), null) { result, _, _ ->
-                        if(result) delete()
-                    }, true, true, true, false)
+                    arrayOf(PopupOptionDialog.Item(str(R.string.share), R.drawable.share, AppTheme.primaryText),
+                            PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)),
+                    moreBtn) { index ->
+                when(index) {
+                    0 -> {
+                        val shareIntent = Intent(Intent.ACTION_SEND)
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, makeShareContentsByRecord(record))
+                        shareIntent.type = "text/plain"
+                        val chooser = Intent.createChooser(shareIntent, str(R.string.app_name))
+                        startActivityForResult(chooser, RC_SHARE)
+                    }
+                    1 -> {
+                        showDialog(CustomDialog(this, getString(R.string.delete),
+                                getString(R.string.delete_sub), null) { result, _, _ ->
+                            if(result) delete()
+                        }, true, true, true, false)
+                    }
                 }
             }, true, false, true, false)
         }
@@ -512,11 +523,11 @@ class RecordActivity : BaseActivity() {
 
     private fun confirm() {
         if(record.id.isNullOrEmpty() || originalData != record) {
-            if(originalData?.repeat.isNullOrEmpty()) {
+            if(originalData?.isRepeat() == true) {
+                RepeatManager.save(this, record, Runnable { savedFinish() })
+            }else {
                 RecordManager.save(record)
                 savedFinish()
-            }else {
-                RepeatManager.save(this, record, Runnable { savedFinish() })
             }
         }else {
             finish()

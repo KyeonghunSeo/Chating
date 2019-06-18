@@ -40,7 +40,7 @@
                     android:gravity="center_vertical"
                     android:paddingRight="20dp"
                     android:text="Delete"
-                    android:fontFamily="@font/bold"/>
+                    android:fontFamily="@font/regular"/>
 
             </LinearLayout>
 
@@ -67,7 +67,7 @@
                     android:gravity="center_vertical"
                     android:paddingRight="20dp"
                     android:text="Delete"
-                    android:fontFamily="@font/bold"/>
+                    android:fontFamily="@font/regular"/>
 
             </LinearLayout>
 
@@ -94,7 +94,7 @@
                     android:gravity="center_vertical"
                     android:paddingRight="20dp"
                     android:text="Delete"
-                    android:fontFamily="@font/bold"/>
+                    android:fontFamily="@font/regular"/>
 
             </LinearLayout>
 
@@ -121,7 +121,7 @@
                     android:gravity="center_vertical"
                     android:paddingRight="20dp"
                     android:text="Delete"
-                    android:fontFamily="@font/bold"/>
+                    android:fontFamily="@font/regular"/>
 
             </LinearLayout>
 
@@ -148,7 +148,7 @@
                     android:gravity="center_vertical"
                     android:paddingRight="20dp"
                     android:text="Delete"
-                    android:fontFamily="@font/bold"/>
+                    android:fontFamily="@font/regular"/>
 
             </LinearLayout>
 
