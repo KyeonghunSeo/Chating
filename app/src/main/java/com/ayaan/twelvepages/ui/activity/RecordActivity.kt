@@ -197,16 +197,16 @@ class RecordActivity : BaseActivity() {
     }
 
     private fun updateFolderUI() {
-        colorBtn.setColorFilter(record.getColor())
+        val color = record.getColor()
+        val fontColor = AppTheme.getFontColor(color)
+        colorBtn.setColorFilter(color)
 
         if(record.folder?.isCalendar() == true) {
             folderText.text = AppDateFormat.simpleYmdDate.format(Date(record.dtStart))
             folderText.setOnClickListener { showDatePickerDialog() }
-            pinBtn.visibility = View.VISIBLE
         }else {
             folderText.text = record.folder?.name
             folderText.setOnClickListener { showFolderPickerDialog() }
-            pinBtn.visibility = View.GONE
             styleBtn.visibility = View.GONE
         }
 
@@ -215,16 +215,16 @@ class RecordActivity : BaseActivity() {
         }
 
         colorBtn.setOnClickListener {
+            StickerPickerDialog{ index ->
+
+            }.show(supportFragmentManager, null)
+            /*
             val location = IntArray(2)
             colorBtn.getLocationOnScreen(location)
             showDialog(ColorPickerDialog(this, record.colorKey, location) { colorKey ->
                 record.colorKey = colorKey
                 updateFolderUI()
-            }, true, true, true, false)
-        }
-
-        pinBtn.setOnClickListener {
-            updateFolderUI()
+            }, true, true, true, false)*/
         }
 
         styleBtn.setOnClickListener {

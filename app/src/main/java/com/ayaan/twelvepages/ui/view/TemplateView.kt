@@ -74,12 +74,12 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             vibrate(context)
             if(adapter.mode == 0) {
                 adapter.mode = 1
-                editTemplateBtn.setTextColor(AppTheme.blue)
-                editTemplateBtn.text = context.getString(R.string.edit_done)
+                editTemplateBtn.setColorFilter(AppTheme.blue)
+                editTemplateBtn.setImageResource(R.drawable.done)
             }else {
                 adapter.mode = 0
-                editTemplateBtn.setTextColor(AppTheme.primaryText)
-                editTemplateBtn.text = context.getString(R.string.edit_template)
+                editTemplateBtn.setColorFilter(AppTheme.secondaryText)
+                editTemplateBtn.setImageResource(R.drawable.setting)
             }
             adapter.notifyDataSetChanged()
         }
@@ -89,11 +89,11 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun setDate() {
         val folder = MainActivity.getTargetFolder()
         if(folder.isCalendar()) {
-            startDateText.text = folder.name
-            endDateText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis)
+            templateFolderText.text = folder.name
+            templateDateText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis)
         }else {
-            startDateText.text = folder.name
-            endDateText.text = ""
+            templateFolderText.text = folder.name
+            templateDateText.text = ""
         }
     }
 
@@ -157,8 +157,8 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         dateLy.visibility = View.GONE
         controlLy.visibility = View.GONE
         adapter.mode = 0
-        editTemplateBtn.text = context.getString(R.string.edit_template)
-        editTemplateBtn.setTextColor(AppTheme.primaryText)
+        editTemplateBtn.setColorFilter(AppTheme.secondaryText)
+        editTemplateBtn.setImageResource(R.drawable.setting)
         isExpanded = false
     }
 

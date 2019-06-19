@@ -92,7 +92,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         setGlobalTheme(rootLy)
         initRecyclerView()
         clipChildren = false
-        dateText.typeface = AppTheme.boldCFont
+        dateText.typeface = AppTheme.regularCFont
         dowText.typeface = AppTheme.regularFont
         holiText.typeface = AppTheme.regularFont
         dateLy.clipChildren = false
@@ -226,7 +226,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     fun show(dayPager: DayPager) {
         dowText.text = AppDateFormat.dow.format(targetCal.time)
         val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(dayPager, "alpha", 0.9f, 1f),
+        animSet.playTogether(
                 ObjectAnimator.ofFloat(dateLy, "scaleX", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dateLy, "scaleY", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dowText, "scaleX", 1f, dowScale),
@@ -239,14 +239,15 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "translationY", 0f, dowPosY),
                 ObjectAnimator.ofFloat(holiText, "translationX", 0f, holiPosX),
                 ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY),
-                ObjectAnimator.ofFloat(MainActivity.getMainSubDateLy(), "scaleX", 1f, mainMonthScale),
-                ObjectAnimator.ofFloat(MainActivity.getMainSubDateLy(), "scaleY", 1f, mainMonthScale),
-                ObjectAnimator.ofFloat(MainActivity.getMainSubDateLy(), "translationX", 0f, mainMonthX),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", 0f, mainDateLyY),
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationX", 1f, mainDateLyX),
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", 1f, mainDateLyY),
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", 1f, mainDateLyScaleX),
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", 1f, mainDateLyScaleY),
                 ObjectAnimator.ofFloat(bar, "scaleX", 1f, 1f),
+                ObjectAnimator.ofFloat(bar, "scaleY", 1f, 2f),
                 ObjectAnimator.ofFloat(bar, "translationX", 0f, barX),
                 ObjectAnimator.ofFloat(bar, "translationY", 0f, barY))
-        animSet.duration = ANIM_DUR
+        animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
     }
@@ -255,7 +256,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.text = AppDateFormat.dow.format(targetCal.time)
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(dayPager, "alpha", 1f, 0.9f),
+        animSet.playTogether(
                 ObjectAnimator.ofFloat(dateLy, "scaleX", headerTextScale, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleY", headerTextScale, 1f),
                 ObjectAnimator.ofFloat(dowText, "scaleX", dowScale, 1f),
@@ -268,14 +269,15 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "translationY", dowPosY, 0f),
                 ObjectAnimator.ofFloat(holiText, "translationX", holiPosX, 0f),
                 ObjectAnimator.ofFloat(holiText, "translationY", holiPosY, 0f),
-                ObjectAnimator.ofFloat(MainActivity.getMainSubDateLy(), "scaleX", mainMonthScale, 1f),
-                ObjectAnimator.ofFloat(MainActivity.getMainSubDateLy(), "scaleY", mainMonthScale, 1f),
-                ObjectAnimator.ofFloat(MainActivity.getMainSubDateLy(), "translationX", mainMonthX, 0f),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", mainDateLyY, 0f),
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationX", mainDateLyX, 1f),
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", mainDateLyY, 1f),
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", mainDateLyScaleX, 1f),
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", mainDateLyScaleY, 1f),
                 ObjectAnimator.ofFloat(bar, "scaleX", 1f, 1f),
+                ObjectAnimator.ofFloat(bar, "scaleY", 2f, 1f),
                 ObjectAnimator.ofFloat(bar, "translationX", barX, 0f),
                 ObjectAnimator.ofFloat(bar, "translationY", barY, 0f))
-        animSet.duration = ANIM_DUR
+        animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
     }
@@ -295,14 +297,13 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.translationX = holiPosX
         holiText.translationY = holiPosY
         MainActivity.getMainDateLy()?.let {
+            it.translationX = mainDateLyX
             it.translationY = mainDateLyY
-        }
-        MainActivity.getMainSubDateLy()?.let {
-            it.scaleX = mainMonthScale
-            it.scaleY = mainMonthScale
-            it.translationX = mainMonthX
+            it.scaleX = mainDateLyScaleX
+            it.scaleY = mainDateLyScaleY
         }
         bar.scaleX = 1f
+        bar.scaleY = 2f
         bar.translationX = barX
         bar.translationY = barY
 
@@ -323,14 +324,13 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.translationX = 0f
         holiText.translationY = 0f
         MainActivity.getMainDateLy()?.let {
-            it.translationY = 0f
-        }
-        MainActivity.getMainSubDateLy()?.let {
+            it.translationX = 1f
+            it.translationY = 1f
             it.scaleX = 1f
             it.scaleY = 1f
-            it.translationX = 0f
         }
         bar.scaleX = 1f
+        bar.scaleY = 1f
         bar.translationX = 0f
         bar.translationY = 0f
     }
@@ -341,23 +341,26 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             val width = MainActivity.getMainSubDateLy()?.width ?: 0
             l("너비 : " + width)
             ObjectAnimator.ofFloat(bar, "scaleX", bar.scaleX, width / bar.width.toFloat()).start()
-        }, 500)
+        }, 1)
     }
 
     companion object {
         const val headerTextScale = 5.5f
         val weekTextY = -dpToPx(3.0f)
-        val datePosX = dpToPx(16.0f)
-        val datePosY = -dpToPx(1.0f)
+        val datePosX = dpToPx(22.5f)
+        val datePosY = dpToPx(1.0f)
         val dowPosX = dpToPx(1.00f) / headerTextScale
         val dowPosY = dpToPx(9.6f)
         val dowScale = 0.310f
         val holiPosX = dpToPx(15.2f)
         val holiPosY = dpToPx(0.95f)
         val holiScale = 0.32f
-        val mainDateLyY = dpToPx(13.5f)
-        val mainMonthScale = 0.84f
-        val mainMonthX = dpToPx(0.5f)
+        val mainDateLyX = dpToPx(100.0f)
+        val mainDateLyY = dpToPx(20.0f)
+        val mainDateLyScaleX = 0.35f
+        val mainDateLyScaleY = 0.35f
+        val mainMonthScale = 0.33f
+        val mainMonthX = dpToPx(0.33f)
         val barX = dpToPx(100.0f)
         val barY = dpToPx(23.0f)
     }

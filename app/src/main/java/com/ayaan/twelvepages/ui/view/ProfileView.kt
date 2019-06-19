@@ -3,9 +3,11 @@ package com.ayaan.twelvepages.ui.view
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -16,18 +18,22 @@ import androidx.transition.*
 import com.google.firebase.auth.FirebaseAuth
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.AppUser
+import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.AboutUsActivity
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.activity.PremiumActivity
 import com.ayaan.twelvepages.ui.activity.SettingsActivity
 import com.ayaan.twelvepages.ui.dialog.InputDialog
+import io.realm.Realm
 import kotlinx.android.synthetic.main.view_profile.view.*
 
 class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
 
     private val scale = 0.7f
+    private val animDur = 350L
     private val profileCloseMargin = dpToPx(20)
     private val profileOpenMargin = dpToPx(14)
     private val profileOpenTopMargin = dpToPx(70)
@@ -61,14 +67,32 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
+    private fun startAnalytics() {
+        object : AsyncTask<String, String, String?>() {
+            override fun doInBackground(vararg args: String): String? {
+                val realm = Realm.getDefaultInstance()
+                val totalSize = realm.where(Record::class.java).notEqualTo("dtCreated", -1L).count()
+                l("totalSize : $totalSize")
+                realm.close()
+                return null
+            }
+            override fun onProgressUpdate(vararg text: String) {}
+            override fun onPostExecute(result: String?) {
+                if(viewMode == ViewMode.OPENED) {
+
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+    }
+
     fun show() {
         vibrate(context)
+        startAnalytics()
         MainActivity.getProfileBtn()?.let { profileBtn ->
-            profileBtn.setOnClickListener {
-                MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE)
-            }
+            profileBtn.setOnClickListener { MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE) }
             val transiion = makeChangeBounceTransition()
-            transiion.duration = 300L
+            transiion.duration = animDur
             transiion.setPathMotion(ArcMotion())
             transiion.addListener(object : TransitionListenerAdapter(){
                 override fun onTransitionStart(transition: Transition) {
@@ -82,7 +106,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                         animList.add(ObjectAnimator.ofFloat(it, "translationX", 0f, panelOffset))
                     }
                     animSet.playTogether(animList)
-                    animSet.duration = 300L
+                    animSet.duration = animDur
                     animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.start()
                 }
@@ -103,14 +127,14 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         MainActivity.getProfileBtn()?.let { profileBtn ->
             profileBtn.setOnClickListener { show() }
             val transiion = makeChangeBounceTransition()
-            transiion.duration = 300L
+            transiion.duration = animDur
             transiion.setPathMotion(ArcMotion())
             transiion.addListener(object : TransitionListenerAdapter(){
                 override fun onTransitionStart(transition: Transition) {
                     val animSet = AnimatorSet()
                     val animList = ArrayList<Animator>()
                     val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
-                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(18f)))
+                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(20f)))
                     MainActivity.getMainPanel()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", it.scaleX, 1f))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", it.scaleY, 1f))
@@ -119,7 +143,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                         animList.add(ObjectAnimator.ofFloat(it, "elevation", it.elevation, zOffset))
                     }
                     animSet.playTogether(animList)
-                    animSet.duration = 300L
+                    animSet.duration = animDur
                     animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.start()
                 }

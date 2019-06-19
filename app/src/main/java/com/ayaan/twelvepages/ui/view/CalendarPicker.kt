@@ -28,8 +28,8 @@ class CalendarPicker @JvmOverloads constructor(context: Context, attrs: Attribut
     private val weekLys = Array(6) { FrameLayout(context) }
     private val dateLys = Array(6) { LinearLayout(context) }
     private val dateCells = Array(maxCellNum) { FrameLayout(context) }
-    private val dateHeaders = Array(maxCellNum) { DateHeaderViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.view_calendar_picker_date, null, false)) }
+    private val dateHeaders = Array(maxCellNum) {
+        DateHeaderViewHolder(LayoutInflater.from(context).inflate(R.layout.view_calendar_picker_date, null, false)) }
     private val dateInfos = Array(maxCellNum) { DateInfoManager.DateInfo() }
 
     inner class DateHeaderViewHolder(val container: View) {

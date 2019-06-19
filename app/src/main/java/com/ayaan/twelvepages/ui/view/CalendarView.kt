@@ -11,6 +11,7 @@ import android.os.Message
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.DragEvent
+import android.view.Gravity.RIGHT
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -53,8 +54,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val rowDividers = Array(6) { View(context) }
     private val dateLys = Array(6) { LinearLayout(context) }
     val dateCells = Array(maxCellNum) { FrameLayout(context) }
-    private val dateHeaders = Array(maxCellNum) { DateHeaderViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.view_selected_bar, null, false)) }
+    private val dateHeaders = Array(maxCellNum) {
+        DateHeaderViewHolder(LayoutInflater.from(context).inflate(R.layout.view_selected_bar, null, false)) }
     val dateInfos = Array(maxCellNum) { DateInfoManager.DateInfo() }
     val headerView = View(context)
 
@@ -127,12 +128,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         rowDividers.forEachIndexed { index, view ->
             view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt())
-            view.setBackgroundColor(AppTheme.secondaryText)
+            view.setBackgroundColor(AppTheme.lightLine)
         }
 
         columnDividers.forEachIndexed { index, view ->
-            view.layoutParams = LayoutParams(lineWidth.toInt(), 0)
-            view.setBackgroundColor(AppTheme.secondaryText)
+            view.layoutParams = LayoutParams(lineWidth.toInt(), MATCH_PARENT)
+            view.setBackgroundColor(AppTheme.lightLine)
         }
 
         for(i in 0..5) {
@@ -215,6 +216,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 weekLy.visibility = View.VISIBLE
                 for (j in 0..6){
                     val cellNum = i*7 + j
+                    if(AppStatus.weekLine == 0) columnDividers[cellNum].visibility = View.GONE
+                    else columnDividers[cellNum].visibility = View.VISIBLE
                     cellTimeMills[cellNum] = tempCal.timeInMillis
                     val dateInfo = dateInfos[cellNum]
                     DateInfoManager.getHoliday(dateInfo, tempCal)
@@ -226,6 +229,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val bar = dateHeaders[cellNum].bar
                     val color = getDateTextColor(cellNum, dateInfo.holiday?.isHoli == true)
                     val alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
+                    restoreDateHeader(dateHeaders[cellNum])
                     dateText.alpha = alpha
                     dowText.alpha = alpha
                     holiText.alpha = alpha
@@ -244,7 +248,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         calendarEndTime = tempCal.timeInMillis
                     }
                     tempCal.add(Calendar.DATE, 1)
-                    columnDividers[cellNum].translationX = minWidth * j
+                    columnDividers[cellNum].translationX = minWidth * j - lineWidth
                 }
             }else {
                 weekLy.visibility = View.GONE
@@ -289,13 +293,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         dateText.typeface = AppTheme.regularCFont
         holiText.typeface = AppTheme.regularFont
         holiText.text = dateInfos[cellNum].getUnSelectedString()
+        dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
         offViewEffect(cellNum)
         lastUnSelectDateAnimSet?.cancel()
         lastUnSelectDateAnimSet = AnimatorSet()
         lastUnSelectDateAnimSet?.let {
             it.addListener(object : AnimatorListenerAdapter(){
                 override fun onAnimationCancel(animation: Animator?) { restoreDateHeader(dateHeaders[cellNum]) } })
-            it.playTogether(ObjectAnimator.ofFloat(bar, "scaleX", 1f, 0f))
+            it.playTogether(ObjectAnimator.ofFloat(bar, "scaleX", bar.scaleX, 0f))
             it.interpolator = FastOutSlowInInterpolator()
             it.duration = animDur
             it.start()
@@ -327,10 +332,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dateText = dateHeaders[cellNum].dateText
             val dowText = dateHeaders[cellNum].dowText
             val holiText = dateHeaders[cellNum].holiText
-            dateText.typeface = AppTheme.boldCFont
+            dateText.typeface = AppTheme.regularCFont
             holiText.typeface = AppTheme.regularFont
             holiText.text = dateInfos[cellNum].getSelectedString()
             dowText.text = AppDateFormat.dow.format(targetCal.time)
+            dateText.alpha = 1f
             if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
             lastSelectDateAnimSet?.cancel()
             lastSelectDateAnimSet = AnimatorSet()
@@ -362,8 +368,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun restoreDateHeader(holder: DateHeaderViewHolder) {
         holder.bar.scaleX = 0f
-        holder.dateLy.scaleX = 1f
-        holder.dateLy.scaleY = 1f
+        holder.holiText.alpha = 1f
+        holder.holiText.translationX = 0f
+        holder.dowText.visibility = View.GONE
     }
 
     private fun onViewEffect(cellNum: Int) {

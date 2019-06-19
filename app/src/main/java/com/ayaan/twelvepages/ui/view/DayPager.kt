@@ -26,7 +26,7 @@ import java.util.*
 
 class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CardView(context, attrs, defStyleAttr) {
-    val startZ = dpToPx(4f)
+    val startZ = dpToPx(10f)
     var viewMode = ViewMode.CLOSED
     var onVisibility: ((Boolean) -> Unit)? = null
 
@@ -85,8 +85,8 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     fun initTime(time: Long) {
-        viewPager.setCurrentItem(startPosition, false)
         initCal.timeInMillis = time
+        viewPager.setCurrentItem(startPosition, false)
         dayViews[(startPosition - 1) % viewCount].initTime(time - DAY_MILL)
         dayViews[(startPosition) % viewCount].initTime(time)
         dayViews[(startPosition + 1) % viewCount].initTime(time + DAY_MILL)
@@ -104,25 +104,23 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     fun show() {
         viewMode = ViewMode.ANIMATING
         visibility = View.VISIBLE
-        alpha = 0.9f
         initTime(MainActivity.getTargetCal()?.timeInMillis ?: System.currentTimeMillis())
-
         MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)
-            layoutParams = LayoutParams(dateCell.width, dateCell.height).apply {
+            layoutParams = LayoutParams(dateCell.width, CalendarView.dataStartYOffset.toInt()).apply {
                 val xPos = location[0] + if(MainActivity.isFolderOpen()) -MainActivity.tabSize else 0
                 val yPos = location[1] - AppStatus.statusBarHeight
                 setMargins(xPos, yPos, 0, 0)
             }
-
             val animSet = AnimatorSet()
             animSet.playTogether(ObjectAnimator.ofFloat(this@DayPager, "elevation", 0f, startZ))
-            animSet.duration = 100
+            animSet.duration = 100L
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.addListener(object : AnimatorListenerAdapter(){
                 override fun onAnimationEnd(p0: Animator?) {
                     val transiion = makeChangeBounceTransition()
+                    transiion.duration = 300L
                     transiion.addListener(object : TransitionListenerAdapter(){
                         override fun onTransitionEnd(transition: Transition) {
                             dayViews.forEach { it.setDateOpenedStyle() }
@@ -153,10 +151,10 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             elevation = startZ
             viewMode = ViewMode.ANIMATING
             viewPager.setPagingEnabled(false)
-
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)
             val transiion = makeChangeBounceTransition()
+            transiion.duration = 300L
             transiion.addListener(object : TransitionListenerAdapter(){
                 override fun onTransitionEnd(transition: Transition) {
                     val animSet = AnimatorSet()
@@ -180,7 +178,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             TransitionManager.beginDelayedTransition(this, transiion)
             (layoutParams as FrameLayout.LayoutParams).let {
                 it.width = dateCell.width
-                it.height = dateCell.height
+                it.height = CalendarView.dataStartYOffset.toInt()
                 val xPos = location[0] + if(MainActivity.isFolderOpen()) -MainActivity.tabSize else 0
                 val yPos = location[1] - AppStatus.statusBarHeight
                 it.setMargins(xPos, yPos, 0, 0)

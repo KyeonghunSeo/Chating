@@ -98,6 +98,8 @@
                 android:layout_weight="1"
                 android:textColor="@color/primaryText"
                 android:fontFamily="@font/thin"
+                android:maxLines="5"
+                android:ellipsize="end"
                 android:textSize="12dp"
                 android:hint="@string/motto"
                 android:text="@string/motto_sample"

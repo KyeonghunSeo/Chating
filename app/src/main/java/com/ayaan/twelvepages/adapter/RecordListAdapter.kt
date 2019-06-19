@@ -38,7 +38,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                         val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val circlePadding = dpToPx(21)
+    val circlePadding = dpToPx(15)
     val checkBoxPadding = dpToPx(15)
     val tempCal = Calendar.getInstance()
     var itemTouchHelper: ItemTouchHelper? = null
