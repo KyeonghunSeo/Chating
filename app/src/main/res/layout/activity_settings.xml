@@ -93,6 +93,7 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/checkedRecordDisplayBtn"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="?android:attr/selectableItemBackground">
@@ -107,11 +108,12 @@
                     android:textSize="14dp"/>
 
                 <TextView
+                    android:id="@+id/checkedRecordDisplayText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
-                    android:text="@string/check_option_3"
+                    android:text="@string/check_option_0"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
                     android:textSize="14dp"/>
@@ -179,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
-                    android:text="@string/check_option_3"
+                    android:text="@string/check_option_0"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
                     android:textSize="14dp"/>
@@ -207,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
-                    android:text="@string/check_option_3"
+                    android:text="@string/check_option_0"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
                     android:textSize="14dp"/>
@@ -235,7 +237,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
-                    android:text="@string/check_option_3"
+                    android:text="@string/check_option_0"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
                     android:textSize="14dp"/>
@@ -263,7 +265,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
-                    android:text="@string/check_option_3"
+                    android:text="@string/check_option_0"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
                     android:textSize="14dp"/>
@@ -315,7 +317,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
-                    android:text="@string/check_option_3"
+                    android:text="@string/check_option_0"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
                     android:textSize="14dp"/>
@@ -343,7 +345,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
-                    android:text="@string/check_option_3"
+                    android:text="@string/check_option_0"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
                     android:textSize="14dp"/>

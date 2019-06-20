@@ -197,7 +197,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         (headerLy.layoutParams as LayoutParams).let {
             it.width = dpToPx(50)
             it.height = dpToPx(50)
-            it.setMargins(dpToPx(10), dpToPx(10), 0, 0)
+            it.setMargins(0, dpToPx(15), dpToPx(10), 0)
         }
         headerLy.requestLayout()
         viewMode = ViewMode.CLOSED

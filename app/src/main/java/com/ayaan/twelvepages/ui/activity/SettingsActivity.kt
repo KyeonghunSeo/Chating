@@ -3,7 +3,6 @@ package com.ayaan.twelvepages.ui.activity
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.widget.NestedScrollView
 import com.ayaan.twelvepages.*
@@ -21,6 +20,8 @@ import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
 
 class SettingsActivity : BaseActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -30,18 +31,8 @@ class SettingsActivity : BaseActivity() {
 
     private fun initLayout() {
         backBtn.setOnClickListener { onBackPressed() }
-
-        var lastY = 0
-        mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, y: Int, _: Int, _: Int ->
-            /*
-            if(y > lastY) {
-                headerLy.translationY = -Math.min(y, headerLy.height).toFloat()
-            }else {
-                headerLy.translationY = Math.min(0f, headerLy.translationY + (y - lastY))
-            }
-            lastY = y*/
-        }
-
+        mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, y: Int, _: Int, _: Int -> }
+        setCheckedRecordDisplay()
         setDefaultAlarmTime()
         setConnectOsCalendar()
 
@@ -61,6 +52,24 @@ class SettingsActivity : BaseActivity() {
                 setResult(RESULT_CALENDAR_SETTING)
                 finish()
             }
+        }
+    }
+
+    private fun setCheckedRecordDisplay() {
+        when(AppStatus.calTextSize) {
+            0 -> checkedRecordDisplayText.text = str(R.string.check_option_0)
+            1 -> checkedRecordDisplayText.text = str(R.string.check_option_1)
+            2 -> checkedRecordDisplayText.text = str(R.string.check_option_2)
+        }
+        checkedRecordDisplayBtn.setOnClickListener {
+            when(AppStatus.calTextSize) {
+                -1 -> AppStatus.calTextSize = 0
+                0 -> AppStatus.calTextSize = 1
+                1 -> AppStatus.calTextSize = -1
+            }
+            Prefs.putInt("calTextSize", AppStatus.calTextSize)
+            setCheckedRecordDisplay()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
         }
     }
 

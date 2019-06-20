@@ -53,8 +53,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:animateLayoutChanges="true"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginLeft="25dp">
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp">
 
                         <TextView
                             android:id="@+id/mainMonthText"
@@ -63,7 +63,7 @@
                             android:background="?android:attr/selectableItemBackground"
                             android:textColor="@color/primaryText"
                             android:includeFontPadding="false"
-                            android:textSize="72dp"
+                            android:textSize="60dp"
                             android:fontFamily="@font/regular_c"/>
 
                         <LinearLayout
@@ -71,7 +71,7 @@
                             android:orientation="horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
+                            android:layout_marginTop="12dp"
                             android:layout_marginLeft="7dp">
 
                             <TextView
@@ -82,7 +82,7 @@
                                 android:background="?android:attr/selectableItemBackground"
                                 android:textColor="@color/primaryText"
                                 android:includeFontPadding="false"
-                                android:textSize="20dp"
+                                android:textSize="18dp"
                                 android:fontFamily="@font/regular_c"/>
 
                             <LinearLayout
@@ -100,7 +100,7 @@
                                     android:background="?android:attr/selectableItemBackground"
                                     android:includeFontPadding="false"
                                     android:textColor="@color/primaryText"
-                                    android:textSize="20dp"
+                                    android:textSize="18dp"
                                     android:fontFamily="@font/regular_c"/>
 
                             </LinearLayout>
@@ -138,7 +138,7 @@
             android:id="@+id/todayBtn"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="20dp"
             android:layout_gravity="center_horizontal|bottom"
             android:outlineSpotShadowColor="@color/secondaryText"
             android:foreground="?android:attr/selectableItemBackground"
@@ -189,7 +189,7 @@
             android:layout_width="75dp"
             android:layout_height="60dp"
             android:layout_marginLeft="-40dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="10dp"
             android:layout_gravity="bottom">
 
             <androidx.cardview.widget.CardView
@@ -327,8 +327,8 @@
         android:layout_height="50dp"
         android:layout_gravity="right"
         android:elevation="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginTop="17dp"
+        android:layout_marginRight="17dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/profileCard"

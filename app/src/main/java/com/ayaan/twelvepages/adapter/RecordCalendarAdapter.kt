@@ -321,8 +321,8 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
 
     fun getViews(cellNum: Int) : List<RecordView> {
         val result = ArrayList<RecordView>()
-        viewHolderList.filter { it.startCellNum == cellNum }.forEach { viewHolder ->
-            viewHolder.items.let { result.addAll(it) }
+        viewHolderList.filter { cellNum in it.startCellNum..it.endCellNum }.forEach { holder ->
+            holder.items.filter { it.cellNum == cellNum }.forEach { result.add(it) }
         }
         return result
     }

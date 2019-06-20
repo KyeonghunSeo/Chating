@@ -224,7 +224,9 @@
     <string name="calendar">캘린더</string>
     <string name="folder">폴더</string>
     <string name="check_option">완료된 기록 표시방법</string>
-    <string name="check_option_3">흐리게만</string>
+    <string name="check_option_0">삭제선</string>
+    <string name="check_option_1">흐리게</string>
+    <string name="check_option_2">삭제선 및 흐리게</string>
     <string name="display_settings">인터페이스</string>
     <string name="hide_in_calendar">캘린더에서 숨김</string>
     <string name="record">기록</string>

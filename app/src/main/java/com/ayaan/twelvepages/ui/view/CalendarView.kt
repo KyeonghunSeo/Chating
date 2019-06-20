@@ -42,7 +42,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val calendarPadding = dpToPx(19)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
-        val lineWidth = dpToPx(1.0f)
+        val lineWidth = dpToPx(0.5f)
         val dataStartYOffset = dpToPx(33f)
         val headerHeight = dpToPx(100)
     }
@@ -128,12 +128,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         rowDividers.forEachIndexed { index, view ->
             view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt())
-            view.setBackgroundColor(AppTheme.lightLine)
+            view.setBackgroundColor(AppTheme.line)
         }
 
         columnDividers.forEachIndexed { index, view ->
-            view.layoutParams = LayoutParams(lineWidth.toInt(), MATCH_PARENT)
-            view.setBackgroundColor(AppTheme.lightLine)
+            view.layoutParams = LayoutParams(lineWidth.toInt(), 0)
+            view.setBackgroundColor(AppTheme.line)
         }
 
         for(i in 0..5) {

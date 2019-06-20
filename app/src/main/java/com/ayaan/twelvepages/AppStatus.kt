@@ -14,6 +14,7 @@ object AppStatus {
     var calTextSize = 0
     var weekLine = 0
     var isWeekNumDisplay = true
+    var checkedRecordDisplay = 0
 
     fun init(context: Context) {
         startDayOfWeek = Prefs.getInt("startDayOfWeek", Calendar.SUNDAY)

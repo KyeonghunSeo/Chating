@@ -116,7 +116,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             RANGE -> {
                 typeface = AppTheme.boldFont
                 text = record.getTitleInCalendar()
-                gravity = Gravity.CENTER_HORIZONTAL
+                gravity = Gravity.CENTER
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
                 maxLines = 1
@@ -295,11 +295,13 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         paint.color = paintColor
         canvas.translate(scrollX.toFloat(), 0f)
         val space = textSpaceWidth + if(record.isSetCheckBox()) checkboxSize else 0
-        var textLPos = width / 2 - space / 2 - defaulMargin
         val sPadding = sidePadding * 3
-        if(textLPos < sPadding) textLPos = sPadding.toFloat()
-        var textRPos = width / 2 + space / 2 + defaulMargin
-        if(textRPos > width - sPadding) textRPos = width - sPadding.toFloat()
+
+        var textLPos = width / 2 - space / 2 - defaulMargin * 2
+        if(textLPos < sPadding) textLPos = sPadding - defaulMargin * 2
+        var textRPos = width / 2 + space / 2 + defaulMargin * 2
+        if(textRPos > width - sPadding) textRPos = width - sPadding.toFloat() + defaulMargin * 2
+
         when(shape){
             Shape.RECT_FILL -> {
                 val arrowSize = (strokeWidth * 5f).toInt()
@@ -328,7 +330,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 drawArrow(canvas, width, height, width - arrowSize, height - arrowSize, width - arrowSize, height)
             }
             else -> {
-                val periodLine = strokeWidth * 1.5f
+                val periodLine = strokeWidth * 1.2f
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = periodLine
                 if(shape == Shape.DASH || shape == Shape.DASH_ARROW) {
@@ -341,12 +343,13 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 paint.style = Paint.Style.FILL
 
                 if(shape == Shape.ARROW || shape == Shape.DASH_ARROW) {
-                    val arrowSize = (periodLine * 3.0f).toInt()
-                    drawArrow(canvas, 0, height / 2, arrowSize, height / 2 - arrowSize, arrowSize, height / 2  + arrowSize)
-                    drawArrow(canvas, width, height / 2, width - arrowSize, height / 2 - arrowSize, width - arrowSize, height / 2  + arrowSize)
+                    val arrowSize = (periodLine * 3.5f).toInt()
+                    val arrowWidth = (periodLine * 3.0f).toInt()
+                            drawArrow(canvas, 0, height / 2, arrowWidth, height / 2 - arrowSize, arrowWidth, height / 2  + arrowSize)
+                    drawArrow(canvas, width, height / 2, width - arrowWidth, height / 2 - arrowSize, width - arrowWidth, height / 2  + arrowSize)
                 }else {
-                    canvas.drawRect(0f, height / 2f - periodLine * 3.0f, periodLine, height / 2f + periodLine * 3.0f, paint)
-                    canvas.drawRect(width - periodLine, height / 2f - periodLine * 3.0f, width.toFloat(), height / 2f + periodLine * 3.0f, paint)
+                    canvas.drawRect(0f, height / 2f - periodLine * 3.0f, periodLine * 1.2f, height / 2f + periodLine * 3.0f, paint)
+                    canvas.drawRect(width - periodLine * 1.2f, height / 2f - periodLine * 3.0f, width.toFloat(), height / 2f + periodLine * 3.0f, paint)
                 }
             }
         }

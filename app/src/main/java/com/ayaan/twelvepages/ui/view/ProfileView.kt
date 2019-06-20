@@ -34,9 +34,9 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private val scale = 0.7f
     private val animDur = 350L
-    private val profileCloseMargin = dpToPx(20)
-    private val profileOpenMargin = dpToPx(14)
-    private val profileOpenTopMargin = dpToPx(70)
+    private val profileCloseMargin = dpToPx(17)
+    private val profileOpenMargin = dpToPx(7)
+    private val profileOpenTopMargin = dpToPx(7)
     private val profileBtnSize = dpToPx(50)
     private val zOffset = dpToPx(30f)
     private val panelOffset = dpToPx(200f)
@@ -90,6 +90,8 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         vibrate(context)
         startAnalytics()
         MainActivity.getProfileBtn()?.let { profileBtn ->
+            profileBtn.pivotX = 0f
+            profileBtn.pivotY = 0f
             profileBtn.setOnClickListener { MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE) }
             val transiion = makeChangeBounceTransition()
             transiion.duration = animDur
@@ -99,7 +101,8 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     val animSet = AnimatorSet()
                     val animList = ArrayList<Animator>()
                     val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
-                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(68f)))
+                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX", 1f, 3.5f))
+                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY", 1f, 3.5f))
                     MainActivity.getMainPanel()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))
@@ -113,8 +116,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             })
             TransitionManager.beginDelayedTransition(profileBtn, transiion)
             (profileBtn.layoutParams as LayoutParams).let {
-                it.width = profileBtnSize * 3
-                it.height = profileBtnSize * 3
                 it.gravity = Gravity.LEFT
                 it.setMargins(profileOpenMargin, profileOpenTopMargin, 0, 0)
             }
@@ -134,7 +135,8 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     val animSet = AnimatorSet()
                     val animList = ArrayList<Animator>()
                     val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
-                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(20f)))
+                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX", 3.5f, 1f))
+                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY", 3.5f, 1f))
                     MainActivity.getMainPanel()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", it.scaleX, 1f))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", it.scaleY, 1f))
@@ -150,8 +152,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             })
             TransitionManager.beginDelayedTransition(profileBtn, transiion)
             (profileBtn.layoutParams as LayoutParams).let {
-                it.width = profileBtnSize
-                it.height = profileBtnSize
                 it.gravity = Gravity.RIGHT
                 it.setMargins(0, profileCloseMargin, profileCloseMargin, 0)
             }

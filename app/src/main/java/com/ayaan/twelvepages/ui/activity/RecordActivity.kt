@@ -215,16 +215,17 @@ class RecordActivity : BaseActivity() {
         }
 
         colorBtn.setOnClickListener {
+            /*
             StickerPickerDialog{ index ->
 
             }.show(supportFragmentManager, null)
-            /*
+            */
             val location = IntArray(2)
             colorBtn.getLocationOnScreen(location)
             showDialog(ColorPickerDialog(this, record.colorKey, location) { colorKey ->
                 record.colorKey = colorKey
                 updateFolderUI()
-            }, true, true, true, false)*/
+            }, true, true, true, false)
         }
 
         styleBtn.setOnClickListener {
@@ -647,7 +648,7 @@ class RecordActivity : BaseActivity() {
                                     val ref = FirebaseStorage.getInstance().reference
                                             .child("${FirebaseAuth.getInstance().uid}/$imageId.jpg")
                                     val baos = ByteArrayOutputStream()
-                                    resource.compress(Bitmap.CompressFormat.JPEG, 25, baos)
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 50, baos)
                                     val uploadTask = ref.putBytes(baos.toByteArray())
                                     uploadTask.addOnFailureListener {
                                         hideProgressDialog()

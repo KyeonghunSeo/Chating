@@ -19,7 +19,7 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:layout_marginLeft="25dp">
 
         <TextView
@@ -29,7 +29,7 @@
             android:gravity="center_vertical"
             android:textColor="@color/primaryText"
             android:fontFamily="@font/bold"
-            android:textSize="32dp"
+            android:textSize="30dp"
             android:text="2018"/>
 
         <com.ayaan.twelvepages.ui.view.base.Line
@@ -46,7 +46,7 @@
             android:layout_marginTop="20dp"
             android:textColor="@color/primaryText"
             android:fontFamily="@font/regular"
-            android:textSize="24dp"
+            android:textSize="22dp"
             android:text="2019"/>
 
     </LinearLayout>
@@ -90,7 +90,7 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom|right"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="20dp"
         android:outlineSpotShadowColor="@color/secondaryText"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/background"

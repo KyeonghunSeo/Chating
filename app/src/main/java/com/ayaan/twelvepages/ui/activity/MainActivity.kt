@@ -373,7 +373,7 @@ class MainActivity : BaseActivity() {
         when {
             FirebaseAuth.getInstance().currentUser?.photoUrl != null ->
                 Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl)
-                    .apply(RequestOptions().override(dpToPx(90)))
+                    .apply(RequestOptions().override(dpToPx(190)))
                     .into(profileImg)
             else -> profileImg.setImageResource(R.drawable.profile)
         }
@@ -534,7 +534,7 @@ class MainActivity : BaseActivity() {
                                 val ref = FirebaseStorage.getInstance().reference
                                         .child("${viewModel.appUser.value?.id}/profileImg.jpg")
                                 val baos = ByteArrayOutputStream()
-                                resource.compress(Bitmap.CompressFormat.JPEG, 25, baos)
+                                resource.compress(Bitmap.CompressFormat.JPEG, 90, baos)
                                 val uploadTask = ref.putBytes(baos.toByteArray())
                                 uploadTask.addOnFailureListener {
                                     hideProgressDialog()
