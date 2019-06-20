@@ -3,167 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <FrameLayout
-        android:id="@+id/contentLy"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:elevation="20dp">
+        android:layout_marginTop="20dp"
+        app:cardElevation="10dp">
 
-        <LinearLayout
-            android:id="@+id/btnsLy"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="160dp">
+        </androidx.viewpager.widget.ViewPager>
 
-            <ImageView
-                android:id="@+id/colorBtn0"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:padding="14dp"
-                android:src="@drawable/normal_rect_fill"
-                android:tint="@color/primaryText"
-                android:background="?android:attr/selectableItemBackground"/>
+    </androidx.cardview.widget.CardView>
 
-            <ImageView
-                android:id="@+id/colorBtn1"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:padding="14dp"
-                android:src="@drawable/normal_rect_fill"
-                android:tint="@color/primaryText"
-                android:background="?android:attr/selectableItemBackground"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:elevation="10dp">
+    </androidx.recyclerview.widget.RecyclerView>
 
-            <ImageView
-                android:id="@+id/colorBtn2"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:padding="14dp"
-                android:src="@drawable/normal_rect_fill"
-                android:tint="@color/primaryText"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <ImageView
-                android:id="@+id/colorBtn3"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:padding="14dp"
-                android:src="@drawable/normal_rect_fill"
-                android:tint="@color/primaryText"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <ImageView
-                android:id="@+id/colorBtn4"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:padding="14dp"
-                android:src="@drawable/normal_rect_fill"
-                android:tint="@color/primaryText"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <ImageView
-                android:id="@+id/colorBtn5"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:padding="14dp"
-                android:src="@drawable/normal_rect_fill"
-                android:tint="@color/primaryText"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <ImageView
-                android:id="@+id/colorBtn6"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:padding="14dp"
-                android:src="@drawable/normal_rect_fill"
-                android:tint="@color/primaryText"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <ImageView
-                android:id="@+id/colorBtn7"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:padding="14dp"
-                android:src="@drawable/normal_rect_fill"
-                android:tint="@color/primaryText"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <ImageView
-                android:id="@+id/colorBtn8"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:padding="14dp"
-                android:src="@drawable/normal_rect_fill"
-                android:tint="@color/primaryText"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <ImageView
-                android:id="@+id/colorBtn9"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:padding="14dp"
-                android:src="@drawable/normal_rect_fill"
-                android:tint="@color/primaryText"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <ImageView
-                android:id="@+id/colorBtn10"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:padding="14dp"
-                android:src="@drawable/normal_rect_fill"
-                android:tint="@color/primaryText"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <FrameLayout
-                android:id="@+id/changeBtn"
-                android:orientation="horizontal"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/change_palette"
-                    android:tint="@color/secondaryText"/>
-
-            </FrameLayout>
-
-        </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/pagerLy"
-            android:layout_width="220dp"
-            android:layout_height="440dp"
-            android:layout_marginLeft="80dp">
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </androidx.viewpager.widget.ViewPager>
-
-            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                android:id="@+id/pagerIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="15dp"
-                app:dotsColor="@color/white"
-                app:dotsCornerRadius="0dp"
-                app:dotsSize="3dp"
-                app:dotsSpacing="3dp"
-                app:dotsWidthFactor="2.5"
-                app:selectedDotColor="@color/white"
-                app:progressMode="true" />
-
-        </FrameLayout>
-
-    </FrameLayout>
+    <com.ayaan.twelvepages.ui.view.base.Line
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="40dp"
+        android:elevation="10dp"
+        app:colorFlag="disable"/>
 
 </FrameLayout>

@@ -1,6 +1,5 @@
 package com.ayaan.twelvepages.ui.dialog
 
-import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
@@ -87,7 +86,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
         colorBtn.setOnClickListener {
             val location = IntArray(2)
             colorImg.getLocationOnScreen(location)
-            showDialog(ColorPickerDialog(activity, recordView.record.colorKey, location) { colorKey ->
+            showDialog(SmallColorPickerDialog(activity, recordView.record.colorKey, location) { colorKey ->
                 recordView.record.colorKey = colorKey
                 subRecordView.record.colorKey = colorKey
                 colorImg.setColorFilter(AppTheme.getColor(colorKey))

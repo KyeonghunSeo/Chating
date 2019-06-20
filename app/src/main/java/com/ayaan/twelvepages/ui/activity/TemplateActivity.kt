@@ -168,7 +168,7 @@ class TemplateActivity : BaseActivity() {
         colorBtn.setOnClickListener {
             val location = IntArray(2)
             colorImg.getLocationOnScreen(location)
-            showDialog(ColorPickerDialog(this@TemplateActivity, template.colorKey, location) { colorKey ->
+            showDialog(SmallColorPickerDialog(this@TemplateActivity, template.colorKey, location) { colorKey ->
                 template.colorKey = colorKey
                 updateColorUI()
             }, true, true, true, false)

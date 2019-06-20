@@ -154,7 +154,11 @@ object AppDateFormat {
 
             dowString = resource.getStringArray(R.array.day_of_weeks)
             dowEngString = resource.getStringArray(R.array.day_of_weeks_eng)
-            simpleDow = SimpleDateFormat("E")
+            simpleDow = if (language == "ko") {
+                SimpleDateFormat("E요일")
+            } else {
+                SimpleDateFormat("E")
+            }
 
             dow = if (language == "ko") {
                 SimpleDateFormat("E요일")

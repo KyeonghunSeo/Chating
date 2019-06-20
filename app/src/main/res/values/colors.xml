@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#303033</color>
-    <color name="colorAccent">#303033</color>
+    <color name="colorPrimary">#383838</color>
+    <color name="colorAccent">#383838</color>
 
     <color name="background">#ffffff</color>
     <color name="backgroundDark">#eeeeee</color>
     <color name="whiteAlpha">#ccffffff</color>
     <color name="dim">#90000000</color>
 
-    <color name="primaryText">#303033</color>
+    <color name="primaryText">#383838</color>
     <color name="secondaryText">#606066</color>
     <color name="disableText">#e4e4e4</color>
     <color name="line">#d4d4d4</color>
@@ -17,54 +17,48 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="red">#d50000</color>
-    <color name="blue">#3f51b5</color>
+    <color name="red">#f6554d</color>
+    <color name="blue">#009cc6</color>
     <color name="grey">#e4e7ef</color>
     <color name="transparent">#00000000</color>
 
     <string-array name="colors">
-        <item>#d50000</item>
-        <item>#f4511e</item>
-        <item>#e67c73</item>
-        <item>#f6bf26</item>
+        <item>#f6554d</item>
+        <item>#ff7350</item>
+        <item>#f69f98</item>
+        <item>#ffd159</item>
         <item>#33b679</item>
-        <item>#0b8043</item>
-        <item>#039be5</item>
-        <item>#3f51b5</item>
-        <item>#7986cb</item>
-        <item>#8e24aa</item>
-        <item>#616161</item>
-        <item>#c8c6c6</item>
+        <item>#009a59</item>
+        <item>#53cae5</item>
+        <item>#009cc6</item>
+        <item>#a17ac6</item>
+        <item>#383838</item>
+    </string-array>
+
+    <string-array name="colors_spring">
+        <item>#EC748F</item>
+        <item>#E7D06C</item>
+        <item>#9B7C56</item>
+        <item>#EAE8F1</item>
+        <item>#406918</item>
+        <item>#E3A5CA</item>
+        <item>#84B158</item>
+        <item>#FAFAF7</item>
+        <item>#A1B587</item>
+        <item>#000000</item>
     </string-array>
 
     <string-array name="colors_summer">
-        <item>#e4f2f5</item>
-        <item>#acc4e0</item>
-        <item>#b8de62</item>
-        <item>#4e8784</item>
-        <item>#a9babe</item>
+        <item>#0C74B4</item>
+        <item>#30C1E0</item>
+        <item>#CEC9A9</item>
+        <item>#2E2F28</item>
+        <item>#2A798E</item>
         <item>#6cb1ea</item>
         <item>#647b30</item>
         <item>#14625e</item>
         <item>#6a797c</item>
         <item>#3988c7</item>
-        <item>#3b4d12</item>
-        <item>#012f20</item>
-    </string-array>
-
-    <string-array name="font_colors">
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
-        <item>#FFFFFFFF</item>
     </string-array>
 
 </resources>

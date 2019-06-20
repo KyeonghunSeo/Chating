@@ -234,7 +234,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     dowText.alpha = alpha
                     holiText.alpha = alpha
 
-                    dateText.text = String.format("%02d", tempCal.get(Calendar.DATE))
+                    dateText.text = String.format("%01d", tempCal.get(Calendar.DATE))
                     dateText.setTextColor(color)
                     holiText.setTextColor(color)
                     dowText.setTextColor(color)
@@ -335,7 +335,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateText.typeface = AppTheme.regularCFont
             holiText.typeface = AppTheme.regularFont
             holiText.text = dateInfos[cellNum].getSelectedString()
-            dowText.text = AppDateFormat.dow.format(targetCal.time)
+            dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
             dateText.alpha = 1f
             if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
             lastSelectDateAnimSet?.cancel()

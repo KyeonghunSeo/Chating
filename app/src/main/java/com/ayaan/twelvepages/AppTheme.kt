@@ -64,42 +64,9 @@ object AppTheme {
     }
 
     enum class ColorPalette(val titleId: Int, val coverImgId: Int, val colors: Array<Int>){
-        BASIC(R.string.default_color_palette_name, R.drawable.color_palette_0,
-                arrayOf(Color.parseColor("#303033"),
-                        Color.parseColor("#d50000"),
-                        Color.parseColor("#f4511e"),
-                        Color.parseColor("#e67c73"),
-                        Color.parseColor("#f6bf26"),
-                        Color.parseColor("#33b679"),
-                        Color.parseColor("#0b8043"),
-                        Color.parseColor("#039be5"),
-                        Color.parseColor("#3f51b5"),
-                        Color.parseColor("#7986cb"),
-                        Color.parseColor("#8e24aa"))),
-        SPRING(R.string.apring, R.drawable.color_palette_1,
-                arrayOf(Color.parseColor("#EC748F"),
-                        Color.parseColor("#E7D06C"),
-                        Color.parseColor("#9B7C56"),
-                        Color.parseColor("#EAE8F1"),
-                        Color.parseColor("#E39EA5"),
-                        Color.parseColor("#406918"),
-                        Color.parseColor("#E3A5CA"),
-                        Color.parseColor("#84B158"),
-                        Color.parseColor("#FAFAF7"),
-                        Color.parseColor("#A1B587"),
-                        Color.parseColor("#000000"))),
-        SUMMER(R.string.summer, R.drawable.color_palette_2,
-                arrayOf(Color.parseColor("#0C74B4"),
-                        Color.parseColor("#30C1E0"),
-                        Color.parseColor("#CEC9A9"),
-                        Color.parseColor("#2E2F28"),
-                        Color.parseColor("#2A798E"),
-                        Color.parseColor("#6cb1ea"),
-                        Color.parseColor("#647b30"),
-                        Color.parseColor("#14625e"),
-                        Color.parseColor("#6a797c"),
-                        Color.parseColor("#3988c7"),
-                        Color.parseColor("#012f20"))),
+        BASIC(R.string.default_color_palette_name, R.drawable.color_palette_0, resource.getStringArray(R.array.colors).map { Color.parseColor(it) }.toTypedArray()),
+        SPRING(R.string.apring, R.drawable.color_palette_1, resource.getStringArray(R.array.colors_spring).map { Color.parseColor(it) }.toTypedArray()),
+        SUMMER(R.string.summer, R.drawable.color_palette_2, resource.getStringArray(R.array.colors_summer).map { Color.parseColor(it) }.toTypedArray()),
         FALL(R.string.fall, R.drawable.color_palette_3,
                 arrayOf(Color.parseColor("#CF9667"),
                         Color.parseColor("#5F261E"),
@@ -126,7 +93,7 @@ object AppTheme {
                         Color.parseColor("#000000")))
     }
 
-    val colorPaletteSize = 11
+    val colorPaletteSize = 10
     var colorPalette = ColorPalette.values()[Prefs.getInt("colorPalette", 0)]
 
     fun getColor(colorKey: Int) = ColorPalette.values()[colorKey / colorPaletteSize].colors[colorKey % colorPaletteSize]

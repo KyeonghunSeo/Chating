@@ -215,17 +215,17 @@ class RecordActivity : BaseActivity() {
         }
 
         colorBtn.setOnClickListener {
-            /*
-            StickerPickerDialog{ index ->
+            ColorPickerDialog{ index ->
 
             }.show(supportFragmentManager, null)
-            */
+            /*
             val location = IntArray(2)
             colorBtn.getLocationOnScreen(location)
-            showDialog(ColorPickerDialog(this, record.colorKey, location) { colorKey ->
+            showDialog(SmallColorPickerDialog(this, record.colorKey, location) { colorKey ->
                 record.colorKey = colorKey
                 updateFolderUI()
             }, true, true, true, false)
+            */
         }
 
         styleBtn.setOnClickListener {

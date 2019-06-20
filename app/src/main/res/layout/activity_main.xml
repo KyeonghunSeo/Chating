@@ -53,7 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:animateLayoutChanges="true"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginLeft="20dp">
 
                         <TextView
@@ -63,7 +63,7 @@
                             android:background="?android:attr/selectableItemBackground"
                             android:textColor="@color/primaryText"
                             android:includeFontPadding="false"
-                            android:textSize="60dp"
+                            android:textSize="70dp"
                             android:fontFamily="@font/regular_c"/>
 
                         <LinearLayout
@@ -71,8 +71,9 @@
                             android:orientation="horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginLeft="7dp">
+                            android:layout_gravity="bottom"
+                            android:layout_marginBottom="15dp"
+                            android:layout_marginLeft="10dp">
 
                             <TextView
                                 android:id="@+id/mainYearText"
@@ -82,7 +83,7 @@
                                 android:background="?android:attr/selectableItemBackground"
                                 android:textColor="@color/primaryText"
                                 android:includeFontPadding="false"
-                                android:textSize="18dp"
+                                android:textSize="22dp"
                                 android:fontFamily="@font/regular_c"/>
 
                             <LinearLayout
@@ -100,7 +101,7 @@
                                     android:background="?android:attr/selectableItemBackground"
                                     android:includeFontPadding="false"
                                     android:textColor="@color/primaryText"
-                                    android:textSize="18dp"
+                                    android:textSize="22dp"
                                     android:fontFamily="@font/regular_c"/>
 
                             </LinearLayout>
