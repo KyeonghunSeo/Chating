@@ -32,7 +32,7 @@
         <item>#53cae5</item>
         <item>#009cc6</item>
         <item>#a17ac6</item>
-        <item>#383838</item>
+        <item>#606066</item>
     </string-array>
 
     <string-array name="colors_spring">
@@ -49,6 +49,32 @@
     </string-array>
 
     <string-array name="colors_summer">
+        <item>#0C74B4</item>
+        <item>#30C1E0</item>
+        <item>#CEC9A9</item>
+        <item>#2E2F28</item>
+        <item>#2A798E</item>
+        <item>#6cb1ea</item>
+        <item>#647b30</item>
+        <item>#14625e</item>
+        <item>#6a797c</item>
+        <item>#3988c7</item>
+    </string-array>
+
+    <string-array name="colors_fall">
+        <item>#0C74B4</item>
+        <item>#30C1E0</item>
+        <item>#CEC9A9</item>
+        <item>#2E2F28</item>
+        <item>#2A798E</item>
+        <item>#6cb1ea</item>
+        <item>#647b30</item>
+        <item>#14625e</item>
+        <item>#6a797c</item>
+        <item>#3988c7</item>
+    </string-array>
+
+    <string-array name="colors_winter">
         <item>#0C74B4</item>
         <item>#30C1E0</item>
         <item>#CEC9A9</item>

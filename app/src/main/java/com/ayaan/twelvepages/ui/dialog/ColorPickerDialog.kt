@@ -9,25 +9,40 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionManager
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.StickerManager
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.dialog_color_picker.view.*
-import kotlinx.android.synthetic.main.list_item_sticker_picker_tab.view.*
-import kotlinx.android.synthetic.main.pager_item_sticker_picker.view.*
+import kotlinx.android.synthetic.main.list_item_color_picker_tab.view.*
+import kotlinx.android.synthetic.main.pager_item_color_picker.view.*
 
 
-class ColorPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit) : BottomSheetDialog() {
+class ColorPickerDialog(private val onResult: (Int) -> Unit) : BottomSheetDialog() {
+    var isCoverOpened = false
 
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style, R.layout.dialog_color_picker)
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         sheetBehavior.isHideable = false
-        root.viewPager.adapter = ColorPagerAdapter()
+        val pagerAdapter = ColorPagerAdapter()
+        root.viewPager.adapter = pagerAdapter
         root.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
-            override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrollStateChanged(state: Int) {
+                if(!isCoverOpened) {
+                    isCoverOpened = true
+                    TransitionManager.beginDelayedTransition(root.viewPagerContainer, makeChangeBounceTransition())
+                    for (i in 0 until pagerAdapter.count) {
+                        pagerAdapter.container?.getChildAt(i)?.coverImg?.visibility = View.VISIBLE
+                    }
+                    root.viewPagerContainer.layoutParams.height += dpToPx(250)
+                    root.viewPagerContainer.requestLayout()
+                }
+            }
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
                 root.recyclerView.scrollToPosition(position)
@@ -43,104 +58,103 @@ class ColorPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit) 
     private fun onShow() {}
 
     inner class ColorPagerAdapter : PagerAdapter() {
+        var container: ViewGroup? = null
+
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
-            val v = LayoutInflater.from(context).inflate(R.layout.pager_item_sticker_picker, null, false)
+            this.container = container
+            val v = LayoutInflater.from(context).inflate(R.layout.pager_item_color_picker, null, false)
             val stickerImgs = arrayOf(
-                    v.colorImg0, v.colorImg1, v.colorImg2, v.colorImg3,
-                    v.colorImg4, v.colorImg5, v.colorImg6, v.colorImg7,
-                    v.colorImg8, v.colorImg9, v.colorImg10, v.colorImg11,
-                    v.colorImg12, v.colorImg13, v.colorImg14, v.colorImg15,
-                    v.colorImg16, v.colorImg17, v.colorImg18, v.colorImg19)
+                    v.colorImg0, v.colorImg1, v.colorImg2, v.colorImg3, v.colorImg4,
+                    v.colorImg5, v.colorImg6, v.colorImg7, v.colorImg8, v.colorImg9)
             if(position == 0) {
-                val recentPack = StickerManager.recentPack
+                Glide.with(context!!).load(R.drawable.color_palette_0).into(v.coverImg)
+                val recentPack = ColorManager.recentPack
                 if(recentPack.isEmpty()) {
                     v.emptyLy.visibility = View.VISIBLE
                 }else {
                     v.emptyLy.visibility = View.GONE
-                    setStickerImage(stickerImgs, recentPack)
+                    stickerImgs.forEachIndexed { index, imageView ->
+                        val colorKey = if(index < recentPack.size) {
+                            recentPack[index]
+                        }else {
+                            9
+                        }
+                        imageView.setColorFilter(ColorManager.getColor(colorKey))
+                        imageView.setOnClickListener {
+                            ColorManager.updateRecentColor(colorKey)
+                            onResult.invoke(colorKey)
+                            dismiss()
+                        }
+                    }
                 }
             }else {
-                val stickerPack = StickerManager.packs[position - 1]
-                setStickerImage(stickerImgs, stickerPack.items.toList())
+                val colorPack = ColorManager.packs[position - 1]
+                Glide.with(context!!).load(colorPack.coverImgId).into(v.coverImg)
+                stickerImgs.forEachIndexed { index, imageView ->
+                    val colorKey = colorPack.ordinal * ColorManager.colorPaletteSize + index
+                    imageView.setColorFilter(colorPack.items[index])
+                    imageView.setOnClickListener {
+                        ColorManager.updateRecentColor(colorKey)
+                        onResult.invoke(colorKey)
+                        dismiss()
+                    }
+                }
             }
             container.addView(v)
             return v
-        }
-
-        override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
-            super.setPrimaryItem(container, position, `object`)
-            (`object` as View).scrollView.isNestedScrollingEnabled = true
-            for (i in 0 until count) {
-                if (i != position) {
-                    container.getChildAt(i).scrollView.isNestedScrollingEnabled = false
-                }
-            }
-            container.requestLayout()
-        }
-
-        private fun setStickerImage(stickerImgs: Array<ImageView>, items: List<StickerManager.Sticker>) {
-            stickerImgs.forEachIndexed { index, view ->
-                if(index < items.size) {
-                    val sticker = items[index]
-                    view.visibility = View.VISIBLE
-                    view.setImageResource(sticker.resId)
-                    view.setOnClickListener {
-                        StickerManager.updateRecentSticker(sticker)
-                        onResult.invoke(sticker)
-                        dismiss()
-                    }
-                }else {
-                    view.visibility = View.GONE
-                }
-            }
         }
 
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
             container.removeView(`object` as View)
         }
         override fun isViewFromObject(view: View, `object`: Any): Boolean = view == `object`
-        override fun getCount(): Int = StickerManager.packs.size + 1
+        override fun getCount(): Int = ColorManager.packs.size + 1
     }
 
     inner class TabAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        override fun getItemCount(): Int = StickerManager.packs.size + 1
+        override fun getItemCount(): Int = ColorManager.packs.size + 1
 
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {}
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_sticker_picker_tab, parent, false))
+                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_color_picker_tab, parent, false))
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val v = holder.itemView
 
             if(position == 0) {
-                val p = dpToPx(10)
-                v.iconImg.setPadding(p,p,p,p)
+                v.iconImg.visibility = View.VISIBLE
+                v.colorSampleView.visibility = View.GONE
                 v.iconImg.setImageResource(R.drawable.recent)
             }else {
-                val stickerPack = StickerManager.packs[position - 1]
-                val p = dpToPx(5)
-                v.iconImg.setPadding(p,p,p,p)
-                v.iconImg.setImageResource(stickerPack.items[0].resId)
+                v.iconImg.visibility = View.GONE
+                v.colorSampleView.visibility = View.VISIBLE
+                val colorPack = ColorManager.packs[position - 1]
+                v.sample0.setColorFilter(colorPack.items[0])
+                v.sample1.setColorFilter(colorPack.items[2])
+                v.sample2.setColorFilter(colorPack.items[4])
+                v.sample3.setColorFilter(colorPack.items[8])
             }
 
             if(position == root.viewPager.currentItem) {
-                v.iconImg.setBackgroundColor(AppTheme.backgroundDark)
                 if(position == 0) {
+                    v.iconImg.setBackgroundColor(AppTheme.backgroundDark)
                     v.iconImg.setColorFilter(AppTheme.primary)
                     v.iconImg.alpha = 1f
                 }else {
-                    removeImageViewFilter(v.iconImg)
+                    v.colorSampleView.setBackgroundColor(AppTheme.backgroundDark)
+                    v.colorSampleView.alpha = 1f
                 }
             }else {
-                v.iconImg.setBackgroundColor(Color.TRANSPARENT)
                 if(position == 0) {
+                    v.iconImg.setBackgroundColor(Color.TRANSPARENT)
                     v.iconImg.setColorFilter(AppTheme.disableText)
                     v.iconImg.alpha = 1f
                 }else {
-                    setImageViewGrayFilter(v.iconImg)
+                    v.colorSampleView.setBackgroundColor(Color.TRANSPARENT)
+                    v.colorSampleView.alpha = 0.5f
                 }
             }
 

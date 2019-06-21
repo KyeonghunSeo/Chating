@@ -17,6 +17,7 @@ import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import android.graphics.DashPathEffect
 import com.ayaan.twelvepages.adapter.util.RecordListComparator
+import com.ayaan.twelvepages.manager.ColorManager
 
 
 @SuppressLint("ViewConstructor")
@@ -140,8 +141,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         }.toInt()
         setPadding(leftPadding, textPadding, sPadding, 0)
 
-        paintColor = AppTheme.getColor(record.colorKey)
-        fontColor = if(shape.fillColor) AppTheme.getFontColor(paintColor)
+        paintColor = ColorManager.getColor(record.colorKey)
+        fontColor = if(shape.fillColor) ColorManager.getFontColor(paintColor)
         else paintColor
         setTextColor(fontColor)
     }

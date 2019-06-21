@@ -72,7 +72,7 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
             (`object` as View).scrollView.isNestedScrollingEnabled = true
             for (i in 0 until count) {
                 if (i != position) {
-                    container.getChildAt(i).scrollView.isNestedScrollingEnabled = false
+                    container.getChildAt(i)?.scrollView?.isNestedScrollingEnabled = false
                 }
             }
             container.requestLayout()

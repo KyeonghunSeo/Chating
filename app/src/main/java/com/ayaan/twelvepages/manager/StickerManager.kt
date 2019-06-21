@@ -74,7 +74,6 @@ object StickerManager {
     }
 
     fun updateRecentSticker(sticker: Sticker) {
-        l("updateRecentSticker"+sticker.packNum)
         recentPack.remove(sticker)
         recentPack.add(0, sticker)
         if(recentPack.size > 20) {

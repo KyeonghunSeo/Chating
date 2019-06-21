@@ -242,13 +242,13 @@
     <string name="today_c">Today</string>
     <string name="tomorrow">내일</string>
     <string name="yesterday">어제</string>
-    <string name="min_before">%1$s분 전</string>
-    <string name="hour_before">%1$s시간 전</string>
-    <string name="date_before">%1$s일 전</string>
-    <string name="min_after">%1$s분 후</string>
-    <string name="hour_after">%1$s시간 후</string>
-    <string name="hour_min_after">%1$s시간 %2$s분 후</string>
-    <string name="date_after">%1$s일 후</string>
+    <string name="min_before">%1$s분전</string>
+    <string name="hour_before">%1$s시간전</string>
+    <string name="date_before">%1$s일전</string>
+    <string name="min_after">%1$s분후</string>
+    <string name="hour_after">%1$s시간후</string>
+    <string name="hour_min_after">%1$s시간 %2$s분후</string>
+    <string name="date_after">%1$s일후</string>
     <string name="color_c">COLOR</string>
     <string name="new_template">새 템플릿</string>
     <string name="new_tag">새 태그</string>
@@ -328,6 +328,7 @@
     <string name="paste">붙여넣기</string>
     <string name="copied">복사되었습니다</string>
     <string name="cut">잘라내기</string>
+    <string name="recent_color_empty">최근 사용한 컬러가 없습니다</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

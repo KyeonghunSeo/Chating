@@ -7,6 +7,7 @@ import com.ayaan.twelvepages.ui.view.RecordView
 import io.realm.RealmList
 import io.realm.RealmObject
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.STACK
+import com.ayaan.twelvepages.manager.ColorManager
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Ignore
 import java.util.*
@@ -101,7 +102,7 @@ open class Record(@PrimaryKey var id: String? = null,
         return o
     }
 
-    fun getColor() : Int = AppTheme.getColor(colorKey)
+    fun getColor() : Int = ColorManager.getColor(colorKey)
 
     fun copy(data: Record) {
         id = data.id

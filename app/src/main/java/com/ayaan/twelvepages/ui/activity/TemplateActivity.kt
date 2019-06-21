@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.NestedScrollView
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.dialog.*
 import com.ayaan.twelvepages.ui.view.RecordView
@@ -164,7 +165,7 @@ class TemplateActivity : BaseActivity() {
     }
 
     private fun updateColorUI() {
-        colorImg.setColorFilter(AppTheme.getColor(template.colorKey))
+        colorImg.setColorFilter(ColorManager.getColor(template.colorKey))
         colorBtn.setOnClickListener {
             val location = IntArray(2)
             colorImg.getLocationOnScreen(location)

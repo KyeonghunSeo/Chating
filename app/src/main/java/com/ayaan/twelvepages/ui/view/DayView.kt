@@ -204,8 +204,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     private fun setDateText() {
-        dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
-        dowText.text = AppDateFormat.dow.format(targetCal.time)
+        dateText.text = String.format("%01d", targetCal.get(Calendar.DATE))
+        dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
         DateInfoManager.getHoliday(dateInfo, targetCal)
         val color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
             CalendarManager.sundayColor
@@ -224,7 +224,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun show(dayPager: DayPager) {
-        dowText.text = AppDateFormat.dow.format(targetCal.time)
+        dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
         val animSet = AnimatorSet()
         animSet.playTogether(
                 ObjectAnimator.ofFloat(dateLy, "scaleX", 1f, headerTextScale),
@@ -253,7 +253,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun hide(dayPager: DayPager) {
-        dowText.text = AppDateFormat.dow.format(targetCal.time)
+        dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
         animSet.playTogether(

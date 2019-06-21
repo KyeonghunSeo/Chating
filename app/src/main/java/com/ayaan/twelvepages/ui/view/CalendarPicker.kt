@@ -15,6 +15,7 @@ import android.widget.TextView
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
 import com.ayaan.twelvepages.manager.CalendarManager
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.DateInfoManager
 import java.util.*
 
@@ -226,7 +227,7 @@ class CalendarPicker @JvmOverloads constructor(context: Context, attrs: Attribut
         dateHeaders.forEachIndexed { index, holder ->
             when (index) {
                 in s..e -> {
-                    val fontColor = AppTheme.getFontColor(color)
+                    val fontColor = ColorManager.getFontColor(color)
                     holder.selectImg.setColorFilter(color)
                     holder.rightImg.setColorFilter(color)
                     holder.leftImg.setColorFilter(color)

@@ -7,6 +7,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.fragment.app.FragmentActivity
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
@@ -82,14 +83,14 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
         previewContainer.addView(recordView)
         previewContainer.addView(subRecordView)
 
-        colorImg.setColorFilter(AppTheme.getColor(recordView.record.colorKey))
+        colorImg.setColorFilter(ColorManager.getColor(recordView.record.colorKey))
         colorBtn.setOnClickListener {
             val location = IntArray(2)
             colorImg.getLocationOnScreen(location)
             showDialog(SmallColorPickerDialog(activity, recordView.record.colorKey, location) { colorKey ->
                 recordView.record.colorKey = colorKey
                 subRecordView.record.colorKey = colorKey
-                colorImg.setColorFilter(AppTheme.getColor(colorKey))
+                colorImg.setColorFilter(ColorManager.getColor(colorKey))
                 drawRecord()
             }, true, true, true, false)
         }

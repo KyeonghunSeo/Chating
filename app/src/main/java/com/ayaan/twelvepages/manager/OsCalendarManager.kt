@@ -211,7 +211,7 @@ object OsCalendarManager {
                 id = "osInstance::${cur.getLong(INDEX_ID)}",
                 style = style,
                 title = cur.getString(INDEX_TITLE),
-                colorKey = AppTheme.getColorKey(if(cur.getInt(INDEX_EVENT_COLOR) != 0) cur.getInt(INDEX_EVENT_COLOR)
+                colorKey = ColorManager.getColorKey(if(cur.getInt(INDEX_EVENT_COLOR) != 0) cur.getInt(INDEX_EVENT_COLOR)
                 else cur.getInt(INDEX_CAL_COLOR)),
                 location = cur.getString(INDEX_LOCATION),
                 description = cur.getString(INDEX_DESCRIPTION),

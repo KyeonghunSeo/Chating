@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.setGlobalTheme
 import io.realm.Realm
@@ -51,9 +52,9 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
 
             }
             v.titleText.text = template.title
-            val color = AppTheme.getColor(template.colorKey)
+            val color = ColorManager.getColor(template.colorKey)
             v.colorImg.setBackgroundColor(color)
-            v.colorImg.setColorFilter(AppTheme.getFontColor(color))
+            v.colorImg.setColorFilter(ColorManager.getFontColor(color))
             when{
                 template.isSetCheckBox() -> v.colorImg.setImageResource(R.drawable.check)
                 template.isScheduled() -> v.colorImg.setImageResource(R.drawable.schedule)

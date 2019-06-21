@@ -278,7 +278,7 @@ class MainActivity : BaseActivity() {
             clipText.text = record.getTitleInCalendar()
             clipIconImg.setColorFilter(record.getColor())
             clipPasteBtn.setOnClickListener {
-                record.folder = viewModel.targetFolder.value
+                viewModel.targetFolder.value?.let { record.folder = Folder(it) }
                 record.setDate(viewModel.targetTime.value ?: Long.MIN_VALUE)
                 if(record.id.isNullOrEmpty()) {
                     if(record.isRepeat()) {

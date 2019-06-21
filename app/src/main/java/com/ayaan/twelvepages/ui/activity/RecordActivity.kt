@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.model.Link
@@ -198,7 +199,7 @@ class RecordActivity : BaseActivity() {
 
     private fun updateFolderUI() {
         val color = record.getColor()
-        val fontColor = AppTheme.getFontColor(color)
+        val fontColor = ColorManager.getFontColor(color)
         colorBtn.setColorFilter(color)
 
         if(record.folder?.isCalendar() == true) {
@@ -215,8 +216,9 @@ class RecordActivity : BaseActivity() {
         }
 
         colorBtn.setOnClickListener {
-            ColorPickerDialog{ index ->
-
+            ColorPickerDialog{ colorKey ->
+                record.colorKey = colorKey
+                updateFolderUI()
             }.show(supportFragmentManager, null)
             /*
             val location = IntArray(2)

@@ -14,6 +14,7 @@ import androidx.transition.TransitionManager
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.dialog_small_color_picker.*
@@ -25,7 +26,7 @@ class SmallColorPickerDialog(activity: Activity, private val colorKey: Int, priv
     private val colorBtns = ArrayList<ImageView>()
     private val buttonSize = dpToPx(35)
     private val colorPaletteSize = 10
-    private var colorPalette = AppTheme.ColorPalette.values()[colorKey / colorPaletteSize]
+    private var colorPalette = ColorManager.ColorPack.values()[colorKey / colorPaletteSize]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +67,7 @@ class SmallColorPickerDialog(activity: Activity, private val colorKey: Int, priv
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
-                colorPalette = AppTheme.ColorPalette.values()[position]
+                colorPalette = ColorManager.ColorPack.values()[position]
                 setColorBtns()
                 ObjectAnimator.ofFloat(btnsLy, "translationY", dpToPx(10f), 0f).start()
                 ObjectAnimator.ofFloat(btnsLy, "alpha", 0f, 1f).start()
@@ -85,10 +86,10 @@ class SmallColorPickerDialog(activity: Activity, private val colorKey: Int, priv
 
     private fun setColorBtns() {
         colorBtns.forEachIndexed { index, colorBtn ->
-            colorBtn.setColorFilter(colorPalette.colors[index])
+            colorBtn.setColorFilter(colorPalette.items[index])
             colorBtn.setOnClickListener {
-                Prefs.putInt("colorPalette", colorPalette.ordinal)
-                AppTheme.colorPalette = colorPalette
+                Prefs.putInt("primaryColorPack", colorPalette.ordinal)
+                ColorManager.primaryColorPack = colorPalette
                 onResult.invoke(colorPalette.ordinal * colorPaletteSize + index)
                 dismiss()
             }
@@ -119,7 +120,7 @@ class SmallColorPickerDialog(activity: Activity, private val colorKey: Int, priv
     inner class ColorPalettePagerAdapter : PagerAdapter() {
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             val v = LayoutInflater.from(context).inflate(R.layout.pager_item_color_palette, null, false)
-            val palette = AppTheme.ColorPalette.values()[position]
+            val palette = ColorManager.ColorPack.values()[position]
             v.imageView.setImageResource(palette.coverImgId)
             v.titleText.text = context.getString(palette.titleId)
             container.addView(v)
@@ -129,7 +130,7 @@ class SmallColorPickerDialog(activity: Activity, private val colorKey: Int, priv
             container.removeView(`object` as View)
         }
         override fun isViewFromObject(view: View, `object`: Any): Boolean = view == `object`
-        override fun getCount(): Int = AppTheme.ColorPalette.values().size
+        override fun getCount(): Int = ColorManager.ColorPack.values().size
     }
 
 }
