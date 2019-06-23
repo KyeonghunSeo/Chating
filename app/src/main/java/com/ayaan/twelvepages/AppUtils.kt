@@ -480,7 +480,7 @@ fun setImageViewGrayFilter(v: ImageView) {
     matrix.setSaturation(0f) //0 means grayscale
     val cf = ColorMatrixColorFilter(matrix)
     v.colorFilter = cf
-    v.alpha = 0.5f
+    v.alpha = 1f
 }
 
 fun removeImageViewFilter(v: ImageView) {

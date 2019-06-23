@@ -216,7 +216,7 @@ class RecordActivity : BaseActivity() {
         }
 
         colorBtn.setOnClickListener {
-            ColorPickerDialog{ colorKey ->
+            ColorPickerDialog(record.colorKey){ colorKey ->
                 record.colorKey = colorKey
                 updateFolderUI()
             }.show(supportFragmentManager, null)
