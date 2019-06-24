@@ -48,7 +48,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
                     targetCalendarView.selectTime(selectDateTime)
                     selectDateTime = Long.MIN_VALUE
                 }
-                l("$position 페이지 선택됨 : ${AppDateFormat.ymdDate.format(targetCalendarView.targetCal.time)}")
+                l("$position 페이지 선택됨 : ${AppDateFormat.ymd.format(targetCalendarView.targetCal.time)}")
             }
         })/*
         viewPager.setPageTransformer(true) { view, position ->

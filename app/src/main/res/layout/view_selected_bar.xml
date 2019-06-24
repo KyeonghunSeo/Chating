@@ -9,7 +9,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:layout_marginLeft="2.5dp">
 
         <LinearLayout
@@ -20,20 +20,20 @@
             <TextView
                 android:id="@+id/dateText"
                 android:layout_width="wrap_content"
-                android:layout_height="16dp"
-                android:layout_marginTop="0.8dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="0.0dp"
                 android:includeFontPadding="false"
-                android:textSize="13dp"
+                android:textSize="12dp"
                 android:textColor="@color/primaryText"
                 android:text="27"/>
 
             <TextView
                 android:id="@+id/dowText"
                 android:layout_width="wrap_content"
-                android:layout_height="16dp"
+                android:layout_height="17dp"
                 android:includeFontPadding="false"
                 android:layout_marginLeft="2dp"
-                android:textSize="8dp"
+                android:textSize="11dp"
                 android:maxLines="1"
                 android:textColor="@color/primaryText"
                 android:text="@string/wed"/>

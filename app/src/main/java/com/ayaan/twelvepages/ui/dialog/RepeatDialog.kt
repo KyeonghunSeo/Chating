@@ -179,7 +179,7 @@ class RepeatDialog(private val activity: Activity, record: Record,
             untilCheck.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
             untilDateText.visibility = View.VISIBLE
             untilText.setTextColor(AppTheme.primaryText)
-            untilDateText.text = AppDateFormat.ymdDate.format(Date(dtUntil))
+            untilDateText.text = AppDateFormat.ymd.format(Date(dtUntil))
         }
     }
 

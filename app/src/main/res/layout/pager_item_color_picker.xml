@@ -4,17 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/coverImg"
+    <FrameLayout
+        android:id="@+id/coverLy"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:visibility="gone"/>
+        android:layout_height="220dp">
+
+        <ImageView
+            android:id="@+id/coverImg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <FrameLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/top_shadow">
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/bold"
+                android:textSize="18dp"
+                android:text="@string/style" />
+
+        </FrameLayout>
+
+    </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/packLy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="25dp"
-        android:paddingBottom="65dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="55dp"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
         android:orientation="vertical">
@@ -81,7 +108,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical">

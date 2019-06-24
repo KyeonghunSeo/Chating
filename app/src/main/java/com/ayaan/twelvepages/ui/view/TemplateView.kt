@@ -76,12 +76,13 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 adapter.mode = 1
                 editTemplateBtn.setColorFilter(AppTheme.blue)
                 editTemplateBtn.setImageResource(R.drawable.done)
+                adapter.notifyItemInserted(items.size)
             }else {
                 adapter.mode = 0
                 editTemplateBtn.setColorFilter(AppTheme.secondaryText)
-                editTemplateBtn.setImageResource(R.drawable.setting)
+                editTemplateBtn.setImageResource(R.drawable.edit)
+                adapter.notifyDataSetChanged()
             }
-            adapter.notifyDataSetChanged()
         }
     }
 
@@ -90,7 +91,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val folder = MainActivity.getTargetFolder()
         if(folder.isCalendar()) {
             templateFolderText.text = folder.name
-            templateDateText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis)
+            templateDateText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis, false)
         }else {
             templateFolderText.text = folder.name
             templateDateText.text = ""
@@ -158,7 +159,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         controlLy.visibility = View.GONE
         adapter.mode = 0
         editTemplateBtn.setColorFilter(AppTheme.secondaryText)
-        editTemplateBtn.setImageResource(R.drawable.setting)
+        editTemplateBtn.setImageResource(R.drawable.edit)
         isExpanded = false
     }
 

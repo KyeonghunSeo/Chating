@@ -7,9 +7,11 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.res.Resources
+import android.database.Cursor
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.os.Vibrator
+import android.provider.MediaStore
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ClickableSpan
@@ -25,6 +27,7 @@ import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.Transition
+import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.view.CalendarView
 import com.ayaan.twelvepages.ui.view.base.Line
@@ -480,7 +483,7 @@ fun setImageViewGrayFilter(v: ImageView) {
     matrix.setSaturation(0f) //0 means grayscale
     val cf = ColorMatrixColorFilter(matrix)
     v.colorFilter = cf
-    v.alpha = 0.5f
+    v.alpha = 1f
 }
 
 fun removeImageViewFilter(v: ImageView) {
@@ -488,14 +491,14 @@ fun removeImageViewFilter(v: ImageView) {
     v.alpha = 1f
 }
 
-fun makeSheduleText(dtStart: Long, dtEnd: Long) : String {
+fun makeSheduleText(dtStart: Long, dtEnd: Long, showOneday: Boolean) : String {
     tempCal.timeInMillis = dtStart
     tempCal2.timeInMillis = dtEnd
     return if(isSameDay(tempCal, tempCal2)) {
-        AppDateFormat.mdeDate.format(tempCal.time)
+        AppDateFormat.mde.format(tempCal.time) + if(showOneday) "\n${str(R.string.one_day)}" else ""
     }else {
-        String.format(str(R.string.from), AppDateFormat.mdeDate.format(tempCal.time)) +
-                "\n" + String.format(str(R.string.to), AppDateFormat.mdeDate.format(tempCal2.time)) +
+        String.format(str(R.string.from), AppDateFormat.mde.format(tempCal.time)) +
+                "\n" + String.format(str(R.string.to), AppDateFormat.mde.format(tempCal2.time)) +
                 ", " + getDurationText(tempCal.timeInMillis, tempCal2.timeInMillis, true)
     }
 }
@@ -515,7 +518,7 @@ fun makeShareContentsByRecord(record: Record) : String {
     val result = StringBuilder()
     record.title?.let { result.append("$it\n") }
     if(record.dtStart != Long.MIN_VALUE) {
-        result.append("[${str(R.string.date_time)}]\n${makeSheduleText(record.dtStart, record.dtEnd)}\n")
+        result.append("[${str(R.string.date_time)}]\n${makeSheduleText(record.dtStart, record.dtEnd, false)}\n")
         if(record.isSetTime()) {
             result.append("[${str(R.string.time)}]\n${makeTimeText(record.dtStart, record.dtEnd)}\n")
         }
@@ -527,6 +530,27 @@ fun makeShareContentsByRecord(record: Record) : String {
         result.append("[${str(R.string.memo)}]\n${record.description}\n")
     }
     return result.toString().trim()
+}
+
+fun getPhotosByDate(context: Context, calendar: Calendar): ArrayList<Photo> {
+    val selection = "(${MediaStore.Files.FileColumns.MEDIA_TYPE} = ${MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE}" +
+            " OR ${MediaStore.Files.FileColumns.MEDIA_TYPE} = ${MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO})" +
+            " AND (${MediaStore.MediaColumns.DATE_ADDED} >= ? AND ${MediaStore.MediaColumns.DATE_ADDED} < ?)"
+
+    val queryUri = MediaStore.Files.getContentUri("external")
+    val listOfAllImages = ArrayList<Photo>()
+    val cursor: Cursor?
+
+    val projection = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.Files.FileColumns.MEDIA_TYPE, MediaStore.Video.VideoColumns.DURATION)
+
+    cursor = context.contentResolver.query(queryUri, projection, selection,
+            arrayOf((calendar.timeInMillis / 1000).toString(), ((calendar.timeInMillis + DAY_MILL) / 1000).toString()),
+            MediaStore.MediaColumns.DATE_MODIFIED + " desc")
+
+    while (cursor!!.moveToNext()) {
+        listOfAllImages.add(Photo(cursor.getInt(1) == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO, cursor.getString(0), cursor.getLong(2)))
+    }
+    return listOfAllImages
 }
 
 /* 코드

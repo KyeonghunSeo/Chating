@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:outlineSpotShadowColor="@color/secondaryText"
+        app:cardBackgroundColor="@color/background"
         app:cardCornerRadius="0dp"
         app:cardElevation="30dp">
 
@@ -49,66 +50,62 @@
 
                     <LinearLayout
                         android:id="@+id/mainDateLy"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:animateLayoutChanges="true"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginLeft="20dp">
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="23dp">
 
                         <TextView
                             android:id="@+id/mainMonthText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="?android:attr/selectableItemBackground"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:includeFontPadding="false"
-                            android:textSize="70dp"
-                            android:fontFamily="@font/regular_c"/>
+                            android:textSize="36dp"
+                            android:fontFamily="@font/bold"/>
+
+                        <TextView
+                            android:id="@+id/mainYearText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:gravity="center_vertical"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:textColor="@color/secondaryText"
+                            android:includeFontPadding="false"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/regular"/>
 
                         <LinearLayout
                             android:id="@+id/mainSubDateLy"
                             android:orientation="horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:layout_marginBottom="15dp"
+                            android:layout_marginTop="17dp"
                             android:layout_marginLeft="10dp">
-
-                            <TextView
-                                android:id="@+id/mainYearText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:background="?android:attr/selectableItemBackground"
-                                android:textColor="@color/primaryText"
-                                android:includeFontPadding="false"
-                                android:textSize="22dp"
-                                android:fontFamily="@font/regular_c"/>
-
-                            <LinearLayout
-                                android:id="@+id/mainWeekLy"
-                                android:orientation="horizontal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:animateLayoutChanges="true">
-
-                                <TextView
-                                    android:id="@+id/mainWeekText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_vertical"
-                                    android:background="?android:attr/selectableItemBackground"
-                                    android:includeFontPadding="false"
-                                    android:textColor="@color/primaryText"
-                                    android:textSize="22dp"
-                                    android:fontFamily="@font/regular_c"/>
-
-                            </LinearLayout>
 
                         </LinearLayout>
 
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/countdownText"
+                        android:layout_width="150dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="70dp"
+                        android:layout_marginRight="23dp"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:textColor="@color/secondaryText"
+                        android:includeFontPadding="false"
+                        android:textSize="16dp"
+                        android:fontFamily="@font/regular"/>
 
                 </FrameLayout>
 
@@ -160,7 +157,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:src="@drawable/arrow_left"
-                    android:tint="@color/primaryText"
+                    android:tint="@color/secondaryText"
                     android:layout_gravity="center_vertical" />
 
                 <TextView
@@ -168,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12dp"
-                    android:textColor="@color/primaryText"
+                    android:textColor="@color/secondaryText"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/regular"
                     android:text="@string/today"/>
@@ -178,7 +175,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:src="@drawable/arrow_right"
-                    android:tint="@color/primaryText"
+                    android:tint="@color/secondaryText"
                     android:layout_gravity="center_vertical|right" />
 
             </LinearLayout>
@@ -210,7 +207,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="13dp"
                     android:src="@drawable/arrow_right"
-                    android:tint="@color/primaryText"/>
+                    android:tint="@color/secondaryText"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -328,8 +325,8 @@
         android:layout_height="50dp"
         android:layout_gravity="right"
         android:elevation="30dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginRight="17dp">
+        android:layout_marginTop="18dp"
+        android:layout_marginRight="18dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/profileCard"
@@ -337,7 +334,8 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_gravity="center"
-            app:cardElevation="0dp"
+            android:outlineSpotShadowColor="@color/secondaryText"
+            app:cardElevation="1dp"
             app:cardCornerRadius="20dp">
 
             <ImageView

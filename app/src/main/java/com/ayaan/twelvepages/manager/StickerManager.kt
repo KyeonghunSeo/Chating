@@ -3,6 +3,8 @@ package com.ayaan.twelvepages.manager
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.l
 import com.pixplicity.easyprefs.library.Prefs
+import java.util.*
+import kotlin.collections.ArrayList
 
 object StickerManager {
 
@@ -14,9 +16,7 @@ object StickerManager {
     init {
         Prefs.getString("stickerPacks", StickerPack.BASIC.name)
                 .split(",")
-                .mapTo(packs) {
-                    StickerManager.StickerPack.valueOf(it)
-                }
+                .mapTo(packs) { StickerManager.StickerPack.valueOf(it) }
         Prefs.getString("recentStickerPack", null)?.let { recentStickerPack ->
                 recentStickerPack.split(",")
                         .mapTo(recentPack) {
@@ -67,7 +67,6 @@ object StickerManager {
             fun getRecentStickerKey(sticker: Sticker) : String {
                 val pack = values()[sticker.packNum]
                 val index = pack.items.indexOf(sticker)
-                l("${pack.name}:$index")
                 return "${pack.name}:$index"
             }
         }
@@ -82,6 +81,15 @@ object StickerManager {
         Prefs.putString("recentStickerPack", recentPack.joinToString(",") {
             StickerPack.getRecentStickerKey(it)
         })
+    }
+
+    fun saveCurrentPack() {
+        Prefs.putString("stickerPacks", packs.joinToString(","){it.name})
+    }
+
+    fun deletePack(pack: StickerPack) {
+        packs.remove(pack)
+        saveCurrentPack()
     }
 
 }

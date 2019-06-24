@@ -216,7 +216,7 @@ class RecordActivity : BaseActivity() {
         }
 
         colorBtn.setOnClickListener {
-            ColorPickerDialog{ colorKey ->
+            ColorPickerDialog(record.colorKey){ colorKey ->
                 record.colorKey = colorKey
                 updateFolderUI()
             }.show(supportFragmentManager, null)
@@ -366,14 +366,14 @@ class RecordActivity : BaseActivity() {
             }
 
             if(record.isSetTime()) {
-                smallStartText.text = AppDateFormat.ymdDate.format(startCal.time)
+                smallStartText.text = AppDateFormat.ymd.format(startCal.time)
                 bigStartText.text = AppDateFormat.time.format(startCal.time)
-                smallEndText.text = AppDateFormat.ymdDate.format(endCal.time)
+                smallEndText.text = AppDateFormat.ymd.format(endCal.time)
                 bigEndText.text = AppDateFormat.time.format(endCal.time)
             }else {
-                smallStartText.text = AppDateFormat.ymDate.format(startCal.time)
+                smallStartText.text = AppDateFormat.ym.format(startCal.time)
                 bigStartText.text = "${AppDateFormat.date.format(startCal.time)} ${AppDateFormat.simpleDow.format(startCal.time)}"
-                smallEndText.text = AppDateFormat.ymDate.format(endCal.time)
+                smallEndText.text = AppDateFormat.ym.format(endCal.time)
                 bigEndText.text = "${AppDateFormat.date.format(endCal.time)} ${AppDateFormat.simpleDow.format(endCal.time)}"
             }
 

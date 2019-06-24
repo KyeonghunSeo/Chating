@@ -58,10 +58,10 @@ object RepeatManager {
                     weekNum.forEachIndexed { index, c ->
                         if(c == '1') {
                             if(isFirst) {
-                                dowBuilder.append(AppDateFormat.dowString[index])
+                                dowBuilder.append(AppDateFormat.dows[index])
                                 isFirst = false
                             }else {
-                                dowBuilder.append(", ${AppDateFormat.dowString[index]}")
+                                dowBuilder.append(", ${AppDateFormat.dows[index]}")
                             }
                         }
                     }
@@ -85,7 +85,7 @@ object RepeatManager {
                 }
             }
             3 -> {
-                result.append(String.format(yearlyStr, AppDateFormat.mdDate.format(instanceCal.time)))
+                result.append(String.format(yearlyStr, AppDateFormat.md.format(instanceCal.time)))
             }
             4 -> {
                 lunarCal.setSolarDate(instanceCal.get(Calendar.YEAR),
@@ -97,7 +97,7 @@ object RepeatManager {
 
         if(dtUntil != Long.MIN_VALUE) {
             instanceCal.timeInMillis = dtUntil
-            result.append(" - ${String.format(untilStr, AppDateFormat.ymdDate.format(instanceCal.time))}")
+            result.append(" - ${String.format(untilStr, AppDateFormat.ymd.format(instanceCal.time))}")
         }
 
         return result.toString()

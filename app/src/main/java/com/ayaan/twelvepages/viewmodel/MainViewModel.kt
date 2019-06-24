@@ -27,6 +27,8 @@ class MainViewModel : ViewModel() {
     val targetTime = MutableLiveData<Long>()
     val targetCalendarView = MutableLiveData<CalendarView>()
     val openFolder = MutableLiveData<Boolean>()
+    val countdownRecords = MutableLiveData<RealmResults<Record>>()
+    val undoneRecords = MutableLiveData<RealmResults<Record>>()
 
     private var realmAsyncTask: RealmAsyncTask? = null
 
@@ -43,6 +45,7 @@ class MainViewModel : ViewModel() {
             loadTemplate()
             loadFolder()
             loadAppUser()
+            loadData()
         }else {
             loading.value = true
             val config = syncUser
@@ -76,6 +79,7 @@ class MainViewModel : ViewModel() {
                     }
                 }
             }
+            return@let
         }
     }
 
@@ -100,6 +104,30 @@ class MainViewModel : ViewModel() {
                     if(targetFolder.value == null) setTargetFolder()
                 }
             }
+            return@let
+        }
+    }
+
+    private fun loadData() {
+        realm.value?.let { realm ->
+            countdownRecords.value = realm.where(Record::class.java)
+                    .equalTo("links.type", Link.Type.DDAY.ordinal)
+                    .notEqualTo("dtCreated", -1L)
+                    .sort("dtStart", Sort.ASCENDING)
+                    .findAllAsync()
+            countdownRecords.value?.addChangeListener { result, _ ->
+                countdownRecords.postValue(result)
+            }
+
+            undoneRecords.value = realm.where(Record::class.java)
+                    .equalTo("links.type", Link.Type.DDAY.ordinal)
+                    .notEqualTo("dtCreated", -1L)
+                    .sort("dtStart", Sort.ASCENDING)
+                    .findAllAsync()
+            undoneRecords.value?.addChangeListener { result, _ ->
+                undoneRecords.postValue(result)
+            }
+            return@let
         }
     }
 

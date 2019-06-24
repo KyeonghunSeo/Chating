@@ -7,6 +7,9 @@ import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.l
 import com.pixplicity.easyprefs.library.Prefs
+import java.lang.Exception
+import java.util.*
+import kotlin.collections.ArrayList
 
 object ColorManager {
     val colorPaletteSize = 10
@@ -19,9 +22,7 @@ object ColorManager {
                 "${ColorPack.BASIC.name},${ColorPack.SPRING.name},${ColorPack.SUMMER.name}" +
                         ",${ColorPack.FALL.name},${ColorPack.WINTER.name}")
                 .split(",")
-                .mapTo(packs) {
-                    ColorPack.valueOf(it)
-                }
+                .mapTo(packs) { ColorPack.valueOf(it) }
         Prefs.getString("recentColorPack", null)?.let { recentColorPack ->
             recentColorPack.split(",")
                     .mapTo(recentPack) {
@@ -37,9 +38,9 @@ object ColorManager {
                 resource.getStringArray(R.array.colors_spring).map { Color.parseColor(it) }.toTypedArray()),
         SUMMER(R.string.summer, R.drawable.color_palette_2,
                 resource.getStringArray(R.array.colors_summer).map { Color.parseColor(it) }.toTypedArray()),
-        FALL(R.string.fall, R.drawable.color_palette_2,
+        FALL(R.string.fall, R.drawable.color_palette_3,
                 resource.getStringArray(R.array.colors_fall).map { Color.parseColor(it) }.toTypedArray()),
-        WINTER(R.string.winter, R.drawable.color_palette_2,
+        WINTER(R.string.winter, R.drawable.color_palette_4,
                 resource.getStringArray(R.array.colors_winter).map { Color.parseColor(it) }.toTypedArray())
     }
 
@@ -76,6 +77,24 @@ object ColorManager {
             recentPack.removeAt(recentPack.lastIndex)
         }
         Prefs.putString("recentColorPack", recentPack.joinToString(","))
+    }
+
+    fun getPackIndex(colorKey: Int): Int {
+        val pack = ColorPack.values()[colorKey / colorPaletteSize]
+        val index = packs.indexOf(pack)
+        if(index >= 0) {
+            return index + 1
+        }
+        return 0
+    }
+
+    fun saveCurrentPack() {
+        Prefs.putString("colorPacks", packs.joinToString(","){it.name})
+    }
+
+    fun deletePack(pack: ColorPack) {
+        packs.remove(pack)
+        saveCurrentPack()
     }
 
 }

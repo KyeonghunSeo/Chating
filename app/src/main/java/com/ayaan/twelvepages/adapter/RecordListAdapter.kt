@@ -123,8 +123,8 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                             AppDateFormat.dateTime.format(Date(record.dtEnd)) +
                             " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"
                 }else {
-                    v.timeText.text = "${AppDateFormat.mdDate.format(Date(record.dtStart))} ~ " +
-                            AppDateFormat.mdDate.format(Date(record.dtEnd)) +
+                    v.timeText.text = "${AppDateFormat.md.format(Date(record.dtStart))} ~ " +
+                            AppDateFormat.md.format(Date(record.dtEnd)) +
                             " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"
                 }
             }

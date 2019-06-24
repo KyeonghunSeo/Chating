@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:cardElevation="10dp">
+        app:cardElevation="10dp"
+        app:cardCornerRadius="0dp">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
@@ -19,20 +20,43 @@
 
     </androidx.cardview.widget.CardView>
 
+    <com.ayaan.twelvepages.ui.view.base.Line
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="40dp"
+        android:elevation="10dp"
+        app:colorFlag="disable"/>
+
+    <FrameLayout
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_gravity="right|bottom"
+        android:elevation="10dp">
+
+        <ImageView
+            android:id="@+id/settingBtn"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
+            android:src="@drawable/add"
+            android:tint="@color/secondaryText"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="10dp"/>
+
+        <com.ayaan.twelvepages.ui.view.base.Line
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            app:colorFlag="disable"/>
+
+    </FrameLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_gravity="bottom"
-        android:elevation="10dp">
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <com.ayaan.twelvepages.ui.view.base.Line
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="40dp"
         android:elevation="10dp"
-        app:colorFlag="disable"/>
+        android:clipChildren="false">
+    </androidx.recyclerview.widget.RecyclerView>
 
 </FrameLayout>
