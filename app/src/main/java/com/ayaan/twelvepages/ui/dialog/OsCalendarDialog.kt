@@ -10,6 +10,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.manager.OsCalendarManager
 import com.ayaan.twelvepages.setGlobalTheme
 import com.ayaan.twelvepages.ui.activity.MainActivity
@@ -71,11 +72,12 @@ class OsCalendarDialog(activity: Activity, val onResult: (Boolean) -> Unit) : Di
             v.titleText.text = item.title
             v.subText.text = item.accountName
             v.iconImg.setColorFilter(item.color)
+            v.iconImg.setPadding(dpToPx(3), dpToPx(3), dpToPx(3), dpToPx(3))
 
             if(selectedItems.contains(item.id.toString())) {
-                v.iconImg.setImageResource(R.drawable.check)
+                v.checkImg.setImageResource(R.drawable.checked_fill)
             }else {
-                v.iconImg.setImageResource(R.drawable.uncheck)
+                v.checkImg.setImageResource(R.drawable.uncheck)
             }
 
             v.setOnClickListener {

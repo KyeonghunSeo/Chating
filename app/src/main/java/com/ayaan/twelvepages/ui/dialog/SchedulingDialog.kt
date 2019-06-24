@@ -2,14 +2,12 @@ package com.ayaan.twelvepages.ui.dialog
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.model.KoreanLunarCalendar
 import com.ayaan.twelvepages.model.Record
-import kotlinx.android.synthetic.main.activity_record.*
 import kotlinx.android.synthetic.main.dialog_base.*
 import kotlinx.android.synthetic.main.view_day_of_week.*
 import kotlinx.android.synthetic.main.containter_scheduling_dlg.*
@@ -59,7 +57,7 @@ class SchedulingDialog(activity: Activity, record: Record,
         }
         val dowTexts = arrayOf(dowText0, dowText1, dowText2, dowText3, dowText4, dowText5, dowText6)
         dowTexts.forEachIndexed { index, textView ->
-            textView.text = AppDateFormat.dowString[(index + AppStatus.startDayOfWeek - 1) % 7]
+            textView.text = AppDateFormat.dows[(index + AppStatus.startDayOfWeek - 1) % 7]
             textView.setTextColor(if(index == sundayPos) CalendarManager.sundayColor else CalendarManager.dateColor)
         }
     }
@@ -68,7 +66,7 @@ class SchedulingDialog(activity: Activity, record: Record,
         calendarPicker.setStartEndCalendar(startCal, endCal)
         calendarPicker.setColor(color)
         calendarPicker.onTargetedDate = { time ->
-            monthYearText.text = AppDateFormat.ymDate.format(Date(time))
+            monthYearText.text = AppDateFormat.ym.format(Date(time))
         }
         calendarPicker.onSelectedDate = {
             setDateText()
@@ -77,7 +75,7 @@ class SchedulingDialog(activity: Activity, record: Record,
 
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
-        titleText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis)
+        titleText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis, true)
         if(isSameDay(startCal, endCal)) {
             if(AppStatus.isLunarDisplay) {
                 val lunarCalendar = KoreanLunarCalendar.getInstance()

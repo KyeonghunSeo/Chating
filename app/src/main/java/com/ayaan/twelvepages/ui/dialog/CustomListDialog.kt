@@ -71,6 +71,7 @@ class CustomListDialog(activity: Activity, private val title: String, private va
 
             v.iconImg.visibility = View.GONE
             v.subText.visibility = View.GONE
+            v.checkImg.visibility = View.GONE
             v.titleText.text = item
 
             if(selectedItem?.equals(item) == true) {

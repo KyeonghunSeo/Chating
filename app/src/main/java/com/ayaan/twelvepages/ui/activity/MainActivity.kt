@@ -28,7 +28,6 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
 import com.ayaan.twelvepages.manager.RecordManager
-import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.model.AppUser
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
@@ -36,6 +35,7 @@ import com.ayaan.twelvepages.ui.dialog.CalendarSettingsDialog
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.theartofdev.edmodo.cropper.CropImage
+import io.realm.RealmResults
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.ByteArrayOutputStream
@@ -53,9 +53,8 @@ class MainActivity : BaseActivity() {
         fun getCalendarLy() = instance?.calendarLy
         fun getCalendarPager() = instance?.calendarPager
         fun getMainDateLy() = instance?.mainDateLy
-        fun getMainSubDateLy() = instance?.mainSubDateLy
         fun getMainMonthText() = instance?.mainMonthText
-        fun getWeekTextLy() = instance?.mainWeekLy
+        fun getMainYearText() = instance?.mainYearText
         fun getProfileBtn() = instance?.profileBtn
         fun getTemplateView() = instance?.templateView
         fun getTargetTemplate() = getViewModel()?.targetTemplate?.value
@@ -122,9 +121,10 @@ class MainActivity : BaseActivity() {
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
         mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        mainWeekLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainDateLy.pivotX = 0f
         mainDateLy.pivotY = 0f
+        mainYearText.pivotX = 0f
+        mainYearText.pivotY = dpToPx(15f)
         mainPanel.setOnClickListener {}
         todayBtn.translationY = tabSize.toFloat()
         callAfterViewDrawed(rootLy, Runnable{
@@ -262,6 +262,19 @@ class MainActivity : BaseActivity() {
         viewModel.openFolder.observe(this, Observer { updateFolderUI(it) })
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
         viewModel.clipRecord.observe(this, Observer { updateClipUI(it) })
+        viewModel.countdownRecords.observe(this, Observer { updateCountdownUI(it) })
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateCountdownUI(list: RealmResults<Record>?) {
+        if(list.isNullOrEmpty()) {
+            countdownText.visibility = View.GONE
+        }else {
+            countdownText.visibility = View.VISIBLE
+            list[0]?.let { record ->
+                countdownText.text = record.getDdayText(System.currentTimeMillis())
+            }
+        }
     }
 
     private fun updateClipUI(record: Record?) {
@@ -382,16 +395,10 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            //mainMonthText.text = AppDateFormat.mDate.format(it.time)
-            mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
-            mainYearText.text = it.get(Calendar.YEAR).toString()
-            if(AppStatus.isWeekNumDisplay) {
-                mainWeekLy.visibility = View.VISIBLE
-                //mainWeekText.text = String.format(str(R.string.weekNum), it.get(Calendar.WEEK_OF_YEAR))
-                mainWeekText.text = ". ${it.get(Calendar.WEEK_OF_YEAR)}"
-            }else {
-                mainWeekLy.visibility = View.GONE
-            }
+            mainMonthText.text = AppDateFormat.month.format(it.time)
+            mainYearText.text = AppDateFormat.year.format(it.time)
+            //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
+            //mainYearText.text = it.get(Calendar.YEAR).toString()
         }
     }
 

@@ -11,13 +11,10 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.LinearLayout.HORIZONTAL
-import androidx.cardview.widget.CardView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordListAdapter
 import com.ayaan.twelvepages.adapter.util.ListDiffCallback
@@ -46,6 +43,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val currentList = ArrayList<Record>()
     private val newList = ArrayList<Record>()
     private val dateInfo = DateInfoManager.DateInfo()
+    private var color = 0
 
     private val adapter = RecordListAdapter(context, currentList, targetCal) { view, record, action ->
         MainActivity.instance?.let { activity ->
@@ -92,8 +90,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         setGlobalTheme(rootLy)
         initRecyclerView()
         clipChildren = false
-        dateText.typeface = AppTheme.regularCFont
-        dowText.typeface = AppTheme.regularFont
+        dateText.typeface = AppTheme.boldFont
+        dowText.typeface = AppTheme.boldFont
         holiText.typeface = AppTheme.regularFont
         dateLy.clipChildren = false
         dateLy.pivotX = 0f
@@ -102,10 +100,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.pivotY = 0f
         holiText.pivotX = 0f
         holiText.pivotY = 0f
-        bar.pivotX = 0f
-        bar.layoutParams.width = dpToPx(100)
         (dateLy.layoutParams as LayoutParams).gravity = Gravity.NO_GRAVITY
-        bar.visibility = View.VISIBLE
         topShadow.visibility = View.GONE
         dateText.setBackgroundResource(AppTheme.selectableItemBackground)
         dateText.setOnClickListener {
@@ -146,7 +141,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     updateChange(adapter, currentList, newList)
                 }
             }
-            l("${AppDateFormat.mdDate.format(targetCal.time)} 데이뷰 갱신 : ${(System.currentTimeMillis() - t) / 1000f} 초")
+            l("${AppDateFormat.md.format(targetCal.time)} 데이뷰 갱신 : ${(System.currentTimeMillis() - t) / 1000f} 초")
         }
     }
 
@@ -204,15 +199,15 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     private fun setDateText() {
-        dateText.text = String.format("%01d", targetCal.get(Calendar.DATE))
+        dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
         dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
         DateInfoManager.getHoliday(dateInfo, targetCal)
-        val color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
+        color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
             CalendarManager.sundayColor
         }else if(targetCal.get(Calendar.DAY_OF_WEEK) == SATURDAY) {
             CalendarManager.saturdayColor
         }else {
-            CalendarManager.selectedDateColor
+            CalendarManager.dateColor
         }
         bar.setBackgroundColor(color)
         dateText.setTextColor(color)
@@ -224,6 +219,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun show(dayPager: DayPager) {
+        MainActivity.getMainMonthText()?.setTextColor(color)
+        MainActivity.getMainYearText()?.setTextColor(color)
         dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
         val animSet = AnimatorSet()
         animSet.playTogether(
@@ -243,16 +240,17 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", 1f, mainDateLyY),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", 1f, mainDateLyScaleX),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", 1f, mainDateLyScaleY),
-                ObjectAnimator.ofFloat(bar, "scaleX", 1f, 1f),
-                ObjectAnimator.ofFloat(bar, "scaleY", 1f, 2f),
-                ObjectAnimator.ofFloat(bar, "translationX", 0f, barX),
-                ObjectAnimator.ofFloat(bar, "translationY", 0f, barY))
+                ObjectAnimator.ofFloat(MainActivity.getMainYearText(), "scaleX", 1f, yearTextScale),
+                ObjectAnimator.ofFloat(MainActivity.getMainYearText(), "scaleY", 1f, yearTextScale),
+                ObjectAnimator.ofFloat(bar, "alpha", 1f, 0f))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
     }
 
     fun hide(dayPager: DayPager) {
+        MainActivity.getMainMonthText()?.setTextColor(CalendarManager.dateColor)
+        MainActivity.getMainYearText()?.setTextColor(CalendarManager.dateColor)
         dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
@@ -273,10 +271,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", mainDateLyY, 1f),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", mainDateLyScaleX, 1f),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", mainDateLyScaleY, 1f),
-                ObjectAnimator.ofFloat(bar, "scaleX", 1f, 1f),
-                ObjectAnimator.ofFloat(bar, "scaleY", 2f, 1f),
-                ObjectAnimator.ofFloat(bar, "translationX", barX, 0f),
-                ObjectAnimator.ofFloat(bar, "translationY", barY, 0f))
+                ObjectAnimator.ofFloat(MainActivity.getMainYearText(), "scaleX", yearTextScale, 1f),
+                ObjectAnimator.ofFloat(MainActivity.getMainYearText(), "scaleY", yearTextScale, 1f),
+                ObjectAnimator.ofFloat(bar, "alpha", 0f, 1f))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
@@ -302,11 +299,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.scaleX = mainDateLyScaleX
             it.scaleY = mainDateLyScaleY
         }
-        bar.scaleX = 1f
-        bar.scaleY = 2f
-        bar.translationX = barX
-        bar.translationY = barY
-
+        bar.alpha = 0f
     }
 
     private fun setDateClosedStyle() {
@@ -329,36 +322,32 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.scaleX = 1f
             it.scaleY = 1f
         }
-        bar.scaleX = 1f
-        bar.scaleY = 1f
-        bar.translationX = 0f
-        bar.translationY = 0f
+        bar.alpha = 1f
     }
 
     fun targeted() {
-        l("[데이뷰 타겟팅] : " + AppDateFormat.ymdeDate.format(targetCal.time) )
-        bar.postDelayed({
-            val width = MainActivity.getMainSubDateLy()?.width ?: 0
-            l("너비 : " + width)
-            ObjectAnimator.ofFloat(bar, "scaleX", bar.scaleX, width / bar.width.toFloat()).start()
-        }, 1)
+        MainActivity.getMainMonthText()?.setTextColor(color)
+        MainActivity.getMainYearText()?.setTextColor(color)
+        l("[데이뷰 타겟팅] : " + AppDateFormat.ymde.format(targetCal.time) )
+        l("너비 : " + width)
     }
 
     companion object {
         const val headerTextScale = 5.5f
         val weekTextY = -dpToPx(3.0f)
         val datePosX = dpToPx(22.5f)
-        val datePosY = dpToPx(1.0f)
+        val datePosY = dpToPx(5.0f)
         val dowPosX = dpToPx(1.00f) / headerTextScale
         val dowPosY = dpToPx(9.6f)
         val dowScale = 0.310f
-        val holiPosX = dpToPx(15.2f)
-        val holiPosY = dpToPx(0.95f)
+        val holiPosX = dpToPx(0f)
+        val holiPosY = dpToPx(0.0f)
         val holiScale = 0.32f
-        val mainDateLyX = dpToPx(100.0f)
-        val mainDateLyY = dpToPx(20.0f)
-        val mainDateLyScaleX = 0.35f
-        val mainDateLyScaleY = 0.35f
+        val mainDateLyX = dpToPx(90.0f)
+        val mainDateLyY = dpToPx(5.0f)
+        val mainDateLyScaleX = 0.6f
+        val mainDateLyScaleY = 0.6f
+        val yearTextScale = 2.3f
         val mainMonthScale = 0.33f
         val mainMonthX = dpToPx(0.33f)
         val barX = dpToPx(100.0f)

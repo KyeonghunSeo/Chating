@@ -133,7 +133,7 @@ object AlarmManager {
         }else {
             manager.set(AlarmManager.RTC_WAKEUP, alarm.dtAlarm, pendingIntent)
         }
-        l("알람 등록 : ${AppDateFormat.ymdDate.format(Date(alarm.dtAlarm))} ${AppDateFormat.time.format(Date(alarm.dtAlarm))}")
+        l("알람 등록 : ${AppDateFormat.ymd.format(Date(alarm.dtAlarm))} ${AppDateFormat.time.format(Date(alarm.dtAlarm))}")
     }
 
     fun unRegistRecordAlarm(requestCode: Int) {
@@ -155,7 +155,7 @@ object AlarmManager {
     fun getAlarmNotiText(record: Record) : String {
         val alarm = record.alarms[0]!!
         val timeStr = if(record.isSetTime()) AppDateFormat.dateTime.format(Date(record.dtStart))
-        else AppDateFormat.mdeDate.format(Date(record.dtStart))
+        else AppDateFormat.mde.format(Date(record.dtStart))
         val diffStr = getDiffStr(alarm.dtAlarm, record.dtStart)
         return "$timeStr ($diffStr)"
     }

@@ -34,7 +34,8 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private val scale = 0.7f
     private val animDur = 350L
-    private val profileCloseMargin = dpToPx(17)
+    private val profileCloseTopMargin = dpToPx(15)
+    private val profileCloseRightMargin = dpToPx(20)
     private val profileOpenMargin = dpToPx(7)
     private val profileOpenTopMargin = dpToPx(7)
     private val profileBtnSize = dpToPx(50)
@@ -153,7 +154,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             TransitionManager.beginDelayedTransition(profileBtn, transiion)
             (profileBtn.layoutParams as LayoutParams).let {
                 it.gravity = Gravity.RIGHT
-                it.setMargins(0, profileCloseMargin, profileCloseMargin, 0)
+                it.setMargins(0, profileCloseTopMargin, profileCloseRightMargin, 0)
             }
             requestLayout()
         }

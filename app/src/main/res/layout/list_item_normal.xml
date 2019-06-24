@@ -16,12 +16,14 @@
           android:layout_height="20dp"
           android:layout_marginRight="15dp"
           android:layout_gravity="center_vertical"
+          android:src="@drawable/circle_fill"
           android:tint="@color/primaryText"/>
 
       <LinearLayout
           android:orientation="vertical"
-          android:layout_width="match_parent"
+          android:layout_width="0dp"
           android:layout_height="55dp"
+          android:layout_weight="1"
           android:gravity="center_vertical">
 
          <TextView
@@ -41,6 +43,14 @@
              android:text="#love#peace"/>
 
       </LinearLayout>
+
+      <ImageView
+          android:id="@+id/checkImg"
+          android:layout_width="23dp"
+          android:layout_height="23dp"
+          android:layout_marginLeft="10dp"
+          android:layout_gravity="center_vertical"
+          android:tint="@color/primaryText"/>
 
    </LinearLayout>
 

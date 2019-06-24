@@ -17,14 +17,14 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="red">#f6554d</color>
+    <color name="red">#f95950</color>
     <color name="blue">#009cc6</color>
     <color name="grey">#e4e7ef</color>
     <color name="transparent">#00000000</color>
 
     <string-array name="colors">
-        <item>#f6554d</item>
-        <item>#ff7350</item>
+        <item>#f95950</item>
+        <item>#ff8a5b</item>
         <item>#f69f98</item>
         <item>#ffd159</item>
         <item>#33b679</item>

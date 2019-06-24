@@ -236,7 +236,7 @@ object RecordManager {
 
     fun reorder(list: List<Record>) {
         val realm = Realm.getDefaultInstance()
-        realm.executeTransaction{ realm ->
+        realm.executeTransaction{ _ ->
             list.forEachIndexed { index, timeObject ->
                 realm.where(Record::class.java).equalTo("id", timeObject.id).findFirst()?.let {
                     it.ordering = index

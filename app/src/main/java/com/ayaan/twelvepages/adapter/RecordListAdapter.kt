@@ -123,8 +123,8 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                             AppDateFormat.dateTime.format(Date(record.dtEnd)) +
                             " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"
                 }else {
-                    v.timeText.text = "${AppDateFormat.mdDate.format(Date(record.dtStart))} ~ " +
-                            AppDateFormat.mdDate.format(Date(record.dtEnd)) +
+                    v.timeText.text = "${AppDateFormat.md.format(Date(record.dtStart))} ~ " +
+                            AppDateFormat.md.format(Date(record.dtEnd)) +
                             " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"
                 }
             }
@@ -307,7 +307,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
             val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
             val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
-            return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, swipeFlags)
+            return makeMovementFlags(dragFlags, swipeFlags)
         }
 
         override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
@@ -315,14 +315,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             return true
         }
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-        }
-
-        override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                                 dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-        }
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
 
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
             // We only want the active item to change
