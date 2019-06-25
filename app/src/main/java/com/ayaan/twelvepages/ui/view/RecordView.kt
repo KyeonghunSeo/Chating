@@ -29,12 +29,12 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val defaulMargin = dpToPx(1.5f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
         val sidePadding = dpToPx(3.0f).toInt()
-        val smallTextPadding = dpToPx(1.5f)
-        val normalTextPadding = dpToPx(0.0f)
-        val bigTextPadding = -dpToPx(1.0f)
+        val smallTextPadding = dpToPx(2.4f)
+        val normalTextPadding = dpToPx(1.7f)
+        val bigTextPadding = dpToPx(1.2f)
         val bottomPadding = dpToPx(3.0f)
-        val rectRadius = dpToPx(0.5f)
         val blockTypeSize = dpToPx(16.5f).toInt()
+        val rectRadius = dpToPx(1.0f)
         val dotSize = dpToPx(5)
         val checkboxSize = dpToPx(10)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
@@ -81,7 +81,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     var shape = Shape.TEXT
 
     init {
-        includeFontPadding = false
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
         setStyle()
     }
@@ -93,7 +92,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         when(formula) {
             BACKGROUND -> {}
             STACK -> {
-                typeface = AppTheme.regularFont
+                setTypeface(AppTheme.regularFont, Typeface.NORMAL)
                 text = record.getTitleInCalendar()
                 gravity = Gravity.LEFT
                 setSingleLine(true)
@@ -106,7 +105,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 gravity = Gravity.LEFT
             }
             EXPANDED -> {
-                typeface = AppTheme.regularFont
+                setTypeface(AppTheme.regularFont, Typeface.NORMAL)
                 text = record.getTitleInCalendar()
                 gravity = Gravity.LEFT
                 setSingleLine(false)
@@ -115,7 +114,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 ellipsize = TextUtils.TruncateAt.END
             }
             RANGE -> {
-                typeface = AppTheme.boldFont
+                setTypeface(AppTheme.boldFont, Typeface.BOLD)
                 text = record.getTitleInCalendar()
                 gravity = Gravity.CENTER
                 setSingleLine(true)
@@ -225,7 +224,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             }
             Shape.RECT_STROKE -> {
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = strokeWidth * 0.8f
+                paint.strokeWidth = strokeWidth * 1f
                 canvas.drawRect(strokeWidth / 2, strokeWidth / 2,
                         width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2, paint)
                 paint.style = Paint.Style.FILL
@@ -450,21 +449,21 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     }
 
     private fun drawImage(canvas: Canvas) {
-        /*
-        val size = (blockTypeSize * 1.5f).toInt()
+
+        val size = (blockTypeSize * 2.5f).toInt()
         var top = height - size - sidePadding
         var left = sidePadding
         childList?.forEach { child ->
-            val circle = resource.getDrawable(R.drawable.bg2)
+            val circle = resource.getDrawable(R.drawable.s_1207)
             circle.setBounds(left, top, (left + size), (top + size))
             circle.draw(canvas)
         }
-        */
+        /*
         childList?.forEach { child ->
             val circle = resource.getDrawable(R.drawable.bg)
             circle.setBounds(0, CalendarView.dataStartYOffset.toInt(), width, height)
             circle.draw(canvas)
-        }
+        }*/
     }
 
     private fun drawDot(view: RecordView, paint: Paint, canvas: Canvas) {

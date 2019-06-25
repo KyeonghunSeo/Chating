@@ -32,6 +32,7 @@ import com.ayaan.twelvepages.model.AppUser
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.CalendarSettingsDialog
+import com.ayaan.twelvepages.ui.dialog.CountdownListDialog
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.theartofdev.edmodo.cropper.CropImage
@@ -198,12 +199,12 @@ class MainActivity : BaseActivity() {
                 type = 1
                 colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s, s).apply {
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*2, s+DAY_MILL*3).apply {
                 title = "오후미팅"
                 type = 1
                 colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL, s+DAY_MILL).apply {
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*5, s+DAY_MILL*5).apply {
                 title = "헬스장"
                 type = 1
                 colorKey = Random().nextInt(11)
@@ -273,6 +274,10 @@ class MainActivity : BaseActivity() {
             countdownText.visibility = View.VISIBLE
             list[0]?.let { record ->
                 countdownText.text = record.getDdayText(System.currentTimeMillis())
+                countdownText.setOnClickListener {
+                    showDialog(CountdownListDialog(this) {
+                    }, true, true, true, false)
+                }
             }
         }
     }
@@ -395,7 +400,7 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            mainMonthText.text = AppDateFormat.month.format(it.time)
+            mainMonthText.text = AppDateFormat.ym.format(it.time)
             mainYearText.text = AppDateFormat.year.format(it.time)
             //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
             //mainYearText.text = it.get(Calendar.YEAR).toString()

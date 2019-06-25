@@ -45,7 +45,7 @@ object ColorManager {
     }
 
     fun getColor(colorKey: Int) = ColorPack.values()[colorKey / colorPaletteSize].items[colorKey % colorPaletteSize]
-    fun getFontColor(color: Int) = if(ColorUtils.calculateLuminance(color) < 0.8f) AppTheme.background else AppTheme.secondaryText
+    fun getFontColor(color: Int) = if(ColorUtils.calculateLuminance(color) < 0.7f) AppTheme.background else AppTheme.primaryText
     fun getColorKey(color: Int): Int {
         val colors = primaryColorPack.items
         var colorKey = 0

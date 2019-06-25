@@ -203,7 +203,7 @@
                                 android:textSize="13dp"
                                 android:textColor="@color/primaryText"
                                 android:fontFamily="@font/regular"
-                                android:text="@string/dday"/>
+                                android:text="@string/countdown"/>
 
                         </LinearLayout>
 

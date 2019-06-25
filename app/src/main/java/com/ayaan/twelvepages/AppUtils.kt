@@ -403,7 +403,9 @@ fun setGlobalTheme(view: View?) {
                 val v = vg.getChildAt(i)
                 when (v) {
                     is TextView -> {
-                        if(v.typeface == Typeface.DEFAULT) {
+                        if(v.typeface == AppTheme.boldFont) {
+                            v.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+                        }else {
                             v.typeface = AppTheme.regularFont
                         }
                     }

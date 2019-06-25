@@ -53,11 +53,11 @@
                         android:id="@+id/mainDateLy"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="80dp"
                         android:animateLayoutChanges="true"
-                        android:layout_marginTop="15dp"
                         android:layout_marginLeft="25dp"
-                        android:clipChildren="false">
+                        android:clipChildren="false"
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:id="@+id/mainMonthText"
@@ -66,7 +66,7 @@
                             android:layout_marginRight="10dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:textColor="@color/primaryText"
-                            android:textSize="36dp"
+                            android:textSize="26dp"
                             android:fontFamily="@font/bold"/>
 
                         <TextView
@@ -76,8 +76,8 @@
                             android:layout_marginLeft="3dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:textColor="@color/primaryText"
-                            android:textSize="15dp"
-                            android:fontFamily="@font/regular"/>
+                            android:textSize="18dp"
+                            android:visibility="gone"/>
 
                     </LinearLayout>
 
@@ -103,7 +103,7 @@
                             android:paddingBottom="2dp"
                             android:background="@color/line"
                             android:textColor="@color/background"
-                            android:textSize="11dp"
+                            android:textSize="12dp"
                             android:fontFamily="@font/bold"/>
 
                         <TextView
@@ -156,43 +156,45 @@
             android:layout_marginBottom="20dp"
             android:layout_gravity="center_horizontal|bottom"
             android:outlineSpotShadowColor="@color/secondaryText"
-            android:foreground="?android:attr/selectableItemBackground"
+            android:foreground="@drawable/normal_rect_stroke"
             app:cardBackgroundColor="@color/background"
             app:cardElevation="4dp"
-            app:cardCornerRadius="15dp">
+            app:cardCornerRadius="0dp">
 
             <LinearLayout
                 android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp">
 
                 <ImageView
                     android:id="@+id/todayLeftArrow"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/arrow_left"
-                    android:tint="@color/secondaryText"
+                    android:tint="@color/primaryText"
                     android:layout_gravity="center_vertical" />
 
                 <TextView
                     android:id="@+id/todayText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12dp"
-                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"
+                    android:textColor="@color/primaryText"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/regular"
+                    android:textStyle="bold"
                     android:text="@string/today"/>
 
                 <ImageView
                     android:id="@+id/todayRightArrow"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/arrow_right"
-                    android:tint="@color/secondaryText"
+                    android:tint="@color/primaryText"
                     android:layout_gravity="center_vertical|right" />
 
             </LinearLayout>
@@ -224,7 +226,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="13dp"
                     android:src="@drawable/arrow_right"
-                    android:tint="@color/secondaryText"/>
+                    android:tint="@color/primaryText"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -343,7 +345,7 @@
         android:layout_gravity="right"
         android:elevation="30dp"
         android:layout_marginTop="15dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="10dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/profileCard"

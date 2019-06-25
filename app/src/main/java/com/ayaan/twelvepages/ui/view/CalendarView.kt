@@ -40,7 +40,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val todayCal: Calendar = Calendar.getInstance()
         val dragStartYPos = dpToPx(0f)
         val weekLyBottomPadding = dpToPx(10)
-        val calendarPadding = dpToPx(19)
+        val calendarPadding = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
@@ -69,7 +69,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
             dateText.typeface = AppTheme.regularFont
-            dowText.typeface = AppTheme.boldFont
+            dowText.typeface = AppTheme.regularFont
             holiText.typeface = AppTheme.regularFont
             dowText.visibility = View.GONE
             bar.scaleX = 0f
@@ -125,12 +125,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(0, headerHeight + calendarPadding, 0, calendarPadding)
+        calendarLy.setPadding(0, headerHeight, 0, calendarPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
 
         rowDividers.forEachIndexed { index, view ->
-            view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt())
-            view.setBackgroundColor(AppTheme.secondaryText)
+            view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
+                leftMargin = calendarPadding
+            }
+            view.setBackgroundColor(AppTheme.lightLine)
         }
 
         columnDividers.forEachIndexed { index, view ->
@@ -144,14 +146,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateLy.clipChildren = false
             dateLy.orientation = HORIZONTAL
             dateLy.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-            dateLy.setPadding(calendarPadding, 0, calendarPadding, 0)
+            dateLy.setPadding(calendarPadding, 0, 0, 0)
             weekLy.addView(rowDividers[i])
-            weekText[i].layoutParams = LayoutParams((lineWidth * 30).toInt(), (lineWidth * 20).toInt()).apply {
+            weekText[i].layoutParams = LayoutParams((lineWidth * 30).toInt(), (lineWidth * 24).toInt()).apply {
                 topMargin = (lineWidth * 10).toInt()
             }
-            weekText[i].typeface = AppTheme.regularFont
+            weekText[i].typeface = AppTheme.boldFont
             weekText[i].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 8f)
-            weekText[i].setBackgroundColor(AppTheme.line)
+            weekText[i].setBackgroundColor(AppTheme.secondaryText)
             weekText[i].setTextColor(AppTheme.background)
             weekText[i].gravity = Gravity.CENTER
             weekLy.addView(weekText[i])
@@ -202,8 +204,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         todayCellNum = -1
         targetCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height.toFloat() - calendarPadding * 2 - headerHeight
-        minWidth = (width.toFloat() - calendarPadding * 2) / columns
+        minCalendarHeight = height.toFloat() - headerHeight - calendarPadding
+        minWidth = (width.toFloat() - calendarPadding) / columns
         minHeight = minCalendarHeight / rows
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {
             sundayPos = 0
@@ -355,7 +357,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dateText = dateHeaders[cellNum].dateText
             val dowText = dateHeaders[cellNum].dowText
             val holiText = dateHeaders[cellNum].holiText
-            dateText.typeface = AppTheme.boldFont
+            dateText.typeface = AppTheme.regularFont
             holiText.text = dateInfos[cellNum].getSelectedString()
             dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
             dateText.alpha = 1f

@@ -403,7 +403,7 @@ class RecordActivity : BaseActivity() {
             ddayLy.visibility = View.VISIBLE
             ddayText.text = record.getDdayText(System.currentTimeMillis())
             ddayLy.setOnClickListener {
-                showDialog(CustomDialog(this, getString(R.string.dday),
+                showDialog(CustomDialog(this, getString(R.string.countdown),
                         getString(R.string.delete_dday_sub), null) { result, _, _ ->
                     if(result) {
                         record.clearDday()

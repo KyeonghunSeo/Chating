@@ -173,7 +173,7 @@
     <string name="cal_text_size">글씨 크기</string>
     <string name="outside_month">이전, 다음달 표시</string>
     <string name="connect_os_calendar">외부 서비스 일정 참조</string>
-    <string name="dday">디데이</string>
+    <string name="countdown">카운트다운</string>
     <string name="planning">계획하기</string>
     <string name="write_everything">무엇을 기록할까요?</string>
     <string name="delete_dday_sub">디데이를 삭제할까요?</string>

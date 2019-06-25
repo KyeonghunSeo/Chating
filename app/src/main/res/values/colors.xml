@@ -5,7 +5,7 @@
 
     <color name="background">#ffffff</color>
     <color name="backgroundDark">#eeeeee</color>
-    <color name="whiteAlpha">#ccffffff</color>
+    <color name="whiteAlpha">#ddffffff</color>
     <color name="dim">#90000000</color>
 
     <color name="primaryText">#383838</color>
@@ -35,56 +35,71 @@
         <item>#606066</item>
     </string-array>
 
+    <!--
+
+        <item>#f95950</item>
+        <item>#ff8a5b</item>
+        <item>#f69f98</item>
+        <item>#ffd159</item>
+        <item>#33b679</item>
+        <item>#009a59</item>
+        <item>#53cae5</item>
+        <item>#009cc6</item>
+        <item>#a17ac6</item>
+        <item>#606066</item>
+    -->
+
     <string-array name="colors_spring">
-        <item>#EC748F</item>
-        <item>#E7D06C</item>
-        <item>#9B7C56</item>
-        <item>#EAE8F1</item>
-        <item>#406918</item>
-        <item>#E3A5CA</item>
-        <item>#84B158</item>
-        <item>#FAFAF7</item>
-        <item>#A1B587</item>
-        <item>#000000</item>
+        <item>#f4e4e9</item>
+        <item>#eca0ad</item>
+        <item>#ff9db3</item>
+        <item>#ec3561</item>
+        <item>#e8578b</item>
+        <item>#f5668e</item>
+        <item>#d0254c</item>
+        <item>#fcd771</item>
+        <item>#e0995a</item>
+        <item>#b9bb6e</item>
+        <item>#688f19</item>
     </string-array>
 
     <string-array name="colors_summer">
-        <item>#0C74B4</item>
-        <item>#30C1E0</item>
-        <item>#CEC9A9</item>
-        <item>#2E2F28</item>
-        <item>#2A798E</item>
+        <item>#e4f2f5</item>
+        <item>#acc4e0</item>
+        <item>#b8de62</item>
+        <item>#4e8784</item>
         <item>#6cb1ea</item>
-        <item>#647b30</item>
-        <item>#14625e</item>
-        <item>#6a797c</item>
-        <item>#3988c7</item>
+        <item>#E6E0AC</item>
+        <item>#E0BC57</item>
+        <item>#FDC036</item>
+        <item>#FFE200</item>
+        <item>#FF8064</item>
     </string-array>
 
     <string-array name="colors_fall">
-        <item>#0C74B4</item>
-        <item>#30C1E0</item>
-        <item>#CEC9A9</item>
-        <item>#2E2F28</item>
-        <item>#2A798E</item>
-        <item>#6cb1ea</item>
-        <item>#647b30</item>
-        <item>#14625e</item>
-        <item>#6a797c</item>
-        <item>#3988c7</item>
+        <item>#FCE6D2</item>
+        <item>#FFD6AA</item>
+        <item>#FEC87F</item>
+        <item>#F7AF7A</item>
+        <item>#F9A500</item>
+        <item>#F07B06</item>
+        <item>#DD5F01</item>
+        <item>#CED640</item>
+        <item>#727324</item>
+        <item>#433E1E</item>
     </string-array>
 
     <string-array name="colors_winter">
-        <item>#0C74B4</item>
-        <item>#30C1E0</item>
-        <item>#CEC9A9</item>
-        <item>#2E2F28</item>
-        <item>#2A798E</item>
-        <item>#6cb1ea</item>
-        <item>#647b30</item>
-        <item>#14625e</item>
-        <item>#6a797c</item>
-        <item>#3988c7</item>
+        <item>#d1e2e1</item>
+        <item>#bfcac9</item>
+        <item>#95a3a2</item>
+        <item>#7d8384</item>
+        <item>#5e6767</item>
+        <item>#293434</item>
+        <item>#fbece2</item>
+        <item>#e1d1c8</item>
+        <item>#b5a29d</item>
+        <item>#836b65</item>
     </string-array>
 
 </resources>
