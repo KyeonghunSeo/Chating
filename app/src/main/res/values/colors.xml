@@ -17,7 +17,7 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="red">#f95950</color>
+    <color name="red">#ec3561</color>
     <color name="blue">#009cc6</color>
     <color name="grey">#e4e7ef</color>
     <color name="transparent">#00000000</color>
@@ -53,9 +53,8 @@
         <item>#f4e4e9</item>
         <item>#eca0ad</item>
         <item>#ff9db3</item>
-        <item>#ec3561</item>
         <item>#e8578b</item>
-        <item>#f5668e</item>
+        <item>#ec3561</item>
         <item>#d0254c</item>
         <item>#fcd771</item>
         <item>#e0995a</item>

@@ -67,7 +67,7 @@
                             android:textColor="@color/white"
                             android:textSize="8dp"
                             android:text="@string/premium"
-                            android:fontFamily="@font/bold_c"/>
+                            android:fontFamily="@font/bold"/>
 
                     </androidx.cardview.widget.CardView>
 
@@ -120,7 +120,7 @@
                 android:textColor="@color/primaryText"
                 android:textSize="14dp"
                 android:text="@string/premium"
-                android:fontFamily="@font/bold_c"/>
+                android:fontFamily="@font/bold"/>
 
             <TextView
                 android:id="@+id/aboutUsBtn"
@@ -131,7 +131,7 @@
                 android:textColor="@color/primaryText"
                 android:textSize="14dp"
                 android:text="@string/about_us"
-                android:fontFamily="@font/bold_c"/>
+                android:fontFamily="@font/bold"/>
 
         </LinearLayout>
 

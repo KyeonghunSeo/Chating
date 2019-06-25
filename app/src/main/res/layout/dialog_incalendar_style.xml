@@ -87,7 +87,7 @@
                                             android:includeFontPadding="false"
                                             android:textSize="11dp"
                                             android:textColor="@color/primaryText"
-                                            android:fontFamily="@font/regular_c"
+                                            android:fontFamily="@font/regular"
                                             android:text="27"/>
 
                                         <TextView
@@ -100,7 +100,7 @@
                                             android:textSize="9dp"
                                             android:maxLines="1"
                                             android:textColor="@color/primaryText"
-                                            android:fontFamily="@font/regular_c"
+                                            android:fontFamily="@font/regular"
                                             android:text="WED"/>
 
                                     </LinearLayout>
@@ -151,7 +151,7 @@
                                             android:includeFontPadding="false"
                                             android:textSize="11dp"
                                             android:textColor="@color/primaryText"
-                                            android:fontFamily="@font/regular_c"
+                                            android:fontFamily="@font/regular"
                                             android:text="27"/>
 
                                     </LinearLayout>
@@ -190,7 +190,7 @@
                                             android:includeFontPadding="false"
                                             android:textSize="11dp"
                                             android:textColor="@color/primaryText"
-                                            android:fontFamily="@font/regular_c"
+                                            android:fontFamily="@font/regular"
                                             android:text="27"/>
 
                                     </LinearLayout>
@@ -229,7 +229,7 @@
                                             android:includeFontPadding="false"
                                             android:textSize="11dp"
                                             android:textColor="@color/primaryText"
-                                            android:fontFamily="@font/regular_c"
+                                            android:fontFamily="@font/regular"
                                             android:text="27"/>
 
                                     </LinearLayout>
@@ -268,7 +268,7 @@
                                             android:includeFontPadding="false"
                                             android:textSize="11dp"
                                             android:textColor="@color/primaryText"
-                                            android:fontFamily="@font/regular_c"
+                                            android:fontFamily="@font/regular"
                                             android:text="27"/>
 
                                     </LinearLayout>

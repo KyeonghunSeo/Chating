@@ -39,7 +39,7 @@ class CalendarPicker @JvmOverloads constructor(context: Context, attrs: Attribut
         val leftImg: ImageView = container.findViewById(R.id.leftImg)
         val rightImg: ImageView = container.findViewById(R.id.rightImg)
         init {
-            dateText.typeface = AppTheme.regularCFont
+            dateText.typeface = AppTheme.regularFont
             container.setBackgroundResource(AppTheme.selectableItemBackground)
         }
     }

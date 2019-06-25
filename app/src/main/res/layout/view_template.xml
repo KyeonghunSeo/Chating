@@ -89,13 +89,12 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="bottom|right"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="20dp"
         android:outlineSpotShadowColor="@color/secondaryText"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="@color/primaryText"
+        android:layout_margin="15dp"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="25dp"
-        app:cardElevation="4dp">
+        app:cardElevation="8dp">
 
         <ImageView
             android:id="@+id/templateIconImg"
@@ -103,7 +102,7 @@
             android:layout_height="match_parent"
             android:padding="12dp"
             android:src="@drawable/add"
-            android:tint="@color/background"/>
+            android:tint="@color/primaryText"/>
 
     </androidx.cardview.widget.CardView>
 

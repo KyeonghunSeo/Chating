@@ -68,8 +68,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val holiText: TextView = container.findViewById(R.id.holiText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
-            dateText.typeface = AppTheme.regularFont
-            dowText.typeface = AppTheme.regularFont
+            dateText.typeface = AppTheme.boldFont
+            dowText.typeface = AppTheme.boldFont
             holiText.typeface = AppTheme.regularFont
             dowText.visibility = View.GONE
             bar.scaleX = 0f
@@ -131,6 +131,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         rowDividers.forEachIndexed { index, view ->
             view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
                 leftMargin = calendarPadding
+                rightMargin = 0
             }
             view.setBackgroundColor(AppTheme.lightLine)
         }
@@ -149,12 +150,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateLy.setPadding(calendarPadding, 0, 0, 0)
             weekLy.addView(rowDividers[i])
             weekText[i].layoutParams = LayoutParams((lineWidth * 30).toInt(), (lineWidth * 24).toInt()).apply {
-                topMargin = (lineWidth * 10).toInt()
+                topMargin = (lineWidth * 4).toInt()
             }
             weekText[i].typeface = AppTheme.boldFont
             weekText[i].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 8f)
-            weekText[i].setBackgroundColor(AppTheme.secondaryText)
-            weekText[i].setTextColor(AppTheme.background)
+            weekText[i].setBackgroundColor(AppTheme.background)
+            weekText[i].setTextColor(AppTheme.secondaryText)
             weekText[i].gravity = Gravity.CENTER
             weekLy.addView(weekText[i])
             for (j in 0..6){
@@ -205,7 +206,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         targetCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
         minCalendarHeight = height.toFloat() - headerHeight - calendarPadding
-        minWidth = (width.toFloat() - calendarPadding) / columns
+        minWidth = (width.toFloat() - calendarPadding * 1) / columns
         minHeight = minCalendarHeight / rows
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {
             sundayPos = 0
@@ -232,7 +233,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     else columnDividers[cellNum].visibility = View.VISIBLE
                     cellTimeMills[cellNum] = tempCal.timeInMillis
 
-                    weekText[i].text = tempCal.get(Calendar.WEEK_OF_YEAR).toString()
+                    weekText[i].text = String.format(str(R.string.weekNum), tempCal.get(Calendar.WEEK_OF_YEAR))
                     weekText[i].visibility = View.GONE
 
                     val dateInfo = dateInfos[cellNum]
@@ -307,7 +308,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dowText = dateHeaders[cellNum].dowText
         val holiText = dateHeaders[cellNum].holiText
         dowText.visibility = View.GONE
-        dateText.typeface = AppTheme.regularFont
+        dateText.typeface = AppTheme.boldFont
         holiText.text = dateInfos[cellNum].getUnSelectedString()
         dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
         offViewEffect(cellNum)
@@ -357,7 +358,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dateText = dateHeaders[cellNum].dateText
             val dowText = dateHeaders[cellNum].dowText
             val holiText = dateHeaders[cellNum].holiText
-            dateText.typeface = AppTheme.regularFont
+            dateText.typeface = AppTheme.boldFont
             holiText.text = dateInfos[cellNum].getSelectedString()
             dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
             dateText.alpha = 1f
