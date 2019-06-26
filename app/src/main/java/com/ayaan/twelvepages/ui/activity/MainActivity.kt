@@ -582,8 +582,7 @@ class MainActivity : BaseActivity() {
             if(viewModel.openFolder.value == true) viewModel.openFolder.value = false
             if(dayPager.isOpened()) dayPager.hide()
             profileView.hide()
-            showDialog(CalendarSettingsDialog(this@MainActivity),
-                    true, false, true, false)
+            CalendarSettingsDialog(this).show(supportFragmentManager, null)
         }
     }
 

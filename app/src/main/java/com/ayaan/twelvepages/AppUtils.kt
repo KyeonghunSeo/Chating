@@ -436,7 +436,7 @@ fun setGlobalTheme(view: View?) {
 }
 
 fun toast(strId: Int) {
-    Toasty.custom(App.context, strId, 0, R.color.dim, Toast.LENGTH_SHORT, false, true).show()
+    Toasty.custom(App.context, strId, R.drawable.info, R.color.dim, Toast.LENGTH_SHORT, false, true).show()
 }
 
 fun toast(strId: Int, imgId: Int) {

@@ -169,8 +169,7 @@ class RecordActivity : BaseActivity() {
 
     private fun updateHeaderUI() {
         addOptionBtn.setOnClickListener {
-            showDialog(MoreOptionDialog(this, record, this),
-                    true, true, true, false)
+            MoreOptionDialog(record, this).show(supportFragmentManager, null)
         }
 
         moreBtn.setOnClickListener {
@@ -220,14 +219,6 @@ class RecordActivity : BaseActivity() {
                 record.colorKey = colorKey
                 updateFolderUI()
             }.show(supportFragmentManager, null)
-            /*
-            val location = IntArray(2)
-            colorBtn.getLocationOnScreen(location)
-            showDialog(SmallColorPickerDialog(this, record.colorKey, location) { colorKey ->
-                record.colorKey = colorKey
-                updateFolderUI()
-            }, true, true, true, false)
-            */
         }
 
         styleBtn.setOnClickListener {

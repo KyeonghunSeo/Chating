@@ -332,6 +332,7 @@
     <string name="recent_color_pack">최근 사용한 컬러</string>
     <string name="cant_deleted_last_one">마지막 아이템은 삭제할 수 없습니다</string>
     <string name="color_pack_setting">컬러팩 설정</string>
+    <string name="not_found_web">웹 페이지를 찾을수 없습니다</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

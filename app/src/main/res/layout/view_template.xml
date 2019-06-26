@@ -92,9 +92,9 @@
         android:outlineSpotShadowColor="@color/secondaryText"
         android:foreground="?android:attr/selectableItemBackground"
         android:layout_margin="15dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/primaryText"
         app:cardCornerRadius="25dp"
-        app:cardElevation="8dp">
+        app:cardElevation="4dp">
 
         <ImageView
             android:id="@+id/templateIconImg"
@@ -102,7 +102,7 @@
             android:layout_height="match_parent"
             android:padding="12dp"
             android:src="@drawable/add"
-            android:tint="@color/primaryText"/>
+            android:tint="@color/background"/>
 
     </androidx.cardview.widget.CardView>
 

@@ -2,31 +2,28 @@ package com.ayaan.twelvepages.ui.dialog
 
 import android.app.Activity
 import android.app.Dialog
-import android.os.Bundle
-import android.view.Gravity
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.WindowManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.manager.DateInfoManager
 import com.ayaan.twelvepages.ui.activity.MainActivity
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.pixplicity.easyprefs.library.Prefs
-import kotlinx.android.synthetic.main.dialog_calendar_settings.*
+import kotlinx.android.synthetic.main.dialog_calendar_settings.view.*
 
 
-class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        window.attributes.windowAnimations = R.style.DialogAnimation
-        window.setGravity(Gravity.BOTTOM)
-        setContentView(R.layout.dialog_calendar_settings)
-        setGlobalTheme(rootLy)
+class CalendarSettingsDialog(private val activity: Activity) : BottomSheetDialog() {
+    
+    override fun setupDialog(dialog: Dialog, style: Int) {
+        super.setupDialog(dialog, style, R.layout.dialog_calendar_settings)
+        dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        sheetBehavior.isHideable = false
         setLayout()
-        setOnShowListener {}
+        dialog.setOnShowListener {}
     }
 
     private fun setLayout() {
-        rootLy.setOnClickListener { dismiss() }
         setStartDow()
         setWeekNumDisplay()
         setDowDisplay()
@@ -39,12 +36,12 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
     }
 
     private fun setStartDow() {
-        val dowList = context.resources.getStringArray(R.array.day_of_weeks).toList()
-        startdowText.text = dowList[AppStatus.startDayOfWeek - 1]
-        startdowBtn.setOnClickListener {
+        val dowList = resources.getStringArray(R.array.day_of_weeks).toList()
+        root.startdowText.text = dowList[AppStatus.startDayOfWeek - 1]
+        root.startdowBtn.setOnClickListener {
             showDialog(CustomListDialog(activity,
-                    context.getString(R.string.startdow),
-                    context.getString(R.string.startdow_sub),
+                    str(R.string.startdow),
+                    str(R.string.startdow_sub),
                     null,
                     false,
                     dowList) { index ->
@@ -58,13 +55,13 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
 
     private fun setDowDisplay() {
         if(AppStatus.isDowDisplay) {
-            dowDisplayText.text = context.getString(R.string.visible)
-            dowDisplayText.setTextColor(AppTheme.primaryText)
+            root.dowDisplayText.text = str(R.string.visible)
+            root.dowDisplayText.setTextColor(AppTheme.primaryText)
         }else {
-            dowDisplayText.text = context.getString(R.string.unvisible)
-            dowDisplayText.setTextColor(AppTheme.disableText)
+            root.dowDisplayText.text = str(R.string.unvisible)
+            root.dowDisplayText.setTextColor(AppTheme.disableText)
         }
-        dowDisplayBtn.setOnClickListener {
+        root.dowDisplayBtn.setOnClickListener {
             AppStatus.isDowDisplay = !AppStatus.isDowDisplay
             Prefs.putBoolean("isDowDisplay", AppStatus.isDowDisplay)
             setDowDisplay()
@@ -73,9 +70,9 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
     }
 
     private fun setWeekendDisplay() {
-        weekDisplaySunText.setTextColor(CalendarManager.sundayColor)
-        weekDisplaySatText.setTextColor(CalendarManager.saturdayColor)
-        weekDisplayBtn.setOnClickListener {
+        root.weekDisplaySunText.setTextColor(CalendarManager.sundayColor)
+        root.weekDisplaySatText.setTextColor(CalendarManager.saturdayColor)
+        root.weekDisplayBtn.setOnClickListener {
             when {
                 CalendarManager.sundayColor == AppTheme.red && CalendarManager.saturdayColor == AppTheme.blue -> {
                     CalendarManager.saturdayColor = AppTheme.red
@@ -102,17 +99,17 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
     }
 
     private fun setHoliDisplay() {
-        val holiList = context.resources.getStringArray(R.array.holidays).toList()
-        holiDisplayText.text = holiList[AppStatus.holidayDisplay]
+        val holiList = resources.getStringArray(R.array.holidays).toList()
+        root.holiDisplayText.text = holiList[AppStatus.holidayDisplay]
         if(AppStatus.holidayDisplay == 0) {
-            holiDisplayText.setTextColor(AppTheme.disableText)
+            root.holiDisplayText.setTextColor(AppTheme.disableText)
         }else {
-            holiDisplayText.setTextColor(AppTheme.primaryText)
+            root.holiDisplayText.setTextColor(AppTheme.primaryText)
         }
-        holiDisplayBtn.setOnClickListener {
+        root.holiDisplayBtn.setOnClickListener {
             showDialog(CustomListDialog(activity,
-                    context.getString(R.string.holi_display),
-                    context.getString(R.string.holi_display_sub),
+                    str(R.string.holi_display),
+                    str(R.string.holi_display_sub),
                     null,
                     false,
                     holiList) { index ->
@@ -127,13 +124,13 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
 
     private fun setLunarDisplay() {
         if(AppStatus.isLunarDisplay) {
-            lunarDisplayText.text = context.getString(R.string.visible)
-            lunarDisplayText.setTextColor(AppTheme.primaryText)
+            root.lunarDisplayText.text = str(R.string.visible)
+            root.lunarDisplayText.setTextColor(AppTheme.primaryText)
         }else {
-            lunarDisplayText.text = context.getString(R.string.unvisible)
-            lunarDisplayText.setTextColor(AppTheme.disableText)
+            root.lunarDisplayText.text = str(R.string.unvisible)
+            root.lunarDisplayText.setTextColor(AppTheme.disableText)
         }
-        lunarDisplayBtn.setOnClickListener {
+        root.lunarDisplayBtn.setOnClickListener {
             AppStatus.isLunarDisplay = !AppStatus.isLunarDisplay
             Prefs.putBoolean("isLunarDisplay", AppStatus.isLunarDisplay)
             setLunarDisplay()
@@ -144,16 +141,16 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
     private fun setOutsideMonth() {
         when(AppStatus.outsideMonthAlpha) {
             0f -> {
-                outsideMonthText.text = context.getString(R.string.unvisible)
-                outsideMonthText.setTextColor(AppTheme.disableText)
+                root.outsideMonthText.text = str(R.string.unvisible)
+                root.outsideMonthText.setTextColor(AppTheme.disableText)
             }
             0.3f -> {
-                outsideMonthText.text = context.getString(R.string.visible)
-                outsideMonthText.setTextColor(AppTheme.primaryText)
+                root.outsideMonthText.text = str(R.string.visible)
+                root.outsideMonthText.setTextColor(AppTheme.primaryText)
             }
         }
 
-        outsideMonthBtn.setOnClickListener {
+        root.outsideMonthBtn.setOnClickListener {
             when(AppStatus.outsideMonthAlpha) {
                 0f -> AppStatus.outsideMonthAlpha = 0.3f
                 0.3f -> AppStatus.outsideMonthAlpha = 0f
@@ -166,12 +163,12 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
 
     private fun setCalTextSize() {
         when(AppStatus.calTextSize) {
-            -1 -> calTextSizeText.text = context.getString(R.string.small)
-            0 -> calTextSizeText.text = context.getString(R.string.normal)
-            1 -> calTextSizeText.text = context.getString(R.string.big)
+            -1 -> root.calTextSizeText.text = str(R.string.small)
+            0 -> root.calTextSizeText.text = str(R.string.normal)
+            1 -> root.calTextSizeText.text = str(R.string.big)
         }
         //calTextSizeText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (8 + AppStatus.calTextSize).toFloat())
-        calTextSizeBtn.setOnClickListener {
+        root.calTextSizeBtn.setOnClickListener {
             when(AppStatus.calTextSize) {
                 -1 -> AppStatus.calTextSize = 0
                 0 -> AppStatus.calTextSize = 1
@@ -185,13 +182,13 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
 
     private fun setWeekLine() {
         if(AppStatus.weekLine == 0) {
-            weekLineText.text = context.getString(R.string.unvisible)
-            weekLineText.setTextColor(AppTheme.disableText)
+            root.weekLineText.text = str(R.string.unvisible)
+            root.weekLineText.setTextColor(AppTheme.disableText)
         }else {
-            weekLineText.text = context.getString(R.string.visible)
-            weekLineText.setTextColor(AppTheme.primaryText)
+            root.weekLineText.text = str(R.string.visible)
+            root.weekLineText.setTextColor(AppTheme.primaryText)
         }
-        weekLineBtn.setOnClickListener {
+        root.weekLineBtn.setOnClickListener {
             if(AppStatus.weekLine == 0)  AppStatus.weekLine = 1
             else AppStatus.weekLine = 0
             Prefs.putInt("weekLine", AppStatus.weekLine)
@@ -202,13 +199,13 @@ class CalendarSettingsDialog(private val activity: Activity) : Dialog(activity) 
 
     private fun setWeekNumDisplay() {
         if(AppStatus.isWeekNumDisplay) {
-            weekNumDisplayText.text = context.getString(R.string.visible)
-            weekNumDisplayText.setTextColor(AppTheme.primaryText)
+            root.weekNumDisplayText.text = str(R.string.visible)
+            root.weekNumDisplayText.setTextColor(AppTheme.primaryText)
         }else {
-            weekNumDisplayText.text = context.getString(R.string.unvisible)
-            weekNumDisplayText.setTextColor(AppTheme.disableText)
+            root.weekNumDisplayText.text = str(R.string.unvisible)
+            root.weekNumDisplayText.setTextColor(AppTheme.disableText)
         }
-        weekNumDisplayBtn.setOnClickListener {
+        root.weekNumDisplayBtn.setOnClickListener {
             AppStatus.isWeekNumDisplay = !AppStatus.isWeekNumDisplay
             Prefs.putBoolean("isWeekNumDisplay", AppStatus.isWeekNumDisplay)
             setWeekNumDisplay()

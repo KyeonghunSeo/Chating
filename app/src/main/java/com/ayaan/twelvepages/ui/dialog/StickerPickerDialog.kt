@@ -17,6 +17,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.StickerManager
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.dialog_sticker_picker.view.*
 import kotlinx.android.synthetic.main.dialog_sticker_picker.view.recyclerView
@@ -112,7 +113,7 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                 if(index < items.size) {
                     val sticker = items[index]
                     view.visibility = View.VISIBLE
-                    view.setImageResource(sticker.resId)
+                    Glide.with(context!!).load(sticker.resId).into(view)
                     view.setOnClickListener {
                         StickerManager.updateRecentSticker(sticker)
                         onResult.invoke(sticker)

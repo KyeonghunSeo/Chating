@@ -68,8 +68,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val holiText: TextView = container.findViewById(R.id.holiText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
-            dateText.typeface = AppTheme.boldFont
-            dowText.typeface = AppTheme.boldFont
+            dateText.typeface = AppTheme.regularFont
+            dowText.typeface = AppTheme.regularFont
             holiText.typeface = AppTheme.regularFont
             dowText.visibility = View.GONE
             bar.scaleX = 0f
@@ -308,7 +308,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dowText = dateHeaders[cellNum].dowText
         val holiText = dateHeaders[cellNum].holiText
         dowText.visibility = View.GONE
-        dateText.typeface = AppTheme.boldFont
+        dateText.typeface = AppTheme.regularFont
         holiText.text = dateInfos[cellNum].getUnSelectedString()
         dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
         offViewEffect(cellNum)

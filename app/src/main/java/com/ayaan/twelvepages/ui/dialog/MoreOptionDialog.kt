@@ -1,93 +1,87 @@
 package com.ayaan.twelvepages.ui.dialog
 
-import android.app.Activity
 import android.app.Dialog
-import android.os.Bundle
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.model.Record
-import com.ayaan.twelvepages.setGlobalTheme
 import com.ayaan.twelvepages.ui.activity.RecordActivity
-import kotlinx.android.synthetic.main.dialog_more_option.*
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.dialog_more_option.view.*
 
 
-class MoreOptionDialog(activity: Activity, private val record: Record,
-                       private val recordActivity: RecordActivity) : Dialog(activity) {
+class MoreOptionDialog(private val record: Record,
+                       private val recordActivity: RecordActivity) : BottomSheetDialog() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        window.attributes.windowAnimations = R.style.DialogAnimation
-        setContentView(R.layout.dialog_more_option)
-        setGlobalTheme(rootLy)
+    override fun setupDialog(dialog: Dialog, style: Int) {
+        super.setupDialog(dialog, style, R.layout.dialog_more_option)
+        sheetBehavior.peekHeight = dpToPx(350)
+        sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         setLayout()
-        setOnShowListener {}
+        dialog.setOnShowListener {}
     }
 
     private fun setLayout() {
-        rootLy.layoutParams.width = WRAP_CONTENT
-        rootLy.requestLayout()
-
         if(record.isScheduled()) {
-            scheduleBtn.alpha = 0.5f
+            root.scheduleBtn.alpha = 0.5f
         }else {
-            scheduleBtn.alpha = 1f
-            scheduleBtn.setOnClickListener {
+            root.scheduleBtn.alpha = 1f
+            root.scheduleBtn.setOnClickListener {
                 recordActivity.showStartEndDialog()
                 dismiss()
             }
         }
 
         if(record.isSetDday()) {
-            ddayBtn.alpha = 0.5f
+            root.ddayBtn.alpha = 0.5f
         }else {
-            ddayBtn.alpha = 1f
-            ddayBtn.setOnClickListener {
+            root.ddayBtn.alpha = 1f
+            root.ddayBtn.setOnClickListener {
                 record.setDday()
                 recordActivity.updateDdayUI()
                 dismiss()
             }
         }
 
-        memoBtn.setOnClickListener {
+        root.memoBtn.setOnClickListener {
             recordActivity.showMemoUI()
             dismiss()
         }
 
-        locationBtn.setOnClickListener {
+        root.locationBtn.setOnClickListener {
             recordActivity.showPlacePicker()
             dismiss()
         }
 
-        alarmBtn.setOnClickListener {
+        root.alarmBtn.setOnClickListener {
             recordActivity.showAlarmDialog()
             dismiss()
         }
 
         if(record.isRepeat()) {
-            repeatBtn.alpha = 0.5f
+            root.repeatBtn.alpha = 0.5f
         }else {
-            repeatBtn.alpha = 1f
-            repeatBtn.setOnClickListener {
+            root.repeatBtn.alpha = 1f
+            root.repeatBtn.setOnClickListener {
                 recordActivity.showRepeatDialog()
                 dismiss()
             }
         }
 
         if(record.isRepeat()) {
-            lunarRepeatBtn.alpha = 0.5f
+            root.lunarRepeatBtn.alpha = 0.5f
         }else {
-            lunarRepeatBtn.alpha = 1f
-            lunarRepeatBtn.setOnClickListener {
+            root.lunarRepeatBtn.alpha = 1f
+            root.lunarRepeatBtn.setOnClickListener {
                 recordActivity.showLunarRepeatDialog()
                 dismiss()
             }
         }
 
         if(record.isSetCheckBox()) {
-            checkboxBtn.alpha = 0.5f
+            root.checkboxBtn.alpha = 0.5f
         }else {
-            checkboxBtn.alpha = 1f
-            checkboxBtn.setOnClickListener {
+            root.checkboxBtn.alpha = 1f
+            root.checkboxBtn.setOnClickListener {
                 record.setCheckBox()
                 recordActivity.updateCheckBoxUI()
                 dismiss()
@@ -95,10 +89,10 @@ class MoreOptionDialog(activity: Activity, private val record: Record,
         }
 
         if(record.isSetCheckList()) {
-            checkListBtn.alpha = 0.5f
+            root.checkListBtn.alpha = 0.5f
         }else {
-            checkListBtn.alpha = 1f
-            checkListBtn.setOnClickListener {
+            root.checkListBtn.alpha = 1f
+            root.checkListBtn.setOnClickListener {
                 record.setCheckList()
                 recordActivity.updateCheckListUI()
                 dismiss()
@@ -106,10 +100,10 @@ class MoreOptionDialog(activity: Activity, private val record: Record,
         }
 
         if(record.isSetCheckList()) {
-            checkListBtn.alpha = 0.5f
+            root.checkListBtn.alpha = 0.5f
         }else {
-            checkListBtn.alpha = 1f
-            checkListBtn.setOnClickListener {
+            root.checkListBtn.alpha = 1f
+            root.checkListBtn.setOnClickListener {
                 record.setCheckList()
                 recordActivity.updateCheckListUI()
                 dismiss()
@@ -117,27 +111,27 @@ class MoreOptionDialog(activity: Activity, private val record: Record,
         }
 
         if(record.isSetPercentage()) {
-            percentageBtn.alpha = 0.5f
+            root.percentageBtn.alpha = 0.5f
         }else {
-            percentageBtn.alpha = 1f
-            percentageBtn.setOnClickListener {
+            root.percentageBtn.alpha = 1f
+            root.percentageBtn.setOnClickListener {
                 record.setPercentage()
                 recordActivity.updatePercentageUI()
                 dismiss()
             }
         }
 
-        tagBtn.setOnClickListener {
+        root.tagBtn.setOnClickListener {
             recordActivity.showTagDialog()
             dismiss()
         }
 
-        photoBtn.setOnClickListener {
+        root.photoBtn.setOnClickListener {
             recordActivity.showImagePicker()
             dismiss()
         }
 
-        webLinkBtn.setOnClickListener {
+        root.webLinkBtn.setOnClickListener {
             recordActivity.showEditWebsiteDialog()
             dismiss()
         }

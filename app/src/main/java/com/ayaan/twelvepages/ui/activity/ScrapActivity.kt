@@ -99,7 +99,7 @@ class ScrapActivity : Activity() {
                         folderListView.adapter = FolderAdapter(this@ScrapActivity, items)
 
                         saveTodayBtn.setOnClickListener { saveTimeObject(makeTimeObject(null, System.currentTimeMillis())) }
-                        selectDateBtn.setOnClickListener { _ ->
+                        selectDateBtn.setOnClickListener {
                             showDialog(DatePickerDialog(this@ScrapActivity, System.currentTimeMillis()) {
                                 saveTimeObject(makeTimeObject(null, it))
                             }, true, true, true, false)
