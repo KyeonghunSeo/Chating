@@ -109,6 +109,9 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "translationX", 0f, panelOffset))
                     }
+                    MainActivity.getTemplateView()?.getAddButton()?.let {
+                        animList.add(ObjectAnimator.ofFloat(it, "translationY", 0f, panelOffset / 2))
+                    }
                     animSet.playTogether(animList)
                     animSet.duration = animDur
                     animSet.interpolator = FastOutSlowInInterpolator()
@@ -144,6 +147,9 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                         animList.add(ObjectAnimator.ofFloat(it, "translationX", it.translationX, 0f))
                         animList.add(ObjectAnimator.ofFloat(it, "translationY", it.translationY, 0f))
                         animList.add(ObjectAnimator.ofFloat(it, "elevation", it.elevation, zOffset))
+                    }
+                    MainActivity.getTemplateView()?.getAddButton()?.let {
+                        animList.add(ObjectAnimator.ofFloat(it, "translationY", it.translationY, 0f))
                     }
                     animSet.playTogether(animList)
                     animSet.duration = animDur

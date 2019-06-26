@@ -45,7 +45,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
         val dataStartYOffset = dpToPx(33f)
-        val headerHeight = dpToPx(100)
+        val headerHeight = dpToPx(110)
     }
 
     private val scrollView = NestedScrollView(context)
@@ -137,8 +137,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         columnDividers.forEachIndexed { index, view ->
-            view.layoutParams = LayoutParams(lineWidth.toInt(), 0)
-            view.setBackgroundColor(AppTheme.line)
+            view.layoutParams = LayoutParams(lineWidth.toInt() * 2, 0)
+            view.setBackgroundColor(AppTheme.lightLine)
         }
 
         for(i in 0..5) {

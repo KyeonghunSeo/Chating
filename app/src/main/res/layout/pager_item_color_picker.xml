@@ -18,7 +18,7 @@
         <FrameLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50.0dp"
             android:background="@drawable/top_shadow">
 
             <TextView
@@ -42,20 +42,21 @@
         android:layout_height="wrap_content"
         android:paddingTop="15dp"
         android:paddingBottom="55dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:orientation="vertical">
 
         <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="35.0dp"
+                android:layout_height="35.0dp"
                 android:src="@drawable/circle_fill"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:id="@+id/colorImg0" />
 
             <View
@@ -64,10 +65,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="35.0dp"
+                android:layout_height="35.0dp"
                 android:src="@drawable/circle_fill"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:id="@+id/colorImg1" />
 
             <View
@@ -76,10 +77,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="35.0dp"
+                android:layout_height="35.0dp"
                 android:src="@drawable/circle_fill"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:id="@+id/colorImg2" />
 
             <View
@@ -88,10 +89,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="35.0dp"
+                android:layout_height="35.0dp"
                 android:src="@drawable/circle_fill"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:id="@+id/colorImg3" />
 
             <View
@@ -100,24 +101,22 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="35.0dp"
+                android:layout_height="35.0dp"
                 android:src="@drawable/circle_fill"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:id="@+id/colorImg4" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
+            
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="35.0dp"
+                android:layout_height="35.0dp"
                 android:src="@drawable/circle_fill"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:id="@+id/colorImg5" />
 
             <View
@@ -126,10 +125,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="35.0dp"
+                android:layout_height="35.0dp"
                 android:src="@drawable/circle_fill"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:id="@+id/colorImg6" />
 
             <View
@@ -138,10 +137,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="35.0dp"
+                android:layout_height="35.0dp"
                 android:src="@drawable/circle_fill"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:id="@+id/colorImg7" />
 
             <View
@@ -150,10 +149,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="35.0dp"
+                android:layout_height="35.0dp"
                 android:src="@drawable/circle_fill"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:id="@+id/colorImg8" />
 
             <View
@@ -162,10 +161,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="35.0dp"
+                android:layout_height="35.0dp"
                 android:src="@drawable/circle_fill"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:id="@+id/colorImg9" />
 
         </LinearLayout>

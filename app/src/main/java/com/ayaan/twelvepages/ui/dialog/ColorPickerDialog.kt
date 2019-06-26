@@ -98,6 +98,7 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
             val stickerImgs = arrayOf(
                     v.colorImg0, v.colorImg1, v.colorImg2, v.colorImg3, v.colorImg4,
                     v.colorImg5, v.colorImg6, v.colorImg7, v.colorImg8, v.colorImg9)
+            setGlobalTheme(v)
 
             v.packLy.setBackgroundColor(AppTheme.background)
             if(isCoverOpened) {

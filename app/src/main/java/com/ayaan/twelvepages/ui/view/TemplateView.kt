@@ -203,4 +203,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             result.add(template)
         }
     }
+
+    fun getAddButton() = addBtn
 }

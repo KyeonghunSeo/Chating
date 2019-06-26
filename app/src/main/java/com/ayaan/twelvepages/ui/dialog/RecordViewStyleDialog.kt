@@ -85,14 +85,12 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
 
         colorImg.setColorFilter(ColorManager.getColor(recordView.record.colorKey))
         colorBtn.setOnClickListener {
-            val location = IntArray(2)
-            colorImg.getLocationOnScreen(location)
-            showDialog(SmallColorPickerDialog(activity, recordView.record.colorKey, location) { colorKey ->
+            ColorPickerDialog(recordView.record.colorKey){ colorKey ->
                 recordView.record.colorKey = colorKey
                 subRecordView.record.colorKey = colorKey
                 colorImg.setColorFilter(ColorManager.getColor(colorKey))
                 drawRecord()
-            }, true, true, true, false)
+            }.show(activity.supportFragmentManager, null)
         }
 
         textColorBtn.setOnClickListener {

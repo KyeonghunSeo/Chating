@@ -45,7 +45,7 @@
                 <FrameLayout
                     android:id="@+id/headerLy"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:elevation="20dp"
                     android:clipChildren="false">
 
@@ -55,7 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
                         android:animateLayoutChanges="true"
-                        android:layout_marginLeft="70dp"
+                        android:layout_marginLeft="30dp"
                         android:clipChildren="false"
                         android:gravity="center_vertical">
 
@@ -66,7 +66,7 @@
                             android:layout_marginRight="10dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:textColor="@color/primaryText"
-                            android:textSize="24dp"
+                            android:textSize="26dp"
                             android:fontFamily="@font/bold"/>
 
                         <TextView
@@ -156,17 +156,16 @@
             android:layout_marginBottom="20dp"
             android:layout_gravity="center_horizontal|bottom"
             android:outlineSpotShadowColor="@color/secondaryText"
-            android:foreground="@drawable/normal_rect_stroke"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/background"
             app:cardElevation="4dp"
-            app:cardCornerRadius="0dp">
+            app:cardCornerRadius="15dp">
 
             <LinearLayout
                 android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp">
 
@@ -185,8 +184,7 @@
                     android:textSize="13dp"
                     android:textColor="@color/primaryText"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/regular"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/bold"
                     android:text="@string/today"/>
 
                 <ImageView
@@ -231,13 +229,6 @@
             </androidx.cardview.widget.CardView>
 
         </FrameLayout>
-
-        <com.ayaan.twelvepages.ui.view.TemplateView
-            android:id="@+id/templateView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="4dp">
-        </com.ayaan.twelvepages.ui.view.TemplateView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/clipView"
@@ -344,7 +335,8 @@
         android:layout_height="50dp"
         android:elevation="30dp"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp">
+        android:layout_marginRight="15dp"
+        android:layout_gravity="right">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/profileCard"
@@ -354,7 +346,7 @@
             android:layout_gravity="center"
             android:outlineSpotShadowColor="@color/secondaryText"
             app:cardElevation="1dp"
-            app:cardCornerRadius="20dp">
+            app:cardCornerRadius="18dp">
 
             <ImageView
                 android:id="@+id/profileImg"
@@ -365,6 +357,13 @@
         </androidx.cardview.widget.CardView>
 
     </FrameLayout>
+
+    <com.ayaan.twelvepages.ui.view.TemplateView
+        android:id="@+id/templateView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="30dp">
+    </com.ayaan.twelvepages.ui.view.TemplateView>
 
     <com.ayaan.twelvepages.ui.view.SearchView
         android:id="@+id/searchView"

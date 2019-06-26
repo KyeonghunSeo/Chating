@@ -209,7 +209,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }else if(targetCal.get(Calendar.DAY_OF_WEEK) == SATURDAY) {
             CalendarManager.saturdayColor
         }else {
-            CalendarManager.dateColor
+            CalendarManager.selectedDateColor
         }
         bar.setBackgroundColor(color)
         dateText.setTextColor(color)
@@ -244,16 +244,15 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", 1f, mainDateLyScaleY),
                 ObjectAnimator.ofFloat(MainActivity.getMainYearText(), "scaleX", 1f, yearTextScale),
                 ObjectAnimator.ofFloat(MainActivity.getMainYearText(), "scaleY", 1f, yearTextScale),
-                ObjectAnimator.ofFloat(bar, "alpha", 1f, 0f),
-                ObjectAnimator.ofFloat(holiText, "alpha", 1f, 0f))
+                ObjectAnimator.ofFloat(bar, "alpha", 1f, 0f))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
     }
 
     fun hide(dayPager: DayPager) {
-        MainActivity.getMainMonthText()?.setTextColor(CalendarManager.dateColor)
-        MainActivity.getMainYearText()?.setTextColor(CalendarManager.dateColor)
+        MainActivity.getMainMonthText()?.setTextColor(CalendarManager.selectedDateColor)
+        MainActivity.getMainYearText()?.setTextColor(CalendarManager.selectedDateColor)
         dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
@@ -276,8 +275,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", mainDateLyScaleY, 1f),
                 ObjectAnimator.ofFloat(MainActivity.getMainYearText(), "scaleX", yearTextScale, 1f),
                 ObjectAnimator.ofFloat(MainActivity.getMainYearText(), "scaleY", yearTextScale, 1f),
-                ObjectAnimator.ofFloat(bar, "alpha", 0f, 1f),
-                ObjectAnimator.ofFloat(holiText, "alpha", 0f, 1f))
+                ObjectAnimator.ofFloat(bar, "alpha", 0f, 1f))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
@@ -304,7 +302,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.scaleY = mainDateLyScaleY
         }
         bar.alpha = 0f
-        holiText.alpha = 0f
     }
 
     private fun setDateClosedStyle() {
@@ -328,7 +325,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.scaleY = 1f
         }
         bar.alpha = 1f
-        holiText.alpha = 1f
     }
 
     fun targeted() {
