@@ -53,11 +53,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     val weekLys = Array(6) { FrameLayout(context) }
     private val columnDividers = Array(maxCellNum) { View(context) }
     private val rowDividers = Array(6) { View(context) }
-    private val weekText = Array(6) { TextView(context) }
+    private val weekInfoViews = Array(6) { WeekInfoViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.view_selected_week_info, null, false)) }
     private val dateLys = Array(6) { LinearLayout(context) }
     val dateCells = Array(maxCellNum) { FrameLayout(context) }
-    private val dateHeaders = Array(maxCellNum) {
-        DateHeaderViewHolder(LayoutInflater.from(context).inflate(R.layout.view_selected_bar, null, false)) }
+    private val dateHeaders = Array(maxCellNum) { DateHeaderViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.view_selected_date_header, null, false)) }
     val dateInfos = Array(maxCellNum) { DateInfoManager.DateInfo() }
     val headerView = View(context)
 
@@ -73,6 +74,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             holiText.typeface = AppTheme.regularFont
             dowText.visibility = View.GONE
             bar.scaleX = 0f
+        }
+    }
+
+    inner class WeekInfoViewHolder(val container: View) {
+        val weeknumText: TextView = container.findViewById(R.id.weeknumText)
+        init {
+            weeknumText.typeface = AppTheme.regularFont
         }
     }
 
@@ -127,6 +135,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         calendarLy.setPadding(0, headerHeight, 0, calendarPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
+        calendarLy.clipChildren = false
 
         rowDividers.forEachIndexed { index, view ->
             view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
@@ -143,21 +152,18 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         for(i in 0..5) {
             val weekLy = weekLys[i]
+            weekLy.clipChildren = false
             val dateLy = dateLys[i]
             dateLy.clipChildren = false
             dateLy.orientation = HORIZONTAL
             dateLy.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
             dateLy.setPadding(calendarPadding, 0, 0, 0)
             weekLy.addView(rowDividers[i])
-            weekText[i].layoutParams = LayoutParams((lineWidth * 30).toInt(), (lineWidth * 24).toInt()).apply {
-                topMargin = (lineWidth * 4).toInt()
+
+            weekInfoViews[i].container.layoutParams = LayoutParams(calendarPadding, MATCH_PARENT).apply {
+                topMargin = -weekLyBottomPadding
             }
-            weekText[i].typeface = AppTheme.boldFont
-            weekText[i].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 8f)
-            weekText[i].setBackgroundColor(AppTheme.background)
-            weekText[i].setTextColor(AppTheme.secondaryText)
-            weekText[i].gravity = Gravity.CENTER
-            weekLy.addView(weekText[i])
+            weekLy.addView(weekInfoViews[i].container)
             for (j in 0..6){
                 val cellNum = i*7 + j
 
@@ -233,8 +239,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     else columnDividers[cellNum].visibility = View.VISIBLE
                     cellTimeMills[cellNum] = tempCal.timeInMillis
 
-                    weekText[i].text = String.format(str(R.string.weekNum), tempCal.get(Calendar.WEEK_OF_YEAR))
-                    weekText[i].visibility = View.GONE
+                    weekInfoViews[i].weeknumText.text = String.format(str(R.string.weekNum), tempCal.get(Calendar.WEEK_OF_YEAR))
+                    weekInfoViews[i].container.visibility = View.GONE
 
                     val dateInfo = dateInfos[cellNum]
                     DateInfoManager.getHoliday(dateInfo, tempCal)
@@ -348,9 +354,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             (0 until rows).forEach {
                 if(it == cellNum / columns && AppStatus.isWeekNumDisplay) {
-                    weekText[it].visibility = View.VISIBLE
+                    weekInfoViews[it].container.visibility = View.VISIBLE
                 }else {
-                    weekText[it].visibility = View.GONE
+                    weekInfoViews[it].container.visibility = View.GONE
                 }
             }
 
@@ -372,7 +378,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         ObjectAnimator.ofFloat(dowText, "alpha", 0f, 1f),
                         ObjectAnimator.ofFloat(dowText, "translationX", -autoScrollOffset.toFloat(), 1f),
                         ObjectAnimator.ofFloat(holiText, "alpha", 0f, 1f),
-                        ObjectAnimator.ofFloat(holiText, "translationX", -autoScrollOffset.toFloat(), 1f))
+                        ObjectAnimator.ofFloat(holiText, "translationX", -autoScrollOffset.toFloat(), 1f),
+                        ObjectAnimator.ofFloat(weekInfoViews[cellNum / columns].container,
+                                "alpha", 0f, 1f),
+                        ObjectAnimator.ofFloat(weekInfoViews[cellNum / columns].container,
+                                "translationX", -autoScrollOffset.toFloat(), 1f))
                 it.interpolator = FastOutSlowInInterpolator()
                 it.duration = animDur
                 it.start()

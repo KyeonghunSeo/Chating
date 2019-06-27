@@ -8,6 +8,7 @@ import io.realm.RealmList
 import io.realm.RealmObject
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.STACK
 import com.ayaan.twelvepages.manager.ColorManager
+import com.ayaan.twelvepages.manager.StickerManager
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Ignore
 import java.util.*
@@ -17,6 +18,8 @@ open class Record(@PrimaryKey var id: String? = null,
                   var type: Int = 0,
                   var style: Int = STACK.shapes[Random().nextInt(STACK.shapes.size)].ordinal * 100 + STACK.ordinal,
                   var title: String? = null,
+                  var isSetTime: Boolean = false,
+                  var isSetCheckBox: Boolean = false,
                   var colorKey: Int = 0,
                   var location: String? = null,
                   var description: String? = null,
@@ -36,12 +39,6 @@ open class Record(@PrimaryKey var id: String? = null,
                   var longitude: Double = Double.MIN_VALUE,
                   var ordering: Int = Int.MIN_VALUE,
                   var folder: Folder? = null): RealmObject() {
-
-    companion object {
-        const val scheduleFlag = 0b1
-        const val timeFlag = 0b10
-        const val checkBoxFlag = 0b100
-    }
 
     @Ignore var repeatKey: String? = null
 
@@ -68,11 +65,11 @@ open class Record(@PrimaryKey var id: String? = null,
     fun getDuration() = dtEnd - dtStart
 
     fun setDate(time: Long) {
-        setDateTime(isSetTime(), time, time + getDuration())
+        setDateTime(isSetTime, time, time + getDuration())
     }
 
     fun setDateTime(s: Calendar, e: Calendar) {
-        setDateTime(isSetTime(), s, e)
+        setDateTime(isSetTime, s, e)
     }
 
     fun setDateTime(isSetTime: Boolean, s: Calendar, e: Calendar) {
@@ -83,12 +80,8 @@ open class Record(@PrimaryKey var id: String? = null,
         }
     }
 
-    fun setDateTime(isSetTime: Boolean, s: Long, e: Long) {
-        if(isSetTime) {
-            setTime()
-        }else {
-            clearTime()
-        }
+    fun setDateTime(t: Boolean, s: Long, e: Long) {
+        isSetTime = t
         dtStart = s
         dtEnd = e
         alarms.forEach {
@@ -109,6 +102,8 @@ open class Record(@PrimaryKey var id: String? = null,
         type = data.type
         style = data.style
         title = data.title
+        isSetTime = data.isSetTime
+        isSetCheckBox = data.isSetCheckBox
         colorKey = data.colorKey
         location = data.location
         description = data.description
@@ -125,9 +120,9 @@ open class Record(@PrimaryKey var id: String? = null,
         tags.clear()
         data.tags.forEach { tags.add(Tag(it)) }
         alarms.clear()
-        data.alarms.forEach { alarms.add(Alarm(it.id, it.dtAlarm, it.offset, it.action)) }
+        data.alarms.forEach { alarms.add(Alarm(it)) }
         links.clear()
-        data.links.forEach { links.add(Link(it.id, it.type, it.title, it.properties)) }
+        data.links.forEach { links.add(Link(it)) }
         latitude = data.latitude
         longitude = data.longitude
         ordering = data.ordering
@@ -142,8 +137,9 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     override fun toString(): String {
-        return "Record(id=$id, type=$type, style=$style, title=$title, colorKey=$colorKey, location=$location, " +
-                "description=$description, repeat=$repeat, dtUntil=$dtUntil, dtStart=$dtStart, dtEnd=$dtEnd, " +
+        return "Record(id=$id, type=$type, style=$style, title=$title, isSetTime=$isSetTime, isSetCheckBox=$isSetCheckBox, " +
+                "colorKey=$colorKey, location=$location, description=$description, repeat=$repeat, " +
+                "dtUntil=$dtUntil, dtStart=$dtStart, dtEnd=$dtEnd, " +
                 "dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, " +
                 "exDates=${exDates.joinToString(",")}, tags=${tags.joinToString(",")}, " +
                 "alarms=${alarms.joinToString(",")}, links=${links.joinToString(",")}, " +
@@ -156,6 +152,8 @@ open class Record(@PrimaryKey var id: String? = null,
                     && type == other.type
                     && style == other.style
                     && title == other.title
+                    && isSetTime == other.isSetTime
+                    && isSetCheckBox == other.isSetCheckBox
                     && colorKey == other.colorKey
                     && location == other.location
                     && description == other.description
@@ -177,28 +175,21 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     fun isDone(): Boolean = dtDone != Long.MIN_VALUE
-
     fun done() {
         dtDone = System.currentTimeMillis()
     }
-
     fun undone() {
         dtDone = Long.MIN_VALUE
     }
 
-    fun isSetDday(): Boolean = links.any { it.type == Link.Type.DDAY.ordinal }
-
-    fun clearDday() {
-        links.first{ it.type == Link.Type.DDAY.ordinal }?.let { links.remove(it) }
-    }
-
-    fun setDday() {
-        if(!isSetDday()) {
-            links.add(Link(type = Link.Type.DDAY.ordinal))
+    fun isSetCountdown(): Boolean = links.any { it.type == Link.Type.COUNTDOWN.ordinal }
+    fun clearCountdown() { links.first{ it.type == Link.Type.COUNTDOWN.ordinal }?.let { links.remove(it) } }
+    fun setCountdown() {
+        if(!isSetCountdown()) {
+            links.add(Link(type = Link.Type.COUNTDOWN.ordinal))
         }
     }
-
-    fun getDdayText(time: Long): String {
+    fun getCountdownText(time: Long): String {
         val str = StringBuilder("D")
         val diffDate = getDiffDate(dtStart, time)
         when {
@@ -209,28 +200,22 @@ open class Record(@PrimaryKey var id: String? = null,
         return str.toString()
     }
 
-    fun isScheduled() = type and scheduleFlag == scheduleFlag
-    fun setSchedule() { type = type or scheduleFlag }
-    fun clearSchdule() {
-        type = type and scheduleFlag.inv()
-        setDateTime(isSetTime(), dtStart, dtStart)
+    fun isSetSticker(): Boolean = links.any { it.type == Link.Type.STICKER.ordinal }
+    fun clearSticker() { links.first{ it.type == Link.Type.STICKER.ordinal }?.let { links.remove(it) } }
+    fun setSticker() {
+        if(!isSetSticker()) {
+            links.add(Link(type = Link.Type.STICKER.ordinal))
+        }
     }
-
-    fun isSetTime() = type and timeFlag == timeFlag
-    fun setTime() { type = type or timeFlag }
-    fun clearTime() { type = type and timeFlag.inv() }
-
-    fun isSetCheckBox() = type and checkBoxFlag == checkBoxFlag
-    fun setCheckBox() { type = type or checkBoxFlag }
-    fun clearCheckBox() {
-        type = type and checkBoxFlag.inv()
-        undone()
+    fun getSticker(): StickerManager.Sticker? {
+        links.first{ it.type == Link.Type.STICKER.ordinal }?.let {
+            return StickerManager.getSticker(it.intParam0)
+        }
+        return null
     }
 
     fun isSetCheckList(): Boolean = links.any { it.type == Link.Type.CHECKLIST.ordinal }
-    fun clearCheckList() {
-        links.first{ it.type == Link.Type.CHECKLIST.ordinal }?.let { links.remove(it) }
-    }
+    fun clearCheckList() { links.first{ it.type == Link.Type.CHECKLIST.ordinal }?.let { links.remove(it) } }
     fun setCheckList() {
         if(!isSetCheckList()) {
             links.add(Link(type = Link.Type.CHECKLIST.ordinal))
@@ -238,9 +223,7 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     fun isSetPercentage(): Boolean = links.any { it.type == Link.Type.PERCENTAGE.ordinal }
-    fun clearPercentage() {
-        links.first{ it.type == Link.Type.PERCENTAGE.ordinal }?.let { links.remove(it) }
-    }
+    fun clearPercentage() { links.first{ it.type == Link.Type.PERCENTAGE.ordinal }?.let { links.remove(it) } }
     fun setPercentage() {
         if(!isSetPercentage()) {
             links.add(Link(type = Link.Type.PERCENTAGE.ordinal))
@@ -293,4 +276,5 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     fun isDeleted() = dtCreated == -1L
+    fun isScheduled() = dtStart != Long.MIN_VALUE
 }

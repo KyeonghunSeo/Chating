@@ -9,7 +9,6 @@ import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.model.*
-import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.view.CalendarView
 import io.realm.*
 import java.util.*
@@ -111,7 +110,7 @@ class MainViewModel : ViewModel() {
     private fun loadData() {
         realm.value?.let { realm ->
             countdownRecords.value = realm.where(Record::class.java)
-                    .equalTo("links.type", Link.Type.DDAY.ordinal)
+                    .equalTo("links.type", Link.Type.COUNTDOWN.ordinal)
                     .notEqualTo("dtCreated", -1L)
                     .sort("dtStart", Sort.ASCENDING)
                     .findAllAsync()
@@ -120,7 +119,7 @@ class MainViewModel : ViewModel() {
             }
 
             undoneRecords.value = realm.where(Record::class.java)
-                    .equalTo("links.type", Link.Type.DDAY.ordinal)
+                    .equalTo("links.type", Link.Type.COUNTDOWN.ordinal)
                     .notEqualTo("dtCreated", -1L)
                     .sort("dtStart", Sort.ASCENDING)
                     .findAllAsync()
@@ -202,8 +201,7 @@ class MainViewModel : ViewModel() {
                     style = it.style
                     colorKey = it.colorKey
                     tags.addAll(it.tags)
-                    if(it.isScheduled()) setSchedule()
-                    if(it.isSetCheckBox()) setCheckBox()
+                    if(it.isSetCheckBox()) isSetCheckBox = true
                     if(it.alarmOffset != Long.MIN_VALUE) {
                         if(AlarmManager.getOffsetText(it.alarmOffset) != null) {
                             setAlarm(it.alarmOffset, 0)

@@ -1,9 +1,7 @@
 package com.ayaan.twelvepages.manager
 
 import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.l
 import com.pixplicity.easyprefs.library.Prefs
-import java.util.*
 import kotlin.collections.ArrayList
 
 object StickerManager {
@@ -20,8 +18,8 @@ object StickerManager {
         Prefs.getString("recentStickerPack", null)?.let { recentStickerPack ->
                 recentStickerPack.split(",")
                         .mapTo(recentPack) {
-                    val s = it.split(":")
-                    StickerPack.valueOf(s[0]).items[s[1].toInt()]
+                    val stickerKey = it.toInt()
+                    StickerPack.values()[stickerKey / 10000].items[stickerKey % 10000]
                 }
         }
     }
@@ -62,14 +60,13 @@ object StickerManager {
                 Sticker(R.drawable.s_1201, 0),
                 Sticker(R.drawable.s_1201, 0)
         ));
+    }
 
-        companion object {
-            fun getRecentStickerKey(sticker: Sticker) : String {
-                val pack = values()[sticker.packNum]
-                val index = pack.items.indexOf(sticker)
-                return "${pack.name}:$index"
-            }
-        }
+    fun getSticker(stickerKey: Int) = StickerPack.values()[stickerKey / 10000].items[stickerKey % 10000]
+    fun getStickerKey(sticker: Sticker) : Int {
+        val pack = StickerPack.values()[sticker.packNum]
+        val index = pack.items.indexOf(sticker)
+        return pack.ordinal * 10000 + index
     }
 
     fun updateRecentSticker(sticker: Sticker) {
@@ -79,7 +76,7 @@ object StickerManager {
             recentPack.removeAt(recentPack.lastIndex)
         }
         Prefs.putString("recentStickerPack", recentPack.joinToString(",") {
-            StickerPack.getRecentStickerKey(it)
+            getStickerKey(it).toString()
         })
     }
 

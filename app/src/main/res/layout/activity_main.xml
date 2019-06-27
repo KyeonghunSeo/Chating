@@ -51,7 +51,7 @@
 
                     <LinearLayout
                         android:id="@+id/mainDateLy"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
                         android:animateLayoutChanges="true"
@@ -63,21 +63,19 @@
                             android:id="@+id/mainMonthText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
+                            android:layout_marginRight="5dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:textColor="@color/primaryText"
-                            android:textSize="26dp"
-                            android:fontFamily="@font/bold"/>
+                            android:textSize="36dp"/>
 
                         <TextView
                             android:id="@+id/mainYearText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="3dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:textColor="@color/primaryText"
-                            android:textSize="18dp"
-                            android:visibility="gone"/>
+                            android:layout_marginTop="7dp"
+                            android:textSize="20dp"/>
 
                     </LinearLayout>
 
@@ -336,7 +334,8 @@
         android:elevation="30dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
-        android:layout_gravity="right">
+        android:layout_gravity="right"
+        android:visibility="gone">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/profileCard"

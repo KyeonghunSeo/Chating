@@ -74,12 +74,8 @@ class AddWebLinkDialog(activity: Activity, private val onResult: (Link) -> Unit)
                     confirmBtn.visibility = View.VISIBLE
                     confirmBtn.setTextColor(AppTheme.blue)
                     confirmBtn.setOnClickListener {
-                        val properties = JSONObject()
-                        properties.put("url", url)
-                        properties.put("imageurl", metaData.imageurl)
-                        properties.put("favicon", metaData.favicon)
                         val link = Link(UUID.randomUUID().toString(), Link.Type.WEB.ordinal,
-                                metaData.title, properties.toString())
+                                metaData.title, url, metaData.imageurl, metaData.favicon)
                         onResult.invoke(link)
                         dismiss()
                     }

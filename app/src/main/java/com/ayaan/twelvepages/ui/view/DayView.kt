@@ -12,7 +12,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,7 +29,7 @@ import com.ayaan.twelvepages.ui.dialog.SchedulingDialog
 import io.realm.OrderedCollectionChangeSet
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.view_day.view.*
-import kotlinx.android.synthetic.main.view_selected_bar.view.*
+import kotlinx.android.synthetic.main.view_selected_date_header.view.*
 import java.util.*
 import java.util.Calendar.SATURDAY
 import java.util.Calendar.SUNDAY
@@ -42,12 +41,13 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     val targetCal : Calendar = Calendar.getInstance()
     private var recordList: RealmResults<Record>? = null
-    private val currentList = ArrayList<Record>()
+    private val mainList = ArrayList<Record>()
+    private val sideList = ArrayList<Record>()
     private val newList = ArrayList<Record>()
     private val dateInfo = DateInfoManager.DateInfo()
     private var color = 0
 
-    private val adapter = RecordListAdapter(context, currentList, targetCal) { view, record, action ->
+    private val adapter = RecordListAdapter(context, mainList, targetCal) { view, record, action ->
         MainActivity.instance?.let { activity ->
             showDialog(PopupOptionDialog(activity,
                     arrayOf(PopupOptionDialog.Item(str(R.string.copy), R.drawable.copy, AppTheme.primaryText),
@@ -65,7 +65,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     }
                     2 -> {
                         showDialog(SchedulingDialog(activity, record) { sCal, eCal ->
-                            record.setSchedule()
                             record.setDateTime(sCal, eCal)
                             if(record.isRepeat()) {
                                 RepeatManager.save(activity, record, Runnable { toast(R.string.moved, R.drawable.schedule) })
@@ -135,12 +134,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         recordList?.addChangeListener { result, changeSet ->
             val t = System.currentTimeMillis()
             if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
-                updateData(result, currentList)
+                updateData(result, mainList)
                 adapter.notifyDataSetChanged()
             }else if(changeSet.state == OrderedCollectionChangeSet.State.UPDATE) {
                 if(MainActivity.getDayPager()?.isOpened() == true) {
                     updateData(result, newList)
-                    updateChange(adapter, currentList, newList)
+                    updateChange(adapter, mainList, newList)
                 }
             }
             l("${AppDateFormat.md.format(targetCal.time)} 데이뷰 갱신 : ${(System.currentTimeMillis() - t) / 1000f} 초")
@@ -149,6 +148,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun updateData(data: RealmResults<Record>, list: ArrayList<Record>) {
         list.clear()
+        sideList.clear()
         collocateData(data, list)
 
         OsCalendarManager.getInstances(context, "", startTime, endTime).forEach {
@@ -167,10 +167,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private fun collocateData(data: RealmResults<Record>, e: ArrayList<Record>) {
         data.forEach { timeObject ->
             try{
-                if(timeObject.repeat.isNullOrEmpty()) {
-                    e.add(timeObject.makeCopyObject())
+                if(timeObject.id?.startsWith("sticker_") == true) {
+                    sideList.add(timeObject.makeCopyObject())
                 }else {
-                    RepeatManager.makeRepeatInstances(timeObject, startTime, endTime).forEach { e.add(it) }
+                    if(timeObject.repeat.isNullOrEmpty()) {
+                        e.add(timeObject.makeCopyObject())
+                    }else {
+                        RepeatManager.makeRepeatInstances(timeObject, startTime, endTime).forEach { e.add(it) }
+                    }
                 }
             }catch (e: Exception){ e.printStackTrace() }
         }
@@ -190,7 +194,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun clear() {
         recordList?.removeAllChangeListeners()
-        currentList.clear()
+        mainList.clear()
+        sideList.clear()
         adapter.notifyDataSetChanged()
         setDateClosedStyle()
     }
@@ -339,7 +344,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     companion object {
-        const val headerTextScale = 6.5f
+        const val headerTextScale = 5.5f
         val datePosX = dpToPx(22.5f)
         val datePosY = dpToPx(1.0f)
         val dowPosX = dpToPx(1.00f) / headerTextScale

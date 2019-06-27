@@ -1,5 +1,6 @@
 package com.ayaan.twelvepages.ui.view
 
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
@@ -16,11 +17,18 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.adapter.TemplateAdapter
 import com.ayaan.twelvepages.adapter.util.TemplateDiffCallback
+import com.ayaan.twelvepages.manager.RecordManager
+import com.ayaan.twelvepages.manager.StickerManager
+import com.ayaan.twelvepages.model.Link
+import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.activity.TemplateActivity
+import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
+import io.realm.Realm
 import kotlinx.android.synthetic.main.view_template.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -58,7 +66,14 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         addBtn.setOnClickListener {
             if(isExpanded) {
-                collapse()
+                vibrate(context)
+                if(adapter.mode == 0) {
+                    adapter.mode = 1
+                    adapter.notifyItemInserted(items.size)
+                }else {
+                    adapter.mode = 0
+                    adapter.notifyDataSetChanged()
+                }
             }else {
                 MainActivity.getTargetTime()?.let { expand(it, it) }
             }
@@ -70,18 +85,26 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             return@setOnLongClickListener false
         }
 
-        editTemplateBtn.setOnClickListener {
-            vibrate(context)
-            if(adapter.mode == 0) {
-                adapter.mode = 1
-                editTemplateBtn.setColorFilter(AppTheme.blue)
-                editTemplateBtn.setImageResource(R.drawable.done)
-                adapter.notifyItemInserted(items.size)
-            }else {
-                adapter.mode = 0
-                editTemplateBtn.setColorFilter(AppTheme.secondaryText)
-                editTemplateBtn.setImageResource(R.drawable.edit)
-                adapter.notifyDataSetChanged()
+        stickerBtn.setOnClickListener {
+            MainActivity.instance?.let {
+                StickerPickerDialog{ sticker ->
+                    val records = ArrayList<Record>()
+                    while (startCal <= endCal) {
+                        val dtStart = getCalendarTime0(startCal)
+                        val dtEnd = getCalendarTime23(startCal)
+                        val ymdKey = AppDateFormat.ymdkey.format(startCal.time)
+                        records.add(RecordManager.makeNewRecord(dtStart, dtEnd).apply {
+                            id = "sticker_$ymdKey"
+                            dtCreated = System.currentTimeMillis()
+                            setFormula(RecordCalendarAdapter.Formula.STICKER)
+                            links.add(Link(UUID.randomUUID().toString(), Link.Type.STICKER.ordinal,
+                                    intParam0 = StickerManager.getStickerKey(sticker)))
+                        })
+                        startCal.add(Calendar.DATE, 1)
+                    }
+                    RecordManager.save(records)
+                    collapse()
+                }.show(it.supportFragmentManager, null)
             }
         }
     }
@@ -109,7 +132,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         t1.addTarget(recyclerView)
         t2.addTarget(backgroundLy)
         t3.addTarget(dateLy)
-        t3.addTarget(controlLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         transitionSet.addTransition(t3)
@@ -120,10 +142,14 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         backgroundLy.setOnClickListener { collapse() }
         backgroundLy.isClickable = true
         recyclerView.visibility = View.VISIBLE
+        stickerBtn.visibility = View.VISIBLE
         backgroundLy.visibility = View.VISIBLE
         dateLy.visibility = View.VISIBLE
-        controlLy.visibility = View.VISIBLE
-        ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f).start()
+        templateIconImg.setImageResource(R.drawable.edit)
+        val animSet = AnimatorSet()
+        animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", 45f, 0f),
+                ObjectAnimator.ofFloat(templateIconImg, "alpha", 0f, 1f))
+        animSet.start()
         isExpanded = true
     }
 
@@ -135,13 +161,16 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         t1.addTarget(recyclerView)
         t2.addTarget(backgroundLy)
         t3.addTarget(dateLy)
-        t3.addTarget(controlLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         transitionSet.addTransition(t3)
         TransitionManager.beginDelayedTransition(this, transitionSet)
         initViews()
-        ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f).start()
+        templateIconImg.setImageResource(R.drawable.add)
+        val animSet = AnimatorSet()
+        animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", -45f, 0f),
+                ObjectAnimator.ofFloat(templateIconImg, "alpha", 0f, 1f))
+        animSet.start()
     }
 
     fun collapseNoAnim() {
@@ -154,12 +183,10 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
         recyclerView.visibility = View.GONE
+        stickerBtn.visibility = View.GONE
         backgroundLy.visibility = View.GONE
         dateLy.visibility = View.GONE
-        controlLy.visibility = View.GONE
         adapter.mode = 0
-        editTemplateBtn.setColorFilter(AppTheme.secondaryText)
-        editTemplateBtn.setImageResource(R.drawable.edit)
         isExpanded = false
     }
 

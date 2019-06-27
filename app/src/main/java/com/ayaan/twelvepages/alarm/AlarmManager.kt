@@ -154,7 +154,7 @@ object AlarmManager {
 
     fun getAlarmNotiText(record: Record) : String {
         val alarm = record.alarms[0]!!
-        val timeStr = if(record.isSetTime()) AppDateFormat.dateTime.format(Date(record.dtStart))
+        val timeStr = if(record.isSetTime) AppDateFormat.dateTime.format(Date(record.dtStart))
         else AppDateFormat.mde.format(Date(record.dtStart))
         val diffStr = getDiffStr(alarm.dtAlarm, record.dtStart)
         return "$timeStr ($diffStr)"

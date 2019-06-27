@@ -35,6 +35,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.android.synthetic.main.activity_record.*
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -93,16 +94,13 @@ class RecordActivity : BaseActivity() {
     }
 
     private fun initInput() {
-        /*
         keypadListener = KeyboardVisibilityEvent.registerEventListener(this) { isOpen ->
-            l("키보드 상태 $isOpen")
-            if(isOpen) {
-
+            if(isOpen && memoInput.isFocused) {
+                textEditorLy.visibility = View.VISIBLE
             }else {
-
+                textEditorLy.visibility = View.GONE
             }
         }
-        */
         
         titleInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -115,13 +113,6 @@ class RecordActivity : BaseActivity() {
             }
             override fun afterTextChanged(p0: Editable?) {}
         })
-        titleInput.onScaleChanged = { isNormalScale ->
-            if(isNormalScale) {
-
-            }else {
-
-            }
-        }
         titleInput.isFocusable = true
         titleInput.isFocusableInTouchMode = true
 
@@ -281,7 +272,7 @@ class RecordActivity : BaseActivity() {
     }
 
     fun updateCheckBoxUI() {
-        if(record.isSetCheckBox()) {
+        if(record.isSetCheckBox) {
             checkBox.visibility = View.VISIBLE
             if(record.isDone()) {
                 checkBox.setImageResource(R.drawable.check)
@@ -297,7 +288,7 @@ class RecordActivity : BaseActivity() {
                 showDialog(CustomDialog(this, getString(R.string.checkbox),
                         getString(R.string.delete_checkbox_sub), null) { result, _, _ ->
                     if(result) {
-                        record.clearCheckBox()
+                        record.isSetCheckBox = false
                         updateCheckBoxUI()
                     }
                 }, true, true, true, false)
@@ -349,14 +340,13 @@ class RecordActivity : BaseActivity() {
                 showDialog(CustomDialog(this, getString(R.string.shedule),
                         getString(R.string.delete_shedule_sub), null) { result, _, _ ->
                     if(result) {
-                        record.clearSchdule()
                         updateDateUI()
                     }
                 }, true, true, true, false)
                 return@setOnLongClickListener true
             }
 
-            if(record.isSetTime()) {
+            if(record.isSetTime) {
                 smallStartText.text = AppDateFormat.ymd.format(startCal.time)
                 bigStartText.text = AppDateFormat.time.format(startCal.time)
                 smallEndText.text = AppDateFormat.ymd.format(endCal.time)
@@ -374,7 +364,7 @@ class RecordActivity : BaseActivity() {
             }else {
                 startEndDivider.visibility = View.VISIBLE
                 endLy.visibility = View.VISIBLE
-                durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, !record.isSetTime())
+                durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, !record.isSetTime)
             }
         }else {
             timeLy.visibility = View.GONE
@@ -383,21 +373,20 @@ class RecordActivity : BaseActivity() {
 
     fun showStartEndDialog() {
         showDialog(SchedulingDialog(this, record) { sCal, eCal ->
-            record.setSchedule()
             record.setDateTime(sCal, eCal)
             updateUI()
         }, true, true, true, false)
     }
 
     fun updateDdayUI() {
-        if(record.isSetDday()) {
+        if(record.isSetCountdown()) {
             ddayLy.visibility = View.VISIBLE
-            ddayText.text = record.getDdayText(System.currentTimeMillis())
+            ddayText.text = record.getCountdownText(System.currentTimeMillis())
             ddayLy.setOnClickListener {
                 showDialog(CustomDialog(this, getString(R.string.countdown),
                         getString(R.string.delete_dday_sub), null) { result, _, _ ->
                     if(result) {
-                        record.clearDday()
+                        record.clearCountdown()
                         updateDdayUI()
                     }
                 }, true, true, true, false)

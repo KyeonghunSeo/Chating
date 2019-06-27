@@ -23,7 +23,7 @@ object RecordManager {
         val result = realm.where(Record::class.java)
                 .beginGroup()
                 .equalTo("folder.id", folder.id)
-                .greaterThan("dtCreated", 0)
+                .notEqualTo("dtCreated", -1L)
                 .endGroup()
                 .and()
                 .beginGroup()
@@ -66,7 +66,7 @@ object RecordManager {
         val realm = Realm.getDefaultInstance()
         val q = realm.where(Record::class.java)
                 .beginGroup()
-                .greaterThan("dtCreated", 0)
+                .notEqualTo("dtCreated", -1L)
                 .endGroup()
 
         if(tags.isEmpty() || query.isNotEmpty()) {
@@ -103,6 +103,18 @@ object RecordManager {
         realm.executeTransaction{
             commonSave(realm, record)
             realm.insertOrUpdate(record)
+        }
+        realm.close()
+    }
+
+
+    fun save(records: List<Record>) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction{
+            records.forEach {
+                commonSave(realm, it)
+                realm.insertOrUpdate(it)
+            }
         }
         realm.close()
     }
@@ -236,7 +248,7 @@ object RecordManager {
 
     fun reorder(list: List<Record>) {
         val realm = Realm.getDefaultInstance()
-        realm.executeTransaction{ _ ->
+        realm.executeTransaction{
             list.forEachIndexed { index, timeObject ->
                 realm.where(Record::class.java).equalTo("id", timeObject.id).findFirst()?.let {
                     it.ordering = index

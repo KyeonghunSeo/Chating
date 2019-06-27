@@ -31,12 +31,12 @@ class MoreOptionDialog(private val record: Record,
             }
         }
 
-        if(record.isSetDday()) {
+        if(record.isSetCountdown()) {
             root.ddayBtn.alpha = 0.5f
         }else {
             root.ddayBtn.alpha = 1f
             root.ddayBtn.setOnClickListener {
-                record.setDday()
+                record.setCountdown()
                 recordActivity.updateDdayUI()
                 dismiss()
             }
@@ -77,12 +77,12 @@ class MoreOptionDialog(private val record: Record,
             }
         }
 
-        if(record.isSetCheckBox()) {
+        if(record.isSetCheckBox) {
             root.checkboxBtn.alpha = 0.5f
         }else {
             root.checkboxBtn.alpha = 1f
             root.checkboxBtn.setOnClickListener {
-                record.setCheckBox()
+                record.isSetCheckBox = true
                 recordActivity.updateCheckBoxUI()
                 dismiss()
             }

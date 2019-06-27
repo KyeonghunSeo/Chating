@@ -521,7 +521,7 @@ fun makeShareContentsByRecord(record: Record) : String {
     record.title?.let { result.append("$it\n") }
     if(record.dtStart != Long.MIN_VALUE) {
         result.append("[${str(R.string.date_time)}]\n${makeSheduleText(record.dtStart, record.dtEnd, false)}\n")
-        if(record.isSetTime()) {
+        if(record.isSetTime) {
             result.append("[${str(R.string.time)}]\n${makeTimeText(record.dtStart, record.dtEnd)}\n")
         }
     }

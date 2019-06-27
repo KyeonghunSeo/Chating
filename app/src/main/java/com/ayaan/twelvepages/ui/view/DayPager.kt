@@ -142,9 +142,6 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                         it.height = MATCH_PARENT
                         it.setMargins(0, 0, 0, 0)
                     }
-                    MainActivity.getMainDateLy()?.let {
-                        it.orientation = LinearLayout.HORIZONTAL
-                    }
                     requestLayout()
                 }
             })
@@ -188,9 +185,6 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 val xPos = location[0] + if(MainActivity.isFolderOpen()) -MainActivity.tabSize else 0
                 val yPos = location[1] - AppStatus.statusBarHeight
                 it.setMargins(xPos, yPos, 0, 0)
-            }
-            MainActivity.getMainDateLy()?.let {
-                it.orientation = LinearLayout.VERTICAL
             }
             requestLayout()
         }

@@ -205,13 +205,23 @@ class MainActivity : BaseActivity() {
                 colorKey = Random().nextInt(11)
             })
             RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*5, s+DAY_MILL*5).apply {
-                title = "헬스장"
+                title = "치과"
                 type = 1
                 colorKey = Random().nextInt(11)
             })
             RecordManager.save(RecordManager.makeNewRecord(s, s+DAY_MILL*3).apply {
                 title = "회사 프로젝트"
                 type = 1
+                colorKey = Random().nextInt(11)
+            })
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*7, s+DAY_MILL*7).apply {
+                title = "친구생일"
+                type = 1
+                colorKey = Random().nextInt(11)
+            })
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*7, s+DAY_MILL*7).apply {
+                title = "선물사기"
+                type = 2
                 colorKey = Random().nextInt(11)
             })
             RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*14, s+DAY_MILL*17).apply {
@@ -230,7 +240,7 @@ class MainActivity : BaseActivity() {
                 colorKey = Random().nextInt(11)
             })
             RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*29, s+DAY_MILL*29).apply {
-                title = "회사 프로젝트"
+                title = "대청소"
                 type = 1
                 colorKey = Random().nextInt(11)
             })
@@ -273,7 +283,7 @@ class MainActivity : BaseActivity() {
         }else {
             countdownText.visibility = View.VISIBLE
             list[0]?.let { record ->
-                countdownText.text = record.getDdayText(System.currentTimeMillis())
+                countdownText.text = record.getCountdownText(System.currentTimeMillis())
                 countdownText.setOnClickListener {
                     showDialog(CountdownListDialog(this) {
                     }, true, true, true, false)
@@ -400,7 +410,9 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            mainMonthText.text = AppDateFormat.ym.format(it.time)
+            mainMonthText.typeface = AppTheme.boldFont
+            mainYearText.typeface = AppTheme.boldFont
+            mainMonthText.text = AppDateFormat.month.format(it.time)
             mainYearText.text = AppDateFormat.year.format(it.time)
             //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
             //mainYearText.text = it.get(Calendar.YEAR).toString()

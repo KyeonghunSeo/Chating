@@ -44,7 +44,7 @@ class RecordAlarmReceiver : BroadcastReceiver() {
                     if (!record.isDeleted()) {
                         if(dtStart != Long.MIN_VALUE) {
                             val duration = record.getDuration()
-                            record.setDateTime(record.isSetTime(), dtStart, dtStart + duration)
+                            record.setDateTime(record.isSetTime, dtStart, dtStart + duration)
                         }
                         showNotification(context, record)
                         AlarmManager.registRecordAlarm(realm, record)

@@ -273,7 +273,7 @@ object RepeatManager {
     private fun makeInstance(record: Record, instanceTime: Long, duration: Long, ymdKey: String) : Record {
         val instance = record.makeCopyObject()
         instance.repeatKey = ymdKey
-        instance.setDateTime(instance.isSetTime(), instanceTime, instanceTime + duration)
+        instance.setDateTime(instance.isSetTime, instanceTime, instanceTime + duration)
         return instance
     }
 

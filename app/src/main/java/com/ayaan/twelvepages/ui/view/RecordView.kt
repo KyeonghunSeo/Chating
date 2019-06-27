@@ -16,6 +16,7 @@ import com.ayaan.twelvepages.manager.StampManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import android.graphics.DashPathEffect
+import android.widget.LinearLayout
 import com.ayaan.twelvepages.adapter.util.RecordListComparator
 import com.ayaan.twelvepages.manager.ColorManager
 
@@ -100,7 +101,9 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 maxLines = 1
                 ellipsize = null
             }
-            STAMP -> {}
+            STAMP -> {
+                gravity = Gravity.LEFT
+            }
             DOT -> {
                 gravity = Gravity.LEFT
             }
@@ -125,10 +128,11 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             }
             STICKER -> {
                 gravity = Gravity.LEFT
+                translationY = -dpToPx(20f)
             }
         }
 
-        val leftPadding = if(record.isSetCheckBox()) {
+        val leftPadding = if(record.isSetCheckBox) {
             sPadding + checkboxSize
         }else {
             sPadding
@@ -153,11 +157,14 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                     drawRange(canvas)
                     super.onDraw(canvas)
                 }
+                STAMP -> {
+                    drawStamp(canvas)
+                }
                 DOT -> {
                     drawDot(canvas)
                 }
                 STICKER -> {
-                    drawImage(canvas)
+                    drawSticker(canvas)
                 }
                 else -> {
                     drawBasicShape(canvas)
@@ -212,6 +219,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     private fun drawBasicShape(canvas: Canvas) {
         paint.color = paintColor
+        paint.pathEffect = null
         when(shape){
             Shape.RECT_FILL -> {
                 canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), rectRadius, rectRadius, paint)
@@ -286,7 +294,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             }
         }
 
-        if(record.isSetCheckBox()) {
+        if(record.isSetCheckBox) {
             drawCheckBox(canvas, (sidePadding - defaulMargin / 2).toInt())
         }
     }
@@ -294,7 +302,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     private fun drawRange(canvas: Canvas) {
         paint.color = paintColor
         canvas.translate(scrollX.toFloat(), 0f)
-        val space = textSpaceWidth + if(record.isSetCheckBox()) checkboxSize else 0
+        val space = textSpaceWidth + if(record.isSetCheckBox) checkboxSize else 0
         val sPadding = sidePadding * 3
 
         var textLPos = width / 2 - space / 2 - defaulMargin * 2
@@ -353,7 +361,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 }
             }
         }
-        if(record.isSetCheckBox()) {
+        if(record.isSetCheckBox) {
             drawCheckBox(canvas, (textLPos + defaulMargin).toInt())
         }
         canvas.translate(-scrollX.toFloat(), 0f)
@@ -393,7 +401,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     fun drawStamp(canvas: Canvas) {
         val margin = defaulMargin.toInt()
-        val size = (dotSize - defaulMargin).toInt()
+        val size = (blockTypeSize - defaulMargin).toInt()
         var top = 0
         var left = sidePadding
         childList?.forEach { child ->
@@ -403,7 +411,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             circle.draw(canvas)
 
             val stamp = resource.getDrawable(StampManager.stamps[0])
-            stamp.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
+            stamp.setColorFilter(ColorManager.getFontColor(child.getColor()), PorterDuff.Mode.SRC_ATOP)
             stamp.setBounds(left + margin, top + margin, left + size - margin, top + size - margin)
             stamp.draw(canvas)
 /*
@@ -414,7 +422,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 */
             left += size + margin
             if(left + size >= width) {
-                top += dotSize
+                top += blockTypeSize
                 left = sidePadding
             }
         }
@@ -448,22 +456,27 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         */
     }
 
-    private fun drawImage(canvas: Canvas) {
-
+    private fun drawSticker(canvas: Canvas) {
+        /*
         val size = (blockTypeSize * 2.5f).toInt()
-        var top = height - size - sidePadding
-        var left = sidePadding
+        var top = (height - size - bottomPadding).toInt()
+        var left = (width - size - defaulMargin).toInt()
         childList?.forEach { child ->
-            val circle = resource.getDrawable(R.drawable.s_1207)
+            val sticker = child.getSticker()
+            val circle = resource.getDrawable(sticker?.resId ?: R.drawable.help, null)
+            circle.setBounds(left, top, (left + size), (top + size))
+            circle.draw(canvas)
+        }*/
+        val size = (blockTypeSize * 2.0f).toInt()
+        var top = 0
+        var left = 0
+        childList?.forEach { child ->
+            val sticker = child.getSticker()
+            val circle = resource.getDrawable(sticker?.resId ?: R.drawable.help, null)
+            circle.alpha = 200
             circle.setBounds(left, top, (left + size), (top + size))
             circle.draw(canvas)
         }
-        /*
-        childList?.forEach { child ->
-            val circle = resource.getDrawable(R.drawable.bg)
-            circle.setBounds(0, CalendarView.dataStartYOffset.toInt(), width, height)
-            circle.draw(canvas)
-        }*/
     }
 
     private fun drawDot(view: RecordView, paint: Paint, canvas: Canvas) {

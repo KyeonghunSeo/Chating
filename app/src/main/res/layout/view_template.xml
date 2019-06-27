@@ -63,26 +63,30 @@
         android:layout_marginTop="160dp"
         android:layout_marginBottom="30dp">
     </androidx.recyclerview.widget.RecyclerView>
-    
-    <LinearLayout
-        android:id="@+id/controlLy"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="15dp"
-        android:layout_gravity="bottom">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/stickerBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|right"
+        android:outlineSpotShadowColor="@color/secondaryText"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_marginRight="85dp"
+        android:layout_marginBottom="25dp"
+        app:cardBackgroundColor="@color/background"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        android:visibility="gone">
 
         <ImageView
-            android:id="@+id/editTemplateBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="13dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/edit"
-            android:tint="@color/secondaryText"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/circle_stroke_dash"
+            android:padding="12dp"
+            android:src="@drawable/heart"
+            android:tint="@color/primaryText"/>
 
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/addBtn"
@@ -100,7 +104,7 @@
             android:id="@+id/templateIconImg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="12dp"
+            android:padding="15dp"
             android:src="@drawable/add"
             android:tint="@color/primaryText"/>
 

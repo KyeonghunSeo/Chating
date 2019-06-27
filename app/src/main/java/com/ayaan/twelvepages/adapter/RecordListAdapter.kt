@@ -75,7 +75,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         v.moreImg.setOnClickListener { adapterInterface.invoke(v, record, 0) }
 
         v.iconImg.setColorFilter(record.getColor())
-        if(record.isSetCheckBox()) {
+        if(record.isSetCheckBox) {
             v.iconImg.setPadding(checkBoxPadding, checkBoxPadding, checkBoxPadding, checkBoxPadding)
             if(record.isDone()) {
                 v.iconImg.setImageResource(R.drawable.check)
@@ -105,7 +105,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.timeLy.visibility = View.VISIBLE
             val totalDate = getDiffDate(record.dtStart, record.dtEnd) + 1
             if(totalDate == 1) {
-                if(record.isSetTime()) {
+                if(record.isSetTime) {
                     if(record.dtStart == record.dtEnd) {
                         v.timeText.text = AppDateFormat.time.format(Date(record.dtStart))
                     }else {
@@ -118,7 +118,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             }else {
                 tempCal.timeInMillis = record.dtStart
                 val toDateNum = getDiffDate(tempCal, currentCal)
-                if(record.isSetTime()) {
+                if(record.isSetTime) {
                     v.timeText.text = "${AppDateFormat.dateTime.format(Date(record.dtStart))} ~ " +
                             AppDateFormat.dateTime.format(Date(record.dtEnd)) +
                             " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"
@@ -216,10 +216,9 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
 
         if(record.links.any { it.type == Link.Type.WEB.ordinal }){
             val link = record.links.first{ it.type == Link.Type.WEB.ordinal }
-            val properties = JSONObject(link.properties)
-            val url = properties.getString("url")
-            val imageurl = properties.getString("imageurl")
-            val favicon = properties.getString("favicon")
+            val url = link.strParam0
+            val imageurl = link.strParam1
+            val favicon = link.strParam2
 
             v.linkText.text = link.title
             if(!imageurl.isNullOrBlank())
@@ -232,7 +231,11 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
 
             v.linkLy.visibility = View.VISIBLE
             v.linkLy.setOnClickListener {
-                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                try{
+                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                }catch (e: Exception) {
+                    toast(R.string.invalid_info)
+                }
             }
         }else {
             v.linkLy.visibility = View.GONE
@@ -244,7 +247,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             val eventId = record.id?.substring("osInstance::".length, record.id!!.length)?.toLong() ?: -1
             val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
             val intent = Intent(Intent.ACTION_VIEW).setData(uri)
-            if(record.isSetTime()) {
+            if(record.isSetTime) {
                 intent.putExtra(EXTRA_EVENT_BEGIN_TIME, record.dtStart)
                 intent.putExtra(EXTRA_EVENT_END_TIME, record.dtEnd)
             }else {
