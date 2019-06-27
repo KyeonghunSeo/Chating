@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="450dp"
         android:layout_marginTop="15dp"
-        android:background="@color/background"
+        android:background="@color/whiteAlpha"
         android:elevation="20dp">
 
         <LinearLayout
@@ -291,6 +291,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

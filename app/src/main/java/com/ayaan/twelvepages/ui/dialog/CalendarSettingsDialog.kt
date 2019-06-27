@@ -17,8 +17,8 @@ class CalendarSettingsDialog(private val activity: Activity) : BottomSheetDialog
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style, R.layout.dialog_calendar_settings)
         dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        sheetBehavior.isHideable = false
+        sheetBehavior.peekHeight = dpToPx(200)
+        sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         setLayout()
         dialog.setOnShowListener {}
     }
