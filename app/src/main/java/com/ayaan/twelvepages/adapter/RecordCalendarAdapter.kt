@@ -242,7 +242,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
 
         calendarView.weekLys.forEachIndexed { index, weekLy ->
             if(index < rows) {
-                val newHeight = rowHeightArray[index] + weekLyBottomPadding
+                val newHeight = rowHeightArray[index]
                 val finalHeight = Math.max(minHeight, newHeight)
                 calendarHeight += finalHeight
                 weekLy.layoutParams.height = finalHeight.toInt()
@@ -256,13 +256,13 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                 holder.items.forEach {
                     lastAlpha = if(isDateInMonth(it)) lastAlpha else AppStatus.outsideMonthAlpha
                     it.alpha = 0f
-                    calendarView.dateCells[it.cellNum].addView(it)
+                    calendarView.dateCells[it.cellNum].addView(it, 0)
                     it.post { showInsertAnimation(it, lastAlpha) }
                 }
             }else {
                 holder.items.forEach {
                     it.alpha = if(isDateInMonth(it)) lastAlpha else AppStatus.outsideMonthAlpha
-                    calendarView.dateCells[it.cellNum].addView(it)
+                    calendarView.dateCells[it.cellNum].addView(it, 0)
                 }
             }
         }

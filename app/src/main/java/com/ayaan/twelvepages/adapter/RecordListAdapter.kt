@@ -260,6 +260,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         }
     }
 
+    @SuppressLint("UseSparseArrays")
     private fun highlightQuery(textView: TextView, text: String) {
         val highlightMap = HashMap<Int, Int>()
         val pattern = Pattern.compile(query)

@@ -128,7 +128,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             }
             STICKER -> {
                 gravity = Gravity.LEFT
-                translationY = -dpToPx(20f)
             }
         }
 
@@ -457,7 +456,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     }
 
     private fun drawSticker(canvas: Canvas) {
-        /*
+
         val size = (blockTypeSize * 2.5f).toInt()
         var top = (height - size - bottomPadding).toInt()
         var left = (width - size - defaulMargin).toInt()
@@ -466,7 +465,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             val circle = resource.getDrawable(sticker?.resId ?: R.drawable.help, null)
             circle.setBounds(left, top, (left + size), (top + size))
             circle.draw(canvas)
-        }*/
+        }
+        /*
         val size = (blockTypeSize * 2.0f).toInt()
         var top = 0
         var left = 0
@@ -476,7 +476,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             circle.alpha = 200
             circle.setBounds(left, top, (left + size), (top + size))
             circle.draw(canvas)
-        }
+        }*/
     }
 
     private fun drawDot(view: RecordView, paint: Paint, canvas: Canvas) {

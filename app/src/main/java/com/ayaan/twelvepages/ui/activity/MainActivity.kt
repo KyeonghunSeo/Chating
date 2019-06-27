@@ -40,6 +40,7 @@ import io.realm.RealmResults
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -173,7 +174,13 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        profileBtn.setOnLongClickListener {
+        mainYearText.setOnClickListener {
+            if(!profileView.isOpened()) {
+                profileView.show()
+            }
+        }
+
+        mainYearText.setOnLongClickListener {
             /*
             AppTheme.thinFont = ResourcesCompat.getFont(this, R.font.thin_s)!!
             AppTheme.regularFont = ResourcesCompat.getFont(this, R.font.regular_s)!!
@@ -184,13 +191,13 @@ class MainActivity : BaseActivity() {
             return@setOnLongClickListener true
         }
 
-        mainDateLy.setOnClickListener {
+        mainMonthText.setOnClickListener {
             showDialog(DatePickerDialog(this, viewModel.targetTime.value!!) {
                 selectDate(it)
             }, true, true, true, false)
         }
 
-        mainDateLy.setOnLongClickListener {
+        mainMonthText.setOnLongClickListener {
             val cal = Calendar.getInstance()
             cal.set(2019, 5, 1)
             val s = cal.timeInMillis
@@ -410,10 +417,13 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            mainMonthText.typeface = AppTheme.boldFont
-            mainYearText.typeface = AppTheme.boldFont
-            mainMonthText.text = AppDateFormat.month.format(it.time)
+            mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
             mainYearText.text = AppDateFormat.year.format(it.time)
+            if (AppDateFormat.language == "ko") {
+                mainMonthKoText.visibility = View.VISIBLE
+            } else {
+                mainMonthKoText.visibility = View.GONE
+            }
             //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
             //mainYearText.text = it.get(Calendar.YEAR).toString()
         }

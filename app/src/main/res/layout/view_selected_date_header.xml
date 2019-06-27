@@ -9,8 +9,17 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="2.5dp">
+
+        <FrameLayout
+            android:id="@+id/bar"
+            android:layout_width="match_parent"
+            android:layout_height="2.0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:transformPivotX="0dp">
+        </FrameLayout>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -49,14 +58,5 @@
             android:textColor="@color/primaryText"/>
 
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/bar"
-        android:layout_width="match_parent"
-        android:layout_height="2.0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:transformPivotX="0dp">
-    </FrameLayout>
 
 </FrameLayout>

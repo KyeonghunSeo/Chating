@@ -406,17 +406,27 @@ fun setGlobalTheme(view: View?) {
                         if(v.typeface == AppTheme.boldFont) {
                             v.setTypeface(AppTheme.boldFont, Typeface.BOLD)
                         }else {
-                            v.typeface = AppTheme.regularFont
+                            if(v.typeface == Typeface.DEFAULT) {
+                                v.typeface = AppTheme.regularFont
+                            }
                         }
                     }
                     is EditText -> {
-                        if(v.typeface == Typeface.DEFAULT) {
-                            v.typeface = AppTheme.regularFont
+                        if(v.typeface == AppTheme.boldFont) {
+                            v.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+                        }else {
+                            if(v.typeface == Typeface.DEFAULT) {
+                                v.typeface = AppTheme.regularFont
+                            }
                         }
                     }
                     is Button -> {
-                        if(v.typeface == Typeface.DEFAULT) {
-                            v.typeface = AppTheme.regularFont
+                        if(v.typeface == AppTheme.boldFont) {
+                            v.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+                        }else {
+                            if(v.typeface == Typeface.DEFAULT) {
+                                v.typeface = AppTheme.regularFont
+                            }
                         }
                     }
                     is Line -> {

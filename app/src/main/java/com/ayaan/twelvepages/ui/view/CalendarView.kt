@@ -44,7 +44,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
-        val dataStartYOffset = dpToPx(33f)
+        val dataStartYOffset = dpToPx(43f)
         val headerHeight = dpToPx(110)
     }
 
@@ -80,6 +80,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     inner class WeekInfoViewHolder(val container: View) {
         val weeknumText: TextView = container.findViewById(R.id.weeknumText)
         init {
+            weeknumText.setTextColor(AppTheme.secondaryText)
             weeknumText.typeface = AppTheme.regularFont
         }
     }
@@ -141,6 +142,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
                 leftMargin = calendarPadding
                 rightMargin = 0
+                topMargin = weekLyBottomPadding
             }
             view.setBackgroundColor(AppTheme.lightLine)
         }
@@ -160,10 +162,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateLy.setPadding(calendarPadding, 0, 0, 0)
             weekLy.addView(rowDividers[i])
 
-            weekInfoViews[i].container.layoutParams = LayoutParams(calendarPadding, MATCH_PARENT).apply {
-                topMargin = -weekLyBottomPadding
-            }
+            weekInfoViews[i].container.layoutParams = LayoutParams(calendarPadding, MATCH_PARENT)
             weekLy.addView(weekInfoViews[i].container)
+
             for (j in 0..6){
                 val cellNum = i*7 + j
 
@@ -239,8 +240,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     else columnDividers[cellNum].visibility = View.VISIBLE
                     cellTimeMills[cellNum] = tempCal.timeInMillis
 
-                    weekInfoViews[i].weeknumText.text = String.format(str(R.string.weekNum), tempCal.get(Calendar.WEEK_OF_YEAR))
-                    weekInfoViews[i].container.visibility = View.GONE
+                    weekInfoViews[i].weeknumText.text = String.format("%02d", tempCal.get(Calendar.WEEK_OF_YEAR))
 
                     val dateInfo = dateInfos[cellNum]
                     DateInfoManager.getHoliday(dateInfo, tempCal)
@@ -354,9 +354,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             (0 until rows).forEach {
                 if(it == cellNum / columns && AppStatus.isWeekNumDisplay) {
-                    weekInfoViews[it].container.visibility = View.VISIBLE
+
                 }else {
-                    weekInfoViews[it].container.visibility = View.GONE
+
                 }
             }
 
@@ -435,18 +435,18 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun highlightCells(start: Int, end: Int) {
         val s = if(start < end) start else end
         val e = if(start < end) end else start
-        dateCells.forEachIndexed { index, view ->
+        dateHeaders.forEachIndexed { index, holder ->
            if(index in s..e) {
-               view.background = AppTheme.hightlightCover
+               holder.container.background = AppTheme.hightlightCover
            }else {
-               view.background = AppTheme.blankDrawable
+               holder.container.background = AppTheme.blankDrawable
            }
         }
     }
 
     private fun clearHighlight() {
-        dateCells.forEachIndexed { index, view ->
-            view.background = AppTheme.blankDrawable
+        dateHeaders.forEachIndexed { index, holder ->
+            holder.container.background = AppTheme.blankDrawable
         }
     }
 

@@ -47,14 +47,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val dateInfo = DateInfoManager.DateInfo()
     private var color = 0
 
-    private val adapter = RecordListAdapter(context, mainList, targetCal) { view, record, action ->
+    private val adapter = RecordListAdapter(context, mainList, targetCal) { view, item, action ->
         MainActivity.instance?.let { activity ->
             showDialog(PopupOptionDialog(activity,
                     arrayOf(PopupOptionDialog.Item(str(R.string.copy), R.drawable.copy, AppTheme.primaryText),
                             PopupOptionDialog.Item(str(R.string.cut), R.drawable.cut, AppTheme.primaryText),
                             PopupOptionDialog.Item(str(R.string.move_date), R.drawable.schedule, AppTheme.primaryText),
-                            PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red))
-                    , view) { index ->
+                            PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)), view) { index ->
+                val record = Record().apply { copy(item) }
                 when(index) {
                     0 -> {
                         record.id = null

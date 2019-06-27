@@ -55,27 +55,38 @@
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
                         android:animateLayoutChanges="true"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="25dp"
                         android:clipChildren="false"
-                        android:gravity="center_vertical">
+                        android:gravity="bottom">
 
                         <TextView
                             android:id="@+id/mainMonthText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:textColor="@color/primaryText"
-                            android:textSize="36dp"/>
+                            android:textSize="60dp"/>
+
+                        <TextView
+                            android:id="@+id/mainMonthKoText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:textColor="@color/primaryText"
+                            android:text="월"
+                            android:textSize="24dp"/>
 
                         <TextView
                             android:id="@+id/mainYearText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginLeft="5dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:textColor="@color/primaryText"
-                            android:layout_marginTop="7dp"
-                            android:textSize="20dp"/>
+                            android:textSize="24dp"/>
 
                     </LinearLayout>
 
@@ -334,8 +345,7 @@
         android:elevation="30dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
-        android:layout_gravity="right"
-        android:visibility="gone">
+        android:layout_gravity="right">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/profileCard"

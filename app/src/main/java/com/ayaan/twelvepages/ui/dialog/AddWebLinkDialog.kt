@@ -62,11 +62,13 @@ class AddWebLinkDialog(activity: Activity, private val onResult: (Link) -> Unit)
                     toast(R.string.not_found_web)
                 }else {
                     linkLy.visibility = View.VISIBLE
-                    if(!metaData.imageurl.isNullOrBlank())
+                    if(!metaData.imageurl.isNullOrBlank()){
+                        linkImg.clearColorFilter()
                         Glide.with(context).load(metaData.imageurl).into(linkImg)
-                    else if(!metaData.favicon.isNullOrBlank())
+                    }else if(!metaData.favicon.isNullOrBlank()){
+                        linkImg.clearColorFilter()
                         Glide.with(context).load(metaData.favicon).into(linkImg)
-                    else {
+                    }else {
                         linkImg.setColorFilter(AppTheme.icon)
                         Glide.with(context).load(R.drawable.website).into(linkImg)
                     }
