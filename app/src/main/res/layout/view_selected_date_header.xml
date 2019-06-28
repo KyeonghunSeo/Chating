@@ -9,8 +9,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="2.5dp">
+        android:layout_marginTop="10dp">
 
         <FrameLayout
             android:id="@+id/bar"
@@ -24,7 +23,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2.5dp">
 
             <TextView
                 android:id="@+id/dateText"
@@ -51,6 +51,7 @@
             android:id="@+id/holiText"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="2.5dp"
             android:layout_marginRight="2dp"
             android:textSize="8dp"
             android:singleLine="true"

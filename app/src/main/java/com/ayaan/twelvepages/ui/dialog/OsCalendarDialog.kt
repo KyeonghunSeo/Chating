@@ -15,29 +15,24 @@ import com.ayaan.twelvepages.manager.OsCalendarManager
 import com.ayaan.twelvepages.setGlobalTheme
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.pixplicity.easyprefs.library.Prefs
-import kotlinx.android.synthetic.main.dialog_normal_list.*
+import kotlinx.android.synthetic.main.container_normal_list_dlg.*
+import kotlinx.android.synthetic.main.dialog_base.*
 import kotlinx.android.synthetic.main.list_item_normal.view.*
 import java.util.HashSet
 
 
-class OsCalendarDialog(activity: Activity, val onResult: (Boolean) -> Unit) : Dialog(activity) {
+class OsCalendarDialog(activity: Activity, val onResult: (Boolean) -> Unit) : BaseDialog(activity) {
     private val selectedItems = HashSet<String>(Prefs.getStringSet("osCalendarIds", HashSet<String>()))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.attributes.windowAnimations = R.style.DialogAnimation
-        setContentView(R.layout.dialog_normal_list)
-        setGlobalTheme(rootLy)
+        setLayout(R.layout.container_normal_list_dlg, dpToPx(325))
         setLayout()
-        setOnShowListener {}
     }
 
     private fun setLayout() {
-        rootLy.layoutParams.width = WRAP_CONTENT
-        rootLy.requestLayout()
-
         titleText.text = context.getString(R.string.select_os_calendar)
-        subText.visibility = View.GONE
+        titleIcon.setImageResource(R.drawable.calendar)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = ItemAdapter()

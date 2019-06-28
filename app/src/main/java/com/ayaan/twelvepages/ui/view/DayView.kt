@@ -53,7 +53,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     arrayOf(PopupOptionDialog.Item(str(R.string.copy), R.drawable.copy, AppTheme.primaryText),
                             PopupOptionDialog.Item(str(R.string.cut), R.drawable.cut, AppTheme.primaryText),
                             PopupOptionDialog.Item(str(R.string.move_date), R.drawable.schedule, AppTheme.primaryText),
-                            PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)), view) { index ->
+                            PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)), view, false) { index ->
                 val record = Record().apply { copy(item) }
                 when(index) {
                     0 -> {
@@ -91,9 +91,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         setGlobalTheme(rootLy)
         initRecyclerView()
         clipChildren = false
-        dateText.typeface = AppTheme.boldFont
-        dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-        holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+        dateText.typeface = AppTheme.regularFont
+        dowText.typeface = AppTheme.regularFont
+        holiText.typeface = AppTheme.regularFont
+        //dowText.setTypeface(AppTheme.regularFont, Typeface.BOLD)
+        //holiText.setTypeface(AppTheme.regularFont, Typeface.BOLD)
+
         dateLy.clipChildren = false
         dateLy.pivotX = 0f
         dateLy.pivotY = 0f
@@ -247,8 +250,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", 1f, mainDateLyY),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", 1f, mainDateLyScaleX),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", 1f, mainDateLyScaleY),
-                ObjectAnimator.ofFloat(MainActivity.getMainYearText(), "scaleX", 1f, yearTextScale),
-                ObjectAnimator.ofFloat(MainActivity.getMainYearText(), "scaleY", 1f, yearTextScale),
                 ObjectAnimator.ofFloat(bar, "alpha", 1f, 0f))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
@@ -278,8 +279,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", mainDateLyY, 1f),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", mainDateLyScaleX, 1f),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", mainDateLyScaleY, 1f),
-                ObjectAnimator.ofFloat(MainActivity.getMainYearText(), "scaleX", yearTextScale, 1f),
-                ObjectAnimator.ofFloat(MainActivity.getMainYearText(), "scaleY", yearTextScale, 1f),
                 ObjectAnimator.ofFloat(bar, "alpha", 0f, 1f))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
@@ -345,8 +344,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     companion object {
         const val headerTextScale = 5.5f
-        val datePosX = dpToPx(22.5f)
-        val datePosY = dpToPx(1.0f)
+        val datePosX = dpToPx(15.0f)
+        val datePosY = dpToPx(15.0f)
         val dowPosX = dpToPx(1.00f) / headerTextScale
         val dowPosY = dpToPx(9.6f)
         val dowScale = 0.310f
@@ -357,7 +356,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         val mainDateLyY = dpToPx(5.0f)
         val mainDateLyScaleX = 0.7f
         val mainDateLyScaleY = 0.7f
-        val yearTextScale = 2.3f
     }
 
 }

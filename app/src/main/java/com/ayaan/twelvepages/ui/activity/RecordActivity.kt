@@ -167,7 +167,7 @@ class RecordActivity : BaseActivity() {
             showDialog(PopupOptionDialog(this,
                     arrayOf(PopupOptionDialog.Item(str(R.string.share), R.drawable.share, AppTheme.primaryText),
                             PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)),
-                    moreBtn) { index ->
+                    moreBtn, false) { index ->
                 when(index) {
                     0 -> {
                         val shareIntent = Intent(Intent.ACTION_SEND)
@@ -551,7 +551,8 @@ class RecordActivity : BaseActivity() {
     }
 
     fun showAlarmDialog() {
-        showDialog(AlarmPickerDialog(this, record.getAlarmOffset(), record.getDtAlarm()) { result, offset, dtAlarm ->
+        showDialog(AlarmPickerDialog(this, record.getAlarmOffset(), record.getDtAlarm(),
+                record.dtStart) { result, offset, dtAlarm ->
             if (result) {
                 record.setAlarm(offset, dtAlarm)
             } else {
@@ -634,11 +635,10 @@ class RecordActivity : BaseActivity() {
                                     val uploadTask = ref.putBytes(baos.toByteArray())
                                     uploadTask.addOnFailureListener {
                                         hideProgressDialog()
-                                    }.addOnSuccessListener { _ ->
+                                    }.addOnSuccessListener {
                                         ref.downloadUrl.addOnCompleteListener {
                                             l("다운로드 url : ${it.result.toString()}")
-                                            record.links.add(Link(imageId, Link.Type.IMAGE.ordinal,
-                                                    null, it.result.toString()))
+                                            record.links.add(Link(imageId, Link.Type.IMAGE.ordinal, strParam0 = it.result.toString()))
                                             hideProgressDialog()
                                             updateLinkUI()
                                         }

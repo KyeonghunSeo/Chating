@@ -79,8 +79,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     inner class WeekInfoViewHolder(val container: View) {
         val weeknumText: TextView = container.findViewById(R.id.weeknumText)
+        val weekArrow: ImageView = container.findViewById(R.id.weekArrow)
         init {
-            weeknumText.setTextColor(AppTheme.secondaryText)
+            weeknumText.setTextColor(AppTheme.line)
             weeknumText.typeface = AppTheme.regularFont
         }
     }
@@ -241,6 +242,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     cellTimeMills[cellNum] = tempCal.timeInMillis
 
                     weekInfoViews[i].weeknumText.text = String.format("%02d", tempCal.get(Calendar.WEEK_OF_YEAR))
+                    weekInfoViews[i].weekArrow.visibility = View.INVISIBLE
 
                     val dateInfo = dateInfos[cellNum]
                     DateInfoManager.getHoliday(dateInfo, tempCal)
@@ -352,11 +354,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             if(targetCellNum >= 0) unselectDate(targetCellNum)
             targetCellNum = cellNum
 
-            (0 until rows).forEach {
-                if(it == cellNum / columns && AppStatus.isWeekNumDisplay) {
-
+            (0 until rows).forEach { i ->
+                if(i == cellNum / columns && AppStatus.isWeekNumDisplay) {
+                    weekInfoViews[i].weeknumText.setTextColor(CalendarManager.dateColor)
+                    weekInfoViews[i].weekArrow.visibility = View.VISIBLE
+                    rowDividers[i].setBackgroundColor(CalendarManager.dateColor)
                 }else {
-
+                    weekInfoViews[i].weeknumText.setTextColor(AppTheme.line)
+                    weekInfoViews[i].weekArrow.visibility = View.INVISIBLE
+                    rowDividers[i].setBackgroundColor(AppTheme.lightLine)
                 }
             }
 
@@ -364,7 +370,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dateText = dateHeaders[cellNum].dateText
             val dowText = dateHeaders[cellNum].dowText
             val holiText = dateHeaders[cellNum].holiText
-            dateText.typeface = AppTheme.boldFont
+            dateText.typeface = AppTheme.regularFont
             holiText.text = dateInfos[cellNum].getSelectedString()
             dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
             dateText.alpha = 1f
@@ -379,10 +385,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         ObjectAnimator.ofFloat(dowText, "translationX", -autoScrollOffset.toFloat(), 1f),
                         ObjectAnimator.ofFloat(holiText, "alpha", 0f, 1f),
                         ObjectAnimator.ofFloat(holiText, "translationX", -autoScrollOffset.toFloat(), 1f),
-                        ObjectAnimator.ofFloat(weekInfoViews[cellNum / columns].container,
-                                "alpha", 0f, 1f),
-                        ObjectAnimator.ofFloat(weekInfoViews[cellNum / columns].container,
-                                "translationX", -autoScrollOffset.toFloat(), 1f))
+                        ObjectAnimator.ofFloat(weekInfoViews[cellNum / columns].container, "alpha", 0f, 1f),
+                        ObjectAnimator.ofFloat(weekInfoViews[cellNum / columns].container, "translationX", -autoScrollOffset.toFloat(), 1f))
                 it.interpolator = FastOutSlowInInterpolator()
                 it.duration = animDur
                 it.start()

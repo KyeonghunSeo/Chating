@@ -11,16 +11,14 @@ import kotlinx.android.synthetic.main.dialog_base.*
 import java.util.*
 
 class AlarmPickerDialog(private val activity: Activity, private var offset: Long, private var dtAlarm: Long,
-                        private val onResult: (Boolean, Long, Long) -> Unit) : BaseDialog(activity) {
+                        private val dtStart: Long = Long.MIN_VALUE, private val onResult: (Boolean, Long, Long) -> Unit) : BaseDialog(activity) {
     private val offsets = AlarmManager.offsets
     private var isTemplate = false
 
     init {
         if(dtAlarm == Long.MIN_VALUE) {
-            dtAlarm = getTommorow9oclock()
         }else if(dtAlarm == Long.MAX_VALUE) {
             isTemplate = true
-            dtAlarm = getTommorow9oclock()
         }
     }
 
@@ -36,64 +34,67 @@ class AlarmPickerDialog(private val activity: Activity, private var offset: Long
         }
 
         cancelBtn.text = context.getString(R.string.delete_alarm)
+        cancelBtn.setTextColor(AppTheme.red)
         cancelBtn.setOnClickListener {
             onResult.invoke(false, offset, dtAlarm)
             dismiss()
         }
 
-        val btns = arrayOf(alarmBtn0, alarmBtn1, alarmBtn2, alarmBtn3,
-                alarmBtn4, alarmBtn5, alarmBtn6, alarmBtn7)
+        dateBtn.setOnClickListener {
+            showDialog(PopupOptionDialog(activity,
+                    arrayOf(PopupOptionDialog.Item(str(R.string.alarm_at_time)),
+                            PopupOptionDialog.Item(str(R.string.alarm_at_b1d)),
+                            PopupOptionDialog.Item(str(R.string.alarm_at_b1w)),
+                            PopupOptionDialog.Item(str(R.string.set_date))),
+                    dateBtn, true) { index ->
+                when(index) {
+                    0 -> {
 
-        btns.forEachIndexed { index, view ->
-            view.setOnClickListener {
-                offset = offsets[index]
-                setBtns(btns)
-            }
-        }
+                    }
+                    1 -> {
 
-        customTimeBtn.setOnClickListener {
+                    }
+                    3 -> {
+                        showDialog(DatePickerDialog(activity, dtAlarm) {
+
+                        }, true, true, true, false)
+                    }
+                }
+            }, true, false, true, false)
+
+
+            /*
             showDialog(TimePickerDialog(activity, dtAlarm) { time ->
                 offset = Long.MIN_VALUE
                 dtAlarm = time
                 setBtns(btns)
             }, true, true, true, false)
+            */
         }
 
-        setBtns(btns)
-    }
+        timeBtn.setOnClickListener {
+            showDialog(PopupOptionDialog(activity,
+                    arrayOf(PopupOptionDialog.Item(str(R.string.morningAlarmTime)),
+                            PopupOptionDialog.Item(str(R.string.afternoonAlarmTime)),
+                            PopupOptionDialog.Item(str(R.string.eveningAlarmTime)),
+                            PopupOptionDialog.Item(str(R.string.nightAlarmTime)),
+                            PopupOptionDialog.Item(str(R.string.set_time))),
+                    timeBtn, true) { index ->
+                when(index) {
+                    0 -> {
 
-    @SuppressLint("SetTextI18n")
-    private fun setBtns(btns: Array<TextView>) {
-        inActiveBtn(customTimeBtn)
-        btns.forEachIndexed { index, view ->
-            inActiveBtn(view)
+                    }
+                    1 -> {
+
+                    }
+                    4 -> {
+                        showDialog(TimePickerDialog(activity, dtAlarm) { time ->
+
+                        }, true, true, true, false)
+                    }
+                }
+            }, true, false, true, false)
+
         }
-
-        val index = offsets.indexOf(offset)
-        if(index >= 0) {
-            activeBtn(btns[index])
-            customTimeBtn.text = context.getString(R.string.custom_time)
-        }else {
-            activeBtn(customTimeBtn)
-            if(isTemplate) {
-                customTimeBtn.text = AppDateFormat.time.format(Date(dtAlarm))
-            }else {
-                customTimeBtn.text = AppDateFormat.dateTime.format(Date(dtAlarm))
-            }
-        }
-    }
-
-    private fun activeBtn(view: TextView) {
-        view.setTextColor(AppTheme.background)
-        view.typeface = AppTheme.boldFont
-        view.setBackgroundColor(AppTheme.primaryText)
-        view.alpha = 1f
-    }
-
-    private fun inActiveBtn(view: TextView) {
-        view.setTextColor(AppTheme.primary)
-        view.typeface = AppTheme.regularFont
-        view.setBackgroundColor(AppTheme.disableText)
-        view.alpha = 0.4f
     }
 }

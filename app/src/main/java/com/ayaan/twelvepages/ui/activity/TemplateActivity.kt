@@ -28,7 +28,8 @@ class TemplateActivity : BaseActivity() {
 
         deleteBtn.setOnClickListener {
             showDialog(PopupOptionDialog(this@TemplateActivity,
-                    arrayOf(PopupOptionDialog.Item(getString(R.string.delete), R.drawable.delete, AppTheme.red)), deleteBtn) { index ->
+                    arrayOf(PopupOptionDialog.Item(getString(R.string.delete), R.drawable.delete, AppTheme.red)),
+                    deleteBtn, false) { index ->
                 if(index == 0) {
                     showDialog(CustomDialog(this@TemplateActivity,
                             getString(R.string.delete),

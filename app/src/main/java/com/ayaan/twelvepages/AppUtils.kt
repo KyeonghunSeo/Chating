@@ -142,11 +142,9 @@ fun getDiffYear(t1: Long, t2: Long): Int {
     return tempCal2.get(Calendar.YEAR) - tempCal.get(Calendar.YEAR)
 }
 
-fun getTommorow9oclock() : Long {
+fun getTodayStartCal() : Long {
     tempCal.timeInMillis = System.currentTimeMillis()
-    tempCal.add(Calendar.DATE, 1)
     getCalendarTime0(tempCal)
-    tempCal.set(Calendar.HOUR_OF_DAY, 9)
     return tempCal.timeInMillis
 }
 
@@ -403,30 +401,24 @@ fun setGlobalTheme(view: View?) {
                 val v = vg.getChildAt(i)
                 when (v) {
                     is TextView -> {
-                        if(v.typeface == AppTheme.boldFont) {
-                            v.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-                        }else {
-                            if(v.typeface == Typeface.DEFAULT) {
-                                v.typeface = AppTheme.regularFont
-                            }
+                        when(v.typeface) {
+                            AppTheme.boldFont -> v.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+                            AppTheme.thinFont -> v.typeface = AppTheme.thinFont
+                            else -> v.typeface = AppTheme.regularFont
                         }
                     }
                     is EditText -> {
-                        if(v.typeface == AppTheme.boldFont) {
-                            v.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-                        }else {
-                            if(v.typeface == Typeface.DEFAULT) {
-                                v.typeface = AppTheme.regularFont
-                            }
+                        when(v.typeface) {
+                            AppTheme.boldFont -> v.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+                            AppTheme.thinFont -> v.typeface = AppTheme.thinFont
+                            else -> v.typeface = AppTheme.regularFont
                         }
                     }
                     is Button -> {
-                        if(v.typeface == AppTheme.boldFont) {
-                            v.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-                        }else {
-                            if(v.typeface == Typeface.DEFAULT) {
-                                v.typeface = AppTheme.regularFont
-                            }
+                        when(v.typeface) {
+                            AppTheme.boldFont -> v.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+                            AppTheme.thinFont -> v.typeface = AppTheme.thinFont
+                            else -> v.typeface = AppTheme.regularFont
                         }
                     }
                     is Line -> {
