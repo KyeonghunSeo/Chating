@@ -35,10 +35,10 @@ class LinkListView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val v = LayoutInflater.from(context).inflate(R.layout.list_item_link, null, false)
         val imageView = v.findViewById<ImageView>(R.id.imageView)
         setGlobalTheme(v)
-        Glide.with(context).load(link.properties).into(imageView)
+        Glide.with(context).load(link.strParam0).into(imageView)
         imageView.setOnClickListener {
             record?.links?.filter { it.type == Link.Type.IMAGE.ordinal }?.let { list ->
-                ImageViewer.Builder(context, list.map { it.properties })
+                ImageViewer.Builder(context, list.map { it.strParam0 })
                         .hideStatusBar(false)
                         .setStartPosition(list.indexOf(link))
                         .show()

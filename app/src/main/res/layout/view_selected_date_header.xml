@@ -4,22 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:id="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="2.0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="5dp"
+        android:transformPivotX="0dp">
+    </FrameLayout>
+
     <LinearLayout
         android:id="@+id/dateLy"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="2.5dp">
-
-        <FrameLayout
-            android:id="@+id/bar"
-            android:layout_width="match_parent"
-            android:layout_height="2.0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:transformPivotX="0dp">
-        </FrameLayout>
+        android:paddingTop="10dp"
+        android:paddingLeft="2.5dp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -29,16 +30,16 @@
             <TextView
                 android:id="@+id/dateText"
                 android:layout_width="wrap_content"
-                android:layout_height="15.5dp"
+                android:layout_height="16dp"
                 android:layout_marginTop="0.0dp"
-                android:textSize="13dp"
+                android:textSize="12dp"
                 android:textColor="@color/primaryText"
                 android:text="27"/>
 
             <TextView
                 android:id="@+id/dowText"
                 android:layout_width="wrap_content"
-                android:layout_height="15.5dp"
+                android:layout_height="16dp"
                 android:layout_marginLeft="2dp"
                 android:textSize="11dp"
                 android:maxLines="1"

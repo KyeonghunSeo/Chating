@@ -1,7 +1,9 @@
 package com.ayaan.twelvepages.ui.activity
 
 import android.Manifest
-import android.animation.*
+import android.animation.AnimatorSet
+import android.animation.LayoutTransition
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -17,13 +19,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.storage.FirebaseStorage
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
@@ -35,12 +30,18 @@ import com.ayaan.twelvepages.ui.dialog.CalendarSettingsDialog
 import com.ayaan.twelvepages.ui.dialog.CountdownListDialog
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.storage.FirebaseStorage
 import com.theartofdev.edmodo.cropper.CropImage
 import io.realm.RealmResults
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.ByteArrayOutputStream
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -157,6 +158,10 @@ class MainActivity : BaseActivity() {
         folderListView.layoutManager = LinearLayoutManager(this)
         folderListView.adapter = folderAdapter
         folderAdapter.itemTouchHelper?.attachToRecyclerView(folderListView)
+        tabBtn.setOnClickListener {
+            vibrate(this)
+            viewModel.openFolder.value = viewModel.openFolder.value != true
+        }
         folderBtn.setOnClickListener {
             vibrate(this)
             viewModel.openFolder.value = viewModel.openFolder.value != true
@@ -249,6 +254,16 @@ class MainActivity : BaseActivity() {
             RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*29, s+DAY_MILL*29).apply {
                 title = "대청소"
                 type = 1
+                colorKey = Random().nextInt(11)
+            })
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*10, s+DAY_MILL*10).apply {
+                title = "빨래하기"
+                isSetCheckBox = true
+                colorKey = Random().nextInt(11)
+            })
+            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*25, s+DAY_MILL*25).apply {
+                title = "택배받기"
+                isSetCheckBox = true
                 colorKey = Random().nextInt(11)
             })
             return@setOnLongClickListener false
@@ -443,7 +458,9 @@ class MainActivity : BaseActivity() {
         when {
             todayOffset != 0 -> {
                 todayBtn.visibility = View.VISIBLE
+                var distance = Math.min(Math.abs(todayOffset / 7 * dpToPx(2f)), dpToPx(150f))
                 if(todayOffset < 0) {
+                    distance *= -1
                     todayText.setPadding(dpToPx(8), 0, 0, 0)
                     todayRightArrow.visibility = View.VISIBLE
                     todayLeftArrow.visibility = View.GONE
@@ -453,14 +470,16 @@ class MainActivity : BaseActivity() {
                     todayLeftArrow.visibility = View.VISIBLE
                 }
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY",  todayBtn.translationY, 0f))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY",  todayBtn.translationY, 0f),
+                        ObjectAnimator.ofFloat(todayBtn, "translationX",  todayBtn.translationX, distance))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener { selectDate(System.currentTimeMillis()) }
             }
             else -> {
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, tabSize * 2f))
+                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, tabSize * 2f),
+                        ObjectAnimator.ofFloat(todayBtn, "translationX", todayBtn.translationX, 0f))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener(null)

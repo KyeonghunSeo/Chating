@@ -28,7 +28,8 @@ class TemplateActivity : BaseActivity() {
 
         deleteBtn.setOnClickListener {
             showDialog(PopupOptionDialog(this@TemplateActivity,
-                    arrayOf(PopupOptionDialog.Item(getString(R.string.delete), R.drawable.delete, AppTheme.red)), deleteBtn) { index ->
+                    arrayOf(PopupOptionDialog.Item(getString(R.string.delete), R.drawable.delete, AppTheme.red)),
+                    deleteBtn, false) { index ->
                 if(index == 0) {
                     showDialog(CustomDialog(this@TemplateActivity,
                             getString(R.string.delete),
@@ -167,12 +168,10 @@ class TemplateActivity : BaseActivity() {
     private fun updateColorUI() {
         colorImg.setColorFilter(ColorManager.getColor(template.colorKey))
         colorBtn.setOnClickListener {
-            val location = IntArray(2)
-            colorImg.getLocationOnScreen(location)
-            showDialog(SmallColorPickerDialog(this@TemplateActivity, template.colorKey, location) { colorKey ->
+            ColorPickerDialog(template.colorKey){ colorKey ->
                 template.colorKey = colorKey
                 updateColorUI()
-            }, true, true, true, false)
+            }.show(supportFragmentManager, null)
         }
     }
 

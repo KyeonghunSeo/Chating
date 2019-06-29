@@ -26,13 +26,13 @@
     <string name="delete">삭제</string>
     <string name="start">시작</string>
     <string name="end">종료</string>
-    <string name="weekNum">%1$s 주차</string>
+    <string name="weekNum">%1$s주</string>
     <string name="setting">환경설정</string>
     <string name="add_option">다른 정보 추가</string>
     <string name="detail_info">자세한 정보</string>
     <string name="memo">메모</string>
     <string name="location">장소</string>
-    <string name="set_time">시간설정</string>
+    <string name="set_time">시간 지정</string>
     <string name="alarm">알림</string>
     <string name="enter_memo">이곳에 메모를 입력하세요</string>
     <string name="set_alarm">알림설정</string>
@@ -63,14 +63,14 @@
         <item>Sat</item>
     </string-array>
 
-    <string name="alarm_at_time">당일 당시</string>
+    <string name="alarm_at_time">당일</string>
     <string name="alarm_at_9h">당일 오전 9시</string>
     <string name="alarm_at_12h">당일 정오</string>
     <string name="alarm_at_18h">당일 오후 6시</string>
     <string name="alarm_at_b30m">30분 전</string>
     <string name="alarm_at_b1h">1시간 전</string>
     <string name="alarm_at_b1d">하루 전</string>
-    <string name="alarm_at_b1w">1주일 전</string>
+    <string name="alarm_at_b1w">1주 전</string>
     <string name="delete_alarm">알림제거</string>
 
     <string-array name="alarms">
@@ -235,6 +235,7 @@
     <string name="to_calendar">캘린더로 이동</string>
     <string name="change_folder">보관함 변경</string>
     <string name="change_date">날짜 변경</string>
+    <string name="set_date">날짜 지정</string>
     <string name="to_folder">보관함으로 이동</string>
     <string name="inbox">INBOX</string>
     <string name="edit_c">EDIT</string>
@@ -310,10 +311,10 @@
     <string name="recent_sticker_empty">최근 사용한 스티커가 없습니다</string>
     <string name="alarm_setting">알림설정</string>
     <string name="default_alarm_time">기본 알림시간</string>
-    <string name="morningAlarmTime">아침 알림시간</string>
-    <string name="afternoonAlarmTime">점심 알림시간</string>
-    <string name="eveningAlarmTime">저녁 알림시간</string>
-    <string name="nightAlarmTime">밤 알림시간</string>
+    <string name="morningAlarmTime">아침</string>
+    <string name="afternoonAlarmTime">점심</string>
+    <string name="eveningAlarmTime">저녁</string>
+    <string name="nightAlarmTime">밤</string>
     <string name="device_calendar">외부 서비스 일정</string>
     <string name="task_setting">완료된 기록</string>
     <string name="os_calendar_style">외부 서비스 일정 스타일</string>
@@ -333,6 +334,7 @@
     <string name="cant_deleted_last_one">마지막 아이템은 삭제할 수 없습니다</string>
     <string name="color_pack_setting">컬러팩 설정</string>
     <string name="not_found_web">웹 페이지를 찾을수 없습니다</string>
+    <string name="go_today">오늘로 이동</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

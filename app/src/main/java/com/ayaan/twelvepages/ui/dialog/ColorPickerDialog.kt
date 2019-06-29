@@ -81,6 +81,23 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
                 root.recyclerView.adapter?.notifyDataSetChanged()
             }
         })
+        root.viewPager.setPageTransformer(true) { view, position ->
+            val pageWidth = view.width
+            when {
+                position > -1 && position < 0 -> {
+                    view.coverLy.translationX = pageWidth * position * -0.4f
+                    //view.packLy.translationX = pageWidth * position * -0.8f
+                }
+                position >= 0 -> {
+                    view.coverLy.translationX = pageWidth * position * -0.4f
+                    //view.packLy.translationX = pageWidth * position * -0.8f
+                }
+                else -> {
+                    view.coverLy.translationX = 0f
+                    //view.packLy.translationX = 0f
+                }
+            }
+        }
     }
 
     private fun setTab() {

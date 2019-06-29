@@ -197,8 +197,5 @@ object AlarmManager {
         }
     }
 
-    fun setDailyRecordAlarm() {
-
-    }
-
+    fun setDailyRecordAlarm() {}
 }

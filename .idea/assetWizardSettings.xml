@@ -58,23 +58,14 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
-                                      <entry key="foregroundClipartAsset">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="url" value="jar:file:/C:/Users/Day2Life%20Android%20Dev/Desktop/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_crop_portrait_black_24dp.xml" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
                                       <entry key="foregroundImage">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="scalingPercent" value="66" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -96,8 +87,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="f7f7f7" />
-                                      <entry key="foregroundAssetType" value="CLIP_ART" />
+                                      <entry key="backgroundColor" value="eeeeee" />
+                                      <entry key="foregroundImage" value="C:\Users\hellowo\Desktop\logo2.png" />
                                     </map>
                                   </option>
                                 </PersistentState>

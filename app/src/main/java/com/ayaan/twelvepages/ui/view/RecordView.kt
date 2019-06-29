@@ -35,7 +35,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val bigTextPadding = dpToPx(1.2f)
         val bottomPadding = dpToPx(3.0f)
         val blockTypeSize = dpToPx(16.5f).toInt()
-        val rectRadius = dpToPx(1.0f)
+        val rectRadius = dpToPx(0.5f)
         val dotSize = dpToPx(5)
         val checkboxSize = dpToPx(10)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
@@ -456,13 +456,13 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     }
 
     private fun drawSticker(canvas: Canvas) {
-
         val size = (blockTypeSize * 2.5f).toInt()
         var top = (height - size - bottomPadding).toInt()
         var left = (width - size - defaulMargin).toInt()
         childList?.forEach { child ->
             val sticker = child.getSticker()
             val circle = resource.getDrawable(sticker?.resId ?: R.drawable.help, null)
+            //val circle = resource.getDrawable(R.drawable.meat, null)
             circle.setBounds(left, top, (left + size), (top + size))
             circle.draw(canvas)
         }

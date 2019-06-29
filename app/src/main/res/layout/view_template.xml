@@ -68,10 +68,10 @@
         android:id="@+id/stickerBtn"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom"
         android:outlineSpotShadowColor="@color/secondaryText"
         android:foreground="?android:attr/selectableItemBackground"
-        android:layout_marginRight="85dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginBottom="25dp"
         app:cardBackgroundColor="@color/background"
         app:cardCornerRadius="20dp"
@@ -84,7 +84,7 @@
             android:background="@drawable/circle_stroke_dash"
             android:padding="12dp"
             android:src="@drawable/heart"
-            android:tint="@color/primaryText"/>
+            android:tint="@color/secondaryText"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -106,7 +106,7 @@
             android:layout_height="match_parent"
             android:padding="15dp"
             android:src="@drawable/add"
-            android:tint="@color/primaryText"/>
+            android:tint="@color/secondaryText"/>
 
     </androidx.cardview.widget.CardView>
 

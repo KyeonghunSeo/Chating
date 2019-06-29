@@ -4,156 +4,57 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="22.5dp"
-    android:paddingRight="22.5dp">
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/alarmBtn0"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_margin="2.5dp"
-            android:padding="10dp"
-            android:includeFontPadding="false"
-            android:textSize="12dp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/bold"
-            android:background="@color/primaryText"
-            android:gravity="center"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/alarm_at_time"/>
-
-        <TextView
-            android:id="@+id/alarmBtn1"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_margin="2.5dp"
-            android:padding="10dp"
-            android:includeFontPadding="false"
-            android:textSize="12dp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/bold"
-            android:background="@color/primaryText"
-            android:gravity="center"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/alarm_at_9h"/>
-
-        <TextView
-            android:id="@+id/alarmBtn2"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_margin="2.5dp"
-            android:padding="10dp"
-            android:includeFontPadding="false"
-            android:textSize="12dp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/bold"
-            android:background="@color/primaryText"
-            android:gravity="center"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/alarm_at_12h"/>
-
-        <TextView
-            android:id="@+id/alarmBtn3"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_margin="2.5dp"
-            android:padding="10dp"
-            android:includeFontPadding="false"
-            android:textSize="12dp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/bold"
-            android:background="@color/primaryText"
-            android:gravity="center"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/alarm_at_18h"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp">
-
-        <TextView
-            android:id="@+id/alarmBtn4"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_margin="2.5dp"
-            android:padding="10dp"
-            android:includeFontPadding="false"
-            android:textSize="12dp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/bold"
-            android:background="@color/primaryText"
-            android:gravity="center"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/alarm_at_b30m"/>
-
-        <TextView
-            android:id="@+id/alarmBtn5"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_margin="2.5dp"
-            android:padding="10dp"
-            android:includeFontPadding="false"
-            android:textSize="12dp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/bold"
-            android:background="@color/primaryText"
-            android:gravity="center"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/alarm_at_b1h"/>
-
-        <TextView
-            android:id="@+id/alarmBtn6"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_margin="2.5dp"
-            android:padding="10dp"
-            android:includeFontPadding="false"
-            android:textSize="12dp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/bold"
-            android:background="@color/primaryText"
-            android:gravity="center"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/alarm_at_b1d"/>
-
-        <TextView
-            android:id="@+id/alarmBtn7"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_margin="2.5dp"
-            android:padding="10dp"
-            android:includeFontPadding="false"
-            android:textSize="12dp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/bold"
-            android:background="@color/primaryText"
-            android:gravity="center"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/alarm_at_b1w"/>
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/customTimeBtn"
+    <FrameLayout
+        android:id="@+id/dateBtn"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="2.5dp"
-        android:includeFontPadding="false"
-        android:textSize="12dp"
-        android:textColor="@color/white"
-        android:fontFamily="@font/bold"
-        android:background="@color/primaryText"
-        android:gravity="center"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:text="@string/custom_time"/>
+        android:layout_height="55dp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <TextView
+            android:id="@+id/dateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/bold"
+            android:textColor="@color/primaryText"
+            android:text="@string/custom_time"/>
+
+        <TextView
+            android:id="@+id/dateOffsetText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:textColor="@color/secondaryText"
+            android:text="하루 전"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/timeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <TextView
+            android:id="@+id/timeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/bold"
+            android:textColor="@color/primaryText"
+            android:text="@string/custom_time"/>
+
+        <TextView
+            android:id="@+id/timeOffsetText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:textColor="@color/secondaryText"
+            android:text="오전 8:00"/>
+
+    </FrameLayout>
 
 </LinearLayout>

@@ -132,6 +132,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         t1.addTarget(recyclerView)
         t2.addTarget(backgroundLy)
         t3.addTarget(dateLy)
+        t3.addTarget(stickerBtn)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         transitionSet.addTransition(t3)
@@ -161,6 +162,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         t1.addTarget(recyclerView)
         t2.addTarget(backgroundLy)
         t3.addTarget(dateLy)
+        t3.addTarget(stickerBtn)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         transitionSet.addTransition(t3)
@@ -186,6 +188,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         stickerBtn.visibility = View.GONE
         backgroundLy.visibility = View.GONE
         dateLy.visibility = View.GONE
+        templateIconImg.setImageResource(R.drawable.add)
         adapter.mode = 0
         isExpanded = false
     }

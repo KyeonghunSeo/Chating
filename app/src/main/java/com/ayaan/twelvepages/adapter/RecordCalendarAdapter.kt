@@ -11,7 +11,6 @@ import com.ayaan.twelvepages.manager.OsCalendarManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.view.CalendarView
-import com.ayaan.twelvepages.ui.view.CalendarView.Companion.weekLyBottomPadding
 import com.ayaan.twelvepages.ui.view.RecordView
 import com.ayaan.twelvepages.ui.view.RecordView.Companion.blockTypeSize
 import io.realm.RealmResults
@@ -178,7 +177,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                             computeBottomStackStartPos()
                         }
                         STICKER -> {
-                            addBottomMargin(dpToPx(10f), currentFomula)
+                            addBottomMargin(dpToPx(35f), currentFomula)
                         }
                         else -> {}
                     }
@@ -201,10 +200,6 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                     (it.cellNum until it.cellNum + it.length).forEach{ index ->
                         cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom)
                     }
-                    /* 바텀 패딩쪽에 그리고 싶을때
-                    it.mTop = Math.max(minHeight - weekLyBottomPadding, rowHeightArray[it.cellNum / columns])
-                    it.mBottom = it.mTop + weekLyBottomPadding
-                    */
                     it.setLayout()
                 }
             }catch (e: Exception){ e.printStackTrace() }
@@ -256,13 +251,13 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                 holder.items.forEach {
                     lastAlpha = if(isDateInMonth(it)) lastAlpha else AppStatus.outsideMonthAlpha
                     it.alpha = 0f
-                    calendarView.dateCells[it.cellNum].addView(it, 0)
+                    calendarView.dateCells[it.cellNum].addView(it)
                     it.post { showInsertAnimation(it, lastAlpha) }
                 }
             }else {
                 holder.items.forEach {
                     it.alpha = if(isDateInMonth(it)) lastAlpha else AppStatus.outsideMonthAlpha
-                    calendarView.dateCells[it.cellNum].addView(it, 0)
+                    calendarView.dateCells[it.cellNum].addView(it)
                 }
             }
         }

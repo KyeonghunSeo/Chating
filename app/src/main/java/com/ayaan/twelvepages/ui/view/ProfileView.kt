@@ -34,7 +34,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private val scale = 0.7f
     private val animDur = 350L
-    private val profileCloseTopMargin = dpToPx(15)
+    private val profileCloseTopMargin = dpToPx(10)
     private val profileCloseRightMargin = dpToPx(10)
     private val profileOpenMargin = dpToPx(7)
     private val profileOpenTopMargin = dpToPx(7)

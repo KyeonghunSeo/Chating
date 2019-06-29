@@ -72,7 +72,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             itemTouchHelper?.startDrag(holder)
             return@setOnLongClickListener false
         }
-        v.moreImg.setOnClickListener { adapterInterface.invoke(v, record, 0) }
+        v.moreImg.setOnClickListener { adapterInterface.invoke(v.moreImg, record, 0) }
 
         v.iconImg.setColorFilter(record.getColor())
         if(record.isSetCheckBox) {
@@ -189,11 +189,11 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         if(record.links.any { it.type == Link.Type.IMAGE.ordinal }){
             val list = record.links.filter{ it.type == Link.Type.IMAGE.ordinal }
 
-            Glide.with(context).load(list[0].properties).into(v.mainImgView)
+            Glide.with(context).load(list[0].strParam0).into(v.mainImgView)
 
             if(list.size > 1) {
                 v.subImageLy.visibility = View.VISIBLE
-                Glide.with(context).load(list[1].properties).into(v.subImageView)
+                Glide.with(context).load(list[1].strParam0).into(v.subImageView)
                 if(list.size > 2) {
                     v.subImageText.text = "+${list.size - 2}"
                     v.subImageText.visibility = View.VISIBLE
@@ -205,7 +205,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
 
             v.imageLy.visibility = View.VISIBLE
             v.imageLy.setOnClickListener {
-                ImageViewer.Builder(context, list.map { it.properties })
+                ImageViewer.Builder(context, list.map { it.strParam0 })
                         .hideStatusBar(false)
                         .setStartPosition(0)
                         .show()

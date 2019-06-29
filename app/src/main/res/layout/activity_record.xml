@@ -66,6 +66,8 @@
                     android:layout_gravity="center_vertical"
                     android:textColorHint="@color/disableText"
                     android:fontFamily="@font/bold"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
                     android:textSize="26dp"
                     android:hint="@string/title"
                     android:background="@color/transparent"/>
