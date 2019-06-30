@@ -66,10 +66,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:animateLayoutChanges="true"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="25dp"
                         android:clipChildren="false"
-                        android:gravity="bottom">
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:id="@+id/mainMonthText"
@@ -83,22 +83,30 @@
                             android:id="@+id/mainMonthKoText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:layout_marginLeft="1dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:textColor="@color/secondaryText"
+                            android:layout_marginTop="1dp"
                             android:text="월"
-                            android:textSize="22dp"/>
+                            android:textSize="32dp"/>
 
                         <TextView
                             android:id="@+id/mainYearText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
                             android:layout_marginLeft="5dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:textColor="@color/secondaryText"
-                            android:textSize="22dp"/>
+                            android:textSize="20dp"/>
+
+                        <TextView
+                            android:id="@+id/mainYearKoText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:textColor="@color/secondaryText"
+                            android:layout_marginTop="1dp"
+                            android:text="년"
+                            android:textSize="18dp"/>
 
                         <TextView
                             android:id="@+id/countdownText"

@@ -216,7 +216,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
                 colorLy.visibility = View.VISIBLE
                 imageLy.visibility = View.GONE
             }
-            RecordCalendarAdapter.Formula.DOT -> {
+            RecordCalendarAdapter.Formula.DOT, RecordCalendarAdapter.Formula.STAMP -> {
                 subRecordView.length = 1
                 subRecordView.mLeft = 0f
                 subRecordView.mRight = dateWidth

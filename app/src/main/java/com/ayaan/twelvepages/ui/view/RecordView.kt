@@ -17,6 +17,7 @@ import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import android.graphics.DashPathEffect
 import android.widget.LinearLayout
+import androidx.core.graphics.ColorUtils
 import com.ayaan.twelvepages.adapter.util.RecordListComparator
 import com.ayaan.twelvepages.manager.ColorManager
 
@@ -144,8 +145,11 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         setPadding(leftPadding, textPadding, sPadding, 0)
 
         paintColor = ColorManager.getColor(record.colorKey)
-        fontColor = if(shape.fillColor) ColorManager.getFontColor(paintColor)
-        else paintColor
+        fontColor = if(shape.fillColor) {
+            if(ColorUtils.calculateLuminance(paintColor) < 0.7f) AppTheme.background else AppTheme.secondaryText
+        }else {
+            if(ColorUtils.calculateLuminance(paintColor) < 0.7f) paintColor else AppTheme.secondaryText
+        }
         setTextColor(fontColor)
     }
 
@@ -402,7 +406,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val margin = defaulMargin.toInt()
         val size = (blockTypeSize - defaulMargin).toInt()
         var top = 0
-        var left = sidePadding
+        var left = 0
         childList?.forEach { child ->
             val circle = resource.getDrawable(R.drawable.primary_rect_fill_radius_1)
             circle.setColorFilter(child.getColor(), PorterDuff.Mode.SRC_ATOP)
@@ -422,7 +426,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             left += size + margin
             if(left + size >= width) {
                 top += blockTypeSize
-                left = sidePadding
+                left = 0
             }
         }
         /* 겹치기

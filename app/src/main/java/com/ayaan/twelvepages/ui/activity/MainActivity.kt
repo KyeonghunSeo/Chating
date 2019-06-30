@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.AppUser
@@ -206,66 +207,71 @@ class MainActivity : BaseActivity() {
             val cal = Calendar.getInstance()
             cal.set(2019, 5, 1)
             val s = cal.timeInMillis
-            RecordManager.save(RecordManager.makeNewRecord(s, s).apply {
+            val list = ArrayList<Record>()
+            list.add(RecordManager.makeNewRecord(s, s).apply {
                 title = "점심약속"
                 type = 1
                 colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*2, s+DAY_MILL*3).apply {
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*2, s+DAY_MILL*3).apply {
                 title = "오후미팅"
                 type = 1
                 colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*5, s+DAY_MILL*5).apply {
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*5, s+DAY_MILL*5).apply {
                 title = "치과"
                 type = 1
                 colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s, s+DAY_MILL*3).apply {
+            list.add(RecordManager.makeNewRecord(s, s+DAY_MILL*3).apply {
                 title = "회사 프로젝트"
                 type = 1
                 colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*7, s+DAY_MILL*7).apply {
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*7, s+DAY_MILL*7).apply {
                 title = "친구생일"
                 type = 1
                 colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*7, s+DAY_MILL*7).apply {
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*7, s+DAY_MILL*7).apply {
                 title = "선물사기"
                 type = 2
                 colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*14, s+DAY_MILL*17).apply {
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*14, s+DAY_MILL*17).apply {
                 title = "점심약속"
                 type = 1
                 colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*22, s+DAY_MILL*23).apply {
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*22, s+DAY_MILL*23).apply {
                 title = "오후미팅"
                 type = 1
                 colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*27, s+DAY_MILL*30).apply {
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*27, s+DAY_MILL*30).apply {
                 title = "헬스장"
                 type = 1
                 colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*29, s+DAY_MILL*29).apply {
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*29, s+DAY_MILL*29).apply {
                 title = "대청소"
                 type = 1
                 colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*10, s+DAY_MILL*10).apply {
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*10, s+DAY_MILL*10).apply {
                 title = "빨래하기"
                 isSetCheckBox = true
                 colorKey = Random().nextInt(11)
             })
-            RecordManager.save(RecordManager.makeNewRecord(s+DAY_MILL*25, s+DAY_MILL*25).apply {
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*25, s+DAY_MILL*25).apply {
                 title = "택배받기"
                 isSetCheckBox = true
                 colorKey = Random().nextInt(11)
             })
+            list.forEach {
+                it.setFormula(RecordCalendarAdapter.Formula.STACK)
+            }
+            RecordManager.save(list)
             return@setOnLongClickListener false
         }
     }
@@ -433,14 +439,16 @@ class MainActivity : BaseActivity() {
     private fun setDateText() {
         getTargetCal()?.let {
             mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
-            mainYearText.text = AppDateFormat.year.format(it.time)
+            mainYearText.text = it.get(Calendar.YEAR).toString()
             if (AppDateFormat.language == "ko") {
                 mainMonthKoText.visibility = View.VISIBLE
+                mainYearKoText.visibility = View.VISIBLE
             } else {
                 mainMonthKoText.visibility = View.GONE
+                mainYearKoText.visibility = View.GONE
             }
             //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
-            //mainYearText.text = it.get(Calendar.YEAR).toString()
+            //mainYearText.text = AppDateFormat.year.format(it.time)
         }
     }
 
