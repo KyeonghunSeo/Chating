@@ -18,7 +18,8 @@ open class Template(@PrimaryKey var id: String? = null,
                     var style: Int = STACK.shapes[0].ordinal * 100 + STACK.ordinal,
                     var recordTitle: String? = null,
                     var recordTitleSelection: Int = 0,
-                    var alarmOffset: Long = Long.MIN_VALUE,
+                    var alarmDayOffset: Int = Int.MIN_VALUE,
+                    var alarmTime: Long = AlarmManager.defaultAlarmTime[0],
                     var folder: Folder? = null,
                     var tags: RealmList<Tag> = RealmList(),
                     var order: Int = 0): RealmObject() {
@@ -40,7 +41,8 @@ open class Template(@PrimaryKey var id: String? = null,
         if (style != other.style) return false
         if (recordTitle != other.recordTitle) return false
         if (recordTitleSelection != other.recordTitleSelection) return false
-        if (alarmOffset != other.alarmOffset) return false
+        if (alarmDayOffset != other.alarmDayOffset) return false
+        if (alarmTime != other.alarmTime) return false
         if (folder != other.folder) return false
         if (tags.joinToString(",") != other.tags.joinToString(",")) return false
 
@@ -55,7 +57,8 @@ open class Template(@PrimaryKey var id: String? = null,
         style = data.style
         recordTitle = data.recordTitle
         recordTitleSelection = data.recordTitleSelection
-        alarmOffset = data.alarmOffset
+        alarmDayOffset = data.alarmDayOffset
+        alarmTime = data.alarmTime
         tags.clear()
         data.tags.forEach { tags.add(Tag(it)) }
         data.folder?.let { folder = Folder(it) }
@@ -79,14 +82,8 @@ open class Template(@PrimaryKey var id: String? = null,
     fun clearMemo() { type = type and memoFlag.inv() }
 
     fun getAlarmText(): String {
-        return if(alarmOffset != Long.MIN_VALUE) {
-            val result = AlarmManager.getOffsetText(alarmOffset)
-            if(result != null) {
-                result
-            }else {
-                tempCal.timeInMillis = alarmOffset
-                AppDateFormat.time.format(tempCal.time)
-            }
+        return if(alarmDayOffset != Int.MIN_VALUE) {
+            "!!!"
         }else {
             App.context.getString(R.string.unuse)
         }

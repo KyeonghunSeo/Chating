@@ -84,9 +84,7 @@ open class Record(@PrimaryKey var id: String? = null,
         isSetTime = t
         dtStart = s
         dtEnd = e
-        alarms.forEach {
-            it.dtAlarm = dtStart + it.offset
-        }
+        alarms.forEach { it.set(it.dayOffset, it.time, dtStart, 0) }
     }
 
     fun makeCopyObject(): Record{
@@ -201,14 +199,14 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     fun isSetSticker(): Boolean = links.any { it.type == Link.Type.STICKER.ordinal }
-    fun clearSticker() { links.first{ it.type == Link.Type.STICKER.ordinal }?.let { links.remove(it) } }
+    fun clearSticker() { links.firstOrNull{ it.type == Link.Type.STICKER.ordinal }?.let { links.remove(it) } }
     fun setSticker() {
         if(!isSetSticker()) {
             links.add(Link(type = Link.Type.STICKER.ordinal))
         }
     }
     fun getSticker(): StickerManager.Sticker? {
-        links.first{ it.type == Link.Type.STICKER.ordinal }?.let {
+        links.firstOrNull{ it.type == Link.Type.STICKER.ordinal }?.let {
             return StickerManager.getSticker(it.intParam0)
         }
         return null
@@ -240,40 +238,27 @@ open class Record(@PrimaryKey var id: String? = null,
         title?.replace(System.getProperty("line.separator"), " ")
     else App.context.getString(R.string.empty)
 
-    fun setAlarm(offset: Long, dtAlarm: Long) {
+    fun setAlarm(dayOffset: Int, time: Long) {
+        alarms.clear()
+        alarms.add(Alarm(UUID.randomUUID().toString()).apply { set(dayOffset, time, dtStart, 0) })
+    }
+    fun getAlarm(): Alarm {
         if(alarms.isEmpty()) {
-            alarms.add(Alarm(UUID.randomUUID().toString()).apply {
-                this.offset = offset
-                if (offset != Long.MIN_VALUE) {
-                    this.dtAlarm = dtStart + offset
-                } else {
-                    this.dtAlarm = dtAlarm
-                }
-            })
-        }else {
-            alarms.first()?.let {
-                it.offset = offset
-                if (offset != Long.MIN_VALUE) {
-                    it.dtAlarm = dtStart + offset
-                } else {
-                    it.dtAlarm = dtAlarm
-                }
-            }
+            setAlarm(0, 0)
         }
+        return alarms[0]!!
     }
-    fun getAlarmOffset(): Long {
-        return if(alarms.isEmpty()) 0
-        else alarms.first()!!.offset
-    }
-    fun getDtAlarm(): Long {
-        return if(alarms.isEmpty()) Long.MIN_VALUE
-        else alarms.first()!!.dtAlarm
+    fun getAlarmTimeOffset() : Long {
+        return if(alarms.isEmpty()) {
+            0
+        }else {
+            getAlarm().dtAlarm - dtStart
+        }
     }
     fun removeAlarm() { alarms.clear() }
     fun isSetAlarm() = alarms.isNotEmpty()
-    fun getAlarmText(): String = alarms.joinToString(", ") {
-        AlarmManager.getOffsetText(it.offset) ?: AppDateFormat.dateTime.format(it.dtAlarm)
-    }
+    fun getAlarmText(): String = if(isSetAlarm()) AlarmManager.getAlarmText(this)
+    else str(R.string.no_alarm)
 
     fun isDeleted() = dtCreated == -1L
     fun isScheduled() = dtStart != Long.MIN_VALUE

@@ -145,11 +145,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         setPadding(leftPadding, textPadding, sPadding, 0)
 
         paintColor = ColorManager.getColor(record.colorKey)
-        fontColor = if(shape.fillColor) {
-            if(ColorUtils.calculateLuminance(paintColor) < 0.7f) AppTheme.background else AppTheme.secondaryText
-        }else {
-            if(ColorUtils.calculateLuminance(paintColor) < 0.7f) paintColor else AppTheme.secondaryText
-        }
+        fontColor = if(shape.fillColor) ColorManager.getFontColor(paintColor) else paintColor
         setTextColor(fontColor)
     }
 
@@ -179,8 +175,17 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     fun getViewHeight(): Int {
         return when(formula) {
-            STAMP, DOT -> {
-                val itemSize = if(formula == DOT) dotSize else blockTypeSize
+            STAMP -> {
+                val itemSize = blockTypeSize
+                val width =  mRight - mLeft - defaulMargin
+                val margin = defaulMargin.toInt()
+                val size = itemSize - defaulMargin
+                val totalCnt = childList?.size ?: 0
+                val rows = ((size * totalCnt + margin * (totalCnt - 1)) / width).toInt() + 1
+                (itemSize * rows)
+            }
+            DOT -> {
+                val itemSize = dotSize
                 val width =  mRight - mLeft - defaulMargin - sidePadding * 2
                 val margin = defaulMargin.toInt()
                 val size = itemSize - defaulMargin
@@ -304,6 +309,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     private fun drawRange(canvas: Canvas) {
         paint.color = paintColor
+        paint.pathEffect = null
         canvas.translate(scrollX.toFloat(), 0f)
         val space = textSpaceWidth + if(record.isSetCheckBox) checkboxSize else 0
         val sPadding = sidePadding * 3
@@ -315,24 +321,48 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
         when(shape){
             Shape.RECT_FILL -> {
+                paint.isAntiAlias = true
+                canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), height / 2f, height / 2f, paint)
+                /*
                 val arrowSize = (strokeWidth * 5f).toInt()
                 canvas.drawRect(arrowSize.toFloat(), 0f, width.toFloat() - arrowSize, height.toFloat(), paint)
                 drawArrow(canvas, 0, height / 2, arrowSize, 0, arrowSize, height)
                 drawArrow(canvas, width, height / 2, width - arrowSize, 0, width - arrowSize, height)
+                */
+            }
+            Shape.BOLD_HATCHED -> {
+                canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), height / 2f, height / 2f, paint)
+                val dashWidth = strokeWidth * 6
+                paint.strokeWidth = strokeWidth * 5
+                paint.color = Color.parseColor("#40FFFFFF")
+                var x = 0f
+                while (x < width + height) {
+                    canvas.drawLine(x, -defaulMargin, x - height, height + defaulMargin, paint)
+                    x += dashWidth * 2
+                }
+                paint.color = fontColor
             }
             Shape.NEON_PEN -> {
+                paint.alpha = 70
+                canvas.drawRoundRect(0f, height / 2f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
+                paint.alpha = 255
+                /*
                 paint.alpha = 70
                 val arrowSize = (strokeWidth * 3f).toInt()
                 canvas.drawRect(arrowSize.toFloat(), height / 2f, width.toFloat() - arrowSize, height.toFloat(), paint)
                 drawArrow(canvas, 0, height, arrowSize, height / 2, arrowSize, height)
                 drawArrow(canvas, width, height / 2, width - arrowSize, height, width - arrowSize, height / 2)
                 paint.alpha = 255
+                */
             }
             Shape.UPPER_LINE -> {
+                canvas.drawRect(0f, 0f, width.toFloat(), strokeWidth, paint)
+                /*
                 val arrowSize = (strokeWidth * 4.0f).toInt()
                 canvas.drawRect(arrowSize.toFloat(), 0f, width.toFloat() - arrowSize, strokeWidth, paint)
                 drawArrow(canvas, 0, 0, arrowSize, arrowSize, arrowSize, 0)
                 drawArrow(canvas, width, 0, width - arrowSize, arrowSize, width - arrowSize, 0)
+                */
             }
             Shape.UNDER_LINE -> {
                 val arrowSize = (strokeWidth * 4.0f).toInt()
@@ -388,8 +418,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val margin = defaulMargin
         val size = dotSize - defaulMargin
         var top = 0f
-        var left = sidePadding + margin
-        val right = width - sidePadding
+        var left = sidePadding + defaulMargin
+        val right = width
         childList?.sortWith(RecordListComparator())
         childList?.forEach { child ->
             paint.color = child.getColor()
@@ -407,10 +437,11 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val size = (blockTypeSize - defaulMargin).toInt()
         var top = 0
         var left = 0
+        val right = width - defaulMargin
         childList?.forEach { child ->
-            val circle = resource.getDrawable(R.drawable.primary_rect_fill_radius_1)
+            val circle = resource.getDrawable(R.drawable.circle_fill)
             circle.setColorFilter(child.getColor(), PorterDuff.Mode.SRC_ATOP)
-            circle.setBounds(left + 1, top + 1, left + size - 1, top + size - 1)
+            circle.setBounds(left, top, left + size, top + size)
             circle.draw(canvas)
 
             val stamp = resource.getDrawable(StampManager.stamps[0])
@@ -424,7 +455,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             stroke.draw(canvas)
 */
             left += size + margin
-            if(left + size >= width) {
+            if(left + size >= right) {
                 top += blockTypeSize
                 left = 0
             }
@@ -493,7 +524,9 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val radius = checkboxSize / 2f
         val centerY = (blockTypeSize - defaulMargin) / 2f
         if(record.isDone()) {
-            //view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            if(AppStatus.checkedRecordDisplay in 2..3) {
+                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            }
             val check = resource.getDrawable(R.drawable.checked_fill)
             check.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
             check.setBounds(xOffset, (centerY - radius).toInt(),

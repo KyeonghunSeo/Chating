@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.LinearLayout.HORIZONTAL
+import android.widget.LinearLayout.VERTICAL
 import androidx.cardview.widget.CardView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.Transition
@@ -143,6 +145,8 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                         it.height = MATCH_PARENT
                         it.setMargins(0, 0, 0, 0)
                     }
+                    MainActivity.getMainDateLy()?.orientation = HORIZONTAL
+                    targetDayView.getDateLy().orientation = HORIZONTAL
                     requestLayout()
                 }
             })
@@ -187,6 +191,8 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 val yPos = location[1] - AppStatus.statusBarHeight + CalendarView.weekLyBottomPadding
                 it.setMargins(xPos, yPos, 0, 0)
             }
+            MainActivity.getMainDateLy()?.orientation = VERTICAL
+            targetDayView.getDateLy().orientation = VERTICAL
             requestLayout()
         }
     }

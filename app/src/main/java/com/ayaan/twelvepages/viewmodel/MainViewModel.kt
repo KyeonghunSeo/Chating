@@ -202,18 +202,8 @@ class MainViewModel : ViewModel() {
                     colorKey = it.colorKey
                     tags.addAll(it.tags)
                     if(it.isSetCheckBox()) isSetCheckBox = true
-                    if(it.alarmOffset != Long.MIN_VALUE) {
-                        if(AlarmManager.getOffsetText(it.alarmOffset) != null) {
-                            setAlarm(it.alarmOffset, 0)
-                        }else {
-                            tempCal.timeInMillis = it.alarmOffset
-                            val hour = tempCal.get(Calendar.HOUR_OF_DAY)
-                            val min = tempCal.get(Calendar.MINUTE)
-                            tempCal.timeInMillis = startTime
-                            tempCal.set(Calendar.HOUR_OF_DAY, hour)
-                            tempCal.set(Calendar.MINUTE, min)
-                            setAlarm(Long.MIN_VALUE, tempCal.timeInMillis)
-                        }
+                    if(it.alarmDayOffset != Int.MIN_VALUE) {
+                        setAlarm(it.alarmDayOffset, it.alarmTime)
                     }
                     return@let
                 }

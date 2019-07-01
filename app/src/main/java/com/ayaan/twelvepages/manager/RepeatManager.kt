@@ -185,6 +185,10 @@ object RepeatManager {
     }
 
     fun getNextAlarmInstance(record: Record) : Record? {
+        if(record.alarms.isEmpty()) {
+            return null
+        }
+
         val repeatObject = JSONObject(record.repeat)
         val freq = repeatObject.getInt("freq")
         val interval = repeatObject.getInt("interval")
@@ -197,7 +201,8 @@ object RepeatManager {
             Long.MAX_VALUE
         }
         val currentTime = System.currentTimeMillis()
-        val alarmOffset = record.alarms[0]?.offset ?: 0
+        val alarmTimeOffset = record.getAlarmTimeOffset()
+
         instanceCal.timeInMillis = record.dtStart
 
         if(freq == 4) {
@@ -210,7 +215,7 @@ object RepeatManager {
             val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
             when(freq) {
                 0 -> {
-                    if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmOffset >= currentTime) {
+                    if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmTimeOffset >= currentTime) {
                         return makeInstance(record, instanceCal.timeInMillis, duration, ymdKey)
                     }
                     instanceCal.add(Calendar.DATE, interval)
@@ -221,7 +226,7 @@ object RepeatManager {
                             if(c == '1') {
                                 instanceCal.set(Calendar.DAY_OF_WEEK, index + 1)
                                 if(instanceCal.timeInMillis >= record.dtStart) {
-                                    if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmOffset >= currentTime) {
+                                    if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmTimeOffset >= currentTime) {
                                         return makeInstance(record, instanceCal.timeInMillis, duration, ymdKey)
                                     }
                                 }
@@ -229,14 +234,14 @@ object RepeatManager {
                         }
                         instanceCal.set(Calendar.DAY_OF_WEEK, 1)
                     }else {
-                        if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmOffset >= currentTime) {
+                        if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmTimeOffset >= currentTime) {
                             return makeInstance(record, instanceCal.timeInMillis, duration, ymdKey)
                         }
                     }
                     instanceCal.add(Calendar.DATE, 7 * interval)
                 }
                 2 -> {
-                    if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmOffset >= currentTime) {
+                    if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmTimeOffset >= currentTime) {
                         return makeInstance(record, instanceCal.timeInMillis, duration, ymdKey)
                     }
                     val weekOfMonth = instanceCal.get(Calendar.WEEK_OF_MONTH)
@@ -252,13 +257,13 @@ object RepeatManager {
                     }
                 }
                 3 -> {
-                    if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmOffset >= currentTime) {
+                    if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmTimeOffset >= currentTime) {
                         return makeInstance(record, instanceCal.timeInMillis, duration, ymdKey)
                     }
                     instanceCal.add(Calendar.YEAR, 1)
                 }
                 4 -> {
-                    if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmOffset >= currentTime) {
+                    if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmTimeOffset >= currentTime) {
                         return makeInstance(record, instanceCal.timeInMillis, duration, ymdKey)
                     }
                     lunarCal.setLunarDate(lunarCal.lunarYear + 1, lunarCal.lunarMonth, lunarCal.lunarDay, lunarCal.isIntercalation)
@@ -266,7 +271,6 @@ object RepeatManager {
                 }
             }
         }
-
         return null
     }
 

@@ -224,9 +224,10 @@
     <string name="calendar">캘린더</string>
     <string name="folder">폴더</string>
     <string name="check_option">완료된 기록 표시방법</string>
-    <string name="check_option_0">삭제선</string>
+    <string name="check_option_0">기본</string>
     <string name="check_option_1">흐리게</string>
-    <string name="check_option_2">삭제선 및 흐리게</string>
+    <string name="check_option_2">삭제선</string>
+    <string name="check_option_3">삭제선 및 흐리게</string>
     <string name="display_settings">인터페이스</string>
     <string name="hide_in_calendar">캘린더에서 숨김</string>
     <string name="record">기록</string>
@@ -243,13 +244,14 @@
     <string name="today_c">Today</string>
     <string name="tomorrow">내일</string>
     <string name="yesterday">어제</string>
-    <string name="min_before">%1$s분전</string>
-    <string name="hour_before">%1$s시간전</string>
-    <string name="date_before">%1$s일전</string>
-    <string name="min_after">%1$s분후</string>
-    <string name="hour_after">%1$s시간후</string>
-    <string name="hour_min_after">%1$s시간 %2$s분후</string>
-    <string name="date_after">%1$s일후</string>
+    <string name="min_before">%1$s분 전</string>
+    <string name="hour_before">%1$s시간 전</string>
+    <string name="date_before">%1$s일 전</string>
+    <string name="min_after">%1$s분 후</string>
+    <string name="hour_after">%1$s시간 후</string>
+    <string name="hour_min_after">%1$s시간 %2$s분 후</string>
+    <string name="hour_min_before">%1$s시간 %2$s분 후</string>
+    <string name="date_after">%1$s일 후</string>
     <string name="color_c">COLOR</string>
     <string name="new_template">새 템플릿</string>
     <string name="new_tag">새 태그</string>
@@ -271,7 +273,7 @@
     <string name="preview">미리보기</string>
     <string name="edit_done">편집완료</string>
     <string name="apply_textcolor">글씨에도 적용</string>
-    <string name="custom_time">맞춤 알림시간</string>
+    <string name="custom_time">지정된 시간</string>
     <string name="folder_type">폴더 유형</string>
     <string name="note">노트</string>
     <string name="default_color_palette_name">기본</string>
@@ -335,6 +337,7 @@
     <string name="color_pack_setting">컬러팩 설정</string>
     <string name="not_found_web">웹 페이지를 찾을수 없습니다</string>
     <string name="go_today">오늘로 이동</string>
+    <string name="no_alarm">알림없음</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

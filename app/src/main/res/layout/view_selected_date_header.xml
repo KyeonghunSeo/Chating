@@ -24,7 +24,7 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <TextView
@@ -41,17 +41,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:layout_marginLeft="2dp"
-                android:textSize="11dp"
+                android:textSize="10dp"
                 android:maxLines="1"
                 android:textColor="@color/primaryText"
                 android:text="@string/wed"/>
+
+            <TextView
+                android:id="@+id/lunarText"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginLeft="2dp"
+                android:textSize="5dp"
+                android:maxLines="1"
+                android:textColor="@color/secondaryText"
+                android:text="12.11"/>
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/holiText"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="2dp"
             android:textSize="8dp"
             android:singleLine="true"

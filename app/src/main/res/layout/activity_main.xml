@@ -62,51 +62,53 @@
 
                     <LinearLayout
                         android:id="@+id/mainDateLy"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:animateLayoutChanges="true"
-                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="25dp"
-                        android:clipChildren="false"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/mainMonthText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:textColor="@color/secondaryText"
-                            android:textSize="40dp"/>
-
-                        <TextView
-                            android:id="@+id/mainMonthKoText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:textColor="@color/secondaryText"
-                            android:layout_marginTop="1dp"
-                            android:text="월"
-                            android:textSize="32dp"/>
+                        android:clipChildren="false">
 
                         <TextView
                             android:id="@+id/mainYearText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginRight="5dp"
+                            android:gravity="center_vertical"
                             android:background="?android:attr/selectableItemBackground"
                             android:textColor="@color/secondaryText"
-                            android:textSize="20dp"/>
-
-                        <TextView
-                            android:id="@+id/mainYearKoText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:textColor="@color/secondaryText"
-                            android:layout_marginTop="1dp"
-                            android:text="년"
+                            android:fontFamily="@font/regular"
                             android:textSize="18dp"/>
+
+                        <LinearLayout
+                            android:id="@+id/mainMonthLy"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:animateLayoutChanges="true"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/mainMonthText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="?android:attr/selectableItemBackground"
+                                android:textColor="@color/secondaryText"
+                                android:textSize="40dp"/>
+
+                            <TextView
+                                android:id="@+id/mainMonthKoText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="?android:attr/selectableItemBackground"
+                                android:textColor="@color/secondaryText"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginTop="1dp"
+                                android:text="월"
+                                android:textSize="32dp"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/countdownText"
@@ -360,7 +362,7 @@
         android:id="@+id/profileBtn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:layout_gravity="right"
         android:elevation="30dp">

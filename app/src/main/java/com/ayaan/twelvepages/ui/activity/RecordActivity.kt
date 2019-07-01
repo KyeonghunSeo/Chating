@@ -560,15 +560,16 @@ class RecordActivity : BaseActivity() {
     }
 
     fun showAlarmDialog() {
-        showDialog(AlarmPickerDialog(this, record.getAlarmOffset(), record.getDtAlarm(),
-                record.dtStart) { result, offset, dtAlarm ->
-            if (result) {
-                record.setAlarm(offset, dtAlarm)
-            } else {
-                record.removeAlarm()
-            }
-            updateAlarmUI()
-        }, true, true, true, false)
+        record.getAlarm().let {
+            showDialog(AlarmPickerDialog(this, it.dayOffset, it.time, record.dtStart) { result, dayOffset, alarmTime ->
+                if (result) {
+                    record.setAlarm(dayOffset, alarmTime)
+                } else {
+                    record.removeAlarm()
+                }
+                updateAlarmUI()
+            }, true, true, true, false)
+        }
     }
 
     private fun showTimePicker(time: Long, onResult: (Long) -> (Unit)) {

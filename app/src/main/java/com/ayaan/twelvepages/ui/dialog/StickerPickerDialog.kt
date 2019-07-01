@@ -170,7 +170,7 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
             }
 
             if(position == root.viewPager.currentItem) {
-                v.iconImg.setBackgroundColor(AppTheme.backgroundDark)
+                v.iconImg.setBackgroundColor(AppTheme.disableText)
                 if(position == 0) {
                     v.iconImg.setColorFilter(AppTheme.blue)
                     v.iconImg.alpha = 1f

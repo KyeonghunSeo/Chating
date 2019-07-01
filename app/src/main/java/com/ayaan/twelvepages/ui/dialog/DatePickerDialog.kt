@@ -43,4 +43,8 @@ class DatePickerDialog(activity: Activity, time: Long,
         }
     }
 
+    fun setMinDate(minDate: Long) {
+        datePicker.minDate = minDate
+    }
+
 }

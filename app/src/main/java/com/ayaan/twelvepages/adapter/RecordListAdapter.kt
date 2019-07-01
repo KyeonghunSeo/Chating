@@ -78,13 +78,19 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         if(record.isSetCheckBox) {
             v.iconImg.setPadding(checkBoxPadding, checkBoxPadding, checkBoxPadding, checkBoxPadding)
             if(record.isDone()) {
-                v.iconImg.setImageResource(R.drawable.check)
-                v.iconImg.alpha = 0.4f
-                v.contentLy.alpha = 0.4f
-                v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                v.iconImg.setImageResource(R.drawable.checked_fill)
+                if(AppStatus.checkedRecordDisplay == 2 || AppStatus.checkedRecordDisplay == 3) {
+                    v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                }else {
+                    v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
+                }
+                if(AppStatus.checkedRecordDisplay == 1 || AppStatus.checkedRecordDisplay == 3) {
+                    v.contentLy.alpha = 0.5f
+                }else {
+                    v.contentLy.alpha = 1f
+                }
             }else {
                 v.iconImg.setImageResource(R.drawable.uncheck)
-                v.iconImg.alpha = 1f
                 v.contentLy.alpha = 1f
                 v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
             }
@@ -95,7 +101,6 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         }else {
             v.iconImg.setPadding(circlePadding, circlePadding, circlePadding, circlePadding)
             v.iconImg.setImageResource(R.drawable.circle_fill)
-            v.iconImg.alpha = 1f
             v.contentLy.alpha = 1f
             v.iconImg.setOnClickListener(null)
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())

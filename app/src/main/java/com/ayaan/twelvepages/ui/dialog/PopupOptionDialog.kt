@@ -25,7 +25,7 @@ class PopupOptionDialog(activity: Activity, private val items: Array<Item>, priv
     private val buttonSize = dpToPx(45)
 
     class Item(val title: String, val icon: Int = Int.MIN_VALUE, val color: Int = AppTheme.primaryText,
-               val subText: String = "", var isSelected: Boolean = false)
+               val subText: String = "", var isActive: Boolean = true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,19 +114,23 @@ class PopupOptionDialog(activity: Activity, private val items: Array<Item>, priv
                 v.iconImg.setColorFilter(item.color)
             }
 
-            v.subText.visibility = View.GONE
             v.titleText.text = item.title
+            if(item.subText.isNotEmpty()) {
+                v.subText.text = item.subText
+            }else {
+                v.subText.visibility = View.GONE
+            }
             v.titleText.setTextColor(item.color)
 
-            if(item.isSelected) {
-                v.contentLy.alpha = 0.7f
-            }else {
+            if(item.isActive) {
                 v.contentLy.alpha = 1f
-            }
-
-            v.setOnClickListener {
-                onResult.invoke(position)
-                dismiss()
+                v.setOnClickListener {
+                    onResult.invoke(position)
+                    dismiss()
+                }
+            }else {
+                v.contentLy.alpha = 0.4f
+                v.setOnClickListener (null)
             }
         }
     }

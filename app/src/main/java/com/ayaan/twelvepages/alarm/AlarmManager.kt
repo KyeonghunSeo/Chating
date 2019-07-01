@@ -152,44 +152,54 @@ object AlarmManager {
         else null
     }
 
+    fun getAlarmText(record: Record) : String {
+        return "~!"
+    }
+
     fun getAlarmNotiText(record: Record) : String {
         val alarm = record.alarms[0]!!
         val timeStr = if(record.isSetTime) AppDateFormat.dateTime.format(Date(record.dtStart))
         else AppDateFormat.mde.format(Date(record.dtStart))
-        val diffStr = getDiffStr(alarm.dtAlarm, record.dtStart)
+        val diffStr = getAlarmDiffStr(alarm.dtAlarm, record.dtStart)
         return "$timeStr ($diffStr)"
     }
 
-    fun getDiffStr(dtAlarm: Long, dtStart: Long) : String {
-        val diff = dtAlarm - dtStart
-        return when  {
-            diff == 0L -> App.context.getString(R.string.now)
-            diff > 0 -> {
-                tempCal.timeInMillis = dtAlarm
-                val diffToday = Math.abs(getDiffToday(tempCal))
-                when (diffToday) {
-                    0 -> App.context.getString(R.string.today)
-                    1 -> App.context.getString(R.string.yesterday)
-                    else -> String.format(App.context.getString(R.string.date_before), diffToday)
-                }
-            }
+    fun getAlarmDiffStr(dtAlarm: Long, dtStart: Long) : String {
+        val diffTime = dtAlarm - dtStart
+        return when (diffTime) {
+            0L -> App.context.getString(R.string.now)
             else -> {
-                val diffMin = Math.abs(diff / MIN_MILL)
-                when {
-                    diffMin < 60 -> String.format(App.context.getString(R.string.min_after), Math.abs(diffMin))
+                val diffMin = Math.abs(diffTime / MIN_MILL)
+                when{
+                    diffMin < 60 -> {
+                        if(diffTime < 0) String.format(App.context.getString(R.string.min_before), Math.abs(diffMin))
+                        else String.format(App.context.getString(R.string.min_after), Math.abs(diffMin))
+                    }
                     diffMin < 60 * 24 -> {
-                        val diffHour = Math.abs(diff / HOUR_MILL)
+                        val diffHour = Math.abs(diffTime / HOUR_MILL)
                         val diffMinHour = diffMin % 60
-                        when (diffMinHour) {
-                            0L -> String.format(App.context.getString(R.string.hour_after), diffHour)
-                            else -> String.format(App.context.getString(R.string.hour_min_after), diffHour, diffMinHour)
+                        if(diffTime < 0) {
+                            when (diffMinHour) {
+                                0L -> String.format(App.context.getString(R.string.hour_before), diffHour)
+                                else -> String.format(App.context.getString(R.string.hour_min_before), diffHour, diffMinHour)
+                            }
+                        }else {
+                            when (diffMinHour) {
+                                0L -> String.format(App.context.getString(R.string.hour_after), diffHour)
+                                else -> String.format(App.context.getString(R.string.hour_min_after), diffHour, diffMinHour)
+                            }
                         }
                     }
                     else -> {
-                        val diffDate = Math.abs(diff / DAY_MILL)
-                        when (diffDate) {
-                            1L -> App.context.getString(R.string.tomorrow)
-                            else ->String.format(App.context.getString(R.string.date_after), diffDate)
+                        val diffToday = getDiffToday(dtStart)
+                        when (diffToday) {
+                            0 -> App.context.getString(R.string.today)
+                            -1 -> App.context.getString(R.string.yesterday)
+                            1 -> App.context.getString(R.string.tomorrow)
+                            else -> {
+                                if(diffToday < 0)  String.format(App.context.getString(R.string.date_before), diffToday)
+                                else String.format(App.context.getString(R.string.date_after), diffToday)
+                            }
                         }
                     }
                 }

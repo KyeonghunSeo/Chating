@@ -34,11 +34,11 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
 
     enum class Formula(val nameId: Int, val shapes: Array<RecordView.Shape>) {
         BACKGROUND(R.string.formula_background, arrayOf(BLANK)),
-        STACK(R.string.formula_stack, arrayOf(RECT_FILL, TEXT, RECT_STROKE, THIN_HATCHED, BOLD_HATCHED, NEON_PEN, UPPER_LINE, UNDER_LINE)),
-        EXPANDED(R.string.formula_expanded, arrayOf(TEXT, RECT_FILL, RECT_STROKE, THIN_HATCHED, BOLD_HATCHED, UPPER_LINE, UNDER_LINE)),
+        STACK(R.string.formula_stack, arrayOf(RECT_FILL, TEXT, RECT_STROKE, THIN_HATCHED, BOLD_HATCHED, NEON_PEN, UNDER_LINE)),
+        EXPANDED(R.string.formula_expanded, arrayOf(TEXT, RECT_FILL, RECT_STROKE, THIN_HATCHED, UPPER_LINE)),
         STAMP(R.string.formula_stamp, arrayOf(BLANK)),
         DOT(R.string.formula_dot, arrayOf(BLANK)),
-        RANGE(R.string.formula_range, arrayOf(LINE, DASH, ARROW, DASH_ARROW, RECT_FILL, NEON_PEN, UPPER_LINE, UNDER_LINE)),
+        RANGE(R.string.formula_range, arrayOf(LINE, DASH, ARROW, DASH_ARROW, RECT_FILL, BOLD_HATCHED, UPPER_LINE)),
         STICKER(R.string.formula_sticker, arrayOf(BLANK));
 
         companion object {
@@ -170,7 +170,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                     currentFomula = formula
                     when(currentFomula) {
                         DOT -> {
-                            addBottomMargin(dpToPx(7.5f), currentFomula)
+                            addBottomMargin(RecordView.sidePadding.toFloat(), currentFomula)
                         }
                         RANGE -> {
                             addBottomMargin(dpToPx(20f), currentFomula)
@@ -245,7 +245,8 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         }
 
         viewHolderList.forEach { holder ->
-            var lastAlpha = if(holder.record.isDone()) 1f else 1f
+            var lastAlpha = if(holder.record.isDone() &&
+                    (AppStatus.checkedRecordDisplay == 1 || AppStatus.checkedRecordDisplay == 3)) 0.5f else 1f
             if(calendarView.lastUpdatedItem?.isValid == true && calendarView.lastUpdatedItem?.id == holder.record.id) { // 마지막 업데이트 오브젝트
                 calendarView.lastUpdatedItem = null
                 holder.items.forEach {

@@ -111,6 +111,10 @@ fun getCalendarTime23 (cal: Calendar) : Long  {
     return tempCal.timeInMillis
 }
 
+fun getDiffToday(t: Long): Int {
+    return getDiffDate(System.currentTimeMillis(), t)
+}
+
 fun getDiffToday(cal: Calendar): Int {
     tempCal.timeInMillis = System.currentTimeMillis()
     return getDiffDate(tempCal, cal)
@@ -142,10 +146,15 @@ fun getDiffYear(t1: Long, t2: Long): Int {
     return tempCal2.get(Calendar.YEAR) - tempCal.get(Calendar.YEAR)
 }
 
-fun getTodayStartCal() : Long {
+fun getTodayStartTime() : Long {
     tempCal.timeInMillis = System.currentTimeMillis()
     getCalendarTime0(tempCal)
     return tempCal.timeInMillis
+}
+
+fun getOnlyTime(t: Long) : Long {
+    tempCal.timeInMillis = t
+    return tempCal.get(Calendar.HOUR_OF_DAY) * HOUR_MILL + tempCal.get(Calendar.MINUTE) * MIN_MILL
 }
 
 fun copyYearMonthDate(toCal: Calendar, fromCal: Calendar) {

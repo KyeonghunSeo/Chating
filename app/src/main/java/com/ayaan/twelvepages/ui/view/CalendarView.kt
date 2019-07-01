@@ -67,12 +67,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val bar: FrameLayout = container.findViewById(R.id.bar)
         val dowText: TextView = container.findViewById(R.id.dowText)
         val holiText: TextView = container.findViewById(R.id.holiText)
+        val lunarText: TextView = container.findViewById(R.id.lunarText)
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
             dateText.typeface = AppTheme.regularFont
             dowText.typeface = AppTheme.regularFont
             holiText.typeface = AppTheme.regularFont
+            lunarText.typeface = AppTheme.regularFont
             dowText.visibility = View.GONE
+            lunarText.visibility = View.GONE
             bar.scaleX = 0f
         }
     }
@@ -249,7 +252,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val dateInfo = dateInfos[cellNum]
                     DateInfoManager.getHoliday(dateInfo, tempCal)
                     if(isSameDay(tempCal, targetCal)) { targetCellNum = cellNum }
-                    if(isSameDay(tempCal, todayCal)) { todayCellNum = cellNum }
+                    if(todayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH) && isSameDay(tempCal, todayCal)) { todayCellNum = cellNum }
 
                     val holiText = dateHeaders[cellNum].holiText
                     val dateText = dateHeaders[cellNum].dateText
@@ -264,7 +267,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
                     dateText.text = String.format("%02d", tempCal.get(Calendar.DATE))
                     dateText.setTextColor(color)
-                    holiText.setTextColor(CalendarManager.dateColor)
+                    holiText.setTextColor(color)
                     dowText.setTextColor(color)
                     bar.setBackgroundColor(color)
                     holiText.text = dateInfo.getUnSelectedString()
@@ -321,7 +324,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         dateText.typeface = AppTheme.regularFont
         holiText.text = dateInfos[cellNum].getUnSelectedString()
         dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
-        offViewEffect(cellNum)
+        dateHeaders[cellNum].lunarText.visibility = View.GONE
+
         lastUnSelectDateAnimSet?.cancel()
         lastUnSelectDateAnimSet = AnimatorSet()
         lastUnSelectDateAnimSet?.let {
@@ -332,6 +336,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             it.duration = animDur
             it.start()
         }
+        offViewEffect(cellNum)
     }
 
     fun selectDate() {
@@ -379,6 +384,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
             dateText.alpha = 1f
             if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
+            dateHeaders[cellNum].lunarText.visibility = View.VISIBLE
+
             lastSelectDateAnimSet?.cancel()
             lastSelectDateAnimSet = AnimatorSet()
             lastSelectDateAnimSet?.let {

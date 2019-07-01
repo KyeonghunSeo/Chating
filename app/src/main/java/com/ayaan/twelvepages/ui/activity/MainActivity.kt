@@ -30,6 +30,7 @@ import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.CalendarSettingsDialog
 import com.ayaan.twelvepages.ui.dialog.CountdownListDialog
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
+import com.ayaan.twelvepages.ui.view.RecordView
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -45,6 +46,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 
 class MainActivity : BaseActivity() {
     companion object {
@@ -57,7 +59,7 @@ class MainActivity : BaseActivity() {
         fun getCalendarLy() = instance?.calendarLy
         fun getCalendarPager() = instance?.calendarPager
         fun getMainDateLy() = instance?.mainDateLy
-        fun getMainMonthText() = instance?.mainMonthText
+        fun getMainMonthLy() = instance?.mainMonthLy
         fun getMainYearText() = instance?.mainYearText
         fun getProfileBtn() = instance?.profileBtn
         fun getTemplateView() = instance?.templateView
@@ -124,11 +126,9 @@ class MainActivity : BaseActivity() {
 
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
-        mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        mainDateLy.pivotX = 0f
-        mainDateLy.pivotY = 0f
-        mainYearText.pivotX = 0f
-        mainYearText.pivotY = dpToPx(15f)
+        mainMonthLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        mainMonthLy.pivotX = 0f
+        mainMonthLy.pivotY = dpToPx(27f)
         mainPanel.setOnClickListener {}
         todayBtn.translationY = tabSize.toFloat()
         callAfterViewDrawed(rootLy, Runnable{
@@ -205,71 +205,73 @@ class MainActivity : BaseActivity() {
 
         mainMonthText.setOnLongClickListener {
             val cal = Calendar.getInstance()
-            cal.set(2019, 5, 1)
+            cal.set(2019, 6, 1)
             val s = cal.timeInMillis
             val list = ArrayList<Record>()
+            val c = 10 * 2
+            val formulas = arrayOf(STACK, EXPANDED, RANGE, STAMP, DOT)
             list.add(RecordManager.makeNewRecord(s, s).apply {
                 title = "점심약속"
                 type = 1
-                colorKey = Random().nextInt(11)
+                colorKey = c + Random().nextInt(10)
             })
             list.add(RecordManager.makeNewRecord(s+DAY_MILL*2, s+DAY_MILL*3).apply {
                 title = "오후미팅"
                 type = 1
-                colorKey = Random().nextInt(11)
+                colorKey = c + Random().nextInt(10)
             })
             list.add(RecordManager.makeNewRecord(s+DAY_MILL*5, s+DAY_MILL*5).apply {
                 title = "치과"
                 type = 1
-                colorKey = Random().nextInt(11)
+                colorKey = c + Random().nextInt(10)
             })
             list.add(RecordManager.makeNewRecord(s, s+DAY_MILL*3).apply {
                 title = "회사 프로젝트"
                 type = 1
-                colorKey = Random().nextInt(11)
+                colorKey = c + Random().nextInt(10)
             })
             list.add(RecordManager.makeNewRecord(s+DAY_MILL*7, s+DAY_MILL*7).apply {
                 title = "친구생일"
                 type = 1
-                colorKey = Random().nextInt(11)
+                colorKey = c + Random().nextInt(10)
             })
             list.add(RecordManager.makeNewRecord(s+DAY_MILL*7, s+DAY_MILL*7).apply {
                 title = "선물사기"
                 type = 2
-                colorKey = Random().nextInt(11)
+                colorKey = c + Random().nextInt(10)
             })
             list.add(RecordManager.makeNewRecord(s+DAY_MILL*14, s+DAY_MILL*17).apply {
                 title = "점심약속"
                 type = 1
-                colorKey = Random().nextInt(11)
+                colorKey = c + Random().nextInt(10)
             })
             list.add(RecordManager.makeNewRecord(s+DAY_MILL*22, s+DAY_MILL*23).apply {
                 title = "오후미팅"
                 type = 1
-                colorKey = Random().nextInt(11)
+                colorKey = c + Random().nextInt(10)
             })
             list.add(RecordManager.makeNewRecord(s+DAY_MILL*27, s+DAY_MILL*30).apply {
                 title = "헬스장"
                 type = 1
-                colorKey = Random().nextInt(11)
+                colorKey = c + Random().nextInt(10)
             })
             list.add(RecordManager.makeNewRecord(s+DAY_MILL*29, s+DAY_MILL*29).apply {
                 title = "대청소"
                 type = 1
-                colorKey = Random().nextInt(11)
+                colorKey = c + Random().nextInt(10)
             })
             list.add(RecordManager.makeNewRecord(s+DAY_MILL*10, s+DAY_MILL*10).apply {
                 title = "빨래하기"
                 isSetCheckBox = true
-                colorKey = Random().nextInt(11)
+                colorKey = c + Random().nextInt(10)
             })
             list.add(RecordManager.makeNewRecord(s+DAY_MILL*25, s+DAY_MILL*25).apply {
                 title = "택배받기"
                 isSetCheckBox = true
-                colorKey = Random().nextInt(11)
+                colorKey = c + Random().nextInt(10)
             })
             list.forEach {
-                it.setFormula(RecordCalendarAdapter.Formula.STACK)
+                it.setFormula(formulas[Random().nextInt(formulas.size)])
             }
             RecordManager.save(list)
             return@setOnLongClickListener false
@@ -442,10 +444,8 @@ class MainActivity : BaseActivity() {
             mainYearText.text = it.get(Calendar.YEAR).toString()
             if (AppDateFormat.language == "ko") {
                 mainMonthKoText.visibility = View.VISIBLE
-                mainYearKoText.visibility = View.VISIBLE
             } else {
                 mainMonthKoText.visibility = View.GONE
-                mainYearKoText.visibility = View.GONE
             }
             //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
             //mainYearText.text = AppDateFormat.year.format(it.time)

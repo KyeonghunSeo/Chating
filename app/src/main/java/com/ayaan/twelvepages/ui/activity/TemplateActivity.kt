@@ -81,16 +81,12 @@ class TemplateActivity : BaseActivity() {
     private fun updateAlarmUI() {
         alarmText.text = template.getAlarmText()
         alarmBtn.setOnClickListener {
-            showDialog(AlarmPickerDialog(this, if(template.alarmOffset != Long.MIN_VALUE) template.alarmOffset else 0,
-                    Long.MAX_VALUE) { result, offset, dtAlarm ->
+            showDialog(AlarmPickerDialog(this, template.alarmDayOffset, template.alarmTime) { result, dayOffset, alarmTime ->
                 if (result) {
-                    if(offset != Long.MIN_VALUE) {
-                        template.alarmOffset = offset
-                    }else {
-                        template.alarmOffset = dtAlarm
-                    }
+                    template.alarmDayOffset = dayOffset
+                    template.alarmTime = alarmTime
                 } else {
-                    template.alarmOffset = Long.MIN_VALUE
+                    template.alarmDayOffset = Int.MIN_VALUE
                 }
                 updateAlarmUI()
             }, true, true, true, false)

@@ -56,42 +56,41 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun setCheckedRecordDisplay() {
-        when(AppStatus.calTextSize) {
+        when(AppStatus.checkedRecordDisplay) {
             0 -> checkedRecordDisplayText.text = str(R.string.check_option_0)
             1 -> checkedRecordDisplayText.text = str(R.string.check_option_1)
             2 -> checkedRecordDisplayText.text = str(R.string.check_option_2)
+            3 -> checkedRecordDisplayText.text = str(R.string.check_option_3)
         }
         checkedRecordDisplayBtn.setOnClickListener {
-            when(AppStatus.calTextSize) {
-                -1 -> AppStatus.calTextSize = 0
-                0 -> AppStatus.calTextSize = 1
-                1 -> AppStatus.calTextSize = -1
+            when(AppStatus.checkedRecordDisplay) {
+                0 -> AppStatus.checkedRecordDisplay = 1
+                1 -> AppStatus.checkedRecordDisplay = 2
+                2 -> AppStatus.checkedRecordDisplay = 3
+                3 -> AppStatus.checkedRecordDisplay = 0
             }
-            Prefs.putInt("calTextSize", AppStatus.calTextSize)
+            Prefs.putInt("checkedRecordDisplay", AppStatus.checkedRecordDisplay)
             setCheckedRecordDisplay()
             MainActivity.getCalendarPager()?.redrawAndSelect()
         }
     }
 
     private fun setDefaultAlarmTime() {
-        setCalendarTime0(tempCal)
-        val time0 = tempCal.timeInMillis
+        val time0 = getTodayStartTime()
         morningAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[0]))
         afternoonAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[1]))
         eveningAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[2]))
         nightAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[3]))
         morningAlarmTimeBtn.setOnClickListener {
             showDialog(TimePickerDialog(this, time0 + AlarmManager.defaultAlarmTime[0]) { time ->
-                tempCal.timeInMillis = time
-                AlarmManager.defaultAlarmTime[0] = tempCal.get(Calendar.HOUR_OF_DAY) * HOUR_MILL + tempCal.get(Calendar.MINUTE) * MIN_MILL
+                AlarmManager.defaultAlarmTime[0] = getOnlyTime(time)
                 Prefs.putLong("defaultAlarmTime0", AlarmManager.defaultAlarmTime[0])
                 morningAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[0]))
             }, true, true, true, false)
         }
         afternoonAlarmTimeBtn.setOnClickListener {
             showDialog(TimePickerDialog(this, time0 + AlarmManager.defaultAlarmTime[1]) { time ->
-                tempCal.timeInMillis = time
-                AlarmManager.defaultAlarmTime[1] = tempCal.get(Calendar.HOUR_OF_DAY) * HOUR_MILL + tempCal.get(Calendar.MINUTE) * MIN_MILL
+                AlarmManager.defaultAlarmTime[1] = getOnlyTime(time)
                 Prefs.putLong("defaultAlarmTime1", AlarmManager.defaultAlarmTime[1])
                 afternoonAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[1]))
             }, true, true, true, false)
@@ -99,15 +98,14 @@ class SettingsActivity : BaseActivity() {
         eveningAlarmTimeBtn.setOnClickListener {
             showDialog(TimePickerDialog(this, time0 + AlarmManager.defaultAlarmTime[2]) { time ->
                 tempCal.timeInMillis = time
-                AlarmManager.defaultAlarmTime[2] = tempCal.get(Calendar.HOUR_OF_DAY) * HOUR_MILL + tempCal.get(Calendar.MINUTE) * MIN_MILL
+                AlarmManager.defaultAlarmTime[2] = getOnlyTime(time)
                 Prefs.putLong("defaultAlarmTime2", AlarmManager.defaultAlarmTime[2])
                 eveningAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[2]))
             }, true, true, true, false)
         }
         nightAlarmTimeBtn.setOnClickListener {
             showDialog(TimePickerDialog(this, time0 + AlarmManager.defaultAlarmTime[3]) { time ->
-                tempCal.timeInMillis = time
-                AlarmManager.defaultAlarmTime[3] = tempCal.get(Calendar.HOUR_OF_DAY) * HOUR_MILL + tempCal.get(Calendar.MINUTE) * MIN_MILL
+                AlarmManager.defaultAlarmTime[3] = getOnlyTime(time)
                 Prefs.putLong("defaultAlarmTime3", AlarmManager.defaultAlarmTime[3])
                 nightAlarmTimeText.text = AppDateFormat.time.format(Date(time0 + AlarmManager.defaultAlarmTime[3]))
             }, true, true, true, false)

@@ -14,21 +14,19 @@
         android:background="?android:attr/selectableItemBackground">
 
         <TextView
-            android:id="@+id/dateText"
+            android:id="@+id/dateOffsetText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/bold"
-            android:textColor="@color/primaryText"
-            android:text="@string/custom_time"/>
+            android:textColor="@color/primaryText"/>
 
         <TextView
-            android:id="@+id/dateOffsetText"
+            android:id="@+id/dateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
-            android:textColor="@color/secondaryText"
-            android:text="하루 전"/>
+            android:textColor="@color/secondaryText"/>
 
     </FrameLayout>
 
@@ -39,21 +37,19 @@
         android:background="?android:attr/selectableItemBackground">
 
         <TextView
-            android:id="@+id/timeText"
+            android:id="@+id/timeOffsetText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/bold"
-            android:textColor="@color/primaryText"
-            android:text="@string/custom_time"/>
+            android:textColor="@color/primaryText"/>
 
         <TextView
-            android:id="@+id/timeOffsetText"
+            android:id="@+id/timeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
-            android:textColor="@color/secondaryText"
-            android:text="오전 8:00"/>
+            android:textColor="@color/secondaryText"/>
 
     </FrameLayout>
 

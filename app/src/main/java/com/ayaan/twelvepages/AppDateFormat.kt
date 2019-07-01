@@ -95,7 +95,7 @@ object AppDateFormat {
                     "ja" -> {
                         ymde = SimpleDateFormat("EEEE, d日 MMMM, yyyy")
                         mde = SimpleDateFormat("EEE, d日 MMM")
-                        mdeShort = SimpleDateFormat("EEE, d日 MMM")
+                        mdeShort = SimpleDateFormat("E, d日 MMM")
                         md = SimpleDateFormat("d日 MMM")
                         ymd = SimpleDateFormat("d日 MMM, yyyy")
                         ym = SimpleDateFormat("MMM, yyyy")
@@ -103,7 +103,7 @@ object AppDateFormat {
                     else -> {
                         ymde = SimpleDateFormat("EEEE, d MMMM, yyyy")
                         mde = SimpleDateFormat("EEE, d MMM")
-                        mdeShort = SimpleDateFormat("EEE, d MMM")
+                        mdeShort = SimpleDateFormat("E, d MMM")
                         md = SimpleDateFormat("d MMM")
                         ymd = SimpleDateFormat("d MMM, yyyy")
                         ym = SimpleDateFormat("MMM, yyyy")
@@ -122,7 +122,7 @@ object AppDateFormat {
                     "ja" -> {
                         ymde = SimpleDateFormat("EEEE, yyyy, MMMM d日")
                         mde = SimpleDateFormat("EEE, MMM d日")
-                        mdeShort = SimpleDateFormat("EEE, MMM d日")
+                        mdeShort = SimpleDateFormat("E, MMM d日")
                         md = SimpleDateFormat("MMM d日")
                         ymd = SimpleDateFormat("yyyy, MMM d日")
                         ym = SimpleDateFormat("yyyy, MMM")
@@ -130,7 +130,7 @@ object AppDateFormat {
                     else -> {
                         ymde = SimpleDateFormat("EEEE, yyyy, MMMM d")
                         mde = SimpleDateFormat("EEE, MMM d")
-                        mdeShort = SimpleDateFormat("EEE, MMM d")
+                        mdeShort = SimpleDateFormat("E, MMM d")
                         md = SimpleDateFormat("MMM d")
                         ymd = SimpleDateFormat("yyyy, MMM d")
                         ym = SimpleDateFormat("yyyy, MMM")

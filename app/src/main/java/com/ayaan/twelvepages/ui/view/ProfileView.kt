@@ -34,7 +34,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private val scale = 0.7f
     private val animDur = 350L
-    private val profileCloseTopMargin = dpToPx(10)
+    private val profileCloseTopMargin = dpToPx(5)
     private val profileCloseRightMargin = dpToPx(10)
     private val profileOpenMargin = dpToPx(7)
     private val profileOpenTopMargin = dpToPx(7)
@@ -44,7 +44,9 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     var viewMode = ViewMode.CLOSED
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_profile, this, true)
+        LayoutInflater.from(context).inflate(R.layout.view_profile, this, true).let {
+            setBackgroundColor(AppTheme.backgroundDark)
+        }
         mottoText.setOnClickListener {
             showDialog(InputDialog(context as Activity, context.getString(R.string.motto), null, null,
                     mottoText.text.toString(), false) { result, text ->

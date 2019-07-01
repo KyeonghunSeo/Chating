@@ -12,6 +12,9 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.LinearLayout.HORIZONTAL
+import android.widget.LinearLayout.VERTICAL
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -221,7 +224,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         bar.setBackgroundColor(color)
         dateText.setTextColor(color)
         dowText.setTextColor(color)
-        holiText.setTextColor(CalendarManager.dateColor)
+        holiText.setTextColor(color)
         if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
         else dowText.visibility = View.GONE
         holiText.text = dateInfo.getSelectedString()
@@ -243,10 +246,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "translationY", 0f, dowPosY),
                 ObjectAnimator.ofFloat(holiText, "translationX", 0f, holiPosX),
                 ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationX", 1f, mainDateLyX),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", 1f, mainDateLyY),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", 1f, mainDateLyScaleX),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", 1f, mainDateLyScaleY),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleX", 1f, mainDateLyScaleX),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleY", 1f, mainDateLyScaleY),
                 ObjectAnimator.ofFloat(bar, "alpha", 1f, 0f))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
@@ -270,10 +271,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "translationY", dowPosY, 0f),
                 ObjectAnimator.ofFloat(holiText, "translationX", holiPosX, 0f),
                 ObjectAnimator.ofFloat(holiText, "translationY", holiPosY, 0f),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationX", mainDateLyX, 1f),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "translationY", mainDateLyY, 1f),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", mainDateLyScaleX, 1f),
-                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", mainDateLyScaleY, 1f),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleX", mainDateLyScaleX, 1f),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleY", mainDateLyScaleY, 1f),
                 ObjectAnimator.ofFloat(bar, "alpha", 0f, 1f))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
@@ -294,13 +293,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.translationY = dowPosY
         holiText.translationX = holiPosX
         holiText.translationY = holiPosY
-        MainActivity.getMainDateLy()?.let {
-            it.translationX = mainDateLyX
-            it.translationY = mainDateLyY
+        MainActivity.getMainMonthLy()?.let {
             it.scaleX = mainDateLyScaleX
             it.scaleY = mainDateLyScaleY
         }
         bar.alpha = 0f
+        dateLy.orientation = HORIZONTAL
     }
 
     private fun setDateClosedStyle() {
@@ -318,37 +316,38 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.translationX = 0f
         holiText.translationY = 0f
         MainActivity.getMainDateLy()?.let {
-            it.translationX = 1f
-            it.translationY = 1f
             it.scaleX = 1f
             it.scaleY = 1f
         }
         bar.alpha = 1f
+        dateLy.orientation = VERTICAL
     }
 
     fun targeted() {
         l("[데이뷰 타겟팅] : " + AppDateFormat.ymde.format(targetCal.time) )
         l("너비 : " + dateText.width)
         MainActivity.getMainDateLy()?.let { v ->
-            ObjectAnimator.ofFloat(v, "translationX", v.translationX,
-                    dateText.width.toFloat() * headerTextScale).start()
+            //ObjectAnimator.ofFloat(v, "translationX", v.translationX, dateText.width.toFloat() * headerTextScale).start()
         }
     }
 
+    fun getDateLy() : LinearLayout = dateLy
+
     companion object {
         const val headerTextScale = 5.5f
-        val datePosX = dpToPx(15.0f)
-        val datePosY = dpToPx(15.0f)
-        val dowPosX = dpToPx(1.00f) / headerTextScale
-        val dowPosY = dpToPx(9.6f)
-        val dowScale = 0.310f
-        val holiPosX = dpToPx(0f)
-        val holiPosY = dpToPx(0.0f)
-        val holiScale = 0.32f
-        val mainDateLyX = dpToPx(90.0f)
-        val mainDateLyY = dpToPx(5.0f)
-        val mainDateLyScaleX = 0.7f
-        val mainDateLyScaleY = 0.7f
+        val datePosX = dpToPx(11.0f)
+        val datePosY = dpToPx(5.0f)
+        val dowPosX = dpToPx(0.00f) / headerTextScale
+        val dowPosY = dpToPx(10.0f) / headerTextScale
+        val dowScale = 1.8f / headerTextScale
+        //val holiPosX = dpToPx(100f) / headerTextScale
+        //val holiPosY = -dpToPx(30.0f) / headerTextScale
+        //val holiScale = 2.0f / headerTextScale
+        val holiPosX = 0f
+        val holiPosY = 0f
+        val holiScale = 1f
+        val mainDateLyScaleX = 0.45f
+        val mainDateLyScaleY = 0.45f
     }
 
 }

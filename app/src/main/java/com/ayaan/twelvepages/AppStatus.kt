@@ -25,5 +25,6 @@ object AppStatus {
         calTextSize = Prefs.getInt("calTextSize", 0)
         weekLine = Prefs.getInt("weekLine", 0)
         isWeekNumDisplay = Prefs.getBoolean("isWeekNumDisplay", true)
+        checkedRecordDisplay = Prefs.getInt("checkedRecordDisplay", 0)
     }
 }
