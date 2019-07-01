@@ -40,12 +40,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val todayCal: Calendar = Calendar.getInstance()
         val dragStartYPos = dpToPx(0f)
         val weekLyBottomPadding = dpToPx(5)
-        val calendarPadding = dpToPx(30)
+        val calendarPadding = dpToPx(25)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
         val dataStartYOffset = dpToPx(43f)
-        val headerHeight = dpToPx(110)
+        val headerHeight = dpToPx(100)
     }
 
     private val scrollView = NestedScrollView(context)

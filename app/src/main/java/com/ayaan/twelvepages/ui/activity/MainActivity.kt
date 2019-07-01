@@ -128,7 +128,7 @@ class MainActivity : BaseActivity() {
         rootLy.setOnDragListener(MainDragAndDropListener)
         mainMonthLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainMonthLy.pivotX = 0f
-        mainMonthLy.pivotY = dpToPx(27f)
+        mainMonthLy.pivotY = dpToPx(0f)
         mainPanel.setOnClickListener {}
         todayBtn.translationY = tabSize.toFloat()
         callAfterViewDrawed(rootLy, Runnable{
@@ -150,7 +150,10 @@ class MainActivity : BaseActivity() {
                 refreshTodayView(calendarView.todayStatus)
             }
         }
-        calendarPager.onTop = { isTop, isBottom -> }
+        calendarPager.onTop = { isTop, isBottom ->
+            if(isTop) topShadow.visibility = View.GONE
+            else topShadow.visibility = View.VISIBLE
+        }
     }
 
     private val folderAdapter = FolderAdapter(this, ArrayList())
@@ -208,8 +211,8 @@ class MainActivity : BaseActivity() {
             cal.set(2019, 6, 1)
             val s = cal.timeInMillis
             val list = ArrayList<Record>()
-            val c = 10 * 2
-            val formulas = arrayOf(STACK, EXPANDED, RANGE, STAMP, DOT)
+            val c = 10 * 4
+            val formulas = arrayOf(STACK, EXPANDED, DOT)
             list.add(RecordManager.makeNewRecord(s, s).apply {
                 title = "점심약속"
                 type = 1
@@ -240,7 +243,7 @@ class MainActivity : BaseActivity() {
                 type = 2
                 colorKey = c + Random().nextInt(10)
             })
-            list.add(RecordManager.makeNewRecord(s+DAY_MILL*14, s+DAY_MILL*17).apply {
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*11, s+DAY_MILL*17).apply {
                 title = "점심약속"
                 type = 1
                 colorKey = c + Random().nextInt(10)
@@ -271,7 +274,8 @@ class MainActivity : BaseActivity() {
                 colorKey = c + Random().nextInt(10)
             })
             list.forEach {
-                it.setFormula(formulas[Random().nextInt(formulas.size)])
+                val f = formulas[Random().nextInt(formulas.size)]
+                it.style = f.shapes[Random().nextInt(f.shapes.size)].ordinal * 100 + f.ordinal
             }
             RecordManager.save(list)
             return@setOnLongClickListener false
@@ -440,15 +444,14 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
             mainYearText.text = it.get(Calendar.YEAR).toString()
             if (AppDateFormat.language == "ko") {
                 mainMonthKoText.visibility = View.VISIBLE
+                mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
             } else {
                 mainMonthKoText.visibility = View.GONE
+                mainMonthText.text = AppDateFormat.month.format(it.time)
             }
-            //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
-            //mainYearText.text = AppDateFormat.year.format(it.time)
         }
     }
 

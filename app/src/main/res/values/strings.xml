@@ -338,6 +338,7 @@
     <string name="not_found_web">웹 페이지를 찾을수 없습니다</string>
     <string name="go_today">오늘로 이동</string>
     <string name="no_alarm">알림없음</string>
+    <string name="galaxy">갤럭시</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

@@ -101,4 +101,17 @@
         <item>#836b65</item>
     </string-array>
 
+    <string-array name="colors_galaxy">
+        <item>#252028</item>
+        <item>#513742</item>
+        <item>#835660</item>
+        <item>#5A7597</item>
+        <item>#A87B95</item>
+        <item>#EEBB96</item>
+        <item>#D0916E</item>
+        <item>#335E7D</item>
+        <item>#233A52</item>
+        <item>#090A0A</item>
+    </string-array>
+
 </resources>

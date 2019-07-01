@@ -145,7 +145,11 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         setPadding(leftPadding, textPadding, sPadding, 0)
 
         paintColor = ColorManager.getColor(record.colorKey)
-        fontColor = if(shape.fillColor) ColorManager.getFontColor(paintColor) else paintColor
+        fontColor = if(shape == Shape.NEON_PEN) {
+            AppTheme.primaryText
+        }else {
+            if(shape.fillColor) ColorManager.getFontColor(paintColor) else paintColor
+        }
         setTextColor(fontColor)
     }
 
@@ -371,7 +375,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 drawArrow(canvas, width, height, width - arrowSize, height - arrowSize, width - arrowSize, height)
             }
             else -> {
-                val periodLine = strokeWidth * 1.2f
+                val periodLine = strokeWidth * 1.4f
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = periodLine
                 if(shape == Shape.DASH || shape == Shape.DASH_ARROW) {
