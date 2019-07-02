@@ -15,6 +15,8 @@ object AppStatus {
     var weekLine = 0
     var isWeekNumDisplay = true
     var checkedRecordDisplay = 0
+    var screenWidth = 0
+    var screenHeight = 0
 
     fun init(context: Context) {
         startDayOfWeek = Prefs.getInt("startDayOfWeek", Calendar.SUNDAY)
@@ -26,5 +28,8 @@ object AppStatus {
         weekLine = Prefs.getInt("weekLine", 0)
         isWeekNumDisplay = Prefs.getBoolean("isWeekNumDisplay", true)
         checkedRecordDisplay = Prefs.getInt("checkedRecordDisplay", 0)
+        val screenSize = getScreenSize(context)
+        screenWidth = screenSize[0]
+        screenHeight = screenSize[1]
     }
 }

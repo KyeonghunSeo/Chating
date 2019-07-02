@@ -97,8 +97,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
                             id = "sticker_$ymdKey"
                             dtCreated = System.currentTimeMillis()
                             setFormula(RecordCalendarAdapter.Formula.STICKER)
-                            links.add(Link(UUID.randomUUID().toString(), Link.Type.STICKER.ordinal,
-                                    intParam0 = StickerManager.getStickerKey(sticker)))
+                            setSticker(sticker)
                         })
                         startCal.add(Calendar.DATE, 1)
                     }

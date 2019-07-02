@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
-import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
@@ -29,7 +28,6 @@ import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.list_item_record.view.*
-import org.json.JSONObject
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.HashMap
@@ -43,13 +41,16 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     val tempCal = Calendar.getInstance()
     var itemTouchHelper: ItemTouchHelper? = null
     var query: String? = null
+    private val photoSideMargin = dpToPx(30)
+    private val photoSize: Int = AppStatus.screenWidth / 2
+    private val photoPagerMargin = -(AppStatus.screenWidth - photoSize) + dpToPx(10)
 
     init {
         val callback = SimpleItemTouchHelperCallback(this)
         itemTouchHelper = ItemTouchHelper(callback)
     }
 
-    class TimeObjectViewHolder(container: View) : RecyclerView.ViewHolder(container) {
+    class RecordViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
             setGlobalTheme(container)
         }
@@ -60,7 +61,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-            = TimeObjectViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_record, parent, false))
+            = RecordViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_record, parent, false))
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -192,8 +193,8 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         }
 
         if(record.links.any { it.type == Link.Type.IMAGE.ordinal }){
+            v.imageLy.visibility = View.VISIBLE
             val list = record.links.filter{ it.type == Link.Type.IMAGE.ordinal }
-
             Glide.with(context).load(list[0].strParam0).into(v.mainImgView)
 
             if(list.size > 1) {
@@ -215,6 +216,27 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                         .setStartPosition(0)
                         .show()
             }
+            /*
+            v.photoPager.adapter = ColorPagerAdapter(context, list, photoSize, photoSideMargin)
+            v.photoPager.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, (photoSize * 1.2).toInt())
+            v.photoPager.offscreenPageLimit = 3
+            v.photoPager.pageMargin = photoPagerMargin
+            v.photoPager.setPageTransformer(true) { view, position ->
+                val pageWidth = view.width
+                when {
+                    position > -1 && position < 0 -> {
+                        view.photoView.translationX = pageWidth * position * -0.2f
+                    }
+                    position >= 0 -> {
+                        view.photoView.translationX = pageWidth * position * -0.2f
+                    }
+                    else -> {
+                        view.photoView.translationX = 0f
+                    }
+                }
+            }
+            v.photoPager.requestLayout()
+            */
         }else {
             v.imageLy.visibility = View.GONE
         }
@@ -329,9 +351,9 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
             // We only want the active item to change
             if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-                if (viewHolder is TimeObjectViewHolder) {
+                if (viewHolder is RecordViewHolder) {
                     // Let the view holder know that this item is being moved or dragged
-                    val itemViewHolder = viewHolder as TimeObjectViewHolder?
+                    val itemViewHolder = viewHolder as RecordViewHolder?
                     itemViewHolder!!.onItemSelected()
                 }
             }else if(reordering && actionState == ItemTouchHelper.ACTION_STATE_IDLE){
@@ -345,7 +367,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
             viewHolder.itemView.alpha = ALPHA_FULL
-            (viewHolder as? TimeObjectViewHolder)?.onItemClear()
+            (viewHolder as? RecordViewHolder)?.onItemClear()
         }
     }
 }

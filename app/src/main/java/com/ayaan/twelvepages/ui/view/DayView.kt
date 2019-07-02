@@ -1,10 +1,13 @@
 package com.ayaan.twelvepages.ui.view
 
+import android.Manifest
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.graphics.Typeface
+import android.content.pm.PackageManager
+import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
@@ -15,21 +18,27 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.LinearLayout.HORIZONTAL
 import android.widget.LinearLayout.VERTICAL
+import androidx.core.app.ActivityCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.adapter.DateDecorationAdapter
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.adapter.RecordListAdapter
 import com.ayaan.twelvepages.adapter.util.ListDiffCallback
 import com.ayaan.twelvepages.adapter.util.RecordListComparator
 import com.ayaan.twelvepages.manager.*
+import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
 import com.ayaan.twelvepages.ui.dialog.PopupOptionDialog
 import com.ayaan.twelvepages.ui.dialog.SchedulingDialog
+import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import io.realm.OrderedCollectionChangeSet
+import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.view_day.view.*
 import kotlinx.android.synthetic.main.view_selected_date_header.view.*
@@ -45,10 +54,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     val targetCal : Calendar = Calendar.getInstance()
     private var recordList: RealmResults<Record>? = null
     private val mainList = ArrayList<Record>()
-    private val sideList = ArrayList<Record>()
+    private val decoList = ArrayList<Record>()
     private val newList = ArrayList<Record>()
     private val dateInfo = DateInfoManager.DateInfo()
     private var color = 0
+    var startTime: Long = 0
+    var endTime: Long = 0
 
     private val adapter = RecordListAdapter(context, mainList, targetCal) { view, item, action ->
         MainActivity.instance?.let { activity ->
@@ -85,8 +96,26 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }
     }
 
-    var startTime: Long = 0
-    var endTime: Long = 0
+    private val decoAdapter = DateDecorationAdapter(context, decoList) { view, item, action ->
+        MainActivity.instance?.let { activity ->
+            showDialog(PopupOptionDialog(activity,
+                    arrayOf(PopupOptionDialog.Item(str(R.string.edit), R.drawable.edit, AppTheme.primaryText),
+                            PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)), view, false) { index ->
+                val record = Record().apply { copy(item) }
+                when(index) {
+                    0 -> {
+                        StickerPickerDialog{ sticker ->
+                            record.setSticker(sticker)
+                            RecordManager.save(record)
+                        }.show(activity.supportFragmentManager, null)
+                    }
+                    1 -> {
+                        RecordManager.delete(context as Activity, record, Runnable { toast(R.string.deleted, R.drawable.delete) })
+                    }
+                }
+            }, true, false, true, false)
+        }
+    }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_day, this, true)
@@ -95,6 +124,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         initRecyclerView()
         clipChildren = false
         dateText.typeface = AppTheme.regularFont
+        fakeDateText.typeface = AppTheme.regularFont
         dowText.typeface = AppTheme.regularFont
         holiText.typeface = AppTheme.regularFont
         (bar.layoutParams as LayoutParams).topMargin = 0
@@ -116,19 +146,26 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 }, true, true, true, false)
             }
         }
+        holiText.setOnClickListener {
+
+        }
+        lunarText.visibility = View.GONE
         setDateClosedStyle()
     }
 
     private fun initRecyclerView() {
-        timeObjectListView.layoutManager = LinearLayoutManager(context)
-        timeObjectListView.adapter = adapter
-        timeObjectListView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        recordListView.layoutManager = LinearLayoutManager(context)
+        recordListView.adapter = adapter
+        recordListView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if(timeObjectListView.computeVerticalScrollOffset() > 0) topShadow.visibility = View.VISIBLE
+                if(recordListView.computeVerticalScrollOffset() > 0) topShadow.visibility = View.VISIBLE
                 else topShadow.visibility = View.GONE
             }
         })
-        adapter.itemTouchHelper?.attachToRecyclerView(timeObjectListView)
+        adapter.itemTouchHelper?.attachToRecyclerView(recordListView)
+
+        decoListView.layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
+        decoListView.adapter = decoAdapter
     }
 
     fun notifyDateChanged() {
@@ -141,6 +178,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
                 updateData(result, mainList)
                 adapter.notifyDataSetChanged()
+                decoAdapter.notifyDataSetChanged()
             }else if(changeSet.state == OrderedCollectionChangeSet.State.UPDATE) {
                 if(MainActivity.getDayPager()?.isOpened() == true) {
                     updateData(result, newList)
@@ -153,7 +191,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun updateData(data: RealmResults<Record>, list: ArrayList<Record>) {
         list.clear()
-        sideList.clear()
+        decoList.clear()
         collocateData(data, list)
 
         OsCalendarManager.getInstances(context, "", startTime, endTime).forEach {
@@ -167,13 +205,19 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }else {
             emptyLy.visibility = View.VISIBLE
         }
+
+        if(decoList.isEmpty()) {
+            decoListView.visibility = View.GONE
+        }else {
+            decoListView.visibility = View.VISIBLE
+        }
     }
 
     private fun collocateData(data: RealmResults<Record>, e: ArrayList<Record>) {
         data.forEach { timeObject ->
             try{
                 if(timeObject.id?.startsWith("sticker_") == true) {
-                    sideList.add(timeObject.makeCopyObject())
+                    decoList.add(timeObject.makeCopyObject())
                 }else {
                     if(timeObject.repeat.isNullOrEmpty()) {
                         e.add(timeObject.makeCopyObject())
@@ -187,6 +231,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun updateChange(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>,
                              o: ArrayList<Record>, n: ArrayList<Record>) {
+        decoAdapter.notifyDataSetChanged()
         Thread {
             val diffResult = DiffUtil.calculateDiff(ListDiffCallback(o, n))
             Handler(Looper.getMainLooper()).post{
@@ -200,7 +245,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     fun clear() {
         recordList?.removeAllChangeListeners()
         mainList.clear()
-        sideList.clear()
+        decoList.clear()
         adapter.notifyDataSetChanged()
         setDateClosedStyle()
     }
@@ -212,7 +257,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun setDateText() {
         dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
-        dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
+        dowText.text = AppDateFormat.dow.format(targetCal.time)
         DateInfoManager.getHoliday(dateInfo, targetCal)
         color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
             CalendarManager.sundayColor
@@ -225,13 +270,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dateText.setTextColor(color)
         dowText.setTextColor(color)
         holiText.setTextColor(color)
+        fakeDateText.text = dateText.text
         if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
         else dowText.visibility = View.GONE
         holiText.text = dateInfo.getSelectedString()
     }
 
     fun show(dayPager: DayPager) {
-        dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
+        dowText.text = AppDateFormat.dow.format(targetCal.time)
         val animSet = AnimatorSet()
         animSet.playTogether(
                 ObjectAnimator.ofFloat(dateLy, "scaleX", 1f, headerTextScale),
@@ -246,8 +292,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "translationY", 0f, dowPosY),
                 ObjectAnimator.ofFloat(holiText, "translationX", 0f, holiPosX),
                 ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY),
-                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleX", 1f, mainDateLyScaleX),
-                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleY", 1f, mainDateLyScaleY),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleX", 1f, mainMonthTextScale),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleY", 1f, mainMonthTextScale),
                 ObjectAnimator.ofFloat(bar, "alpha", 1f, 0f))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
@@ -255,7 +301,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun hide(dayPager: DayPager) {
-        dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
+        dowText.text = AppDateFormat.dow.format(targetCal.time)
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
         animSet.playTogether(
@@ -271,8 +317,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "translationY", dowPosY, 0f),
                 ObjectAnimator.ofFloat(holiText, "translationX", holiPosX, 0f),
                 ObjectAnimator.ofFloat(holiText, "translationY", holiPosY, 0f),
-                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleX", mainDateLyScaleX, 1f),
-                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleY", mainDateLyScaleY, 1f),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleX", mainMonthTextScale, 1f),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleY", mainMonthTextScale, 1f),
                 ObjectAnimator.ofFloat(bar, "alpha", 0f, 1f))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
@@ -294,11 +340,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.translationX = holiPosX
         holiText.translationY = holiPosY
         MainActivity.getMainMonthLy()?.let {
-            it.scaleX = mainDateLyScaleX
-            it.scaleY = mainDateLyScaleY
+            it.scaleX = mainMonthTextScale
+            it.scaleY = mainMonthTextScale
         }
         bar.alpha = 0f
-        dateLy.orientation = HORIZONTAL
+        fakeDateText.visibility = View.VISIBLE
     }
 
     private fun setDateClosedStyle() {
@@ -320,14 +366,35 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.scaleY = 1f
         }
         bar.alpha = 1f
-        dateLy.orientation = VERTICAL
+        fakeDateText.visibility = View.GONE
     }
 
+    @SuppressLint("StaticFieldLeak")
     fun targeted() {
         l("[데이뷰 타겟팅] : " + AppDateFormat.ymde.format(targetCal.time) )
         l("너비 : " + dateText.width)
         MainActivity.getMainDateLy()?.let { v ->
+
             //ObjectAnimator.ofFloat(v, "translationX", v.translationX, dateText.width.toFloat() * headerTextScale).start()
+        }
+
+        MainActivity.instance?.let { activity ->
+            object : AsyncTask<String, String, String?>() {
+                override fun doInBackground(vararg args: String): String? {
+                    if (ActivityCompat.checkSelfPermission(activity,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        val photos = getPhotosByDate(activity, targetCal)
+                        l("!!"+ photos.size)
+                    }
+                    return null
+                }
+                override fun onProgressUpdate(vararg text: String) {}
+                override fun onPostExecute(result: String?) {
+                    if(MainActivity.getDayPager()?.isOpened() == true) {
+
+                    }
+                }
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
         }
     }
 
@@ -335,19 +402,15 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     companion object {
         const val headerTextScale = 5.5f
-        val datePosX = dpToPx(11.0f)
-        val datePosY = dpToPx(5.0f)
-        val dowPosX = dpToPx(0.00f) / headerTextScale
-        val dowPosY = dpToPx(10.0f) / headerTextScale
-        val dowScale = 1.8f / headerTextScale
-        //val holiPosX = dpToPx(100f) / headerTextScale
-        //val holiPosY = -dpToPx(30.0f) / headerTextScale
-        //val holiScale = 2.0f / headerTextScale
-        val holiPosX = 0f
-        val holiPosY = 0f
-        val holiScale = 1f
-        val mainDateLyScaleX = 0.45f
-        val mainDateLyScaleY = 0.45f
+        const val mainMonthTextScale = 0.45f
+        val datePosX = dpToPx(8.0f)
+        val datePosY = dpToPx(3.0f)
+        val dowPosX = -dpToPx(8.0f) / headerTextScale
+        val dowPosY = dpToPx(15.0f) / headerTextScale
+        val dowScale = 2.0f / headerTextScale
+        val holiPosX = -dpToPx(8.0f) / headerTextScale
+        val holiPosY = -dpToPx(40.0f) / headerTextScale
+        val holiScale = 2.0f / headerTextScale
     }
 
 }

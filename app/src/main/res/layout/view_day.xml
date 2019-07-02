@@ -9,18 +9,15 @@
         android:id="@+id/contentLy"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingTop="100dp"
+        android:animateLayoutChanges="true">
 
-        <FrameLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/decoListView"
             android:layout_width="match_parent"
-            android:layout_height="250dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"/>
-
-        </FrameLayout>
+            android:layout_height="50dp">
+        </androidx.recyclerview.widget.RecyclerView>
 
         <FrameLayout
             android:orientation="vertical"
@@ -58,7 +55,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/timeObjectListView"
+                android:id="@+id/recordListView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             </androidx.recyclerview.widget.RecyclerView>

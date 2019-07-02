@@ -200,9 +200,13 @@ open class Record(@PrimaryKey var id: String? = null,
 
     fun isSetSticker(): Boolean = links.any { it.type == Link.Type.STICKER.ordinal }
     fun clearSticker() { links.firstOrNull{ it.type == Link.Type.STICKER.ordinal }?.let { links.remove(it) } }
-    fun setSticker() {
-        if(!isSetSticker()) {
-            links.add(Link(type = Link.Type.STICKER.ordinal))
+    fun setSticker(sticker: StickerManager.Sticker) {
+        if(isSetSticker()) {
+            links.firstOrNull{ it.type == Link.Type.STICKER.ordinal }?.let {
+                it.intParam0 = StickerManager.getStickerKey(sticker) }
+        }else {
+            links.add(Link(UUID.randomUUID().toString(), Link.Type.STICKER.ordinal,
+                    intParam0 = StickerManager.getStickerKey(sticker)))
         }
     }
     fun getSticker(): StickerManager.Sticker? {

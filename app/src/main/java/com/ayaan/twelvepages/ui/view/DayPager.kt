@@ -24,6 +24,7 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.view.base.PagingControlableViewPager
+import kotlinx.android.synthetic.main.view_selected_date_header.view.*
 import java.util.*
 
 
@@ -146,7 +147,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                         it.setMargins(0, 0, 0, 0)
                     }
                     MainActivity.getMainDateLy()?.orientation = HORIZONTAL
-                    targetDayView.getDateLy().orientation = HORIZONTAL
+                    targetDayView.getDateLy()?.fakeDateText.visibility = View.VISIBLE
                     requestLayout()
                 }
             })
@@ -192,7 +193,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 it.setMargins(xPos, yPos, 0, 0)
             }
             MainActivity.getMainDateLy()?.orientation = VERTICAL
-            targetDayView.getDateLy().orientation = VERTICAL
+            targetDayView.getDateLy()?.fakeDateText.visibility = View.GONE
             requestLayout()
         }
     }

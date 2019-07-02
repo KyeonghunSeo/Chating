@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/secondaryText"
             android:fontFamily="@font/bold"
             android:textSize="30dp"
             android:text="2018"/>
@@ -37,14 +37,14 @@
             android:layout_height="2.5dp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="2dp"
-            app:colorFlag="primary"/>
+            app:colorFlag="secondary"/>
 
         <TextView
             android:id="@+id/templateDateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/secondaryText"
             android:fontFamily="@font/regular"
             android:textSize="22dp"
             android:text="2019"/>

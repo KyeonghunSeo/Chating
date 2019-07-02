@@ -47,7 +47,10 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
         root.rootLy.setOnClickListener { dismiss() }
         root.settingBtn.setOnClickListener {
             showDialog(EditColorPackDialog(activity as Activity) { result ->
-                if(result) { setLayout() }
+                if(result) {
+                    ColorManager.saveCurrentPack()
+                    setLayout()
+                }
             }, true, true, true, false)
         }
     }
@@ -131,8 +134,7 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
                 v.emptyLy.visibility = View.GONE
                 stickerImgs.forEachIndexed { index, imageView ->
                     if(index < recentPack.size) {
-                        val colorKey =
-                                recentPack[index]
+                        val colorKey = recentPack[index]
                         setColorBtn(imageView, colorKey, ColorManager.getColor(colorKey))
                     }else {
                         setColorBtn(imageView, 9, AppTheme.background)

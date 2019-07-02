@@ -65,6 +65,7 @@
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
                         android:layout_marginLeft="25dp"
                         android:clipChildren="false">
 
@@ -72,12 +73,10 @@
                             android:id="@+id/mainYearText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
                             android:layout_marginLeft="1dp"
                             android:layout_marginRight="5dp"
                             android:gravity="center_vertical"
                             android:background="?android:attr/selectableItemBackground"
-                            android:textColor="@color/secondaryText"
                             android:fontFamily="@font/regular"
                             android:textSize="18dp"/>
 
@@ -85,7 +84,7 @@
                             android:id="@+id/mainMonthLy"
                             android:orientation="horizontal"
                             android:layout_width="wrap_content"
-                            android:layout_height="50dp"
+                            android:layout_height="46dp"
                             android:animateLayoutChanges="true"
                             android:gravity="center_vertical">
 
@@ -94,7 +93,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="?android:attr/selectableItemBackground"
-                                android:textColor="@color/secondaryText"
                                 android:textSize="40dp"/>
 
                             <TextView
@@ -102,9 +100,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="?android:attr/selectableItemBackground"
-                                android:textColor="@color/secondaryText"
-                                android:layout_marginLeft="1dp"
-                                android:layout_marginTop="1dp"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginTop="2.0dp"
                                 android:text="월"
                                 android:textSize="32dp"/>
 
@@ -154,6 +151,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                 </com.ayaan.twelvepages.ui.view.CalendarPager>
+
+                <View
+                    android:id="@+id/topShadow"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="100dp"
+                    android:background="@drawable/line_top_shadow"/>
 
                 <com.ayaan.twelvepages.ui.view.DayPager
                     android:id="@+id/dayPager"

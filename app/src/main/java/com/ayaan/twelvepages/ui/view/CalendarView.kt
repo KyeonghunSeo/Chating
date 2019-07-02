@@ -6,6 +6,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.Handler
 import android.os.Message
 import android.text.TextUtils
@@ -17,6 +18,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.animation.AnimationUtils
 import android.widget.*
 import android.widget.LinearLayout.HORIZONTAL
 import androidx.core.widget.NestedScrollView
@@ -40,12 +42,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val todayCal: Calendar = Calendar.getInstance()
         val dragStartYPos = dpToPx(0f)
         val weekLyBottomPadding = dpToPx(5)
-        val calendarPadding = dpToPx(30)
+        val calendarPadding = dpToPx(25)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
         val dataStartYOffset = dpToPx(43f)
-        val headerHeight = dpToPx(110)
+        val headerHeight = dpToPx(100)
     }
 
     private val scrollView = NestedScrollView(context)
@@ -131,7 +133,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun setLayout() {
         headerView.layoutParams = LayoutParams(MATCH_PARENT, headerHeight)
-        headerView.setBackgroundColor(AppTheme.backgroundAlpha)
+        headerView.setBackgroundColor(AppTheme.background)
 
         scrollView.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         scrollView.isVerticalScrollBarEnabled = false
@@ -363,12 +365,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             (0 until rows).forEach { i ->
                 if(i == cellNum / columns && AppStatus.isWeekNumDisplay) {
+                    weekLys[i].setBackgroundColor(AppTheme.backgroundDark)
                     weekInfoViews[i].weeknumText.setTextColor(CalendarManager.dateColor)
                     if(AppStatus.isWeekNumDisplay) {
                         weekInfoViews[i].container.visibility = View.VISIBLE
                     }
                     rowDividers[i].setBackgroundColor(AppTheme.line)
                 }else {
+                    weekLys[i].setBackgroundColor(Color.TRANSPARENT)
                     weekInfoViews[i].weeknumText.setTextColor(AppTheme.line)
                     weekInfoViews[i].container.visibility = View.INVISIBLE
                     rowDividers[i].setBackgroundColor(AppTheme.lightLine)
@@ -381,10 +385,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val holiText = dateHeaders[cellNum].holiText
             dateText.typeface = AppTheme.regularFont
             holiText.text = dateInfos[cellNum].getSelectedString()
-            dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
+            dowText.text = AppDateFormat.dow.format(targetCal.time)
             dateText.alpha = 1f
             if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
-            dateHeaders[cellNum].lunarText.visibility = View.VISIBLE
+            dateHeaders[cellNum].lunarText.visibility = View.GONE
 
             lastSelectDateAnimSet?.cancel()
             lastSelectDateAnimSet = AnimatorSet()
@@ -411,6 +415,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             targetCellNum = cellNum
         }
         todayStatus = getDiffToday(targetCal)
+/*
+        if(todayStatus == 0) {
+            val startAnimation = AnimationUtils.loadAnimation(context, R.anim.blink)
+            dateHeaders[cellNum].container.startAnimation(startAnimation)
+        }
+*/
         onSelectedDate?.invoke(cellTimeMills[targetCellNum], targetCellNum, dateHeaders[cellNum].dateText.currentTextColor, showDayView)
     }
 
