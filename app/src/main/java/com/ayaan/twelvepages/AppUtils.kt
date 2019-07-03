@@ -35,8 +35,8 @@ import es.dmoral.toasty.Toasty
 import java.io.ByteArrayOutputStream
 import java.util.*
 
-val tempCal = Calendar.getInstance()
-private val tempCal2 = Calendar.getInstance()
+val tempCal: Calendar = Calendar.getInstance()
+private val tempCal2: Calendar  = Calendar.getInstance()
 
 fun l(s: String){
     Log.e("aaa", s)
@@ -59,7 +59,7 @@ fun isToday(cal: Calendar): Boolean {
     return isSameDay(cal, tempCal)
 }
 
-fun getNewCalendar() = Calendar.getInstance()
+fun getNewCalendar(): Calendar = Calendar.getInstance()
 
 fun setCalendarTime0 (cal: Calendar) {
     cal.set(Calendar.HOUR_OF_DAY, 0)
@@ -204,15 +204,9 @@ fun getTimeOnDate(date: Long, time: Long) : Long {
     return tempCal.timeInMillis
 }
 
-fun getDurationText(dtStart: Long, dtEnd: Long, allday: Boolean) : String {
+fun getDurationText(dtStart: Long, dtEnd: Long, isSetTime: Boolean) : String {
     val diff = dtEnd - dtStart
-    if (allday) {
-        val diffDate = diff / DAY_MILL
-        return when (diffDate) {
-            0L -> App.context.getString(R.string.one_day)
-            else -> String.format(App.context.getString(R.string.duration_day), diffDate + 1)
-        }
-    }else {
+    if (isSetTime) {
         val diffMin = diff / MIN_MILL
         return when  {
             diffMin == 0L -> "--"
@@ -225,6 +219,12 @@ fun getDurationText(dtStart: Long, dtEnd: Long, allday: Boolean) : String {
                     else -> String.format(App.context.getString(R.string.duration_min_hour), diffHour, diffMinHour)
                 }
             }
+        }
+    }else {
+        val diffDate = diff / DAY_MILL
+        return when (diffDate) {
+            0L -> App.context.getString(R.string.one_day)
+            else -> String.format(App.context.getString(R.string.duration_day), diffDate + 1)
         }
     }
 }
@@ -504,43 +504,62 @@ fun removeImageViewFilter(v: ImageView) {
     v.alpha = 1f
 }
 
-fun makeSheduleText(dtStart: Long, dtEnd: Long, showOneday: Boolean) : String {
+fun makeSheduleText(dtStart: Long, dtEnd: Long, isShowYear: Boolean, showOneday: Boolean, isSetTime: Boolean,
+                    multiLine: Boolean) : String {
+    val dateFormat = if(isShowYear) AppDateFormat.ymde else AppDateFormat.mde
+    val divider = if(multiLine) "\n" else " "
     tempCal.timeInMillis = dtStart
     tempCal2.timeInMillis = dtEnd
     return if(isSameDay(tempCal, tempCal2)) {
-        AppDateFormat.mde.format(tempCal.time) + if(showOneday) "\n${str(R.string.one_day)}" else ""
+        if(isSetTime) {
+            dateFormat.format(tempCal.time) + "$divider${makeTimeText(dtStart, dtEnd, multiLine)}"
+        }else {
+            dateFormat.format(tempCal.time) + if(showOneday) "$divider${str(R.string.one_day)}" else ""
+        }
     }else {
-        String.format(str(R.string.from), AppDateFormat.mde.format(tempCal.time)) +
-                "\n" + String.format(str(R.string.to), AppDateFormat.mde.format(tempCal2.time)) +
-                ", " + getDurationText(tempCal.timeInMillis, tempCal2.timeInMillis, true)
+        if(isSetTime) {
+            String.format(str(R.string.from), dateFormat.format(tempCal.time) + AppDateFormat.time.format(tempCal.time)) +
+                    divider + String.format(str(R.string.to), dateFormat.format(tempCal2.time) + AppDateFormat.time.format(tempCal2.time)) +
+                    ", " + getDurationText(tempCal.timeInMillis, tempCal2.timeInMillis, true)
+        }else {
+            String.format(str(R.string.from), dateFormat.format(tempCal.time)) +
+                    divider + String.format(str(R.string.to), dateFormat.format(tempCal2.time)) +
+                    ", " + getDurationText(tempCal.timeInMillis, tempCal2.timeInMillis, false)
+        }
     }
 }
 
-fun makeTimeText(dtStart: Long, dtEnd: Long) : String {
+fun makeTimeText(dtStart: Long, dtEnd: Long, multiLine: Boolean) : String {
+    val divider = if(multiLine) "\n" else " "
     tempCal.timeInMillis = dtStart
     tempCal2.timeInMillis = dtEnd
     return if(dtStart == dtEnd) {
         AppDateFormat.time.format(tempCal.time)
     }else {
         String.format(str(R.string.from), AppDateFormat.time.format(tempCal.time)) +
-                "\n" + String.format(str(R.string.to), AppDateFormat.time.format(tempCal2.time))
+                divider + String.format(str(R.string.to), AppDateFormat.time.format(tempCal2.time))
     }
 }
 
-fun makeShareContentsByRecord(record: Record) : String {
+fun makeTextContentsByRecord(record: Record) : String {
     val result = StringBuilder()
     record.title?.let { result.append("$it\n") }
+
+    if(record.isSetCheckBox) {
+    }
+
     if(record.dtStart != Long.MIN_VALUE) {
-        result.append("[${str(R.string.date_time)}]\n${makeSheduleText(record.dtStart, record.dtEnd, false)}\n")
-        if(record.isSetTime) {
-            result.append("[${str(R.string.time)}]\n${makeTimeText(record.dtStart, record.dtEnd)}\n")
-        }
+        result.append("${makeSheduleText(record.dtStart, record.dtEnd,
+                true, false, record.isSetTime, true)}\n")
     }
     if(!record.location.isNullOrEmpty()) {
-        result.append("[${str(R.string.location)}]\n${record.location}\n")
+        result.append("${str(R.string.location)} : ${record.location}\n")
     }
     if(!record.description.isNullOrEmpty()) {
-        result.append("[${str(R.string.memo)}]\n${record.description}\n")
+        result.append("${str(R.string.memo)} : ${record.description}\n")
+    }
+
+    if(record.isSetCheckList()) {
     }
     return result.toString().trim()
 }

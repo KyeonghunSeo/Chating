@@ -19,28 +19,32 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Link
+import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.list_item_record.view.*
+import kotlinx.android.synthetic.main.list_item_record_footer.view.*
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class RecordListAdapter(val context: Context, val items: List<Record>, val currentCal: Calendar,
-                        val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
+                        val showFooter: Boolean, val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val circlePadding = dpToPx(15)
     val checkBoxPadding = dpToPx(15)
-    val tempCal = Calendar.getInstance()
     var itemTouchHelper: ItemTouchHelper? = null
     var query: String? = null
+    private var footerHolder: FooterViewHolder? = null
     private val photoSideMargin = dpToPx(30)
     private val photoSize: Int = AppStatus.screenWidth / 2
     private val photoPagerMargin = -(AppStatus.screenWidth - photoSize) + dpToPx(10)
@@ -51,20 +55,39 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     }
 
     class RecordViewHolder(container: View) : RecyclerView.ViewHolder(container) {
-        init {
-            setGlobalTheme(container)
-        }
+        init { setGlobalTheme(container) }
         fun onItemSelected() {}
         fun onItemClear() {}
     }
 
-    override fun getItemCount(): Int = items.size
+    class FooterViewHolder(container: View) : RecyclerView.ViewHolder(container) {
+        init {
+            setGlobalTheme(container)
+            container.footerProgress.visibility = View.GONE
+            container.footerContentLy.visibility = View.GONE
+        }
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-            = RecordViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_record, parent, false))
+    override fun getItemCount(): Int = items.size + if(showFooter) 1 else 0
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == items.size) 1 else super.getItemViewType(position)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, itemType: Int) : RecyclerView.ViewHolder {
+        return if(itemType == 1)
+            FooterViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_record_footer, parent, false))
+        else
+            RecordViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_record, parent, false))
+    }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if(position == items.size) {
+            footerHolder = holder as FooterViewHolder
+            return
+        }
+
         val record = items[position]
         val v = holder.itemView
 
@@ -311,28 +334,57 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     }
 
     fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-        /* 완료된거 안움직이는 로직
-        val target = items[fromPosition]
-        if(!target.isDone()) {
-            val limitIndex = items.indexOf(items.last { !it.isDone() })
-            if(toPosition <= limitIndex) {
-                Collections.swap(items, fromPosition, toPosition)
-                notifyItemMoved(fromPosition, toPosition)
-                return true
-            }
+        if(fromPosition < items.size && toPosition < items.size) {
+            Collections.swap(items, fromPosition, toPosition)
+            notifyItemMoved(fromPosition, toPosition)
+            return true
         }
         return false
-        */
-        Collections.swap(items, fromPosition, toPosition)
-        notifyItemMoved(fromPosition, toPosition)
-        return true
+    }
+
+    fun readyFooterView() {
+        footerHolder?.let {
+            it.itemView.visibility = View.VISIBLE
+            it.itemView.footerProgress.visibility = View.VISIBLE
+            it.itemView.footerContentLy.visibility = View.GONE
+        }
+    }
+
+    fun setFooterView(photos: ArrayList<Photo>?, pastRecords: List<Record>?) {
+        footerHolder?.let { holder ->
+            val v = holder.itemView
+            TransitionManager.beginDelayedTransition(holder.itemView.footerRootLy)
+            v.footerProgress.visibility = View.GONE
+            v.footerContentLy.visibility = View.VISIBLE
+            photos?.let { photos ->
+                photos.firstOrNull()?.let { Glide.with(context).load(it.url).into(v.photoImg) }
+                v.photoImg.setOnClickListener {
+                    ImageViewer.Builder(context, photos.map { it.url })
+                            .hideStatusBar(false)
+                            .setStartPosition(0)
+                            .show()
+                }
+            }
+
+
+            pastRecords?.let {
+                v.pastRecordTitleText.text = it.firstOrNull()?.getTitleInCalendar()
+            }
+
+        }
+    }
+
+    fun clearFooterView() {
+        footerHolder?.let {
+            it.itemView.visibility = View.GONE
+        }
     }
 
     inner class SimpleItemTouchHelperCallback(private val mAdapter: RecordListAdapter) : ItemTouchHelper.Callback() {
         private val ALPHA_FULL = 1.0f
         private var reordering = false
 
-        override fun isLongPressDragEnabled(): Boolean = true
+        override fun isLongPressDragEnabled(): Boolean = false
         override fun isItemViewSwipeEnabled(): Boolean = false
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {

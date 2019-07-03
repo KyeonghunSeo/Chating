@@ -180,7 +180,7 @@ class RecordActivity : BaseActivity() {
                 when(index) {
                     0 -> {
                         val shareIntent = Intent(Intent.ACTION_SEND)
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, makeShareContentsByRecord(record))
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, makeTextContentsByRecord(record))
                         shareIntent.type = "text/plain"
                         val chooser = Intent.createChooser(shareIntent, str(R.string.app_name))
                         startActivityForResult(chooser, RC_SHARE)
@@ -373,7 +373,7 @@ class RecordActivity : BaseActivity() {
             }else {
                 startEndDivider.visibility = View.VISIBLE
                 endLy.visibility = View.VISIBLE
-                durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, !record.isSetTime)
+                durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, record.isSetTime)
             }
         }else {
             timeLy.visibility = View.GONE

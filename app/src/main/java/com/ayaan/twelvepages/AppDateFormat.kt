@@ -34,6 +34,7 @@ object AppDateFormat {
     val ymdkey = SimpleDateFormat("yyyyMMdd")
     val simpleYmdDate = SimpleDateFormat("yy.MM.dd")
     val ymdthmszkey: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
+    val ymdtkey: DateFormat = SimpleDateFormat("yyyyMMddHHmmss")
 
     @SuppressLint("ConstantLocale")
     val language = Locale.getDefault().language

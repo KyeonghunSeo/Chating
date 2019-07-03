@@ -9,7 +9,7 @@ const val MIN_MILL = SEC_MILL * 60
 const val HOUR_MILL = MIN_MILL * 60
 const val DAY_MILL = HOUR_MILL * 24
 const val WEEK_MILL = DAY_MILL * 7
-const val YEAR_MILL = WEEK_MILL * 365
+const val YEAR_MILL = DAY_MILL * 365
 
 const val ANIM_DUR = 275L
 
@@ -24,6 +24,7 @@ const val RC_OS_CALENDAR = 9092
 const val RC_IMAGE_ATTACHMENT = 9093
 const val RC_SETTING = 9094
 const val RC_SHARE = 9095
+const val RC_EXPORT_PERMISSION = 9096
 
 const val RESULT_CALENDAR_SETTING = 100
 

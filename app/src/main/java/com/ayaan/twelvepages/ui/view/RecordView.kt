@@ -36,6 +36,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val bigTextPadding = dpToPx(1.2f)
         val bottomPadding = dpToPx(3.0f)
         val blockTypeSize = dpToPx(16.5f).toInt()
+        val normalStickerSize = dpToPx(40f)
         val rectRadius = dpToPx(0.5f)
         val dotSize = dpToPx(5)
         val checkboxSize = dpToPx(10)
@@ -471,47 +472,38 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 left = 0
             }
         }
-        /* 겹치기
-        if(totalStampCnt > 0) {
-            if(size * totalStampCnt + (margin * (totalStampCnt - 1)) > width) {
-                var right = left + width
-                val overlap = size - (width - size * totalStampCnt) / (1 - totalStampCnt)
-                (totalStampCnt - 1 downTo 0).forEach { index ->
-                    view.childList?.get(index)?.let { record ->
-                        val circle = resource.getDrawable(R.drawable.circle_fill)
-                        circle.setColorFilter(CalendarManager.background, PorterDuff.Mode.SRC_ATOP)
-                        circle.setBounds(right - size + 1, 1, right - 1, size - 1)
-                        circle.draw(canvas)
-
-                        val stamp = resource.getDrawable(StampManager.stamps[index])
-                        stamp.setColorFilter(record.getColor(), PorterDuff.Mode.SRC_ATOP)
-                        stamp.setBounds(right - size + margin, margin, right - margin, size - margin)
-                        stamp.draw(canvas)
-
-                        val stroke = resource.getDrawable(R.drawable.circle_stroke_1dp)
-                        stroke.setColorFilter(record.getColor(), PorterDuff.Mode.SRC_ATOP)
-                        stroke.setBounds(right - size, 0, right, size)
-                        stroke.draw(canvas)
-
-                        right -= overlap
-                    }
-                }
-            }
-        }
-        */
     }
 
     private fun drawSticker(canvas: Canvas) {
-        val size = (blockTypeSize * 2.5f).toInt()
-        var top = (height - size - bottomPadding).toInt()
-        var left = (width - size - defaulMargin).toInt()
-        childList?.forEach { child ->
-            val sticker = child.getSticker()
-            val circle = resource.getDrawable(sticker?.resId ?: R.drawable.help, null)
-            //val circle = resource.getDrawable(R.drawable.meat, null)
-            circle.setBounds(left, top, (left + size), (top + size))
-            circle.draw(canvas)
+        val childCount = childList?.size ?: 0
+        when(childCount) {
+            1 -> {
+                val size = normalStickerSize.toInt()
+                val top = (height - normalStickerSize - bottomPadding).toInt()
+                val left = (width - normalStickerSize - defaulMargin).toInt()
+                val resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
+                resource.getDrawable(resId, null)?.let {
+                    it.setBounds(left, top, (left + size), (top + size))
+                    it.draw(canvas)
+                }
+            }
+            else -> {
+                val size = Math.max(normalStickerSize * 0.33f, normalStickerSize * (1f - 0.05f * childCount))
+                var right = width - defaulMargin
+                val bottom = height - bottomPadding
+                val overlap = size - ((width - defaulMargin - sidePadding) - (size * childCount)) / (1 - childCount)
+                (childCount - 1 downTo 0).forEach { index ->
+                    val resId = childList?.get(index)?.getSticker()?.resId ?: R.drawable.help
+                    resource.getDrawable(resId, null)?.let {
+                        it.setBounds((right - size).toInt(), (bottom - size).toInt(), right.toInt(), bottom.toInt())
+                        it.draw(canvas)
+                    }
+                    right -= overlap
+                }
+            }
         }
+
+
         /*
         val size = (blockTypeSize * 2.0f).toInt()
         var top = 0

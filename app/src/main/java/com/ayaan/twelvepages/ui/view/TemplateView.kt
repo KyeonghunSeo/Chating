@@ -92,9 +92,8 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     while (startCal <= endCal) {
                         val dtStart = getCalendarTime0(startCal)
                         val dtEnd = getCalendarTime23(startCal)
-                        val ymdKey = AppDateFormat.ymdkey.format(startCal.time)
                         records.add(RecordManager.makeNewRecord(dtStart, dtEnd).apply {
-                            id = "sticker_$ymdKey"
+                            id = "sticker_${UUID.randomUUID()}"
                             dtCreated = System.currentTimeMillis()
                             setFormula(RecordCalendarAdapter.Formula.STICKER)
                             setSticker(sticker)
@@ -102,6 +101,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         startCal.add(Calendar.DATE, 1)
                     }
                     RecordManager.save(records)
+                    toast(R.string.saved, R.drawable.done)
                     collapse()
                 }.show(it.supportFragmentManager, null)
             }
@@ -113,7 +113,8 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val folder = MainActivity.getTargetFolder()
         if(folder.isCalendar()) {
             templateFolderText.text = folder.name
-            templateDateText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis, false)
+            templateDateText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis,
+                    false, false, false, true)
         }else {
             templateFolderText.text = folder.name
             templateDateText.text = ""

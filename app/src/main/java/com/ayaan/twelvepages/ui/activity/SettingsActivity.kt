@@ -1,23 +1,32 @@
 package com.ayaan.twelvepages.ui.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.icu.text.DateTimePatternGenerator
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Environment
+import android.text.format.DateFormat
 import androidx.core.app.ActivityCompat
 import androidx.core.widget.NestedScrollView
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.manager.OsCalendarManager
 import com.ayaan.twelvepages.model.Record
-import com.google.firebase.auth.FirebaseAuth
 import com.ayaan.twelvepages.ui.dialog.CustomDialog
 import com.ayaan.twelvepages.ui.dialog.OsCalendarDialog
 import com.ayaan.twelvepages.ui.dialog.RecordViewStyleDialog
 import com.ayaan.twelvepages.ui.dialog.TimePickerDialog
 import com.ayaan.twelvepages.ui.view.RecordView
+import com.google.firebase.auth.FirebaseAuth
 import com.pixplicity.easyprefs.library.Prefs
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_settings.*
+import java.io.*
+import java.time.format.DateTimeFormatter
 import java.util.*
+
 
 class SettingsActivity : BaseActivity() {
 
@@ -35,6 +44,7 @@ class SettingsActivity : BaseActivity() {
         setCheckedRecordDisplay()
         setDefaultAlarmTime()
         setConnectOsCalendar()
+        setExport()
 
         emailText.text = FirebaseAuth.getInstance().currentUser?.email
         logoutBtn.setOnClickListener {
@@ -53,6 +63,58 @@ class SettingsActivity : BaseActivity() {
                 finish()
             }
         }
+    }
+
+    private fun setExport() {
+        exportBtn.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), RC_EXPORT_PERMISSION)
+            } else {
+                export()
+            }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private fun export() {
+        object : AsyncTask<String, String, String?>() {
+            override fun doInBackground(vararg args: String): String? {
+                val saveFile = File(Environment.getExternalStorageDirectory().absolutePath + "/${str(R.string.app_name)}")
+                if (!saveFile.exists()) {
+                    saveFile.mkdir()
+                }
+                try {
+
+                    val buf = BufferedWriter(FileWriter(saveFile.path + "/EXPORT_${AppDateFormat.ymdtkey.format(Date())}.txt", true))
+                    val realm = Realm.getDefaultInstance()
+                    realm.where(Record::class.java).sort("dtStart").findAll()?.forEach { record ->
+                        record?.let {
+                            buf.append(makeTextContentsByRecord(it)) // 날짜 쓰기
+                            buf.newLine() // 개행
+                            buf.newLine() // 개행
+                        }
+                    }
+                    realm.close()
+                    buf.close()
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                return null
+            }
+
+            override fun onPreExecute() {
+                showProgressDialog(null)
+            }
+            override fun onProgressUpdate(vararg text: String) {}
+            override fun onPostExecute(result: String?) {
+                hideProgressDialog()
+                toast(R.string.export_done)
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 
     private fun setCheckedRecordDisplay() {
@@ -151,6 +213,13 @@ class SettingsActivity : BaseActivity() {
                                 && grantResults[it] == PackageManager.PERMISSION_GRANTED }
                         .forEach { _ -> showDialog(OsCalendarDialog(this) { result -> if(result) setConnectOsCalendar()
                         }, true, true, true, false) }
+                return
+            }
+            RC_EXPORT_PERMISSION -> {
+                permissions.indices
+                        .filter { permissions[it] == Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                && grantResults[it] == PackageManager.PERMISSION_GRANTED }
+                        .forEach { _ -> export() }
                 return
             }
         }

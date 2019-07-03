@@ -50,18 +50,36 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
                 }
                 l("$position 페이지 선택됨 : ${AppDateFormat.ymd.format(targetCalendarView.targetCal.time)}")
             }
-        })/*
+        })
+        viewPager.setPageTransformer(true) { view, position ->
+            val pageWidth = view.width
+            when {
+                position > -1 && position < 0 -> (view as CalendarView).calendarLy.translationX = pageWidth * position * -0.9f
+                else -> restoreView(view as CalendarView)
+            }
+        }
+        /*
         viewPager.setPageTransformer(true) { view, position ->
             val pageWidth = view.width
             when {
                 position > -1 && position < 0 -> {
+                    (view as CalendarView).calendarLy.let {
+                        it.translationX = pageWidth * position * -1f
+                        val weight = 1f + (position / 4)
+                        it.scaleX = weight
+                        it.scaleY = weight
+                        it.alpha = weight
+                    }
+                }
+                position >= 0 -> {
                     (view as CalendarView).calendarLy.translationX = pageWidth * position * -0.4f
                 }
                 else -> {
-                    (view as CalendarView).calendarLy.translationX = 0f
+                    restoreView(view as CalendarView)
                 }
             }
-        }*/
+        }
+        */
     }
 
     private fun selectedTargetCalendarView(calendarView: CalendarView) {
@@ -109,6 +127,16 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
         }else {
             selectDateTime = time
             viewPager.setCurrentItem(pagePos, false)
+            calendarViews.forEach { restoreView(it) }
+        }
+    }
+
+    private fun restoreView(calendarView: CalendarView) {
+        calendarView.calendarLy.let {
+            it.translationX = 0f
+            it.scaleX = 1f
+            it.scaleY = 1f
+            it.alpha = 1f
         }
     }
 

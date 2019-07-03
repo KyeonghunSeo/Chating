@@ -339,6 +339,7 @@
     <string name="go_today">오늘로 이동</string>
     <string name="no_alarm">알림없음</string>
     <string name="galaxy">갤럭시</string>
+    <string name="export_done">[12Page]폴더로 내보내기가 완료되었습니다</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

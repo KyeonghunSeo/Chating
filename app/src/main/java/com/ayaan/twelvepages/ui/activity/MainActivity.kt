@@ -76,6 +76,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         instance = this
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         setContentView(R.layout.activity_main)

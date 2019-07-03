@@ -369,7 +369,7 @@
             </FrameLayout>
 
             <com.ayaan.twelvepages.ui.view.base.Line
-                android:layout_width="20dp"
+                android:layout_width="match_parent"
                 android:layout_height="2.5dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="5dp"
@@ -377,18 +377,26 @@
                 app:colorFlag="primary"/>
 
             <FrameLayout
+                android:id="@+id/exportBtn"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:layout_marginLeft="2dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/export"
                     android:textColor="@color/primaryText"
                     android:textSize="14dp"/>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:src="@drawable/arrow_right"
+                    android:tint="@color/iconTint"/>
 
             </FrameLayout>
 

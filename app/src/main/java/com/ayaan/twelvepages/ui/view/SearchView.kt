@@ -41,7 +41,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private var recordList: RealmResults<Record>? = null
     private val items = ArrayList<Record>()
     private val newItmes = ArrayList<Record>()
-    private val adapter = RecordListAdapter(context, items, Calendar.getInstance()) { view, timeObject, action ->
+    private val adapter = RecordListAdapter(context, items, Calendar.getInstance(), false) { view, timeObject, action ->
         when(action) {
             0 -> {
             }

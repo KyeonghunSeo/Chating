@@ -17,7 +17,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.LinearLayout.HORIZONTAL
-import android.widget.LinearLayout.VERTICAL
 import androidx.core.app.ActivityCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
@@ -25,12 +24,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.DateDecorationAdapter
-import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.adapter.RecordListAdapter
 import com.ayaan.twelvepages.adapter.util.ListDiffCallback
 import com.ayaan.twelvepages.adapter.util.RecordListComparator
 import com.ayaan.twelvepages.manager.*
-import com.ayaan.twelvepages.model.Link
+import com.ayaan.twelvepages.model.Folder
+import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
@@ -40,6 +39,7 @@ import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import io.realm.OrderedCollectionChangeSet
 import io.realm.Realm
 import io.realm.RealmResults
+import io.realm.Sort
 import kotlinx.android.synthetic.main.view_day.view.*
 import kotlinx.android.synthetic.main.view_selected_date_header.view.*
 import java.util.*
@@ -61,7 +61,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     var startTime: Long = 0
     var endTime: Long = 0
 
-    private val adapter = RecordListAdapter(context, mainList, targetCal) { view, item, action ->
+    private val adapter = RecordListAdapter(context, mainList, targetCal, true) { view, item, action ->
         MainActivity.instance?.let { activity ->
             showDialog(PopupOptionDialog(activity,
                     arrayOf(PopupOptionDialog.Item(str(R.string.copy), R.drawable.copy, AppTheme.primaryText),
@@ -107,6 +107,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                         StickerPickerDialog{ sticker ->
                             record.setSticker(sticker)
                             RecordManager.save(record)
+                            toast(R.string.saved, R.drawable.done)
                         }.show(activity.supportFragmentManager, null)
                     }
                     1 -> {
@@ -372,33 +373,59 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     @SuppressLint("StaticFieldLeak")
     fun targeted() {
         l("[데이뷰 타겟팅] : " + AppDateFormat.ymde.format(targetCal.time) )
-        l("너비 : " + dateText.width)
-        MainActivity.getMainDateLy()?.let { v ->
+        postDelayed({
+            MainActivity.instance?.let { activity ->
+                object : AsyncTask<String, String, String?>() {
+                    var photos: ArrayList<Photo>? = null
+                    var pastRecords: List<Record>? = null
 
-            //ObjectAnimator.ofFloat(v, "translationX", v.translationX, dateText.width.toFloat() * headerTextScale).start()
-        }
+                    override fun doInBackground(vararg args: String): String? {
+                        val realm = Realm.getDefaultInstance()
 
-        MainActivity.instance?.let { activity ->
-            object : AsyncTask<String, String, String?>() {
-                override fun doInBackground(vararg args: String): String? {
-                    if (ActivityCompat.checkSelfPermission(activity,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        val photos = getPhotosByDate(activity, targetCal)
-                        l("!!"+ photos.size)
+                        if (ActivityCompat.checkSelfPermission(activity,
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                            photos = getPhotosByDate(activity, targetCal)
+                        }
+
+                        var startTime = getCalendarTime0(targetCal) - YEAR_MILL
+                        var endTime = getCalendarTime23(targetCal) - YEAR_MILL
+                        pastRecords = realm.where(Record::class.java)
+                                .beginGroup()
+                                .notEqualTo("dtCreated", -1L)
+                                .endGroup()
+                                .and()
+                                .beginGroup()
+                                .greaterThanOrEqualTo("dtEnd", startTime)
+                                .lessThanOrEqualTo("dtStart", endTime)
+                                .endGroup()
+                                .sort("dtStart", Sort.ASCENDING)
+                                .findAll().map { realm.copyFromRealm(it) }
+
+
+
+                        Thread.sleep(500)
+                        realm.close()
+                        return null
                     }
-                    return null
-                }
-                override fun onProgressUpdate(vararg text: String) {}
-                override fun onPostExecute(result: String?) {
-                    if(MainActivity.getDayPager()?.isOpened() == true) {
 
+                    override fun onPreExecute() { adapter.readyFooterView() }
+                    override fun onProgressUpdate(vararg text: String) {}
+                    override fun onPostExecute(result: String?) {
+                        if(MainActivity.getDayPager()?.isOpened() == true) {
+                            adapter.setFooterView(photos, pastRecords)
+                        }
                     }
-                }
-            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
-        }
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+            }
+        }, 500)
+    }
+
+    fun unTargeted() {
+        adapter.clearFooterView()
     }
 
     fun getDateLy() : LinearLayout = dateLy
+    fun getRootLy() : FrameLayout = rootLy
 
     companion object {
         const val headerTextScale = 5.5f
@@ -406,10 +433,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         val datePosX = dpToPx(8.0f)
         val datePosY = dpToPx(3.0f)
         val dowPosX = -dpToPx(8.0f) / headerTextScale
-        val dowPosY = dpToPx(15.0f) / headerTextScale
+        val dowPosY = dpToPx(16.0f) / headerTextScale
         val dowScale = 2.0f / headerTextScale
-        val holiPosX = -dpToPx(8.0f) / headerTextScale
-        val holiPosY = -dpToPx(40.0f) / headerTextScale
+        val holiPosX = -dpToPx(6.0f) / headerTextScale
+        val holiPosY = -dpToPx(39.0f) / headerTextScale
         val holiScale = 2.0f / headerTextScale
     }
 

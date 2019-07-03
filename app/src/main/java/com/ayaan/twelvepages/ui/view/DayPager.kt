@@ -9,8 +9,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.LinearLayout.HORIZONTAL
 import android.widget.LinearLayout.VERTICAL
 import androidx.cardview.widget.CardView
@@ -61,6 +59,13 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 }
             }
         })
+        viewPager.setPageTransformer(true) { view, position ->
+            val pageWidth = view.width
+            when {
+                position > -1 && position < 0 -> (view as DayView).getRootLy().translationX = pageWidth * position * -0.9f
+                else -> restoreView(view as DayView)
+            }
+        }
         viewPager.setPagingEnabled(false)
         visibility = View.GONE
     }
@@ -68,7 +73,13 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private fun selectedTargetDayView(dayView: DayView) {
         targetDayView = dayView
         if(isOpened()) {
-            targetDayView.targeted()
+            dayViews.forEach {
+                if(it == targetDayView) {
+                    it.targeted()
+                }else {
+                    it.unTargeted()
+                }
+            }
         }
     }
 
@@ -96,6 +107,16 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         dayViews[(startPosition - 1) % viewCount].initTime(time - DAY_MILL)
         dayViews[(startPosition) % viewCount].initTime(time)
         dayViews[(startPosition + 1) % viewCount].initTime(time + DAY_MILL)
+        dayViews.forEach { restoreView(it) }
+    }
+
+    private fun restoreView(dayView: DayView) {
+        dayView.getRootLy().let {
+            it.translationX = 0f
+            it.scaleX = 1f
+            it.scaleY = 1f
+            it.alpha = 1f
+        }
     }
 
     fun notifyDateChanged() {
@@ -103,8 +124,11 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     private fun clear() {
-        dayViews.forEach { it.clear() }
         viewPager.setCurrentItem(startPosition, false)
+        dayViews.forEach {
+            it.clear()
+            restoreView(it)
+        }
     }
 
     fun show() {
@@ -131,6 +155,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                     transiion.addListener(object : TransitionListenerAdapter(){
                         override fun onTransitionEnd(transition: Transition) {
                             dayViews.forEach { it.setDateOpenedStyle() }
+                            targetDayView.targeted()
                             viewMode = ViewMode.OPENED
                             viewPager.setPagingEnabled(true)
                             onVisibility?.invoke(true)

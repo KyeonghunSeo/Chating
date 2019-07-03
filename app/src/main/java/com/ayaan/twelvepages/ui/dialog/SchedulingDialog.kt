@@ -75,7 +75,8 @@ class SchedulingDialog(activity: Activity, record: Record,
 
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
-        titleText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis, true)
+        titleText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis,
+                false, true, false, true)
         if(isSameDay(startCal, endCal)) {
             if(AppStatus.isLunarDisplay) {
                 val lunarCalendar = KoreanLunarCalendar.getInstance()
