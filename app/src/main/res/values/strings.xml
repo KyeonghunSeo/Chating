@@ -117,7 +117,7 @@
     <string name="apply_all">모두 적용</string>
     <string name="date_of_total">%1$s 일차</string>
     <string name="drawing">손글씨</string>
-    <string name="calendar_settings">캘린더 스타일</string>
+    <string name="calendar_settings">캘린더 설정</string>
     <string name="add">생성</string>
     <string name="tag">태그</string>
     <string name="enter_tag">태그 이름</string>
@@ -228,7 +228,7 @@
     <string name="check_option_1">흐리게</string>
     <string name="check_option_2">삭제선</string>
     <string name="check_option_3">삭제선 및 흐리게</string>
-    <string name="display_settings">인터페이스</string>
+    <string name="display_settings">인터페이스 설정</string>
     <string name="hide_in_calendar">캘린더에서 숨김</string>
     <string name="record">기록</string>
     <string name="deleted">삭제되었습니다</string>
@@ -265,8 +265,8 @@
     <string name="init_text">미리 입력</string>
     <string name="init_text_hint">이곳에 미리 내용을 적고 커서의 시작위치를 정해놓을수 있습니다</string>
     <string name="cursor_pos">커서위치 : %1$s</string>
-    <string name="use">활성</string>
-    <string name="unuse">비활성</string>
+    <string name="use">사용</string>
+    <string name="unuse">사용안함</string>
     <string name="calendarBlockStyle">캘린더에 표시방법</string>
     <string name="image">그림</string>
     <string name="shape">모양</string>
@@ -340,6 +340,9 @@
     <string name="no_alarm">알림없음</string>
     <string name="galaxy">갤럭시</string>
     <string name="export_done">[12Page]폴더로 내보내기가 완료되었습니다</string>
+    <string name="template">템플릿</string>
+    <string name="calendar_settings_sub">캘린더에 표시할 정보 및 스타일 설정</string>
+    <string name="template_use">템플릿 사용</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>
@@ -356,7 +359,7 @@
         <item>중 간 고 사</item>
         <item>다 이 어 트</item>
         <item>프 로 젝 트</item>
-        <item>여 행</item>
+        <item>해 외 여 행</item>
     </string-array>
 
     <string-array name="multiline_texts">

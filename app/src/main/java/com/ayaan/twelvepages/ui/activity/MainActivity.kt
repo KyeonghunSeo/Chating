@@ -8,12 +8,15 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
+import android.view.Window
 import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -47,6 +50,7 @@ import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
+import com.ayaan.twelvepages.manager.CalendarManager
 
 class MainActivity : BaseActivity() {
     companion object {
@@ -76,7 +80,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        //window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         instance = this
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         setContentView(R.layout.activity_main)
@@ -131,8 +135,22 @@ class MainActivity : BaseActivity() {
         mainMonthLy.pivotX = 0f
         mainMonthLy.pivotY = dpToPx(0f)
         mainPanel.setOnClickListener {}
+
+        mainMonthText.setTextColor(CalendarManager.selectedDateColor)
+        mainYearText.setTextColor(CalendarManager.selectedDateColor)
+        mainMonthKoText.setTextColor(CalendarManager.selectedDateColor)
+
         todayBtn.translationY = tabSize.toFloat()
+
         callAfterViewDrawed(rootLy, Runnable{
+            /*
+            val rectangle = Rect()
+            window.decorView.getWindowVisibleDisplayFrame(rectangle)
+            val statusBarHeight = rectangle.top
+            val contentViewTop = window.findViewById<View>(Window.ID_ANDROID_CONTENT).getTop()
+            val titleBarHeight = contentViewTop - statusBarHeight
+            l("StatusBar Height= " + statusBarHeight + " , TitleBar Height = " + titleBarHeight)
+            */
             val location = IntArray(2)
             rootLy.getLocationInWindow(location)
             AppStatus.statusBarHeight = location[1]
@@ -181,6 +199,11 @@ class MainActivity : BaseActivity() {
             }
         }
 
+        profileBtn.setOnLongClickListener {
+            RecordManager.deleteAllRecord()
+            return@setOnLongClickListener true
+        }
+
         mainYearText.setOnClickListener {
             if(!profileView.isOpened()) {
                 profileView.show()
@@ -188,13 +211,10 @@ class MainActivity : BaseActivity() {
         }
 
         mainYearText.setOnLongClickListener {
-            /*
             AppTheme.thinFont = ResourcesCompat.getFont(this, R.font.thin_s)!!
             AppTheme.regularFont = ResourcesCompat.getFont(this, R.font.regular_s)!!
             AppTheme.boldFont = ResourcesCompat.getFont(this, R.font.bold_s)!!
             initTheme(rootLy)
-            */
-            RecordManager.deleteAllRecord()
             return@setOnLongClickListener true
         }
 
@@ -209,7 +229,7 @@ class MainActivity : BaseActivity() {
             cal.set(2019, 6, 1)
             val s = cal.timeInMillis
             val list = ArrayList<Record>()
-            val c = 10 * 4
+            val c = 10 * 2
             val formulas = arrayOf(STACK, EXPANDED, DOT)
             list.add(RecordManager.makeNewRecord(s, s).apply {
                 title = "점심약속"
@@ -276,7 +296,7 @@ class MainActivity : BaseActivity() {
                 it.style = f.shapes[Random().nextInt(f.shapes.size)].ordinal * 100 + f.ordinal
             }
             RecordManager.save(list)
-            return@setOnLongClickListener false
+            return@setOnLongClickListener true
         }
     }
 
@@ -441,9 +461,6 @@ class MainActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
-        mainMonthText.setTextColor(AppTheme.primaryText)
-        mainYearText.setTextColor(AppTheme.primaryText)
-        mainMonthKoText.setTextColor(AppTheme.primaryText)
         getTargetCal()?.let {
             mainYearText.text = it.get(Calendar.YEAR).toString()
             if (AppDateFormat.language == "ko") {

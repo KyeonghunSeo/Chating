@@ -12,25 +12,28 @@
        android:layout_height="wrap_content">
 
       <FrameLayout
-          android:layout_width="80dp"
+          android:layout_width="70dp"
           android:layout_height="wrap_content">
 
          <ImageView
              android:id="@+id/iconImg"
-             android:layout_width="50dp"
-             android:layout_height="50dp"
-             android:layout_gravity="center_horizontal"
-             android:padding="15dp"
-             android:src="@drawable/circle_fill"
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:layout_margin="10dp"
+             android:layout_gravity="center_horizontal|right"
+             android:background="?android:attr/selectableItemBackground"
+             android:padding="10dp"
+             android:src="@drawable/grey_rect_fill_radius_2"
              android:tint="@color/primaryText"/>
 
       </FrameLayout>
 
       <ImageView
           android:id="@+id/moreImg"
-          android:layout_width="50dp"
-          android:layout_height="50dp"
-          android:padding="15dp"
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          android:layout_margin="10dp"
+          android:padding="10dp"
           android:layout_gravity="right"
           android:src="@drawable/more"
           android:tint="@color/secondaryText"
@@ -40,9 +43,19 @@
           android:orientation="vertical"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="80dp"
-          android:layout_marginTop="12.5dp"
-          android:layout_marginBottom="15dp">
+          android:layout_marginLeft="70dp">
+
+         <TextView
+             android:id="@+id/titleText"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="20dp"
+             android:minHeight="20dp"
+             android:gravity="center_vertical"
+             android:textSize="17dp"
+             android:fontFamily="@font/regular"
+             android:textColor="@color/primaryText"
+             android:text="title"/>
 
          <LinearLayout
              android:orientation="vertical"
@@ -51,23 +64,12 @@
              android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/titleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                android:textSize="16dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
-                android:text="title"/>
-
-            <TextView
                 android:id="@+id/tagText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
                 android:layout_marginTop="3dp"
                 android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
                 android:text="#love#peace"/>
 
             <LinearLayout

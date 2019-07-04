@@ -15,6 +15,8 @@ object AppStatus {
     var weekLine = 0
     var isWeekNumDisplay = true
     var checkedRecordDisplay = 0
+    var templateMode = 0
+
     var screenWidth = 0
     var screenHeight = 0
 
@@ -28,6 +30,8 @@ object AppStatus {
         weekLine = Prefs.getInt("weekLine", 0)
         isWeekNumDisplay = Prefs.getBoolean("isWeekNumDisplay", true)
         checkedRecordDisplay = Prefs.getInt("checkedRecordDisplay", 0)
+        templateMode = Prefs.getInt("tmeplateMode", 0)
+
         val screenSize = getScreenSize(context)
         screenWidth = screenSize[0]
         screenHeight = screenSize[1]

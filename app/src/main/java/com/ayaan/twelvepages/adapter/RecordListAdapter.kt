@@ -100,7 +100,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
 
         v.iconImg.setColorFilter(record.getColor())
         if(record.isSetCheckBox) {
-            v.iconImg.setPadding(checkBoxPadding, checkBoxPadding, checkBoxPadding, checkBoxPadding)
+            //v.iconImg.setPadding(checkBoxPadding, checkBoxPadding, checkBoxPadding, checkBoxPadding)
             if(record.isDone()) {
                 v.iconImg.setImageResource(R.drawable.checked_fill)
                 if(AppStatus.checkedRecordDisplay == 2 || AppStatus.checkedRecordDisplay == 3) {
@@ -123,8 +123,8 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                 RecordManager.done(record)
             }
         }else {
-            v.iconImg.setPadding(circlePadding, circlePadding, circlePadding, circlePadding)
-            v.iconImg.setImageResource(R.drawable.circle_fill)
+            //v.iconImg.setPadding(circlePadding, circlePadding, circlePadding, circlePadding)
+            v.iconImg.setImageResource(R.drawable.grey_rect_fill_radius_2)
             v.contentLy.alpha = 1f
             v.iconImg.setOnClickListener(null)
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
@@ -371,6 +371,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                 v.pastRecordTitleText.text = it.firstOrNull()?.getTitleInCalendar()
             }
 
+            holder.itemView.visibility = View.GONE
         }
     }
 

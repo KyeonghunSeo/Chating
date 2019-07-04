@@ -80,8 +80,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         addBtn.setOnLongClickListener {
-            MainActivity.getViewModel()?.targetTemplate?.value = null
-            MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
+
             return@setOnLongClickListener false
         }
 
@@ -125,33 +124,38 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         vibrate(context)
         startCal.timeInMillis = dtStart
         endCal.timeInMillis = dtEnd
-        val transitionSet = TransitionSet()
-        val t1 = makeFromRightSlideTransition()
-        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
-        val t3 = makeFromLeftSlideTransition()
-        t1.addTarget(recyclerView)
-        t2.addTarget(backgroundLy)
-        t3.addTarget(dateLy)
-        t3.addTarget(stickerBtn)
-        transitionSet.addTransition(t1)
-        transitionSet.addTransition(t2)
-        transitionSet.addTransition(t3)
-        TransitionManager.beginDelayedTransition(this, transitionSet)
-        setDate()
-        notifyListChanged()
-        backgroundLy.setBackgroundColor(AppTheme.background)
-        backgroundLy.setOnClickListener { collapse() }
-        backgroundLy.isClickable = true
-        recyclerView.visibility = View.VISIBLE
-        stickerBtn.visibility = View.VISIBLE
-        backgroundLy.visibility = View.VISIBLE
-        dateLy.visibility = View.VISIBLE
-        templateIconImg.setImageResource(R.drawable.edit)
-        val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", 45f, 0f),
-                ObjectAnimator.ofFloat(templateIconImg, "alpha", 0f, 1f))
-        animSet.start()
-        isExpanded = true
+        if(AppStatus.templateMode == 0) {
+            val transitionSet = TransitionSet()
+            val t1 = makeFromRightSlideTransition()
+            val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
+            val t3 = makeFromLeftSlideTransition()
+            t1.addTarget(recyclerView)
+            t2.addTarget(backgroundLy)
+            t3.addTarget(dateLy)
+            t3.addTarget(stickerBtn)
+            transitionSet.addTransition(t1)
+            transitionSet.addTransition(t2)
+            transitionSet.addTransition(t3)
+            TransitionManager.beginDelayedTransition(this, transitionSet)
+            setDate()
+            notifyListChanged()
+            backgroundLy.setBackgroundColor(AppTheme.background)
+            backgroundLy.setOnClickListener { collapse() }
+            backgroundLy.isClickable = true
+            recyclerView.visibility = View.VISIBLE
+            stickerBtn.visibility = View.VISIBLE
+            backgroundLy.visibility = View.VISIBLE
+            dateLy.visibility = View.VISIBLE
+            templateIconImg.setImageResource(R.drawable.edit)
+            val animSet = AnimatorSet()
+            animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", 45f, 0f),
+                    ObjectAnimator.ofFloat(templateIconImg, "alpha", 0f, 1f))
+            animSet.start()
+            isExpanded = true
+        }else {
+            MainActivity.getViewModel()?.targetTemplate?.value = null
+            MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
+        }
     }
 
     fun collapse() {

@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Typeface
 import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
@@ -124,10 +125,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         setGlobalTheme(rootLy)
         initRecyclerView()
         clipChildren = false
-        dateText.typeface = AppTheme.regularFont
-        fakeDateText.typeface = AppTheme.regularFont
-        dowText.typeface = AppTheme.regularFont
-        holiText.typeface = AppTheme.regularFont
+        dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+        fakeDateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+        dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+        holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
         (bar.layoutParams as LayoutParams).topMargin = 0
         dateLy.clipChildren = false
         dateLy.pivotX = 0f
@@ -265,7 +266,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }else if(targetCal.get(Calendar.DAY_OF_WEEK) == SATURDAY) {
             CalendarManager.saturdayColor
         }else {
-            CalendarManager.dateColor
+            CalendarManager.selectedDateColor
         }
         bar.setBackgroundColor(color)
         dateText.setTextColor(color)
@@ -431,13 +432,13 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         const val headerTextScale = 5.5f
         const val mainMonthTextScale = 0.45f
         val datePosX = dpToPx(8.0f)
-        val datePosY = dpToPx(3.0f)
-        val dowPosX = -dpToPx(8.0f) / headerTextScale
-        val dowPosY = dpToPx(16.0f) / headerTextScale
-        val dowScale = 2.0f / headerTextScale
-        val holiPosX = -dpToPx(6.0f) / headerTextScale
-        val holiPosY = -dpToPx(39.0f) / headerTextScale
-        val holiScale = 2.0f / headerTextScale
+        val datePosY = dpToPx(8.0f)
+        val dowPosX = -dpToPx(1.0f) / headerTextScale
+        val dowPosY = dpToPx(13.0f) / headerTextScale
+        val dowScale = 1.9f / headerTextScale
+        val holiPosX = -dpToPx(0.0f) / headerTextScale
+        val holiPosY = -dpToPx(43.0f) / headerTextScale
+        val holiScale = 2.3f / headerTextScale
     }
 
 }

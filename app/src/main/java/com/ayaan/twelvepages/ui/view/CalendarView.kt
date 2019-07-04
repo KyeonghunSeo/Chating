@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Handler
 import android.os.Message
 import android.text.TextUtils
@@ -73,7 +74,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
         init {
             dateText.typeface = AppTheme.regularFont
-            dowText.typeface = AppTheme.regularFont
+            dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             holiText.typeface = AppTheme.regularFont
             lunarText.typeface = AppTheme.regularFont
             dowText.visibility = View.GONE
@@ -264,7 +265,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val bar = dateHeaders[cellNum].bar
                     val color = getDateTextColor(cellNum, dateInfo.holiday?.isHoli == true)
                     val alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
-                    restoreDateHeader(cellNum)
+                    //restoreDateHeader(cellNum)
                     dateText.alpha = alpha
                     dowText.alpha = alpha
                     holiText.alpha = alpha
@@ -297,11 +298,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun getDateTextColor(cellNum: Int, isHoli: Boolean) : Int {
         return if(isHoli || cellNum % columns == sundayPos) {
-            CalendarManager.sundayColor
+            if(cellNum == targetCellNum) CalendarManager.sundayColor
+            else Color.parseColor("#ff8a5b")
         }else if(cellNum % columns == saturdayPos) {
-            CalendarManager.saturdayColor
+            if(cellNum == targetCellNum) CalendarManager.saturdayColor
+            else Color.parseColor("#53cae5")
         }else {
-            CalendarManager.dateColor
+            if(cellNum == targetCellNum)  CalendarManager.selectedDateColor
+            else CalendarManager.dateColor
         }
     }
 
@@ -324,8 +328,16 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dateText = dateHeaders[cellNum].dateText
         val dowText = dateHeaders[cellNum].dowText
         val holiText = dateHeaders[cellNum].holiText
+
+        val color = getDateTextColor(cellNum, dateInfos[cellNum].holiday?.isHoli == true)
+        dateText.setTextColor(color)
+        holiText.setTextColor(color)
+        dowText.setTextColor(color)
+        bar.setBackgroundColor(color)
+
         dowText.visibility = View.GONE
         dateText.typeface = AppTheme.regularFont
+        holiText.typeface = AppTheme.regularFont
         holiText.text = dateInfos[cellNum].getUnSelectedString()
         dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
         dateHeaders[cellNum].lunarText.visibility = View.GONE
@@ -382,7 +394,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dateText = dateHeaders[cellNum].dateText
             val dowText = dateHeaders[cellNum].dowText
             val holiText = dateHeaders[cellNum].holiText
-            dateText.typeface = AppTheme.regularFont
+
+            val color = getDateTextColor(cellNum, dateInfos[cellNum].holiday?.isHoli == true)
+            dateText.setTextColor(color)
+            holiText.setTextColor(color)
+            dowText.setTextColor(color)
+            bar.setBackgroundColor(color)
+
+            dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             holiText.text = dateInfos[cellNum].getSelectedString()
             dowText.text = AppDateFormat.dow.format(targetCal.time)
             dateText.alpha = 1f

@@ -42,6 +42,7 @@ class SettingsActivity : BaseActivity() {
         backBtn.setOnClickListener { onBackPressed() }
         mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, y: Int, _: Int, _: Int -> }
         setCheckedRecordDisplay()
+        setTemplate()
         setDefaultAlarmTime()
         setConnectOsCalendar()
         setExport()
@@ -62,6 +63,23 @@ class SettingsActivity : BaseActivity() {
                 setResult(RESULT_CALENDAR_SETTING)
                 finish()
             }
+        }
+    }
+
+    private fun setTemplate() {
+        if(AppStatus.templateMode == 0) {
+            templateText.text = str(R.string.use)
+        }else {
+            templateText.text = str(R.string.unuse)
+        }
+        templateBtn.setOnClickListener {
+            if(AppStatus.templateMode == 0) {
+                AppStatus.templateMode = 1
+            }else {
+                AppStatus.templateMode = 0
+            }
+            Prefs.putInt("templateMode", AppStatus.templateMode)
+            setTemplate()
         }
     }
 
@@ -133,7 +151,6 @@ class SettingsActivity : BaseActivity() {
             }
             Prefs.putInt("checkedRecordDisplay", AppStatus.checkedRecordDisplay)
             setCheckedRecordDisplay()
-            MainActivity.getCalendarPager()?.redrawAndSelect()
         }
     }
 

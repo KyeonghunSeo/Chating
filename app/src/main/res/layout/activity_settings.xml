@@ -30,7 +30,7 @@
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
 
                 <TextView
@@ -45,31 +45,59 @@
             </FrameLayout>
 
             <com.ayaan.twelvepages.ui.view.base.Line
-                android:layout_width="20dp"
-                android:layout_height="2.5dp"
-                android:layout_marginLeft="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
                 app:colorFlag="primary"/>
 
             <FrameLayout
-                android:id="@+id/calendarSettingBtn"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="10dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="0dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/calendar_settings"
+                    android:text="@string/calendar"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:textSize="12dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/calendarSettingBtn"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/calendar_settings"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/calendar_settings_sub"
+                        android:textColor="@color/primaryText"
+                        android:textSize="10dp"/>
+
+                </LinearLayout>
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center_vertical|right"
                     android:src="@drawable/arrow_right"
                     android:tint="@color/iconTint"/>
@@ -78,8 +106,9 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="10dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="0dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -87,8 +116,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="@string/task_setting"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:textSize="12dp"/>
 
             </FrameLayout>
 
@@ -101,7 +129,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/check_option"
                     android:textColor="@color/primaryText"
@@ -121,15 +149,59 @@
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_marginTop="40dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="0dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/alarm"
+                    android:text="@string/template"
+                    android:textColor="@color/primaryText"
+                    android:textSize="12dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/templateBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/template_use"
+                    android:textColor="@color/primaryText"
+                    android:textSize="14dp"/>
+
+                <TextView
+                    android:id="@+id/templateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/check_option_0"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="14dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/alarm_setting"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
                     android:textSize="16dp"/>
@@ -137,17 +209,16 @@
             </FrameLayout>
 
             <com.ayaan.twelvepages.ui.view.base.Line
-                android:layout_width="20dp"
-                android:layout_height="2.5dp"
-                android:layout_marginLeft="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
                 app:colorFlag="primary"/>
 
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_marginLeft="10dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="0dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -155,8 +226,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="@string/default_alarm_time"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:textSize="12dp"/>
 
             </FrameLayout>
 
@@ -169,7 +239,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/morningAlarmTime"
                     android:textColor="@color/primaryText"
@@ -197,7 +267,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/afternoonAlarmTime"
                     android:textColor="@color/primaryText"
@@ -225,7 +295,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/eveningAlarmTime"
                     android:textColor="@color/primaryText"
@@ -253,7 +323,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/nightAlarmTime"
                     android:textColor="@color/primaryText"
@@ -274,8 +344,8 @@
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_marginTop="40dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -289,11 +359,9 @@
             </FrameLayout>
 
             <com.ayaan.twelvepages.ui.view.base.Line
-                android:layout_width="20dp"
-                android:layout_height="2.5dp"
-                android:layout_marginLeft="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
                 app:colorFlag="primary"/>
 
             <FrameLayout
@@ -305,7 +373,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/connect_os_calendar"
                     android:textColor="@color/primaryText"
@@ -333,7 +400,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/os_calendar_style"
                     android:textColor="@color/primaryText"
@@ -354,8 +420,8 @@
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_marginTop="40dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -370,17 +436,14 @@
 
             <com.ayaan.twelvepages.ui.view.base.Line
                 android:layout_width="match_parent"
-                android:layout_height="2.5dp"
-                android:layout_marginLeft="2dp"
+                android:layout_height="1.5dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
                 app:colorFlag="primary"/>
 
             <FrameLayout
                 android:id="@+id/exportBtn"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginLeft="2dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <TextView
@@ -402,8 +465,8 @@
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_marginTop="40dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -417,17 +480,14 @@
             </FrameLayout>
 
             <com.ayaan.twelvepages.ui.view.base.Line
-                android:layout_width="20dp"
-                android:layout_height="2.5dp"
-                android:layout_marginLeft="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
                 app:colorFlag="primary"/>
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_marginLeft="10dp">
+                android:layout_height="45dp">
 
                 <TextView
                     android:id="@+id/emailText"
@@ -449,7 +509,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/logout"
                     android:textColor="@color/primaryText"

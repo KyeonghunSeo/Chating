@@ -106,7 +106,7 @@
             android:layout_height="match_parent"
             android:padding="15dp"
             android:src="@drawable/add"
-            android:tint="@color/secondaryText"/>
+            android:tint="@color/primaryText"/>
 
     </androidx.cardview.widget.CardView>
 

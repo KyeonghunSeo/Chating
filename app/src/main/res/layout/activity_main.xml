@@ -179,19 +179,19 @@
         <FrameLayout
             android:id="@+id/todayBtn"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_horizontal|bottom">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"
-                android:translationY="13dp"
+                android:translationY="15dp"
                 android:outlineSpotShadowColor="@color/secondaryText"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/background"
                 app:cardElevation="4dp"
-                app:cardCornerRadius="8dp">
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_gravity="center"
@@ -216,10 +216,9 @@
                         android:id="@+id/todayText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="9dp"
+                        android:textSize="10dp"
                         android:textColor="@color/secondaryText"
                         android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/bold"
                         android:text="@string/today"/>
 
                     <ImageView
