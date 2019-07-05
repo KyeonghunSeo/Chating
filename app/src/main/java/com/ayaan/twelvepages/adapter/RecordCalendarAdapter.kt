@@ -252,13 +252,13 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                 holder.items.forEach {
                     lastAlpha = if(isDateInMonth(it)) lastAlpha else AppStatus.outsideMonthAlpha
                     it.alpha = 0f
-                    calendarView.dateCells[it.cellNum].addView(it)
+                    calendarView.dateHolders[it.cellNum].v.addView(it)
                     it.post { showInsertAnimation(it, lastAlpha) }
                 }
             }else {
                 holder.items.forEach {
                     it.alpha = if(isDateInMonth(it)) lastAlpha else AppStatus.outsideMonthAlpha
-                    calendarView.dateCells[it.cellNum].addView(it)
+                    calendarView.dateHolders[it.cellNum].v.addView(it)
                 }
             }
         }

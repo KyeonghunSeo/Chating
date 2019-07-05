@@ -6,20 +6,16 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Handler
 import android.os.Message
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.DragEvent
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.view.animation.AnimationUtils
 import android.widget.*
 import android.widget.LinearLayout.HORIZONTAL
 import androidx.core.widget.NestedScrollView
@@ -32,6 +28,7 @@ import com.ayaan.twelvepages.manager.DateInfoManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
+import kotlinx.android.synthetic.main.view_selected_date_header.view.*
 import io.realm.RealmResults
 import java.util.*
 
@@ -51,50 +48,18 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val headerHeight = dpToPx(100)
     }
 
+    private val headerView = View(context)
     private val scrollView = NestedScrollView(context)
     val calendarLy = LinearLayout(context)
     val weekLys = Array(6) { FrameLayout(context) }
+    private val dateLys = Array(6) { LinearLayout(context) }
     private val columnDividers = Array(maxCellNum) { View(context) }
     private val rowDividers = Array(6) { View(context) }
-    private val weekInfoViews = Array(6) { WeekInfoViewHolder(
+    private val weekHolders = Array(6) { WeekInfoViewHolder(
             LayoutInflater.from(context).inflate(R.layout.view_selected_week_info, null, false)) }
-    private val dateLys = Array(6) { LinearLayout(context) }
-    val dateCells = Array(maxCellNum) { FrameLayout(context) }
-    private val dateHeaders = Array(maxCellNum) { DateHeaderViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.view_selected_date_header, null, false)) }
-    val dateInfos = Array(maxCellNum) { DateInfoManager.DateInfo() }
-    val headerView = View(context)
-
-    inner class DateHeaderViewHolder(val container: View) {
-        val dateText: TextView = container.findViewById(R.id.dateText)
-        val bar: FrameLayout = container.findViewById(R.id.bar)
-        val dowText: TextView = container.findViewById(R.id.dowText)
-        val holiText: TextView = container.findViewById(R.id.holiText)
-        val lunarText: TextView = container.findViewById(R.id.lunarText)
-        val dateLy: LinearLayout = container.findViewById(R.id.dateLy)
-        init {
-            dateText.typeface = AppTheme.regularFont
-            dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-            holiText.typeface = AppTheme.regularFont
-            lunarText.typeface = AppTheme.regularFont
-            dowText.visibility = View.GONE
-            lunarText.visibility = View.GONE
-            bar.scaleX = 0f
-        }
-    }
-
-    inner class WeekInfoViewHolder(val container: View) {
-        val weeknumText: TextView = container.findViewById(R.id.weeknumText)
-        val weekArrow: ImageView = container.findViewById(R.id.weekArrow)
-        val indicatorLy: LinearLayout = container.findViewById(R.id.indicatorLy)
-        init {
-            weeknumText.setTextColor(AppTheme.background)
-            weeknumText.typeface = AppTheme.boldFont
-            indicatorLy.visibility = View.GONE
-            container.translationX = -calendarPadding.toFloat()
-            weekArrow.visibility = View.GONE
-        }
-    }
+    val dateHolders = Array(maxCellNum) { index -> DateInfoViewHolder(index,
+            LayoutInflater.from(context).inflate(R.layout.view_selected_date_header, null, false) as FrameLayout,
+            DateInfoManager.DateInfo()) }
 
     private var lastSelectDateAnimSet: AnimatorSet? = null
     private var lastUnSelectDateAnimSet: AnimatorSet? = null
@@ -103,13 +68,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val monthCal: Calendar = Calendar.getInstance()
     val targetCal: Calendar = Calendar.getInstance()
 
-    var targetCellNum = -1
-    var todayCellNum = -1
-    val cellTimeMills = LongArray(maxCellNum) { Long.MIN_VALUE}
+    var targetHolder: DateInfoViewHolder? = null
+    var targetWeekHolder: WeekInfoViewHolder? = null
     var calendarStartTime = Long.MAX_VALUE
     var calendarEndTime = Long.MAX_VALUE
     var onDrawed: ((Calendar) -> Unit)? = null
-    var onSelectedDate: ((Long, Int, Int, Boolean) -> Unit)? = null
+    var onSelectedDate: ((DateInfoViewHolder, Boolean) -> Unit)? = null
     var onTop: ((Boolean, Boolean) -> Unit)? = null
     var startCellNum = 0
     var endCellNum = 0
@@ -120,8 +84,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     var todayStatus = 0
     var sundayPos = 0
     var saturdayPos = 6
-
-    private var selectToScrollFlag = true
 
     init {
         createViews()
@@ -173,8 +135,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateLy.setPadding(calendarPadding, 0, 0, 0)
             weekLy.addView(rowDividers[i])
 
-            weekInfoViews[i].container.layoutParams = LayoutParams(calendarPadding, MATCH_PARENT)
-            weekLy.addView(weekInfoViews[i].container)
+            weekHolders[i].container.layoutParams = LayoutParams(calendarPadding, MATCH_PARENT)
+            weekLy.addView(weekHolders[i].container)
 
             for (j in 0..6){
                 val cellNum = i*7 + j
@@ -182,19 +144,152 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 weekLy.addView(columnDividers[cellNum])
                 if(j == 0) columnDividers[cellNum].visibility = View.GONE
 
-                val dateCell = dateCells[cellNum]
-                dateCell.setOnClickListener { onDateClick(cellNum) }
+                val holder = dateHolders[cellNum]
+                val dateCell = holder.v
+                dateCell.setOnClickListener {
+                    if(MainActivity.getDayPager()?.isClosed() == true &&
+                            (AppStatus.outsideMonthAlpha > 0f || cellNum in startCellNum..endCellNum)) {
+                        if(targetHolder == holder) {
+                            onSelectedDate?.invoke(holder, true)
+                        }else {
+                            selectDate(holder, weekLys[cellNum / columns].top < scrollView.scrollY + headerHeight)
+                        }
+                    }
+                }
                 dateCell.setOnLongClickListener {
-                    if(targetCellNum != cellNum) onDateClick(cellNum)
+                    if(targetHolder != holder) {
+                        selectDate(holder, weekLys[cellNum / columns].top < scrollView.scrollY + headerHeight)
+                    }
                     MainDragAndDropListener.start(it, MainDragAndDropListener.DragMode.INSERT)
                     return@setOnLongClickListener true
                 }
                 dateCell.layoutParams = LinearLayout.LayoutParams(0, MATCH_PARENT, 1f)
-                dateCell.addView(dateHeaders[cellNum].container)
                 dateLy.addView(dateCell)
             }
             weekLy.addView(dateLy)
             calendarLy.addView(weekLy)
+        }
+    }
+
+
+    inner class DateInfoViewHolder(val cellNum: Int,  val v: FrameLayout, val dateInfo: DateInfoManager.DateInfo) {
+        var time: Long = Long.MIN_VALUE
+        var isToday: Boolean = false
+        var isInMonth: Boolean = false
+        var color = 0
+
+        init {
+            v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+        }
+
+        fun setDate(cal : Calendar) {
+            time = cal.timeInMillis
+            isToday = isSameDay(cal, todayCal)
+            isInMonth = cellNum in startCellNum..endCellNum
+            DateInfoManager.getHoliday(dateInfo, cal)
+            color = getDateTextColor(cellNum, dateInfo.holiday?.isHoli == true)
+            val alpha = if(isInMonth) 1f else AppStatus.outsideMonthAlpha
+            v.dateLy.alpha = alpha
+            v.bar.alpha = alpha
+            v.dateText.text = String.format("%01d", tempCal.get(Calendar.DATE))
+            v.dateText.setTextColor(color)
+            v.holiText.setTextColor(color)
+            v.dowText.setTextColor(color)
+            v.bar.setBackgroundColor(color)
+            unTarget()
+        }
+
+        fun target() {
+            targetHolder = this
+
+            v.dateText.typeface = AppTheme.regularFont
+            //v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            v.holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            v.holiText.text = dateInfo.getSelectedString()
+            v.dowText.text = AppDateFormat.dow.format(targetCal.time)
+            v.lunarText.visibility = View.GONE
+            if(AppStatus.isDowDisplay) v.dowText.visibility = View.VISIBLE
+
+            lastSelectDateAnimSet?.cancel()
+            lastSelectDateAnimSet = AnimatorSet()
+            lastSelectDateAnimSet?.let {
+                it.addListener(object : AnimatorListenerAdapter(){
+                    override fun onAnimationCancel(animation: Animator?) {}
+                })
+                val anims = ArrayList<Animator>()
+                anims.add(ObjectAnimator.ofFloat(v.bar, "scaleX", 0f, 1f))
+                anims.add(ObjectAnimator.ofFloat(v.dowText, "alpha", 0f, 1f))
+                anims.add(ObjectAnimator.ofFloat(v.dowText, "translationX", -autoScrollOffset.toFloat(), 1f))
+                anims.add(ObjectAnimator.ofFloat(v.holiText, "alpha", 0f, 1f))
+                anims.add(ObjectAnimator.ofFloat(v.holiText, "translationX", -autoScrollOffset.toFloat(), 1f))
+
+                val weekHolder = weekHolders[cellNum / columns]
+                if(targetWeekHolder != weekHolder) {
+                    targetWeekHolder?.let { wh ->
+                        anims.add(ObjectAnimator.ofFloat(wh.container, "translationX",
+                                wh.container.translationX, -calendarPadding.toFloat()))
+                    }
+                    anims.add(ObjectAnimator.ofFloat(weekHolder.container, "translationX",
+                            -calendarPadding.toFloat(), 0f))
+                    targetWeekHolder = weekHolder
+                }
+                it.playTogether(anims)
+                it.interpolator = FastOutSlowInInterpolator()
+                it.duration = animDur
+                it.start()
+            }
+            onViewEffect(cellNum)
+/*
+        if(todayStatus == 0) {
+            val startAnimation = AnimationUtils.loadAnimation(context, R.anim.blink)
+            dateHolders[cellNum].container.startAnimation(startAnimation)
+        }
+*/
+        }
+
+        fun unTarget() {
+            targetHolder = null
+
+            v.dateText.typeface = AppTheme.regularFont
+            v.holiText.typeface = AppTheme.regularFont
+            v.lunarText.typeface = AppTheme.regularFont
+            v.holiText.alpha = 1f
+            v.holiText.translationX = 0f
+            v.dowText.alpha = 1f
+            v.dowText.translationX = 0f
+            v.dowText.visibility = View.GONE
+            v.lunarText.visibility = View.GONE
+            v.holiText.text = dateInfo.getUnSelectedString()
+
+            lastUnSelectDateAnimSet?.cancel()
+            lastUnSelectDateAnimSet = AnimatorSet()
+            lastUnSelectDateAnimSet?.let {
+                it.addListener(object : AnimatorListenerAdapter(){
+                    override fun onAnimationCancel(animation: Animator?) {
+                        v.bar.scaleX = 0f
+                    }
+                })
+                val anims = ArrayList<Animator>()
+                anims.add(ObjectAnimator.ofFloat(v.bar, "scaleX", v.bar.scaleX, 0f))
+                it.playTogether(anims)
+                it.interpolator = FastOutSlowInInterpolator()
+                it.duration = animDur
+                it.start()
+            }
+            offViewEffect(cellNum)
+        }
+    }
+
+    inner class WeekInfoViewHolder(val container: View) {
+        val weeknumText: TextView = container.findViewById(R.id.weeknumText)
+        val weekArrow: ImageView = container.findViewById(R.id.weekArrow)
+        val indicatorLy: LinearLayout = container.findViewById(R.id.indicatorLy)
+        init {
+            weeknumText.setTextColor(AppTheme.background)
+            weeknumText.typeface = AppTheme.boldFont
+            indicatorLy.visibility = View.GONE
+            container.translationX = -calendarPadding.toFloat()
+            weekArrow.visibility = View.GONE
         }
     }
 
@@ -220,12 +315,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         startCellNum = tempCal.get(Calendar.DAY_OF_WEEK) - AppStatus.startDayOfWeek
         if (startCellNum < 0) { startCellNum += 7 }
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
-        todayCellNum = -1
-        targetCellNum = -1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
         minCalendarHeight = height.toFloat() - headerHeight - calendarPadding
         minWidth = (width.toFloat() - calendarPadding * 1) / columns
         minHeight = minCalendarHeight / rows
+
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {
             sundayPos = 0
             saturdayPos = 6
@@ -247,35 +341,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 weekLy.visibility = View.VISIBLE
                 for (j in 0..6){
                     val cellNum = i*7 + j
+
                     if(AppStatus.weekLine == 0) columnDividers[cellNum].visibility = View.GONE
                     else columnDividers[cellNum].visibility = View.VISIBLE
-                    cellTimeMills[cellNum] = tempCal.timeInMillis
 
-                    //weekInfoViews[i].weeknumText.text = String.format(str(R.string.weekNum), tempCal.get(Calendar.WEEK_OF_YEAR))
-                    weekInfoViews[i].weeknumText.text = tempCal.get(Calendar.WEEK_OF_YEAR).toString()
-
-                    val dateInfo = dateInfos[cellNum]
-                    DateInfoManager.getHoliday(dateInfo, tempCal)
-                    if(isSameDay(tempCal, targetCal)) { targetCellNum = cellNum }
-                    if(todayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH) && isSameDay(tempCal, todayCal)) { todayCellNum = cellNum }
-
-                    val holiText = dateHeaders[cellNum].holiText
-                    val dateText = dateHeaders[cellNum].dateText
-                    val dowText = dateHeaders[cellNum].dowText
-                    val bar = dateHeaders[cellNum].bar
-                    val color = getDateTextColor(cellNum, dateInfo.holiday?.isHoli == true)
-                    val alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
-                    //restoreDateHeader(cellNum)
-                    dateText.alpha = alpha
-                    dowText.alpha = alpha
-                    holiText.alpha = alpha
-
-                    dateText.text = String.format("%02d", tempCal.get(Calendar.DATE))
-                    dateText.setTextColor(color)
-                    holiText.setTextColor(color)
-                    dowText.setTextColor(color)
-                    bar.setBackgroundColor(color)
-                    holiText.text = dateInfo.getUnSelectedString()
+                    weekHolders[i].weeknumText.text = tempCal.get(Calendar.WEEK_OF_YEAR).toString()
+                    dateHolders[cellNum].setDate(tempCal)
 
                     if(cellNum == 0) {
                         calendarStartTime = tempCal.timeInMillis
@@ -283,6 +354,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         setCalendarTime23(tempCal)
                         calendarEndTime = tempCal.timeInMillis
                     }
+
                     tempCal.add(Calendar.DATE, 1)
                     columnDividers[cellNum].translationX = minWidth * j - lineWidth + calendarPadding
                 }
@@ -296,181 +368,51 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         l("${AppDateFormat.month.format(targetCal.time)} 캘린더 그리기 : ${(System.currentTimeMillis() - t) / 1000f} 초")
     }
 
-    private fun getDateTextColor(cellNum: Int, isHoli: Boolean) : Int {
-        return if(isHoli || cellNum % columns == sundayPos) {
-            if(cellNum == targetCellNum) CalendarManager.sundayColor
-            else Color.parseColor("#ff8a5b")
-        }else if(cellNum % columns == saturdayPos) {
-            if(cellNum == targetCellNum) CalendarManager.saturdayColor
-            else Color.parseColor("#53cae5")
-        }else {
-            if(cellNum == targetCellNum)  CalendarManager.selectedDateColor
-            else CalendarManager.dateColor
-        }
-    }
-
-    private fun onDateClick(cellNum: Int) {
-        if(MainActivity.getDayPager()?.isClosed() == true &&
-                (AppStatus.outsideMonthAlpha > 0f || cellNum in startCellNum..endCellNum)) {
-            tempCal.timeInMillis = cellTimeMills[cellNum]
-            selectToScrollFlag = weekLys[cellNum / columns].top < scrollView.scrollY + headerHeight
-            selectDate(cellNum, targetCellNum == cellNum)
-        }
-    }
-
-    fun unselectDate() {
-        if(targetCellNum >= 0) unselectDate(targetCellNum, true)
-    }
-
-    fun unselectDate(cellNum: Int, isChangeWeek: Boolean) {
-        targetCellNum = -1
-        val bar = dateHeaders[cellNum].bar
-        val dateText = dateHeaders[cellNum].dateText
-        val dowText = dateHeaders[cellNum].dowText
-        val holiText = dateHeaders[cellNum].holiText
-
-        val color = getDateTextColor(cellNum, dateInfos[cellNum].holiday?.isHoli == true)
-        dateText.setTextColor(color)
-        holiText.setTextColor(color)
-        dowText.setTextColor(color)
-        bar.setBackgroundColor(color)
-
-        dowText.visibility = View.GONE
-        dateText.typeface = AppTheme.regularFont
-        holiText.typeface = AppTheme.regularFont
-        holiText.text = dateInfos[cellNum].getUnSelectedString()
-        dateText.alpha = if(cellNum in startCellNum..endCellNum) 1f else AppStatus.outsideMonthAlpha
-        dateHeaders[cellNum].lunarText.visibility = View.GONE
-
-        lastUnSelectDateAnimSet?.cancel()
-        lastUnSelectDateAnimSet = AnimatorSet()
-        lastUnSelectDateAnimSet?.let {
-            it.addListener(object : AnimatorListenerAdapter(){
-                override fun onAnimationCancel(animation: Animator?) { restoreDateHeader(cellNum) } })
-            val anims = ArrayList<Animator>()
-            anims.add(ObjectAnimator.ofFloat(bar, "scaleX", bar.scaleX, 0f))
-            if(isChangeWeek) {
-                anims.add(ObjectAnimator.ofFloat(weekInfoViews[cellNum / columns].container,
-                        "translationX", weekInfoViews[cellNum / columns].container.translationX,
-                        -calendarPadding.toFloat()))
-            }
-            it.playTogether(anims)
-            it.interpolator = FastOutSlowInInterpolator()
-            it.duration = animDur
-            it.start()
-        }
-        offViewEffect(cellNum)
-    }
-
     fun selectDate() {
-        selectDate(if(todayCellNum >= startCellNum) todayCellNum else startCellNum)
+        dateHolders.firstOrNull { it.isInMonth && it.isToday }?.let {
+            selectDate(it, true)
+            return
+        }
+        selectDate(dateHolders[startCellNum], true)
     }
 
     fun selectTime(time: Long) {
-        selectToScrollFlag = true
-        selectDate(((time - calendarStartTime) / DAY_MILL).toInt(), false)
+        selectDate(((time - calendarStartTime) / DAY_MILL).toInt())
     }
 
     fun selectDate(cellNum: Int) {
-        selectToScrollFlag = true
-        selectDate(cellNum, false)
+        selectDate(dateHolders[cellNum], true)
     }
 
     @SuppressLint("SetTextI18n")
-    fun selectDate(cellNum: Int, showDayView: Boolean) {
-        if(!showDayView) {
-            l("날짜선택 : ${AppDateFormat.ymd.format(Date(cellTimeMills[cellNum]))}")
-            targetCal.timeInMillis = cellTimeMills[cellNum]
-            val isChangeWeek = targetCellNum / columns != cellNum / columns
-            if(targetCellNum >= 0) unselectDate(targetCellNum, isChangeWeek)
+    private fun selectDate(holder: DateInfoViewHolder, withScroll: Boolean) {
+        l("날짜선택 : ${AppDateFormat.ymd.format(Date(holder.time))}")
+        targetCal.timeInMillis = holder.time
+        targetHolder?.unTarget()
+        holder.target()
 
-            if(isChangeWeek) {
-
-            }
-
-            targetCellNum = cellNum
-
-            val bar = dateHeaders[cellNum].bar
-            val dateText = dateHeaders[cellNum].dateText
-            val dowText = dateHeaders[cellNum].dowText
-            val holiText = dateHeaders[cellNum].holiText
-
-            val color = getDateTextColor(cellNum, dateInfos[cellNum].holiday?.isHoli == true)
-            dateText.setTextColor(color)
-            holiText.setTextColor(color)
-            dowText.setTextColor(color)
-            bar.setBackgroundColor(color)
-
-            dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-            holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-            holiText.text = dateInfos[cellNum].getSelectedString()
-            dowText.text = AppDateFormat.dow.format(targetCal.time)
-            dateText.alpha = 1f
-            if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
-            dateHeaders[cellNum].lunarText.visibility = View.GONE
-
-            lastSelectDateAnimSet?.cancel()
-            lastSelectDateAnimSet = AnimatorSet()
-            lastSelectDateAnimSet?.let {
-                it.addListener(object : AnimatorListenerAdapter(){
-                    override fun onAnimationCancel(animation: Animator?) { restoreDateHeader(cellNum) } })
-                val anims = ArrayList<Animator>()
-                anims.add(ObjectAnimator.ofFloat(bar, "scaleX", 0f, 1f))
-                anims.add(ObjectAnimator.ofFloat(dowText, "alpha", 0f, 1f))
-                anims.add(ObjectAnimator.ofFloat(dowText, "translationX", -autoScrollOffset.toFloat(), 1f))
-                anims.add(ObjectAnimator.ofFloat(holiText, "alpha", 0f, 1f))
-                anims.add(ObjectAnimator.ofFloat(holiText, "translationX", -autoScrollOffset.toFloat(), 1f))
-                if(isChangeWeek) {
-                    anims.add(ObjectAnimator.ofFloat(weekInfoViews[cellNum / columns].container,
-                            "translationX", -calendarPadding.toFloat(), 0f))
-                }else {
-                    weekInfoViews[cellNum / columns].container.translationX = 0f
-                }
-                it.playTogether(anims)
-                it.interpolator = FastOutSlowInInterpolator()
-                it.duration = animDur
-                it.start()
-            }
-
-            if(selectToScrollFlag) {
-                selectToScrollFlag = false
-                scrollView.post { scrollView.scrollTo(0, weekLys[cellNum / columns].top - headerHeight) }
-            }
-            scrollView.post{ onTop?.invoke(scrollView.scrollY == 0, !scrollView.canScrollVertically(1)) }
-            onViewEffect(cellNum)
-        }else {
-            targetCellNum = cellNum
+        if(withScroll) {
+            scrollView.post { scrollView.scrollTo(0, weekLys[holder.cellNum / columns].top - headerHeight) }
         }
+        scrollView.post{ onTop?.invoke(scrollView.scrollY == 0, !scrollView.canScrollVertically(1)) }
+
         todayStatus = getDiffToday(targetCal)
-/*
-        if(todayStatus == 0) {
-            val startAnimation = AnimationUtils.loadAnimation(context, R.anim.blink)
-            dateHeaders[cellNum].container.startAnimation(startAnimation)
-        }
-*/
-        onSelectedDate?.invoke(cellTimeMills[targetCellNum], targetCellNum, dateHeaders[cellNum].dateText.currentTextColor, showDayView)
+        onSelectedDate?.invoke(holder, false)
     }
 
-    private fun restoreDateHeader(cellNum: Int) {
-        val holder = dateHeaders[cellNum]
-        if(targetCellNum == cellNum) {
-            holder.bar.scaleX = 1f
-            holder.dowText.alpha = 1f
-            holder.dowText.translationX = 0f
-            holder.holiText.alpha = 1f
-            holder.holiText.translationX = 0f
-            holder.dowText.visibility = View.VISIBLE
-        }else {
-            holder.bar.scaleX = 0f
-            holder.holiText.alpha = 1f
-            holder.holiText.translationX = 0f
-            holder.dowText.visibility = View.GONE
-        }
+    fun unselectDate() {
+        targetHolder?.unTarget()
+        targetWeekHolder?.let { it.container.translationX = -calendarPadding.toFloat() }
+        targetWeekHolder = null
+    }
 
-        if(targetCellNum / columns == cellNum / columns) {
-            weekInfoViews[cellNum / columns].container.translationX = 0f
+    private fun getDateTextColor(cellNum: Int, isHoli: Boolean) : Int {
+        return if(isHoli || cellNum % columns == sundayPos) {
+            CalendarManager.sundayColor
+        }else if(cellNum % columns == saturdayPos) {
+            CalendarManager.saturdayColor
         }else {
-            weekInfoViews[cellNum / columns].container.translationX = -calendarPadding.toFloat()
+            CalendarManager.dateColor
         }
     }
 
@@ -496,23 +438,23 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    fun getSelectedView(): View = dateCells[targetCellNum]
+    fun getSelectedView(): View = targetHolder?.v ?: dateHolders[0].v
 
     private fun highlightCells(start: Int, end: Int) {
         val s = if(start < end) start else end
         val e = if(start < end) end else start
-        dateHeaders.forEachIndexed { index, holder ->
+        dateHolders.forEachIndexed { index, holder ->
            if(index in s..e) {
-               holder.container.background = AppTheme.hightlightCover
+               holder.v.background = AppTheme.hightlightCover
            }else {
-               holder.container.background = AppTheme.blankDrawable
+               holder.v.background = AppTheme.blankDrawable
            }
         }
     }
 
     private fun clearHighlight() {
-        dateHeaders.forEachIndexed { index, holder ->
-            holder.container.background = AppTheme.blankDrawable
+        dateHolders.forEachIndexed { index, holder ->
+            holder.v.background = AppTheme.blankDrawable
         }
     }
 
@@ -603,12 +545,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         if(cellY >= 0) {
             currentDragCell = cellY * columns + cellX
-            endDragTime = cellTimeMills[currentDragCell]
+            endDragTime = dateHolders[currentDragCell].time
 
             when(event.action) {
                 DragEvent.ACTION_DRAG_STARTED -> {
                     startDragCell = currentDragCell
-                    startDragTime = cellTimeMills[startDragCell]
+                    startDragTime = dateHolders[startDragCell].time
                     highlightCells(startDragCell, currentDragCell)
                 }
                 DragEvent.ACTION_DRAG_LOCATION -> {

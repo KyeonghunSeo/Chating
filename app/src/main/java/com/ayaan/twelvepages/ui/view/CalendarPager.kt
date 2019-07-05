@@ -22,7 +22,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
     private val viewCount = 3
     private val viewPager = PagingControlableViewPager(context)
     private val calendarViews = List(viewCount) { CalendarView(context) }
-    var onSelectedDate: ((Long, Int, Int, Boolean, CalendarView) -> Unit)? = null
+    var onSelectedDate: ((CalendarView, CalendarView.DateInfoViewHolder, Boolean) -> Unit)? = null
     var onTop: ((Boolean, Boolean) -> Unit)? = null
 
     private val tempCal = Calendar.getInstance()
@@ -87,8 +87,8 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
         targetCalendarView.onTop = null
         targetCalendarView.unselectDate()
         targetCalendarView = calendarView
-        targetCalendarView.onSelectedDate = { time, cellNum, dateColor, isSameSeleted ->
-            onSelectedDate?.invoke(time, cellNum, dateColor, isSameSeleted, targetCalendarView)
+        targetCalendarView.onSelectedDate = { holder, openDayView ->
+            onSelectedDate?.invoke(targetCalendarView, holder, openDayView)
         }
         targetCalendarView.onTop = onTop
     }
@@ -103,7 +103,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
                 firstSelectDateFlag = true
                 selectedTargetCalendarView(calendarView)
                 calendarView.onDrawed = {
-                    calendarView.postDelayed({calendarView.selectDate(calendarView.todayCellNum)}, 100)
+                    calendarView.postDelayed({calendarView.selectDate()}, 100)
                     calendarView.onDrawed = null
                 }
             }else {
@@ -146,7 +146,10 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     fun redraw() {
-        calendarViews.forEach { it.redraw() }
+        calendarViews.forEach {
+            it.unselectDate()
+            it.redraw()
+        }
     }
 
     fun redrawAndSelect(){

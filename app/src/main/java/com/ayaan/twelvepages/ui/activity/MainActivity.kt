@@ -158,13 +158,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initCalendarView() {
-        calendarPager.onSelectedDate = { time, cellNum, dateColor, isSameSeleted, calendarView ->
-            viewModel.targetTime.value = time
+        calendarPager.onSelectedDate = { calendarView, dateInfoHolder, openDayView ->
+            viewModel.targetTime.value = dateInfoHolder.time
             viewModel.targetCalendarView.value = calendarView
-            if(cellNum >= 0) {
-                if(isSameSeleted && dayPager.viewMode == ViewMode.CLOSED) dayPager.show()
-                refreshTodayView(calendarView.todayStatus)
-            }
+            if(openDayView && dayPager.viewMode == ViewMode.CLOSED) dayPager.show()
+            refreshTodayView(calendarView.todayStatus)
         }
         calendarPager.onTop = { isTop, isBottom ->
             if(isTop) topShadow.visibility = View.GONE
@@ -293,7 +291,9 @@ class MainActivity : BaseActivity() {
             })
             list.forEach {
                 val f = formulas[Random().nextInt(formulas.size)]
-                it.style = f.shapes[Random().nextInt(f.shapes.size)].ordinal * 100 + f.ordinal
+
+                //it.style = f.shapes[Random().nextInt(f.shapes.size)].ordinal * 100 + f.ordinal
+                it.style = f.shapes[0].ordinal * 100 + f.ordinal
             }
             RecordManager.save(list)
             return@setOnLongClickListener true

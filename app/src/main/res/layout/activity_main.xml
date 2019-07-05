@@ -182,6 +182,22 @@
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal|bottom">
 
+            <ImageView
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_gravity="bottom"
+                android:src="@drawable/tab_edge_top"
+                android:tint="@color/background"
+                android:elevation="4dp"/>
+
+            <ImageView
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_gravity="bottom|right"
+                android:src="@drawable/tab_edge_rb"
+                android:tint="@color/background"
+                android:elevation="4dp"/>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
@@ -219,6 +235,7 @@
                         android:textSize="10dp"
                         android:textColor="@color/secondaryText"
                         android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/bold"
                         android:text="@string/today"/>
 
                     <ImageView

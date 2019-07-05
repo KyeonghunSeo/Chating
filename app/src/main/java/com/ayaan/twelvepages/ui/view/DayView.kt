@@ -125,8 +125,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         setGlobalTheme(rootLy)
         initRecyclerView()
         clipChildren = false
-        dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-        fakeDateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+        //dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+        dateText.typeface = AppTheme.regularFont
+        fakeDateText.typeface = AppTheme.regularFont
         dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
         holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
         (bar.layoutParams as LayoutParams).topMargin = 0
@@ -258,7 +259,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     private fun setDateText() {
-        dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
+        dateText.text = String.format("%01d", targetCal.get(Calendar.DATE))
         dowText.text = AppDateFormat.dow.format(targetCal.time)
         DateInfoManager.getHoliday(dateInfo, targetCal)
         color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
@@ -433,10 +434,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         const val mainMonthTextScale = 0.45f
         val datePosX = dpToPx(8.0f)
         val datePosY = dpToPx(8.0f)
-        val dowPosX = -dpToPx(1.0f) / headerTextScale
-        val dowPosY = dpToPx(13.0f) / headerTextScale
+        val dowPosX = dpToPx(1.0f) / headerTextScale
+        val dowPosY = dpToPx(17.0f) / headerTextScale
         val dowScale = 1.9f / headerTextScale
-        val holiPosX = -dpToPx(0.0f) / headerTextScale
+        val holiPosX = dpToPx(2.0f) / headerTextScale
         val holiPosY = -dpToPx(43.0f) / headerTextScale
         val holiScale = 2.3f / headerTextScale
     }
