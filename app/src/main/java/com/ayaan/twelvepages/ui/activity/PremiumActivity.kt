@@ -6,8 +6,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
+import androidx.viewpager.widget.PagerAdapter
 import com.ayaan.twelvepages.*
 import kotlinx.android.synthetic.main.activity_premium.*
 import java.util.*
@@ -23,41 +26,18 @@ class PremiumActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun initLayout() {
         backBtn.setOnClickListener { onBackPressed() }
-        mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
-            if(scrollY > 0) topShadow.visibility = View.VISIBLE
-            else topShadow.visibility = View.GONE
-        }
+        viewPager.adapter = Adapter()
+        viewPager.pageMargin = -dpToPx(100)
+    }
 
-        versionText.text = "v ${packageManager.getPackageInfo(packageName, 0).versionName}"
-
-        evaluateBtn.setOnClickListener {
-            val uri = Uri.parse("market://details?id=com.hellowo.day2life")
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            try {
-                startActivity(intent)
-            } catch (e: ActivityNotFoundException) {
-                startActivity(Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://play.google.com/store/apps/details?id=com.hellowo.day2life")))
-            }
+    inner class Adapter : PagerAdapter() {
+        override fun instantiateItem(container: ViewGroup, position: Int): Any {
+            val v = LayoutInflater.from(this@PremiumActivity).inflate(R.layout.pager_item_photo, null, false)
+            container.addView(v)
+            return v
         }
-
-        emailBtn.setOnClickListener {
-            val sendIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto", "bluelemonade@gmail.com", null))
-            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "[${getString(R.string.help)}]")
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "\n\n[Device information]\n" +
-                    "Language : ${Locale.getDefault().language}\n" +
-                    "OS version : ${Build.VERSION.RELEASE}\n" +
-                    "Brand : ${Build.BRAND}\n" +
-                    "Device : ${Build.MODEL}\n" +
-                    "App version : ${packageManager.getPackageInfo(packageName, 0).versionName}")
-            startActivity(sendIntent)
-        }
-
-        voteBtn.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("http://google.com")
-            startActivity(intent)
-        }
+        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) { container.removeView(`object` as View) }
+        override fun isViewFromObject(view: View, `object`: Any): Boolean = view == `object`
+        override fun getCount(): Int = 4
     }
 }

@@ -8,135 +8,34 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="70dp">
 
-        <LinearLayout
-            android:animateLayoutChanges="true"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_vertical"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:id="@+id/backBtn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/back"
-                android:background="?android:attr/selectableItemBackground"
-                android:tint="@color/primaryText"
-                android:padding="15dp"/>
-
-        </LinearLayout>
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/close"
+            android:background="?android:attr/selectableItemBackground"
+            android:tint="@color/primaryText"
+            android:padding="15dp"/>
 
     </FrameLayout>
 
-    <View
-        android:id="@+id/topShadow"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:layout_marginTop="50dp"
-        android:visibility="gone"
-        android:background="@drawable/line_top_shadow"/>
+        android:layout_height="match_parent"
+        android:clipChildren="false">
+    </androidx.viewpager.widget.ViewPager>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/mainScrollView"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/payBtn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="25dp">
-
-            <TextView
-                android:id="@+id/aboutUsText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:lineSpacingExtra="3dp"
-                android:textColor="@color/secondaryText"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:layout_marginTop="50dp"
-                android:textColor="@color/disableText"
-                android:text="@string/evaluate_text"/>
-
-            <TextView
-                android:id="@+id/evaluateBtn"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/normal_rect_stroke_white"
-                android:gravity="center"
-                android:textSize="16dp"
-                android:fontFamily="@font/bold"
-                android:textColor="@color/secondaryText"
-                android:text="@string/evaluation"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:layout_marginTop="30dp"
-                android:textColor="@color/disableText"
-                android:text="@string/email_text"/>
-
-            <TextView
-                android:id="@+id/emailBtn"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/normal_rect_stroke_white"
-                android:gravity="center"
-                android:textSize="16dp"
-                android:fontFamily="@font/bold"
-                android:textColor="@color/secondaryText"
-                android:text="@string/send_email"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:layout_marginTop="30dp"
-                android:textColor="@color/disableText"
-                android:text="@string/vote_text"/>
-
-            <TextView
-                android:id="@+id/voteBtn"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/normal_rect_stroke_white"
-                android:gravity="center"
-                android:textSize="16dp"
-                android:fontFamily="@font/bold"
-                android:textColor="@color/secondaryText"
-                android:text="@string/vote_to_new_feature"/>
-
-            <TextView
-                android:id="@+id/versionText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:layout_marginTop="50dp"
-                android:textColor="@color/disableText"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/disableText"
-                android:text="Copyright © 2019 BlueLemonade inc. All rights reserved."/>
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
+        android:layout_height="50dp"
+        android:layout_margin="30dp"
+        android:layout_gravity="bottom"
+        android:text="@string/premium"
+        app:cornerRadius="25dp"/>
 </FrameLayout>

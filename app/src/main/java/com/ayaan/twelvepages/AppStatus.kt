@@ -12,7 +12,7 @@ object AppStatus {
     var isLunarDisplay = true
     var outsideMonthAlpha = 0f
     var calTextSize = 0
-    var weekLine = 0
+    var weekLine = 0f
     var isWeekNumDisplay = true
     var checkedRecordDisplay = 0
     var templateMode = 0
@@ -27,7 +27,7 @@ object AppStatus {
         isLunarDisplay = Prefs.getBoolean("isLunarDisplay", true)
         outsideMonthAlpha = Prefs.getFloat("outsideMonthAlpha", 0f)
         calTextSize = Prefs.getInt("calTextSize", 0)
-        weekLine = Prefs.getInt("weekLine", 0)
+        weekLine = Prefs.getFloat("weekLine", 0.3f)
         isWeekNumDisplay = Prefs.getBoolean("isWeekNumDisplay", true)
         checkedRecordDisplay = Prefs.getInt("checkedRecordDisplay", 0)
         templateMode = Prefs.getInt("tmeplateMode", 0)

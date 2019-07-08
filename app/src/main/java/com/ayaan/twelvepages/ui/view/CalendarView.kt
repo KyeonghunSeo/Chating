@@ -112,17 +112,17 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         calendarLy.clipChildren = false
 
         rowDividers.forEachIndexed { index, view ->
-            view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
+            view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 3).apply {
                 leftMargin = calendarPadding
                 rightMargin = 0
                 topMargin = weekLyBottomPadding
             }
-            view.setBackgroundColor(AppTheme.lightLine)
+            view.setBackgroundColor(AppTheme.line)
         }
 
         columnDividers.forEachIndexed { index, view ->
             view.layoutParams = LayoutParams(lineWidth.toInt() * 2, 0)
-            view.setBackgroundColor(AppTheme.lightLine)
+            view.setBackgroundColor(AppTheme.line)
         }
 
         for(i in 0..5) {
@@ -170,7 +170,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             calendarLy.addView(weekLy)
         }
     }
-
 
     inner class DateInfoViewHolder(val cellNum: Int,  val v: FrameLayout, val dateInfo: DateInfoManager.DateInfo) {
         var time: Long = Long.MIN_VALUE
@@ -334,17 +333,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val weekLy = weekLys[i]
             weekLy.layoutParams.height = minHeight.toInt()
 
-            if(AppStatus.weekLine == 0) rowDividers[i].visibility = View.GONE
-            else rowDividers[i].visibility = View.VISIBLE
+            rowDividers[i].alpha = AppStatus.weekLine
 
             if(i < rows) {
                 weekLy.visibility = View.VISIBLE
                 for (j in 0..6){
                     val cellNum = i*7 + j
 
-                    if(AppStatus.weekLine == 0) columnDividers[cellNum].visibility = View.GONE
-                    else columnDividers[cellNum].visibility = View.VISIBLE
-
+                    columnDividers[cellNum].alpha = AppStatus.weekLine
                     weekHolders[i].weeknumText.text = tempCal.get(Calendar.WEEK_OF_YEAR).toString()
                     dateHolders[cellNum].setDate(tempCal)
 

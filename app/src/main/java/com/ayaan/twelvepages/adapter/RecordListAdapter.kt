@@ -28,9 +28,11 @@ import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
+import com.google.android.libraries.places.internal.it
 import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.list_item_record.view.*
 import kotlinx.android.synthetic.main.list_item_record_footer.view.*
+import java.io.File
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
@@ -124,7 +126,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             }
         }else {
             //v.iconImg.setPadding(circlePadding, circlePadding, circlePadding, circlePadding)
-            v.iconImg.setImageResource(R.drawable.grey_rect_fill_radius_2)
+            v.iconImg.setImageResource(R.drawable.circle_fill)
             v.contentLy.alpha = 1f
             v.iconImg.setOnClickListener(null)
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
@@ -357,21 +359,20 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.footerProgress.visibility = View.GONE
             v.footerContentLy.visibility = View.VISIBLE
             photos?.let { photos ->
-                photos.firstOrNull()?.let { Glide.with(context).load(it.url).into(v.photoImg) }
+
+                photos.firstOrNull()?.let {
+                    Glide.with(context).load(it.url).into(v.photoImg)
+                }
                 v.photoImg.setOnClickListener {
-                    ImageViewer.Builder(context, photos.map { it.url })
+                    ImageViewer.Builder(context, photos.map { "file://${it.url}" })
                             .hideStatusBar(false)
                             .setStartPosition(0)
                             .show()
                 }
             }
-
-
             pastRecords?.let {
                 v.pastRecordTitleText.text = it.firstOrNull()?.getTitleInCalendar()
             }
-
-            holder.itemView.visibility = View.GONE
         }
     }
 

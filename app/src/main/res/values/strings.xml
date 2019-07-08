@@ -343,6 +343,8 @@
     <string name="template">템플릿</string>
     <string name="calendar_settings_sub">캘린더에 표시할 정보 및 스타일 설정</string>
     <string name="template_use">템플릿 사용</string>
+    <string name="thin">흐리게</string>
+    <string name="bold">진하게</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

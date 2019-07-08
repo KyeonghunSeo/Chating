@@ -23,7 +23,7 @@
              android:layout_gravity="center_horizontal|right"
              android:background="?android:attr/selectableItemBackground"
              android:padding="10dp"
-             android:src="@drawable/grey_rect_fill_radius_2"
+             android:src="@drawable/circle_fill"
              android:tint="@color/primaryText"/>
 
       </FrameLayout>

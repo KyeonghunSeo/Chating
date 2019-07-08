@@ -21,13 +21,17 @@ import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.AppUser
 import com.ayaan.twelvepages.model.Record
+import com.ayaan.twelvepages.model.Tag
 import com.ayaan.twelvepages.ui.activity.AboutUsActivity
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.activity.PremiumActivity
 import com.ayaan.twelvepages.ui.activity.SettingsActivity
 import com.ayaan.twelvepages.ui.dialog.InputDialog
 import io.realm.Realm
+import io.realm.Sort
 import kotlinx.android.synthetic.main.view_profile.view.*
+import java.util.*
+import kotlin.collections.HashMap
 
 class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
@@ -77,6 +81,37 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 val realm = Realm.getDefaultInstance()
                 val totalSize = realm.where(Record::class.java).notEqualTo("dtCreated", -1L).count()
                 l("totalSize : $totalSize")
+
+                val latestRecords = realm.where(Record::class.java)
+                        .notEqualTo("dtCreated", -1L)
+                        .sort("dtUpdated", Sort.DESCENDING)
+                        .limit(3)
+                        .findAll()
+
+                latestRecords.forEach {
+                    l("latest data -> " + it.toString())
+                }
+
+                val tagCounts = HashMap<Tag, Int>()
+                realm.where(Tag::class.java).findAll().forEach {
+                    val count = realm.where(Record::class.java)
+                            .notEqualTo("dtCreated", -1L)
+                            .equalTo("tags.id", it.id)
+                            .count()
+                    tagCounts[it] = count.toInt()
+                    l("tag : ${it.title} : $count")
+                }
+                val sortedTags = tagCounts.toSortedMap(kotlin.Comparator { l, r ->
+                    val countCompare = tagCounts[l]?.compareTo(tagCounts[r]?:0) ?: 0
+
+                    if(countCompare == 0) {
+                        return@Comparator l.order.compareTo(r.order)
+                    }
+                    return@Comparator countCompare * -1
+                })
+
+                l("sortedTags : ${sortedTags.keys.map { it.title }}")
+
                 realm.close()
                 return null
             }

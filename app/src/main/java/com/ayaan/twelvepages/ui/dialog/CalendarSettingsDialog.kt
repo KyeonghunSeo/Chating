@@ -181,17 +181,18 @@ class CalendarSettingsDialog(private val activity: Activity) : BottomSheetDialog
     }
 
     private fun setWeekLine() {
-        if(AppStatus.weekLine == 0) {
-            root.weekLineText.text = str(R.string.unvisible)
-            root.weekLineText.setTextColor(AppTheme.disableText)
-        }else {
-            root.weekLineText.text = str(R.string.visible)
-            root.weekLineText.setTextColor(AppTheme.primaryText)
+        when(AppStatus.weekLine) {
+            0f -> root.weekLineText.text = str(R.string.unvisible)
+            0.3f -> root.weekLineText.text = str(R.string.thin)
+            else -> root.weekLineText.text = str(R.string.bold)
         }
         root.weekLineBtn.setOnClickListener {
-            if(AppStatus.weekLine == 0)  AppStatus.weekLine = 1
-            else AppStatus.weekLine = 0
-            Prefs.putInt("weekLine", AppStatus.weekLine)
+            when(AppStatus.weekLine) {
+                0f -> AppStatus.weekLine = 0.3f
+                0.3f -> AppStatus.weekLine = 1f
+                else -> AppStatus.weekLine = 0f
+            }
+            Prefs.putFloat("weekLine", AppStatus.weekLine)
             setWeekLine()
             MainActivity.getCalendarPager()?.redrawAndSelect()
         }
