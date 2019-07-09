@@ -32,7 +32,7 @@ open class BaseActivity : AppCompatActivity() {
             }
             window.peekDecorView().systemUiVisibility = flags
             window.statusBarColor = Color.TRANSPARENT
-            window.navigationBarColor = AppTheme.background
+            window.navigationBarColor = AppTheme.backgroundDark
         }
     }
 

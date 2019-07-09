@@ -153,7 +153,7 @@
     <string name="search_tag">태그로 검색하기</string>
     <string name="edit_folder">폴더 편집</string>
     <string name="delete_folder">서랍 삭제</string>
-    <string name="delete_folder_sub">이 서랍에 보관된 모든 기록(총 %1$s개)이 삭제됩니다.\n정말 삭제할까요?</string>
+    <string name="delete_folder_sub">이 서랍에 보관된 모든 기록(총 %1$s개)이 삭제됩니다.\n정말 삭제하시겠습니까?</string>
     <string name="search_title_location_memo">제목, 장소, 메모 검색하기</string>
     <string name="startdow">시작 요일</string>
     <string name="startdow_sub">한 주가 시작되는 요일을 선택해주세요</string>
@@ -220,7 +220,7 @@
     <string name="dow_display">요일 표시</string>
     <string name="weekline_display">주간 경계선 표시</string>
     <string name="enter_here">이곳에 입력하세요</string>
-    <string name="delete_sub">이 기록을 삭제할까요?</string>
+    <string name="delete_sub">정말 삭제하시겠습니까?</string>
     <string name="calendar">캘린더</string>
     <string name="folder">폴더</string>
     <string name="check_option">완료된 기록 표시방법</string>

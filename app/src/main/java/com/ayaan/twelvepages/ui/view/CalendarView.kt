@@ -40,7 +40,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val todayCal: Calendar = Calendar.getInstance()
         val dragStartYPos = dpToPx(0f)
         val weekLyBottomPadding = dpToPx(5)
-        val calendarPadding = dpToPx(25)
+        val calendarPadding = dpToPx(10)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
@@ -107,14 +107,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(0, headerHeight, 0, calendarPadding)
+        calendarLy.setPadding(0, headerHeight + calendarPadding, 0, calendarPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
 
         rowDividers.forEachIndexed { index, view ->
             view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 3).apply {
                 leftMargin = calendarPadding
-                rightMargin = 0
+                rightMargin = calendarPadding
                 topMargin = weekLyBottomPadding
             }
             view.setBackgroundColor(AppTheme.line)
@@ -132,7 +132,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             dateLy.clipChildren = false
             dateLy.orientation = HORIZONTAL
             dateLy.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-            dateLy.setPadding(calendarPadding, 0, 0, 0)
+            dateLy.setPadding(calendarPadding, 0, calendarPadding, 0)
             weekLy.addView(rowDividers[i])
 
             weekHolders[i].container.layoutParams = LayoutParams(calendarPadding, MATCH_PARENT)
@@ -201,8 +201,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         fun target() {
             targetHolder = this
 
-            v.dateText.typeface = AppTheme.regularFont
-            //v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            //v.dateText.typeface = AppTheme.regularFont
+            v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.text = dateInfo.getSelectedString()
             v.dowText.text = AppDateFormat.dow.format(targetCal.time)
@@ -315,8 +315,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if (startCellNum < 0) { startCellNum += 7 }
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height.toFloat() - headerHeight - calendarPadding
-        minWidth = (width.toFloat() - calendarPadding * 1) / columns
+        minCalendarHeight = height.toFloat() - headerHeight - calendarPadding*2
+        minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
 
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {

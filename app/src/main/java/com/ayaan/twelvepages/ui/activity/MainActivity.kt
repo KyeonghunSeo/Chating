@@ -136,10 +136,6 @@ class MainActivity : BaseActivity() {
         mainMonthLy.pivotY = dpToPx(0f)
         mainPanel.setOnClickListener {}
 
-        mainMonthText.setTextColor(CalendarManager.selectedDateColor)
-        mainYearText.setTextColor(CalendarManager.selectedDateColor)
-        mainMonthKoText.setTextColor(CalendarManager.selectedDateColor)
-
         todayBtn.translationY = tabSize.toFloat()
 
         callAfterViewDrawed(rootLy, Runnable{
@@ -165,8 +161,15 @@ class MainActivity : BaseActivity() {
             refreshTodayView(calendarView.todayStatus)
         }
         calendarPager.onTop = { isTop, isBottom ->
-            if(isTop) topShadow.visibility = View.GONE
-            else topShadow.visibility = View.VISIBLE
+            if(isTop){
+                if(topShadow.alpha != 0f){
+                    ObjectAnimator.ofFloat(topShadow, "alpha", topShadow.alpha, 0f).start()
+                }
+            } else {
+                if(topShadow.alpha != 1f) {
+                    ObjectAnimator.ofFloat(topShadow, "alpha", topShadow.alpha, 1f).start()
+                }
+            }
         }
     }
 
@@ -462,14 +465,13 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            mainYearText.text = it.get(Calendar.YEAR).toString()
-            if (AppDateFormat.language == "ko") {
-                mainMonthKoText.visibility = View.VISIBLE
-                mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
-            } else {
-                mainMonthKoText.visibility = View.GONE
-                mainMonthText.text = AppDateFormat.month.format(it.time)
-            }
+            mainMonthText.setTextColor(CalendarManager.dateColor)
+            mainYearText.setTextColor(CalendarManager.dateColor)
+
+            //mainYearText.text = AppDateFormat.year.format(it.time)
+            mainYearText.text = "${it.get(Calendar.YEAR)}"
+            //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
+            mainMonthText.text = "${AppDateFormat.monthEng.format(it.time)}"
         }
     }
 

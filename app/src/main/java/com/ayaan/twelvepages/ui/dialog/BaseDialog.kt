@@ -29,6 +29,11 @@ open class BaseDialog(activity: Activity) : Dialog(activity) {
         setGlobalTheme(rootLy)
     }
 
+    fun hideHeader() {
+        headerLy.visibility = View.GONE
+        headerDivider.visibility = View.GONE
+    }
+
     fun hideBottomBtnsLy(){
         bottomBtnsLy.visibility = View.GONE
         (contentLy.layoutParams as FrameLayout.LayoutParams).bottomMargin = dpToPx(25)

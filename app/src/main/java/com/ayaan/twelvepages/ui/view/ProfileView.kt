@@ -89,7 +89,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                         .findAll()
 
                 latestRecords.forEach {
-                    l("latest data -> " + it.toString())
+                    l("latest data -> $it")
                 }
 
                 val tagCounts = HashMap<Tag, Int>()
@@ -103,7 +103,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 }
                 val sortedTags = tagCounts.toSortedMap(kotlin.Comparator { l, r ->
                     val countCompare = tagCounts[l]?.compareTo(tagCounts[r]?:0) ?: 0
-
                     if(countCompare == 0) {
                         return@Comparator l.order.compareTo(r.order)
                     }
@@ -145,6 +144,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "translationX", 0f, panelOffset))
+                        animList.add(ObjectAnimator.ofFloat(it, "radius", 0f, zOffset))
                     }
                     MainActivity.getTemplateView()?.getAddButton()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "translationY", 0f, panelOffset / 2))
@@ -182,8 +182,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", it.scaleX, 1f))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", it.scaleY, 1f))
                         animList.add(ObjectAnimator.ofFloat(it, "translationX", it.translationX, 0f))
-                        animList.add(ObjectAnimator.ofFloat(it, "translationY", it.translationY, 0f))
-                        animList.add(ObjectAnimator.ofFloat(it, "elevation", it.elevation, zOffset))
+                        animList.add(ObjectAnimator.ofFloat(it, "radius", zOffset, 0f))
                     }
                     MainActivity.getTemplateView()?.getAddButton()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "translationY", it.translationY, 0f))

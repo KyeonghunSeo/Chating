@@ -175,7 +175,9 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                         it.height = MATCH_PARENT
                         it.setMargins(0, 0, 0, 0)
                     }
-                    MainActivity.getMainDateLy()?.orientation = HORIZONTAL
+                    MainActivity.getMainDateLy()?.let {
+                        it.orientation = HORIZONTAL
+                    }
                     targetDayView.getDateLy().fakeDateText.visibility = View.VISIBLE
                     requestLayout()
                 }
@@ -222,7 +224,9 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 val yPos = location[1] - AppStatus.statusBarHeight + CalendarView.weekLyBottomPadding
                 it.setMargins(xPos, yPos, 0, 0)
             }
-            MainActivity.getMainDateLy()?.orientation = VERTICAL
+            MainActivity.getMainDateLy()?.let {
+                it.orientation = VERTICAL
+            }
             targetDayView.getDateLy().fakeDateText.visibility = View.GONE
             requestLayout()
         }

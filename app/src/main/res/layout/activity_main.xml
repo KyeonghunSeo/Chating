@@ -66,18 +66,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:layout_marginLeft="25dp"
+                        android:layout_marginLeft="20dp"
                         android:clipChildren="false">
 
                         <TextView
                             android:id="@+id/mainYearText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="1dp"
                             android:layout_marginRight="5dp"
                             android:gravity="center_vertical"
                             android:background="?android:attr/selectableItemBackground"
-                            android:fontFamily="@font/regular"
+                            android:fontFamily="@font/bold"
                             android:textSize="18dp"/>
 
                         <LinearLayout
@@ -92,18 +91,9 @@
                                 android:id="@+id/mainMonthText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/bold"
                                 android:background="?android:attr/selectableItemBackground"
-                                android:textSize="40dp"/>
-
-                            <TextView
-                                android:id="@+id/mainMonthKoText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="?android:attr/selectableItemBackground"
-                                android:layout_marginLeft="2dp"
-                                android:layout_marginTop="2.0dp"
-                                android:text="월"
-                                android:textSize="32dp"/>
+                                android:textSize="36dp"/>
 
                         </LinearLayout>
 
@@ -183,31 +173,33 @@
             android:layout_gravity="center_horizontal|bottom">
 
             <ImageView
-                android:layout_width="5dp"
-                android:layout_height="5dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
                 android:layout_gravity="bottom"
                 android:src="@drawable/tab_edge_top"
-                android:tint="@color/background"
+                android:tint="@color/backgroundDark"
                 android:elevation="4dp"/>
 
             <ImageView
-                android:layout_width="5dp"
-                android:layout_height="5dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
                 android:layout_gravity="bottom|right"
                 android:src="@drawable/tab_edge_rb"
-                android:tint="@color/background"
+                android:tint="@color/backgroundDark"
                 android:elevation="4dp"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_margin="5dp"
-                android:translationY="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:translationY="8dp"
                 android:outlineSpotShadowColor="@color/secondaryText"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/background"
+                app:cardBackgroundColor="@color/backgroundDark"
                 app:cardElevation="4dp"
-                app:cardCornerRadius="4dp">
+                app:cardCornerRadius="8dp">
 
                 <LinearLayout
                     android:layout_gravity="center"

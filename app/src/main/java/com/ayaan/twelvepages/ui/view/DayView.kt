@@ -125,8 +125,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         setGlobalTheme(rootLy)
         initRecyclerView()
         clipChildren = false
-        //dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-        dateText.typeface = AppTheme.regularFont
+        dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+        //dateText.typeface = AppTheme.regularFont
         fakeDateText.typeface = AppTheme.regularFont
         dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
         holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
@@ -267,7 +267,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }else if(targetCal.get(Calendar.DAY_OF_WEEK) == SATURDAY) {
             CalendarManager.saturdayColor
         }else {
-            CalendarManager.selectedDateColor
+            CalendarManager.dateColor
         }
         bar.setBackgroundColor(color)
         dateText.setTextColor(color)
@@ -431,7 +431,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     companion object {
         const val headerTextScale = 5.5f
-        const val mainMonthTextScale = 0.45f
+        const val mainMonthTextScale = 0.5f
         val datePosX = dpToPx(8.0f)
         val datePosY = dpToPx(8.0f)
         val dowPosX = dpToPx(1.0f) / headerTextScale

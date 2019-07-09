@@ -1,296 +1,311 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/whiteAlpha"
-        android:elevation="20dp">
+        android:layout_height="30dp"
+        android:layout_gravity="bottom"
+        app:cardElevation="30dp"
+        app:cardCornerRadius="0dp">
+    </androidx.cardview.widget.CardView>
 
-        <LinearLayout
-            android:orientation="vertical"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        app:cardElevation="30dp"
+        app:cardCornerRadius="30dp">
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+            android:layout_height="match_parent">
 
-            <FrameLayout
-                android:id="@+id/startdowBtn"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground">
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/startdow"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
-
-                <TextView
-                    android:id="@+id/startdowText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:text="@string/sun"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14.0dp"
-                    android:fontFamily="@font/bold"/>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/weekNumDisplayBtn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/weekNumDisplay"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
-
-                <TextView
-                    android:id="@+id/weekNumDisplayText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:text="@string/sun"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14.0dp"
-                    android:fontFamily="@font/bold"/>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/dowDisplayBtn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/dow_display"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
-
-                <TextView
-                    android:id="@+id/dowDisplayText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:text="@string/visible"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14.0dp"
-                    android:fontFamily="@font/bold"/>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/weekDisplayBtn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/week_display"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|right"
-                    android:layout_marginRight="20dp">
+                <FrameLayout
+                    android:id="@+id/startdowBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground">
 
                     <TextView
-                        android:id="@+id/weekDisplaySatText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="@string/sat"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/startdow"
                         android:textColor="@color/primaryText"
-                        android:textSize="14.0dp"
-                    android:fontFamily="@font/bold"/>
+                        android:textSize="14dp"/>
 
                     <TextView
-                        android:id="@+id/weekDisplaySunText"
+                        android:id="@+id/startdowText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center_vertical|right"
                         android:text="@string/sun"
                         android:textColor="@color/primaryText"
                         android:textSize="14.0dp"
-                    android:fontFamily="@font/bold"/>
+                        android:fontFamily="@font/bold"/>
 
-                </LinearLayout>
+                </FrameLayout>
 
-            </FrameLayout>
+                <FrameLayout
+                    android:id="@+id/weekNumDisplayBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground">
 
-            <FrameLayout
-                android:id="@+id/holiDisplayBtn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/weekNumDisplay"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/holi_display"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    <TextView
+                        android:id="@+id/weekNumDisplayText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:text="@string/sun"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14.0dp"
+                        android:fontFamily="@font/bold"/>
 
-                <TextView
-                    android:id="@+id/holiDisplayText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:text="@string/kr"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14.0dp"
-                    android:fontFamily="@font/bold"/>
+                </FrameLayout>
 
-            </FrameLayout>
+                <FrameLayout
+                    android:id="@+id/dowDisplayBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground">
 
-            <FrameLayout
-                android:id="@+id/lunarDisplayBtn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/dow_display"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/lunar_display"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    <TextView
+                        android:id="@+id/dowDisplayText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:text="@string/visible"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14.0dp"
+                        android:fontFamily="@font/bold"/>
 
-                <TextView
-                    android:id="@+id/lunarDisplayText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:text="@string/sun"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14.0dp"
-                    android:fontFamily="@font/bold"/>
+                </FrameLayout>
 
-            </FrameLayout>
+                <FrameLayout
+                    android:id="@+id/weekDisplayBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground">
 
-            <FrameLayout
-                android:id="@+id/outsideMonthBtn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/week_display"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/outside_month"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|right"
+                        android:layout_marginRight="20dp">
 
-                <TextView
-                    android:id="@+id/outsideMonthText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:text="@string/unvisible"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14.0dp"
-                    android:fontFamily="@font/bold"/>
+                        <TextView
+                            android:id="@+id/weekDisplaySatText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:text="@string/sat"
+                            android:textColor="@color/primaryText"
+                            android:textSize="14.0dp"
+                            android:fontFamily="@font/bold"/>
 
-            </FrameLayout>
+                        <TextView
+                            android:id="@+id/weekDisplaySunText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sun"
+                            android:textColor="@color/primaryText"
+                            android:textSize="14.0dp"
+                            android:fontFamily="@font/bold"/>
 
-            <FrameLayout
-                android:id="@+id/calTextSizeBtn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground">
+                    </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/cal_text_size"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                </FrameLayout>
 
-                <TextView
-                    android:id="@+id/calTextSizeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:text="@string/big"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14.0dp"
-                    android:fontFamily="@font/bold"/>
+                <FrameLayout
+                    android:id="@+id/holiDisplayBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground">
 
-            </FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/holi_display"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14dp"/>
 
-            <FrameLayout
-                android:id="@+id/weekLineBtn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground">
+                    <TextView
+                        android:id="@+id/holiDisplayText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:text="@string/kr"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14.0dp"
+                        android:fontFamily="@font/bold"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/weekline_display"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                </FrameLayout>
 
-                <TextView
-                    android:id="@+id/weekLineText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:text="@string/unvisible"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14.0dp"
-                    android:fontFamily="@font/bold"/>
+                <FrameLayout
+                    android:id="@+id/lunarDisplayBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground">
 
-            </FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/lunar_display"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14dp"/>
 
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/lunarDisplayText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:text="@string/sun"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14.0dp"
+                        android:fontFamily="@font/bold"/>
 
-    </androidx.core.widget.NestedScrollView>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/outsideMonthBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/outside_month"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14dp"/>
+
+                    <TextView
+                        android:id="@+id/outsideMonthText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:text="@string/unvisible"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14.0dp"
+                        android:fontFamily="@font/bold"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/calTextSizeBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/cal_text_size"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14dp"/>
+
+                    <TextView
+                        android:id="@+id/calTextSizeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:text="@string/big"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14.0dp"
+                        android:fontFamily="@font/bold"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/weekLineBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/weekline_display"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14dp"/>
+
+                    <TextView
+                        android:id="@+id/weekLineText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:text="@string/unvisible"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14.0dp"
+                        android:fontFamily="@font/bold"/>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

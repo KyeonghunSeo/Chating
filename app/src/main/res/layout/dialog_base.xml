@@ -5,15 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/panel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/popup_dialog_background"
-        android:elevation="10dp"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:layout_margin="25dp">
+        android:layout_margin="25dp"
+        app:cardMaxElevation="30dp"
+        app:cardCornerRadius="30dp">
 
         <LinearLayout
             android:id="@+id/contentLy"
@@ -23,6 +23,7 @@
             android:layout_marginBottom="75dp">
 
             <LinearLayout
+                android:id="@+id/headerLy"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,17 +49,18 @@
             </LinearLayout>
 
             <com.ayaan.twelvepages.ui.view.base.Line
+                android:id="@+id/headerDivider"
                 android:layout_width="20dp"
                 android:layout_height="2.5dp"
                 android:layout_marginLeft="27dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 app:colorFlag="primary"/>
 
             <FrameLayout
                 android:id="@+id/container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_height="wrap_content">
             </FrameLayout>
 
         </LinearLayout>
@@ -138,7 +140,6 @@
             </LinearLayout>
 
         </FrameLayout>
-
-    </FrameLayout>
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>
