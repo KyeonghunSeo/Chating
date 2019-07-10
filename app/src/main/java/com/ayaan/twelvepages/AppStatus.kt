@@ -24,7 +24,7 @@ object AppStatus {
         startDayOfWeek = Prefs.getInt("startDayOfWeek", Calendar.SUNDAY)
         isDowDisplay = Prefs.getBoolean("isDowDisplay", true)
         holidayDisplay = Prefs.getInt("holidayDisplay", 1)
-        isLunarDisplay = Prefs.getBoolean("isLunarDisplay", true)
+        isLunarDisplay = Prefs.getBoolean("isLunarDisplay", false)
         outsideMonthAlpha = Prefs.getFloat("outsideMonthAlpha", 0f)
         calTextSize = Prefs.getInt("calTextSize", 0)
         weekLine = Prefs.getFloat("weekLine", 0.3f)

@@ -475,6 +475,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     }
 
     private fun drawSticker(canvas: Canvas) {
+
         val childCount = childList?.size ?: 0
         when(childCount) {
             1 -> {
@@ -502,11 +503,10 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 }
             }
         }
-
-
         /*
+
         val size = (blockTypeSize * 2.0f).toInt()
-        var top = 0
+        var top = -size / 2
         var left = 0
         childList?.forEach { child ->
             val sticker = child.getSticker()
@@ -514,7 +514,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             circle.alpha = 200
             circle.setBounds(left, top, (left + size), (top + size))
             circle.draw(canvas)
-        }*/
+        }
+      */
     }
 
     private fun drawDot(view: RecordView, paint: Paint, canvas: Canvas) {

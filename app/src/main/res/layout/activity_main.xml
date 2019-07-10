@@ -76,7 +76,7 @@
                             android:layout_marginRight="5dp"
                             android:gravity="center_vertical"
                             android:background="?android:attr/selectableItemBackground"
-                            android:fontFamily="@font/bold"
+                            android:fontFamily="@font/regular"
                             android:textSize="18dp"/>
 
                         <LinearLayout
@@ -91,7 +91,7 @@
                                 android:id="@+id/mainMonthText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/bold"
+                                android:fontFamily="@font/regular"
                                 android:background="?android:attr/selectableItemBackground"
                                 android:textSize="36dp"/>
 
@@ -252,7 +252,7 @@
             android:layout_marginLeft="-40dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="bottom"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -381,7 +381,7 @@
         android:id="@+id/profileBtn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
         android:layout_gravity="right"
         android:elevation="30dp">

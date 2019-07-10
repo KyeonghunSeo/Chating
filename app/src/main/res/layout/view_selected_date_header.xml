@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="2.0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="5dp"
-        android:transformPivotX="0dp">
-    </FrameLayout>
+        android:layout_height="match_parent"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="3dp">
+    </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:id="@+id/dateLy"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingLeft="2.5dp">
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp">
 
         <LinearLayout
             android:orientation="horizontal"

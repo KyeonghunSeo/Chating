@@ -1,6 +1,7 @@
 package com.ayaan.twelvepages.ui.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -18,7 +19,7 @@ import java.util.*
 
 
 class RecordViewStyleDialog(private val activity: FragmentActivity, record: Record?,
-                            template: Template?, private val onResult: (Int, Int) -> Unit) : Dialog(activity) {
+                            template: Template?, private val onResult: (Int, Int) -> Unit) : Dialog(activity as Context) {
     private val recordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.STACK, 0, 0)
     private val subRecordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.STACK, 0, 0)
     private var noColor = false
@@ -71,6 +72,8 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
         val cal = Calendar.getInstance()
         dateText.text = cal.get(Calendar.DATE).toString()
         dowText.text = AppDateFormat.dow.format(cal.time)
+        dowText.visibility = View.GONE
+        holiText.visibility = View.GONE
         cal.add(Calendar.DATE, 1)
         dateText2.text = cal.get(Calendar.DATE).toString()
         cal.add(Calendar.DATE, 1)

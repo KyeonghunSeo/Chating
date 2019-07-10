@@ -71,13 +71,6 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:clipChildren="false">
-
-        <include layout="@layout/view_selected_date_header" />
-
-    </FrameLayout>
+    <include layout="@layout/view_selected_date_header" />
 
 </FrameLayout>

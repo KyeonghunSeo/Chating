@@ -294,7 +294,7 @@ class MainActivity : BaseActivity() {
             })
             list.forEach {
                 val f = formulas[Random().nextInt(formulas.size)]
-
+                //it.colorKey = 9
                 //it.style = f.shapes[Random().nextInt(f.shapes.size)].ordinal * 100 + f.ordinal
                 it.style = f.shapes[0].ordinal * 100 + f.ordinal
             }
@@ -529,30 +529,14 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    fun onDrag(event: DragEvent) {
-        when(event.action) {
-            DragEvent.ACTION_DRAG_STARTED -> {
-                deliveryDragEvent(event)
-            }
-            DragEvent.ACTION_DRAG_LOCATION -> {
-                deliveryDragEvent(event)
-            }
-            DragEvent.ACTION_DROP -> {
-                deliveryDragEvent(event)
-            }
-            DragEvent.ACTION_DRAG_ENDED -> {
-                calendarPager.endDrag()
-                MainDragAndDropListener.end()
-            }
+    fun deliveryDragEvent(event: DragEvent) {
+        if(event.y > calendarPager.top && event.y < calendarPager.bottom) {
+            calendarPager.onDrag(event)
         }
     }
 
-    private fun deliveryDragEvent(event: DragEvent) {
-        if(event.y > calendarPager.top && event.y < calendarPager.bottom) {
-            calendarPager.onDrag(event)
-        }else {
-
-        }
+    fun endDrag() {
+        calendarPager.endDrag()
     }
 
     fun checkExternalStoragePermission(requestCode: Int) {

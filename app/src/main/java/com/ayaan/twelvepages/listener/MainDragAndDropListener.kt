@@ -12,15 +12,8 @@ object MainDragAndDropListener : View.OnDragListener {
     enum class DragMode { NONE, INSERT, MOVE }
 
     var dragMode = DragMode.NONE
-
-    override fun onDrag(view: View?, event: DragEvent?): Boolean {
-        return if(dragMode != DragMode.NONE) {
-            event?.let { MainActivity.instance?.onDrag(event) }
-            true
-        }else {
-            false
-        }
-    }
+    var startTime = Long.MIN_VALUE
+    var currentTime = Long.MIN_VALUE
 
     fun start(view: View, dragMode: DragMode) {
         this.dragMode = dragMode
@@ -33,8 +26,39 @@ object MainDragAndDropListener : View.OnDragListener {
         }
     }
 
+    override fun onDrag(view: View?, event: DragEvent?): Boolean {
+        return if(dragMode != DragMode.NONE) {
+            event?.let {
+                MainActivity.instance?.deliveryDragEvent(event)
+                when(event.action) {
+                    DragEvent.ACTION_DROP -> drop()
+                    DragEvent.ACTION_DRAG_ENDED -> {
+                        MainActivity.instance?.endDrag()
+                        end()
+                    }
+                }
+            }
+            true
+        }else {
+            false
+        }
+    }
+
+    fun drop() {
+        if(dragMode == MainDragAndDropListener.DragMode.INSERT) {
+            if(currentTime < startTime) {
+                val t = startTime
+                startTime = currentTime
+                currentTime = t
+            }
+            MainActivity.instance?.expandControlView(startTime, currentTime)
+        }
+    }
+
     fun end() {
         this.dragMode = DragMode.NONE
+        startTime = Long.MIN_VALUE
+        currentTime = Long.MIN_VALUE
     }
 
     class BlankDragShadowBuilder(v: View) : View.DragShadowBuilder(v) {

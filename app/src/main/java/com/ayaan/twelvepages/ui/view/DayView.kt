@@ -125,16 +125,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         setGlobalTheme(rootLy)
         initRecyclerView()
         clipChildren = false
-        dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-        //dateText.typeface = AppTheme.regularFont
+        //dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+        dateText.typeface = AppTheme.regularFont
         fakeDateText.typeface = AppTheme.regularFont
         dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
         holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-        (bar.layoutParams as LayoutParams).topMargin = 0
         dateLy.clipChildren = false
         dateLy.pivotX = 0f
         dateLy.pivotY = 0f
-        dateLy.setPadding(dpToPx(2.5f).toInt(), dpToPx(5f).toInt(), 0, 0)
         dowText.pivotX = 0f
         dowText.pivotY = 0f
         holiText.pivotX = 0f
@@ -269,7 +267,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }else {
             CalendarManager.dateColor
         }
-        bar.setBackgroundColor(color)
+        bar.setBackgroundColor(AppTheme.lightLine)
         dateText.setTextColor(color)
         dowText.setTextColor(color)
         holiText.setTextColor(color)
@@ -283,6 +281,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.text = AppDateFormat.dow.format(targetCal.time)
         val animSet = AnimatorSet()
         animSet.playTogether(
+                //ObjectAnimator.ofFloat(dayPager, "alpha", 0.5f, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleX", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dateLy, "scaleY", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dowText, "scaleX", 1f, dowScale),
@@ -403,8 +402,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                                 .sort("dtStart", Sort.ASCENDING)
                                 .findAll().map { realm.copyFromRealm(it) }
 
-
-
                         Thread.sleep(500)
                         realm.close()
                         return null
@@ -432,14 +429,19 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     companion object {
         const val headerTextScale = 5.5f
         const val mainMonthTextScale = 0.5f
-        val datePosX = dpToPx(8.0f)
-        val datePosY = dpToPx(8.0f)
-        val dowPosX = dpToPx(1.0f) / headerTextScale
-        val dowPosY = dpToPx(17.0f) / headerTextScale
-        val dowScale = 1.9f / headerTextScale
-        val holiPosX = dpToPx(2.0f) / headerTextScale
-        val holiPosY = -dpToPx(43.0f) / headerTextScale
-        val holiScale = 2.3f / headerTextScale
+
+        val datePosX = dpToPx(5.0f)
+        val datePosY = dpToPx(10.0f)
+
+        val dowPosX = -dpToPx(3.0f) / headerTextScale
+        val holiPosX = -dpToPx(3.0f) / headerTextScale
+
+        val subYPos = dpToPx(2.0f) / headerTextScale
+        val dowPosY = dpToPx(30.0f) / headerTextScale + subYPos
+        val holiPosY = -dpToPx(70.0f) / headerTextScale + subYPos
+
+        val dowScale = 2.2f / headerTextScale
+        val holiScale = 2.0f / headerTextScale
     }
 
 }

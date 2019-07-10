@@ -9,10 +9,12 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.animation.AccelerateInterpolator
 import android.widget.LinearLayout.HORIZONTAL
 import android.widget.LinearLayout.VERTICAL
 import androidx.cardview.widget.CardView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
@@ -44,7 +46,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     init {
         setCardBackgroundColor(CalendarManager.backgroundColor)
         elevation = 0f
-        radius = 0f
+        radius = dpToPx(3f)
         addView(viewPager)
         viewPager.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         viewPager.adapter = CalendarPagerAdapter()
@@ -136,16 +138,16 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     fun show() {
+        vibrate(context)
         viewMode = ViewMode.ANIMATING
         visibility = View.VISIBLE
         initTime(MainActivity.getTargetCal()?.timeInMillis ?: System.currentTimeMillis())
         MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)
-            val h = CalendarView.dataStartYOffset.toInt() - CalendarView.weekLyBottomPadding
-            layoutParams = LayoutParams(dateCell.width, h).apply {
+            layoutParams = LayoutParams(dateCell.width, dateCell.height).apply {
                 val xPos = location[0] + if(MainActivity.isFolderOpen()) -MainActivity.tabSize else 0
-                val yPos = location[1] - AppStatus.statusBarHeight + CalendarView.weekLyBottomPadding
+                val yPos = location[1] - AppStatus.statusBarHeight
                 setMargins(xPos, yPos, 0, 0)
             }
             val animSet = AnimatorSet()
@@ -219,9 +221,9 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             TransitionManager.beginDelayedTransition(this, transiion)
             (layoutParams as LayoutParams).let {
                 it.width = dateCell.width
-                it.height = CalendarView.dataStartYOffset.toInt() - CalendarView.weekLyBottomPadding
+                it.height = dateCell.height
                 val xPos = location[0] + if(MainActivity.isFolderOpen()) -MainActivity.tabSize else 0
-                val yPos = location[1] - AppStatus.statusBarHeight + CalendarView.weekLyBottomPadding
+                val yPos = location[1] - AppStatus.statusBarHeight
                 it.setMargins(xPos, yPos, 0, 0)
             }
             MainActivity.getMainDateLy()?.let {
