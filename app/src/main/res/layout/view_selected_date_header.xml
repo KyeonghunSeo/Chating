@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:layout_marginRight="2dp"
+                android:layout_marginRight="3dp"
                 android:textSize="13dp"
                 android:textColor="@color/primaryText"
                 android:text="27"/>
@@ -39,9 +39,9 @@
                 android:id="@+id/dowText"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1.5dp"
                 android:gravity="center_vertical"
-                android:textSize="10dp"
+                android:textSize="11dp"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:textColor="@color/primaryText"
@@ -62,14 +62,14 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="12dp">
+            android:layout_height="16dp">
 
             <TextView
                 android:id="@+id/fakeDateText"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:layout_marginRight="2dp"
+                android:layout_marginRight="3dp"
                 android:textSize="13dp"
                 android:textColor="@color/transparent"
                 android:visibility="gone"/>

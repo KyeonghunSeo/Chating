@@ -66,7 +66,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val monthCal: Calendar = Calendar.getInstance()
     val targetCal: Calendar = Calendar.getInstance()
 
-    var targetHolder: DateInfoViewHolder? = null
+    var targetDateHolder: DateInfoViewHolder? = null
     var targetWeekHolder: WeekInfoViewHolder? = null
     var calendarStartTime = Long.MAX_VALUE
     var calendarEndTime = Long.MAX_VALUE
@@ -145,7 +145,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 dateCell.setOnClickListener {
                     if (MainActivity.getDayPager()?.isClosed() == true &&
                             (AppStatus.outsideMonthAlpha > 0f || dateInfoViewHolder.isInMonth)) {
-                        if (targetHolder == dateInfoViewHolder) {
+                        if (targetDateHolder == dateInfoViewHolder) {
                             onSelectedDate?.invoke(dateInfoViewHolder, true)
                         } else {
                             selectDate(dateInfoViewHolder, weekLys[cellNum / columns].top < scrollView.scrollY + headerHeight)
@@ -153,7 +153,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     }
                 }
                 dateCell.setOnLongClickListener {
-                    if (targetHolder != dateInfoViewHolder) {
+                    if (targetDateHolder != dateInfoViewHolder) {
                         selectDate(dateInfoViewHolder, weekLys[cellNum / columns].top < scrollView.scrollY + headerHeight)
                     }
                     MainDragAndDropListener.start(it, MainDragAndDropListener.DragMode.INSERT)
@@ -182,7 +182,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         var color = 0
 
         init {
-            v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            //v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            v.dowText.typeface = AppTheme.regularFont
+            v.holiText.typeface = AppTheme.regularFont
             v.bar.setCardBackgroundColor(AppTheme.lightLine)
             v.clipChildren = false
         }
@@ -196,6 +198,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val alpha = if(isInMonth) 1f else AppStatus.outsideMonthAlpha
             v.dateLy.alpha = alpha
             v.dateText.text = String.format("%01d", tempCal.get(Calendar.DATE))
+            v.dowText.text = AppDateFormat.simpleDow.format(tempCal.time)
             v.dateText.setTextColor(color)
             v.holiText.setTextColor(color)
             v.dowText.setTextColor(color)
@@ -204,13 +207,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         fun target() {
-            targetHolder?.unTarget()
-            targetHolder = this
+            targetDateHolder?.unTarget()
+            targetDateHolder = this
             v.dateText.typeface = AppTheme.regularFont
             //v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-            v.holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.text = dateInfo.getSelectedString()
-            v.dowText.text = AppDateFormat.dow.format(targetCal.time)
             v.lunarText.visibility = View.GONE
             if(AppStatus.isDowDisplay) v.dowText.visibility = View.VISIBLE
 
@@ -252,7 +253,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         fun unTarget() {
-            targetHolder = null
+            targetDateHolder = null
             initViews()
             lastUnSelectDateAnimSet?.cancel()
             lastUnSelectDateAnimSet = AnimatorSet()
@@ -408,7 +409,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun unselectDate() {
-        targetHolder?.unTarget()
+        targetDateHolder?.unTarget()
         targetWeekHolder?.let { it.container.translationX = -calendarPadding.toFloat() }
         targetWeekHolder = null
     }
@@ -424,7 +425,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun onViewEffect(cellNum: Int) {
-        timeObjectCalendarAdapter.getViews(cellNum).let {
+        timeObjectCalendarAdapter.getViewsAtStart(cellNum).let {
             it.forEach { view ->
                 view.ellipsize = TextUtils.TruncateAt.MARQUEE
                 view.marqueeRepeatLimit = -1
@@ -437,7 +438,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun offViewEffect(cellNum: Int) {
-        timeObjectCalendarAdapter.getViews(cellNum).let {
+        timeObjectCalendarAdapter.getViewsAtStart(cellNum).let {
             it.forEach { view ->
                 view.ellipsize = null
                 view.isSelected = false
@@ -445,7 +446,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    fun getSelectedView(): View = targetHolder?.v ?: dateCellHolders[0].v
+    fun getSelectedView(): View = targetDateHolder?.v ?: dateCellHolders[0].v
+    fun getSelectedViewHolders(): List<RecordCalendarAdapter.RecordViewHolder>? {
+        targetDateHolder?.let {
+            return timeObjectCalendarAdapter.getViewHolders(it.cellNum)
+        }
+        return null
+    }
 
     private fun highlightCells(start: Int, end: Int) {
         val s = if(start < end) start else end

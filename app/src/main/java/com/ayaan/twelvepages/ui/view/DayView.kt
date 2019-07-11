@@ -16,6 +16,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.LinearLayout.HORIZONTAL
 import androidx.core.app.ActivityCompat
@@ -23,6 +24,8 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.DateDecorationAdapter
 import com.ayaan.twelvepages.adapter.RecordListAdapter
@@ -128,8 +131,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         //dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
         dateText.typeface = AppTheme.regularFont
         fakeDateText.typeface = AppTheme.regularFont
-        dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-        holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+        dowText.typeface = AppTheme.regularFont
+        holiText.typeface = AppTheme.regularFont
         dateLy.clipChildren = false
         dateLy.pivotX = 0f
         dateLy.pivotY = 0f
@@ -258,7 +261,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun setDateText() {
         dateText.text = String.format("%01d", targetCal.get(Calendar.DATE))
-        dowText.text = AppDateFormat.dow.format(targetCal.time)
+        dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
         DateInfoManager.getHoliday(dateInfo, targetCal)
         color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
             CalendarManager.sundayColor
@@ -277,11 +280,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.text = dateInfo.getSelectedString()
     }
 
-    fun show(dayPager: DayPager) {
-        dowText.text = AppDateFormat.dow.format(targetCal.time)
+    fun show(dataSize: Int) {
+        val dataAlpha = if(dataSize == 0) 0f else 1f
+        dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
         val animSet = AnimatorSet()
         animSet.playTogether(
-                //ObjectAnimator.ofFloat(dayPager, "alpha", 0.5f, 1f),
+                ObjectAnimator.ofFloat(previewDataImg, "alpha", 1f, 0f),
+                ObjectAnimator.ofFloat(previewDataImg, "translationY", 0f, dpToPx(120f)),
+                ObjectAnimator.ofFloat(bar, "alpha", 1f, 0f),
                 ObjectAnimator.ofFloat(dateLy, "scaleX", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dateLy, "scaleY", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dowText, "scaleX", 1f, dowScale),
@@ -295,18 +301,21 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(holiText, "translationX", 0f, holiPosX),
                 ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY),
                 ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleX", 1f, mainMonthTextScale),
-                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleY", 1f, mainMonthTextScale),
-                ObjectAnimator.ofFloat(bar, "alpha", 1f, 0f))
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleY", 1f, mainMonthTextScale))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
     }
 
-    fun hide(dayPager: DayPager) {
-        dowText.text = AppDateFormat.dow.format(targetCal.time)
+    fun hide(dataSize: Int) {
+        val dataAlpha = if(dataSize == 0) 0f else 1f
+        dowText.text = AppDateFormat.simpleDow.format(targetCal.time)
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
         animSet.playTogether(
+                ObjectAnimator.ofFloat(previewDataImg, "alpha", 0f, 1f),
+                ObjectAnimator.ofFloat(previewDataImg, "translationY", dpToPx(120f), 0f),
+                ObjectAnimator.ofFloat(bar, "alpha", 0f, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleX", headerTextScale, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleY", headerTextScale, 1f),
                 ObjectAnimator.ofFloat(dowText, "scaleX", dowScale, 1f),
@@ -320,14 +329,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(holiText, "translationX", holiPosX, 0f),
                 ObjectAnimator.ofFloat(holiText, "translationY", holiPosY, 0f),
                 ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleX", mainMonthTextScale, 1f),
-                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleY", mainMonthTextScale, 1f),
-                ObjectAnimator.ofFloat(bar, "alpha", 0f, 1f))
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleY", mainMonthTextScale, 1f))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
     }
 
     fun setDateOpenedStyle() {
+        TransitionManager.beginDelayedTransition(contentLy, makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN })
         contentLy.visibility = View.VISIBLE
         dateLy.scaleY = headerTextScale
         dateLy.scaleX = headerTextScale
@@ -346,6 +355,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.scaleY = mainMonthTextScale
         }
         bar.alpha = 0f
+        previewDataImg.alpha = 0f
+        previewDataImg.translationY = dpToPx(120f)
         fakeDateText.visibility = View.VISIBLE
     }
 
@@ -368,6 +379,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.scaleY = 1f
         }
         bar.alpha = 1f
+        previewDataImg.alpha = 0f
+        previewDataImg.translationY = 0f
         fakeDateText.visibility = View.GONE
     }
 
@@ -425,22 +438,23 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun getDateLy() : LinearLayout = dateLy
     fun getRootLy() : FrameLayout = rootLy
+    fun getPreviewDataImg() : View = previewDataImg
 
     companion object {
         const val headerTextScale = 5.5f
         const val mainMonthTextScale = 0.5f
 
-        val datePosX = dpToPx(5.0f)
+        val datePosX = -dpToPx(10.0f)
         val datePosY = dpToPx(10.0f)
 
-        val dowPosX = -dpToPx(3.0f) / headerTextScale
-        val holiPosX = -dpToPx(3.0f) / headerTextScale
+        val dowPosX = -dpToPx(7.0f) / headerTextScale
+        val holiPosX = -dpToPx(5.0f) / headerTextScale
 
-        val subYPos = dpToPx(2.0f) / headerTextScale
-        val dowPosY = dpToPx(30.0f) / headerTextScale + subYPos
-        val holiPosY = -dpToPx(70.0f) / headerTextScale + subYPos
+        val subYPos = -dpToPx(2.0f) / headerTextScale
+        val dowPosY = dpToPx(32.0f) / headerTextScale + subYPos
+        val holiPosY = -dpToPx(74.0f) / headerTextScale + subYPos
 
-        val dowScale = 2.2f / headerTextScale
+        val dowScale = 2.8f / headerTextScale
         val holiScale = 2.0f / headerTextScale
     }
 

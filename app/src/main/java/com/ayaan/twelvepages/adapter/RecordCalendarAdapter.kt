@@ -315,12 +315,16 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         return order
     }
 
-    fun getViews(cellNum: Int) : List<RecordView> {
+    fun getViewsAtStart(cellNum: Int) : List<RecordView> {
         val result = ArrayList<RecordView>()
         viewHolderList.filter { cellNum in it.startCellNum..it.endCellNum }.forEach { holder ->
             holder.items.filter { it.cellNum == cellNum }.forEach { result.add(it) }
         }
         return result
+    }
+
+    fun getViewHolders(cellNum: Int) : List<RecordViewHolder> {
+        return viewHolderList.filter { cellNum in it.startCellNum..it.endCellNum }
     }
 
     inner class RecordViewHolder(val formula: Formula, val record: Record,
