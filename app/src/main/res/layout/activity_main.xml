@@ -83,7 +83,7 @@
                             android:id="@+id/mainMonthLy"
                             android:orientation="horizontal"
                             android:layout_width="wrap_content"
-                            android:layout_height="46dp"
+                            android:layout_height="wrap_content"
                             android:animateLayoutChanges="true"
                             android:gravity="center_vertical">
 
@@ -91,9 +91,9 @@
                                 android:id="@+id/mainMonthText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/regular"
+                                android:fontFamily="@font/bold"
                                 android:background="?android:attr/selectableItemBackground"
-                                android:textSize="36dp"/>
+                                android:textSize="27dp"/>
 
                         </LinearLayout>
 

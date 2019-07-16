@@ -128,8 +128,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         setGlobalTheme(rootLy)
         initRecyclerView()
         clipChildren = false
-        //dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-        dateText.typeface = AppTheme.regularFont
+        dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+        //dateText.typeface = AppTheme.regularFont
         fakeDateText.typeface = AppTheme.regularFont
         dowText.typeface = AppTheme.regularFont
         holiText.typeface = AppTheme.regularFont
@@ -441,8 +441,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     fun getPreviewDataImg() : View = previewDataImg
 
     companion object {
-        const val headerTextScale = 5.5f
-        const val mainMonthTextScale = 0.5f
+        const val headerTextScale = 5.0f
+        const val mainMonthTextScale = 0.666f
 
         val datePosX = -dpToPx(10.0f)
         val datePosY = dpToPx(10.0f)

@@ -38,7 +38,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val columns = 7
         val todayCal: Calendar = Calendar.getInstance()
         val dragStartYPos = dpToPx(0f)
-        val calendarPadding = dpToPx(15)
+        val calendarPadding = dpToPx(13)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
@@ -110,7 +110,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         calendarLy.clipChildren = false
 
         rowDividers.forEachIndexed { index, view ->
-            view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 3).apply {
+            view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
                 leftMargin = 0
                 rightMargin = 0
             }
@@ -183,7 +183,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         init {
             //v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-            v.dowText.typeface = AppTheme.regularFont
+            v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.typeface = AppTheme.regularFont
             v.bar.setCardBackgroundColor(AppTheme.lightLine)
             v.clipChildren = false
@@ -198,7 +198,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val alpha = if(isInMonth) 1f else AppStatus.outsideMonthAlpha
             v.dateLy.alpha = alpha
             v.dateText.text = String.format("%01d", tempCal.get(Calendar.DATE))
-            v.dowText.text = AppDateFormat.simpleDow.format(tempCal.time)
+            v.dowText.text = AppDateFormat.dowEng.format(tempCal.time)
             v.dateText.setTextColor(color)
             v.holiText.setTextColor(color)
             v.dowText.setTextColor(color)
@@ -209,8 +209,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         fun target() {
             targetDateHolder?.unTarget()
             targetDateHolder = this
-            v.dateText.typeface = AppTheme.regularFont
-            //v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            //v.dateText.typeface = AppTheme.regularFont
+            v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.text = dateInfo.getSelectedString()
             v.lunarText.visibility = View.GONE
             if(AppStatus.isDowDisplay) v.dowText.visibility = View.VISIBLE
@@ -324,7 +324,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
         minCalendarHeight = height.toFloat() - headerHeight - calendarPadding * 1
-        minWidth = (width.toFloat() - calendarPadding * 1) / columns
+        minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
 
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {
