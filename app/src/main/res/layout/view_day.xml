@@ -77,10 +77,10 @@
         android:id="@+id/previewDataImg"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="32dp"
         android:translationX="-3dp"
         android:scaleType="fitXY"
-        android:tint="@color/disableText"
+        android:tint="@color/light_line"
         android:src="@drawable/align_left"/>
 
 </FrameLayout>

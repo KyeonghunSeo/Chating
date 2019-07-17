@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.AccelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout.HORIZONTAL
 import android.widget.LinearLayout.VERTICAL
 import androidx.cardview.widget.CardView
@@ -61,13 +62,14 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 }
             }
         })
+        /*
         viewPager.setPageTransformer(true) { view, position ->
             val pageWidth = view.width
             when {
                 position > -1 && position < 0 -> (view as DayView).getRootLy().translationX = pageWidth * position * -0.9f
                 else -> restoreView(view as DayView)
             }
-        }
+        }*/
         viewPager.setPagingEnabled(false)
         visibility = View.GONE
     }
@@ -154,8 +156,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             val animSet = AnimatorSet()
             animSet.playTogether(ObjectAnimator.ofFloat(this@DayPager, "elevation", 0f, startZ),
                     ObjectAnimator.ofFloat(targetDayView.getPreviewDataImg(), "alpha", 0f, 1f))
-            animSet.duration = 100L
-            animSet.interpolator = FastOutSlowInInterpolator()
+            animSet.duration = 150L
             animSet.addListener(object : AnimatorListenerAdapter(){
                 override fun onAnimationEnd(p0: Animator?) {
                     val transiion = makeChangeBounceTransition()
@@ -205,7 +206,6 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                     val animSet = AnimatorSet()
                     animSet.playTogether(ObjectAnimator.ofFloat(this@DayPager, "elevation", startZ, 0f),
                             ObjectAnimator.ofFloat(targetDayView.getPreviewDataImg(), "alpha", 1f, 0f))
-                    animSet.interpolator = FastOutSlowInInterpolator()
                     animSet.duration = 150L
                     animSet.addListener(object : AnimatorListenerAdapter(){
                         override fun onAnimationEnd(p0: Animator?) {

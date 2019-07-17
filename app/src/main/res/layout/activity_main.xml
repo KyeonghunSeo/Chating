@@ -93,7 +93,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/bold"
                                 android:background="?android:attr/selectableItemBackground"
-                                android:textSize="27dp"/>
+                                android:textSize="24dp"/>
 
                         </LinearLayout>
 
@@ -146,7 +146,7 @@
                     android:id="@+id/topShadow"
                     android:layout_width="match_parent"
                     android:layout_height="6dp"
-                    android:layout_marginTop="100dp"
+                    android:layout_marginTop="90dp"
                     android:background="@drawable/line_top_shadow"/>
 
                 <com.ayaan.twelvepages.ui.view.DayPager
@@ -170,36 +170,18 @@
             android:id="@+id/todayBtn"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_margin="10dp"
             android:layout_gravity="center_horizontal|bottom">
-
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_gravity="bottom"
-                android:src="@drawable/tab_edge_top"
-                android:tint="@color/backgroundDark"
-                android:elevation="4dp"/>
-
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_gravity="bottom|right"
-                android:src="@drawable/tab_edge_rb"
-                android:tint="@color/backgroundDark"
-                android:elevation="4dp"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:translationY="8dp"
+                android:layout_margin="5dp"
                 android:outlineSpotShadowColor="@color/secondaryText"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/backgroundDark"
+                app:cardBackgroundColor="@color/primaryText"
                 app:cardElevation="4dp"
-                app:cardCornerRadius="8dp">
+                app:cardCornerRadius="10dp">
 
                 <LinearLayout
                     android:layout_gravity="center"
@@ -207,7 +189,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
-                    android:layout_marginBottom="4dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp">
 
@@ -217,18 +198,18 @@
                         android:layout_height="12dp"
                         android:layout_marginRight="3dp"
                         android:src="@drawable/arrow_left"
-                        android:tint="@color/secondaryText"
+                        android:tint="@color/background"
                         android:layout_gravity="center_vertical" />
 
                     <TextView
                         android:id="@+id/todayText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="10dp"
-                        android:textColor="@color/secondaryText"
+                        android:textSize="11dp"
+                        android:textColor="@color/background"
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/bold"
-                        android:text="@string/today"/>
+                        android:text="@string/today_c"/>
 
                     <ImageView
                         android:id="@+id/todayRightArrow"
@@ -236,7 +217,7 @@
                         android:layout_height="12dp"
                         android:layout_marginLeft="3dp"
                         android:src="@drawable/arrow_right"
-                        android:tint="@color/secondaryText"
+                        android:tint="@color/background"
                         android:layout_gravity="center_vertical|right" />
 
                 </LinearLayout>
@@ -252,7 +233,7 @@
             android:layout_marginLeft="-40dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="bottom"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -381,8 +362,8 @@
         android:id="@+id/profileBtn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
         android:layout_gravity="right"
         android:elevation="30dp">
 
@@ -390,10 +371,10 @@
             android:id="@+id/profileCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
             android:layout_gravity="center"
             app:cardElevation="0dp"
-            app:cardCornerRadius="15dp">
+            app:cardCornerRadius="12dp">
 
             <ImageView
                 android:id="@+id/profileImg"

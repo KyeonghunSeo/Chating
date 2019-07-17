@@ -51,6 +51,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
                 l("$position 페이지 선택됨 : ${AppDateFormat.ymd.format(targetCalendarView.targetCal.time)}")
             }
         })
+        /*
         viewPager.setPageTransformer(true) { view, position ->
             val pageWidth = view.width
             when {
@@ -58,7 +59,8 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
                 else -> restoreView(view as CalendarView)
             }
         }
-        /*
+        */
+/*
         viewPager.setPageTransformer(true) { view, position ->
             val pageWidth = view.width
             when {
@@ -68,7 +70,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
                         val weight = 1f + (position / 4)
                         it.scaleX = weight
                         it.scaleY = weight
-                        it.alpha = weight
+                        it.alpha = 1f + (position)
                     }
                 }
                 position >= 0 -> {
@@ -79,7 +81,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
                 }
             }
         }
-        */
+*/
     }
 
     private fun selectedTargetCalendarView(calendarView: CalendarView) {

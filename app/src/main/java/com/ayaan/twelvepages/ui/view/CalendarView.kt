@@ -27,6 +27,7 @@ import com.ayaan.twelvepages.manager.DateInfoManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
+import com.ayaan.twelvepages.ui.view.base.CalendarBackground
 import kotlinx.android.synthetic.main.view_selected_date_header.view.*
 import io.realm.RealmResults
 import java.util.*
@@ -42,13 +43,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
-        val dataStartYOffset = dpToPx(43f)
-        val headerHeight = dpToPx(100)
+        val dataStartYOffset = dpToPx(36f)
+        val headerHeight = dpToPx(90)
     }
 
     private val headerView = View(context)
     private val scrollView = NestedScrollView(context)
-    val calendarLy = LinearLayout(context)
+    val calendarLy = CalendarBackground(context)
     val weekLys = Array(6) { FrameLayout(context) }
     private val columnDividers = Array(maxCellNum) { View(context) }
     private val rowDividers = Array(6) { View(context) }
@@ -105,9 +106,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(0, headerHeight, 0, calendarPadding)
+        calendarLy.setPadding(0, headerHeight + calendarPadding, 0, calendarPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
+        calendarLy.clipToPadding = false
 
         rowDividers.forEachIndexed { index, view ->
             view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
@@ -185,7 +187,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             //v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.typeface = AppTheme.regularFont
-            v.bar.setCardBackgroundColor(AppTheme.lightLine)
             v.clipChildren = false
         }
 
@@ -212,7 +213,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             //v.dateText.typeface = AppTheme.regularFont
             v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.text = dateInfo.getSelectedString()
-            v.lunarText.visibility = View.GONE
             if(AppStatus.isDowDisplay) v.dowText.visibility = View.VISIBLE
 
             lastSelectDateAnimSet?.cancel()
@@ -276,13 +276,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         private fun initViews() {
             v.dateText.typeface = AppTheme.regularFont
             v.holiText.typeface = AppTheme.regularFont
-            v.lunarText.typeface = AppTheme.regularFont
             v.holiText.alpha = 1f
             v.holiText.translationX = 0f
             v.dowText.alpha = 1f
             v.dowText.translationX = 0f
             v.dowText.visibility = View.GONE
-            v.lunarText.visibility = View.GONE
             v.holiText.text = dateInfo.getUnSelectedString()
         }
     }
@@ -294,8 +292,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         init {
             weeknumText.setTextColor(AppTheme.backgroundDark)
             weeknumText.setTypeface(AppTheme.boldFont, Typeface.ITALIC)
+            container.visibility = View.GONE
             indicatorLy.visibility = View.GONE
-            container.translationX = 0f
             weekArrow.visibility = View.GONE
         }
     }
@@ -323,7 +321,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if (startCellNum < 0) { startCellNum += 7 }
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height.toFloat() - headerHeight - calendarPadding * 1
+        minCalendarHeight = height.toFloat() - headerHeight - calendarPadding * 2
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
 
@@ -360,7 +358,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     dateCellHolders[cellNum].let {
                         it.setDate(tempCal)
                         it.v.translationX = minWidth * j + calendarPadding
-                        it.v.layoutParams.width = minWidth.toInt()
+                        it.v.layoutParams.width = minWidth.toInt() + 1 /* 나누기 유격 커버 */
                     }
                     recordsViews[cellNum].let {
                         it.translationX = minWidth * j + calendarPadding
@@ -457,19 +455,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun highlightCells(start: Int, end: Int) {
         val s = if(start < end) start else end
         val e = if(start < end) end else start
-        dateCellHolders.forEachIndexed { index, holder ->
-           if(index in s..e) {
-               holder.v.background = AppTheme.hightlightCover
-           }else {
-               holder.v.background = AppTheme.blankDrawable
-           }
-        }
+        calendarLy.setDragPoint(s, e, weekLys, minWidth, headerHeight, calendarPadding)
     }
 
     private fun clearHighlight() {
-        dateCellHolders.forEachIndexed { index, holder ->
-            holder.v.background = AppTheme.blankDrawable
-        }
+        calendarLy.clearDragPoint()
     }
 
     private var recordList: RealmResults<Record>? = null

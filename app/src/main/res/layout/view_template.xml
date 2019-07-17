@@ -90,23 +90,21 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/addBtn"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="bottom|right"
         android:outlineSpotShadowColor="@color/secondaryText"
         android:foreground="?android:attr/selectableItemBackground"
-        android:layout_marginRight="-20dp"
-        android:layout_marginBottom="-20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
         app:cardBackgroundColor="@color/primaryText"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="15dp"
         app:cardElevation="4dp">
 
         <ImageView
             android:id="@+id/templateIconImg"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginLeft="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:padding="12dp"
             android:src="@drawable/add"
             android:tint="@color/background"/>
