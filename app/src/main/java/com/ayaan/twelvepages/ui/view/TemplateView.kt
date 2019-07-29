@@ -105,6 +105,28 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }.show(it.supportFragmentManager, null)
             }
         }
+
+        datePointBtn.setOnClickListener {
+            MainActivity.instance?.let {
+                StickerPickerDialog{ sticker ->
+                    val records = ArrayList<Record>()
+                    while (startCal <= endCal) {
+                        val dtStart = getCalendarTime0(startCal)
+                        val dtEnd = getCalendarTime23(startCal)
+                        records.add(RecordManager.makeNewRecord(dtStart, dtEnd).apply {
+                            id = "sticker_${UUID.randomUUID()}"
+                            dtCreated = System.currentTimeMillis()
+                            setFormula(RecordCalendarAdapter.Formula.DATE_POINT)
+                            setSticker(sticker)
+                        })
+                        startCal.add(Calendar.DATE, 1)
+                    }
+                    RecordManager.save(records)
+                    toast(R.string.saved, R.drawable.done)
+                    collapse()
+                }.show(it.supportFragmentManager, null)
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -132,7 +154,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             t1.addTarget(recyclerView)
             t2.addTarget(backgroundLy)
             t3.addTarget(dateLy)
-            t3.addTarget(stickerBtn)
+            t3.addTarget(decoBtns)
             transitionSet.addTransition(t1)
             transitionSet.addTransition(t2)
             transitionSet.addTransition(t3)
@@ -143,7 +165,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             backgroundLy.setOnClickListener { collapse() }
             backgroundLy.isClickable = true
             recyclerView.visibility = View.VISIBLE
-            stickerBtn.visibility = View.VISIBLE
+            decoBtns.visibility = View.VISIBLE
             backgroundLy.visibility = View.VISIBLE
             dateLy.visibility = View.VISIBLE
             templateIconImg.setImageResource(R.drawable.edit)
@@ -166,7 +188,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         t1.addTarget(recyclerView)
         t2.addTarget(backgroundLy)
         t3.addTarget(dateLy)
-        t3.addTarget(stickerBtn)
+        t3.addTarget(decoBtns)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
         transitionSet.addTransition(t3)
@@ -189,7 +211,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
         recyclerView.visibility = View.GONE
-        stickerBtn.visibility = View.GONE
+        decoBtns.visibility = View.GONE
         backgroundLy.visibility = View.GONE
         dateLy.visibility = View.GONE
         templateIconImg.setImageResource(R.drawable.add)

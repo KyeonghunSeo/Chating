@@ -230,7 +230,7 @@ class MainActivity : BaseActivity() {
             cal.set(2019, 6, 1)
             val s = cal.timeInMillis
             val list = ArrayList<Record>()
-            val c = 10 * 2
+            val c = 0
             val formulas = arrayOf(STACK, EXPANDED, DOT)
             list.add(RecordManager.makeNewRecord(s, s).apply {
                 title = "점심약속"
@@ -489,7 +489,8 @@ class MainActivity : BaseActivity() {
         when {
             todayOffset != 0 -> {
                 todayBtn.visibility = View.VISIBLE
-                var distance = Math.min(Math.abs(todayOffset / 7 * dpToPx(2f)), dpToPx(150f))
+                //var distance = Math.min(Math.abs(todayOffset / 7 * dpToPx(2f)), dpToPx(150f))
+                var distance = 0f
                 if(todayOffset < 0) {
                     distance *= -1
                     todayText.setPadding(dpToPx(8), 0, 0, 0)

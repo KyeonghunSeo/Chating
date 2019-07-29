@@ -43,7 +43,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val circlePadding = dpToPx(15)
-    val checkBoxPadding = dpToPx(15)
+    val checkBoxPadding = dpToPx(10)
     var itemTouchHelper: ItemTouchHelper? = null
     var query: String? = null
     private var footerHolder: FooterViewHolder? = null
@@ -102,7 +102,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
 
         v.iconImg.setColorFilter(record.getColor())
         if(record.isSetCheckBox) {
-            //v.iconImg.setPadding(checkBoxPadding, checkBoxPadding, checkBoxPadding, checkBoxPadding)
+            v.iconImg.setPadding(checkBoxPadding, checkBoxPadding, checkBoxPadding, checkBoxPadding)
             if(record.isDone()) {
                 v.iconImg.setImageResource(R.drawable.checked_fill)
                 if(AppStatus.checkedRecordDisplay == 2 || AppStatus.checkedRecordDisplay == 3) {
@@ -125,7 +125,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                 RecordManager.done(record)
             }
         }else {
-            //v.iconImg.setPadding(circlePadding, circlePadding, circlePadding, circlePadding)
+            v.iconImg.setPadding(circlePadding, circlePadding, circlePadding, circlePadding)
             v.iconImg.setImageResource(R.drawable.circle_fill)
             v.contentLy.alpha = 1f
             v.iconImg.setOnClickListener(null)

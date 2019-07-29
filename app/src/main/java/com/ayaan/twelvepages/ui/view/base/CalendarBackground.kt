@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.l
+import com.ayaan.twelvepages.ui.view.CalendarView
 import java.util.ArrayList
 
 
@@ -15,7 +16,7 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
     : LinearLayout(context, attrs, defStyleAttr) {
     private val paint = Paint()
     private val strokeWidth = dpToPx(0f)
-    private val dashEffect = DashPathEffect(floatArrayOf(dpToPx(6.0f), dpToPx(3.0f)), 2f)
+    private val dashEffect = DashPathEffect(floatArrayOf(dpToPx(4.0f), dpToPx(1.5f)), 2f)
 
     init {
         paint.color = Color.parseColor("#50000000")
@@ -320,15 +321,16 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     private fun drawPoints(list: ArrayList<Point>, canvas: Canvas?) {
+        val lineWidth = dpToPx(1.5f)
         paint.style = Paint.Style.STROKE
-        paint.strokeWidth = dpToPx(3f)
+        paint.strokeWidth = lineWidth
         paint.pathEffect = dashEffect
         val path = Path()
         list.forEachIndexed { index, p ->
             if(index == 0) {
-                path.moveTo(p.x.toFloat() + calendarPadding, p.y.toFloat() + headerHeight)
+                path.moveTo(p.x.toFloat() + calendarPadding, p.y.toFloat() + headerHeight + calendarPadding)
             }else {
-                path.lineTo(p.x.toFloat() + calendarPadding, p.y.toFloat() + headerHeight)
+                path.lineTo(p.x.toFloat() + calendarPadding, p.y.toFloat() + headerHeight + calendarPadding)
             }
         }
         path.close()

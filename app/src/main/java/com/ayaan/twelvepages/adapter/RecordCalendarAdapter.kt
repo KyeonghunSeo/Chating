@@ -39,7 +39,8 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         STAMP(R.string.formula_stamp, arrayOf(BLANK)),
         DOT(R.string.formula_dot, arrayOf(BLANK)),
         RANGE(R.string.formula_range, arrayOf(LINE, DASH, ARROW, DASH_ARROW, RECT_FILL, BOLD_HATCHED, UPPER_LINE)),
-        STICKER(R.string.formula_sticker, arrayOf(BLANK));
+        STICKER(R.string.formula_sticker, arrayOf(BLANK)),
+        DATE_POINT(R.string.formula_date_point, arrayOf(BLANK));
 
         companion object {
             fun styleToFormula(style: Int) = values()[style % 100]
@@ -113,7 +114,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         }
 
         when(formula){
-            STAMP, DOT, STICKER -> {
+            STAMP, DOT, STICKER, DATE_POINT -> {
                 (startCellNum .. endCellNum).forEach { cellnum ->
                     val holder =
                             viewHolderList.firstOrNull{ it.formula == formula && it.startCellNum == cellnum }
