@@ -51,6 +51,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import com.ayaan.twelvepages.manager.CalendarManager
+import com.ayaan.twelvepages.manager.ColorManager
+import com.ayaan.twelvepages.ui.dialog.UndoneListDialog
 
 class MainActivity : BaseActivity() {
     companion object {
@@ -179,10 +181,6 @@ class MainActivity : BaseActivity() {
         folderListView.layoutManager = LinearLayoutManager(this)
         folderListView.adapter = folderAdapter
         folderAdapter.itemTouchHelper?.attachToRecyclerView(folderListView)
-        tabBtn.setOnClickListener {
-            vibrate(this)
-            viewModel.openFolder.value = viewModel.openFolder.value != true
-        }
         folderBtn.setOnClickListener {
             vibrate(this)
             viewModel.openFolder.value = viewModel.openFolder.value != true
@@ -329,18 +327,46 @@ class MainActivity : BaseActivity() {
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
         viewModel.clipRecord.observe(this, Observer { updateClipUI(it) })
         viewModel.countdownRecords.observe(this, Observer { updateCountdownUI(it) })
+        viewModel.undoneRecords.observe(this, Observer { updateUndoneUI(it) })
     }
 
     @SuppressLint("SetTextI18n")
     private fun updateCountdownUI(list: RealmResults<Record>?) {
         if(list.isNullOrEmpty()) {
-            countdownText.visibility = View.GONE
+            countdownBtn.visibility = View.GONE
         }else {
-            countdownText.visibility = View.VISIBLE
+            countdownBtn.visibility = View.VISIBLE
             list[0]?.let { record ->
+                val color = record.getColor()
+                val fontColor = ColorManager.getFontColor(color)
                 countdownText.text = record.getCountdownText(System.currentTimeMillis())
+                countdownCard.setCardBackgroundColor(color)
+                countdownImg.setColorFilter(fontColor)
+                countdownText.setTextColor(fontColor)
                 countdownText.setOnClickListener {
                     showDialog(CountdownListDialog(this) {
+                    }, true, true, true, false)
+                }
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateUndoneUI(list: RealmResults<Record>?) {
+        if(list.isNullOrEmpty()) {
+            undoneBtn.visibility = View.GONE
+        }else {
+            undoneBtn.visibility = View.VISIBLE
+            list[0]?.let { record ->
+                val color = record.getColor()
+                val fontColor = ColorManager.getFontColor(color)
+                undoneText.text = record.title
+                undoneCard.setCardBackgroundColor(color)
+                undoneImg.setColorFilter(fontColor)
+                undoneText.setTextColor(fontColor)
+                undoneBadgeText.text = list.size.toString()
+                undoneText.setOnClickListener {
+                    showDialog(UndoneListDialog(this) {
                     }, true, true, true, false)
                 }
             }

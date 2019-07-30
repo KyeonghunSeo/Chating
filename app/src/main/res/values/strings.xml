@@ -346,6 +346,7 @@
     <string name="thin">흐리게</string>
     <string name="bold">진하게</string>
     <string name="formula_date_point">날짜강조</string>
+    <string name="undone_records">미완료 기록</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

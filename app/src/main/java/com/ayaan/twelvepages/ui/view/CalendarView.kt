@@ -44,7 +44,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
         val dataStartYOffset = dpToPx(36f)
-        val headerHeight = dpToPx(80)
+        val headerHeight = dpToPx(75)
     }
 
     private val headerView = View(context)
@@ -106,7 +106,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(0, headerHeight + calendarPadding, 0, calendarPadding)
+        calendarLy.setPadding(0, headerHeight + calendarPadding / 2, 0, calendarPadding / 2)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
         calendarLy.clipToPadding = false
@@ -116,12 +116,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 leftMargin = 0
                 rightMargin = 0
             }
-            view.setBackgroundColor(AppTheme.line)
+            view.setBackgroundColor(AppTheme.primaryText)
         }
 
         columnDividers.forEachIndexed { index, view ->
             view.layoutParams = LayoutParams(lineWidth.toInt() * 2, 0)
-            view.setBackgroundColor(AppTheme.line)
+            view.setBackgroundColor(AppTheme.primaryText)
         }
 
         for(i in 0..5) {
@@ -321,7 +321,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if (startCellNum < 0) { startCellNum += 7 }
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height.toFloat() - headerHeight - calendarPadding * 2
+        minCalendarHeight = height.toFloat() - headerHeight - calendarPadding
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
 

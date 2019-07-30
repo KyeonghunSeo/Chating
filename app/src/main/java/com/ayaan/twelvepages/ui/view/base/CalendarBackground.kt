@@ -5,11 +5,8 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.dpToPx
-import com.ayaan.twelvepages.l
-import com.ayaan.twelvepages.ui.view.CalendarView
-import java.util.ArrayList
+import java.util.*
 
 
 class CalendarBackground @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -328,9 +325,9 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
         val path = Path()
         list.forEachIndexed { index, p ->
             if(index == 0) {
-                path.moveTo(p.x.toFloat() + calendarPadding, p.y.toFloat() + headerHeight + calendarPadding)
+                path.moveTo(p.x.toFloat() + calendarPadding, p.y.toFloat() + headerHeight + calendarPadding/2)
             }else {
-                path.lineTo(p.x.toFloat() + calendarPadding, p.y.toFloat() + headerHeight + calendarPadding)
+                path.lineTo(p.x.toFloat() + calendarPadding, p.y.toFloat() + headerHeight + calendarPadding/2)
             }
         }
         path.close()
