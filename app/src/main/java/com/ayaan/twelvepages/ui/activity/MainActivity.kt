@@ -8,12 +8,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
-import android.view.Window
 import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
@@ -24,8 +22,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
-import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
+import com.ayaan.twelvepages.manager.CalendarManager
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.AppUser
 import com.ayaan.twelvepages.model.Folder
@@ -33,7 +33,7 @@ import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.CalendarSettingsDialog
 import com.ayaan.twelvepages.ui.dialog.CountdownListDialog
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
-import com.ayaan.twelvepages.ui.view.RecordView
+import com.ayaan.twelvepages.ui.dialog.UndoneListDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -49,10 +49,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
-import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
-import com.ayaan.twelvepages.manager.CalendarManager
-import com.ayaan.twelvepages.manager.ColorManager
-import com.ayaan.twelvepages.ui.dialog.UndoneListDialog
 
 class MainActivity : BaseActivity() {
     companion object {
@@ -137,9 +133,7 @@ class MainActivity : BaseActivity() {
         mainMonthLy.pivotX = 0f
         mainMonthLy.pivotY = dpToPx(0f)
         mainPanel.setOnClickListener {}
-
         todayBtn.translationY = tabSize.toFloat()
-
         callAfterViewDrawed(rootLy, Runnable{
             /*
             val rectangle = Rect()
@@ -432,7 +426,8 @@ class MainActivity : BaseActivity() {
                 it.leftMargin = dpToPx(10)
             }
             animSet.playTogether(ObjectAnimator.ofFloat(folderArrowImg, "rotation", 0f, 180f),
-                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", 0f, -dpToPx(13f)))
+                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", 0f, -dpToPx(13f)),
+                    ObjectAnimator.ofFloat(profileBtn, "translationX", 0f, tabSize.toFloat()))
         }else {
             (folderListView.layoutParams as FrameLayout.LayoutParams).leftMargin = -tabSize
             (contentLy.layoutParams as FrameLayout.LayoutParams).let {
@@ -444,7 +439,8 @@ class MainActivity : BaseActivity() {
                 it.leftMargin = -dpToPx(40)
             }
             animSet.playTogether(ObjectAnimator.ofFloat(folderArrowImg, "rotation", 180f, 0f),
-                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", -dpToPx(13f), 0f))
+                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", -dpToPx(13f), 0f),
+                    ObjectAnimator.ofFloat(profileBtn, "translationX", tabSize.toFloat(), 0f))
         }
         animSet.start()
         mainPanel.requestLayout()
@@ -482,7 +478,7 @@ class MainActivity : BaseActivity() {
         when {
             FirebaseAuth.getInstance().currentUser?.photoUrl != null ->
                 Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl)
-                    .apply(RequestOptions().override(dpToPx(190)))
+                    .apply(RequestOptions().override(dpToPx(150)))
                     .into(profileImg)
             else -> profileImg.setImageResource(R.drawable.profile)
         }
@@ -493,7 +489,6 @@ class MainActivity : BaseActivity() {
         getTargetCal()?.let {
             mainMonthText.setTextColor(CalendarManager.dateColor)
             mainYearText.setTextColor(CalendarManager.dateColor)
-
             //mainYearText.text = AppDateFormat.year.format(it.time)
             mainYearText.text = "${it.get(Calendar.YEAR)}"
             //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))

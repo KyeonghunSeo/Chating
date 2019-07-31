@@ -442,18 +442,18 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         const val headerTextScale = 5.0f
         const val mainMonthTextScale = 0.70f
 
-        val datePosX = -dpToPx(4.0f)
+        val datePosX = -dpToPx(5.0f)
         val datePosY = dpToPx(15.0f)
 
-        val dowPosX = -dpToPx(7.0f) / headerTextScale
-        val holiPosX = -dpToPx(5.0f) / headerTextScale
+        val dowPosX = -dpToPx(0.0f) / headerTextScale
+        val holiPosX = dpToPx(0.0f) / headerTextScale
 
-        val subYPos = -dpToPx(2.0f) / headerTextScale
-        val dowPosY = dpToPx(10.0f) / headerTextScale + subYPos
-        val holiPosY = -dpToPx(34.0f) / headerTextScale + subYPos
+        val subYPos = -dpToPx(3.0f) / headerTextScale
+        val dowPosY = dpToPx(23.0f) / headerTextScale + subYPos
+        val holiPosY = -dpToPx(30.0f) / headerTextScale + subYPos
 
-        val dowScale = 2.5f / headerTextScale
-        val holiScale = 2.0f / headerTextScale
+        val dowScale = 1.4f / headerTextScale
+        val holiScale = 1.75f / headerTextScale
     }
 
 }
