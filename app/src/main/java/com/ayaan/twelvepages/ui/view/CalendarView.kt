@@ -55,7 +55,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val rowDividers = Array(6) { View(context) }
     private val weekViewHolders = Array(6) { WeekInfoViewHolder(
             LayoutInflater.from(context).inflate(R.layout.view_selected_week_info, null, false)) }
-    private val dateCellHolders = Array(maxCellNum) { index -> DateInfoViewHolder(index,
+    val dateCellHolders = Array(maxCellNum) { index -> DateInfoViewHolder(index,
             LayoutInflater.from(context).inflate(R.layout.view_selected_date_header, null, false) as FrameLayout,
             DateInfoManager.DateInfo()) }
     val recordsViews = Array(maxCellNum) { FrameLayout(context) }
@@ -576,4 +576,37 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑드래그 처리 부분↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+
+    fun drawInWidget(rv: RemoteViews, time: Long, dowIds: Array<Int>, dateIds: Array<Int>) {
+        drawCalendar(time)
+
+        rv.setTextViewText(R.id.monthlyText, AppDateFormat.monthEng.format(targetCal.time))
+        rv.setTextViewText(R.id.yearText, targetCal.get(Calendar.YEAR).toString())
+
+        dowIds.forEachIndexed { index, id ->
+            rv.setTextViewText(id, AppDateFormat.dowEng.format(Date(dateCellHolders[index].time)))
+            rv.setTextColor(id, dateCellHolders[index].color)
+        }
+
+        dateIds.forEachIndexed { index, id ->
+            rv.setTextViewText(id, dateCellHolders[index].v.dateText.text)
+            rv.setTextColor(id, dateCellHolders[index].color)
+            //rv.setInt(id, "setAlpha", if(dateCellHolders[index].isInMonth) 255 else (255 * AppStatus.outsideMonthAlpha).toInt())
+        }
+
+        when (rows) {
+            5 -> {
+                rv.setViewVisibility(R.id.row4, View.VISIBLE)
+                rv.setViewVisibility(R.id.row5, View.GONE)
+            }
+            6 -> {
+                rv.setViewVisibility(R.id.row4, View.VISIBLE)
+                rv.setViewVisibility(R.id.row5, View.VISIBLE)
+            }
+            else -> {
+                rv.setViewVisibility(R.id.row4, View.GONE)
+                rv.setViewVisibility(R.id.row5, View.GONE)
+            }
+        }
+    }
 }

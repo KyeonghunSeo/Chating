@@ -187,8 +187,6 @@
                                     android:id="@+id/undoneBadgeText"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_marginLeft="26dp"
-                                    android:layout_marginRight="6dp"
                                     android:gravity="center"
                                     android:maxLines="1"
                                     android:textColor="@color/background"
@@ -438,7 +436,7 @@
             android:layout_margin="10dp"
             android:layout_gravity="center"
             app:cardElevation="0.5dp"
-            app:cardCornerRadius="6dp">
+            app:cardCornerRadius="15dp">
 
             <ImageView
                 android:id="@+id/profileImg"

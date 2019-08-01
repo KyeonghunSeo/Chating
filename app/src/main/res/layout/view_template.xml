@@ -124,7 +124,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
         app:cardBackgroundColor="@color/primaryText"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="23dp"
         app:cardElevation="6dp">
 
         <ImageView

@@ -13,7 +13,7 @@
         android:orientation="vertical"
         android:layout_margin="25dp"
         app:cardMaxElevation="30dp"
-        app:cardCornerRadius="15dp">
+        app:cardCornerRadius="4dp">
 
         <LinearLayout
             android:id="@+id/contentLy"
@@ -74,13 +74,12 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/optionBtn"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:padding="15dp"
                     android:background="?android:attr/selectableItemBackground"
                     android:textSize="15dp"
@@ -93,7 +92,7 @@
                 <TextView
                     android:id="@+id/option2Btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:padding="15dp"
                     android:background="?android:attr/selectableItemBackground"
                     android:textSize="15dp"
@@ -105,35 +104,36 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp"
+                android:clipToPadding="false"
                 android:layout_gravity="right">
 
-                <TextView
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/cancelBtn"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:padding="15dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:background="?android:attr/selectableItemBackground"
-                    android:textSize="15dp"
+                    android:textSize="13dp"
                     android:gravity="center"
                     android:textColor="@color/colorPrimary"
                     android:fontFamily="@font/bold"
                     android:text="@string/cancel"/>
 
-                <TextView
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/confirmBtn"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:padding="15dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
                     android:background="?android:attr/selectableItemBackground"
-                    android:textSize="15dp"
+                    android:textSize="13dp"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimary"
                     android:fontFamily="@font/bold"
                     android:text="@string/confirm"/>
 

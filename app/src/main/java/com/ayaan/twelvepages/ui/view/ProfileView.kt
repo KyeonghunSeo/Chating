@@ -42,7 +42,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private val profileCloseRightMargin = dpToPx(10)
     private val profileOpenMargin = dpToPx(0)
     private val profileOpenTopMargin = dpToPx(0)
-    private val profileCardRadius = dpToPx(6f)
+    private val profileCardRadius = dpToPx(15f)
     private val zOffset = dpToPx(30f)
     private val panelOffset = dpToPx(200f)
     var viewMode = ViewMode.CLOSED

@@ -219,8 +219,8 @@ class MainActivity : BaseActivity() {
 
         mainMonthText.setOnLongClickListener {
             val cal = Calendar.getInstance()
-            cal.set(2019, 6, 1)
-            val s = cal.timeInMillis
+            cal.set(2019, 7, 1)
+            var s = cal.timeInMillis
             val list = ArrayList<Record>()
             val c = 0
             val formulas = arrayOf(STACK, EXPANDED, DOT)
@@ -350,14 +350,14 @@ class MainActivity : BaseActivity() {
         if(list.isNullOrEmpty()) {
             undoneBtn.visibility = View.GONE
         }else {
-            undoneBtn.visibility = View.VISIBLE
+            undoneBtn.visibility = View.GONE
             list[0]?.let { record ->
                 val color = record.getColor()
                 val fontColor = ColorManager.getFontColor(color)
                 undoneText.text = record.title
-                undoneCard.setCardBackgroundColor(color)
-                undoneImg.setColorFilter(fontColor)
-                undoneText.setTextColor(fontColor)
+                //undoneCard.setCardBackgroundColor(color)
+                //undoneImg.setColorFilter(fontColor)
+                //undoneText.setTextColor(fontColor)
                 undoneBadgeText.text = list.size.toString()
                 undoneText.setOnClickListener {
                     showDialog(UndoneListDialog(this) {
@@ -608,6 +608,7 @@ class MainActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RC_LOGIN) {
             if(resultCode == RESULT_OK) {
+
                 viewModel.initRealm(SyncUser.current())
             } else finish()
         }else if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
