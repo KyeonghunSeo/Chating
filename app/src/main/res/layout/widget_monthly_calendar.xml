@@ -3,6 +3,7 @@
     android:layout_height="fill_parent">
 
     <ImageView
+        android:id="@+id/backgroundView"
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,7 +33,7 @@
                     android:id="@+id/monthlyText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="5dp"
                     android:text="12"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
@@ -59,16 +60,17 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:padding="8dp"
-                android:tint="@color/iconTint" />
+                android:tint="@color/iconTint"
+                android:visibility="gone"/>
 
             <ImageButton
                 android:layout_gravity="right|center_vertical"
                 android:scaleType="centerInside"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/setting"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:padding="9dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="6dp"
                 android:tint="@color/iconTint"/>
 
         </FrameLayout>
@@ -85,7 +87,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
 
             <TextView
                 android:id="@+id/dowText1"
@@ -93,7 +96,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
 
             <TextView
                 android:id="@+id/dowText2"
@@ -101,7 +105,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
 
             <TextView
                 android:id="@+id/dowText3"
@@ -109,7 +114,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
 
             <TextView
                 android:id="@+id/dowText4"
@@ -117,7 +123,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
 
             <TextView
                 android:id="@+id/dowText5"
@@ -125,7 +132,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
 
             <TextView
                 android:id="@+id/dowText6"
@@ -133,7 +141,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
         </LinearLayout>
 
         <FrameLayout
@@ -153,12 +162,13 @@
                     android:orientation="vertical"
                     android:paddingBottom="5dp" >
 
-                    <LinearLayout
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="2px"
-                        android:background="@color/disableText"
+                        android:background="@color/light_line"
+                        android:layout_marginBottom="3dp"
                         android:orientation="vertical" >
-                    </LinearLayout>
+                    </ImageView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -329,12 +339,13 @@
                     android:orientation="vertical"
                     android:paddingBottom="5dp" >
 
-                    <LinearLayout
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="2px"
-                        android:background="@color/disableText"
+                        android:background="@color/light_line"
+                        android:layout_marginBottom="3dp"
                         android:orientation="vertical" >
-                    </LinearLayout>
+                    </ImageView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -505,12 +516,13 @@
                     android:orientation="vertical"
                     android:paddingBottom="5dp" >
 
-                    <LinearLayout
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="2px"
-                        android:background="@color/disableText"
+                        android:background="@color/light_line"
+                        android:layout_marginBottom="3dp"
                         android:orientation="vertical" >
-                    </LinearLayout>
+                    </ImageView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -681,12 +693,13 @@
                     android:orientation="vertical"
                     android:paddingBottom="5dp" >
 
-                    <LinearLayout
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="2px"
-                        android:background="@color/disableText"
+                        android:background="@color/light_line"
+                        android:layout_marginBottom="3dp"
                         android:orientation="vertical" >
-                    </LinearLayout>
+                    </ImageView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -857,12 +870,13 @@
                     android:orientation="vertical"
                     android:paddingBottom="5dp" >
 
-                    <LinearLayout
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="2px"
-                        android:background="@color/disableText"
+                        android:background="@color/light_line"
+                        android:layout_marginBottom="3dp"
                         android:orientation="vertical" >
-                    </LinearLayout>
+                    </ImageView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -1033,12 +1047,13 @@
                     android:orientation="vertical"
                     android:paddingBottom="5dp" >
 
-                    <LinearLayout
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="2px"
-                        android:background="@color/disableText"
+                        android:background="@color/light_line"
+                        android:layout_marginBottom="3dp"
                         android:orientation="vertical" >
-                    </LinearLayout>
+                    </ImageView>
 
                     <LinearLayout
                         android:layout_width="match_parent"

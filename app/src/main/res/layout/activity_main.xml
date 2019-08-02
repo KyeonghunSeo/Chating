@@ -45,7 +45,7 @@
                 <FrameLayout
                     android:id="@+id/headerLy"
                     android:layout_width="match_parent"
-                    android:layout_height="110dp"
+                    android:layout_height="90dp"
                     android:elevation="20dp"
                     android:clipChildren="false">
 
@@ -196,6 +196,77 @@
 
                         </FrameLayout>
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/dowLy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/dowText0"
+                            android:text="S"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/regular"/>
+
+                        <TextView
+                            android:id="@+id/dowText1"
+                            android:text="S"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/regular"/>
+
+                        <TextView
+                            android:id="@+id/dowText2"
+                            android:text="S"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/regular"/>
+
+                        <TextView
+                            android:id="@+id/dowText3"
+                            android:text="S"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/regular"/>
+
+                        <TextView
+                            android:id="@+id/dowText4"
+                            android:text="S"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/regular"/>
+
+                        <TextView
+                            android:id="@+id/dowText5"
+                            android:text="S"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/regular"/>
+
+                        <TextView
+                            android:id="@+id/dowText6"
+                            android:text="S"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/regular"/>
                     </LinearLayout>
 
                 </FrameLayout>

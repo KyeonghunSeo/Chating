@@ -594,6 +594,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             //rv.setInt(id, "setAlpha", if(dateCellHolders[index].isInMonth) 255 else (255 * AppStatus.outsideMonthAlpha).toInt())
         }
 
+
+
         when (rows) {
             5 -> {
                 rv.setViewVisibility(R.id.row4, View.VISIBLE)

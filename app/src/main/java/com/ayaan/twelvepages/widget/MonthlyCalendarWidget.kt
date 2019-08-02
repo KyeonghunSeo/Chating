@@ -59,6 +59,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
         if(calendarView == null) calendarView = CalendarView(context)
         calendarView?.drawInWidget(rv, System.currentTimeMillis(), dowIds, dateIds)
         rv.setOnClickPendingIntent(R.id.rootLy, makeAppStartPendingIntent(context))
+        rv.setInt(R.id.backgroundView, "setAlpha", 50)
         appWidgetManager.updateAppWidget(appWidgetId, rv)
     }
 
