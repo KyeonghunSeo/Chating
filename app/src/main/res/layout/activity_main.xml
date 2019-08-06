@@ -51,40 +51,31 @@
 
                     <LinearLayout
                         android:id="@+id/mainDateLy"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="19dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="18dp"
+                        android:animateLayoutChanges="true"
+                        android:background="?android:attr/selectableItemBackground"
                         android:clipChildren="false">
+
+                        <TextView
+                            android:id="@+id/mainMonthText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/bold"
+                            android:textSize="20dp"/>
 
                         <TextView
                             android:id="@+id/mainYearText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:gravity="center_vertical"
-                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_marginLeft="10dp"
+                            android:layout_gravity="center_vertical"
                             android:fontFamily="@font/thin"
-                            android:textSize="14dp"/>
-
-                        <LinearLayout
-                            android:id="@+id/mainMonthLy"
-                            android:orientation="horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:animateLayoutChanges="true"
-                            android:gravity="center_vertical">
-
-                            <TextView
-                                android:id="@+id/mainMonthText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/bold"
-                                android:background="?android:attr/selectableItemBackground"
-                                android:textSize="20dp"/>
-
-                        </LinearLayout>
+                            android:textSize="20dp"/>
 
                     </LinearLayout>
 
@@ -202,6 +193,9 @@
                         android:id="@+id/dowLy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="13.dp"
+                        android:layout_marginRight="13.dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_gravity="bottom"
                         android:orientation="horizontal">
 
@@ -210,7 +204,8 @@
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textSize="12dp"
+                            android:layout_marginLeft="3.5dp"
+                            android:textSize="11dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/regular"/>
 
@@ -219,7 +214,8 @@
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textSize="12dp"
+                            android:layout_marginLeft="3.5dp"
+                            android:textSize="11dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/regular"/>
 
@@ -228,7 +224,8 @@
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textSize="12dp"
+                            android:layout_marginLeft="3.5dp"
+                            android:textSize="11dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/regular"/>
 
@@ -237,7 +234,8 @@
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textSize="12dp"
+                            android:layout_marginLeft="3.5dp"
+                            android:textSize="11dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/regular"/>
 
@@ -246,7 +244,8 @@
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textSize="12dp"
+                            android:layout_marginLeft="3.5dp"
+                            android:textSize="11dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/regular"/>
 
@@ -255,7 +254,8 @@
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textSize="12dp"
+                            android:layout_marginLeft="3.5dp"
+                            android:textSize="11dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/regular"/>
 
@@ -264,7 +264,8 @@
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textSize="12dp"
+                            android:layout_marginLeft="3.5dp"
+                            android:textSize="11dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/regular"/>
                     </LinearLayout>
@@ -281,7 +282,7 @@
                     android:id="@+id/topShadow"
                     android:layout_width="match_parent"
                     android:layout_height="6dp"
-                    android:layout_marginTop="75dp"
+                    android:layout_marginTop="90dp"
                     android:background="@drawable/line_top_shadow"/>
 
                 <com.ayaan.twelvepages.ui.view.DayPager

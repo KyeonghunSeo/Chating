@@ -49,7 +49,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_profile, this, true).let {
-            setBackgroundColor(AppTheme.backgroundDark)
+            setBackgroundColor(AppTheme.background)
         }
         mottoText.setOnClickListener {
             showDialog(InputDialog(context as Activity, context.getString(R.string.motto), null, null,

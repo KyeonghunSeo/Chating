@@ -8,6 +8,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.DragEvent
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
 import com.ayaan.twelvepages.manager.CalendarManager
@@ -59,9 +61,9 @@ class MainActivity : BaseActivity() {
         fun getDayPager() = instance?.dayPager
         fun getMainPanel() = instance?.mainPanel
         fun getCalendarLy() = instance?.calendarLy
+        fun getDowLy() = instance?.dowLy
         fun getCalendarPager() = instance?.calendarPager
         fun getMainDateLy() = instance?.mainDateLy
-        fun getMainMonthLy() = instance?.mainMonthLy
         fun getMainYearText() = instance?.mainYearText
         fun getProfileBtn() = instance?.profileBtn
         fun getTemplateView() = instance?.templateView
@@ -129,9 +131,9 @@ class MainActivity : BaseActivity() {
 
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
-        mainMonthLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        mainMonthLy.pivotX = 0f
-        mainMonthLy.pivotY = dpToPx(0f)
+        mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        mainDateLy.pivotX = 0f
+        mainDateLy.pivotY = dpToPx(0f)
         mainPanel.setOnClickListener {}
         todayBtn.translationY = tabSize.toFloat()
         callAfterViewDrawed(rootLy, Runnable{
@@ -153,6 +155,22 @@ class MainActivity : BaseActivity() {
         calendarPager.onSelectedDate = { calendarView, dateInfoHolder, openDayView ->
             viewModel.targetTime.value = dateInfoHolder.time
             viewModel.targetCalendarView.value = calendarView
+
+            val dowTexts = arrayOf(dowText0, dowText1, dowText2, dowText3, dowText4, dowText5, dowText6)
+            dowTexts.forEachIndexed { index, textView ->
+                textView?.text = calendarView.dateCellHolders[index].getDowText()
+                if(dateInfoHolder.cellNum % 7 == index) {
+                    textView?.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+                }else {
+                    textView?.typeface = AppTheme.regularFont
+                }
+                textView?.setTextColor(when (index) {
+                    calendarView.sundayPos -> CalendarManager.sundayColor
+                    calendarView.saturdayPos -> CalendarManager.saturdayColor
+                    else -> CalendarManager.dateColor
+                })
+            }
+
             if(openDayView && dayPager.viewMode == ViewMode.CLOSED) dayPager.show()
             refreshTodayView(calendarView.todayStatus)
         }
@@ -285,10 +303,11 @@ class MainActivity : BaseActivity() {
                 colorKey = c + Random().nextInt(10)
             })
             list.forEach {
-                val f = formulas[Random().nextInt(formulas.size)]
-                //it.colorKey = 9
+                //val f = formulas[Random().nextInt(formulas.size)]
+                val f = RecordCalendarAdapter.Formula.STACK
+                it.colorKey = 9
                 //it.style = f.shapes[Random().nextInt(f.shapes.size)].ordinal * 100 + f.ordinal
-                it.style = f.shapes[0].ordinal * 100 + f.ordinal
+                it.style = f.shapes[1].ordinal * 100 + f.ordinal
             }
             RecordManager.save(list)
             return@setOnLongClickListener true

@@ -346,7 +346,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             check.draw(canvas)
         }else {
             paint.style = Paint.Style.STROKE
-            val check = resource.getDrawable(R.drawable.idea)
+            val check = resource.getDrawable(R.drawable.arrow_fill_right)
             check.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
             check.setBounds(
                     xOffset,

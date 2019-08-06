@@ -260,7 +260,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun setDateText() {
         dateText.text = String.format("%01d", targetCal.get(Calendar.DATE))
-        dowText.text = AppDateFormat.dowEng.format(targetCal.time)
+        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
         DateInfoManager.getHoliday(dateInfo, targetCal)
         color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
             CalendarManager.sundayColor
@@ -280,7 +280,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun show(dataSize: Int) {
         val dataAlpha = if(dataSize == 0) 0f else 1f
-        dowText.text = AppDateFormat.dowEng.format(targetCal.time)
+        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
         val animSet = AnimatorSet()
         animSet.playTogether(
                 ObjectAnimator.ofFloat(previewDataImg, "alpha", 1f, 0f),
@@ -298,8 +298,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "translationY", 0f, dowPosY),
                 ObjectAnimator.ofFloat(holiText, "translationX", 0f, holiPosX),
                 ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY),
-                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleX", 1f, mainMonthTextScale),
-                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleY", 1f, mainMonthTextScale))
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", 1f, mainMonthTextScale),
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", 1f, mainMonthTextScale),
+                ObjectAnimator.ofFloat(MainActivity.getDowLy(), "alpha", 1f, 0f),
+                ObjectAnimator.ofFloat(dowText, "alpha", 0f, 1f))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
@@ -307,7 +309,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun hide(dataSize: Int) {
         val dataAlpha = if(dataSize == 0) 0f else 1f
-        dowText.text = AppDateFormat.dowEng.format(targetCal.time)
+        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
         animSet.playTogether(
@@ -326,8 +328,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(dowText, "translationY", dowPosY, 0f),
                 ObjectAnimator.ofFloat(holiText, "translationX", holiPosX, 0f),
                 ObjectAnimator.ofFloat(holiText, "translationY", holiPosY, 0f),
-                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleX", mainMonthTextScale, 1f),
-                ObjectAnimator.ofFloat(MainActivity.getMainMonthLy(), "scaleY", mainMonthTextScale, 1f))
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", mainMonthTextScale, 1f),
+                ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", mainMonthTextScale, 1f),
+                ObjectAnimator.ofFloat(MainActivity.getDowLy(), "alpha", 0f, 1f),
+                ObjectAnimator.ofFloat(dowText, "alpha", 1f, 0f))
         animSet.duration = 300L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
@@ -340,6 +344,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dateLy.scaleX = headerTextScale
         dowText.scaleY = dowScale
         dowText.scaleX = dowScale
+        dowText.alpha = 1f
         holiText.scaleY = holiScale
         holiText.scaleX = holiScale
         dateLy.translationX = datePosX
@@ -348,10 +353,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.translationY = dowPosY
         holiText.translationX = holiPosX
         holiText.translationY = holiPosY
-        MainActivity.getMainMonthLy()?.let {
+        MainActivity.getMainDateLy()?.let {
             it.scaleX = mainMonthTextScale
             it.scaleY = mainMonthTextScale
         }
+        MainActivity.getDowLy()?.alpha = 0f
         bar.alpha = 0f
         previewDataImg.alpha = 0f
         previewDataImg.translationY = dpToPx(120f)
@@ -364,6 +370,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dateLy.scaleX = 1f
         dowText.scaleY = 1f
         dowText.scaleX = 1f
+        dowText.alpha = 0f
         holiText.scaleY = 1f
         holiText.scaleX = 1f
         dateLy.translationX = 0f
@@ -376,6 +383,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.scaleX = 1f
             it.scaleY = 1f
         }
+        MainActivity.getDowLy()?.alpha = 1f
         bar.alpha = 1f
         previewDataImg.alpha = 0f
         previewDataImg.translationY = 0f
@@ -439,18 +447,18 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     fun getPreviewDataImg() : View = previewDataImg
 
     companion object {
-        const val headerTextScale = 5.0f
+        const val headerTextScale = 4.5f
         const val mainMonthTextScale = 0.70f
 
-        val datePosX = -dpToPx(5.0f)
+        val datePosX = -dpToPx(4.0f)
         val datePosY = dpToPx(15.0f)
 
-        val dowPosX = -dpToPx(0.0f) / headerTextScale
-        val holiPosX = dpToPx(0.0f) / headerTextScale
+        val dowPosX = dpToPx(0.9f) / headerTextScale
+        val holiPosX = dpToPx(1.0f) / headerTextScale
 
-        val subYPos = -dpToPx(3.0f) / headerTextScale
-        val dowPosY = dpToPx(23.0f) / headerTextScale + subYPos
-        val holiPosY = -dpToPx(30.0f) / headerTextScale + subYPos
+        val subYPos = dpToPx(0.0f) / headerTextScale
+        val dowPosY = dpToPx(10.0f) / headerTextScale + subYPos
+        val holiPosY = -dpToPx(32.5f) / headerTextScale + subYPos
 
         val dowScale = 1.4f / headerTextScale
         val holiScale = 1.75f / headerTextScale

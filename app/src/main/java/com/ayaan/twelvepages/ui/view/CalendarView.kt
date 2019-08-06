@@ -44,7 +44,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
         val dataStartYOffset = dpToPx(36f)
-        val headerHeight = dpToPx(75)
+        val headerHeight = dpToPx(90)
     }
 
     private val headerView = View(context)
@@ -113,8 +113,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         rowDividers.forEachIndexed { index, view ->
             view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
-                leftMargin = 0
-                rightMargin = 0
+                leftMargin = calendarPadding
+                rightMargin = calendarPadding
             }
             view.setBackgroundColor(AppTheme.primaryText)
         }
@@ -158,6 +158,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         if (targetDateHolder == dateInfoViewHolder) {
                             onSelectedDate?.invoke(dateInfoViewHolder, true)
                         } else {
+                            vibrate(context)
                             selectDate(dateInfoViewHolder, weekLys[cellNum / columns].top < scrollView.scrollY + headerHeight)
                         }
                     }
@@ -213,7 +214,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             //v.dateText.typeface = AppTheme.regularFont
             v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.text = dateInfo.getSelectedString()
-            if(AppStatus.isDowDisplay) v.dowText.visibility = View.VISIBLE
 
             lastSelectDateAnimSet?.cancel()
             lastSelectDateAnimSet = AnimatorSet()
@@ -282,6 +282,18 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             v.dowText.translationX = 0f
             v.dowText.visibility = View.GONE
             v.holiText.text = dateInfo.getUnSelectedString()
+        }
+
+        fun getDowText(): String = v.dowText?.text?.toString()?:""
+    }
+
+    private fun getDateTextColor(cellNum: Int, isHoli: Boolean) : Int {
+        return if(isHoli || cellNum % columns == sundayPos) {
+            CalendarManager.sundayColor
+        }else if(cellNum % columns == saturdayPos) {
+            CalendarManager.saturdayColor
+        }else {
+            CalendarManager.dateColor
         }
     }
 
@@ -401,7 +413,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             scrollView.post { scrollView.scrollTo(0, weekLys[holder.cellNum / columns].top - headerHeight) }
         }
         scrollView.post{ onTop?.invoke(scrollView.scrollY == 0, !scrollView.canScrollVertically(1)) }
-
         todayStatus = getDiffToday(targetCal)
         onSelectedDate?.invoke(holder, false)
     }
@@ -410,16 +421,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         targetDateHolder?.unTarget()
         targetWeekHolder?.let { it.container.translationX = -calendarPadding.toFloat() }
         targetWeekHolder = null
-    }
-
-    private fun getDateTextColor(cellNum: Int, isHoli: Boolean) : Int {
-        return if(isHoli || cellNum % columns == sundayPos) {
-            CalendarManager.sundayColor
-        }else if(cellNum % columns == saturdayPos) {
-            CalendarManager.saturdayColor
-        }else {
-            CalendarManager.dateColor
-        }
     }
 
     private fun onViewEffect(cellNum: Int) {
