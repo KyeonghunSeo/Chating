@@ -140,14 +140,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
             }
 
-            for (j in 0..6) { // 기록 홀더 추가
-                recordsViews[i * 7 + j].let {
-                    it.layoutParams = LinearLayout.LayoutParams(0, MATCH_PARENT)
-                    it.clipChildren = false
-                    weekLy.addView(it)
-                }
-            }
-
             for (j in 0..6) { // 날짜 셀 추가
                 val cellNum = i * 7 + j
                 val dateInfoViewHolder = dateCellHolders[cellNum]
@@ -172,6 +164,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
                 dateCell.layoutParams = LinearLayout.LayoutParams(0, MATCH_PARENT)
                 weekLy.addView(dateCell)
+            }
+
+            for (j in 0..6) { // 기록 홀더 추가
+                recordsViews[i * 7 + j].let {
+                    it.layoutParams = LinearLayout.LayoutParams(0, MATCH_PARENT)
+                    it.clipChildren = false
+                    weekLy.addView(it)
+                }
             }
 
             calendarLy.addView(weekLy)

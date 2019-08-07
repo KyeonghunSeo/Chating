@@ -155,8 +155,9 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             }
             val animSet = AnimatorSet()
             animSet.playTogether(ObjectAnimator.ofFloat(this@DayPager, "elevation", 0f, startZ),
+                    ObjectAnimator.ofFloat(this@DayPager, "alpha", 0f, 1f),
                     ObjectAnimator.ofFloat(targetDayView.getPreviewDataImg(), "alpha", 0f, 1f))
-            animSet.duration = 150L
+            animSet.duration = 200L
             animSet.addListener(object : AnimatorListenerAdapter(){
                 override fun onAnimationEnd(p0: Animator?) {
                     val transiion = makeChangeBounceTransition()
@@ -202,8 +203,9 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 override fun onTransitionEnd(transition: Transition) {
                     val animSet = AnimatorSet()
                     animSet.playTogether(ObjectAnimator.ofFloat(this@DayPager, "elevation", startZ, 0f),
+                            ObjectAnimator.ofFloat(this@DayPager, "alpha", 1f, 0f),
                             ObjectAnimator.ofFloat(targetDayView.getPreviewDataImg(), "alpha", 1f, 0f))
-                    animSet.duration = 150L
+                    animSet.duration = 200L
                     animSet.addListener(object : AnimatorListenerAdapter(){
                         override fun onAnimationEnd(p0: Animator?) {
                             viewMode = ViewMode.CLOSED

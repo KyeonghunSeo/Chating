@@ -421,7 +421,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                                 .sort("dtStart", Sort.ASCENDING)
                                 .findAll().map { realm.copyFromRealm(it) }
 
-                        Thread.sleep(500)
                         realm.close()
                         return null
                     }
@@ -451,10 +450,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         const val mainMonthTextScale = 0.70f
 
         val datePosX = -dpToPx(4.0f)
-        val datePosY = dpToPx(15.0f)
+        val datePosY = dpToPx(20.0f)
 
-        val dowPosX = dpToPx(0.9f) / headerTextScale
-        val holiPosX = dpToPx(1.0f) / headerTextScale
+        val dowPosX = dpToPx(1.0f) / headerTextScale
+        val holiPosX = dpToPx(2.0f) / headerTextScale
 
         val subYPos = dpToPx(0.0f) / headerTextScale
         val dowPosY = dpToPx(10.0f) / headerTextScale + subYPos
