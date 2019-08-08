@@ -11,6 +11,8 @@ import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.view.DragEvent
 import android.view.View
 import android.widget.FrameLayout
@@ -77,6 +79,13 @@ class MainActivity : BaseActivity() {
 
     lateinit var viewModel: MainViewModel
     private var reservedIntentAction: Runnable? = null
+    private val briefingHander = @SuppressLint("HandlerLeak")
+    object : Handler() {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            sendEmptyMessageDelayed(0, 5000)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,8 +141,9 @@ class MainActivity : BaseActivity() {
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
         mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        mainDateLy.pivotX = 0f
+        mainDateLy.pivotX = dpToPx(10f)
         mainDateLy.pivotY = dpToPx(0f)
+        briefingCard.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainPanel.setOnClickListener {}
         todayBtn.translationY = tabSize.toFloat()
         callAfterViewDrawed(rootLy, Runnable{
@@ -353,9 +363,9 @@ class MainActivity : BaseActivity() {
                 val color = record.getColor()
                 val fontColor = ColorManager.getFontColor(color)
                 countdownText.text = record.getCountdownText(System.currentTimeMillis())
-                countdownCard.setCardBackgroundColor(color)
-                countdownImg.setColorFilter(fontColor)
-                countdownText.setTextColor(fontColor)
+                //countdownCard.setCardBackgroundColor(color)
+                countdownImg.setColorFilter(AppTheme.primaryText)
+                countdownText.setTextColor(AppTheme.primaryText)
                 countdownText.setOnClickListener {
                     showDialog(CountdownListDialog(this) {
                     }, true, true, true, false)
@@ -369,15 +379,19 @@ class MainActivity : BaseActivity() {
         if(list.isNullOrEmpty()) {
             undoneBtn.visibility = View.GONE
         }else {
-            undoneBtn.visibility = View.GONE
+            undoneBtn.visibility = View.VISIBLE
             list[0]?.let { record ->
                 val color = record.getColor()
                 val fontColor = ColorManager.getFontColor(color)
-                undoneText.text = record.title
                 //undoneCard.setCardBackgroundColor(color)
                 //undoneImg.setColorFilter(fontColor)
                 //undoneText.setTextColor(fontColor)
-                undoneBadgeText.text = list.size.toString()
+
+                var tail = if (list.size > 1) String.format(str(R.string.and_others), list.size - 1) else ""
+                if (tail.contains("other") && list.size > 2) {
+                    tail = tail.replace("other", "others")
+                }
+                undoneText.text = "${str(R.string.undone_records)}\n${record.getShortTilte()} $tail"
                 undoneText.setOnClickListener {
                     showDialog(UndoneListDialog(this) {
                     }, true, true, true, false)
@@ -688,6 +702,12 @@ class MainActivity : BaseActivity() {
         super.onResume()
         isShowing = true
         playIntentAction()
+        //briefingHander.sendEmptyMessage(0)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        //briefingHander.removeMessages(0)
     }
 
     override fun onStop() {
