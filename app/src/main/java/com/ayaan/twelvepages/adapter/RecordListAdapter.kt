@@ -93,6 +93,20 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         val record = items[position]
         val v = holder.itemView
 
+        /*
+        if(position == 0) {
+            v.upperLine.visibility = View.GONE
+        }else {
+            v.upperLine.visibility = View.VISIBLE
+        }
+
+        if(position == items.lastIndex) {
+            v.bottomLine.visibility = View.GONE
+        }else {
+            v.bottomLine.visibility = View.VISIBLE
+        }
+        */
+
         v.setOnClickListener { onItemClick(record) }
         v.setOnLongClickListener {
             itemTouchHelper?.startDrag(holder)

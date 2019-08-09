@@ -351,7 +351,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/device_calendar"
+                    android:text="@string/import_external_data"
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold"
                     android:textSize="16dp"/>
@@ -363,6 +363,13 @@
                 android:layout_height="1.5dp"
                 android:layout_marginTop="5dp"
                 app:colorFlag="primary"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="0dp">
+            </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/osCalendarBtn"

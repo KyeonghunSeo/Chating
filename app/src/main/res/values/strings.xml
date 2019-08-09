@@ -173,7 +173,7 @@
     <string name="holi_display_sub">공휴일을 표시 할 국가를 설정합니다</string>
     <string name="cal_text_size">글씨 크기</string>
     <string name="outside_month">이전, 다음달 표시</string>
-    <string name="connect_os_calendar">외부 서비스 일정 참조</string>
+    <string name="connect_os_calendar">OS 캘린더 참조</string>
     <string name="countdown">카운트다운</string>
     <string name="planning">계획하기</string>
     <string name="write_everything">무엇을 기록할까요?</string>
@@ -318,9 +318,9 @@
     <string name="afternoonAlarmTime">점심</string>
     <string name="eveningAlarmTime">저녁</string>
     <string name="nightAlarmTime">밤</string>
-    <string name="device_calendar">외부 서비스 일정</string>
+    <string name="device_calendar">OS 캘린더</string>
     <string name="task_setting">완료된 기록</string>
-    <string name="os_calendar_style">외부 서비스 일정 스타일</string>
+    <string name="os_calendar_style">OS 캘린더 스타일</string>
     <string name="reference">참조중</string>
     <string name="no_reference">참조안함</string>
     <string name="share">공유</string>
@@ -348,6 +348,8 @@
     <string name="bold">진하게</string>
     <string name="formula_date_point">날짜강조</string>
     <string name="undone_records">미완료 기록</string>
+    <string name="import_external_data">외부 데이터</string>
+    <string name="import_naver_calendar">네이버 캘린더 가져오기</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

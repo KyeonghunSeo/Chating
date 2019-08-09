@@ -123,9 +123,9 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
-        app:cardBackgroundColor="@color/primaryText"
+        app:cardBackgroundColor="@color/background"
         app:cardCornerRadius="23dp"
-        app:cardElevation="6dp">
+        app:cardElevation="3dp">
 
         <ImageView
             android:id="@+id/templateIconImg"
@@ -133,7 +133,7 @@
             android:layout_height="match_parent"
             android:padding="12dp"
             android:src="@drawable/add"
-            android:tint="@color/background"/>
+            android:tint="@color/primaryText"/>
 
     </androidx.cardview.widget.CardView>
 

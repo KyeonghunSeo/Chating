@@ -14,7 +14,8 @@ class ListDiffCallback(private val oldList: List<Record>, private val newList: L
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean
             = oldList[oldItemPosition] == newList[newItemPosition]
 
-    /* 세로선 이어주는 로직
+    /*
+    //세로선 이어주는 로직
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean
             = oldList[oldItemPosition] == newList[newItemPosition] &&
             !((oldItemPosition == 0 && newItemPosition != 0 || oldItemPosition != 0 && newItemPosition == 0)
