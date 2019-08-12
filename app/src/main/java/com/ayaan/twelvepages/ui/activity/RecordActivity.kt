@@ -187,7 +187,7 @@ class RecordActivity : BaseActivity() {
                     }
                     1 -> {
                         showDialog(CustomDialog(this, getString(R.string.delete),
-                                getString(R.string.delete_sub), null) { result, _, _ ->
+                                getString(R.string.delete_sub), null, R.drawable.delete) { result, _, _ ->
                             if(result) delete()
                         }, true, true, true, false)
                     }

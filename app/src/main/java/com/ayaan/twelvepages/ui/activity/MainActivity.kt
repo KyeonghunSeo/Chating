@@ -177,7 +177,13 @@ class MainActivity : BaseActivity() {
                 textView?.setTextColor(when (index) {
                     calendarView.sundayPos -> CalendarManager.sundayColor
                     calendarView.saturdayPos -> CalendarManager.saturdayColor
-                    else -> CalendarManager.dateColor
+                    else -> {
+                        if(dateInfoHolder.cellNum % 7 == index) {
+                            CalendarManager.selectedDateColor
+                        }else {
+                            CalendarManager.dateColor
+                        }
+                    }
                 })
             }
 
@@ -520,12 +526,12 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            mainMonthText.setTextColor(CalendarManager.dateColor)
-            mainYearText.setTextColor(CalendarManager.dateColor)
+            mainMonthText.setTextColor(AppTheme.primaryText)
+            mainYearText.setTextColor(AppTheme.primaryText)
             //mainYearText.text = AppDateFormat.year.format(it.time)
             mainYearText.text = "${it.get(Calendar.YEAR)}"
             //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
-            mainMonthText.text = "${AppDateFormat.monthEng.format(it.time)}"
+            mainMonthText.text = AppDateFormat.monthEng.format(it.time)
         }
     }
 

@@ -112,7 +112,16 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             itemTouchHelper?.startDrag(holder)
             return@setOnLongClickListener false
         }
-        v.moreImg.setOnClickListener { adapterInterface.invoke(v.moreImg, record, 0) }
+
+        if(record.isOsInstance()) {
+            v.moreImg.setImageResource(R.drawable.help)
+            v.moreImg.setColorFilter(AppTheme.disableText)
+            v.moreImg.setOnClickListener { toast(R.string.this_is_os_instance) }
+        }else {
+            v.moreImg.setImageResource(R.drawable.more)
+            v.moreImg.setColorFilter(AppTheme.primaryText)
+            v.moreImg.setOnClickListener { adapterInterface.invoke(v.moreImg, record, 0) }
+        }
 
         v.iconImg.setColorFilter(record.getColor())
         if(record.isSetCheckBox) {
@@ -309,9 +318,8 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     }
 
     private fun onItemClick(record: Record) {
-        if(record.id?.startsWith("osInstance::") == true) {
-            val eventId = record.id?.substring("osInstance::".length, record.id!!.length)?.toLong() ?: -1
-            val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
+        if(record.isOsInstance()) {
+            val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, record.getOsEventId())
             val intent = Intent(Intent.ACTION_VIEW).setData(uri)
             if(record.isSetTime) {
                 intent.putExtra(EXTRA_EVENT_BEGIN_TIME, record.dtStart)

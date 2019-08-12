@@ -31,7 +31,6 @@ open class BaseDialog(activity: Activity) : Dialog(activity) {
 
     fun hideHeader() {
         headerLy.visibility = View.GONE
-        headerDivider.visibility = View.GONE
     }
 
     fun hideBottomBtnsLy(){

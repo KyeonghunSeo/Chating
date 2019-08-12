@@ -267,7 +267,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }else if(targetCal.get(Calendar.DAY_OF_WEEK) == SATURDAY) {
             CalendarManager.saturdayColor
         }else {
-            CalendarManager.dateColor
+            AppTheme.primaryText
         }
         dateText.setTextColor(color)
         dowText.setTextColor(color)
@@ -302,7 +302,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", 1f, mainMonthTextScale),
                 ObjectAnimator.ofFloat(MainActivity.getDowLy(), "alpha", 1f, 0f),
                 ObjectAnimator.ofFloat(dowText, "alpha", 0f, 1f))
-        animSet.duration = 300L
+        animSet.duration = 250L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
     }
@@ -332,7 +332,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", mainMonthTextScale, 1f),
                 ObjectAnimator.ofFloat(MainActivity.getDowLy(), "alpha", 0f, 1f),
                 ObjectAnimator.ofFloat(dowText, "alpha", 1f, 0f))
-        animSet.duration = 300L
+        animSet.duration = 250L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
     }
@@ -450,7 +450,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         const val mainMonthTextScale = 0.78f
 
         val datePosX = -dpToPx(4.0f)
-        val datePosY = dpToPx(22.0f)
+        val datePosY = dpToPx(17.0f)
 
         val dowPosX = dpToPx(1.0f) / headerTextScale
         val holiPosX = dpToPx(2.0f) / headerTextScale

@@ -273,4 +273,6 @@ open class Record(@PrimaryKey var id: String? = null,
 
     fun isDeleted() = dtCreated == -1L
     fun isScheduled() = dtStart != Long.MIN_VALUE
+    fun isOsInstance() = id?.startsWith("osInstance::") == true
+    fun getOsEventId() = id?.substring("osInstance::".length, id!!.length)?.toLong() ?: -1
 }

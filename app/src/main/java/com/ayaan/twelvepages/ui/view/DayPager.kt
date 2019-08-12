@@ -161,7 +161,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             animSet.addListener(object : AnimatorListenerAdapter(){
                 override fun onAnimationEnd(p0: Animator?) {
                     val transiion = makeChangeBounceTransition()
-                    transiion.duration = 300L
+                    transiion.duration = 250L
                     transiion.addListener(object : TransitionListenerAdapter(){
                         override fun onTransitionEnd(transition: Transition) {
                             dayViews.forEach { it.setDateOpenedStyle() }
@@ -198,7 +198,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)
             val transiion = makeChangeBounceTransition()
-            transiion.duration = 300L
+            transiion.duration = 250L
             transiion.addListener(object : TransitionListenerAdapter(){
                 override fun onTransitionEnd(transition: Transition) {
                     val animSet = AnimatorSet()

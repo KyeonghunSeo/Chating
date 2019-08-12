@@ -128,7 +128,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 setHorizontallyScrolling(true)
                 maxLines = 1
                 ellipsize = null
-                sPadding *= 3
+                sPadding *= 4
             }
             STICKER, DATE_POINT -> {
                 gravity = Gravity.LEFT
@@ -387,7 +387,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         paint.pathEffect = null
         canvas.translate(scrollX.toFloat(), 0f)
         val space = textSpaceWidth + if(record.isSetCheckBox) checkboxSize else 0
-        val sPadding = sidePadding * 3
+        val sPadding = sidePadding * 4
 
         var textLPos = width / 2 - space / 2 - defaulMargin * 2
         if(textLPos < sPadding) textLPos = sPadding - defaulMargin * 2
@@ -459,14 +459,29 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 paint.style = Paint.Style.FILL
 
                 if(shape == Shape.ARROW || shape == Shape.DASH_ARROW) {
-                    val arrowSize = (periodLine * 3.5f).toInt()
-                    val arrowWidth = (periodLine * 3.0f).toInt()
+                    val arrowSize = (periodLine * 2.5f).toInt()
+                    val arrowWidth = (periodLine * 2.5f).toInt()
                             drawArrow(canvas, 0, height / 2, arrowWidth, height / 2 - arrowSize, arrowWidth, height / 2  + arrowSize)
                     drawArrow(canvas, width, height / 2, width - arrowWidth, height / 2 - arrowSize, width - arrowWidth, height / 2  + arrowSize)
                 }else {
                     canvas.drawRect(0f, height / 2f - periodLine * 3.0f, periodLine * 1.2f, height / 2f + periodLine * 3.0f, paint)
                     canvas.drawRect(width - periodLine * 1.2f, height / 2f - periodLine * 3.0f, width.toFloat(), height / 2f + periodLine * 3.0f, paint)
                 }
+                /*
+                val lineY = (periodLine * 1.5f).toInt()
+                canvas.drawLine(periodLine, lineY.toFloat(), width - periodLine, lineY.toFloat(), paint)
+                paint.style = Paint.Style.FILL
+
+                if(shape == Shape.ARROW || shape == Shape.DASH_ARROW) {
+                    val arrowSize = (periodLine * 3.0f).toInt()
+                    val arrowWidth = (periodLine * 3.0f).toInt()
+                    drawArrow(canvas, 0, lineY, arrowWidth, lineY - arrowSize, arrowWidth, lineY  + arrowSize)
+                    drawArrow(canvas, width, lineY, width - arrowWidth, lineY - arrowSize, width - arrowWidth, lineY + arrowSize)
+                }else {
+                    canvas.drawRect(0f, height / 2f - periodLine * 3.0f, periodLine * 1.2f, height / 2f + periodLine * 3.0f, paint)
+                    canvas.drawRect(width - periodLine * 1.2f, height / 2f - periodLine * 3.0f, width.toFloat(), height / 2f + periodLine * 3.0f, paint)
+                }
+                */
             }
         }
         if(record.isSetCheckBox) {
