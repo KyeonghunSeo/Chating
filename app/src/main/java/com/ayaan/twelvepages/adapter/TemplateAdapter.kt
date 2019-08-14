@@ -53,8 +53,9 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             }
             v.titleText.text = template.title
             val color = ColorManager.getColor(template.colorKey)
-            v.colorImg.setBackgroundColor(color)
-            v.colorImg.setColorFilter(ColorManager.getFontColor(color))
+            //v.colorImg.setBackgroundColor(color)
+            //v.colorImg.setColorFilter(ColorManager.getFontColor(color))
+            v.colorImg.setColorFilter(color)
             when{
                 template.isSetCheckBox() -> v.colorImg.setImageResource(R.drawable.check)
                 template.isScheduled() -> v.colorImg.setImageResource(R.drawable.schedule)

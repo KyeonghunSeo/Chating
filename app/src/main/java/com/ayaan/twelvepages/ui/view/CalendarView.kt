@@ -295,16 +295,18 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun getDateTextColor(cellNum: Int, isHoli: Boolean, isSelected: Boolean) : Int {
-        return if(isHoli || cellNum % columns == sundayPos) {
+        val color =  if(isHoli || cellNum % columns == sundayPos) {
             CalendarManager.sundayColor
         }else if(cellNum % columns == saturdayPos) {
             CalendarManager.saturdayColor
         }else {
-            if(isSelected) {
-                CalendarManager.selectedDateColor
-            }else {
-                CalendarManager.dateColor
-            }
+            CalendarManager.dateColor
+        }
+
+        return if(color == CalendarManager.dateColor && isSelected) {
+            CalendarManager.selectedDateColor
+        }else {
+            color
         }
     }
 

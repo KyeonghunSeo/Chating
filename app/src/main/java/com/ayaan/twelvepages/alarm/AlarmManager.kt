@@ -153,7 +153,33 @@ object AlarmManager {
     }
 
     fun getAlarmText(record: Record) : String {
-        return "~!"
+        val dayOffset = record.getAlarm().dayOffset
+        val time = record.getAlarm().time
+
+        val offsetStr = when(dayOffset) {
+            0 -> str(R.string.alarm_at_time)
+            -1 -> str(R.string.alarm_at_b1d)
+            -7 -> str(R.string.alarm_at_b1w)
+            else -> {
+                if(dayOffset > 0) {
+                    String.format(App.resource.getString(R.string.date_after), Math.abs(dayOffset))
+                }else {
+                    String.format(App.resource.getString(R.string.date_before), Math.abs(dayOffset))
+                }
+            }
+        }
+
+        val timeStr = when(time) {
+            defaultAlarmTime[0] -> str(R.string.morningAlarmTime)
+            defaultAlarmTime[1] -> str(R.string.afternoonAlarmTime)
+            defaultAlarmTime[2] -> str(R.string.eveningAlarmTime)
+            defaultAlarmTime[3] -> str(R.string.nightAlarmTime)
+            else -> AppDateFormat.time.format(Date(getTodayStartTime() + time))
+        }
+
+
+
+        return "$offsetStr $timeStr"
     }
 
     fun getAlarmNotiText(record: Record) : String {
@@ -164,7 +190,7 @@ object AlarmManager {
         return "$timeStr ($diffStr)"
     }
 
-    fun getAlarmDiffStr(dtAlarm: Long, dtStart: Long) : String {
+    private fun getAlarmDiffStr(dtAlarm: Long, dtStart: Long) : String {
         val diffTime = dtAlarm - dtStart
         return when (diffTime) {
             0L -> App.context.getString(R.string.now)

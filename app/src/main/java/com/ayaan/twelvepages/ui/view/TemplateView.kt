@@ -10,6 +10,7 @@ import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -148,16 +149,12 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         endCal.timeInMillis = dtEnd
         if(AppStatus.templateMode == 0) {
             val transitionSet = TransitionSet()
-            val t1 = makeFromRightSlideTransition()
+            val t1 = makeChangeBounceTransition()
             val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
-            val t3 = makeFromLeftSlideTransition()
-            t1.addTarget(recyclerView)
+            t1.addTarget(addBtn)
             t2.addTarget(backgroundLy)
-            t3.addTarget(dateLy)
-            t3.addTarget(decoBtns)
             transitionSet.addTransition(t1)
             transitionSet.addTransition(t2)
-            transitionSet.addTransition(t3)
             TransitionManager.beginDelayedTransition(this, transitionSet)
             setDate()
             notifyListChanged()
@@ -165,13 +162,17 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             backgroundLy.setOnClickListener { collapse() }
             backgroundLy.isClickable = true
             recyclerView.visibility = View.VISIBLE
-            decoBtns.visibility = View.VISIBLE
             backgroundLy.visibility = View.VISIBLE
-            dateLy.visibility = View.VISIBLE
-            templateIconImg.setImageResource(R.drawable.edit)
+
+            addBtn.layoutParams.let {
+                it.width = WRAP_CONTENT
+                it.height = WRAP_CONTENT
+            }
+
             val animSet = AnimatorSet()
-            animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", 45f, 0f),
-                    ObjectAnimator.ofFloat(templateIconImg, "alpha", 0f, 1f))
+            animSet.playTogether(
+                    ObjectAnimator.ofFloat(templateIconImg, "alpha", 1f, 0f),
+                    ObjectAnimator.ofFloat(addBtn, "radius", addBtn.radius, dpToPx(3f)))
             animSet.start()
             isExpanded = true
         }else {
@@ -182,27 +183,26 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun collapse() {
         val transitionSet = TransitionSet()
-        val t1 = makeFromRightSlideTransition()
+        val t1 = makeChangeBounceTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
-        val t3 = makeFromLeftSlideTransition()
-        t1.addTarget(recyclerView)
+        t1.addTarget(addBtn)
         t2.addTarget(backgroundLy)
-        t3.addTarget(dateLy)
-        t3.addTarget(decoBtns)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
-        transitionSet.addTransition(t3)
         TransitionManager.beginDelayedTransition(this, transitionSet)
         initViews()
-        templateIconImg.setImageResource(R.drawable.add)
+
         val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", -45f, 0f),
-                ObjectAnimator.ofFloat(templateIconImg, "alpha", 0f, 1f))
+        animSet.playTogether(
+                ObjectAnimator.ofFloat(templateIconImg, "alpha", 0f, 1f),
+                ObjectAnimator.ofFloat(addBtn, "radius", addBtn.radius, dpToPx(23f)))
         animSet.start()
     }
 
     fun collapseNoAnim() {
         templateIconImg.rotation = 0f
+        templateIconImg.alpha = 1f
+        addBtn.radius = dpToPx(23f)
         initViews()
     }
 
@@ -211,10 +211,13 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
         recyclerView.visibility = View.GONE
-        decoBtns.visibility = View.GONE
         backgroundLy.visibility = View.GONE
-        dateLy.visibility = View.GONE
-        templateIconImg.setImageResource(R.drawable.add)
+
+        addBtn.layoutParams.let {
+            it.width = dpToPx(46)
+            it.height = dpToPx(46)
+        }
+
         adapter.mode = 0
         isExpanded = false
     }

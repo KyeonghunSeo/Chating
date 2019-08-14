@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="100dp"
+        android:paddingTop="70dp"
         android:animateLayoutChanges="false">
 
         <androidx.recyclerview.widget.RecyclerView
