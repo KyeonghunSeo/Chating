@@ -596,9 +596,8 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    fun endDrag() {
-        calendarPager.endDrag()
-    }
+    fun endDrag() { calendarPager.endDrag() }
+    fun clearCalendarHighlight() { calendarPager.clearHighlight() }
 
     fun checkExternalStoragePermission(requestCode: Int) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

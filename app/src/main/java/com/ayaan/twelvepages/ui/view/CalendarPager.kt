@@ -207,5 +207,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
         calendarViews.forEach { it.endDrag() }
     }
 
+    fun clearHighlight() { calendarViews.forEach { it.clearHighlight() } }
+
     //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑드래그 처리 부분↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 }

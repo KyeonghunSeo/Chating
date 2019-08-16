@@ -163,12 +163,10 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             backgroundLy.isClickable = true
             recyclerView.visibility = View.VISIBLE
             backgroundLy.visibility = View.VISIBLE
-
             addBtn.layoutParams.let {
                 it.width = WRAP_CONTENT
                 it.height = WRAP_CONTENT
             }
-
             val animSet = AnimatorSet()
             animSet.playTogether(
                     ObjectAnimator.ofFloat(templateIconImg, "alpha", 1f, 0f),
@@ -191,7 +189,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         transitionSet.addTransition(t2)
         TransitionManager.beginDelayedTransition(this, transitionSet)
         initViews()
-
+        MainActivity.instance?.clearCalendarHighlight()
         val animSet = AnimatorSet()
         animSet.playTogether(
                 ObjectAnimator.ofFloat(templateIconImg, "alpha", 0f, 1f),
@@ -204,6 +202,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         templateIconImg.alpha = 1f
         addBtn.radius = dpToPx(23f)
         initViews()
+        MainActivity.instance?.clearCalendarHighlight()
     }
 
     private fun initViews() {

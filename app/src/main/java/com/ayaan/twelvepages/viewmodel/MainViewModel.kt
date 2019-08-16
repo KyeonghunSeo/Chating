@@ -121,6 +121,7 @@ class MainViewModel : ViewModel() {
             undoneRecords.value = realm.where(Record::class.java)
                     .equalTo("isSetCheckBox", true)
                     .equalTo("dtDone", Long.MIN_VALUE)
+                    .lessThan("dtStart", getTodayStartTime())
                     .notEqualTo("dtCreated", -1L)
                     .sort("dtStart", Sort.ASCENDING)
                     .findAllAsync()

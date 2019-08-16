@@ -40,7 +40,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val todayCal: Calendar = Calendar.getInstance()
         val dragStartYPos = dpToPx(0f)
         val calendarPadding = dpToPx(13)
-        val calendarVerticalPadding = dpToPx(2)
+        val calendarTopPadding = dpToPx(2)
+        val calendarBottomPadding = dpToPx(30)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
@@ -107,8 +108,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(0, headerHeight + calendarVerticalPadding,
-                0, calendarVerticalPadding)
+        calendarLy.setPadding(0, headerHeight + calendarTopPadding,
+                0, calendarBottomPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
         calendarLy.clipToPadding = false
@@ -346,7 +347,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if (startCellNum < 0) { startCellNum += 7 }
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height.toFloat() - headerHeight - calendarVerticalPadding * 2
+        minCalendarHeight = height.toFloat() - headerHeight - calendarTopPadding - calendarBottomPadding
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
 
@@ -472,7 +473,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         calendarLy.setDragPoint(s, e, weekLys, minWidth)
     }
 
-    private fun clearHighlight() {
+    fun clearHighlight() {
+        targetDateHolder?.v?.bar?.visibility = View.VISIBLE
         calendarLy.clearDragPoint()
     }
 
@@ -585,8 +587,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun endDrag() {
-        targetDateHolder?.v?.bar?.visibility = View.VISIBLE
-        clearHighlight()
         autoScrollFlag = 0
         autoScrollHandler.removeMessages(0)
     }

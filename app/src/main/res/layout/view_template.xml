@@ -25,7 +25,7 @@
         android:layout_marginBottom="15dp"
         app:cardBackgroundColor="@color/background"
         app:cardCornerRadius="23dp"
-        app:cardElevation="3dp">
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:orientation="vertical"
