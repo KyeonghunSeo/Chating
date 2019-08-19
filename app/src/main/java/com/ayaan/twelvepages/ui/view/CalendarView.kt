@@ -41,12 +41,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dragStartYPos = dpToPx(0f)
         val calendarPadding = dpToPx(13)
         val calendarTopPadding = dpToPx(2)
-        val calendarBottomPadding = dpToPx(30)
+        val calendarBottomPadding = dpToPx(42)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
         val dataStartYOffset = dpToPx(36f)
-        val headerHeight = dpToPx(80)
+        val headerHeight = dpToPx(75)
     }
 
     private val headerView = View(context)

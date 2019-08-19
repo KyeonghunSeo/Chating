@@ -8,12 +8,15 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
@@ -23,6 +26,7 @@ import com.ayaan.twelvepages.adapter.TemplateAdapter
 import com.ayaan.twelvepages.adapter.util.TemplateDiffCallback
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.manager.StickerManager
+import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.model.Template
@@ -60,14 +64,16 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     init {
         LayoutInflater.from(context).inflate(R.layout.view_template, this, true)
         initViews()
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        //recyclerView.layoutManager = GridLayoutManager(context, 2)
+        recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
-
-        addBtn.setOnClickListener {
+        addBtn.setOnLongClickListener {
+            return@setOnLongClickListener false
+        }
+        templateIconImg.setOnClickListener {
             if(isExpanded) {
-                vibrate(context)
+                collapse()
+                /*
                 if(adapter.mode == 0) {
                     adapter.mode = 1
                     adapter.notifyItemInserted(items.size)
@@ -75,14 +81,10 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     adapter.mode = 0
                     adapter.notifyDataSetChanged()
                 }
+                */
             }else {
                 MainActivity.getTargetTime()?.let { expand(it, it) }
             }
-        }
-
-        addBtn.setOnLongClickListener {
-
-            return@setOnLongClickListener false
         }
 
         stickerBtn.setOnClickListener {
@@ -152,26 +154,23 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val t1 = makeChangeBounceTransition()
             val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
             t1.addTarget(addBtn)
+            t1.addTarget(templateIconImg)
             t2.addTarget(backgroundLy)
             transitionSet.addTransition(t1)
             transitionSet.addTransition(t2)
+            transitionSet.duration = 200L
             TransitionManager.beginDelayedTransition(this, transitionSet)
             setDate()
             notifyListChanged()
             backgroundLy.setBackgroundColor(AppTheme.background)
             backgroundLy.setOnClickListener { collapse() }
             backgroundLy.isClickable = true
-            recyclerView.visibility = View.VISIBLE
             backgroundLy.visibility = View.VISIBLE
+            addLy.visibility = View.VISIBLE
             addBtn.layoutParams.let {
-                it.width = WRAP_CONTENT
                 it.height = WRAP_CONTENT
             }
-            val animSet = AnimatorSet()
-            animSet.playTogether(
-                    ObjectAnimator.ofFloat(templateIconImg, "alpha", 1f, 0f),
-                    ObjectAnimator.ofFloat(addBtn, "radius", addBtn.radius, dpToPx(3f)))
-            animSet.start()
+            startExpandAnimation()
             isExpanded = true
         }else {
             MainActivity.getViewModel()?.targetTemplate?.value = null
@@ -179,28 +178,94 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
+    fun clip(record: Record?) {
+        vibrate(context)
+        if(record == null) {
+            collapse()
+        }else {
+            if(record.id.isNullOrEmpty()) {
+                clipTypeText.text = str(R.string.copy)
+            }else {
+                clipTypeText.text = str(R.string.cut)
+            }
+            clipText.text = record.getTitleInCalendar()
+            clipIconImg.setColorFilter(record.getColor())
+            clipPasteBtn.setOnClickListener {
+                MainActivity.getTargetFolder().let { record.folder = Folder(it) }
+                record.setDate(MainActivity.getTargetTime() ?: Long.MIN_VALUE)
+                if(record.id.isNullOrEmpty()) {
+                    if(record.isRepeat()) {
+                        record.clearRepeat()
+                    }
+                    RecordManager.save(record)
+                    toast(R.string.copied, R.drawable.copy)
+                }else {
+                    if(record.isRepeat()) {
+                        RecordManager.deleteOnly(record)
+                        record.clearRepeat()
+                        record.id = null
+                        RecordManager.save(record)
+                    }else {
+                        RecordManager.delete(record)
+                        record.id = null
+                        RecordManager.save(record)
+                    }
+                    toast(R.string.moved, R.drawable.change)
+                }
+                MainActivity.getViewModel()?.clipRecord?.value = null
+            }
+
+            val transitionSet = TransitionSet()
+            val t1 = makeChangeBounceTransition()
+            t1.addTarget(addBtn)
+            t1.addTarget(templateIconImg)
+            transitionSet.addTransition(t1)
+            transitionSet.duration = 200L
+            TransitionManager.beginDelayedTransition(this, transitionSet)
+            clipLy.visibility = View.VISIBLE
+            addBtn.layoutParams.let {
+                it.height = WRAP_CONTENT
+            }
+            startExpandAnimation()
+            isExpanded = true
+        }
+    }
+
+    private fun startExpandAnimation() {
+        (templateIconImg.layoutParams as FrameLayout.LayoutParams).let {
+            //it.gravity = Gravity.RIGHT
+        }
+        val animSet = AnimatorSet()
+        animSet.playTogether(
+                ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f),
+                ObjectAnimator.ofFloat(addBtn, "elevation", addBtn.elevation, dpToPx(8f)))
+        animSet.start()
+    }
+
     fun collapse() {
         val transitionSet = TransitionSet()
         val t1 = makeChangeBounceTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
         t1.addTarget(addBtn)
+        t1.addTarget(templateIconImg)
         t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
+        transitionSet.duration = 200L
         TransitionManager.beginDelayedTransition(this, transitionSet)
         initViews()
         MainActivity.instance?.clearCalendarHighlight()
         val animSet = AnimatorSet()
         animSet.playTogether(
-                ObjectAnimator.ofFloat(templateIconImg, "alpha", 0f, 1f),
-                ObjectAnimator.ofFloat(addBtn, "radius", addBtn.radius, dpToPx(23f)))
+                ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f),
+                ObjectAnimator.ofFloat(addBtn, "elevation", addBtn.elevation, 0f))
         animSet.start()
     }
 
     fun collapseNoAnim() {
         templateIconImg.rotation = 0f
-        templateIconImg.alpha = 1f
-        addBtn.radius = dpToPx(23f)
+        addBtn.radius = 0f
+        addBtn.elevation = 0f
         initViews()
         MainActivity.instance?.clearCalendarHighlight()
     }
@@ -209,12 +274,16 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         clearTemplate()
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
-        recyclerView.visibility = View.GONE
+        clipLy.visibility = View.GONE
+        addLy.visibility = View.GONE
         backgroundLy.visibility = View.GONE
 
         addBtn.layoutParams.let {
-            it.width = dpToPx(46)
-            it.height = dpToPx(46)
+            it.height = dpToPx(40)
+        }
+
+        (templateIconImg.layoutParams as FrameLayout.LayoutParams).let {
+            it.gravity = Gravity.CENTER_HORIZONTAL
         }
 
         adapter.mode = 0

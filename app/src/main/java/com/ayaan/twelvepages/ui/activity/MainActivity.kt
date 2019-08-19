@@ -145,7 +145,6 @@ class MainActivity : BaseActivity() {
         mainDateLy.pivotY = dpToPx(0f)
         briefingCard.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainPanel.setOnClickListener {}
-        todayBtn.translationY = tabSize.toFloat()
         callAfterViewDrawed(rootLy, Runnable{
             /*
             val rectangle = Rect()
@@ -354,7 +353,7 @@ class MainActivity : BaseActivity() {
         })
         viewModel.openFolder.observe(this, Observer { updateFolderUI(it) })
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
-        viewModel.clipRecord.observe(this, Observer { updateClipUI(it) })
+        viewModel.clipRecord.observe(this, Observer { templateView.clip(it) })
         viewModel.countdownRecords.observe(this, Observer { updateCountdownUI(it) })
         viewModel.undoneRecords.observe(this, Observer { updateUndoneUI(it) })
     }
@@ -402,49 +401,6 @@ class MainActivity : BaseActivity() {
                     showDialog(UndoneListDialog(this) {
                     }, true, true, true, false)
                 }
-            }
-        }
-    }
-
-    private fun updateClipUI(record: Record?) {
-        TransitionManager.beginDelayedTransition(clipView, makeFromBottomSlideTransition())
-        if(record == null) {
-            clipView.visibility = View.INVISIBLE
-        }else {
-            clipView.visibility = View.VISIBLE
-            if(record.id.isNullOrEmpty()) {
-                clipTypeText.text = str(R.string.copy)
-            }else {
-                clipTypeText.text = str(R.string.cut)
-            }
-            clipText.text = record.getTitleInCalendar()
-            clipIconImg.setColorFilter(record.getColor())
-            clipPasteBtn.setOnClickListener {
-                viewModel.targetFolder.value?.let { record.folder = Folder(it) }
-                record.setDate(viewModel.targetTime.value ?: Long.MIN_VALUE)
-                if(record.id.isNullOrEmpty()) {
-                    if(record.isRepeat()) {
-                        record.clearRepeat()
-                    }
-                    RecordManager.save(record)
-                    toast(R.string.copied, R.drawable.copy)
-                }else {
-                    if(record.isRepeat()) {
-                        RecordManager.deleteOnly(record)
-                        record.clearRepeat()
-                        record.id = null
-                        RecordManager.save(record)
-                    }else {
-                        RecordManager.delete(record)
-                        record.id = null
-                        RecordManager.save(record)
-                    }
-                    toast(R.string.moved, R.drawable.change)
-                }
-                viewModel.clipRecord.value = null
-            }
-            clipCloseBtn.setOnClickListener {
-                viewModel.clipRecord.value = null
             }
         }
     }
@@ -545,6 +501,7 @@ class MainActivity : BaseActivity() {
 
     fun showSearchView() { searchView.show() }
 
+    @SuppressLint("SetTextI18n")
     private fun refreshTodayView(todayOffset: Int) {
         when {
             todayOffset != 0 -> {
@@ -562,19 +519,23 @@ class MainActivity : BaseActivity() {
                     todayLeftArrow.visibility = View.VISIBLE
                 }
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY",  todayBtn.translationY, 0f),
+                animSet.playTogether(ObjectAnimator.ofFloat(todayContentLy, "alpha",  todayContentLy.alpha, 1f),
+                        ObjectAnimator.ofFloat(todayCard, "elevation",  todayCard.elevation, dpToPx(1f)),
                         ObjectAnimator.ofFloat(todayBtn, "translationX",  todayBtn.translationX, distance))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener { selectDate(System.currentTimeMillis()) }
+                todayBtn.isEnabled = true
             }
             else -> {
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, tabSize * 2f),
+                animSet.playTogether(ObjectAnimator.ofFloat(todayContentLy, "alpha",  todayContentLy.alpha, 0f),
+                        ObjectAnimator.ofFloat(todayCard, "elevation",  todayCard.elevation, 0f),
                         ObjectAnimator.ofFloat(todayBtn, "translationX", todayBtn.translationX, 0f))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener(null)
+                todayBtn.isEnabled = false
                 /*
                 todayBtn.setOnClickListener { _ ->
                     MainActivity.getdayPager()?.let {

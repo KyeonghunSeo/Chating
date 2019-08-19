@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +11,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="70dp"
+        android:paddingTop="120dp"
         android:animateLayoutChanges="false">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -19,11 +20,18 @@
             android:layout_height="50dp">
         </androidx.recyclerview.widget.RecyclerView>
 
+        <com.ayaan.twelvepages.ui.view.base.Line
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="20dp"
+            app:colorFlag="disable" />
+
         <FrameLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
             android:descendantFocusability="blocksDescendants">
 
             <LinearLayout
