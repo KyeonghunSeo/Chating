@@ -154,7 +154,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val t1 = makeChangeBounceTransition()
             val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
             t1.addTarget(addBtn)
-            t1.addTarget(templateIconImg)
             t2.addTarget(backgroundLy)
             transitionSet.addTransition(t1)
             transitionSet.addTransition(t2)
@@ -218,7 +217,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val transitionSet = TransitionSet()
             val t1 = makeChangeBounceTransition()
             t1.addTarget(addBtn)
-            t1.addTarget(templateIconImg)
             transitionSet.addTransition(t1)
             transitionSet.duration = 200L
             TransitionManager.beginDelayedTransition(this, transitionSet)
@@ -232,12 +230,9 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun startExpandAnimation() {
-        (templateIconImg.layoutParams as FrameLayout.LayoutParams).let {
-            //it.gravity = Gravity.RIGHT
-        }
         val animSet = AnimatorSet()
         animSet.playTogether(
-                ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 45f),
+                ObjectAnimator.ofFloat(templateIconImg, "alpha", templateIconImg.alpha, 0f),
                 ObjectAnimator.ofFloat(addBtn, "elevation", addBtn.elevation, dpToPx(8f)))
         animSet.start()
     }
@@ -247,7 +242,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val t1 = makeChangeBounceTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
         t1.addTarget(addBtn)
-        t1.addTarget(templateIconImg)
         t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
@@ -257,13 +251,13 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         MainActivity.instance?.clearCalendarHighlight()
         val animSet = AnimatorSet()
         animSet.playTogether(
-                ObjectAnimator.ofFloat(templateIconImg, "rotation", templateIconImg.rotation, 0f),
+                ObjectAnimator.ofFloat(templateIconImg, "alpha", templateIconImg.alpha, 1f),
                 ObjectAnimator.ofFloat(addBtn, "elevation", addBtn.elevation, 0f))
         animSet.start()
     }
 
     fun collapseNoAnim() {
-        templateIconImg.rotation = 0f
+        templateIconImg.alpha = 1f
         addBtn.radius = 0f
         addBtn.elevation = 0f
         initViews()
@@ -280,10 +274,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         addBtn.layoutParams.let {
             it.height = dpToPx(40)
-        }
-
-        (templateIconImg.layoutParams as FrameLayout.LayoutParams).let {
-            it.gravity = Gravity.CENTER_HORIZONTAL
         }
 
         adapter.mode = 0

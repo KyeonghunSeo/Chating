@@ -7,9 +7,10 @@
     <View
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="0.5dp"
-        android:background="@drawable/selected_date_bg"/>
+        android:layout_height="0dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="0.0dp"/>
 
     <LinearLayout
         android:id="@+id/dateLy"

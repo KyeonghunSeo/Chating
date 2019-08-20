@@ -216,12 +216,6 @@
             android:layout_gravity="center_horizontal"
             android:tint="@color/primaryText"/>
 
-        <com.ayaan.twelvepages.ui.view.base.Line
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:colorFlag="light_line">
-        </com.ayaan.twelvepages.ui.view.base.Line>
-
     </androidx.cardview.widget.CardView>
 
 </FrameLayout>

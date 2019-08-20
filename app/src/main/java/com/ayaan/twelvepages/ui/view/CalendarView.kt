@@ -192,6 +192,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.typeface = AppTheme.regularFont
             v.clipChildren = false
+            v.bar.pivotX = 0f
         }
 
         fun setDate(cal : Calendar) {
@@ -203,7 +204,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             v.dateLy.alpha = alpha
             v.dateText.text = String.format("%01d", tempCal.get(Calendar.DATE))
             v.dowText.text = AppDateFormat.dowEng.format(tempCal.time)
-            v.bar.alpha = 0f
+            v.bar.scaleX = 0f
             initViews()
         }
 
@@ -218,17 +219,18 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             v.dateText.setTextColor(color)
             v.holiText.setTextColor(color)
             v.dowText.setTextColor(color)
+            v.bar.setBackgroundColor(color)
 
             lastSelectDateAnimSet?.cancel()
             lastSelectDateAnimSet = AnimatorSet()
             lastSelectDateAnimSet?.let {
                 it.addListener(object : AnimatorListenerAdapter(){
                     override fun onAnimationCancel(animation: Animator?) {
-                        v.bar.alpha = 0f
+                        v.bar.scaleX = 0f
                     }
                 })
                 val anims = ArrayList<Animator>()
-                anims.add(ObjectAnimator.ofFloat(v.bar, "alpha", 0f, 1f))
+                anims.add(ObjectAnimator.ofFloat(v.bar, "scaleX", v.bar.scaleX, 1f))
                 anims.add(ObjectAnimator.ofFloat(v.dowText, "alpha", 0f, 1f))
                 anims.add(ObjectAnimator.ofFloat(v.dowText, "translationX", -autoScrollOffset.toFloat(), 1f))
                 anims.add(ObjectAnimator.ofFloat(v.holiText, "alpha", 0f, 1f))
@@ -264,11 +266,11 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             lastUnSelectDateAnimSet?.let {
                 it.addListener(object : AnimatorListenerAdapter(){
                     override fun onAnimationCancel(animation: Animator?) {
-                        v.bar.alpha = 0f
+                        v.bar.scaleX = 0f
                     }
                 })
                 val anims = ArrayList<Animator>()
-                anims.add(ObjectAnimator.ofFloat(v.bar, "alpha", v.bar.alpha, 0f))
+                anims.add(ObjectAnimator.ofFloat(v.bar, "scaleX", v.bar.scaleX, 0f))
                 it.playTogether(anims)
                 it.interpolator = FastOutSlowInInterpolator()
                 it.duration = animDur
