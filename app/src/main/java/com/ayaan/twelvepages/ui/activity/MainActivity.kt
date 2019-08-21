@@ -442,6 +442,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun refreshAll() {
+        l("[Main Refresh All]")
         val folder = getTargetFolder()
         if(folder.type == 0) {
             calendarLy.visibility = View.VISIBLE
@@ -452,6 +453,7 @@ class MainActivity : BaseActivity() {
             todayBtn.visibility = View.INVISIBLE
             noteView.visibility = View.VISIBLE
         }
+        templateView.notifyListChanged()
         refreshCalendar()
         noteView.notifyDataChanged()
     }

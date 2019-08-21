@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -67,10 +68,12 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
-        addBtn.setOnLongClickListener {
+
+        templatePanel.setOnLongClickListener {
             return@setOnLongClickListener false
         }
-        templateIconImg.setOnClickListener {
+
+        addBtn.setOnClickListener {
             if(isExpanded) {
                 collapse()
                 /*
@@ -153,22 +156,17 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val transitionSet = TransitionSet()
             val t1 = makeChangeBounceTransition()
             val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
-            t1.addTarget(addBtn)
+            t1.addTarget(templatePanel)
             t2.addTarget(backgroundLy)
             transitionSet.addTransition(t1)
             transitionSet.addTransition(t2)
             transitionSet.duration = 200L
             TransitionManager.beginDelayedTransition(this, transitionSet)
             setDate()
-            notifyListChanged()
             backgroundLy.setBackgroundColor(AppTheme.background)
             backgroundLy.setOnClickListener { collapse() }
             backgroundLy.isClickable = true
             backgroundLy.visibility = View.VISIBLE
-            addLy.visibility = View.VISIBLE
-            addBtn.layoutParams.let {
-                it.height = WRAP_CONTENT
-            }
             startExpandAnimation()
             isExpanded = true
         }else {
@@ -216,12 +214,12 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
             val transitionSet = TransitionSet()
             val t1 = makeChangeBounceTransition()
-            t1.addTarget(addBtn)
+            t1.addTarget(templatePanel)
             transitionSet.addTransition(t1)
             transitionSet.duration = 200L
             TransitionManager.beginDelayedTransition(this, transitionSet)
             clipLy.visibility = View.VISIBLE
-            addBtn.layoutParams.let {
+            templatePanel.layoutParams.let {
                 it.height = WRAP_CONTENT
             }
             startExpandAnimation()
@@ -232,8 +230,8 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun startExpandAnimation() {
         val animSet = AnimatorSet()
         animSet.playTogether(
-                ObjectAnimator.ofFloat(templateIconImg, "alpha", templateIconImg.alpha, 0f),
-                ObjectAnimator.ofFloat(addBtn, "elevation", addBtn.elevation, dpToPx(8f)))
+                ObjectAnimator.ofFloat(addBtn, "alpha", addBtn.alpha, 0f),
+                ObjectAnimator.ofFloat(templatePanel, "elevation", templatePanel.elevation, dpToPx(8f)))
         animSet.start()
     }
 
@@ -241,7 +239,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val transitionSet = TransitionSet()
         val t1 = makeChangeBounceTransition()
         val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
-        t1.addTarget(addBtn)
+        t1.addTarget(templatePanel)
         t2.addTarget(backgroundLy)
         transitionSet.addTransition(t1)
         transitionSet.addTransition(t2)
@@ -251,31 +249,25 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         MainActivity.instance?.clearCalendarHighlight()
         val animSet = AnimatorSet()
         animSet.playTogether(
-                ObjectAnimator.ofFloat(templateIconImg, "alpha", templateIconImg.alpha, 1f),
-                ObjectAnimator.ofFloat(addBtn, "elevation", addBtn.elevation, 0f))
+                ObjectAnimator.ofFloat(addBtn, "alpha", addBtn.alpha, 1f),
+                ObjectAnimator.ofFloat(templatePanel, "elevation", templatePanel.elevation, 0f))
         animSet.start()
     }
 
     fun collapseNoAnim() {
-        templateIconImg.alpha = 1f
-        addBtn.radius = 0f
-        addBtn.elevation = 0f
+        addBtn.alpha = 1f
+        templatePanel.radius = 0f
+        templatePanel.elevation = 0f
         initViews()
         MainActivity.instance?.clearCalendarHighlight()
     }
 
     private fun initViews() {
-        clearTemplate()
         backgroundLy.setOnClickListener(null)
         backgroundLy.isClickable = false
         clipLy.visibility = View.GONE
-        addLy.visibility = View.GONE
+        addLy.visibility = View.VISIBLE
         backgroundLy.visibility = View.GONE
-
-        addBtn.layoutParams.let {
-            it.height = dpToPx(40)
-        }
-
         adapter.mode = 0
         isExpanded = false
     }
@@ -283,11 +275,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun selectItem(template: Template) {
         selectedPosition = items.indexOf(template)
         MainActivity.getViewModel()?.targetTemplate?.value = template
-    }
-
-    private fun clearTemplate() {
-        items.clear()
-        adapter.notifyDataSetChanged()
     }
 
     fun notifyListChanged() {
@@ -321,5 +308,5 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    fun getAddButton() = addBtn
+    fun getAddButton(): CardView? = templatePanel
 }

@@ -54,7 +54,7 @@
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="0dp"
                         android:layout_marginLeft="16dp"
                         android:animateLayoutChanges="true"
                         android:background="?android:attr/selectableItemBackground"
@@ -83,11 +83,11 @@
                         android:id="@+id/briefingCard"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="34dp"
-                        android:minWidth="34dp"
+                        android:layout_height="30dp"
+                        android:minWidth="30dp"
                         android:layout_gravity="right"
-                        android:layout_marginTop="13dp"
-                        android:layout_marginRight="14dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="16dp"
                         android:outlineSpotShadowColor="@color/black"
                         android:animateLayoutChanges="true"
                         app:cardElevation="1dp"
@@ -108,8 +108,8 @@
 
                                 <ImageView
                                     android:id="@+id/countdownImg"
-                                    android:layout_width="34dp"
-                                    android:layout_height="34dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
                                     android:src="@drawable/countdown"
                                     android:tint="@color/primaryText"
                                     android:padding="9dp"/>
@@ -117,7 +117,7 @@
                                 <TextView
                                     android:id="@+id/countdownText"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="34dp"
+                                    android:layout_height="30dp"
                                     android:gravity="center_vertical"
                                     android:maxLines="1"
                                     android:textColor="@color/primaryText"
@@ -144,8 +144,8 @@
 
                                 <ImageView
                                     android:id="@+id/undoneImg"
-                                    android:layout_width="34dp"
-                                    android:layout_height="34dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
                                     android:src="@drawable/check"
                                     android:tint="@color/secondaryText"
                                     android:padding="9dp"/>
@@ -153,7 +153,7 @@
                                 <TextView
                                     android:id="@+id/undoneText"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="34dp"
+                                    android:layout_height="30dp"
                                     android:gravity="center_vertical"
                                     android:maxLines="2"
                                     android:textColor="@color/secondaryText"
@@ -380,7 +380,7 @@
         android:id="@+id/profileBtn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="0dp"
         android:layout_marginRight="6dp"
         android:layout_gravity="right"
         android:elevation="30dp">
@@ -389,11 +389,11 @@
             android:id="@+id/profileCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="12dp"
             android:layout_gravity="center"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardElevation="0.5dp"
-            app:cardCornerRadius="15dp">
+            app:cardCornerRadius="13dp">
 
             <ImageView
                 android:id="@+id/profileImg"
