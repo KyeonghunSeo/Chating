@@ -275,7 +275,8 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private fun showInsertAnimation(view: RecordView, lastAlpha: Float) {
         val animSet = AnimatorSet()
         animSet.playTogether(
-                ObjectAnimator.ofFloat(view, "translationY", blockTypeSize.toFloat(), 0f),
+                ObjectAnimator.ofFloat(view, "scaleX", 1.3f, 1f),
+                ObjectAnimator.ofFloat(view, "scaleY", 1.3f, 1f),
                 ObjectAnimator.ofFloat(view, "alpha", 0f, lastAlpha))
         animSet.duration = 1000
         animSet.interpolator = AnticipateOvershootInterpolator()

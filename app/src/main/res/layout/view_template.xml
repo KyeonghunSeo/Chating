@@ -21,10 +21,10 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="75dp"
-            android:layout_height="20dp"
+            android:layout_height="16dp"
             android:layout_gravity="center"
             app:cardBackgroundColor="@color/primaryText"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="13dp"
             app:cardElevation="0dp">
 
             <ImageView
@@ -32,7 +32,7 @@
                 android:layout_width="75dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/add"
-                android:padding="4dp"
+                android:padding="3dp"
                 android:layout_gravity="center_horizontal"
                 android:tint="@color/background"/>
 
