@@ -280,20 +280,15 @@
             <FrameLayout
                 android:id="@+id/todayBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginBottom="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_horizontal|bottom">
 
-                <androidx.cardview.widget.CardView
+                <FrameLayout
                     android:id="@+id/todayCard"
                     android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_margin="15dp"
-                    android:outlineSpotShadowColor="@color/secondaryText"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardBackgroundColor="@color/background"
-                    app:cardElevation="0.0dp"
-                    app:cardCornerRadius="12.5dp">
+                    android:layout_height="20dp"
+                    android:layout_margin="10dp"
+                    android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout
                         android:id="@+id/todayContentLy"
@@ -302,7 +297,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="0"
-                        android:animateLayoutChanges="true"
                         android:layout_marginRight="8dp"
                         android:layout_marginLeft="8dp">
 
@@ -336,7 +330,7 @@
 
                     </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                </FrameLayout>
 
             </FrameLayout>
 

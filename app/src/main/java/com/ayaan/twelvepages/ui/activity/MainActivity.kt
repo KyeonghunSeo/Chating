@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.view.DragEvent
+import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
@@ -503,7 +504,7 @@ class MainActivity : BaseActivity() {
 
     fun showSearchView() { searchView.show() }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "RtlHardcoded")
     private fun refreshTodayView(todayOffset: Int) {
         when {
             todayOffset != 0 -> {
@@ -512,17 +513,18 @@ class MainActivity : BaseActivity() {
                 var distance = 0f
                 if(todayOffset < 0) {
                     distance *= -1
+                    (todayBtn.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT or Gravity.BOTTOM
                     todayText.setPadding(dpToPx(8), 0, 0, 0)
                     todayRightArrow.visibility = View.VISIBLE
                     todayLeftArrow.visibility = View.GONE
                 }else {
+                    (todayBtn.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.LEFT or Gravity.BOTTOM
                     todayText.setPadding(0, 0, dpToPx(8), 0)
                     todayRightArrow.visibility = View.GONE
                     todayLeftArrow.visibility = View.VISIBLE
                 }
                 val animSet = AnimatorSet()
                 animSet.playTogether(ObjectAnimator.ofFloat(todayContentLy, "alpha",  todayContentLy.alpha, 1f),
-                        ObjectAnimator.ofFloat(todayCard, "elevation",  todayCard.elevation, dpToPx(1f)),
                         ObjectAnimator.ofFloat(todayBtn, "translationX",  todayBtn.translationX, distance))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
@@ -532,7 +534,6 @@ class MainActivity : BaseActivity() {
             else -> {
                 val animSet = AnimatorSet()
                 animSet.playTogether(ObjectAnimator.ofFloat(todayContentLy, "alpha",  todayContentLy.alpha, 0f),
-                        ObjectAnimator.ofFloat(todayCard, "elevation",  todayCard.elevation, 0f),
                         ObjectAnimator.ofFloat(todayBtn, "translationX", todayBtn.translationX, 0f))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
@@ -598,7 +599,7 @@ class MainActivity : BaseActivity() {
         when{
             searchView.isOpened() -> searchView.hide()
             profileView.isOpened() -> profileView.hide()
-            templateView.isExpanded -> templateView.collapse()
+            templateView.isExpanded() -> templateView.collapse()
             viewModel.openFolder.value == true -> viewModel.openFolder.value = false
             dayPager.isOpened() -> dayPager.hide()
             else -> super.onBackPressed()

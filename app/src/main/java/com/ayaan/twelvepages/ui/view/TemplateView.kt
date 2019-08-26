@@ -34,6 +34,7 @@ import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.activity.TemplateActivity
 import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.realm.Realm
 import kotlinx.android.synthetic.main.view_template.view.*
 import java.util.*
@@ -42,9 +43,10 @@ import kotlin.collections.ArrayList
 class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
     private val startCal = Calendar.getInstance()
     private val endCal = Calendar.getInstance()
+    private val panelElevation = dpToPx(30f)
+    private var behavior: BottomSheetBehavior<View>
     val items = ArrayList<Template>()
     var selectedPosition = 0
-    var isExpanded = false
     val adapter = TemplateAdapter(context, items) { template, mode ->
         if(template != null) {
             if(mode == 0) {
@@ -64,30 +66,32 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_template, this, true)
-        initViews()
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
 
-        templatePanel.setOnLongClickListener {
+        behavior = BottomSheetBehavior.from(bottomSheet)
+        behavior.isHideable = true
+        behavior.state = BottomSheetBehavior.STATE_HIDDEN
+        behavior.skipCollapsed = true
+        behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if(newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    templatePanel.elevation = 0f
+                    hiddened()
+                }else {
+                    templatePanel.elevation = panelElevation
+                }
+            }
+        })
+
+        templateBtn.setOnLongClickListener {
             return@setOnLongClickListener false
         }
 
-        addBtn.setOnClickListener {
-            if(isExpanded) {
-                collapse()
-                /*
-                if(adapter.mode == 0) {
-                    adapter.mode = 1
-                    adapter.notifyItemInserted(items.size)
-                }else {
-                    adapter.mode = 0
-                    adapter.notifyDataSetChanged()
-                }
-                */
-            }else {
-                MainActivity.getTargetTime()?.let { expand(it, it) }
-            }
+        templateBtn.setOnClickListener {
+            MainActivity.getTargetTime()?.let { expand(it, it) }
         }
 
         stickerBtn.setOnClickListener {
@@ -152,23 +156,10 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         vibrate(context)
         startCal.timeInMillis = dtStart
         endCal.timeInMillis = dtEnd
+        setDate()
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
         if(AppStatus.templateMode == 0) {
-            val transitionSet = TransitionSet()
-            val t1 = makeChangeBounceTransition()
-            val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
-            t1.addTarget(templatePanel)
-            t2.addTarget(backgroundLy)
-            transitionSet.addTransition(t1)
-            transitionSet.addTransition(t2)
-            transitionSet.duration = 200L
-            TransitionManager.beginDelayedTransition(this, transitionSet)
-            setDate()
-            backgroundLy.setBackgroundColor(AppTheme.background)
-            backgroundLy.setOnClickListener { collapse() }
-            backgroundLy.isClickable = true
-            backgroundLy.visibility = View.VISIBLE
             startExpandAnimation()
-            isExpanded = true
         }else {
             MainActivity.getViewModel()?.targetTemplate?.value = null
             MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
@@ -211,65 +202,22 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
                 MainActivity.getViewModel()?.clipRecord?.value = null
             }
-
-            val transitionSet = TransitionSet()
-            val t1 = makeChangeBounceTransition()
-            t1.addTarget(templatePanel)
-            transitionSet.addTransition(t1)
-            transitionSet.duration = 200L
-            TransitionManager.beginDelayedTransition(this, transitionSet)
             clipLy.visibility = View.VISIBLE
-            templatePanel.layoutParams.let {
-                it.height = WRAP_CONTENT
-            }
-            startExpandAnimation()
-            isExpanded = true
+            addLy.visibility = View.GONE
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 
-    private fun startExpandAnimation() {
-        val animSet = AnimatorSet()
-        animSet.playTogether(
-                ObjectAnimator.ofFloat(addBtn, "alpha", addBtn.alpha, 0f),
-                ObjectAnimator.ofFloat(templatePanel, "elevation", templatePanel.elevation, dpToPx(8f)))
-        animSet.start()
-    }
+    private fun startExpandAnimation() {}
 
     fun collapse() {
-        val transitionSet = TransitionSet()
-        val t1 = makeChangeBounceTransition()
-        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
-        t1.addTarget(templatePanel)
-        t2.addTarget(backgroundLy)
-        transitionSet.addTransition(t1)
-        transitionSet.addTransition(t2)
-        transitionSet.duration = 200L
-        TransitionManager.beginDelayedTransition(this, transitionSet)
-        initViews()
         MainActivity.instance?.clearCalendarHighlight()
-        val animSet = AnimatorSet()
-        animSet.playTogether(
-                ObjectAnimator.ofFloat(addBtn, "alpha", addBtn.alpha, 1f),
-                ObjectAnimator.ofFloat(templatePanel, "elevation", templatePanel.elevation, 0f))
-        animSet.start()
+        behavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
-    fun collapseNoAnim() {
-        addBtn.alpha = 1f
-        templatePanel.radius = 0f
-        templatePanel.elevation = 0f
-        initViews()
-        MainActivity.instance?.clearCalendarHighlight()
-    }
-
-    private fun initViews() {
-        backgroundLy.setOnClickListener(null)
-        backgroundLy.isClickable = false
-        clipLy.visibility = View.GONE
-        addLy.visibility = View.VISIBLE
-        backgroundLy.visibility = View.GONE
+    private fun hiddened() {
         adapter.mode = 0
-        isExpanded = false
+        MainActivity.instance?.clearCalendarHighlight()
     }
 
     private fun selectItem(template: Template) {
@@ -278,13 +226,13 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun notifyListChanged() {
-        if(isExpanded) {
+        if(isExpanded()) {
             val newItems = ArrayList<Template>()
             filterCurrentFolder(newItems)
             Thread {
                 val diffResult = DiffUtil.calculateDiff(TemplateDiffCallback(items, newItems))
                 Handler(Looper.getMainLooper()).post{
-                    if(isExpanded) {
+                    if(isExpanded()) {
                         items.clear()
                         items.addAll(newItems)
                         diffResult.dispatchUpdatesTo(adapter)
@@ -309,4 +257,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun getAddButton(): CardView? = templatePanel
+
+    fun isExpanded() = behavior.state == BottomSheetBehavior.STATE_EXPANDED
 }
