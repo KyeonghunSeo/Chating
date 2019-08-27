@@ -45,7 +45,7 @@
                 <FrameLayout
                     android:id="@+id/headerLy"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="72dp"
                     android:elevation="20dp"
                     android:clipChildren="false">
 
@@ -55,7 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_marginTop="0dp"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginLeft="15dp"
                         android:animateLayoutChanges="true"
                         android:background="?android:attr/selectableItemBackground"
                         android:clipChildren="false">
@@ -258,7 +258,7 @@
                     android:id="@+id/topShadow"
                     android:layout_width="match_parent"
                     android:layout_height="6dp"
-                    android:layout_marginTop="75dp"
+                    android:layout_marginTop="72dp"
                     android:alpha="0"
                     android:background="@drawable/line_top_shadow"/>
 
@@ -302,10 +302,10 @@
 
                         <ImageView
                             android:id="@+id/todayLeftArrow"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
                             android:layout_marginRight="3dp"
-                            android:src="@drawable/arrow_left"
+                            android:src="@drawable/arrow_fill_left"
                             android:tint="@color/primaryText"
                             android:layout_gravity="center_vertical" />
 
@@ -321,10 +321,10 @@
 
                         <ImageView
                             android:id="@+id/todayRightArrow"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
                             android:layout_marginLeft="3dp"
-                            android:src="@drawable/arrow_right"
+                            android:src="@drawable/arrow_fill_right"
                             android:tint="@color/primaryText"
                             android:layout_gravity="center_vertical|right" />
 
@@ -389,11 +389,11 @@
             android:id="@+id/profileCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="12dp"
+            android:layout_margin="14dp"
             android:layout_gravity="center"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardElevation="0.5dp"
-            app:cardCornerRadius="13dp">
+            app:cardCornerRadius="11dp">
 
             <ImageView
                 android:id="@+id/profileImg"
