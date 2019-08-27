@@ -157,6 +157,8 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         startCal.timeInMillis = dtStart
         endCal.timeInMillis = dtEnd
         setDate()
+        clipLy.visibility = View.GONE
+        addLy.visibility = View.VISIBLE
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
         if(AppStatus.templateMode == 0) {
             startExpandAnimation()
@@ -258,5 +260,5 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun getAddButton(): CardView? = templatePanel
 
-    fun isExpanded() = behavior.state == BottomSheetBehavior.STATE_EXPANDED
+    fun isExpanded() = behavior.state != BottomSheetBehavior.STATE_HIDDEN
 }

@@ -471,6 +471,33 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/backupBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/backup"
+                    android:textColor="@color/primaryText"
+                    android:textSize="14dp"/>
+
+                <TextView
+                    android:id="@+id/backupText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/last_backup_time"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="14dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp">
@@ -530,7 +557,7 @@
     <FrameLayout
         android:id="@+id/headerLy"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:background="@color/whiteAlpha">
 
         <LinearLayout
@@ -557,7 +584,7 @@
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/primaryText"
                 android:fontFamily="@font/bold"
-                android:textSize="32dp"
+                android:textSize="18dp"
                 android:text="@string/setting"/>
 
         </LinearLayout>

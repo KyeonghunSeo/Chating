@@ -2,7 +2,6 @@ package com.ayaan.twelvepages.ui.activity
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -18,8 +17,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.R
+import com.google.firebase.storage.FirebaseStorage
+import com.pixplicity.easyprefs.library.Prefs
 import io.realm.*
 import kotlinx.android.synthetic.main.activity_welcome.*
+import java.io.File
 
 
 class WelcomeActivity : BaseActivity() {
@@ -34,7 +36,7 @@ class WelcomeActivity : BaseActivity() {
             if(FirebaseAuth.getInstance().currentUser == null) {
                 startShow()
             }else {
-                startInitSettingLy()
+                startMainActivity()
             }
         })
     }
@@ -77,7 +79,7 @@ class WelcomeActivity : BaseActivity() {
         }, 10000)
     }
 
-    private fun startInitSettingLy() {
+    private fun startCustomSettings() {
         leafFallView.stop()
         val handler =  Handler()
         handler.postDelayed({
@@ -116,8 +118,6 @@ class WelcomeActivity : BaseActivity() {
                 optionsLy.findViewById(R.id.option3Text),
                 optionsLy.findViewById(R.id.option4Text),
                 optionsLy.findViewById(R.id.option5Text))
-
-        l("프로필 사진 "+user?.photoUrl)
 
         when(scriptNum) {
             0 -> {
@@ -229,12 +229,23 @@ class WelcomeActivity : BaseActivity() {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this) { task ->
-                    hideProgressDialog()
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         l("signInWithCredential:success")
+                        Prefs.putLong("last_backup_time", System.currentTimeMillis())
                         val user = mAuth.currentUser
-                        startInitSettingLy()
+                        val ref = FirebaseStorage.getInstance().reference
+                                .child("${user?.uid}/db")
+                        val realm = Realm.getDefaultInstance()
+                        ref.getFile(File(realm.path)).addOnSuccessListener {
+                            hideProgressDialog()
+                            realm.close()
+                            startMainActivity()
+                        }.addOnFailureListener {
+                            hideProgressDialog()
+                            realm.close()
+                            startCustomSettings()
+                        }
                     } else {
                         // If sign in fails, display a message to the user.
                         l("signInWithCredential:failure")
@@ -267,7 +278,9 @@ class WelcomeActivity : BaseActivity() {
     }
 
     private fun startMainActivity() {
-        setResult(Activity.RESULT_OK)
+        startActivity(Intent(this, MainActivity::class.java).apply {
+            intent.extras?.let { putExtras(it) }
+        })
         finish()
     }
 

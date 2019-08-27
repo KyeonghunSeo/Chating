@@ -351,6 +351,9 @@
     <string name="import_external_data">외부 데이터</string>
     <string name="import_naver_calendar">네이버 캘린더 가져오기</string>
     <string name="this_is_os_instance">외부 데이터는 앱 내에서 편집할수 없습니다</string>
+    <string name="backup">백업하기</string>
+    <string name="last_backup_time">마지막 백업 :</string>
+    <string name="success_backup">백업 완료</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

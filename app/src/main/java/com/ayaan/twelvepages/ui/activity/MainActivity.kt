@@ -90,24 +90,17 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        l("[MainActivity onCreate]")
         instance = this
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         setContentView(R.layout.activity_main)
         initTheme(rootLy)
         initMain()
-        viewModel.initRealm(SyncUser.current())
         if(FirebaseAuth.getInstance().currentUser == null) {
-            startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
-        }else {
-            //startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
-        }
-        /*
-        if(SyncUser.current() == null) {
-            startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
+
         }else {
             viewModel.initRealm(SyncUser.current())
-        }*/
+        }
     }
 
     private fun initMain() {
@@ -143,7 +136,7 @@ class MainActivity : BaseActivity() {
         rootLy.setOnDragListener(MainDragAndDropListener)
         mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainDateLy.pivotX = dpToPx(10f)
-        mainDateLy.pivotY = dpToPx(0f)
+        mainDateLy.pivotY = dpToPx(25f)
         briefingCard.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainPanel.setOnClickListener {}
         callAfterViewDrawed(rootLy, Runnable{
@@ -599,21 +592,16 @@ class MainActivity : BaseActivity() {
         when{
             searchView.isOpened() -> searchView.hide()
             profileView.isOpened() -> profileView.hide()
+            dayPager.isOpened() -> dayPager.hide()
             templateView.isExpanded() -> templateView.collapse()
             viewModel.openFolder.value == true -> viewModel.openFolder.value = false
-            dayPager.isOpened() -> dayPager.hide()
             else -> super.onBackPressed()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == RC_LOGIN) {
-            if(resultCode == RESULT_OK) {
-
-                viewModel.initRealm(SyncUser.current())
-            } else finish()
-        }else if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
+        if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
             data?.let { CropImage.activity(data.data).setAspectRatio(1, 1).start(this) }
         }else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
@@ -664,6 +652,9 @@ class MainActivity : BaseActivity() {
             if(dayPager.isOpened()) dayPager.hide()
             profileView.hide()
             CalendarSettingsDialog(this).show(supportFragmentManager, null)
+        }else if(requestCode == RC_SETTING && resultCode == RC_LOGOUT) {
+            finish()
+            startActivity(Intent(this, WelcomeActivity::class.java))
         }
     }
 

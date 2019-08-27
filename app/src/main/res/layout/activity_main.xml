@@ -368,6 +368,12 @@
 
         </FrameLayout>
 
+        <com.ayaan.twelvepages.ui.view.TemplateView
+            android:id="@+id/templateView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.ayaan.twelvepages.ui.view.TemplateView>
+
     </androidx.cardview.widget.CardView>
 
     <FrameLayout
@@ -398,13 +404,6 @@
         </androidx.cardview.widget.CardView>
 
     </FrameLayout>
-
-    <com.ayaan.twelvepages.ui.view.TemplateView
-        android:id="@+id/templateView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="30dp">
-    </com.ayaan.twelvepages.ui.view.TemplateView>
 
     <com.ayaan.twelvepages.ui.view.SearchView
         android:id="@+id/searchView"

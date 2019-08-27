@@ -66,7 +66,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     fun updateUserUI(appUser: AppUser) {
-        l("[프로필 뷰 갱신]")
+        l("[프로필 뷰 갱신]" + appUser.id)
         nameText.text = FirebaseAuth.getInstance().currentUser?.displayName
         emailText.text = FirebaseAuth.getInstance().currentUser?.email
         if(appUser.motto?.isNotBlank() == true) {
@@ -147,9 +147,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                         animList.add(ObjectAnimator.ofFloat(it, "translationX", 0f, panelOffset))
                         animList.add(ObjectAnimator.ofFloat(it, "radius", 0f, zOffset / 2))
                     }
-                    MainActivity.getTemplateView()?.getAddButton()?.let {
-                        animList.add(ObjectAnimator.ofFloat(it, "translationY", 0f, panelOffset / 2))
-                    }
                     animSet.playTogether(animList)
                     animSet.duration = animDur
                     animSet.interpolator = FastOutSlowInInterpolator()
@@ -185,9 +182,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", it.scaleY, 1f))
                         animList.add(ObjectAnimator.ofFloat(it, "translationX", it.translationX, 0f))
                         animList.add(ObjectAnimator.ofFloat(it, "radius", zOffset, 0f))
-                    }
-                    MainActivity.getTemplateView()?.getAddButton()?.let {
-                        animList.add(ObjectAnimator.ofFloat(it, "translationY", it.translationY, 0f))
                     }
                     animSet.playTogether(animList)
                     animSet.duration = animDur

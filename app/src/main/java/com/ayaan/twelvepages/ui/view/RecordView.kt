@@ -28,7 +28,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     companion object {
         var standardTextSize = 9f
         val baseSize = dpToPx(0.5f)
-        val blockTypeSize = dpToPx(16.5f).toInt()
+        val blockTypeSize = dpToPx(16.0f).toInt()
         val defaulMargin = dpToPx(1.5f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
         val sidePadding = dpToPx(3.0f).toInt()

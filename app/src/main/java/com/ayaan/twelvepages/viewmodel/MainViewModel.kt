@@ -39,6 +39,7 @@ class MainViewModel : ViewModel() {
 
     fun initRealm(syncUser: SyncUser?) {
         if(syncUser == null) {
+            realm.value?.removeAllChangeListeners()
             realm.value = Realm.getDefaultInstance()
             loading.value = false
             loadTemplate()

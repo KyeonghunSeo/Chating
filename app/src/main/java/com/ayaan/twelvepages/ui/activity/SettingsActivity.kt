@@ -20,6 +20,8 @@ import com.ayaan.twelvepages.ui.dialog.RecordViewStyleDialog
 import com.ayaan.twelvepages.ui.dialog.TimePickerDialog
 import com.ayaan.twelvepages.ui.view.RecordView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.storage.FirebaseStorage
 import com.pixplicity.easyprefs.library.Prefs
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -46,6 +48,7 @@ class SettingsActivity : BaseActivity() {
         setDefaultAlarmTime()
         setConnectOsCalendar()
         setExport()
+        setBackup()
 
         emailText.text = FirebaseAuth.getInstance().currentUser?.email
         logoutBtn.setOnClickListener {
@@ -53,6 +56,7 @@ class SettingsActivity : BaseActivity() {
                     getString(R.string.ask_logout), null) { result, _, _ ->
                 if(result) {
                     FirebaseAuth.getInstance().signOut()
+                    setResult(RC_LOGOUT)
                     finish()
                 }
             }, true, true, true, false)
@@ -133,6 +137,34 @@ class SettingsActivity : BaseActivity() {
                 toast(R.string.export_done)
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setBackup() {
+        var lastBackupTime = Prefs.getLong("last_backup_time", 0L)
+        backupText.text = AppDateFormat.ymd.format(Date(lastBackupTime)) + " " + AppDateFormat.time.format(Date(lastBackupTime))
+        backupBtn.setOnClickListener {
+            showProgressDialog(null)
+            MainActivity.getViewModel()?.let { viewModel ->
+                viewModel.realm.value?.let { realm ->
+                    val inputStream = FileInputStream(File(realm.path))
+                    l("${viewModel.appUser.value?.id}/db")
+                    val ref = FirebaseStorage.getInstance().reference
+                            .child("${viewModel.appUser.value?.id}/db")
+                    val uploadTask = ref.putBytes(inputStream.readBytes())
+                    uploadTask.addOnFailureListener {
+                        hideProgressDialog()
+                    }.addOnSuccessListener {
+                        lastBackupTime = System.currentTimeMillis()
+                        Prefs.putLong("last_backup_time", lastBackupTime)
+                        backupText.text = AppDateFormat.ymd.format(Date(lastBackupTime)) + " " + AppDateFormat.time.format(Date(lastBackupTime))
+                        toast(R.string.success_backup, R.drawable.done)
+                        hideProgressDialog()
+                    }
+                }
+            }
+
+        }
     }
 
     private fun setCheckedRecordDisplay() {
