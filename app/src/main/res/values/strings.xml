@@ -124,7 +124,7 @@
     <string name="enter_tag">태그 이름</string>
     <string name="no_tag">태그없음</string>
     <string name="delete_tag_sub">이 태그가 붙어있는 모든 기록(총 %1$s개)에서 해당 태그가 삭제됩니다.</string>
-    <string name="keep">보관함</string>
+    <string name="keep">Keep</string>
     <string name="attachment">첨부</string>
     <string name="edit_template">템플릿 편집</string>
     <string name="show_in_calendar">캘린더에 게시</string>

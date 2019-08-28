@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/bar"
-        android:layout_width="7dp"
-        android:layout_height="13dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="3dp"
         android:layout_gravity="right"
         android:alpha="0.7"
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="4.5dp"
-        android:paddingLeft="4.5dp">
+        android:paddingLeft="3.0dp">
 
         <LinearLayout
             android:orientation="horizontal"

@@ -48,6 +48,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
 import com.theartofdev.edmodo.cropper.CropImage
+import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
@@ -135,7 +136,7 @@ class MainActivity : BaseActivity() {
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
         mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        mainDateLy.pivotX = dpToPx(10f)
+        mainDateLy.pivotX = dpToPx(20f)
         mainDateLy.pivotY = dpToPx(25f)
         briefingCard.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainPanel.setOnClickListener {}
@@ -165,7 +166,7 @@ class MainActivity : BaseActivity() {
                 if(dateInfoHolder.cellNum % 7 == index) {
                     textView?.setTypeface(AppTheme.boldFont, Typeface.BOLD)
                 }else {
-                    textView?.typeface = AppTheme.regularFont
+                    textView?.typeface = AppTheme.thinFont
                 }
                 textView?.setTextColor(when (index) {
                     calendarView.sundayPos -> CalendarManager.sundayColor
@@ -219,37 +220,37 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        profileBtn.setOnLongClickListener {
-            RecordManager.deleteAllRecord()
-            return@setOnLongClickListener true
-        }
-
-        mainYearText.setOnClickListener {
-            if(!profileView.isOpened()) {
-                profileView.show()
-            }
-        }
-
-        mainYearText.setOnLongClickListener {
-            AppTheme.thinFont = ResourcesCompat.getFont(this, R.font.thin_s)!!
-            AppTheme.regularFont = ResourcesCompat.getFont(this, R.font.regular_s)!!
-            AppTheme.boldFont = ResourcesCompat.getFont(this, R.font.bold_s)!!
-            initTheme(rootLy)
-            return@setOnLongClickListener true
-        }
-
-        mainMonthText.setOnClickListener {
+        mainDateLy.setOnClickListener {
             showDialog(DatePickerDialog(this, viewModel.targetTime.value!!) {
                 selectDate(it)
             }, true, true, true, false)
         }
 
+        profileBtn.setOnLongClickListener {
+            RecordManager.deleteAllRecord()
+            return@setOnLongClickListener true
+        }
+
+        mainYearText.setOnLongClickListener {
+            /*
+            AppTheme.thinFont = ResourcesCompat.getFont(this, R.font.thin_s)!!
+            AppTheme.regularFont = ResourcesCompat.getFont(this, R.font.regular_s)!!
+            AppTheme.boldFont = ResourcesCompat.getFont(this, R.font.bold_s)!!
+            initTheme(rootLy)
+            */
+            val realm = Realm.getDefaultInstance()
+            realm.executeTransaction{
+                realm.where(Folder::class.java).findAll()?.deleteAllFromRealm()
+            }
+            realm.close()
+            return@setOnLongClickListener true
+        }
         mainMonthText.setOnLongClickListener {
             val cal = Calendar.getInstance()
             cal.set(2019, 7, 1)
             var s = cal.timeInMillis
             val list = ArrayList<Record>()
-            val c = 0
+            val c = 20
             val formulas = arrayOf(STACK, EXPANDED, DOT)
             list.add(RecordManager.makeNewRecord(s, s).apply {
                 title = "점심약속"
@@ -314,9 +315,9 @@ class MainActivity : BaseActivity() {
             list.forEach {
                 //val f = formulas[Random().nextInt(formulas.size)]
                 val f = RecordCalendarAdapter.Formula.STACK
-                it.colorKey = 9
+                //it.colorKey = 9 // 검정
                 //it.style = f.shapes[Random().nextInt(f.shapes.size)].ordinal * 100 + f.ordinal
-                it.style = f.shapes[1].ordinal * 100 + f.ordinal
+                it.style = f.shapes[0].ordinal * 100 + f.ordinal
             }
             RecordManager.save(list)
             return@setOnLongClickListener true
@@ -340,10 +341,12 @@ class MainActivity : BaseActivity() {
         })
         viewModel.appUser.observe(this, Observer { appUser -> appUser?.let { updateUserUI(it) } })
         viewModel.templateList.observe(this, Observer { templateView.notifyListChanged() })
-        viewModel.folderList.observe(this, Observer { list -> folderAdapter.refresh(list) })
+        viewModel.folderList.observe(this, Observer { list ->
+            //folderAdapter.refresh(list)
+        })
         viewModel.targetFolder.observe(this, Observer { folder ->
             refreshAll()
-            folder?.let { folderAdapter.setTargetFolder(it, folderListView, if(folder.type == 0) calendarLy else noteView) }
+            //folder?.let { folderAdapter.setTargetFolder(it, folderListView, if(folder.type == 0) calendarLy else noteView) }
         })
         viewModel.openFolder.observe(this, Observer { updateFolderUI(it) })
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
@@ -386,11 +389,15 @@ class MainActivity : BaseActivity() {
                 //undoneImg.setColorFilter(fontColor)
                 //undoneText.setTextColor(fontColor)
 
+                /*
                 var tail = if (list.size > 1) String.format(str(R.string.and_others), list.size - 1) else ""
                 if (tail.contains("other") && list.size > 2) {
                     tail = tail.replace("other", "others")
                 }
                 undoneText.text = "${str(R.string.undone_records)}\n${record.getShortTilte()} $tail"
+                */
+
+                undoneText.text = list.size.toString()
                 undoneText.setOnClickListener {
                     showDialog(UndoneListDialog(this) {
                     }, true, true, true, false)
@@ -440,16 +447,14 @@ class MainActivity : BaseActivity() {
         val folder = getTargetFolder()
         if(folder.type == 0) {
             calendarLy.visibility = View.VISIBLE
-            todayBtn.visibility = View.VISIBLE
             noteView.visibility = View.INVISIBLE
+            refreshCalendar()
         }else {
             calendarLy.visibility = View.INVISIBLE
-            todayBtn.visibility = View.INVISIBLE
             noteView.visibility = View.VISIBLE
+            noteView.notifyDataChanged()
         }
         templateView.notifyListChanged()
-        refreshCalendar()
-        noteView.notifyDataChanged()
     }
 
     private fun refreshCalendar() {

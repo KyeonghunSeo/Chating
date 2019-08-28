@@ -11,6 +11,7 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
@@ -86,12 +87,20 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         })
 
-        templateBtn.setOnLongClickListener {
-            return@setOnLongClickListener false
+        calendarBtn.setOnClickListener {
+            if(MainActivity.getTargetFolder().id == "calendar") {
+                MainActivity.getTargetTime()?.let { expand(it, it) }
+            }else {
+                MainActivity.getViewModel()?.setCalendarFolder()
+            }
         }
 
-        templateBtn.setOnClickListener {
-            MainActivity.getTargetTime()?.let { expand(it, it) }
+        keepBtn.setOnClickListener {
+            if(MainActivity.getTargetFolder().id == "keep") {
+                MainActivity.getTargetTime()?.let { expand(it, it) }
+            }else {
+                MainActivity.getViewModel()?.setKeepFolder()
+            }
         }
 
         stickerBtn.setOnClickListener {
@@ -228,6 +237,14 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun notifyListChanged() {
+        TransitionManager.beginDelayedTransition(addBtn, makeChangeBounceTransition())
+        (addBtn.layoutParams as FrameLayout.LayoutParams).gravity = if(MainActivity.getTargetFolder().id == "calendar") {
+            Gravity.LEFT
+        }else {
+            Gravity.RIGHT
+        }
+        addBtn.requestLayout()
+
         if(isExpanded()) {
             val newItems = ArrayList<Template>()
             filterCurrentFolder(newItems)

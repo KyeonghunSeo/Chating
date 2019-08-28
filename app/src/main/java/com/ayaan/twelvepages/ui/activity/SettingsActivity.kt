@@ -148,7 +148,7 @@ class SettingsActivity : BaseActivity() {
             MainActivity.getViewModel()?.let { viewModel ->
                 viewModel.realm.value?.let { realm ->
                     val inputStream = FileInputStream(File(realm.path))
-                    l("${viewModel.appUser.value?.id}/db")
+                    l("${viewModel.appUser.value?.id}/db : size -> ${inputStream.readBytes().size}bytes")
                     val ref = FirebaseStorage.getInstance().reference
                             .child("${viewModel.appUser.value?.id}/db")
                     val uploadTask = ref.putBytes(inputStream.readBytes())

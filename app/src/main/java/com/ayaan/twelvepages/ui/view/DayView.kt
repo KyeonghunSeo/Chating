@@ -452,7 +452,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         const val headerTextScale = 4.5f
         const val mainMonthTextScale = 0.78f
 
-        val datePosX = -dpToPx(4.0f)
+        val datePosX = -dpToPx(0.0f)
         val datePosY = dpToPx(20.0f)
 
         val dowPosX = dpToPx(1.0f) / headerTextScale

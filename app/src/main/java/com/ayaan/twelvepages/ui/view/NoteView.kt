@@ -1,11 +1,13 @@
 package com.ayaan.twelvepages.ui.view
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +25,7 @@ import kotlinx.android.synthetic.main.view_note.view.*
 import java.util.*
 
 class NoteView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : CardView(context, attrs, defStyleAttr) {
+    : FrameLayout(context, attrs, defStyleAttr) {
 
     private var recordList: RealmResults<Record>? = null
     private val items = ArrayList<Record>()
@@ -37,8 +39,7 @@ class NoteView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_note, this, true)
-        setOnClickListener {}
-
+        setBackgroundColor(AppTheme.background)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -65,7 +66,8 @@ class NoteView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     fun notifyDataChanged() {
         MainActivity.getTargetFolder().let { folder ->
-            titleText.text = folder.name
+            folderNameText.text = "Keep"
+            folderNameText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             recordList?.removeAllChangeListeners()
             recordList = RecordManager.getRecordList(folder)
             recordList?.addChangeListener { result, changeSet ->
