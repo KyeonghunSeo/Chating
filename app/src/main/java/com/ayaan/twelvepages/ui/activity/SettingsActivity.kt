@@ -139,32 +139,20 @@ class SettingsActivity : BaseActivity() {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 
-    @SuppressLint("SetTextI18n")
     private fun setBackup() {
-        var lastBackupTime = Prefs.getLong("last_backup_time", 0L)
-        backupText.text = AppDateFormat.ymd.format(Date(lastBackupTime)) + " " + AppDateFormat.time.format(Date(lastBackupTime))
+        setBackupTimeText()
         backupBtn.setOnClickListener {
-            showProgressDialog(null)
-            MainActivity.getViewModel()?.let { viewModel ->
-                viewModel.realm.value?.let { realm ->
-                    val inputStream = FileInputStream(File(realm.path))
-                    l("${viewModel.appUser.value?.id}/db : size -> ${inputStream.readBytes().size}bytes")
-                    val ref = FirebaseStorage.getInstance().reference
-                            .child("${viewModel.appUser.value?.id}/db")
-                    val uploadTask = ref.putBytes(inputStream.readBytes())
-                    uploadTask.addOnFailureListener {
-                        hideProgressDialog()
-                    }.addOnSuccessListener {
-                        lastBackupTime = System.currentTimeMillis()
-                        Prefs.putLong("last_backup_time", lastBackupTime)
-                        backupText.text = AppDateFormat.ymd.format(Date(lastBackupTime)) + " " + AppDateFormat.time.format(Date(lastBackupTime))
-                        toast(R.string.success_backup, R.drawable.done)
-                        hideProgressDialog()
-                    }
-                }
-            }
-
+            backupDB(this, Runnable{
+                setBackupTimeText()
+                toast(R.string.success_backup, R.drawable.done)
+            })
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setBackupTimeText() {
+        val lastBackupTime = Prefs.getLong("last_backup_time", 0L)
+        backupText.text = AppDateFormat.ymd.format(Date(lastBackupTime)) + " " + AppDateFormat.time.format(Date(lastBackupTime))
     }
 
     private fun setCheckedRecordDisplay() {

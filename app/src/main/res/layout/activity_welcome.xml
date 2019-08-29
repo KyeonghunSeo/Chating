@@ -15,7 +15,7 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="60dp">
@@ -24,23 +24,37 @@
             android:id="@+id/firstText1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
             android:textColor="@color/primaryText"
-            android:textSize="20dp"
+            android:textSize="16dp"
             android:text="@string/first_text_1"
-            android:fontFamily="@font/regular_s"
+            android:fontFamily="@font/bold"
             android:alpha="0"/>
 
         <TextView
             android:id="@+id/firstText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/primaryText"
+            android:textSize="16dp"
+            android:text="@string/first_text_2"
+            android:fontFamily="@font/bold"
+            android:alpha="0" />
+
+        <TextView
+            android:id="@+id/firstText3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginLeft="20dp"
             android:textColor="@color/primaryText"
-            android:textSize="20dp"
-            android:text="@string/first_text_2"
-            android:fontFamily="@font/regular_s"
+            android:textSize="16dp"
+            android:text="@string/first_text_3"
+            android:fontFamily="@font/bold"
             android:alpha="0" />
 
     </LinearLayout>
@@ -52,7 +66,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_margin="60dp"
+        android:padding="50dp"
+        android:clipToPadding="false"
         android:alpha="0">
 
         <ImageView
@@ -63,44 +78,41 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:textColor="@color/secondaryText"
-            android:textSize="18dp"
+            android:layout_marginTop="120dp"
+            android:textColor="@color/primaryText"
+            android:textSize="14dp"
             android:text="@string/logo_text"
-            android:fontFamily="@font/regular_s"/>
+            android:fontFamily="@font/thin"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="120dp"
+            android:layout_marginTop="5dp"
             android:textColor="@color/primaryText"
-            android:textSize="22dp"
-            android:text="@string/app_name"
-            android:fontFamily="@font/bold_s"/>
+            android:textSize="24dp"
+            android:text="C A L U A"
+            android:fontFamily="@font/bold"/>
 
-        <LinearLayout
-            android:id="@+id/loginBtn"
-            android:orientation="horizontal"
+        <TextView
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/primaryText"
+            android:textSize="14dp"
+            android:text="Diary"
+            android:fontFamily="@font/bold"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/loginBtn"
+            android:layout_width="250dp"
             android:layout_height="50dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="20dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:background="@drawable/normal_rect_stroke">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
-                android:layout_gravity="center"
-                android:textColor="@color/primaryText"
-                android:gravity="center"
-                android:textSize="16dp"
-                android:fontFamily="@font/regular_s"
-                android:text="@string/sign_in_with_google"/>
-
-        </LinearLayout>
+            android:layout_marginTop="150dp"
+            app:cornerRadius="22dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:fontFamily="@font/bold"
+            android:text="@string/sign_in_with_google"/>
 
     </LinearLayout>
 
@@ -118,108 +130,464 @@
             android:layout_height="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/optionTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="70dp"
+            android:lineSpacingExtra="3dp"
             android:textColor="@color/primaryText"
-            android:textSize="22dp"
+            android:textSize="16dp"
             android:text="@string/app_name"
-            android:fontFamily="@font/regular_s"/>
+            android:fontFamily="@font/bold"/>
 
-        <LinearLayout
+        <HorizontalScrollView
             android:id="@+id/optionsLy"
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:gravity="right"
-            android:layout_marginTop="100dp"
-            android:layout_marginLeft="70dp"
-            android:layout_marginRight="40dp">
+            android:scrollbars="none">
 
-            <TextView
-                android:id="@+id/option1Text"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textColor="@color/secondaryText"
-                android:textSize="18dp"
-                android:text="options"
-                android:fontFamily="@font/regular_s"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingTop="70dp"
+                android:paddingBottom="70dp"
+                android:clipToPadding="false"
+                android:gravity="center">
 
-            <TextView
-                android:id="@+id/option2Text"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textColor="@color/secondaryText"
-                android:textSize="18dp"
-                android:text="options"
-                android:fontFamily="@font/regular_s"/>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    app:cardElevation="30dp"
+                    app:cardCornerRadius="15dp">
 
-            <TextView
-                android:id="@+id/option3Text"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textColor="@color/secondaryText"
-                android:textSize="18dp"
-                android:text="options"
-                android:fontFamily="@font/regular_s"/>
+                    <LinearLayout
+                        android:id="@+id/diaryBtn0"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground">
 
-            <TextView
-                android:id="@+id/option4Text"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textColor="@color/secondaryText"
-                android:textSize="18dp"
-                android:text="options"
-                android:fontFamily="@font/regular_s"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="25dp"
+                            android:textColor="@color/primaryText"
+                            android:textSize="22dp"
+                            android:text="@string/diary_set_0_title"
+                            android:fontFamily="@font/bold"/>
 
-            <TextView
-                android:id="@+id/option5Text"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textColor="@color/secondaryText"
-                android:textSize="18dp"
-                android:text="options"
-                android:fontFamily="@font/regular_s"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="25dp"
+                            android:textColor="@color/primaryText"
+                            android:lineSpacingExtra="3dp"
+                            android:textSize="14dp"
+                            android:text="@string/diary_set_0_sub"
+                            android:fontFamily="@font/regular"/>
 
-        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:textColor="@color/primaryText"
+                            android:textSize="12dp"
+                            android:text="@string/init_template"
+                            android:fontFamily="@font/bold"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp">
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="60dp"
+                                android:layout_height="100dp"
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:clipChildren="false">
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_margin="10dp"
+                                    app:cardCornerRadius="10dp"
+                                    app:cardElevation="1dp">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:padding="10dp"/>
+
+                                </androidx.cardview.widget.CardView>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_horizontal"
+                                    android:textSize="12dp"
+                                    android:maxLines="2"
+                                    android:ellipsize="end"
+                                    android:textColor="@color/primaryText"
+                                    android:fontFamily="@font/bold"
+                                    android:text="새 할일"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/diarySelector0"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/big_card_selector"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    app:cardElevation="30dp"
+                    app:cardCornerRadius="15dp">
+
+                    <LinearLayout
+                        android:id="@+id/diaryBtn1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="25dp"
+                            android:textColor="@color/primaryText"
+                            android:textSize="22dp"
+                            android:text="@string/diary_set_1_title"
+                            android:fontFamily="@font/bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="25dp"
+                            android:textColor="@color/primaryText"
+                            android:lineSpacingExtra="3dp"
+                            android:textSize="14dp"
+                            android:text="@string/diary_set_1_sub"
+                            android:fontFamily="@font/regular"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:textColor="@color/primaryText"
+                            android:textSize="12dp"
+                            android:text="@string/init_template"
+                            android:fontFamily="@font/bold"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp">
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="60dp"
+                                android:layout_height="100dp"
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:clipChildren="false">
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_margin="10dp"
+                                    app:cardCornerRadius="10dp"
+                                    app:cardElevation="1dp">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:padding="10dp"/>
+
+                                </androidx.cardview.widget.CardView>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_horizontal"
+                                    android:textSize="12dp"
+                                    android:maxLines="2"
+                                    android:ellipsize="end"
+                                    android:textColor="@color/primaryText"
+                                    android:fontFamily="@font/bold"
+                                    android:text="새 할일"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/diarySelector1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/big_card_selector"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    app:cardElevation="30dp"
+                    app:cardCornerRadius="15dp">
+                    <LinearLayout
+                        android:id="@+id/diaryBtn2"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="25dp"
+                            android:textColor="@color/primaryText"
+                            android:textSize="22dp"
+                            android:text="@string/diary_set_2_title"
+                            android:fontFamily="@font/bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="25dp"
+                            android:textColor="@color/primaryText"
+                            android:lineSpacingExtra="3dp"
+                            android:textSize="14dp"
+                            android:text="@string/diary_set_2_sub"
+                            android:fontFamily="@font/regular"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:textColor="@color/primaryText"
+                            android:textSize="12dp"
+                            android:text="@string/init_template"
+                            android:fontFamily="@font/bold"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp">
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="60dp"
+                                android:layout_height="100dp"
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:clipChildren="false">
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_margin="10dp"
+                                    app:cardCornerRadius="10dp"
+                                    app:cardElevation="1dp">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:padding="10dp"/>
+
+                                </androidx.cardview.widget.CardView>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_horizontal"
+                                    android:textSize="12dp"
+                                    android:maxLines="2"
+                                    android:ellipsize="end"
+                                    android:textColor="@color/primaryText"
+                                    android:fontFamily="@font/bold"
+                                    android:text="새 할일"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/diarySelector2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/big_card_selector"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    app:cardElevation="30dp"
+                    app:cardCornerRadius="15dp"><LinearLayout
+                    android:id="@+id/diaryBtn3"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="25dp"
+                        android:textColor="@color/primaryText"
+                        android:textSize="22dp"
+                        android:text="@string/diary_set_3_title"
+                        android:fontFamily="@font/bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="25dp"
+                        android:textColor="@color/primaryText"
+                        android:lineSpacingExtra="3dp"
+                        android:textSize="14dp"
+                        android:text="@string/diary_set_3_sub"
+                        android:fontFamily="@font/regular"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="25dp"
+                        android:textColor="@color/primaryText"
+                        android:textSize="12dp"
+                        android:text="@string/init_template"
+                        android:fontFamily="@font/bold"/>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp">
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="60dp"
+                            android:layout_height="100dp"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:clipChildren="false">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_margin="10dp"
+                                app:cardCornerRadius="10dp"
+                                app:cardElevation="1dp">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:padding="10dp"/>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:textSize="12dp"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/bold"
+                                android:text="새 할일"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/diarySelector3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/big_card_selector"/>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/prevBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:gravity="center"
-                android:background="?android:attr/selectableItemBackground"
-                android:textColor="@color/secondaryText"
-                android:textSize="18dp"
-                android:text="@string/prev"
-                android:fontFamily="@font/bold_s"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="10dp"
+                android:textColor="@color/line"
+                android:text="@string/init_setting_info"/>
 
-            <TextView
-                android:id="@+id/nextBtn"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:gravity="center"
-                android:layout_gravity="right"
-                android:background="?android:attr/selectableItemBackground"
-                android:textColor="@color/primaryText"
-                android:textSize="18dp"
-                android:text="@string/next"
-                android:fontFamily="@font/bold_s"/>
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:layout_gravity="center_vertical|right"
+                android:clipToPadding="false">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/prevBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    app:cornerRadius="19dp"
+                    android:layout_marginRight="10dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:textSize="12dp"
+                    android:gravity="center"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold"
+                    android:text="@string/cancel"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/nextBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    app:cornerRadius="19dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:textSize="12dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/bold"
+                    android:text="@string/confirm"/>
+
+            </LinearLayout>
 
         </FrameLayout>
 

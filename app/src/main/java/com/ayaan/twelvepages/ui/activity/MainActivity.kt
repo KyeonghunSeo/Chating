@@ -47,6 +47,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
+import com.pixplicity.easyprefs.library.Prefs
 import com.theartofdev.edmodo.cropper.CropImage
 import io.realm.Realm
 import io.realm.RealmResults
@@ -682,5 +683,9 @@ class MainActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        val lastBackupTime = Prefs.getLong("last_backup_time", 0L)
+        if(lastBackupTime < System.currentTimeMillis() - DAY_MILL * 7) {
+            backupDB(null, null)
+        }
     }
 }

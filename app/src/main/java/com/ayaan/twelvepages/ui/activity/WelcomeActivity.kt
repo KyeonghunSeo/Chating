@@ -36,7 +36,8 @@ class WelcomeActivity : BaseActivity() {
             if(FirebaseAuth.getInstance().currentUser == null) {
                 startShow()
             }else {
-                startMainActivity()
+                //startMainActivity()
+                startCustomSettings()
             }
         })
     }
@@ -46,28 +47,40 @@ class WelcomeActivity : BaseActivity() {
         handler.postDelayed({
             leafFallView.start()
             ObjectAnimator.ofFloat(firstText1, "alpha", 0f, 1f).let {
-                it.duration = 2000
+                it.duration = 1000
                 it.start()
             }
         }, 1000)
         handler.postDelayed({
             ObjectAnimator.ofFloat(firstText2, "alpha", 0f, 1f).let {
-                it.duration = 2000
+                it.duration = 1000
                 it.start()
             }
-        }, 4000)
+        }, 3500)
+        handler.postDelayed({
+            ObjectAnimator.ofFloat(firstText3, "alpha", 0f, 1f).let {
+                it.duration = 1000
+                it.start()
+            }
+        }, 6000)
         handler.postDelayed({
             ObjectAnimator.ofFloat(firstText1, "alpha", 1f, 0f).let {
                 it.duration = 1000
                 it.start()
             }
-        }, 8000)
+        }, 8500)
         handler.postDelayed({
             ObjectAnimator.ofFloat(firstText2, "alpha", 1f, 0f).let {
                 it.duration = 1000
                 it.start()
             }
-        }, 9000)
+        }, 10000)
+        handler.postDelayed({
+            ObjectAnimator.ofFloat(firstText3, "alpha", 1f, 0f).let {
+                it.duration = 1000
+                it.start()
+            }
+        }, 11500)
         handler.postDelayed({
             val animSet = AnimatorSet()
             animSet.playTogether(
@@ -76,7 +89,7 @@ class WelcomeActivity : BaseActivity() {
             animSet.duration = 1000
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.start()
-        }, 10000)
+        }, 13000)
     }
 
     private fun startCustomSettings() {
@@ -112,29 +125,20 @@ class WelcomeActivity : BaseActivity() {
 
     private fun setScript() {
         val user = FirebaseAuth.getInstance().currentUser
-        val optionsTexts = arrayOf<TextView>(
-                optionsLy.findViewById(R.id.option1Text),
-                optionsLy.findViewById(R.id.option2Text),
-                optionsLy.findViewById(R.id.option3Text),
-                optionsLy.findViewById(R.id.option4Text),
-                optionsLy.findViewById(R.id.option5Text))
+        optionTitleText.text = String.format(getString(R.string.init_setting_script_0), user?.displayName)
+        maxCount = 0
+        prevBtn.visibility = View.GONE
+        setNextBtn()
 
-        when(scriptNum) {
-            0 -> {
-                optionTitleText.text = String.format(getString(R.string.init_setting_script_0), user?.displayName)
-                maxCount = 0
-                prevBtn.visibility = View.GONE
-                setNextBtn()
-            }
-            1 -> {
-                optionTitleText.text = String.format(getString(R.string.init_setting_script_1), user?.displayName)
-                maxCount = 0
-                setPrevBtn()
-                setNextBtn()
+        val btns = arrayOf(diaryBtn0, diaryBtn1, diaryBtn2, diaryBtn3)
+        val selectors = arrayOf(diarySelector0, diarySelector1, diarySelector2, diarySelector3)
+        btns.forEachIndexed { index, btn ->
+            btn.setOnClickListener {
+                selectors.forEachIndexed { i, imageView ->
+                    imageView.visibility = if(index == i) View.VISIBLE else View.GONE
+                }
             }
         }
-
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             progressBar.setProgress((scriptNum / 7f * 100).toInt(), true)
@@ -240,7 +244,8 @@ class WelcomeActivity : BaseActivity() {
                         ref.getFile(File(realm.path)).addOnSuccessListener {
                             hideProgressDialog()
                             realm.close()
-                            startMainActivity()
+                            //startMainActivity()
+                            startCustomSettings()
                         }.addOnFailureListener {
                             hideProgressDialog()
                             realm.close()

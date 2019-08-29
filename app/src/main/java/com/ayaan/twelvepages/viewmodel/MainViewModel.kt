@@ -70,7 +70,7 @@ class MainViewModel : ViewModel() {
     private fun loadAppUser() {
         realm.value?.let { realm ->
             realm.where(AppUser::class.java).findAllAsync().addChangeListener { result, _ ->
-                if(result.size < 2) {
+                if(result.size > 0) {
                     appUser.value = result[0]
                 }else {
                     l("[새로운 유저 생성]")
