@@ -218,7 +218,7 @@ class SettingsActivity : BaseActivity() {
             str(R.string.no_reference)
         } else {
             osCalendarText.setTextColor(AppTheme.primaryText)
-            str(R.string.reference)
+            String.format(str(R.string.referencing), size)
         }
         osCalendarBtn.setOnClickListener {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {

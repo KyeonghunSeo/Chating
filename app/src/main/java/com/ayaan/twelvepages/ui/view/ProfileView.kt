@@ -39,7 +39,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private val scale = 0.7f
     private val animDur = 300L
     private val profileCloseMargin = dpToPx(14)
-    private val profileOpenMargin = -dpToPx(0)
+    private val profileOpenMargin = dpToPx(25)
     private val profileCardRadius = dpToPx(11f)
     private val zOffset = dpToPx(30f)
     private val panelOffset = dpToPx(200f)
@@ -138,7 +138,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     val animList = ArrayList<Animator>()
                     animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX",  profileBtn.scaleX, profileViewScale))
                     animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY",  profileBtn.scaleY, profileViewScale))
-                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, profileCardRadius / profileViewScale))
+                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(1f)))
                     MainActivity.getMainPanel()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))
@@ -152,8 +152,13 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 }
             })
             TransitionManager.beginDelayedTransition(profileBtn, transiion)
-            (profileBtn.layoutParams as LayoutParams).gravity = Gravity.LEFT
+            (profileBtn.layoutParams as LayoutParams).let {
+                it.gravity = Gravity.LEFT
+                it.topMargin = profileOpenMargin
+                it.leftMargin = profileOpenMargin
+            }
             (profileCard.layoutParams as LayoutParams).setMargins(0, 0, 0, 0)
+            profileBtn.requestLayout()
             profileCard.requestLayout()
             requestLayout()
         }
@@ -187,7 +192,11 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 }
             })
             TransitionManager.beginDelayedTransition(profileBtn, transiion)
-            (profileBtn.layoutParams as LayoutParams).gravity = Gravity.RIGHT
+            (profileBtn.layoutParams as LayoutParams).let {
+                it.gravity = Gravity.RIGHT
+                it.topMargin = 0
+                it.leftMargin = 0
+            }
             (profileCard.layoutParams as LayoutParams).setMargins(profileCloseMargin, profileCloseMargin, profileCloseMargin, profileCloseMargin)
             profileCard.requestLayout()
             requestLayout()

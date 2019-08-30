@@ -188,6 +188,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                             vibrate(context)
                             selectDate(dateInfoViewHolder, weekLys[cellNum / columns].top < scrollView.scrollY + headerHeight)
                         }
+                        calendarLy.clearDragPoint()
                     }
                 }
                 dateCell.setOnLongClickListener {

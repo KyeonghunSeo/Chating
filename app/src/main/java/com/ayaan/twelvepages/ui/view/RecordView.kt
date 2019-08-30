@@ -38,9 +38,9 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val bottomPadding = dpToPx(3.0f)
         val normalStickerSize = dpToPx(40f)
         val datePointSize = dpToPx(30)
-        val rectRadius = dpToPx(0.0f)
+        val rectRadius = dpToPx(1.0f)
         val dotSize = dpToPx(5)
-        val checkboxSize = dpToPx(8)
+        val checkboxSize = dpToPx(10)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         val dashPath = DashPathEffect(floatArrayOf(dpToPx(3.0f), dpToPx(1.0f)), 2f)
         fun getStyleText(style: Int) : String{

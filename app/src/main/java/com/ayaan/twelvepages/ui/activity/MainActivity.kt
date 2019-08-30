@@ -139,7 +139,6 @@ class MainActivity : BaseActivity() {
         mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainDateLy.pivotX = dpToPx(20f)
         mainDateLy.pivotY = dpToPx(25f)
-        briefingCard.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainPanel.setOnClickListener {}
         callAfterViewDrawed(rootLy, Runnable{
             /*
@@ -183,6 +182,7 @@ class MainActivity : BaseActivity() {
             }
 
             if(openDayView && dayPager.viewMode == ViewMode.CLOSED) dayPager.show()
+            if(templateView.isExpanded()) expandControlView(dateInfoHolder.time, dateInfoHolder.time)
             refreshTodayView(calendarView.todayStatus)
         }
         calendarPager.onTop = { isTop, isBottom ->
@@ -598,9 +598,9 @@ class MainActivity : BaseActivity() {
         when{
             searchView.isOpened() -> searchView.hide()
             profileView.isOpened() -> profileView.hide()
-            dayPager.isOpened() -> dayPager.hide()
             templateView.isExpanded() -> templateView.collapse()
             viewModel.openFolder.value == true -> viewModel.openFolder.value = false
+            dayPager.isOpened() -> dayPager.hide()
             else -> super.onBackPressed()
         }
     }
