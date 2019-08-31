@@ -174,11 +174,11 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                             addBottomMargin(RecordView.sidePadding.toFloat(), currentFomula)
                         }
                         RANGE -> {
-                            addBottomMargin(dpToPx(20f), currentFomula)
+                            addBottomMargin(dpToPx(15f), currentFomula)
                             computeBottomStackStartPos()
                         }
                         STICKER -> {
-                            addBottomMargin(dpToPx(35f), currentFomula)
+                            addBottomMargin(dpToPx(0f), currentFomula)
                         }
                         else -> {}
                     }
@@ -195,7 +195,9 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                         EXPANDED, STAMP, DOT -> {
                             it.mTop = cellBottomArray[it.cellNum]
                         }
-                        else -> {}
+                        else -> {
+                            it.mTop = 0f
+                        }
                     }
                     it.mBottom = it.mTop + viewHeight
                     (it.cellNum until it.cellNum + it.length).forEach{ index ->

@@ -8,12 +8,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Rect
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.view.DragEvent
 import android.view.View
-import android.view.Window
 import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
@@ -25,7 +26,10 @@ import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
+import com.ayaan.twelvepages.manager.CalendarManager
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.AppUser
 import com.ayaan.twelvepages.model.Folder
@@ -33,7 +37,7 @@ import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.CalendarSettingsDialog
 import com.ayaan.twelvepages.ui.dialog.CountdownListDialog
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
-import com.ayaan.twelvepages.ui.view.RecordView
+import com.ayaan.twelvepages.ui.dialog.UndoneListDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -49,8 +53,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
-import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
-import com.ayaan.twelvepages.manager.CalendarManager
 
 class MainActivity : BaseActivity() {
     companion object {
@@ -61,9 +63,9 @@ class MainActivity : BaseActivity() {
         fun getDayPager() = instance?.dayPager
         fun getMainPanel() = instance?.mainPanel
         fun getCalendarLy() = instance?.calendarLy
+        fun getDowLy() = instance?.dowLy
         fun getCalendarPager() = instance?.calendarPager
         fun getMainDateLy() = instance?.mainDateLy
-        fun getMainMonthLy() = instance?.mainMonthLy
         fun getMainYearText() = instance?.mainYearText
         fun getProfileBtn() = instance?.profileBtn
         fun getTemplateView() = instance?.templateView
@@ -77,6 +79,13 @@ class MainActivity : BaseActivity() {
 
     lateinit var viewModel: MainViewModel
     private var reservedIntentAction: Runnable? = null
+    private val briefingHander = @SuppressLint("HandlerLeak")
+    object : Handler() {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            sendEmptyMessageDelayed(0, 5000)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,13 +140,12 @@ class MainActivity : BaseActivity() {
 
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
-        mainMonthLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        mainMonthLy.pivotX = 0f
-        mainMonthLy.pivotY = dpToPx(0f)
+        mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        mainDateLy.pivotX = dpToPx(10f)
+        mainDateLy.pivotY = dpToPx(0f)
+        briefingCard.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainPanel.setOnClickListener {}
-
         todayBtn.translationY = tabSize.toFloat()
-
         callAfterViewDrawed(rootLy, Runnable{
             /*
             val rectangle = Rect()
@@ -157,6 +165,28 @@ class MainActivity : BaseActivity() {
         calendarPager.onSelectedDate = { calendarView, dateInfoHolder, openDayView ->
             viewModel.targetTime.value = dateInfoHolder.time
             viewModel.targetCalendarView.value = calendarView
+
+            val dowTexts = arrayOf(dowText0, dowText1, dowText2, dowText3, dowText4, dowText5, dowText6)
+            dowTexts.forEachIndexed { index, textView ->
+                textView?.text = calendarView.dateCellHolders[index].getDowText()
+                if(dateInfoHolder.cellNum % 7 == index) {
+                    textView?.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+                }else {
+                    textView?.typeface = AppTheme.regularFont
+                }
+                textView?.setTextColor(when (index) {
+                    calendarView.sundayPos -> CalendarManager.sundayColor
+                    calendarView.saturdayPos -> CalendarManager.saturdayColor
+                    else -> {
+                        if(dateInfoHolder.cellNum % 7 == index) {
+                            CalendarManager.selectedDateColor
+                        }else {
+                            CalendarManager.dateColor
+                        }
+                    }
+                })
+            }
+
             if(openDayView && dayPager.viewMode == ViewMode.CLOSED) dayPager.show()
             refreshTodayView(calendarView.todayStatus)
         }
@@ -179,10 +209,6 @@ class MainActivity : BaseActivity() {
         folderListView.layoutManager = LinearLayoutManager(this)
         folderListView.adapter = folderAdapter
         folderAdapter.itemTouchHelper?.attachToRecyclerView(folderListView)
-        tabBtn.setOnClickListener {
-            vibrate(this)
-            viewModel.openFolder.value = viewModel.openFolder.value != true
-        }
         folderBtn.setOnClickListener {
             vibrate(this)
             viewModel.openFolder.value = viewModel.openFolder.value != true
@@ -227,8 +253,8 @@ class MainActivity : BaseActivity() {
 
         mainMonthText.setOnLongClickListener {
             val cal = Calendar.getInstance()
-            cal.set(2019, 6, 1)
-            val s = cal.timeInMillis
+            cal.set(2019, 7, 1)
+            var s = cal.timeInMillis
             val list = ArrayList<Record>()
             val c = 0
             val formulas = arrayOf(STACK, EXPANDED, DOT)
@@ -293,10 +319,11 @@ class MainActivity : BaseActivity() {
                 colorKey = c + Random().nextInt(10)
             })
             list.forEach {
-                val f = formulas[Random().nextInt(formulas.size)]
-                //it.colorKey = 9
+                //val f = formulas[Random().nextInt(formulas.size)]
+                val f = RecordCalendarAdapter.Formula.STACK
+                it.colorKey = 9
                 //it.style = f.shapes[Random().nextInt(f.shapes.size)].ordinal * 100 + f.ordinal
-                it.style = f.shapes[0].ordinal * 100 + f.ordinal
+                it.style = f.shapes[1].ordinal * 100 + f.ordinal
             }
             RecordManager.save(list)
             return@setOnLongClickListener true
@@ -329,18 +356,50 @@ class MainActivity : BaseActivity() {
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
         viewModel.clipRecord.observe(this, Observer { updateClipUI(it) })
         viewModel.countdownRecords.observe(this, Observer { updateCountdownUI(it) })
+        viewModel.undoneRecords.observe(this, Observer { updateUndoneUI(it) })
     }
 
     @SuppressLint("SetTextI18n")
     private fun updateCountdownUI(list: RealmResults<Record>?) {
         if(list.isNullOrEmpty()) {
-            countdownText.visibility = View.GONE
+            countdownBtn.visibility = View.GONE
         }else {
-            countdownText.visibility = View.VISIBLE
+            countdownBtn.visibility = View.VISIBLE
             list[0]?.let { record ->
+                val color = record.getColor()
+                val fontColor = ColorManager.getFontColor(color)
                 countdownText.text = record.getCountdownText(System.currentTimeMillis())
+                //countdownCard.setCardBackgroundColor(color)
+                countdownImg.setColorFilter(AppTheme.primaryText)
+                countdownText.setTextColor(AppTheme.primaryText)
                 countdownText.setOnClickListener {
                     showDialog(CountdownListDialog(this) {
+                    }, true, true, true, false)
+                }
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateUndoneUI(list: RealmResults<Record>?) {
+        if(list.isNullOrEmpty()) {
+            undoneBtn.visibility = View.GONE
+        }else {
+            undoneBtn.visibility = View.VISIBLE
+            list[0]?.let { record ->
+                val color = record.getColor()
+                val fontColor = ColorManager.getFontColor(color)
+                //undoneCard.setCardBackgroundColor(color)
+                //undoneImg.setColorFilter(fontColor)
+                //undoneText.setTextColor(fontColor)
+
+                var tail = if (list.size > 1) String.format(str(R.string.and_others), list.size - 1) else ""
+                if (tail.contains("other") && list.size > 2) {
+                    tail = tail.replace("other", "others")
+                }
+                undoneText.text = "${str(R.string.undone_records)}\n${record.getShortTilte()} $tail"
+                undoneText.setOnClickListener {
+                    showDialog(UndoneListDialog(this) {
                     }, true, true, true, false)
                 }
             }
@@ -406,7 +465,8 @@ class MainActivity : BaseActivity() {
                 it.leftMargin = dpToPx(10)
             }
             animSet.playTogether(ObjectAnimator.ofFloat(folderArrowImg, "rotation", 0f, 180f),
-                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", 0f, -dpToPx(13f)))
+                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", 0f, -dpToPx(13f)),
+                    ObjectAnimator.ofFloat(profileBtn, "translationX", 0f, tabSize.toFloat()))
         }else {
             (folderListView.layoutParams as FrameLayout.LayoutParams).leftMargin = -tabSize
             (contentLy.layoutParams as FrameLayout.LayoutParams).let {
@@ -418,7 +478,8 @@ class MainActivity : BaseActivity() {
                 it.leftMargin = -dpToPx(40)
             }
             animSet.playTogether(ObjectAnimator.ofFloat(folderArrowImg, "rotation", 180f, 0f),
-                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", -dpToPx(13f), 0f))
+                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", -dpToPx(13f), 0f),
+                    ObjectAnimator.ofFloat(profileBtn, "translationX", tabSize.toFloat(), 0f))
         }
         animSet.start()
         mainPanel.requestLayout()
@@ -456,7 +517,7 @@ class MainActivity : BaseActivity() {
         when {
             FirebaseAuth.getInstance().currentUser?.photoUrl != null ->
                 Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl)
-                    .apply(RequestOptions().override(dpToPx(190)))
+                    .apply(RequestOptions().override(dpToPx(150)))
                     .into(profileImg)
             else -> profileImg.setImageResource(R.drawable.profile)
         }
@@ -465,13 +526,12 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            mainMonthText.setTextColor(CalendarManager.dateColor)
-            mainYearText.setTextColor(CalendarManager.dateColor)
-
+            mainMonthText.setTextColor(AppTheme.primaryText)
+            mainYearText.setTextColor(AppTheme.primaryText)
             //mainYearText.text = AppDateFormat.year.format(it.time)
             mainYearText.text = "${it.get(Calendar.YEAR)}"
             //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
-            mainMonthText.text = "${AppDateFormat.monthEng.format(it.time)}"
+            mainMonthText.text = AppDateFormat.monthEng.format(it.time)
         }
     }
 
@@ -587,6 +647,7 @@ class MainActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RC_LOGIN) {
             if(resultCode == RESULT_OK) {
+
                 viewModel.initRealm(SyncUser.current())
             } else finish()
         }else if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
@@ -647,6 +708,12 @@ class MainActivity : BaseActivity() {
         super.onResume()
         isShowing = true
         playIntentAction()
+        //briefingHander.sendEmptyMessage(0)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        //briefingHander.removeMessages(0)
     }
 
     override fun onStop() {

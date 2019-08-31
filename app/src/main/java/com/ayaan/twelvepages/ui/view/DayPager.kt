@@ -155,12 +155,13 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             }
             val animSet = AnimatorSet()
             animSet.playTogether(ObjectAnimator.ofFloat(this@DayPager, "elevation", 0f, startZ),
+                    ObjectAnimator.ofFloat(this@DayPager, "alpha", 0f, 1f),
                     ObjectAnimator.ofFloat(targetDayView.getPreviewDataImg(), "alpha", 0f, 1f))
-            animSet.duration = 150L
+            animSet.duration = 200L
             animSet.addListener(object : AnimatorListenerAdapter(){
                 override fun onAnimationEnd(p0: Animator?) {
                     val transiion = makeChangeBounceTransition()
-                    transiion.duration = 300L
+                    transiion.duration = 250L
                     transiion.addListener(object : TransitionListenerAdapter(){
                         override fun onTransitionEnd(transition: Transition) {
                             dayViews.forEach { it.setDateOpenedStyle() }
@@ -180,9 +181,6 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                         it.height = MATCH_PARENT
                         it.setMargins(0, 0, 0, 0)
                     }
-                    MainActivity.getMainDateLy()?.let {
-                        it.orientation = HORIZONTAL
-                    }
                     targetDayView.getDateLy().fakeDateText.visibility = View.VISIBLE
                     requestLayout()
                 }
@@ -200,13 +198,14 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             val location = IntArray(2)
             dateCell.getLocationInWindow(location)
             val transiion = makeChangeBounceTransition()
-            transiion.duration = 300L
+            transiion.duration = 250L
             transiion.addListener(object : TransitionListenerAdapter(){
                 override fun onTransitionEnd(transition: Transition) {
                     val animSet = AnimatorSet()
                     animSet.playTogether(ObjectAnimator.ofFloat(this@DayPager, "elevation", startZ, 0f),
+                            ObjectAnimator.ofFloat(this@DayPager, "alpha", 1f, 0f),
                             ObjectAnimator.ofFloat(targetDayView.getPreviewDataImg(), "alpha", 1f, 0f))
-                    animSet.duration = 150L
+                    animSet.duration = 200L
                     animSet.addListener(object : AnimatorListenerAdapter(){
                         override fun onAnimationEnd(p0: Animator?) {
                             viewMode = ViewMode.CLOSED
@@ -229,9 +228,6 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 val xPos = location[0] + if(MainActivity.isFolderOpen()) -MainActivity.tabSize else 0
                 val yPos = location[1] - AppStatus.statusBarHeight
                 it.setMargins(xPos, yPos, 0, 0)
-            }
-            MainActivity.getMainDateLy()?.let {
-                it.orientation = VERTICAL
             }
             targetDayView.getDateLy().fakeDateText.visibility = View.GONE
             requestLayout()

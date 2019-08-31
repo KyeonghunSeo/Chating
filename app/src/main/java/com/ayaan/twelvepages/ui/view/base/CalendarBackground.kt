@@ -5,11 +5,9 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.dpToPx
-import com.ayaan.twelvepages.l
 import com.ayaan.twelvepages.ui.view.CalendarView
-import java.util.ArrayList
+import java.util.*
 
 
 class CalendarBackground @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -25,15 +23,10 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
     
     val pointList = ArrayList<Point>()
     val secondPointList = ArrayList<Point>()
-    var headerHeight = 0
-    var calendarPadding = 0
 
-    fun setDragPoint(startCellNum: Int, endCellNum: Int, weekLys: Array<FrameLayout>,
-                     minWidth: Float, headerHeight: Int, calendarPadding: Int) {
+    fun setDragPoint(startCellNum: Int, endCellNum: Int, weekLys: Array<FrameLayout>, minWidth: Float) {
         pointList.clear()
         secondPointList.clear()
-        this.headerHeight = headerHeight
-        this.calendarPadding = calendarPadding
 
         val sColumn = startCellNum % 7
         val sRow = startCellNum / 7
@@ -328,9 +321,11 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
         val path = Path()
         list.forEachIndexed { index, p ->
             if(index == 0) {
-                path.moveTo(p.x.toFloat() + calendarPadding, p.y.toFloat() + headerHeight + calendarPadding)
+                path.moveTo(p.x.toFloat() + CalendarView.calendarPadding,
+                        p.y.toFloat() + CalendarView.headerHeight + CalendarView.calendarVerticalPadding)
             }else {
-                path.lineTo(p.x.toFloat() + calendarPadding, p.y.toFloat() + headerHeight + calendarPadding)
+                path.lineTo(p.x.toFloat() + CalendarView.calendarPadding,
+                        p.y.toFloat() +CalendarView.headerHeight + CalendarView.calendarVerticalPadding)
             }
         }
         path.close()

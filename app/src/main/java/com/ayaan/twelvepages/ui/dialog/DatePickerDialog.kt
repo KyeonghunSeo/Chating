@@ -9,8 +9,7 @@ import kotlinx.android.synthetic.main.dialog_base.*
 import java.util.*
 
 
-class DatePickerDialog(activity: Activity, time: Long,
-                       private val onResult: (Long) -> Unit) : BaseDialog(activity) {
+class DatePickerDialog(activity: Activity, time: Long, private val onResult: (Long) -> Unit) : BaseDialog(activity) {
     private val cal = Calendar.getInstance()
 
     init {

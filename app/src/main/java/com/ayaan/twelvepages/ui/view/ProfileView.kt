@@ -37,19 +37,19 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     : FrameLayout(context, attrs, defStyleAttr) {
 
     private val scale = 0.7f
-    private val animDur = 350L
-    private val profileCloseTopMargin = dpToPx(10)
-    private val profileCloseRightMargin = dpToPx(10)
-    private val profileOpenMargin = dpToPx(7)
-    private val profileOpenTopMargin = dpToPx(7)
-    private val profileBtnSize = dpToPx(50)
+    private val animDur = 300L
+    private val profileCloseTopMargin = dpToPx(5)
+    private val profileCloseRightMargin = dpToPx(6)
+    private val profileOpenMargin = dpToPx(0)
+    private val profileOpenTopMargin = dpToPx(0)
+    private val profileCardRadius = dpToPx(15f)
     private val zOffset = dpToPx(30f)
     private val panelOffset = dpToPx(200f)
     var viewMode = ViewMode.CLOSED
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_profile, this, true).let {
-            setBackgroundColor(AppTheme.backgroundDark)
+            setBackgroundColor(AppTheme.background)
         }
         mottoText.setOnClickListener {
             showDialog(InputDialog(context as Activity, context.getString(R.string.motto), null, null,
@@ -138,13 +138,14 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     val animSet = AnimatorSet()
                     val animList = ArrayList<Animator>()
                     val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
-                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX", 1f, 3.5f))
-                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY", 1f, 3.5f))
+                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX",  profileBtn.scaleX, 5.0f))
+                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY",  profileBtn.scaleY, 5.0f))
+                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, profileCardRadius / 3f))
                     MainActivity.getMainPanel()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "translationX", 0f, panelOffset))
-                        animList.add(ObjectAnimator.ofFloat(it, "radius", 0f, zOffset))
+                        animList.add(ObjectAnimator.ofFloat(it, "radius", 0f, zOffset / 2))
                     }
                     MainActivity.getTemplateView()?.getAddButton()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "translationY", 0f, panelOffset / 2))
@@ -176,8 +177,9 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     val animSet = AnimatorSet()
                     val animList = ArrayList<Animator>()
                     val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
-                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX", 3.5f, 1f))
-                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY", 3.5f, 1f))
+                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX", profileBtn.scaleX, 1f))
+                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY", profileBtn.scaleY, 1f))
+                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, profileCardRadius))
                     MainActivity.getMainPanel()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", it.scaleX, 1f))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", it.scaleY, 1f))

@@ -3,28 +3,53 @@
     android:layout_height="fill_parent">
 
     <ImageView
-        android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <LinearLayout
+        android:id="@+id/backgroundView"
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:src="@drawable/popup_dialog_background"/>
+
+    <LinearLayout
+        android:id="@+id/rootLy"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
         android:orientation="vertical" >
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="40dp">
 
-            <TextView
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="12"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/bold"
-                android:textSize="16dp" />
+                android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/monthlyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="12"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/yearText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="12"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/thin"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
 
             <ImageView
                 android:layout_gravity="right|center_vertical"
@@ -35,16 +60,17 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:padding="8dp"
-                android:tint="@color/iconTint" />
+                android:tint="@color/iconTint"
+                android:visibility="gone"/>
 
             <ImageButton
                 android:layout_gravity="right|center_vertical"
                 android:scaleType="centerInside"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/setting"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:padding="9dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="6dp"
                 android:tint="@color/iconTint"/>
 
         </FrameLayout>
@@ -56,67 +82,67 @@
             android:layout_marginTop="5dp">
 
             <TextView
+                android:id="@+id/dowText0"
                 android:text="S"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:textSize="12dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
 
             <TextView
+                android:id="@+id/dowText1"
                 android:text="S"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:textSize="12dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
 
             <TextView
+                android:id="@+id/dowText2"
                 android:text="S"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:textSize="12dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
 
             <TextView
+                android:id="@+id/dowText3"
                 android:text="S"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:textSize="12dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
 
             <TextView
+                android:id="@+id/dowText4"
                 android:text="S"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:textSize="12dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
 
             <TextView
+                android:id="@+id/dowText5"
                 android:text="S"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:textSize="12dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
 
             <TextView
+                android:id="@+id/dowText6"
                 android:text="S"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:textSize="12dp"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@color/disableText"
-            android:orientation="vertical" >
+                android:layout_weight="1"
+                android:fontFamily="@font/regular"/>
         </LinearLayout>
 
         <FrameLayout
@@ -129,635 +155,20 @@
                 android:orientation="vertical" >
 
                 <LinearLayout
+                    android:id="@+id/row0"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical"
-                        android:layout_height="1px">
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:orientation="vertical" >
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:orientation="vertical" >
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:orientation="vertical" >
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:orientation="vertical" >
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:orientation="vertical" >
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="2px"
-                        android:layout_height="1px"
-                        android:background="@color/disableText"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:paddingBottom="5dp"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:background="@color/light_line"
+                        android:layout_marginBottom="3dp"
+                        android:orientation="vertical" >
+                    </ImageView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -770,33 +181,16 @@
                             android:layout_weight="1">
 
                             <TextView
-                                android:textSize="8dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="15dp"
-                                android:minWidth="15dp"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:singleLine="true"
-                                android:typeface="normal"
-                                android:layout_margin="2px" />
-
-                            <TextView
+                                android:id="@+id/dateText0"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -805,24 +199,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText1"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -831,24 +217,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText2"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -857,24 +235,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText3"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -883,24 +253,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText4"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -909,24 +271,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText5"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -935,24 +289,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText6"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                     </LinearLayout>
@@ -986,18 +332,20 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:background="@color/disableText"
-                    android:orientation="vertical" >
-                </LinearLayout>
-
-                <LinearLayout
+                    android:id="@+id/row1"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:paddingBottom="5dp" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:background="@color/light_line"
+                        android:layout_marginBottom="3dp"
+                        android:orientation="vertical" >
+                    </ImageView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -1010,35 +358,16 @@
                             android:layout_weight="1">
 
                             <TextView
-                                android:textSize="8dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="15dp"
-                                android:minWidth="15dp"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:singleLine="true"
-                                android:typeface="normal"
-                                android:layout_margin="2px" />
-
-                            <TextView
+                                android:id="@+id/dateText7"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1047,24 +376,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText8"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1073,24 +394,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText9"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1099,24 +412,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText10"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1125,24 +430,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText11"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1151,24 +448,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText12"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1177,24 +466,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText13"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                     </LinearLayout>
@@ -1228,18 +509,20 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:background="@color/disableText"
-                    android:orientation="vertical" >
-                </LinearLayout>
-
-                <LinearLayout
+                    android:id="@+id/row2"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:paddingBottom="5dp" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:background="@color/light_line"
+                        android:layout_marginBottom="3dp"
+                        android:orientation="vertical" >
+                    </ImageView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -1252,35 +535,16 @@
                             android:layout_weight="1">
 
                             <TextView
-                                android:textSize="8dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="15dp"
-                                android:minWidth="15dp"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:singleLine="true"
-                                android:typeface="normal"
-                                android:layout_margin="2px" />
-
-                            <TextView
+                                android:id="@+id/dateText14"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1289,24 +553,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText15"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1315,24 +571,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText16"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1341,24 +589,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText17"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1367,24 +607,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText18"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1393,24 +625,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText19"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1419,24 +643,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText20"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                     </LinearLayout>
@@ -1470,18 +686,20 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:background="@color/disableText"
-                    android:orientation="vertical" >
-                </LinearLayout>
-
-                <LinearLayout
+                    android:id="@+id/row3"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:paddingBottom="5dp" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:background="@color/light_line"
+                        android:layout_marginBottom="3dp"
+                        android:orientation="vertical" >
+                    </ImageView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -1494,35 +712,16 @@
                             android:layout_weight="1">
 
                             <TextView
-                                android:textSize="8dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="15dp"
-                                android:minWidth="15dp"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:singleLine="true"
-                                android:typeface="normal"
-                                android:layout_margin="2px" />
-
-                            <TextView
+                                android:id="@+id/dateText21"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1531,24 +730,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText22"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1557,24 +748,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText23"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1583,24 +766,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText24"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1609,24 +784,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText25"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1635,24 +802,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText26"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1661,24 +820,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText27"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                     </LinearLayout>
@@ -1712,18 +863,20 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:background="@color/disableText"
-                    android:orientation="vertical" >
-                </LinearLayout>
-
-                <LinearLayout
+                    android:id="@+id/row4"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:paddingBottom="5dp" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:background="@color/light_line"
+                        android:layout_marginBottom="3dp"
+                        android:orientation="vertical" >
+                    </ImageView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -1736,35 +889,16 @@
                             android:layout_weight="1">
 
                             <TextView
-                                android:textSize="8dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="15dp"
-                                android:minWidth="15dp"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:singleLine="true"
-                                android:typeface="normal"
-                                android:layout_margin="2px" />
-
-                            <TextView
+                                android:id="@+id/dateText28"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1773,24 +907,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText29"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1799,24 +925,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText30"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1825,24 +943,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText31"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1851,24 +961,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText32"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1877,24 +979,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText33"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -1903,24 +997,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText34"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                     </LinearLayout>
@@ -1954,18 +1040,20 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:background="@color/disableText"
-                    android:orientation="vertical" >
-                </LinearLayout>
-
-                <LinearLayout
+                    android:id="@+id/row5"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:paddingBottom="5dp" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:background="@color/light_line"
+                        android:layout_marginBottom="3dp"
+                        android:orientation="vertical" >
+                    </ImageView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -1978,35 +1066,16 @@
                             android:layout_weight="1">
 
                             <TextView
-                                android:textSize="8dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="15dp"
-                                android:minWidth="15dp"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:singleLine="true"
-                                android:typeface="normal"
-                                android:layout_margin="2px" />
-
-                            <TextView
+                                android:id="@+id/dateText35"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -2015,24 +1084,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText36"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -2041,24 +1102,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText37"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -2067,24 +1120,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText38"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -2093,24 +1138,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText39"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -2119,24 +1156,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText40"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -2145,24 +1174,16 @@
                             android:layout_weight="1">
 
                             <TextView
+                                android:id="@+id/dateText41"
                                 android:textSize="12dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:lines="1"
                                 android:singleLine="true"
-
                                 android:typeface="normal"
-                                android:layout_margin="2px" />
+                                android:fontFamily="@font/regular"/>
 
-                            <TextView
-                                android:layout_width="3dp"
-                                android:layout_height="3dp"
-                                android:background="@drawable/circle_fill"
-
-                                android:layout_gravity="right" />
                         </FrameLayout>
 
                     </LinearLayout>
@@ -2191,684 +1212,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="18dp"
                         android:layout_marginTop="1dp" >
-                    </FrameLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"/>
-
                     </FrameLayout>
                 </LinearLayout>
             </LinearLayout>

@@ -17,17 +17,21 @@
           android:layout_height="match_parent">
 
          <View
+             android:id="@+id/upperLine"
              android:layout_width="2dp"
              android:layout_height="32dp"
              android:background="@color/light_line"
-             android:layout_gravity="center_horizontal"/>
+             android:layout_gravity="center_horizontal"
+             android:visibility="gone"/>
 
          <View
+             android:id="@+id/bottomLine"
              android:layout_width="2dp"
              android:layout_height="match_parent"
              android:layout_marginTop="32dp"
              android:background="@color/light_line"
-             android:layout_gravity="center_horizontal"/>
+             android:layout_gravity="center_horizontal"
+             android:visibility="gone"/>
 
          <ImageView
              android:id="@+id/iconImg"
@@ -66,7 +70,7 @@
              android:layout_margin="10dp"
              android:minHeight="40dp"
              android:gravity="center_vertical"
-             android:textSize="16dp"
+             android:textSize="14dp"
              android:fontFamily="@font/bold"
              android:textColor="@color/primaryText"
              android:text="title"/>
