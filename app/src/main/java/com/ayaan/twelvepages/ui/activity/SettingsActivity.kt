@@ -20,6 +20,8 @@ import com.ayaan.twelvepages.ui.dialog.RecordViewStyleDialog
 import com.ayaan.twelvepages.ui.dialog.TimePickerDialog
 import com.ayaan.twelvepages.ui.view.RecordView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.storage.FirebaseStorage
 import com.pixplicity.easyprefs.library.Prefs
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -46,6 +48,7 @@ class SettingsActivity : BaseActivity() {
         setDefaultAlarmTime()
         setConnectOsCalendar()
         setExport()
+        setBackup()
 
         emailText.text = FirebaseAuth.getInstance().currentUser?.email
         logoutBtn.setOnClickListener {
@@ -53,6 +56,7 @@ class SettingsActivity : BaseActivity() {
                     getString(R.string.ask_logout), null) { result, _, _ ->
                 if(result) {
                     FirebaseAuth.getInstance().signOut()
+                    setResult(RC_LOGOUT)
                     finish()
                 }
             }, true, true, true, false)
@@ -135,6 +139,22 @@ class SettingsActivity : BaseActivity() {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 
+    private fun setBackup() {
+        setBackupTimeText()
+        backupBtn.setOnClickListener {
+            backupDB(this, Runnable{
+                setBackupTimeText()
+                toast(R.string.success_backup, R.drawable.done)
+            })
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setBackupTimeText() {
+        val lastBackupTime = Prefs.getLong("last_backup_time", 0L)
+        backupText.text = AppDateFormat.ymd.format(Date(lastBackupTime)) + " " + AppDateFormat.time.format(Date(lastBackupTime))
+    }
+
     private fun setCheckedRecordDisplay() {
         when(AppStatus.checkedRecordDisplay) {
             0 -> checkedRecordDisplayText.text = str(R.string.check_option_0)
@@ -198,7 +218,7 @@ class SettingsActivity : BaseActivity() {
             str(R.string.no_reference)
         } else {
             osCalendarText.setTextColor(AppTheme.primaryText)
-            str(R.string.reference)
+            String.format(str(R.string.referencing), size)
         }
         osCalendarBtn.setOnClickListener {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {

@@ -45,7 +45,7 @@
                 <FrameLayout
                     android:id="@+id/headerLy"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="72dp"
                     android:elevation="20dp"
                     android:clipChildren="false">
 
@@ -54,8 +54,8 @@
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="12dp"
                         android:animateLayoutChanges="true"
                         android:background="?android:attr/selectableItemBackground"
                         android:clipChildren="false">
@@ -79,98 +79,12 @@
 
                     </LinearLayout>
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/briefingCard"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="34dp"
-                        android:minWidth="34dp"
-                        android:layout_gravity="right"
-                        android:layout_marginTop="13dp"
-                        android:layout_marginRight="14dp"
-                        android:outlineSpotShadowColor="@color/black"
-                        android:animateLayoutChanges="true"
-                        app:cardElevation="1dp"
-                        app:cardCornerRadius="17dp">
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <LinearLayout
-                                android:id="@+id/countdownBtn"
-                                android:orientation="horizontal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="45dp">
-
-                                <ImageView
-                                    android:id="@+id/countdownImg"
-                                    android:layout_width="34dp"
-                                    android:layout_height="34dp"
-                                    android:src="@drawable/countdown"
-                                    android:tint="@color/primaryText"
-                                    android:padding="9dp"/>
-
-                                <TextView
-                                    android:id="@+id/countdownText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="34dp"
-                                    android:gravity="center_vertical"
-                                    android:maxLines="1"
-                                    android:textColor="@color/primaryText"
-                                    android:textSize="12dp" />
-
-                            </LinearLayout>
-
-                            <com.ayaan.twelvepages.ui.view.base.Line
-                                android:layout_width="1dp"
-                                android:layout_height="12dp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:visibility="gone"
-                                app:colorFlag="primary"/>
-
-                            <LinearLayout
-                                android:id="@+id/undoneBtn"
-                                android:orientation="horizontal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="45dp">
-
-                                <ImageView
-                                    android:id="@+id/undoneImg"
-                                    android:layout_width="34dp"
-                                    android:layout_height="34dp"
-                                    android:src="@drawable/check"
-                                    android:tint="@color/secondaryText"
-                                    android:padding="9dp"/>
-
-                                <TextView
-                                    android:id="@+id/undoneText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="34dp"
-                                    android:gravity="center_vertical"
-                                    android:maxLines="2"
-                                    android:textColor="@color/secondaryText"
-                                    android:textSize="8dp" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
                     <LinearLayout
                         android:id="@+id/dowLy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="13.0dp"
-                        android:layout_marginRight="13.0dp"
+                        android:layout_marginLeft="10.0dp"
+                        android:layout_marginRight="10.0dp"
                         android:layout_marginBottom="5dp"
                         android:layout_gravity="bottom"
                         android:orientation="horizontal">
@@ -180,70 +94,63 @@
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="3.5dp"
                             android:textSize="11dp"
                             android:layout_weight="1"
-                            android:fontFamily="@font/regular"/>
+                            android:paddingLeft="2.0dp"/>
 
                         <TextView
                             android:id="@+id/dowText1"
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="3.5dp"
                             android:textSize="11dp"
                             android:layout_weight="1"
-                            android:fontFamily="@font/regular"/>
+                            android:paddingLeft="2.0dp"/>
 
                         <TextView
                             android:id="@+id/dowText2"
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="3.5dp"
                             android:textSize="11dp"
                             android:layout_weight="1"
-                            android:fontFamily="@font/regular"/>
+                            android:paddingLeft="2.0dp"/>
 
                         <TextView
                             android:id="@+id/dowText3"
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="3.5dp"
                             android:textSize="11dp"
                             android:layout_weight="1"
-                            android:fontFamily="@font/regular"/>
+                            android:paddingLeft="2.0dp"/>
 
                         <TextView
                             android:id="@+id/dowText4"
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="3.5dp"
                             android:textSize="11dp"
                             android:layout_weight="1"
-                            android:fontFamily="@font/regular"/>
+                            android:paddingLeft="2.0dp"/>
 
                         <TextView
                             android:id="@+id/dowText5"
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="3.5dp"
                             android:textSize="11dp"
                             android:layout_weight="1"
-                            android:fontFamily="@font/regular"/>
+                            android:paddingLeft="2.0dp"/>
 
                         <TextView
                             android:id="@+id/dowText6"
                             android:text="S"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="3.5dp"
                             android:textSize="11dp"
                             android:layout_weight="1"
-                            android:fontFamily="@font/regular"/>
+                            android:paddingLeft="2.0dp"/>
                     </LinearLayout>
 
                 </FrameLayout>
@@ -258,7 +165,8 @@
                     android:id="@+id/topShadow"
                     android:layout_width="match_parent"
                     android:layout_height="6dp"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="72dp"
+                    android:alpha="0"
                     android:background="@drawable/line_top_shadow"/>
 
                 <com.ayaan.twelvepages.ui.view.DayPager
@@ -266,6 +174,63 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                 </com.ayaan.twelvepages.ui.view.DayPager>
+
+                <FrameLayout
+                    android:id="@+id/todayBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal|bottom">
+
+                    <FrameLayout
+                        android:id="@+id/todayCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_margin="10dp"
+                        android:foreground="?android:attr/selectableItemBackground">
+
+                        <LinearLayout
+                            android:id="@+id/todayContentLy"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginLeft="8dp">
+
+                            <ImageView
+                                android:id="@+id/todayLeftArrow"
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_marginRight="3dp"
+                                android:src="@drawable/arrow_fill_left"
+                                android:tint="@color/primaryText"
+                                android:layout_gravity="center_vertical" />
+
+                            <TextView
+                                android:id="@+id/todayText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10dp"
+                                android:textColor="@color/primaryText"
+                                android:layout_gravity="center_vertical"
+                                android:fontFamily="@font/bold"
+                                android:text="@string/today_c"/>
+
+                            <ImageView
+                                android:id="@+id/todayRightArrow"
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_marginLeft="3dp"
+                                android:src="@drawable/arrow_fill_right"
+                                android:tint="@color/primaryText"
+                                android:layout_gravity="center_vertical|right" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </FrameLayout>
 
             </FrameLayout>
 
@@ -276,62 +241,99 @@
                 android:visibility="invisible">
             </com.ayaan.twelvepages.ui.view.NoteView>
 
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/todayBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="55dp"
-            android:layout_gravity="center_horizontal|bottom">
-
             <androidx.cardview.widget.CardView
+                android:id="@+id/briefingCard"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_margin="15dp"
-                android:outlineSpotShadowColor="@color/secondaryText"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/background"
-                app:cardElevation="3dp"
-                app:cardCornerRadius="12.5dp">
+                android:layout_height="26dp"
+                android:minWidth="26dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="14dp"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="0dp">
 
-                <LinearLayout
-                    android:layout_gravity="center"
-                    android:orientation="horizontal"
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:animateLayoutChanges="true"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginLeft="8dp">
+                    android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/todayLeftArrow"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginRight="3dp"
-                        android:src="@drawable/arrow_left"
-                        android:tint="@color/primaryText"
-                        android:layout_gravity="center_vertical" />
-
-                    <TextView
-                        android:id="@+id/todayText"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="10dp"
-                        android:textColor="@color/primaryText"
-                        android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/bold"
-                        android:text="@string/today_c"/>
+                        android:layout_height="match_parent"
+                        android:paddingRight="26dp">
+
+                        <LinearLayout
+                            android:id="@+id/countdownBtn"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp">
+
+                            <ImageView
+                                android:id="@+id/countdownImg"
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
+                                android:src="@drawable/countdown"
+                                android:tint="@color/primaryText"
+                                android:padding="5dp"/>
+
+                            <TextView
+                                android:id="@+id/countdownText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="26dp"
+                                android:gravity="center_vertical"
+                                android:maxLines="1"
+                                android:textColor="@color/primaryText"
+                                android:textSize="12dp" />
+
+                        </LinearLayout>
+
+                        <com.ayaan.twelvepages.ui.view.base.Line
+                            android:layout_width="1dp"
+                            android:layout_height="12dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:visibility="gone"
+                            app:colorFlag="primary"/>
+
+                        <LinearLayout
+                            android:id="@+id/undoneBtn"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp">
+
+                            <ImageView
+                                android:id="@+id/undoneImg"
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
+                                android:src="@drawable/check"
+                                android:tint="@color/secondaryText"
+                                android:padding="5dp"/>
+
+                            <TextView
+                                android:id="@+id/undoneText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="26dp"
+                                android:gravity="center_vertical"
+                                android:maxLines="1"
+                                android:textColor="@color/primaryText"
+                                android:fontFamily="@font/bold"
+                                android:textSize="14dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/todayRightArrow"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginLeft="3dp"
-                        android:src="@drawable/arrow_right"
-                        android:tint="@color/primaryText"
-                        android:layout_gravity="center_vertical|right" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/main_top_profile_background"/>
 
-                </LinearLayout>
+                </FrameLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -369,103 +371,11 @@
 
         </FrameLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/clipView"
+        <com.ayaan.twelvepages.ui.view.TemplateView
+            android:id="@+id/templateView"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="5dp"
-            android:layout_gravity="bottom"
-            android:outlineSpotShadowColor="@color/secondaryText"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="0dp"
-            android:visibility="invisible">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="5dp">
-
-                <TextView
-                    android:id="@+id/clipTypeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="16dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:text="title"/>
-
-                <ImageView
-                    android:id="@+id/clipCloseBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:padding="10dp"
-                    android:src="@drawable/close"
-                    android:tint="@color/secondaryText"/>
-
-            </FrameLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="5dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="15dp">
-
-                <ImageView
-                    android:id="@+id/clipIconImg"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/circle_fill"
-                    android:tint="@color/primaryText"/>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="15dp"
-                    android:layout_gravity="center_vertical">
-
-                    <TextView
-                        android:id="@+id/clipText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLines="2"
-                        android:ellipsize="end"
-                        android:textSize="16dp"
-                        android:textColor="@color/primaryText"
-                        android:text="title"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/clipPasteBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/normal_rect_stroke"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:textSize="14dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/regular"
-                    android:text="@string/paste"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+            android:layout_height="match_parent">
+        </com.ayaan.twelvepages.ui.view.TemplateView>
 
     </androidx.cardview.widget.CardView>
 
@@ -473,8 +383,8 @@
         android:id="@+id/profileBtn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="6dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="2dp"
         android:layout_gravity="right"
         android:elevation="30dp">
 
@@ -482,11 +392,11 @@
             android:id="@+id/profileCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="14dp"
             android:layout_gravity="center"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardElevation="0.5dp"
-            app:cardCornerRadius="15dp">
+            app:cardElevation="0dp"
+            app:cardCornerRadius="11dp">
 
             <ImageView
                 android:id="@+id/profileImg"
@@ -497,13 +407,6 @@
         </androidx.cardview.widget.CardView>
 
     </FrameLayout>
-
-    <com.ayaan.twelvepages.ui.view.TemplateView
-        android:id="@+id/templateView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="30dp">
-    </com.ayaan.twelvepages.ui.view.TemplateView>
 
     <com.ayaan.twelvepages.ui.view.SearchView
         android:id="@+id/searchView"

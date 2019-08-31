@@ -1,140 +1,318 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/backgroundLy"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.90"
-        android:visibility="invisible">
-    </View>
-
-    <LinearLayout
-        android:id="@+id/dateLy"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="25dp">
-
-        <TextView
-            android:id="@+id/templateFolderText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textColor="@color/primaryText"
-            android:fontFamily="@font/bold"
-            android:textSize="30dp"
-            android:text="2018"/>
-
-        <com.ayaan.twelvepages.ui.view.base.Line
-            android:layout_width="20dp"
-            android:layout_height="2.5dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="2dp"
-            app:colorFlag="primary"/>
-
-        <TextView
-            android:id="@+id/templateDateText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/primaryText"
-            android:fontFamily="@font/regular"
-            android:textSize="22dp"
-            android:text="2019"/>
-
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:overScrollMode="never"
-        android:clipToPadding="false"
-        android:clipChildren="false"
-        android:layout_marginTop="160dp"
-        android:layout_marginBottom="70dp">
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <LinearLayout
-        android:id="@+id/decoBtns"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="5dp"
         android:layout_gravity="bottom"
-        android:padding="18dp"
-        android:clipToPadding="false"
-        android:visibility="gone">
+        android:src="@drawable/bottom_shadow_background"/>
+
+    <FrameLayout
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|center_horizontal">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/stickerBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:outlineSpotShadowColor="@color/secondaryText"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/background"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="4dp">
+            android:layout_width="150dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            app:cardBackgroundColor="@color/light_line"
+            app:cardCornerRadius="13dp"
+            app:cardElevation="0dp">
 
-            <ImageView
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp"
-                android:src="@drawable/heart"
-                android:tint="@color/secondaryText"/>
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="8dp"
+                    android:textColor="@color/disableText"
+                    android:gravity="center"
+                    android:fontFamily="@font/bold"
+                    android:text="C A L E N D A R"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="10dp"
+                    android:textColor="@color/disableText"
+                    android:gravity="center"
+                    android:fontFamily="@font/bold"
+                    android:text="K E E P"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/addBtn"
+                    android:layout_width="75dp"
+                    android:layout_height="16dp"
+                    app:cardBackgroundColor="@color/secondaryText"
+                    app:cardCornerRadius="13dp"
+                    app:cardElevation="0dp">
+
+                    <ImageView
+                        android:layout_width="75dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/add"
+                        android:padding="3dp"
+                        android:layout_gravity="center_horizontal"
+                        android:tint="@color/background"/>
+
+                </androidx.cardview.widget.CardView>
+
+            </FrameLayout>
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/datePointBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:outlineSpotShadowColor="@color/secondaryText"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:layout_marginLeft="10dp"
-            app:cardBackgroundColor="@color/background"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="4dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp"
-                android:src="@drawable/heart"
-                android:tint="@color/secondaryText"/>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/addBtn"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
-        android:layout_gravity="bottom|right"
-        android:outlineSpotShadowColor="@color/secondaryText"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
-        app:cardBackgroundColor="@color/background"
-        app:cardCornerRadius="23dp"
-        app:cardElevation="3dp">
-
-        <ImageView
-            android:id="@+id/templateIconImg"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="12dp"
-            android:src="@drawable/add"
-            android:tint="@color/primaryText"/>
+            android:layout_height="match_parent">
 
-    </androidx.cardview.widget.CardView>
+            <View
+                android:id="@+id/calendarBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"/>
 
-</FrameLayout>
+            <View
+                android:id="@+id/keepBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/bottomSheet"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/templatePanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:translationY="30dp"
+            app:cardBackgroundColor="@color/background"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="0dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="50dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_gravity="center_horizontal"
+                app:cardBackgroundColor="@color/line"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="2dp">
+            </androidx.cardview.widget.CardView>
+
+            <FrameLayout
+                android:id="@+id/clipLy"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:visibility="invisible">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:id="@+id/clipTypeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="16dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold"
+                        android:text="title"/>
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="5dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="15dp">
+
+                    <ImageView
+                        android:id="@+id/clipIconImg"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/circle_fill"
+                        android:tint="@color/primaryText"/>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="15dp"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/clipText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:textSize="16dp"
+                            android:textColor="@color/primaryText"
+                            android:text="title"/>
+
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/clipPasteBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="44dp"
+                        app:cornerRadius="19dp"
+                        android:layout_marginRight="5dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:textSize="12dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/bold"
+                        android:text="@string/confirm"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/addLy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="30dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="15dp"
+                        android:padding="15dp">
+
+                        <TextView
+                            android:id="@+id/templateFolderText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="@font/bold"
+                            android:textSize="30dp"
+                            android:text="2018"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/templateDateText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="@font/bold"
+                            android:textSize="14dp"
+                            android:text="2019"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/decoBtns"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:padding="15dp"
+                        android:clipToPadding="false">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/stickerBtn"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:outlineSpotShadowColor="@color/secondaryText"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            app:cardBackgroundColor="@color/background"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="4dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="10dp"
+                                android:src="@drawable/heart"
+                                android:background="@drawable/circle_stroke_dash"
+                                android:tint="@color/secondaryText"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/datePointBtn"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:outlineSpotShadowColor="@color/secondaryText"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:layout_marginLeft="10dp"
+                            app:cardBackgroundColor="@color/background"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="4dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="10dp"
+                                android:src="@drawable/heart"
+                                android:tint="@color/secondaryText"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never"
+                        android:clipToPadding="false"
+                        android:clipChildren="false">
+                    </androidx.recyclerview.widget.RecyclerView>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

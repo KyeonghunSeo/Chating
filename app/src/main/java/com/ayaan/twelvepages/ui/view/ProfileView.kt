@@ -38,13 +38,12 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private val scale = 0.7f
     private val animDur = 300L
-    private val profileCloseTopMargin = dpToPx(5)
-    private val profileCloseRightMargin = dpToPx(6)
-    private val profileOpenMargin = dpToPx(0)
-    private val profileOpenTopMargin = dpToPx(0)
-    private val profileCardRadius = dpToPx(15f)
+    private val profileCloseMargin = dpToPx(14)
+    private val profileOpenMargin = dpToPx(25)
+    private val profileCardRadius = dpToPx(11f)
     private val zOffset = dpToPx(30f)
     private val panelOffset = dpToPx(200f)
+    private val profileViewScale = 3.0f
     var viewMode = ViewMode.CLOSED
 
     init {
@@ -60,13 +59,12 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         searchBtn.setOnClickListener { MainActivity.instance?.showSearchView() }
         settingsBtn.setOnClickListener { MainActivity.instance?.let {
             it.startActivityForResult(Intent(it, SettingsActivity::class.java), RC_SETTING) } }
-        premiumBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, PremiumActivity::class.java)) } }
         premiumTag.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, PremiumActivity::class.java)) } }
         aboutUsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, AboutUsActivity::class.java)) } }
     }
 
     fun updateUserUI(appUser: AppUser) {
-        l("[프로필 뷰 갱신]")
+        l("[프로필 뷰 갱신]" + appUser.id)
         nameText.text = FirebaseAuth.getInstance().currentUser?.displayName
         emailText.text = FirebaseAuth.getInstance().currentUser?.email
         if(appUser.motto?.isNotBlank() == true) {
@@ -127,9 +125,10 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         vibrate(context)
         startAnalytics()
         MainActivity.getProfileBtn()?.let { profileBtn ->
+            val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
+            profileBtn.setOnClickListener{ MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE) }
             profileBtn.pivotX = 0f
             profileBtn.pivotY = 0f
-            profileBtn.setOnClickListener { MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE) }
             val transiion = makeChangeBounceTransition()
             transiion.duration = animDur
             transiion.setPathMotion(ArcMotion())
@@ -137,18 +136,14 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 override fun onTransitionStart(transition: Transition) {
                     val animSet = AnimatorSet()
                     val animList = ArrayList<Animator>()
-                    val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
-                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX",  profileBtn.scaleX, 5.0f))
-                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY",  profileBtn.scaleY, 5.0f))
-                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, profileCardRadius / 3f))
+                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX",  profileBtn.scaleX, profileViewScale))
+                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY",  profileBtn.scaleY, profileViewScale))
+                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(1f)))
                     MainActivity.getMainPanel()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "translationX", 0f, panelOffset))
                         animList.add(ObjectAnimator.ofFloat(it, "radius", 0f, zOffset / 2))
-                    }
-                    MainActivity.getTemplateView()?.getAddButton()?.let {
-                        animList.add(ObjectAnimator.ofFloat(it, "translationY", 0f, panelOffset / 2))
                     }
                     animSet.playTogether(animList)
                     animSet.duration = animDur
@@ -159,8 +154,12 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             TransitionManager.beginDelayedTransition(profileBtn, transiion)
             (profileBtn.layoutParams as LayoutParams).let {
                 it.gravity = Gravity.LEFT
-                it.setMargins(profileOpenMargin, profileOpenTopMargin, 0, 0)
+                it.topMargin = profileOpenMargin
+                it.leftMargin = profileOpenMargin
             }
+            (profileCard.layoutParams as LayoutParams).setMargins(0, 0, 0, 0)
+            profileBtn.requestLayout()
+            profileCard.requestLayout()
             requestLayout()
         }
         viewMode = ViewMode.OPENED
@@ -168,6 +167,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     fun hide() {
         MainActivity.getProfileBtn()?.let { profileBtn ->
+            val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
             profileBtn.setOnClickListener { show() }
             val transiion = makeChangeBounceTransition()
             transiion.duration = animDur
@@ -176,7 +176,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 override fun onTransitionStart(transition: Transition) {
                     val animSet = AnimatorSet()
                     val animList = ArrayList<Animator>()
-                    val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
                     animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX", profileBtn.scaleX, 1f))
                     animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY", profileBtn.scaleY, 1f))
                     animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, profileCardRadius))
@@ -185,9 +184,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", it.scaleY, 1f))
                         animList.add(ObjectAnimator.ofFloat(it, "translationX", it.translationX, 0f))
                         animList.add(ObjectAnimator.ofFloat(it, "radius", zOffset, 0f))
-                    }
-                    MainActivity.getTemplateView()?.getAddButton()?.let {
-                        animList.add(ObjectAnimator.ofFloat(it, "translationY", it.translationY, 0f))
                     }
                     animSet.playTogether(animList)
                     animSet.duration = animDur
@@ -198,8 +194,11 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             TransitionManager.beginDelayedTransition(profileBtn, transiion)
             (profileBtn.layoutParams as LayoutParams).let {
                 it.gravity = Gravity.RIGHT
-                it.setMargins(0, profileCloseTopMargin, profileCloseRightMargin, 0)
+                it.topMargin = 0
+                it.leftMargin = 0
             }
+            (profileCard.layoutParams as LayoutParams).setMargins(profileCloseMargin, profileCloseMargin, profileCloseMargin, profileCloseMargin)
+            profileCard.requestLayout()
             requestLayout()
         }
         viewMode = ViewMode.CLOSED

@@ -377,19 +377,23 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     fun setFooterView(photos: ArrayList<Photo>?, pastRecords: List<Record>?) {
         footerHolder?.let { holder ->
             val v = holder.itemView
-            TransitionManager.beginDelayedTransition(holder.itemView.footerRootLy)
+            TransitionManager.beginDelayedTransition(holder.itemView.footerRootLy, makeFromBottomSlideTransition())
             v.footerProgress.visibility = View.GONE
             v.footerContentLy.visibility = View.VISIBLE
             photos?.let { photos ->
-
-                photos.firstOrNull()?.let {
-                    Glide.with(context).load(it.url).into(v.photoImg)
-                }
-                v.photoImg.setOnClickListener {
-                    ImageViewer.Builder(context, photos.map { "file://${it.url}" })
-                            .hideStatusBar(false)
-                            .setStartPosition(0)
-                            .show()
+                if(photos.isNotEmpty()) {
+                    v.photoLy.visibility = View.VISIBLE
+                    photos.firstOrNull()?.let {
+                        Glide.with(context).load(it.url).into(v.photoImg)
+                    }
+                    v.photoImg.setOnClickListener {
+                        ImageViewer.Builder(context, photos.map { "file://${it.url}" })
+                                .hideStatusBar(false)
+                                .setStartPosition(0)
+                                .show()
+                    }
+                }else {
+                    v.photoLy.visibility = View.GONE
                 }
             }
             pastRecords?.let {

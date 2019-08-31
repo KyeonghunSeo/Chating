@@ -103,35 +103,6 @@
                 android:text="@string/motto_sample"
                 android:background="?android:attr/selectableItemBackground"/>
 
-            <com.ayaan.twelvepages.ui.view.base.Line
-                android:layout_width="20dp"
-                android:layout_height="2.5dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                app:colorFlag="primary"/>
-
-            <TextView
-                android:id="@+id/premiumBtn"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:textColor="@color/primaryText"
-                android:textSize="14dp"
-                android:text="@string/premium"
-                android:fontFamily="@font/bold"/>
-
-            <TextView
-                android:id="@+id/aboutUsBtn"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:textColor="@color/primaryText"
-                android:textSize="14dp"
-                android:text="@string/about_us"
-                android:fontFamily="@font/bold"/>
-
         </LinearLayout>
 
     </LinearLayout>
@@ -143,6 +114,15 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
         android:layout_gravity="right">
+
+        <ImageView
+            android:id="@+id/aboutUsBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="13dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/bookmark"
+            android:tint="@color/secondaryText"/>
 
         <ImageView
             android:id="@+id/settingsBtn"

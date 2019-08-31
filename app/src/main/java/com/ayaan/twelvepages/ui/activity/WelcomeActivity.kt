@@ -1,14 +1,15 @@
 package com.ayaan.twelvepages.ui.activity
 
+import android.Manifest
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -18,8 +19,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.manager.OsCalendarManager
+import com.ayaan.twelvepages.ui.dialog.OsCalendarDialog
+import com.google.firebase.storage.FirebaseStorage
+import com.pixplicity.easyprefs.library.Prefs
 import io.realm.*
 import kotlinx.android.synthetic.main.activity_welcome.*
+import java.io.File
 
 
 class WelcomeActivity : BaseActivity() {
@@ -34,7 +40,7 @@ class WelcomeActivity : BaseActivity() {
             if(FirebaseAuth.getInstance().currentUser == null) {
                 startShow()
             }else {
-                startInitSettingLy()
+                startMainActivity()
             }
         })
     }
@@ -44,28 +50,40 @@ class WelcomeActivity : BaseActivity() {
         handler.postDelayed({
             leafFallView.start()
             ObjectAnimator.ofFloat(firstText1, "alpha", 0f, 1f).let {
-                it.duration = 2000
+                it.duration = 1000
                 it.start()
             }
         }, 1000)
         handler.postDelayed({
             ObjectAnimator.ofFloat(firstText2, "alpha", 0f, 1f).let {
-                it.duration = 2000
+                it.duration = 1000
                 it.start()
             }
-        }, 4000)
+        }, 3500)
+        handler.postDelayed({
+            ObjectAnimator.ofFloat(firstText3, "alpha", 0f, 1f).let {
+                it.duration = 1000
+                it.start()
+            }
+        }, 6000)
         handler.postDelayed({
             ObjectAnimator.ofFloat(firstText1, "alpha", 1f, 0f).let {
                 it.duration = 1000
                 it.start()
             }
-        }, 8000)
+        }, 8500)
         handler.postDelayed({
             ObjectAnimator.ofFloat(firstText2, "alpha", 1f, 0f).let {
                 it.duration = 1000
                 it.start()
             }
-        }, 9000)
+        }, 10000)
+        handler.postDelayed({
+            ObjectAnimator.ofFloat(firstText3, "alpha", 1f, 0f).let {
+                it.duration = 1000
+                it.start()
+            }
+        }, 11500)
         handler.postDelayed({
             val animSet = AnimatorSet()
             animSet.playTogether(
@@ -74,10 +92,10 @@ class WelcomeActivity : BaseActivity() {
             animSet.duration = 1000
             animSet.interpolator = FastOutSlowInInterpolator()
             animSet.start()
-        }, 10000)
+        }, 13000)
     }
 
-    private fun startInitSettingLy() {
+    private fun startCustomSettings() {
         leafFallView.stop()
         val handler =  Handler()
         handler.postDelayed({
@@ -92,7 +110,8 @@ class WelcomeActivity : BaseActivity() {
 
         handler.postDelayed({
             loginLy.visibility = View.GONE
-            setScript()
+            initSettingLy.visibility = View.VISIBLE
+            setDiaryLy()
             val animSet = AnimatorSet()
             animSet.playTogether(
                     ObjectAnimator.ofFloat(initSettingLy, "alpha", 0f, 1f),
@@ -104,83 +123,116 @@ class WelcomeActivity : BaseActivity() {
     }
 
     var doubleTabFlag = true
-    var scriptNum = 0
     var maxCount = 0
+    var diaryNum = 0
 
-
-    private fun setScript() {
+    private fun setDiaryLy() {
         val user = FirebaseAuth.getInstance().currentUser
-        val optionsTexts = arrayOf<TextView>(
-                optionsLy.findViewById(R.id.option1Text),
-                optionsLy.findViewById(R.id.option2Text),
-                optionsLy.findViewById(R.id.option3Text),
-                optionsLy.findViewById(R.id.option4Text),
-                optionsLy.findViewById(R.id.option5Text))
-
-        l("프로필 사진 "+user?.photoUrl)
-
-        when(scriptNum) {
-            0 -> {
-                optionTitleText.text = String.format(getString(R.string.init_setting_script_0), user?.displayName)
-                maxCount = 0
-                prevBtn.visibility = View.GONE
-                setNextBtn()
-            }
-            1 -> {
-                optionTitleText.text = String.format(getString(R.string.init_setting_script_1), user?.displayName)
-                maxCount = 0
-                setPrevBtn()
-                setNextBtn()
-            }
-        }
-
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            progressBar.setProgress((scriptNum / 7f * 100).toInt(), true)
-        }else {
-            progressBar.progress = (scriptNum / 7f * 100).toInt()
-        }
-    }
-
-    private fun setPrevBtn() {
-        prevBtn.visibility = View.VISIBLE
-        prevBtn.setOnClickListener {
-            if(doubleTabFlag) {
-                doubleTabFlag = false
-                hideScript()
-                initSettingLy.postDelayed({
-                    scriptNum--
-                    setScript()
-                    showScript()
-                }, 1000)
-            }
-        }
-    }
-
-    private fun setNextBtn() {
+        optionTitleText.text = String.format(getString(R.string.init_setting_script_0), user?.displayName)
+        maxCount = 0
+        diaryLy.visibility = View.VISIBLE
+        prevBtn.visibility = View.GONE
         nextBtn.setOnClickListener {
             if(doubleTabFlag) {
                 doubleTabFlag = false
                 hideScript()
                 initSettingLy.postDelayed({
-                    scriptNum++
-                    setScript()
+                    setCalendarOptionLy()
                     showScript()
-                    startMainActivity()
                 }, 1000)
             }
         }
+
+        val btns = arrayOf(diaryBtn0, diaryBtn1, diaryBtn2, diaryBtn3)
+        val selectors = arrayOf(diarySelector0, diarySelector1, diarySelector2, diarySelector3)
+        btns.forEachIndexed { index, btn ->
+            btn.setOnClickListener {
+                diaryNum = index
+                selectors.forEachIndexed { i, imageView ->
+                    imageView.visibility = if(index == i) View.VISIBLE else View.GONE
+                }
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            progressBar.setProgress((0 / 7f * 100).toInt(), true)
+        }else {
+            progressBar.progress = (0 / 7f * 100).toInt()
+        }
+    }
+
+    private fun setCalendarOptionLy() {
+        calendarOptionLy.visibility = View.VISIBLE
+        diaryLy.visibility = View.GONE
+
+        optionTitleText.text = str(R.string.init_setting_script_1)
+
+        osCalendarBtn.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CALENDAR), RC_PERMISSIONS)
+            } else {
+                showOsCalendarDialog()
+            }
+        }
+
+        nextBtn.setOnClickListener {
+            if(doubleTabFlag) {
+                doubleTabFlag = false
+                hideScript()
+                initSettingLy.postDelayed({
+                    startFinishLy()
+                }, 1000)
+            }
+        }
+    }
+
+    private fun showOsCalendarDialog() {
+        showDialog(OsCalendarDialog(this) { result -> if(result) {
+            val size = OsCalendarManager.getConnectedCalendarIdsSet().size
+            osCalendarText.text = if(size == 0) {
+                osCalendarText.setTextColor(AppTheme.disableText)
+                str(R.string.no_reference)
+            } else {
+                osCalendarText.setTextColor(AppTheme.primaryText)
+                String.format(str(R.string.referencing), size)
+            }
+        }}, true, true, true, false)
+    }
+
+    private fun startFinishLy() {
+        loginLy.visibility = View.VISIBLE
+        loginBtn.visibility = View.GONE
+        loadingText.visibility = View.VISIBLE
+        loadingView.visibility = View.VISIBLE
+        val animSet = AnimatorSet()
+        animSet.playTogether(
+                ObjectAnimator.ofFloat(loginLy, "alpha", 0f, 1f),
+                ObjectAnimator.ofFloat(loginLy, "translationY", dpToPx(15f), 0f))
+        animSet.duration = 1000
+        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.start()
+
+        val handler =  Handler()
+        handler.postDelayed({
+            val animSet = AnimatorSet()
+            animSet.playTogether(
+                    ObjectAnimator.ofFloat(loginLy, "alpha", 1f, 0f),
+                    ObjectAnimator.ofFloat(loginLy, "translationY", 0f, dpToPx(15f)))
+            animSet.duration = 500
+            animSet.interpolator = FastOutSlowInInterpolator()
+            animSet.start()
+            handler.postDelayed({
+                startMainActivity()
+            }, 500)
+        }, 3000)
     }
 
     private fun showScript() {
         doubleTabFlag = true
         val animSet = AnimatorSet()
         animSet.playTogether(
-                ObjectAnimator.ofFloat(optionTitleText, "alpha", 0f, 1f),
-                ObjectAnimator.ofFloat(optionTitleText, "translationY", dpToPx(15f), 0f),
-                ObjectAnimator.ofFloat(optionsLy, "alpha", 0f, 1f),
-                ObjectAnimator.ofFloat(optionsLy, "translationY", dpToPx(15f), 0f))
+                ObjectAnimator.ofFloat(initSettingLy, "alpha", 0f, 1f),
+                ObjectAnimator.ofFloat(initSettingLy, "translationY", dpToPx(15f), 0f))
         animSet.duration = 500
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
@@ -189,10 +241,8 @@ class WelcomeActivity : BaseActivity() {
     private fun hideScript() {
         val animSet = AnimatorSet()
         animSet.playTogether(
-                ObjectAnimator.ofFloat(optionTitleText, "alpha", 1f, 0f),
-                ObjectAnimator.ofFloat(optionTitleText, "translationY", 0f, dpToPx(15f)),
-                ObjectAnimator.ofFloat(optionsLy, "alpha", 1f, 0f),
-                ObjectAnimator.ofFloat(optionsLy, "translationY", 0f, dpToPx(15f)))
+                ObjectAnimator.ofFloat(initSettingLy, "alpha", 1f, 0f),
+                ObjectAnimator.ofFloat(initSettingLy, "translationY", 0f, dpToPx(15f)))
         animSet.duration = 500
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
@@ -229,12 +279,23 @@ class WelcomeActivity : BaseActivity() {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this) { task ->
-                    hideProgressDialog()
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         l("signInWithCredential:success")
+                        Prefs.putLong("last_backup_time", System.currentTimeMillis())
                         val user = mAuth.currentUser
-                        startInitSettingLy()
+                        val ref = FirebaseStorage.getInstance().reference
+                                .child("${user?.uid}/db")
+                        val realm = Realm.getDefaultInstance()
+                        ref.getFile(File(realm.path)).addOnSuccessListener {
+                            hideProgressDialog()
+                            realm.close()
+                            startMainActivity()
+                        }.addOnFailureListener {
+                            hideProgressDialog()
+                            realm.close()
+                            startCustomSettings()
+                        }
                     } else {
                         // If sign in fails, display a message to the user.
                         l("signInWithCredential:failure")
@@ -267,8 +328,22 @@ class WelcomeActivity : BaseActivity() {
     }
 
     private fun startMainActivity() {
-        setResult(Activity.RESULT_OK)
+        startActivity(Intent(this, MainActivity::class.java).apply {
+            intent.extras?.let { putExtras(it) }
+        })
         finish()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            RC_PERMISSIONS -> {
+                permissions.indices
+                        .filter { permissions[it] == Manifest.permission.READ_CALENDAR
+                                && grantResults[it] == PackageManager.PERMISSION_GRANTED }
+                        .forEach { _ -> showOsCalendarDialog() }
+                return
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

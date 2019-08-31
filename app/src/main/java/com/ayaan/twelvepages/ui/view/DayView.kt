@@ -267,8 +267,15 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }else if(targetCal.get(Calendar.DAY_OF_WEEK) == SATURDAY) {
             CalendarManager.saturdayColor
         }else {
-            AppTheme.primaryText
+            CalendarManager.selectedDateColor
         }
+
+        color = if(color == CalendarManager.dateColor) {
+            CalendarManager.selectedDateColor
+        }else {
+            color
+        }
+
         dateText.setTextColor(color)
         dowText.setTextColor(color)
         holiText.setTextColor(color)
@@ -285,7 +292,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         animSet.playTogether(
                 ObjectAnimator.ofFloat(previewDataImg, "alpha", 1f, 0f),
                 ObjectAnimator.ofFloat(previewDataImg, "translationY", 0f, dpToPx(120f)),
-                ObjectAnimator.ofFloat(bar, "alpha", 1f, 0f),
                 ObjectAnimator.ofFloat(dateLy, "scaleX", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dateLy, "scaleY", 1f, headerTextScale),
                 ObjectAnimator.ofFloat(dowText, "scaleX", 1f, dowScale),
@@ -315,7 +321,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         animSet.playTogether(
                 ObjectAnimator.ofFloat(previewDataImg, "alpha", 0f, 1f),
                 ObjectAnimator.ofFloat(previewDataImg, "translationY", dpToPx(120f), 0f),
-                ObjectAnimator.ofFloat(bar, "alpha", 0f, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleX", headerTextScale, 1f),
                 ObjectAnimator.ofFloat(dateLy, "scaleY", headerTextScale, 1f),
                 ObjectAnimator.ofFloat(dowText, "scaleX", dowScale, 1f),
@@ -358,7 +363,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.scaleY = mainMonthTextScale
         }
         MainActivity.getDowLy()?.alpha = 0f
-        bar.alpha = 0f
         previewDataImg.alpha = 0f
         previewDataImg.translationY = dpToPx(120f)
         fakeDateText.visibility = View.VISIBLE
@@ -384,7 +388,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.scaleY = 1f
         }
         MainActivity.getDowLy()?.alpha = 1f
-        bar.alpha = 1f
         previewDataImg.alpha = 0f
         previewDataImg.translationY = 0f
         fakeDateText.visibility = View.GONE
@@ -449,8 +452,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         const val headerTextScale = 4.5f
         const val mainMonthTextScale = 0.78f
 
-        val datePosX = -dpToPx(4.0f)
-        val datePosY = dpToPx(17.0f)
+        val datePosX = -dpToPx(0.0f)
+        val datePosY = dpToPx(20.0f)
 
         val dowPosX = dpToPx(1.0f) / headerTextScale
         val holiPosX = dpToPx(2.0f) / headerTextScale

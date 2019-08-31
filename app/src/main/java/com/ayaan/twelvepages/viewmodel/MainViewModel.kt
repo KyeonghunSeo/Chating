@@ -39,6 +39,7 @@ class MainViewModel : ViewModel() {
 
     fun initRealm(syncUser: SyncUser?) {
         if(syncUser == null) {
+            realm.value?.removeAllChangeListeners()
             realm.value = Realm.getDefaultInstance()
             loading.value = false
             loadTemplate()
@@ -121,6 +122,7 @@ class MainViewModel : ViewModel() {
             undoneRecords.value = realm.where(Record::class.java)
                     .equalTo("isSetCheckBox", true)
                     .equalTo("dtDone", Long.MIN_VALUE)
+                    .lessThan("dtStart", getTodayStartTime())
                     .notEqualTo("dtCreated", -1L)
                     .sort("dtStart", Sort.ASCENDING)
                     .findAllAsync()
@@ -162,12 +164,16 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun setCalendarFolder() {
-        folderList.value?.first{ it.isCalendar() }?.let { setTargetFolder(it) }
-    }
-
     fun setTargetFolder() {
         folderList.value?.get(0)?.let { setTargetFolder(it) }
+    }
+
+    fun setCalendarFolder() {
+        folderList.value?.first { it.id == "calendar" }?.let { setTargetFolder(it) }
+    }
+
+    fun setKeepFolder() {
+        folderList.value?.first { it.id == "keep" }?.let { setTargetFolder(it) }
     }
 
     fun setTargetFolder(folder: Folder) {
@@ -175,11 +181,17 @@ class MainViewModel : ViewModel() {
     }
 
     private fun makePrimaryFolder() {
-        l("[PRIMARY 보관함 생성]")
+        l("[기본 폴더 생성]")
         realm.value?.executeTransaction { realm ->
-            realm.createObject(Folder::class.java, UUID.randomUUID().toString()).apply {
-                name = App.context.getString(R.string.keep)
+            realm.createObject(Folder::class.java, "calendar").apply {
+                name = App.context.getString(R.string.calendar)
+                type = 0
                 order = 0
+            }
+            realm.createObject(Folder::class.java, "keep").apply {
+                name = App.context.getString(R.string.keep)
+                type = 1
+                order = 1
             }
         }
     }

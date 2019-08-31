@@ -31,10 +31,17 @@ import androidx.transition.Slide
 import androidx.transition.Transition
 import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
+import com.ayaan.twelvepages.ui.activity.BaseActivity
 import com.ayaan.twelvepages.ui.view.CalendarView
 import com.ayaan.twelvepages.ui.view.base.Line
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import com.pixplicity.easyprefs.library.Prefs
 import es.dmoral.toasty.Toasty
+import io.realm.Realm
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileInputStream
 import java.util.*
 
 val tempCal: Calendar = Calendar.getInstance()
@@ -591,6 +598,26 @@ fun getPhotosByDate(context: Context, calendar: Calendar): ArrayList<Photo> {
         listOfAllImages.add(Photo(cursor.getInt(1) == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO, cursor.getString(0), cursor.getLong(2)))
     }
     return listOfAllImages
+}
+
+fun backupDB(activity: BaseActivity?, onSuccess: Runnable?) {
+    FirebaseAuth.getInstance().currentUser?.let { user ->
+        activity?.showProgressDialog(null)
+        val realm = Realm.getDefaultInstance()
+        val inputStream = FileInputStream(File(realm.path))
+        val ref = FirebaseStorage.getInstance().reference
+                .child("${user.uid}/db")
+        val uploadTask = ref.putBytes(inputStream.readBytes())
+        uploadTask.addOnFailureListener {
+            activity?.hideProgressDialog()
+        }.addOnSuccessListener {
+            Prefs.putLong("last_backup_time", System.currentTimeMillis())
+            activity?.hideProgressDialog()
+            onSuccess?.run()
+            l("[백업완료] ${it.totalByteCount} Bytes")
+        }
+        realm.close()
+    }
 }
 
 /* 코드

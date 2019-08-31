@@ -28,19 +28,19 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     companion object {
         var standardTextSize = 9f
         val baseSize = dpToPx(0.5f)
-        val blockTypeSize = dpToPx(16.5f).toInt()
+        val blockTypeSize = dpToPx(15.0f).toInt()
         val defaulMargin = dpToPx(1.5f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
-        val sidePadding = dpToPx(3.0f).toInt()
-        val smallTextPadding = dpToPx(2.4f)
-        val normalTextPadding = dpToPx(1.7f)
-        val bigTextPadding = dpToPx(1.2f)
+        val sidePadding = dpToPx(2.0f).toInt()
+        val smallTextPadding = dpToPx(1.9f)
+        val normalTextPadding = dpToPx(1.1f)
+        val bigTextPadding = dpToPx(0.7f)
         val bottomPadding = dpToPx(3.0f)
         val normalStickerSize = dpToPx(40f)
         val datePointSize = dpToPx(30)
-        val rectRadius = dpToPx(0.0f)
+        val rectRadius = dpToPx(1.0f)
         val dotSize = dpToPx(5)
-        val checkboxSize = dpToPx(8)
+        val checkboxSize = dpToPx(10)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         val dashPath = DashPathEffect(floatArrayOf(dpToPx(3.0f), dpToPx(1.0f)), 2f)
         fun getStyleText(style: Int) : String{
@@ -138,7 +138,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val leftPadding = if(record.isSetCheckBox) {
             sPadding + checkboxSize
         }else {
-            sPadding + checkboxSize
+            sPadding
         }
         val textPadding =  when(AppStatus.calTextSize) { /*글씨 크기에 따른 패딩 조정*/
             -1 -> smallTextPadding
@@ -323,8 +323,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
         if(record.isSetCheckBox) {
             drawCheckBox(canvas, (sidePadding - defaulMargin / 2).toInt())
-        }else {
-            drawDot(canvas, (sidePadding - defaulMargin / 2).toInt())
         }
     }
 
@@ -335,7 +333,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             if(AppStatus.checkedRecordDisplay in 2..3) {
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
-            val check = resource.getDrawable(R.drawable.idea)
+            val check = resource.getDrawable(R.drawable.dot)
             check.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
             check.setBounds(
                     xOffset,
@@ -346,7 +344,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             check.draw(canvas)
         }else {
             paint.style = Paint.Style.STROKE
-            val check = resource.getDrawable(R.drawable.arrow_fill_right)
+            val check = resource.getDrawable(R.drawable.dot)
             check.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
             check.setBounds(
                     xOffset,
@@ -464,8 +462,9 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                             drawArrow(canvas, 0, height / 2, arrowWidth, height / 2 - arrowSize, arrowWidth, height / 2  + arrowSize)
                     drawArrow(canvas, width, height / 2, width - arrowWidth, height / 2 - arrowSize, width - arrowWidth, height / 2  + arrowSize)
                 }else {
-                    canvas.drawRect(0f, height / 2f - periodLine * 3.0f, periodLine * 1.2f, height / 2f + periodLine * 3.0f, paint)
-                    canvas.drawRect(width - periodLine * 1.2f, height / 2f - periodLine * 3.0f, width.toFloat(), height / 2f + periodLine * 3.0f, paint)
+                    val dividerSize = periodLine * 2.5f
+                    canvas.drawRect(0f, height / 2f - dividerSize, periodLine * 1.2f, height / 2f + dividerSize, paint)
+                    canvas.drawRect(width - periodLine * 1.2f, height / 2f - dividerSize, width.toFloat(), height / 2f + dividerSize, paint)
                 }
                 /*
                 val lineY = (periodLine * 1.5f).toInt()

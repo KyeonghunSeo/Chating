@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.view.DragEvent
+import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
@@ -46,7 +47,9 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
+import com.pixplicity.easyprefs.library.Prefs
 import com.theartofdev.edmodo.cropper.CropImage
+import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
@@ -89,24 +92,17 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        l("[MainActivity onCreate]")
         instance = this
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         setContentView(R.layout.activity_main)
         initTheme(rootLy)
         initMain()
-        viewModel.initRealm(SyncUser.current())
         if(FirebaseAuth.getInstance().currentUser == null) {
-            startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
-        }else {
-            //startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
-        }
-        /*
-        if(SyncUser.current() == null) {
-            startActivityForResult(Intent(this, WelcomeActivity::class.java), RC_LOGIN)
+
         }else {
             viewModel.initRealm(SyncUser.current())
-        }*/
+        }
     }
 
     private fun initMain() {
@@ -141,11 +137,9 @@ class MainActivity : BaseActivity() {
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
         mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        mainDateLy.pivotX = dpToPx(10f)
-        mainDateLy.pivotY = dpToPx(0f)
-        briefingCard.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        mainDateLy.pivotX = dpToPx(20f)
+        mainDateLy.pivotY = dpToPx(25f)
         mainPanel.setOnClickListener {}
-        todayBtn.translationY = tabSize.toFloat()
         callAfterViewDrawed(rootLy, Runnable{
             /*
             val rectangle = Rect()
@@ -172,7 +166,7 @@ class MainActivity : BaseActivity() {
                 if(dateInfoHolder.cellNum % 7 == index) {
                     textView?.setTypeface(AppTheme.boldFont, Typeface.BOLD)
                 }else {
-                    textView?.typeface = AppTheme.regularFont
+                    textView?.typeface = AppTheme.thinFont
                 }
                 textView?.setTextColor(when (index) {
                     calendarView.sundayPos -> CalendarManager.sundayColor
@@ -188,6 +182,7 @@ class MainActivity : BaseActivity() {
             }
 
             if(openDayView && dayPager.viewMode == ViewMode.CLOSED) dayPager.show()
+            if(templateView.isExpanded()) expandControlView(dateInfoHolder.time, dateInfoHolder.time)
             refreshTodayView(calendarView.todayStatus)
         }
         calendarPager.onTop = { isTop, isBottom ->
@@ -226,37 +221,37 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        profileBtn.setOnLongClickListener {
-            RecordManager.deleteAllRecord()
-            return@setOnLongClickListener true
-        }
-
-        mainYearText.setOnClickListener {
-            if(!profileView.isOpened()) {
-                profileView.show()
-            }
-        }
-
-        mainYearText.setOnLongClickListener {
-            AppTheme.thinFont = ResourcesCompat.getFont(this, R.font.thin_s)!!
-            AppTheme.regularFont = ResourcesCompat.getFont(this, R.font.regular_s)!!
-            AppTheme.boldFont = ResourcesCompat.getFont(this, R.font.bold_s)!!
-            initTheme(rootLy)
-            return@setOnLongClickListener true
-        }
-
-        mainMonthText.setOnClickListener {
+        mainDateLy.setOnClickListener {
             showDialog(DatePickerDialog(this, viewModel.targetTime.value!!) {
                 selectDate(it)
             }, true, true, true, false)
         }
 
+        profileBtn.setOnLongClickListener {
+            RecordManager.deleteAllRecord()
+            return@setOnLongClickListener true
+        }
+
+        mainYearText.setOnLongClickListener {
+            /*
+            AppTheme.thinFont = ResourcesCompat.getFont(this, R.font.thin_s)!!
+            AppTheme.regularFont = ResourcesCompat.getFont(this, R.font.regular_s)!!
+            AppTheme.boldFont = ResourcesCompat.getFont(this, R.font.bold_s)!!
+            initTheme(rootLy)
+            */
+            val realm = Realm.getDefaultInstance()
+            realm.executeTransaction{
+                realm.where(Folder::class.java).findAll()?.deleteAllFromRealm()
+            }
+            realm.close()
+            return@setOnLongClickListener true
+        }
         mainMonthText.setOnLongClickListener {
             val cal = Calendar.getInstance()
             cal.set(2019, 7, 1)
             var s = cal.timeInMillis
             val list = ArrayList<Record>()
-            val c = 0
+            val c = 20
             val formulas = arrayOf(STACK, EXPANDED, DOT)
             list.add(RecordManager.makeNewRecord(s, s).apply {
                 title = "점심약속"
@@ -321,9 +316,9 @@ class MainActivity : BaseActivity() {
             list.forEach {
                 //val f = formulas[Random().nextInt(formulas.size)]
                 val f = RecordCalendarAdapter.Formula.STACK
-                it.colorKey = 9
+                //it.colorKey = 9 // 검정
                 //it.style = f.shapes[Random().nextInt(f.shapes.size)].ordinal * 100 + f.ordinal
-                it.style = f.shapes[1].ordinal * 100 + f.ordinal
+                it.style = f.shapes[0].ordinal * 100 + f.ordinal
             }
             RecordManager.save(list)
             return@setOnLongClickListener true
@@ -347,14 +342,16 @@ class MainActivity : BaseActivity() {
         })
         viewModel.appUser.observe(this, Observer { appUser -> appUser?.let { updateUserUI(it) } })
         viewModel.templateList.observe(this, Observer { templateView.notifyListChanged() })
-        viewModel.folderList.observe(this, Observer { list -> folderAdapter.refresh(list) })
+        viewModel.folderList.observe(this, Observer { list ->
+            //folderAdapter.refresh(list)
+        })
         viewModel.targetFolder.observe(this, Observer { folder ->
             refreshAll()
-            folder?.let { folderAdapter.setTargetFolder(it, folderListView, if(folder.type == 0) calendarLy else noteView) }
+            //folder?.let { folderAdapter.setTargetFolder(it, folderListView, if(folder.type == 0) calendarLy else noteView) }
         })
         viewModel.openFolder.observe(this, Observer { updateFolderUI(it) })
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
-        viewModel.clipRecord.observe(this, Observer { updateClipUI(it) })
+        viewModel.clipRecord.observe(this, Observer { templateView.clip(it) })
         viewModel.countdownRecords.observe(this, Observer { updateCountdownUI(it) })
         viewModel.undoneRecords.observe(this, Observer { updateUndoneUI(it) })
     }
@@ -393,58 +390,19 @@ class MainActivity : BaseActivity() {
                 //undoneImg.setColorFilter(fontColor)
                 //undoneText.setTextColor(fontColor)
 
+                /*
                 var tail = if (list.size > 1) String.format(str(R.string.and_others), list.size - 1) else ""
                 if (tail.contains("other") && list.size > 2) {
                     tail = tail.replace("other", "others")
                 }
                 undoneText.text = "${str(R.string.undone_records)}\n${record.getShortTilte()} $tail"
+                */
+
+                undoneText.text = list.size.toString()
                 undoneText.setOnClickListener {
                     showDialog(UndoneListDialog(this) {
                     }, true, true, true, false)
                 }
-            }
-        }
-    }
-
-    private fun updateClipUI(record: Record?) {
-        TransitionManager.beginDelayedTransition(clipView, makeFromBottomSlideTransition())
-        if(record == null) {
-            clipView.visibility = View.INVISIBLE
-        }else {
-            clipView.visibility = View.VISIBLE
-            if(record.id.isNullOrEmpty()) {
-                clipTypeText.text = str(R.string.copy)
-            }else {
-                clipTypeText.text = str(R.string.cut)
-            }
-            clipText.text = record.getTitleInCalendar()
-            clipIconImg.setColorFilter(record.getColor())
-            clipPasteBtn.setOnClickListener {
-                viewModel.targetFolder.value?.let { record.folder = Folder(it) }
-                record.setDate(viewModel.targetTime.value ?: Long.MIN_VALUE)
-                if(record.id.isNullOrEmpty()) {
-                    if(record.isRepeat()) {
-                        record.clearRepeat()
-                    }
-                    RecordManager.save(record)
-                    toast(R.string.copied, R.drawable.copy)
-                }else {
-                    if(record.isRepeat()) {
-                        RecordManager.deleteOnly(record)
-                        record.clearRepeat()
-                        record.id = null
-                        RecordManager.save(record)
-                    }else {
-                        RecordManager.delete(record)
-                        record.id = null
-                        RecordManager.save(record)
-                    }
-                    toast(R.string.moved, R.drawable.change)
-                }
-                viewModel.clipRecord.value = null
-            }
-            clipCloseBtn.setOnClickListener {
-                viewModel.clipRecord.value = null
             }
         }
     }
@@ -486,18 +444,18 @@ class MainActivity : BaseActivity() {
     }
 
     private fun refreshAll() {
+        l("[Main Refresh All]")
         val folder = getTargetFolder()
         if(folder.type == 0) {
             calendarLy.visibility = View.VISIBLE
-            todayBtn.visibility = View.VISIBLE
             noteView.visibility = View.INVISIBLE
+            refreshCalendar()
         }else {
             calendarLy.visibility = View.INVISIBLE
-            todayBtn.visibility = View.INVISIBLE
             noteView.visibility = View.VISIBLE
+            noteView.notifyDataChanged()
         }
-        refreshCalendar()
-        noteView.notifyDataChanged()
+        templateView.notifyListChanged()
     }
 
     private fun refreshCalendar() {
@@ -545,6 +503,7 @@ class MainActivity : BaseActivity() {
 
     fun showSearchView() { searchView.show() }
 
+    @SuppressLint("SetTextI18n", "RtlHardcoded")
     private fun refreshTodayView(todayOffset: Int) {
         when {
             todayOffset != 0 -> {
@@ -553,28 +512,32 @@ class MainActivity : BaseActivity() {
                 var distance = 0f
                 if(todayOffset < 0) {
                     distance *= -1
+                    (todayBtn.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT or Gravity.BOTTOM
                     todayText.setPadding(dpToPx(8), 0, 0, 0)
                     todayRightArrow.visibility = View.VISIBLE
                     todayLeftArrow.visibility = View.GONE
                 }else {
+                    (todayBtn.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.LEFT or Gravity.BOTTOM
                     todayText.setPadding(0, 0, dpToPx(8), 0)
                     todayRightArrow.visibility = View.GONE
                     todayLeftArrow.visibility = View.VISIBLE
                 }
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY",  todayBtn.translationY, 0f),
+                animSet.playTogether(ObjectAnimator.ofFloat(todayContentLy, "alpha",  todayContentLy.alpha, 1f),
                         ObjectAnimator.ofFloat(todayBtn, "translationX",  todayBtn.translationX, distance))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener { selectDate(System.currentTimeMillis()) }
+                todayBtn.isEnabled = true
             }
             else -> {
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayBtn, "translationY", todayBtn.translationY, tabSize * 2f),
+                animSet.playTogether(ObjectAnimator.ofFloat(todayContentLy, "alpha",  todayContentLy.alpha, 0f),
                         ObjectAnimator.ofFloat(todayBtn, "translationX", todayBtn.translationX, 0f))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
                 todayBtn.setOnClickListener(null)
+                todayBtn.isEnabled = false
                 /*
                 todayBtn.setOnClickListener { _ ->
                     MainActivity.getdayPager()?.let {
@@ -596,9 +559,8 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    fun endDrag() {
-        calendarPager.endDrag()
-    }
+    fun endDrag() { calendarPager.endDrag() }
+    fun clearCalendarHighlight() { calendarPager.clearHighlight() }
 
     fun checkExternalStoragePermission(requestCode: Int) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -636,7 +598,7 @@ class MainActivity : BaseActivity() {
         when{
             searchView.isOpened() -> searchView.hide()
             profileView.isOpened() -> profileView.hide()
-            templateView.isExpanded -> templateView.collapse()
+            templateView.isExpanded() -> templateView.collapse()
             viewModel.openFolder.value == true -> viewModel.openFolder.value = false
             dayPager.isOpened() -> dayPager.hide()
             else -> super.onBackPressed()
@@ -645,12 +607,7 @@ class MainActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == RC_LOGIN) {
-            if(resultCode == RESULT_OK) {
-
-                viewModel.initRealm(SyncUser.current())
-            } else finish()
-        }else if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
+        if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
             data?.let { CropImage.activity(data.data).setAspectRatio(1, 1).start(this) }
         }else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
@@ -701,6 +658,9 @@ class MainActivity : BaseActivity() {
             if(dayPager.isOpened()) dayPager.hide()
             profileView.hide()
             CalendarSettingsDialog(this).show(supportFragmentManager, null)
+        }else if(requestCode == RC_SETTING && resultCode == RC_LOGOUT) {
+            finish()
+            startActivity(Intent(this, WelcomeActivity::class.java))
         }
     }
 
@@ -723,5 +683,9 @@ class MainActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        val lastBackupTime = Prefs.getLong("last_backup_time", 0L)
+        if(lastBackupTime < System.currentTimeMillis() - DAY_MILL * 7) {
+            backupDB(null, null)
+        }
     }
 }

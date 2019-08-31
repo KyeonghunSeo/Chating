@@ -8,11 +8,17 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
@@ -22,12 +28,14 @@ import com.ayaan.twelvepages.adapter.TemplateAdapter
 import com.ayaan.twelvepages.adapter.util.TemplateDiffCallback
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.manager.StickerManager
+import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.activity.TemplateActivity
 import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.realm.Realm
 import kotlinx.android.synthetic.main.view_template.view.*
 import java.util.*
@@ -36,9 +44,10 @@ import kotlin.collections.ArrayList
 class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
     private val startCal = Calendar.getInstance()
     private val endCal = Calendar.getInstance()
+    private val panelElevation = dpToPx(30f)
+    private var behavior: BottomSheetBehavior<View>
     val items = ArrayList<Template>()
     var selectedPosition = 0
-    var isExpanded = false
     val adapter = TemplateAdapter(context, items) { template, mode ->
         if(template != null) {
             if(mode == 0) {
@@ -58,30 +67,40 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_template, this, true)
-        initViews()
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        //recyclerView.layoutManager = GridLayoutManager(context, 2)
+        recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
 
-        addBtn.setOnClickListener {
-            if(isExpanded) {
-                vibrate(context)
-                if(adapter.mode == 0) {
-                    adapter.mode = 1
-                    adapter.notifyItemInserted(items.size)
+        behavior = BottomSheetBehavior.from(bottomSheet)
+        behavior.isHideable = true
+        behavior.state = BottomSheetBehavior.STATE_HIDDEN
+        behavior.skipCollapsed = true
+        behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if(newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    templatePanel.elevation = 0f
+                    hiddened()
                 }else {
-                    adapter.mode = 0
-                    adapter.notifyDataSetChanged()
+                    templatePanel.elevation = panelElevation
                 }
-            }else {
+            }
+        })
+
+        calendarBtn.setOnClickListener {
+            if(MainActivity.getTargetFolder().id == "calendar") {
                 MainActivity.getTargetTime()?.let { expand(it, it) }
+            }else {
+                MainActivity.getViewModel()?.setCalendarFolder()
             }
         }
 
-        addBtn.setOnLongClickListener {
-
-            return@setOnLongClickListener false
+        keepBtn.setOnClickListener {
+            if(MainActivity.getTargetFolder().id == "keep") {
+                MainActivity.getTargetTime()?.let { expand(it, it) }
+            }else {
+                MainActivity.getViewModel()?.setKeepFolder()
+            }
         }
 
         stickerBtn.setOnClickListener {
@@ -146,77 +165,70 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         vibrate(context)
         startCal.timeInMillis = dtStart
         endCal.timeInMillis = dtEnd
+        setDate()
+        clipLy.visibility = View.GONE
+        addLy.visibility = View.VISIBLE
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
         if(AppStatus.templateMode == 0) {
-            val transitionSet = TransitionSet()
-            val t1 = makeFromRightSlideTransition()
-            val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN }
-            val t3 = makeFromLeftSlideTransition()
-            t1.addTarget(recyclerView)
-            t2.addTarget(backgroundLy)
-            t3.addTarget(dateLy)
-            t3.addTarget(decoBtns)
-            transitionSet.addTransition(t1)
-            transitionSet.addTransition(t2)
-            transitionSet.addTransition(t3)
-            TransitionManager.beginDelayedTransition(this, transitionSet)
-            setDate()
-            notifyListChanged()
-            backgroundLy.setBackgroundColor(AppTheme.background)
-            backgroundLy.setOnClickListener { collapse() }
-            backgroundLy.isClickable = true
-            recyclerView.visibility = View.VISIBLE
-            decoBtns.visibility = View.VISIBLE
-            backgroundLy.visibility = View.VISIBLE
-            dateLy.visibility = View.VISIBLE
-            templateIconImg.setImageResource(R.drawable.edit)
-            val animSet = AnimatorSet()
-            animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", 45f, 0f),
-                    ObjectAnimator.ofFloat(templateIconImg, "alpha", 0f, 1f))
-            animSet.start()
-            isExpanded = true
+            startExpandAnimation()
         }else {
             MainActivity.getViewModel()?.targetTemplate?.value = null
             MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
         }
     }
 
+    fun clip(record: Record?) {
+        vibrate(context)
+        if(record == null) {
+            collapse()
+        }else {
+            if(record.id.isNullOrEmpty()) {
+                clipTypeText.text = str(R.string.copy)
+            }else {
+                clipTypeText.text = str(R.string.cut)
+            }
+            clipText.text = record.getTitleInCalendar()
+            clipIconImg.setColorFilter(record.getColor())
+            clipPasteBtn.setOnClickListener {
+                MainActivity.getTargetFolder().let { record.folder = Folder(it) }
+                record.setDate(MainActivity.getTargetTime() ?: Long.MIN_VALUE)
+                if(record.id.isNullOrEmpty()) {
+                    if(record.isRepeat()) {
+                        record.clearRepeat()
+                    }
+                    RecordManager.save(record)
+                    toast(R.string.copied, R.drawable.copy)
+                }else {
+                    if(record.isRepeat()) {
+                        RecordManager.deleteOnly(record)
+                        record.clearRepeat()
+                        record.id = null
+                        RecordManager.save(record)
+                    }else {
+                        RecordManager.delete(record)
+                        record.id = null
+                        RecordManager.save(record)
+                    }
+                    toast(R.string.moved, R.drawable.change)
+                }
+                MainActivity.getViewModel()?.clipRecord?.value = null
+            }
+            clipLy.visibility = View.VISIBLE
+            addLy.visibility = View.GONE
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+    }
+
+    private fun startExpandAnimation() {}
+
     fun collapse() {
-        val transitionSet = TransitionSet()
-        val t1 = makeFromRightSlideTransition()
-        val t2 = makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_OUT }
-        val t3 = makeFromLeftSlideTransition()
-        t1.addTarget(recyclerView)
-        t2.addTarget(backgroundLy)
-        t3.addTarget(dateLy)
-        t3.addTarget(decoBtns)
-        transitionSet.addTransition(t1)
-        transitionSet.addTransition(t2)
-        transitionSet.addTransition(t3)
-        TransitionManager.beginDelayedTransition(this, transitionSet)
-        initViews()
-        templateIconImg.setImageResource(R.drawable.add)
-        val animSet = AnimatorSet()
-        animSet.playTogether(ObjectAnimator.ofFloat(templateIconImg, "rotation", -45f, 0f),
-                ObjectAnimator.ofFloat(templateIconImg, "alpha", 0f, 1f))
-        animSet.start()
+        MainActivity.instance?.clearCalendarHighlight()
+        behavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
-    fun collapseNoAnim() {
-        templateIconImg.rotation = 0f
-        initViews()
-    }
-
-    private fun initViews() {
-        clearTemplate()
-        backgroundLy.setOnClickListener(null)
-        backgroundLy.isClickable = false
-        recyclerView.visibility = View.GONE
-        decoBtns.visibility = View.GONE
-        backgroundLy.visibility = View.GONE
-        dateLy.visibility = View.GONE
-        templateIconImg.setImageResource(R.drawable.add)
+    private fun hiddened() {
         adapter.mode = 0
-        isExpanded = false
+        MainActivity.instance?.clearCalendarHighlight()
     }
 
     private fun selectItem(template: Template) {
@@ -224,19 +236,22 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         MainActivity.getViewModel()?.targetTemplate?.value = template
     }
 
-    private fun clearTemplate() {
-        items.clear()
-        adapter.notifyDataSetChanged()
-    }
-
     fun notifyListChanged() {
-        if(isExpanded) {
+        TransitionManager.beginDelayedTransition(addBtn, makeChangeBounceTransition())
+        (addBtn.layoutParams as FrameLayout.LayoutParams).gravity = if(MainActivity.getTargetFolder().id == "calendar") {
+            Gravity.LEFT
+        }else {
+            Gravity.RIGHT
+        }
+        addBtn.requestLayout()
+
+        if(isExpanded()) {
             val newItems = ArrayList<Template>()
             filterCurrentFolder(newItems)
             Thread {
                 val diffResult = DiffUtil.calculateDiff(TemplateDiffCallback(items, newItems))
                 Handler(Looper.getMainLooper()).post{
-                    if(isExpanded) {
+                    if(isExpanded()) {
                         items.clear()
                         items.addAll(newItems)
                         diffResult.dispatchUpdatesTo(adapter)
@@ -260,5 +275,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    fun getAddButton() = addBtn
+    fun getAddButton(): CardView? = templatePanel
+
+    fun isExpanded() = behavior.state != BottomSheetBehavior.STATE_HIDDEN
 }

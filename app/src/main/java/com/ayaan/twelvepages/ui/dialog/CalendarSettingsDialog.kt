@@ -92,6 +92,12 @@ class CalendarSettingsDialog(private val activity: Activity) : BottomSheetDialog
                     Prefs.putInt("sundayColor", CalendarManager.sundayColor)
                     Prefs.putInt("saturdayColor", CalendarManager.saturdayColor)
                 }
+                else -> {
+                    CalendarManager.saturdayColor = CalendarManager.dateColor
+                    Prefs.putInt("saturdayColor", CalendarManager.saturdayColor)
+                    CalendarManager.sundayColor = CalendarManager.dateColor
+                    Prefs.putInt("sundayColor", CalendarManager.sundayColor)
+                }
             }
             setWeekendDisplay()
             MainActivity.getCalendarPager()?.redrawAndSelect()

@@ -14,10 +14,10 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
     : LinearLayout(context, attrs, defStyleAttr) {
     private val paint = Paint()
     private val strokeWidth = dpToPx(0f)
-    private val dashEffect = DashPathEffect(floatArrayOf(dpToPx(4.0f), dpToPx(1.5f)), 2f)
+    private val dashEffect = DashPathEffect(floatArrayOf(dpToPx(5.0f), dpToPx(1.0f)), 2f)
 
     init {
-        paint.color = Color.parseColor("#50000000")
+        paint.color = Color.parseColor("#90000000")
         setWillNotDraw(false)
     }
     
@@ -314,7 +314,7 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     private fun drawPoints(list: ArrayList<Point>, canvas: Canvas?) {
-        val lineWidth = dpToPx(1.5f)
+        val lineWidth = dpToPx(1.0f)
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = lineWidth
         paint.pathEffect = dashEffect
@@ -322,10 +322,10 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
         list.forEachIndexed { index, p ->
             if(index == 0) {
                 path.moveTo(p.x.toFloat() + CalendarView.calendarPadding,
-                        p.y.toFloat() + CalendarView.headerHeight + CalendarView.calendarVerticalPadding)
+                        p.y.toFloat() + CalendarView.headerHeight + CalendarView.calendarTopPadding)
             }else {
                 path.lineTo(p.x.toFloat() + CalendarView.calendarPadding,
-                        p.y.toFloat() +CalendarView.headerHeight + CalendarView.calendarVerticalPadding)
+                        p.y.toFloat() +CalendarView.headerHeight + CalendarView.calendarTopPadding)
             }
         }
         path.close()

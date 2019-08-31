@@ -532,13 +532,13 @@ class RecordActivity : BaseActivity() {
 
     private fun savedFinish() {
         toast(R.string.saved, R.drawable.done)
-        MainActivity.getTemplateView()?.collapseNoAnim()
+        MainActivity.getTemplateView()?.collapse()
         finish()
     }
 
     private fun deletedFinish() {
         toast(R.string.deleted, R.drawable.delete)
-        MainActivity.getTemplateView()?.collapseNoAnim()
+        MainActivity.getTemplateView()?.collapse()
         finish()
     }
 

@@ -4,12 +4,15 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <View
+    <ImageView
         android:id="@+id/bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/selected_date_bg"/>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
+        android:layout_gravity="right"
+        android:alpha="0.7"
+        android:scaleType="fitXY"
+        android:src="@drawable/flag"/>
 
     <LinearLayout
         android:id="@+id/dateLy"
@@ -17,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="4.5dp"
-        android:paddingLeft="4.5dp">
+        android:paddingLeft="3.0dp">
 
         <LinearLayout
             android:orientation="horizontal"

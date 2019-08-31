@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.ui.activity.MainActivity
@@ -85,7 +86,9 @@ class PopupOptionDialog(activity: Activity, private val items: Array<Item>, priv
     }
 
     private fun expand() {
-        TransitionManager.beginDelayedTransition(contentLy, makeChangeBounceTransition())
+        val transition = ChangeBounds()
+        transition.duration = 150L
+        TransitionManager.beginDelayedTransition(contentLy, transition)
         recyclerView.visibility = View.VISIBLE
     }
 
