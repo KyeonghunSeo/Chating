@@ -66,7 +66,6 @@ class MainActivity : BaseActivity() {
         fun getDayPager() = instance?.dayPager
         fun getMainPanel() = instance?.mainPanel
         fun getCalendarLy() = instance?.calendarLy
-        fun getDowLy() = instance?.dowLy
         fun getCalendarPager() = instance?.calendarPager
         fun getMainDateLy() = instance?.mainDateLy
         fun getMainYearText() = instance?.mainYearText
@@ -159,42 +158,9 @@ class MainActivity : BaseActivity() {
         calendarPager.onSelectedDate = { calendarView, dateInfoHolder, openDayView ->
             viewModel.targetTime.value = dateInfoHolder.time
             viewModel.targetCalendarView.value = calendarView
-
-            val dowTexts = arrayOf(dowText0, dowText1, dowText2, dowText3, dowText4, dowText5, dowText6)
-            dowTexts.forEachIndexed { index, textView ->
-                textView?.text = calendarView.dateCellHolders[index].getDowText()
-                if(dateInfoHolder.cellNum % 7 == index) {
-                    textView?.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-                }else {
-                    textView?.typeface = AppTheme.thinFont
-                }
-                textView?.setTextColor(when (index) {
-                    calendarView.sundayPos -> CalendarManager.sundayColor
-                    calendarView.saturdayPos -> CalendarManager.saturdayColor
-                    else -> {
-                        if(dateInfoHolder.cellNum % 7 == index) {
-                            CalendarManager.selectedDateColor
-                        }else {
-                            CalendarManager.dateColor
-                        }
-                    }
-                })
-            }
-
             if(openDayView && dayPager.viewMode == ViewMode.CLOSED) dayPager.show()
             if(templateView.isExpanded()) expandControlView(dateInfoHolder.time, dateInfoHolder.time)
             refreshTodayView(calendarView.todayStatus)
-        }
-        calendarPager.onTop = { isTop, isBottom ->
-            if(isTop){
-                if(topShadow.alpha != 0f){
-                    ObjectAnimator.ofFloat(topShadow, "alpha", topShadow.alpha, 0f).start()
-                }
-            } else {
-                if(topShadow.alpha != 1f) {
-                    ObjectAnimator.ofFloat(topShadow, "alpha", topShadow.alpha, 1f).start()
-                }
-            }
         }
     }
 
@@ -248,7 +214,7 @@ class MainActivity : BaseActivity() {
         }
         mainMonthText.setOnLongClickListener {
             val cal = Calendar.getInstance()
-            cal.set(2019, 7, 1)
+            cal.set(2019, 8, 1)
             var s = cal.timeInMillis
             val list = ArrayList<Record>()
             val c = 20

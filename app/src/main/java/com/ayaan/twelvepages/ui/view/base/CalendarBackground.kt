@@ -322,10 +322,10 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
         list.forEachIndexed { index, p ->
             if(index == 0) {
                 path.moveTo(p.x.toFloat() + CalendarView.calendarPadding,
-                        p.y.toFloat() + CalendarView.headerHeight + CalendarView.calendarTopPadding)
+                        p.y.toFloat() + CalendarView.calendarTopPadding)
             }else {
                 path.lineTo(p.x.toFloat() + CalendarView.calendarPadding,
-                        p.y.toFloat() +CalendarView.headerHeight + CalendarView.calendarTopPadding)
+                        p.y.toFloat() + CalendarView.calendarTopPadding)
             }
         }
         path.close()

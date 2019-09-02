@@ -47,10 +47,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
         val dataStartYOffset = dpToPx(36f)
-        val headerHeight = dpToPx(72)
     }
 
-    private val headerView = View(context)
     private val scrollView = NestedScrollView(context)
     val calendarLy = CalendarBackground(context)
     val weekLys = Array(6) { FrameLayout(context) }
@@ -99,13 +97,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         scrollView.addView(calendarLy)
         addView(topDivider)
         addView(bottomDivider)
-        addView(headerView)
     }
 
     private fun setLayout() {
-        headerView.layoutParams = LayoutParams(MATCH_PARENT, headerHeight)
-        headerView.setBackgroundColor(AppTheme.background)
-
         scrollView.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         scrollView.isVerticalScrollBarEnabled = false
         scrollView.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
@@ -126,7 +120,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(0, headerHeight + calendarTopPadding,
+        calendarLy.setPadding(0, calendarTopPadding,
                 0, calendarBottomPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
@@ -134,7 +128,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         topDivider.setBackgroundColor(AppTheme.primaryText)
         topDivider.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
-            topMargin = headerHeight
             leftMargin = calendarPadding
             rightMargin = calendarPadding
         }
@@ -186,14 +179,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                             onSelectedDate?.invoke(dateInfoViewHolder, true)
                         } else {
                             vibrate(context)
-                            selectDate(dateInfoViewHolder, weekLys[cellNum / columns].top < scrollView.scrollY + headerHeight)
+                            selectDate(dateInfoViewHolder, weekLys[cellNum / columns].top < scrollView.scrollY)
                         }
                         calendarLy.clearDragPoint()
                     }
                 }
                 dateCell.setOnLongClickListener {
                     if (targetDateHolder != dateInfoViewHolder) {
-                        selectDate(dateInfoViewHolder, weekLys[cellNum / columns].top < scrollView.scrollY + headerHeight)
+                        selectDate(dateInfoViewHolder, weekLys[cellNum / columns].top < scrollView.scrollY)
                     }
                     MainDragAndDropListener.start(it, MainDragAndDropListener.DragMode.INSERT)
                     return@setOnLongClickListener true
@@ -381,7 +374,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if (startCellNum < 0) { startCellNum += 7 }
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height.toFloat() - headerHeight - calendarTopPadding - calendarBottomPadding
+        minCalendarHeight = height.toFloat() - calendarTopPadding - calendarBottomPadding
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
 
@@ -465,7 +458,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         targetCal.timeInMillis = holder.time
         holder.target()
         if(withScroll) {
-            scrollView.post { scrollView.scrollTo(0, weekLys[holder.cellNum / columns].top - headerHeight) }
+            scrollView.post { scrollView.scrollTo(0, weekLys[holder.cellNum / columns].top) }
         }
         scrollView.post{ onTop?.invoke(scrollView.scrollY == 0, !scrollView.canScrollVertically(1)) }
         todayStatus = getDiffToday(targetCal)

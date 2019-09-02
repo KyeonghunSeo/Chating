@@ -1,7 +1,5 @@
 package com.ayaan.twelvepages.ui.view
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -11,32 +9,24 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Fade
 import androidx.transition.TransitionManager
-import androidx.transition.TransitionSet
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.adapter.TemplateAdapter
 import com.ayaan.twelvepages.adapter.util.TemplateDiffCallback
 import com.ayaan.twelvepages.manager.RecordManager
-import com.ayaan.twelvepages.manager.StickerManager
 import com.ayaan.twelvepages.model.Folder
-import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.activity.TemplateActivity
 import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import io.realm.Realm
 import kotlinx.android.synthetic.main.view_template.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -103,48 +93,51 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         }
 
-        stickerBtn.setOnClickListener {
-            MainActivity.instance?.let {
-                StickerPickerDialog{ sticker ->
-                    val records = ArrayList<Record>()
-                    while (startCal <= endCal) {
-                        val dtStart = getCalendarTime0(startCal)
-                        val dtEnd = getCalendarTime23(startCal)
-                        records.add(RecordManager.makeNewRecord(dtStart, dtEnd).apply {
-                            id = "sticker_${UUID.randomUUID()}"
-                            dtCreated = System.currentTimeMillis()
-                            setFormula(RecordCalendarAdapter.Formula.STICKER)
-                            setSticker(sticker)
-                        })
-                        startCal.add(Calendar.DATE, 1)
-                    }
-                    RecordManager.save(records)
-                    toast(R.string.saved, R.drawable.done)
-                    collapse()
-                }.show(it.supportFragmentManager, null)
-            }
-        }
+        stickerBtn.setOnClickListener { addSticker() }
+        datePointBtn.setOnClickListener { addDatePoint() }
+    }
 
-        datePointBtn.setOnClickListener {
-            MainActivity.instance?.let {
-                StickerPickerDialog{ sticker ->
-                    val records = ArrayList<Record>()
-                    while (startCal <= endCal) {
-                        val dtStart = getCalendarTime0(startCal)
-                        val dtEnd = getCalendarTime23(startCal)
-                        records.add(RecordManager.makeNewRecord(dtStart, dtEnd).apply {
-                            id = "sticker_${UUID.randomUUID()}"
-                            dtCreated = System.currentTimeMillis()
-                            setFormula(RecordCalendarAdapter.Formula.DATE_POINT)
-                            setSticker(sticker)
-                        })
-                        startCal.add(Calendar.DATE, 1)
-                    }
-                    RecordManager.save(records)
-                    toast(R.string.saved, R.drawable.done)
-                    collapse()
-                }.show(it.supportFragmentManager, null)
-            }
+    private fun addSticker() {
+        MainActivity.instance?.let {
+            StickerPickerDialog{ sticker ->
+                val records = ArrayList<Record>()
+                while (startCal <= endCal) {
+                    val dtStart = getCalendarTime0(startCal)
+                    val dtEnd = getCalendarTime23(startCal)
+                    records.add(RecordManager.makeNewRecord(dtStart, dtEnd).apply {
+                        id = "sticker_${UUID.randomUUID()}"
+                        dtCreated = System.currentTimeMillis()
+                        setFormula(RecordCalendarAdapter.Formula.STICKER)
+                        setSticker(sticker)
+                    })
+                    startCal.add(Calendar.DATE, 1)
+                }
+                RecordManager.save(records)
+                toast(R.string.saved, R.drawable.done)
+                collapse()
+            }.show(it.supportFragmentManager, null)
+        }
+    }
+
+    private fun addDatePoint() {
+        MainActivity.instance?.let {
+            StickerPickerDialog{ sticker ->
+                val records = ArrayList<Record>()
+                while (startCal <= endCal) {
+                    val dtStart = getCalendarTime0(startCal)
+                    val dtEnd = getCalendarTime23(startCal)
+                    records.add(RecordManager.makeNewRecord(dtStart, dtEnd).apply {
+                        id = "sticker_${UUID.randomUUID()}"
+                        dtCreated = System.currentTimeMillis()
+                        setFormula(RecordCalendarAdapter.Formula.DATE_POINT)
+                        setSticker(sticker)
+                    })
+                    startCal.add(Calendar.DATE, 1)
+                }
+                RecordManager.save(records)
+                toast(R.string.saved, R.drawable.done)
+                collapse()
+            }.show(it.supportFragmentManager, null)
         }
     }
 
@@ -152,12 +145,11 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun setDate() {
         val folder = MainActivity.getTargetFolder()
         if(folder.isCalendar()) {
-            templateFolderText.text = folder.name
+            templateDateText.visibility = View.VISIBLE
             templateDateText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis,
                     false, false, false, true)
         }else {
-            templateFolderText.text = folder.name
-            templateDateText.text = ""
+            templateDateText.visibility = View.GONE
         }
     }
 
@@ -227,7 +219,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun hiddened() {
-        adapter.mode = 0
+        adapter.mode = 1
         MainActivity.instance?.clearCalendarHighlight()
     }
 
@@ -239,8 +231,10 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun notifyListChanged() {
         TransitionManager.beginDelayedTransition(addBtn, makeChangeBounceTransition())
         (addBtn.layoutParams as FrameLayout.LayoutParams).gravity = if(MainActivity.getTargetFolder().id == "calendar") {
+            decoBtns.visibility = View.VISIBLE
             Gravity.LEFT
         }else {
+            decoBtns.visibility = View.GONE
             Gravity.RIGHT
         }
         addBtn.requestLayout()

@@ -306,7 +306,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", 1f, mainMonthTextScale),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", 1f, mainMonthTextScale),
-                ObjectAnimator.ofFloat(MainActivity.getDowLy(), "alpha", 1f, 0f),
                 ObjectAnimator.ofFloat(dowText, "alpha", 0f, 1f))
         animSet.duration = 250L
         animSet.interpolator = FastOutSlowInInterpolator()
@@ -335,7 +334,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(holiText, "translationY", holiPosY, 0f),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleX", mainMonthTextScale, 1f),
                 ObjectAnimator.ofFloat(MainActivity.getMainDateLy(), "scaleY", mainMonthTextScale, 1f),
-                ObjectAnimator.ofFloat(MainActivity.getDowLy(), "alpha", 0f, 1f),
                 ObjectAnimator.ofFloat(dowText, "alpha", 1f, 0f))
         animSet.duration = 250L
         animSet.interpolator = FastOutSlowInInterpolator()
@@ -362,7 +360,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.scaleX = mainMonthTextScale
             it.scaleY = mainMonthTextScale
         }
-        MainActivity.getDowLy()?.alpha = 0f
         previewDataImg.alpha = 0f
         previewDataImg.translationY = dpToPx(120f)
         fakeDateText.visibility = View.VISIBLE
@@ -387,7 +384,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             it.scaleX = 1f
             it.scaleY = 1f
         }
-        MainActivity.getDowLy()?.alpha = 1f
         previewDataImg.alpha = 0f
         previewDataImg.translationY = 0f
         fakeDateText.visibility = View.GONE

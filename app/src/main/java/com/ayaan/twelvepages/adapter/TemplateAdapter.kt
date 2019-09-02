@@ -28,7 +28,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
 
     var mode = 0
 
-    override fun getItemCount(): Int = items.size + if(mode == 1) 1 else 0
+    override fun getItemCount(): Int = items.size + 1
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
@@ -72,9 +72,12 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
     }
 
     private fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-        Collections.swap(items, fromPosition, toPosition)
-        notifyItemMoved(fromPosition, toPosition)
-        return true
+        if(fromPosition < items.size && toPosition < items.size) {
+            Collections.swap(items, fromPosition, toPosition)
+            notifyItemMoved(fromPosition, toPosition)
+            return true
+        }
+        return false
     }
 
     inner class SimpleItemTouchHelperCallback(private val mAdapter: TemplateAdapter) : ItemTouchHelper.Callback() {
@@ -85,7 +88,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         override fun isItemViewSwipeEnabled(): Boolean = false
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-            val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+            val dragFlags = ItemTouchHelper.START or ItemTouchHelper.END
             val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
             return makeMovementFlags(dragFlags, swipeFlags)
         }

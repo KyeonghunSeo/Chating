@@ -7,9 +7,9 @@
     <LinearLayout
         android:id="@+id/contentLy"
         android:orientation="vertical"
-        android:layout_width="60dp"
+        android:layout_width="55dp"
         android:layout_height="100dp"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:background="?android:attr/selectableItemBackground"
         android:clipChildren="false">
 
         <androidx.cardview.widget.CardView
@@ -17,6 +17,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="10dp"
+            android:layout_gravity="center_horizontal"
             app:cardCornerRadius="10dp"
             app:cardElevation="1dp">
 
