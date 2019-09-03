@@ -16,7 +16,7 @@
             android:layout_height="16dp"
             android:layout_gravity="center"
             app:cardBackgroundColor="@color/light_line"
-            app:cardCornerRadius="13dp"
+            app:cardCornerRadius="8dp"
             app:cardElevation="0dp">
 
             <LinearLayout
@@ -55,7 +55,7 @@
                     android:layout_width="75dp"
                     android:layout_height="16dp"
                     app:cardBackgroundColor="@color/secondaryText"
-                    app:cardCornerRadius="13dp"
+                    app:cardCornerRadius="8dp"
                     app:cardElevation="0dp">
 
                     <ImageView
@@ -243,6 +243,7 @@
                             android:orientation="vertical"
                             android:layout_width="55dp"
                             android:layout_height="wrap_content"
+                            android:paddingBottom="10dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:clipChildren="false">
 
@@ -280,6 +281,7 @@
                             android:orientation="vertical"
                             android:layout_width="55dp"
                             android:layout_height="wrap_content"
+                            android:paddingBottom="10dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:clipChildren="false">
 

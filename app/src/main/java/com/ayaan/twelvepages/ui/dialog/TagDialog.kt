@@ -35,6 +35,7 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
                     0 -> {
                         if(tag != null) {
                             showDialog(InputDialog(activity,
+                                    R.drawable.hashtag,
                                     context.getString(R.string.edit_tag), null,
                                     context.getString(R.string.enter_tag_name),
                                     tag.title?:"", true) { result, text ->
@@ -42,6 +43,7 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
                             }, true, true, true, false)
                         }else {
                             showDialog(InputDialog(activity,
+                                    R.drawable.hashtag,
                                     context.getString(R.string.new_tag),
                                     context.getString(R.string.new_tag_sub),
                                     context.getString(R.string.enter_tag_name),

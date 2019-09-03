@@ -77,6 +77,8 @@ class MainActivity : BaseActivity() {
         fun getTargetCal() = getViewModel()?.targetCalendarView?.value?.targetCal
         fun getTargetFolder() = getViewModel()?.targetFolder?.value ?: Folder()
         fun isFolderOpen() = getViewModel()?.openFolder?.value == true
+        fun isProfileOpened() = instance?.profileView?.isOpened() == true
+        fun closeProfileView() = instance?.profileView?.hide()
     }
 
     lateinit var viewModel: MainViewModel
@@ -217,7 +219,7 @@ class MainActivity : BaseActivity() {
             cal.set(2019, 8, 1)
             var s = cal.timeInMillis
             val list = ArrayList<Record>()
-            val c = 20
+            val c = 0
             val formulas = arrayOf(STACK, EXPANDED, DOT)
             list.add(RecordManager.makeNewRecord(s, s).apply {
                 title = "점심약속"

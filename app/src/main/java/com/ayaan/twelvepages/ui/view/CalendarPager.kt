@@ -219,7 +219,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     fun onDrag(event: DragEvent) {
-        targetCalendarView.onDrag(event)
+        targetCalendarView.onDrag(event, event.x, event.y - headerHeight)
         when {
             event.x < autoPagingThreshold -> {
                 if(autoPagingFlag != -1) {

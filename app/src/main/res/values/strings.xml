@@ -341,7 +341,7 @@
     <string name="go_today">오늘로 이동</string>
     <string name="no_alarm">알림없음</string>
     <string name="galaxy">갤럭시</string>
-    <string name="export_done">[12Page]폴더로 내보내기가 완료되었습니다</string>
+    <string name="export_done">[CALUA]폴더로 내보내기가 완료되었습니다</string>
     <string name="template">템플릿</string>
     <string name="calendar_settings_sub">캘린더에 표시할 정보 및 스타일 설정</string>
     <string name="template_use">템플릿 사용</string>
@@ -367,6 +367,8 @@
     <string name="init_setting_info">＊초기설정은 사용중 언제든지 편집이 가능합니다.</string>
     <string name="init_setting_script_1">기존에 사용중이거나 디바이스에 저장되어있는 다른 일정들을 참조하려면 아래 권한을 획득하신 후, 가져올 캘린더를 선택해주세요.</string>
     <string name="init_loading_text">다이어리를 구성중 입니다.\n잠시만 기다려주세요…</string>
+    <string name="upgrade_premium">업그레이드</string>
+    <string name="total_records">총 %1$s개의 기록</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

@@ -36,6 +36,6 @@
         android:layout_height="50dp"
         android:layout_margin="30dp"
         android:layout_gravity="bottom"
-        android:text="@string/premium"
-        app:cornerRadius="25dp"/>
+        android:text="@string/upgrade_premium"
+        app:cornerRadius="22dp"/>
 </FrameLayout>

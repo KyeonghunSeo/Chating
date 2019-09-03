@@ -8,7 +8,8 @@
         android:id="@+id/contentLy"
         android:orientation="vertical"
         android:layout_width="55dp"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
         android:background="?android:attr/selectableItemBackground"
         android:clipChildren="false">
 

@@ -12,7 +12,7 @@
         android:id="@+id/subText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:textSize="13dp"
         android:textColor="@color/primaryText"
         android:text="sub"/>
 
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="10dp"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:imeOptions="actionDone"
             android:maxLines="1"
             android:singleLine="true"

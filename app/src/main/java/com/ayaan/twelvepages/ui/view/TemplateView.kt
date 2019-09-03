@@ -8,6 +8,7 @@ import android.os.Looper
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
@@ -60,6 +61,14 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
+
+        setOnTouchListener { view, motionEvent ->
+            if(MainActivity.isProfileOpened() && motionEvent.action == MotionEvent.ACTION_DOWN) {
+                MainActivity.closeProfileView()
+                return@setOnTouchListener false
+            }
+            return@setOnTouchListener super.onTouchEvent(motionEvent)
+        }
 
         behavior = BottomSheetBehavior.from(bottomSheet)
         behavior.isHideable = true

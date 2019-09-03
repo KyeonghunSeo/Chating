@@ -39,8 +39,9 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private val scale = 0.7f
     private val animDur = 300L
     private val profileCloseMargin = dpToPx(14)
-    private val profileOpenMargin = dpToPx(25)
-    private val profileCardRadius = dpToPx(11f)
+    private val profileOpenTopMargin = dpToPx(35)
+    private val profileOpenLeftMargin = dpToPx(22)
+    private val profileCardRadius = dpToPx(12f)
     private val zOffset = dpToPx(30f)
     private val panelOffset = dpToPx(200f)
     private val profileViewScale = 3.0f
@@ -51,7 +52,9 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             setBackgroundColor(AppTheme.background)
         }
         mottoText.setOnClickListener {
-            showDialog(InputDialog(context as Activity, context.getString(R.string.motto), null, null,
+            showDialog(InputDialog(context as Activity,
+                    R.drawable.note,
+                    context.getString(R.string.motto), null, null,
                     mottoText.text.toString(), false) { result, text ->
                 if(result) { MainActivity.getViewModel()?.saveMotto(text) }
             }, true, true, true, false)
@@ -75,10 +78,12 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     @SuppressLint("StaticFieldLeak")
     private fun startAnalytics() {
         object : AsyncTask<String, String, String?>() {
+            var totalCount = 0L
+
             override fun doInBackground(vararg args: String): String? {
                 val realm = Realm.getDefaultInstance()
-                val totalSize = realm.where(Record::class.java).notEqualTo("dtCreated", -1L).count()
-                l("totalSize : $totalSize")
+                totalCount = realm.where(Record::class.java).notEqualTo("dtCreated", -1L).count()
+                l("totalCount : $totalCount")
 
                 val latestRecords = realm.where(Record::class.java)
                         .notEqualTo("dtCreated", -1L)
@@ -115,7 +120,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             override fun onProgressUpdate(vararg text: String) {}
             override fun onPostExecute(result: String?) {
                 if(viewMode == ViewMode.OPENED) {
-
+                    totalRecordsText.text = String.format(str(R.string.total_records), totalCount)
                 }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
@@ -138,12 +143,12 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     val animList = ArrayList<Animator>()
                     animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX",  profileBtn.scaleX, profileViewScale))
                     animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY",  profileBtn.scaleY, profileViewScale))
-                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(1f)))
+                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(0.5f)))
                     MainActivity.getMainPanel()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "translationX", 0f, panelOffset))
-                        animList.add(ObjectAnimator.ofFloat(it, "radius", 0f, zOffset / 2))
+                        animList.add(ObjectAnimator.ofFloat(it, "radius", 0f, dpToPx(6f)))
                     }
                     animSet.playTogether(animList)
                     animSet.duration = animDur
@@ -154,8 +159,8 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             TransitionManager.beginDelayedTransition(profileBtn, transiion)
             (profileBtn.layoutParams as LayoutParams).let {
                 it.gravity = Gravity.LEFT
-                it.topMargin = profileOpenMargin
-                it.leftMargin = profileOpenMargin
+                it.topMargin = profileOpenTopMargin
+                it.leftMargin = profileOpenLeftMargin
             }
             (profileCard.layoutParams as LayoutParams).setMargins(0, 0, 0, 0)
             profileBtn.requestLayout()
