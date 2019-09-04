@@ -32,7 +32,7 @@
                     android:textColor="@color/disableText"
                     android:gravity="center"
                     android:fontFamily="@font/bold"
-                    android:text="C A L E N D A R"/>
+                    android:text="@string/calendar"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -42,7 +42,7 @@
                     android:textColor="@color/disableText"
                     android:gravity="center"
                     android:fontFamily="@font/bold"
-                    android:text="K E E P"/>
+                    android:text="@string/keep"/>
 
             </LinearLayout>
 
@@ -114,8 +114,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="50dp"
                 android:layout_height="4dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
                 app:cardBackgroundColor="@color/line"
                 app:cardElevation="0dp"

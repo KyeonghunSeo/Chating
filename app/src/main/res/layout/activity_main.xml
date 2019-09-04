@@ -45,7 +45,7 @@
                 <FrameLayout
                     android:id="@+id/headerLy"
                     android:layout_width="match_parent"
-                    android:layout_height="72dp"
+                    android:layout_height="50dp"
                     android:elevation="20dp"
                     android:clipChildren="false">
 
@@ -72,7 +72,7 @@
                             android:id="@+id/mainYearText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="5dp"
                             android:layout_gravity="center_vertical"
                             android:fontFamily="@font/thin"
                             android:textSize="18dp"/>
@@ -133,7 +133,7 @@
                                 android:textColor="@color/primaryText"
                                 android:layout_gravity="center_vertical"
                                 android:fontFamily="@font/bold"
-                                android:text="@string/today_c"/>
+                                android:text="@string/today"/>
 
                             <ImageView
                                 android:id="@+id/todayRightArrow"
@@ -310,11 +310,11 @@
             android:id="@+id/profileCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="13dp"
+            android:layout_margin="12dp"
             android:layout_gravity="center"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardElevation="0dp"
-            app:cardCornerRadius="12dp">
+            app:cardCornerRadius="14dp">
 
             <ImageView
                 android:id="@+id/profileImg"

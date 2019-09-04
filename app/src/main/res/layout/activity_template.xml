@@ -8,16 +8,16 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="50dp">
 
         <ImageView
             android:id="@+id/deleteBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:layout_gravity="center_vertical|right"
             android:src="@drawable/more"
-            android:padding="12dp"
+            android:padding="14dp"
             android:background="?android:attr/selectableItemBackground"/>
 
     </FrameLayout>
@@ -26,7 +26,7 @@
         android:id="@+id/topShadow"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:visibility="gone"
         android:background="@drawable/line_top_shadow"/>
 
@@ -34,7 +34,7 @@
         android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="50dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -46,8 +46,8 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp">
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp">
 
                 <EditText
                     android:id="@+id/titleInput"
@@ -55,21 +55,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="68dp"
                     android:maxLines="3"
-                    android:textSize="40dp"
+                    android:textSize="26dp"
                     android:hint="@string/template_title"
                     android:textColorHint="@color/disableText"
                     android:background="@drawable/blank"
                     android:fontFamily="@font/bold"/>
-
-                <ImageView
-                    android:id="@+id/iconImg"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="right"
-                    android:background="@drawable/circle_fill"
-                    android:padding="15dp"
-                    android:tint="@color/white"
-                    android:src="@drawable/calendar"/>
 
             </FrameLayout>
 

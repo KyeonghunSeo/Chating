@@ -62,10 +62,16 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         recyclerView.adapter = adapter
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
 
+        bottomSheet.setOnClickListener { collapse() }
         setOnTouchListener { view, motionEvent ->
-            if(MainActivity.isProfileOpened() && motionEvent.action == MotionEvent.ACTION_DOWN) {
-                MainActivity.closeProfileView()
-                return@setOnTouchListener false
+            if(motionEvent.action == MotionEvent.ACTION_DOWN) {
+                if(MainActivity.isProfileOpened()) {
+                    MainActivity.closeProfileView()
+                    return@setOnTouchListener true
+                }else if(isExpanded()) {
+                    collapse()
+                    return@setOnTouchListener true
+                }
             }
             return@setOnTouchListener super.onTouchEvent(motionEvent)
         }
@@ -228,7 +234,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun hiddened() {
-        adapter.mode = 1
+        adapter.mode = 0
         MainActivity.instance?.clearCalendarHighlight()
     }
 

@@ -260,7 +260,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private fun setDateText() {
         dateText.text = String.format("%01d", targetCal.get(Calendar.DATE))
-        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
+        dowText.text = AppDateFormat.dow.format(targetCal.time)
         DateInfoManager.getHoliday(dateInfo, targetCal)
         color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
             CalendarManager.sundayColor
@@ -287,7 +287,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun show(dataSize: Int) {
         val dataAlpha = if(dataSize == 0) 0f else 1f
-        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
+        dowText.text = AppDateFormat.dow.format(targetCal.time)
         val animSet = AnimatorSet()
         animSet.playTogether(
                 ObjectAnimator.ofFloat(previewDataImg, "alpha", 1f, 0f),
@@ -314,7 +314,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun hide(dataSize: Int) {
         val dataAlpha = if(dataSize == 0) 0f else 1f
-        dowText.text = AppDateFormat.dowfullEng.format(targetCal.time)
+        dowText.text = AppDateFormat.dow.format(targetCal.time)
         contentLy.visibility = View.GONE
         val animSet = AnimatorSet()
         animSet.playTogether(

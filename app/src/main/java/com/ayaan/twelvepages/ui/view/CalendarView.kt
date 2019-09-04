@@ -229,7 +229,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val alpha = if(isInMonth) 1f else AppStatus.outsideMonthAlpha
             v.dateLy.alpha = alpha
             v.dateText.text = String.format("%01d", tempCal.get(Calendar.DATE))
-            v.dowText.text = AppDateFormat.dowEng.format(tempCal.time)
+            v.dowText.text = AppDateFormat.simpleDow.format(tempCal.time)
             v.bar.scaleY = 0f
             initViews()
         }

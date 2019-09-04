@@ -20,7 +20,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="200dp">
+                android:layout_marginTop="220dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -127,39 +127,58 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/aboutUsBtn"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primaryText"
+            android:textSize="24dp"
+            android:text="C A L U A"
+            android:fontFamily="@font/bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/primaryText"
+            android:textSize="14dp"
+            android:text="Diary"
+            android:fontFamily="@font/bold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
         android:layout_gravity="right">
-
-        <ImageView
-            android:id="@+id/aboutUsBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="13dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/bookmark"
-            android:tint="@color/secondaryText"/>
 
         <ImageView
             android:id="@+id/settingsBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="13dp"
+            android:padding="14dp"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/setting"
-            android:tint="@color/secondaryText"/>
+            android:tint="@color/primaryText"/>
 
         <ImageView
             android:id="@+id/searchBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="13dp"
+            android:padding="14dp"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/search"
-            android:tint="@color/secondaryText"/>
+            android:tint="@color/primaryText"/>
 
     </LinearLayout>
 

@@ -39,12 +39,12 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private val scale = 0.7f
     private val animDur = 300L
     private val profileCloseMargin = dpToPx(14)
-    private val profileOpenTopMargin = dpToPx(35)
+    private val profileOpenTopMargin = dpToPx(60)
     private val profileOpenLeftMargin = dpToPx(22)
-    private val profileCardRadius = dpToPx(12f)
+    private val profileCardRadius = dpToPx(14f)
     private val zOffset = dpToPx(30f)
     private val panelOffset = dpToPx(200f)
-    private val profileViewScale = 3.0f
+    private val profileViewScale = 2.7f
     var viewMode = ViewMode.CLOSED
 
     init {
@@ -143,7 +143,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     val animList = ArrayList<Animator>()
                     animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX",  profileBtn.scaleX, profileViewScale))
                     animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY",  profileBtn.scaleY, profileViewScale))
-                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(0.5f)))
+                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(25f)))
                     MainActivity.getMainPanel()?.let {
                         animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, scale))
                         animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))

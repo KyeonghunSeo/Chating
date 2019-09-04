@@ -161,7 +161,6 @@ class MainActivity : BaseActivity() {
             viewModel.targetTime.value = dateInfoHolder.time
             viewModel.targetCalendarView.value = calendarView
             if(openDayView && dayPager.viewMode == ViewMode.CLOSED) dayPager.show()
-            if(templateView.isExpanded()) expandControlView(dateInfoHolder.time, dateInfoHolder.time)
             refreshTodayView(calendarView.todayStatus)
         }
     }
@@ -457,7 +456,7 @@ class MainActivity : BaseActivity() {
             //mainYearText.text = AppDateFormat.year.format(it.time)
             mainYearText.text = "${it.get(Calendar.YEAR)}"
             //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
-            mainMonthText.text = AppDateFormat.monthEng.format(it.time)
+            mainMonthText.text = AppDateFormat.month.format(it.time)
         }
     }
 
@@ -526,6 +525,7 @@ class MainActivity : BaseActivity() {
             calendarPager.onDrag(event)
         }
     }
+
 
     fun endDrag() { calendarPager.endDrag() }
     fun clearCalendarHighlight() { calendarPager.clearHighlight() }
@@ -652,7 +652,7 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         val lastBackupTime = Prefs.getLong("last_backup_time", 0L)
-        if(lastBackupTime < System.currentTimeMillis() - DAY_MILL * 7) {
+        if(lastBackupTime < System.currentTimeMillis() - DAY_MILL * 1) {
             backupDB(null, null)
         }
     }
