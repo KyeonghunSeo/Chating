@@ -66,7 +66,7 @@ class NoteView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     fun notifyDataChanged() {
         MainActivity.getTargetFolder().let { folder ->
-            folderNameText.text = "Keep"
+            folderNameText.text = folder.name
             folderNameText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             recordList?.removeAllChangeListeners()
             recordList = RecordManager.getRecordList(folder)

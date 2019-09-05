@@ -16,7 +16,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.LinearLayout.HORIZONTAL
 import androidx.core.app.ActivityCompat
@@ -27,12 +26,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
-import com.ayaan.twelvepages.adapter.DateDecorationAdapter
+import com.ayaan.twelvepages.adapter.DecorationItemsAdapter
 import com.ayaan.twelvepages.adapter.RecordListAdapter
 import com.ayaan.twelvepages.adapter.util.ListDiffCallback
 import com.ayaan.twelvepages.adapter.util.RecordListComparator
 import com.ayaan.twelvepages.manager.*
-import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
@@ -100,7 +98,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }
     }
 
-    private val decoAdapter = DateDecorationAdapter(context, decoList) { view, item, action ->
+    private val decoAdapter = DecorationItemsAdapter(context, decoList) { view, item, action ->
         MainActivity.instance?.let { activity ->
             showDialog(PopupOptionDialog(activity,
                     arrayOf(PopupOptionDialog.Item(str(R.string.edit), R.drawable.edit, AppTheme.primaryText),
@@ -132,7 +130,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         //dateText.typeface = AppTheme.regularFont
         fakeDateText.typeface = AppTheme.regularFont
         dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-        holiText.typeface = AppTheme.regularFont
+        holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
         dateLy.clipChildren = false
         dateLy.pivotX = 0f
         dateLy.pivotY = 0f
@@ -446,10 +444,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     companion object {
         const val headerTextScale = 4.5f
-        const val mainMonthTextScale = 0.78f
+        //const val mainMonthTextScale = 0.78f
+        const val mainMonthTextScale = 1.0f
 
         val datePosX = -dpToPx(0.0f)
-        val datePosY = dpToPx(20.0f)
+        val datePosY = dpToPx(25.0f)
 
         val dowPosX = dpToPx(1.0f) / headerTextScale
         val holiPosX = dpToPx(2.0f) / headerTextScale

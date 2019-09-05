@@ -239,6 +239,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             targetDateHolder = this
             //v.dateText.typeface = AppTheme.regularFont
             v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            v.holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.text = dateInfo.getSelectedString()
 
             color = getDateTextColor(cellNum, dateInfo.holiday?.isHoli == true, true)

@@ -63,6 +63,29 @@
 
             </FrameLayout>
 
+            <FrameLayout
+                android:id="@+id/symbolBtn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="14dp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:text="@string/symbol"/>
+
+                <ImageView
+                    android:id="@+id/symbalImg"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right|center_vertical"/>
+
+            </FrameLayout>
+
             <com.ayaan.twelvepages.ui.view.TagView
                 android:id="@+id/tagView"
                 android:layout_width="match_parent"

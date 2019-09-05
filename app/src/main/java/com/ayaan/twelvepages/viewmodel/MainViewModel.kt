@@ -209,6 +209,7 @@ class MainViewModel : ViewModel() {
     private fun makeTimeObjectByTatgetTemplate(targetFolder: Folder?, startTime: Long, endTime: Long) =
             RecordManager.makeNewRecord(startTime, endTime).apply {
                 targetTemplate.value?.let {
+                    symbol = it.symbol
                     title = it.recordTitle ?: ""
                     type = it.type
                     style = it.style

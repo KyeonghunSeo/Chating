@@ -124,11 +124,11 @@
     <string name="enter_tag">태그 이름</string>
     <string name="no_tag">태그없음</string>
     <string name="delete_tag_sub">이 태그가 붙어있는 모든 기록(총 %1$s개)에서 해당 태그가 삭제됩니다.</string>
-    <string name="keep">Keep</string>
+    <string name="keep">보관함</string>
     <string name="attachment">첨부</string>
     <string name="edit_template">템플릿 편집</string>
     <string name="show_in_calendar">캘린더에 게시</string>
-    <string name="delete_template">템플릿을 삭제해도 템플릿으로 기록한 데이터는 유지됩니다.</string>
+    <string name="delete_template">이 템플릿을 삭제 하시겠습니까?</string>
     <string name="delete_something">%1$s 삭제</string>
     <string name="template_title">템플릿 이름</string>
     <string name="show">표시</string>
@@ -369,6 +369,7 @@
     <string name="init_loading_text">다이어리를 구성중 입니다.\n잠시만 기다려주세요…</string>
     <string name="upgrade_premium">업그레이드</string>
     <string name="total_records">총 %1$s개의 기록</string>
+    <string name="symbol">심볼</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

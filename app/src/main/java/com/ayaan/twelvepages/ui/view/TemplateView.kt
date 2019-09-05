@@ -92,6 +92,15 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         })
 
+        editBtn.setOnClickListener {
+            if(adapter.mode == 0) {
+                adapter.mode = 1
+            }else {
+                adapter.mode = 0
+            }
+            adapter.notifyDataSetChanged()
+        }
+
         calendarBtn.setOnClickListener {
             if(MainActivity.getTargetFolder().id == "calendar") {
                 MainActivity.getTargetTime()?.let { expand(it, it) }

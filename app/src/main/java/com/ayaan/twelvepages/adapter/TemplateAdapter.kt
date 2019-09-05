@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.manager.ColorManager
+import com.ayaan.twelvepages.manager.SymbolManager
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.setGlobalTheme
 import io.realm.Realm
@@ -28,7 +29,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
 
     var mode = 0
 
-    override fun getItemCount(): Int = items.size + 1
+    override fun getItemCount(): Int = items.size + mode
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
@@ -56,11 +57,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             //v.colorImg.setBackgroundColor(color)
             //v.colorImg.setColorFilter(ColorManager.getFontColor(color))
             v.colorImg.setColorFilter(color)
-            when{
-                template.isSetCheckBox() -> v.colorImg.setImageResource(R.drawable.check)
-                template.isScheduled() -> v.colorImg.setImageResource(R.drawable.schedule)
-                else -> v.colorImg.setImageResource(R.drawable.note)
-            }
+            v.colorImg.setImageResource(SymbolManager.getSymbolResId(template.symbol))
             v.setOnClickListener { adapterInterface.invoke(template, mode) }
         }else {
             v.contentLy.alpha = 0.3f

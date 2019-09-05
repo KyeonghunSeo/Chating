@@ -55,7 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_marginTop="0dp"
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginLeft="50dp"
                         android:animateLayoutChanges="true"
                         android:background="?android:attr/selectableItemBackground"
                         android:clipChildren="false">
@@ -248,8 +248,7 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/main_top_profile_background"/>
+                        android:layout_height="match_parent"/>
 
                 </FrameLayout>
 
@@ -302,15 +301,14 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="0dp"
-        android:layout_marginRight="2dp"
-        android:layout_gravity="right"
+        android:layout_marginLeft="1dp"
         android:elevation="30dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/profileCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="12dp"
+            android:layout_margin="13dp"
             android:layout_gravity="center"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardElevation="0dp"

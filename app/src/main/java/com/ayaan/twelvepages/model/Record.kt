@@ -17,6 +17,7 @@ import java.util.*
 open class Record(@PrimaryKey var id: String? = null,
                   var type: Int = 0,
                   var style: Int = STACK.shapes[Random().nextInt(STACK.shapes.size)].ordinal * 100 + STACK.ordinal,
+                  var symbol: String? = null,
                   var title: String? = null,
                   var isSetTime: Boolean = false,
                   var isSetCheckBox: Boolean = false,
@@ -99,6 +100,7 @@ open class Record(@PrimaryKey var id: String? = null,
         id = data.id
         type = data.type
         style = data.style
+        symbol = data.symbol
         title = data.title
         isSetTime = data.isSetTime
         isSetCheckBox = data.isSetCheckBox
@@ -135,7 +137,7 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     override fun toString(): String {
-        return "Record(id=$id, type=$type, style=$style, title=$title, isSetTime=$isSetTime, isSetCheckBox=$isSetCheckBox, " +
+        return "Record(id=$id, type=$type, style=$style, symbol=$symbol, title=$title, isSetTime=$isSetTime, isSetCheckBox=$isSetCheckBox, " +
                 "colorKey=$colorKey, location=$location, description=$description, repeat=$repeat, " +
                 "dtUntil=$dtUntil, dtStart=$dtStart, dtEnd=$dtEnd, " +
                 "dtDone=$dtDone, dtCreated=$dtCreated, dtUpdated=$dtUpdated, timeZone=$timeZone, " +
@@ -149,6 +151,7 @@ open class Record(@PrimaryKey var id: String? = null,
             return id == other.id
                     && type == other.type
                     && style == other.style
+                    && symbol == other.symbol
                     && title == other.title
                     && isSetTime == other.isSetTime
                     && isSetCheckBox == other.isSetCheckBox

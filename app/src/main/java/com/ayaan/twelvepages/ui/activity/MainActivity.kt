@@ -138,7 +138,7 @@ class MainActivity : BaseActivity() {
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
         mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        mainDateLy.pivotX = dpToPx(20f)
+        mainDateLy.pivotX = 0f
         mainDateLy.pivotY = dpToPx(25f)
         mainPanel.setOnClickListener {}
         callAfterViewDrawed(rootLy, Runnable{
@@ -454,9 +454,13 @@ class MainActivity : BaseActivity() {
             mainMonthText.setTextColor(AppTheme.primaryText)
             mainYearText.setTextColor(AppTheme.primaryText)
             //mainYearText.text = AppDateFormat.year.format(it.time)
-            mainYearText.text = "${it.get(Calendar.YEAR)}"
+            mainYearText.text = ""
             //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
-            mainMonthText.text = AppDateFormat.month.format(it.time)
+            if(it.get(Calendar.YEAR) == getCurrentYear()) {
+                mainMonthText.text = AppDateFormat.month.format(it.time)
+            }else {
+                mainMonthText.text = AppDateFormat.ym.format(it.time)
+            }
         }
     }
 

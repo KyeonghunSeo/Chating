@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.pager_item_photo.view.*
 
-class ColorPagerAdapter(private val context: Context, private val items: List<Link>, private val photoSize: Int,
+class PhotoPagerAdapter(private val context: Context, private val items: List<Link>, private val photoSize: Int,
                         private val cardMargin: Int) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {

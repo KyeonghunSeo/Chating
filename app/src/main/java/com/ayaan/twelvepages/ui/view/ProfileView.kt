@@ -38,13 +38,13 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private val scale = 0.7f
     private val animDur = 300L
-    private val profileCloseMargin = dpToPx(14)
+    private val profileCloseMargin = dpToPx(13)
     private val profileOpenTopMargin = dpToPx(60)
     private val profileOpenLeftMargin = dpToPx(22)
-    private val profileCardRadius = dpToPx(14f)
+    private val profileCardRadius = dpToPx(12f)
     private val zOffset = dpToPx(30f)
     private val panelOffset = dpToPx(200f)
-    private val profileViewScale = 2.7f
+    private val profileViewScale = 2.5f
     var viewMode = ViewMode.CLOSED
 
     init {
@@ -158,7 +158,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             })
             TransitionManager.beginDelayedTransition(profileBtn, transiion)
             (profileBtn.layoutParams as LayoutParams).let {
-                it.gravity = Gravity.LEFT
                 it.topMargin = profileOpenTopMargin
                 it.leftMargin = profileOpenLeftMargin
             }
@@ -198,9 +197,8 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             })
             TransitionManager.beginDelayedTransition(profileBtn, transiion)
             (profileBtn.layoutParams as LayoutParams).let {
-                it.gravity = Gravity.RIGHT
                 it.topMargin = 0
-                it.leftMargin = 0
+                it.leftMargin = dpToPx(1)
             }
             (profileCard.layoutParams as LayoutParams).setMargins(profileCloseMargin, profileCloseMargin, profileCloseMargin, profileCloseMargin)
             profileCard.requestLayout()

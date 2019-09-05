@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.widget.NestedScrollView
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.ColorManager
+import com.ayaan.twelvepages.manager.SymbolManager
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.dialog.*
 import com.ayaan.twelvepages.ui.view.RecordView
@@ -55,6 +56,7 @@ class TemplateActivity : BaseActivity() {
         l(template.toString())
 
         updateCalendarBlockStyleUI()
+        updateSymbolUI()
         updateAlarmUI()
         updateMemoUI()
         updateCheckBoxUI()
@@ -75,6 +77,16 @@ class TemplateActivity : BaseActivity() {
                 updateCalendarBlockStyleUI()
                 updateColorUI()
             }, true, true, true, false)
+        }
+    }
+
+    private fun updateSymbolUI() {
+        symbalImg.setImageResource(SymbolManager.getSymbolResId(template.symbol))
+        symbolBtn.setOnClickListener {
+            SymbolPickerDialog(template.symbol){
+                template.symbol = it.name
+                symbalImg.setImageResource(SymbolManager.getSymbolResId(template.symbol))
+            }.show(supportFragmentManager, null)
         }
     }
 

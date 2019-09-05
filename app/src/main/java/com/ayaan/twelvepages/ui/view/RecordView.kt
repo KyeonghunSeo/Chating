@@ -12,12 +12,10 @@ import android.widget.TextView
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.App.Companion.resource
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
-import com.ayaan.twelvepages.manager.StampManager
+import com.ayaan.twelvepages.manager.SymbolManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import android.graphics.DashPathEffect
-import android.widget.LinearLayout
-import androidx.core.graphics.ColorUtils
 import com.ayaan.twelvepages.adapter.util.RecordListComparator
 import com.ayaan.twelvepages.manager.ColorManager
 
@@ -533,7 +531,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             circle.setBounds(left, top, left + size, top + size)
             circle.draw(canvas)
 
-            val stamp = resource.getDrawable(StampManager.stamps[0])
+            val stamp = resource.getDrawable(SymbolManager.stamps[0])
             stamp.setColorFilter(ColorManager.getFontColor(child.getColor()), PorterDuff.Mode.SRC_ATOP)
             stamp.setBounds(left + margin, top + margin, left + size - margin, top + size - margin)
             stamp.draw(canvas)

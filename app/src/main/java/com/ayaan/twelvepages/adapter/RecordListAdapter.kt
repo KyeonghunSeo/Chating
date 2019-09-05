@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.manager.RecordManager
+import com.ayaan.twelvepages.manager.SymbolManager
 import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
@@ -149,7 +150,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             }
         }else {
             v.iconImg.setPadding(circlePadding, circlePadding, circlePadding, circlePadding)
-            v.iconImg.setImageResource(R.drawable.circle_fill)
+            v.iconImg.setImageResource(SymbolManager.getSymbolResId(record.symbol))
             v.contentLy.alpha = 1f
             v.iconImg.setOnClickListener(null)
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())

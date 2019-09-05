@@ -9,7 +9,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import com.ayaan.twelvepages.alarm.AlarmManager
 import com.pixplicity.easyprefs.library.Prefs
 import es.dmoral.toasty.Toasty
-import io.realm.Realm
+import io.realm.*
 
 class App : Application() {
     companion object {
@@ -22,6 +22,7 @@ class App : Application() {
         super.onCreate()
         context = this
         resource = resources
+        initRealm()
         Prefs.Builder()
                 .setContext(this)
                 .setMode(ContextWrapper.MODE_PRIVATE)
@@ -31,7 +32,6 @@ class App : Application() {
         AppDateFormat.init(this)
         AppStatus.init(this)
         AppTheme.init(this)
-        Realm.init(this)
         AlarmManager.init(this)
         Fresco.initialize(this)
         Toasty.Config.getInstance()
@@ -40,5 +40,15 @@ class App : Application() {
                 .setTextSize(14)
                 .allowQueue(false)
                 .apply()
+    }
+
+    private fun initRealm() {
+        Realm.init(this)
+        val config = RealmConfiguration.Builder()
+                .schemaVersion(1)
+                .migration { realm, oldVersion, newVersion ->
+                    val schema = realm.schema
+                }.build()
+        Realm.setDefaultConfiguration(config)
     }
 }
