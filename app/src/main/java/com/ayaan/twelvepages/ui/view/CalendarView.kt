@@ -475,6 +475,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun onViewEffect(cellNum: Int) {
         timeObjectCalendarAdapter.getViewsAtStart(cellNum).let {
             it.forEach { view ->
+                //view.setTypeface(AppTheme.boldFont, Typeface.BOLD)
                 view.ellipsize = TextUtils.TruncateAt.MARQUEE
                 view.marqueeRepeatLimit = -1
                 view.isFocusable = true
@@ -488,6 +489,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun offViewEffect(cellNum: Int) {
         timeObjectCalendarAdapter.getViewsAtStart(cellNum).let {
             it.forEach { view ->
+                //view.typeface = AppTheme.regularFont
                 view.ellipsize = null
                 view.isSelected = false
             }

@@ -453,13 +453,11 @@ class MainActivity : BaseActivity() {
         getTargetCal()?.let {
             mainMonthText.setTextColor(AppTheme.primaryText)
             mainYearText.setTextColor(AppTheme.primaryText)
-            //mainYearText.text = AppDateFormat.year.format(it.time)
-            mainYearText.text = ""
-            //mainMonthText.text = String.format("%01d", (it.get(Calendar.MONTH) + 1))
+            mainMonthText.text = AppDateFormat.month.format(it.time)
             if(it.get(Calendar.YEAR) == getCurrentYear()) {
-                mainMonthText.text = AppDateFormat.month.format(it.time)
+                mainYearText.text = ""
             }else {
-                mainMonthText.text = AppDateFormat.ym.format(it.time)
+                mainYearText.text = it.get(Calendar.YEAR).toString()
             }
         }
     }

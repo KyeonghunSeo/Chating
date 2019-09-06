@@ -63,7 +63,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
 
         bottomSheet.setOnClickListener { collapse() }
-        setOnTouchListener { view, motionEvent ->
+        setOnTouchListener { _, motionEvent ->
             if(motionEvent.action == MotionEvent.ACTION_DOWN) {
                 if(MainActivity.isProfileOpened()) {
                     MainActivity.closeProfileView()

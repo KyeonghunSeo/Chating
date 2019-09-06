@@ -54,7 +54,7 @@
                     android:id="@+id/addBtn"
                     android:layout_width="75dp"
                     android:layout_height="16dp"
-                    app:cardBackgroundColor="@color/secondaryText"
+                    app:cardBackgroundColor="@color/primaryText"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="0dp">
 
