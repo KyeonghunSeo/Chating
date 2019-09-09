@@ -178,7 +178,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initDayView() {
-        dayPager.onVisibility = { show -> }
+        dayPager.onVisibility = { show ->
+
+        }
     }
 
     private fun initBtns() {
@@ -527,7 +529,6 @@ class MainActivity : BaseActivity() {
             calendarPager.onDrag(event)
         }
     }
-
 
     fun endDrag() { calendarPager.endDrag() }
     fun clearCalendarHighlight() { calendarPager.clearHighlight() }
