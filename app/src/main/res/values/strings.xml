@@ -283,7 +283,7 @@
     <string name="fall">가을</string>
     <string name="winter">겨울</string>
     <string name="now">지금</string>
-    <string name="select_tag">태그달기</string>
+    <string name="select_tag">태그선택</string>
 
     <string name="formula_background">배경</string>
     <string name="formula_stack">한줄</string>

@@ -98,7 +98,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }else {
                 adapter.mode = 0
             }
-            adapter.notifyDataSetChanged()
+            initViews()
         }
 
         calendarBtn.setOnClickListener {
@@ -182,6 +182,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         startCal.timeInMillis = dtStart
         endCal.timeInMillis = dtEnd
         setDate()
+        initViews()
         clipLy.visibility = View.GONE
         addLy.visibility = View.VISIBLE
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -191,6 +192,26 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             MainActivity.getViewModel()?.targetTemplate?.value = null
             MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
         }
+    }
+
+    private fun initViews() {
+        if(MainActivity.getTargetFolder().id == "calendar") {
+            if(adapter.mode == 0) {
+                decoBtns.visibility = View.VISIBLE
+            }else {
+                decoBtns.visibility = View.GONE
+            }
+        }else {
+            decoBtns.visibility = View.GONE
+        }
+
+        if(adapter.mode == 0) {
+            editBtn.text = str(R.string.edit_template)
+        }else {
+            editBtn.text = str(R.string.edit_done)
+        }
+
+        adapter.notifyDataSetChanged()
     }
 
     fun clip(record: Record?) {
@@ -244,6 +265,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun hiddened() {
         adapter.mode = 0
+        adapter.notifyDataSetChanged()
         MainActivity.instance?.clearCalendarHighlight()
     }
 
@@ -255,10 +277,8 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun notifyListChanged() {
         TransitionManager.beginDelayedTransition(addBtn, makeChangeBounceTransition())
         (addBtn.layoutParams as FrameLayout.LayoutParams).gravity = if(MainActivity.getTargetFolder().id == "calendar") {
-            decoBtns.visibility = View.VISIBLE
             Gravity.LEFT
         }else {
-            decoBtns.visibility = View.GONE
             Gravity.RIGHT
         }
         addBtn.requestLayout()
@@ -278,7 +298,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }.start()
         }else {
             filterCurrentFolder(items)
-            adapter.notifyDataSetChanged()
         }
     }
 

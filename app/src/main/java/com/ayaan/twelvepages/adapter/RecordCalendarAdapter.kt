@@ -178,7 +178,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                             computeBottomStackStartPos()
                         }
                         STICKER -> {
-                            addBottomMargin(dpToPx(0f), currentFomula)
+                            addBottomMargin(dpToPx(30f), currentFomula)
                         }
                         else -> {}
                     }

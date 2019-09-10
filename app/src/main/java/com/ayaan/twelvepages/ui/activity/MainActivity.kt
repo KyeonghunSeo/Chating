@@ -453,13 +453,11 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            mainMonthText.setTextColor(AppTheme.primaryText)
-            mainYearText.setTextColor(AppTheme.primaryText)
-            mainMonthText.text = AppDateFormat.month.format(it.time)
+            mainYearText.visibility = View.GONE
             if(it.get(Calendar.YEAR) == getCurrentYear()) {
-                mainYearText.text = ""
+                mainMonthText.text = AppDateFormat.month.format(it.time)
             }else {
-                mainYearText.text = it.get(Calendar.YEAR).toString()
+                mainMonthText.text = AppDateFormat.ym.format(it.time)
             }
         }
     }

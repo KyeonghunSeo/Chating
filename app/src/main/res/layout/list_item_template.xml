@@ -2,31 +2,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
     android:clipChildren="false">
 
     <LinearLayout
         android:id="@+id/contentLy"
         android:orientation="vertical"
-        android:layout_width="55dp"
+        android:layout_width="50dp"
+        android:layout_marginLeft="2.5dp"
+        android:layout_marginRight="2.5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="8dp"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:background="?android:attr/selectableItemBackground"
         android:clipChildren="false">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/colorBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_margin="10dp"
             android:layout_gravity="center_horizontal"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="1dp">
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp">
 
             <ImageView
                 android:id="@+id/colorImg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp"/>
+                android:padding="9dp"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -34,8 +38,9 @@
             android:id="@+id/titleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:gravity="center_horizontal"
-            android:textSize="12dp"
+            android:textSize="11dp"
             android:maxLines="2"
             android:ellipsize="end"
             android:textColor="@color/primaryText"

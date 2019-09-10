@@ -79,7 +79,7 @@
 
     </LinearLayout>
 
-    <include layout="@layout/view_selected_date_header" />
+    <include layout="@layout/view_date_cell_header" />
 
     <ImageView
         android:id="@+id/previewDataImg"

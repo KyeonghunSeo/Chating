@@ -47,7 +47,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                         val showFooter: Boolean, val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val circlePadding = dpToPx(15)
+    val circlePadding = dpToPx(5)
     val checkBoxPadding = dpToPx(10)
     var itemTouchHelper: ItemTouchHelper? = null
     var query: String? = null

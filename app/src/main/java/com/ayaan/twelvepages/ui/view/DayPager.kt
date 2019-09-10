@@ -25,7 +25,7 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.view.base.PagingControlableViewPager
-import kotlinx.android.synthetic.main.view_selected_date_header.view.*
+import kotlinx.android.synthetic.main.view_date_cell_header.view.*
 import java.util.*
 
 

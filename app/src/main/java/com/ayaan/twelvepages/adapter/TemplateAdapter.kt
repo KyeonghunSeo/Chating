@@ -46,11 +46,12 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         val v = holder.itemView
         if(position < items.size) {
             val template = items[position]
-            v.contentLy.alpha = 1f
             if(mode == 0) {
-
+                v.contentLy.alpha = 1f
+                v.contentLy.setBackgroundResource(R.drawable.blank)
             }else {
-
+                v.contentLy.alpha = 0.5f
+                v.contentLy.setBackgroundResource(R.drawable.edit_mode_background_dash)
             }
             v.titleText.text = template.title
             val color = ColorManager.getColor(template.colorKey)
@@ -60,7 +61,9 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             v.colorImg.setImageResource(SymbolManager.getSymbolResId(template.symbol))
             v.setOnClickListener { adapterInterface.invoke(template, mode) }
         }else {
-            v.contentLy.alpha = 0.3f
+            v.contentLy.alpha = 0.5f
+            v.contentLy.setBackgroundResource(R.drawable.blank)
+            v.colorImg.setImageResource(R.drawable.add)
             v.titleText.text = context.getString(R.string.new_template)
             v.colorImg.setBackgroundColor(AppTheme.background)
             v.colorImg.setColorFilter(AppTheme.primaryText)

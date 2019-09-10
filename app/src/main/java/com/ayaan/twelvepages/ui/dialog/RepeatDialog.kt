@@ -42,6 +42,7 @@ class RepeatDialog(private val activity: Activity, record: Record,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //getScreenSize(context)[0] - dpToPx(50)
         setContentView(R.layout.dialog_repeat)
         setGlobalTheme(rootLy)
         setLayout()

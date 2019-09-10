@@ -43,7 +43,7 @@ import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
 import kotlinx.android.synthetic.main.view_day.view.*
-import kotlinx.android.synthetic.main.view_selected_date_header.view.*
+import kotlinx.android.synthetic.main.view_date_cell_header.view.*
 import java.util.*
 import java.util.Calendar.SATURDAY
 import java.util.Calendar.SUNDAY

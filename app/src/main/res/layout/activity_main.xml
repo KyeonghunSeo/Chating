@@ -66,6 +66,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:fontFamily="@font/bold"
+                            android:textColor="@color/primaryText"
                             android:textSize="18dp"/>
 
                         <TextView
@@ -74,8 +75,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/thin"
-                            android:textSize="16dp"/>
+                            android:fontFamily="@font/bold"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="17dp"/>
 
                     </LinearLayout>
 

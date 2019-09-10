@@ -8,20 +8,22 @@
        android:id="@+id/contentLy"
        android:orientation="horizontal"
        android:layout_width="wrap_content"
-       android:layout_height="16dp"
-       android:background="@drawable/normal_rect_stroke"
+       android:layout_height="26dp"
+       android:background="@drawable/edit_tag"
        android:foreground="?android:attr/selectableItemBackground"
        android:gravity="center_vertical"
        android:layout_marginRight="5dp"
-       android:layout_marginBottom="5dp">
+       android:layout_marginBottom="5dp"
+       android:paddingLeft="4dp"
+       android:paddingRight="4dp">
 
       <TextView
           android:id="@+id/tagText"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="7dp"
-          android:layout_marginRight="7dp"
-          android:textSize="10dp"
+          android:layout_marginLeft="4dp"
+          android:layout_marginRight="4dp"
+          android:textSize="12dp"
           android:layout_gravity="center"
           android:maxLines="1"
           android:gravity="center_vertical"
@@ -30,9 +32,14 @@
 
       <ImageView
           android:id="@+id/deleteBtn"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"/>
+          android:layout_width="26dp"
+          android:layout_height="26dp"
+          android:background="?android:attr/selectableItemBackground"
+          android:padding="5dp"
+          android:src="@drawable/delete_circle"
+          android:tint="@color/iconTint"/>
 
    </LinearLayout>
 
 </FrameLayout>
+

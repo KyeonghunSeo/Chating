@@ -6,14 +6,16 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.model.Tag
 import com.ayaan.twelvepages.setGlobalTheme
 import com.xiaofeng.flowlayoutmanager.Alignment
 import com.xiaofeng.flowlayoutmanager.FlowLayoutManager
-import kotlinx.android.synthetic.main.list_item_tag.view.*
+import kotlinx.android.synthetic.main.list_item_tag_edit.view.*
 
 class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : RecyclerView(context, attrs, defStyleAttr) {
@@ -84,37 +86,51 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     inner class Adapter : RecyclerView.Adapter<ViewHolder>() {
-        override fun getItemCount(): Int = items.size + if(mode == MODE_EDIT || mode == MODE_NORMAL) 1 else 0
+        override fun getItemCount(): Int = items.size + if(mode == MODE_EDIT) 1 else 0
 
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {
                 setGlobalTheme(container)
-                container.layoutParams.height = tagSize
+                //container.layoutParams.height = tagSize
             }
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_tag, parent, false))
+        override fun onCreateViewHolder(parent: ViewGroup, position: Int) : ViewHolder{
+            return if(mode == MODE_NORMAL) {
+                ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_tag, parent, false))
+            }else {
+                ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_tag_edit, parent, false))
+            }
+        }
+
 
         @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val v = holder.itemView
+
             if(position < items.size) {
                 val tag = items[position]
-                v.contentLy.setBackgroundResource(R.drawable.normal_rect_stroke)
                 when(mode) {
                     MODE_NORMAL -> {
+                        v.contentLy.setBackgroundResource(R.drawable.normal_tag)
+                        v.tagText.setTextColor(AppTheme.background)
                         v.tagText.text = "#${tag.title}"
                         v.contentLy.alpha = 1f
                         v.deleteBtn.visibility = View.GONE
                     }
                     MODE_CHECK, MODE_EDIT -> {
                         if(checkedItems.any { tag.id == it.id }) {
+                            v.contentLy.setBackgroundResource(R.drawable.edit_tag_checked)
+                            v.tagText.setTextColor(AppTheme.background)
+                            v.deleteBtn.setColorFilter(AppTheme.background)
                             v.tagText.text = "#${tag.title}"
                             v.contentLy.alpha = 1f
                         }else {
+                            v.contentLy.setBackgroundResource(R.drawable.edit_tag)
+                            v.tagText.setTextColor(AppTheme.primaryText)
+                            v.deleteBtn.setColorFilter(AppTheme.primaryText)
                             v.tagText.text = "${tag.title}"
-                            v.contentLy.alpha = 0.3f
+                            v.contentLy.alpha = 0.4f
                         }
 
                         if(mode == MODE_EDIT) {
@@ -139,13 +155,13 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     onSelected?.invoke(tag, 0)
                 }
             }else {
-                v.contentLy.setBackgroundResource(R.drawable.edit_dash_rect)
+                v.contentLy.setBackgroundResource(R.drawable.edit_tag_new)
                 if(mode == MODE_NORMAL) {
                     v.tagText.text = context.getString(R.string.select_tag)
                 }else {
                     v.tagText.text = context.getString(R.string.new_tag)
                 }
-                v.contentLy.alpha = 0.3f
+                v.contentLy.alpha = 0.4f
                 v.deleteBtn.visibility = View.GONE
                 v.setOnClickListener {
                     onSelected?.invoke(null, 0)

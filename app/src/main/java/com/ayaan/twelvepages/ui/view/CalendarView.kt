@@ -29,7 +29,7 @@ import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.view.base.CalendarBackground
-import kotlinx.android.synthetic.main.view_selected_date_header.view.*
+import kotlinx.android.synthetic.main.view_date_cell_header.view.*
 import io.realm.RealmResults
 import java.util.*
 
@@ -57,9 +57,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val bottomDivider = View(context)
     private val rowDividers = Array(5) { View(context) }
     private val weekViewHolders = Array(6) { WeekInfoViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.view_selected_week_info, null, false)) }
+            LayoutInflater.from(context).inflate(R.layout.view_week_info, null, false)) }
     val dateCellHolders = Array(maxCellNum) { index -> DateInfoViewHolder(index,
-            LayoutInflater.from(context).inflate(R.layout.view_selected_date_header, null, false) as FrameLayout,
+            LayoutInflater.from(context).inflate(R.layout.view_date_cell_header, null, false) as FrameLayout,
             DateInfoManager.DateInfo()) }
     val recordsViews = Array(maxCellNum) { FrameLayout(context) }
 
@@ -198,7 +198,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             for (j in 0..6) { // 기록 홀더 추가
                 recordsViews[i * 7 + j].let {
                     it.layoutParams = LinearLayout.LayoutParams(0, MATCH_PARENT)
-                    it.clipChildren = false
                     weekLy.addView(it)
                 }
             }

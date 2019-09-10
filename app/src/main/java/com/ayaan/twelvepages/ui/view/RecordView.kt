@@ -83,7 +83,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     var shape = Shape.TEXT
 
     init {
-        setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
+        //setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
         setStyle()
     }
 
@@ -94,6 +94,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         when(formula) {
             BACKGROUND -> {}
             STACK -> {
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
                 setTypeface(AppTheme.regularFont, Typeface.NORMAL)
                 text = record.getTitleInCalendar()
                 gravity = Gravity.LEFT
@@ -109,6 +110,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 gravity = Gravity.LEFT
             }
             EXPANDED -> {
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize - 1)
                 setTypeface(AppTheme.regularFont, Typeface.NORMAL)
                 text = record.getTitleInCalendar()
                 gravity = Gravity.LEFT
@@ -118,6 +120,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 ellipsize = TextUtils.TruncateAt.END
             }
             RANGE -> {
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize + 1)
                 //setTypeface(AppTheme.boldFont, Typeface.BOLD)
                 setTypeface(AppTheme.regularFont, Typeface.NORMAL)
                 text = record.getTitleInCalendar()
@@ -234,10 +237,16 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     fun setLayout() {
         when(formula) {
             STICKER -> layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-            DATE_POINT -> layoutParams = FrameLayout.LayoutParams(datePointSize, datePointSize)
+            DATE_POINT -> layoutParams = FrameLayout.LayoutParams(datePointSize, datePointSize).apply {
+                topMargin = (datePointSize * -0.2f).toInt()
+                leftMargin = (datePointSize * -0.2f).toInt()
+            }
             else -> {
                 layoutParams = FrameLayout.LayoutParams((mRight - mLeft - defaulMargin).toInt(),
-                        (mBottom - mTop - defaulMargin).toInt()).apply { topMargin = mTop.toInt() }
+                        (mBottom - mTop - defaulMargin).toInt()).apply {
+                    topMargin = mTop.toInt()
+                    leftMargin = sidePadding
+                }
             }
         }
     }
@@ -442,7 +451,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 drawArrow(canvas, width, height, width - arrowSize, height - arrowSize, width - arrowSize, height)
             }
             else -> {
-                val periodLine = strokeWidth * 1.4f
+                val periodLine = strokeWidth * 1.2f
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = periodLine
                 if(shape == Shape.DASH || shape == Shape.DASH_ARROW) {
@@ -649,12 +658,12 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     private fun drawDatePoint(canvas: Canvas) {
         val size = datePointSize
-        var top = -size / 2
-        var left = -size / 2
+        var top = 0
+        var left = 0
         childList?.forEach { child ->
             val sticker = child.getSticker()
             val circle = resource.getDrawable(sticker?.resId ?: R.drawable.help, null)
-            circle.alpha = 200
+            circle.alpha = 150
             circle.setBounds(left, top, (left + size), (top + size))
             circle.draw(canvas)
         }

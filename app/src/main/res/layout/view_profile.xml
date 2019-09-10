@@ -139,7 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/primaryText"
-            android:textSize="24dp"
+            android:textSize="20dp"
             android:text="C A L U A"
             android:fontFamily="@font/bold"/>
 
@@ -149,7 +149,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="2dp"
             android:textColor="@color/primaryText"
-            android:textSize="14dp"
+            android:textSize="10dp"
             android:text="Diary"
             android:fontFamily="@font/bold"/>
 

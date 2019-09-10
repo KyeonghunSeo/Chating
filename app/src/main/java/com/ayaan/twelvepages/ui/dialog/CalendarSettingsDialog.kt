@@ -189,13 +189,13 @@ class CalendarSettingsDialog(private val activity: Activity) : BottomSheetDialog
     private fun setWeekLine() {
         when(AppStatus.weekLine) {
             0f -> root.weekLineText.text = str(R.string.unvisible)
-            0.05f -> root.weekLineText.text = str(R.string.thin)
+            0.1f -> root.weekLineText.text = str(R.string.thin)
             else -> root.weekLineText.text = str(R.string.bold)
         }
         root.weekLineBtn.setOnClickListener {
             when(AppStatus.weekLine) {
-                0f -> AppStatus.weekLine = 0.05f
-                0.05f -> AppStatus.weekLine = 0.3f
+                0f -> AppStatus.weekLine = 0.1f
+                0.1f -> AppStatus.weekLine = 0.5f
                 else -> AppStatus.weekLine = 0f
             }
             Prefs.putFloat("weekLine", AppStatus.weekLine)

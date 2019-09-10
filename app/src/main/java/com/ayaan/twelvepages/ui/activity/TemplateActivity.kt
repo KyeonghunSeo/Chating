@@ -27,10 +27,11 @@ class TemplateActivity : BaseActivity() {
             else topShadow.visibility = View.GONE
         }
 
-        deleteBtn.setOnClickListener {
+        backBtn.setOnClickListener { onBackPressed() }
+        moreBtn.setOnClickListener {
             showDialog(PopupOptionDialog(this@TemplateActivity,
                     arrayOf(PopupOptionDialog.Item(getString(R.string.delete), R.drawable.delete, AppTheme.red)),
-                    deleteBtn, false) { index ->
+                    moreBtn, false) { index ->
                 if(index == 0) {
                     showDialog(CustomDialog(this@TemplateActivity,
                             getString(R.string.delete),
@@ -184,14 +185,22 @@ class TemplateActivity : BaseActivity() {
     }
 
     private fun updateTagUI() {
-        tagView.setItems(template.tags, null)
-        tagView.onSelected = { _, _ ->
-            showDialog(TagDialog(this@TemplateActivity, ArrayList(template.tags)) { tags ->
-                template.tags.clear()
-                template.tags.addAll(tags)
-                updateTagUI()
-            }, true, true, true, false)
+        if(template.tags.isEmpty()) {
+            tagBtn.visibility = View.VISIBLE
+            tagBtn.setOnClickListener { showTagDialog() }
+        }else {
+            tagBtn.visibility = View.GONE
         }
+        tagView.setItems(template.tags, null)
+        tagView.onSelected = { _, _ -> showTagDialog() }
+    }
+
+    private fun showTagDialog() {
+        showDialog(TagDialog(this@TemplateActivity, ArrayList(template.tags)) { tags ->
+            template.tags.clear()
+            template.tags.addAll(tags)
+            updateTagUI()
+        }, true, true, true, false)
     }
 
     private fun updataInitTextUI() {
