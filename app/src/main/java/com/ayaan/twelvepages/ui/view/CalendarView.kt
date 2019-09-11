@@ -46,7 +46,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
-        val dataStartYOffset = dpToPx(36f)
+        val dataStartYOffset = dpToPx(33f)
     }
 
     private val scrollView = NestedScrollView(context)
@@ -206,6 +206,32 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
+    inner class WeekInfoViewHolder(val container: View) {
+        val weeknumText: TextView = container.findViewById(R.id.weeknumText)
+        val weekArrow: ImageView = container.findViewById(R.id.weekArrow)
+        val indicatorLy: LinearLayout = container.findViewById(R.id.indicatorLy)
+        init {
+            weeknumText.setTextColor(AppTheme.disableText)
+            weeknumText.setTypeface(AppTheme.boldFont, Typeface.BOLD_ITALIC)
+            indicatorLy.visibility = View.GONE
+            weekArrow.visibility = View.GONE
+            unTarget()
+        }
+
+        fun unTarget() {
+            container.visibility = View.GONE
+        }
+
+        fun target() {
+            if(AppStatus.isWeekNumDisplay) {
+                container.visibility = View.VISIBLE
+            }else {
+                container.visibility = View.GONE
+            }
+            targetWeekHolder = this
+        }
+    }
+
     inner class DateInfoViewHolder(val cellNum: Int,  val v: FrameLayout, val dateInfo: DateInfoManager.DateInfo) {
         var time: Long = Long.MIN_VALUE
         var isToday: Boolean = false
@@ -246,6 +272,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             v.holiText.setTextColor(color)
             v.dowText.setTextColor(color)
 
+            val weekHolder = weekViewHolders[cellNum / columns]
+            if(targetWeekHolder != weekHolder) {
+                targetWeekHolder?.unTarget()
+                weekHolder.target()
+            }
+
             lastSelectDateAnimSet?.cancel()
             lastSelectDateAnimSet = AnimatorSet()
             lastSelectDateAnimSet?.let {
@@ -260,15 +292,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 anims.add(ObjectAnimator.ofFloat(v.dowText, "translationX", -autoScrollOffset.toFloat(), 1f))
                 anims.add(ObjectAnimator.ofFloat(v.holiText, "alpha", 0f, 1f))
                 anims.add(ObjectAnimator.ofFloat(v.holiText, "translationX", -autoScrollOffset.toFloat(), 1f))
-
-                val weekHolder = weekViewHolders[cellNum / columns]
-                if(targetWeekHolder != weekHolder) {
-                    targetWeekHolder?.let { wh ->
-                        //anims.add(ObjectAnimator.ofFloat(wh.container, "translationX", wh.container.translationX, -calendarPadding.toFloat()))
-                    }
-                    //anims.add(ObjectAnimator.ofFloat(weekHolder.container, "translationX", -calendarPadding.toFloat(), 0f))
-                    targetWeekHolder = weekHolder
-                }
                 it.playTogether(anims)
                 it.interpolator = FastOutSlowInInterpolator()
                 it.duration = animDur
@@ -335,19 +358,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             CalendarManager.selectedDateColor
         }else {
             color
-        }
-    }
-
-    inner class WeekInfoViewHolder(val container: View) {
-        val weeknumText: TextView = container.findViewById(R.id.weeknumText)
-        val weekArrow: ImageView = container.findViewById(R.id.weekArrow)
-        val indicatorLy: LinearLayout = container.findViewById(R.id.indicatorLy)
-        init {
-            weeknumText.setTextColor(AppTheme.backgroundDark)
-            weeknumText.setTypeface(AppTheme.boldFont, Typeface.ITALIC)
-            container.visibility = View.GONE
-            indicatorLy.visibility = View.GONE
-            weekArrow.visibility = View.GONE
         }
     }
 
@@ -467,7 +477,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun unselectDate() {
         targetDateHolder?.unTarget()
-        targetWeekHolder?.let { it.container.translationX = -calendarPadding.toFloat() }
+        targetWeekHolder?.unTarget()
         targetWeekHolder = null
     }
 

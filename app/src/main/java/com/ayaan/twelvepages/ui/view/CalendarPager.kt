@@ -25,6 +25,7 @@ import java.util.*
 class CalendarPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
     private val headerHeight = dpToPx(72)
+    private val dowHeight = dpToPx(18)
     private val startPosition = 1000
     private val viewCount = 3
     private val headerView = LayoutInflater.from(context).inflate(R.layout.view_calendar_header, null, false)
@@ -41,9 +42,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
     init {
         addView(viewPager)
         viewPager.setPagingEnabled(true)
-        viewPager.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-            topMargin = headerHeight
-        }
+        viewPager.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         viewPager.adapter = CalendarPagerAdapter()
         viewPager.setCurrentItem(startPosition, false)
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
@@ -64,9 +63,9 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
 
         dowTexts = arrayOf(headerView.dowText0, headerView.dowText1, headerView.dowText2, headerView.dowText3,
                 headerView.dowText4, headerView.dowText5, headerView.dowText6)
-        headerView.layoutParams = LayoutParams(MATCH_PARENT, headerHeight)
         headerView.setBackgroundColor(AppTheme.background)
         addView(headerView)
+        setDayOfWeek()
         /*
         viewPager.setPageTransformer(true) { view, position ->
             val pageWidth = view.width
@@ -189,9 +188,22 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     fun redraw() {
+        setDayOfWeek()
         calendarViews.forEach {
             it.unselectDate()
             it.redraw()
+        }
+    }
+
+    private fun setDayOfWeek() {
+        if(AppStatus.isDowDisplay) {
+            headerView.dowLy.visibility = View.VISIBLE
+            headerView.layoutParams = LayoutParams(MATCH_PARENT, headerHeight)
+            (viewPager.layoutParams as LayoutParams).topMargin = headerHeight
+        }else {
+            headerView.dowLy.visibility = View.GONE
+            headerView.layoutParams = LayoutParams(MATCH_PARENT, headerHeight - dowHeight)
+            (viewPager.layoutParams as LayoutParams).topMargin = headerHeight - dowHeight
         }
     }
 

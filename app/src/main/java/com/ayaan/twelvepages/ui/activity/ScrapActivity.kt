@@ -85,6 +85,7 @@ class ScrapActivity : Activity() {
                     progressBar.visibility = View.GONE
                 }
 
+                /*
                 val config = SyncUser.current()
                         .createConfiguration(USER_URL)
                         .fullSynchronization()
@@ -106,6 +107,18 @@ class ScrapActivity : Activity() {
                         }
                     }
                 })
+                */
+                realm = Realm.getDefaultInstance()
+                saveTodayBtn.setOnClickListener {
+                    realm.where(Folder::class.java).equalTo("id", "calendar").findFirst()?.let {
+                        saveTimeObject(makeTimeObject(it, System.currentTimeMillis()))
+                    }
+                }
+                saveKeepBtn.setOnClickListener {
+                    realm.where(Folder::class.java).equalTo("id", "keep").findFirst()?.let {
+                        saveTimeObject(makeTimeObject(it, Long.MIN_VALUE))
+                    }
+                }
             }
         } else {
             Toast.makeText(this, R.string.invalid_info, Toast.LENGTH_SHORT).show()
@@ -122,8 +135,8 @@ class ScrapActivity : Activity() {
     private fun makeTimeObject(folder: Folder?, time: Long) : Record {
         val timeObject = Record()
         if(time != Long.MIN_VALUE) {
-            timeObject.dtStart = time
-            timeObject.dtEnd = time
+            timeObject.dtStart = getCalendarTime0(time)
+            timeObject.dtEnd = getCalendarTime23(time)
         }
         timeObject.folder = folder
         timeObject.type = 0

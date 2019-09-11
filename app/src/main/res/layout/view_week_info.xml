@@ -13,7 +13,8 @@
             android:id="@+id/weeknumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="36dp"
+            android:layout_margin="10dp"
+            android:textSize="18dp"
             android:text="00"/>
 
         <ImageView

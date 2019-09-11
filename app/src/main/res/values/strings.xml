@@ -26,7 +26,7 @@
     <string name="delete">삭제</string>
     <string name="start">시작</string>
     <string name="end">종료</string>
-    <string name="weekNum">%1$s주</string>
+    <string name="weekNum">%1$s주차</string>
     <string name="setting">환경설정</string>
     <string name="add_option">다른 정보 추가</string>
     <string name="detail_info">자세한 정보</string>
@@ -137,8 +137,6 @@
     <string name="add_new">새로입력</string>
     <string name="create_folder">폴더 생성</string>
     <string name="enter_folder_name">폴더 제목을 입력하세요</string>
-    <string name="scrap_in_today">오늘 %1$s</string>
-    <string name="scrap_in_folder">서랍에 보관</string>
     <string name="select_date">날짜 선택</string>
     <string name="invalid_info">잘못된 정보입니다</string>
     <string name="saved">저장되었습니다</string>
@@ -370,6 +368,7 @@
     <string name="upgrade_premium">업그레이드</string>
     <string name="total_records">총 %1$s개의 기록</string>
     <string name="symbol">심볼</string>
+    <string name="very_big">매우크게</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

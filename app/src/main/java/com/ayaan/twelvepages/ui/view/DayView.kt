@@ -278,8 +278,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.setTextColor(color)
         holiText.setTextColor(color)
         fakeDateText.text = dateText.text
-        if(AppStatus.isDowDisplay) dowText.visibility = View.VISIBLE
-        else dowText.visibility = View.GONE
         holiText.text = dateInfo.getSelectedString()
     }
 

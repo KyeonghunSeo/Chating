@@ -32,7 +32,6 @@ import java.util.*
 
 class SettingsActivity : BaseActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -265,7 +264,7 @@ class SettingsActivity : BaseActivity() {
     override fun onStop() {
         super.onStop()
         if(FirebaseAuth.getInstance().currentUser != null) {
-            MainActivity.getCalendarPager()?.redraw()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
         }else {
             MainActivity.instance?.finish()
         }
