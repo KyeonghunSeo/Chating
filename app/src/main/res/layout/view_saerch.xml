@@ -19,8 +19,6 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="right"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp"
         android:elevation="10dp"
         android:background="@color/background">
 
@@ -32,9 +30,9 @@
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:tint="@color/secondaryText"
+                android:tint="@color/primaryText"
                 android:src="@drawable/search"
-                android:padding="13dp"/>
+                android:padding="15dp"/>
 
             <EditText
                 android:id="@+id/searchInput"

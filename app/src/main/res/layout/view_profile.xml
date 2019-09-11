@@ -159,14 +159,13 @@
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
         android:layout_gravity="right">
 
         <ImageView
             android:id="@+id/settingsBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="14dp"
+            android:padding="15dp"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/setting"
             android:tint="@color/primaryText"/>
@@ -175,7 +174,7 @@
             android:id="@+id/searchBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="14dp"
+            android:padding="15dp"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/search"
             android:tint="@color/primaryText"/>

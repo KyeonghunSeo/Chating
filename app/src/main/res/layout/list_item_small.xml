@@ -8,13 +8,15 @@
        android:id="@+id/contentLy"
        android:orientation="horizontal"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content">
+       android:layout_height="wrap_content"
+       android:layout_marginLeft="20dp"
+       android:layout_marginRight="20dp">
 
       <ImageView
           android:id="@+id/iconImg"
           android:layout_width="20dp"
           android:layout_height="20dp"
-          android:layout_marginLeft="15dp"
+          android:layout_marginRight="15dp"
           android:layout_gravity="center_vertical"
           android:src="@drawable/circle_fill"
           android:tint="@color/primaryText"/>
@@ -22,9 +24,8 @@
       <LinearLayout
           android:orientation="vertical"
           android:layout_width="0dp"
-          android:layout_height="55dp"
+          android:layout_height="45dp"
           android:layout_weight="1"
-          android:layout_marginLeft="15dp"
           android:gravity="center_vertical">
 
          <TextView
@@ -51,7 +52,6 @@
           android:layout_width="23dp"
           android:layout_height="23dp"
           android:layout_marginLeft="15dp"
-          android:layout_marginRight="15dp"
           android:layout_gravity="center_vertical"
           android:tint="@color/primaryText"/>
 

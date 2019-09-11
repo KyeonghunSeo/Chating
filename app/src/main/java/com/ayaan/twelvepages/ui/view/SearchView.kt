@@ -156,7 +156,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
                 backgroundLy.setOnClickListener { hide() }
                 (headerLy.layoutParams as LayoutParams).let {
                     it.width = MATCH_PARENT
-                    it.height = dpToPx(80)
+                    it.height = dpToPx(100)
                     it.setMargins(0, 0, 0, 0)
                 }
                 headerLy.requestLayout()
@@ -197,7 +197,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         (headerLy.layoutParams as LayoutParams).let {
             it.width = dpToPx(50)
             it.height = dpToPx(50)
-            it.setMargins(0, dpToPx(15), dpToPx(10), 0)
+            it.setMargins(0, 0, 0, 0)
         }
         headerLy.requestLayout()
         viewMode = ViewMode.CLOSED
