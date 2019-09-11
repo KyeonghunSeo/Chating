@@ -27,7 +27,7 @@ object AppStatus {
         isLunarDisplay = Prefs.getBoolean("isLunarDisplay", false)
         outsideMonthAlpha = Prefs.getFloat("outsideMonthAlpha", 0f)
         calTextSize = Prefs.getInt("calTextSize", 0)
-        weekLine = Prefs.getFloat("weekLine", 0.3f)
+        weekLine = Prefs.getFloat("weekLine", 0f)
         isWeekNumDisplay = Prefs.getBoolean("isWeekNumDisplay", true)
         checkedRecordDisplay = Prefs.getInt("checkedRecordDisplay", 0)
         templateMode = Prefs.getInt("tmeplateMode", 0)

@@ -159,7 +159,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
 
             weekLy.addView(weekViewHolders[i].container) // 주간 뷰 추가
-            weekViewHolders[i].container.layoutParams = LayoutParams(dpToPx(150), MATCH_PARENT)
+            weekViewHolders[i].container.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
             for (j in 0..6) { // 컬럼 디바이더 추가
                 columnDividers[i * 7 + j].let {
@@ -208,13 +208,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     inner class WeekInfoViewHolder(val container: View) {
         val weeknumText: TextView = container.findViewById(R.id.weeknumText)
-        val weekArrow: ImageView = container.findViewById(R.id.weekArrow)
-        val indicatorLy: LinearLayout = container.findViewById(R.id.indicatorLy)
         init {
-            weeknumText.setTextColor(AppTheme.disableText)
-            weeknumText.setTypeface(AppTheme.boldFont, Typeface.BOLD_ITALIC)
-            indicatorLy.visibility = View.GONE
-            weekArrow.visibility = View.GONE
+            weeknumText.setTextColor(AppTheme.lightLine)
+            weeknumText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             unTarget()
         }
 
@@ -422,7 +418,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
                     columnDividers[cellNum].alpha = AppStatus.weekLine
                     columnDividers[cellNum].translationX = minWidth * j - lineWidth + calendarPadding
-                    //weekViewHolders[i].weeknumText.text = tempCal.get(Calendar.WEEK_OF_YEAR).toString()
                     weekViewHolders[i].weeknumText.text = String.format(str(R.string.weekNum), tempCal.get(Calendar.WEEK_OF_YEAR))
 
                     dateCellHolders[cellNum].let {
