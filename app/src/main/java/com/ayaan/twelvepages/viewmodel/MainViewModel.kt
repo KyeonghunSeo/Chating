@@ -172,9 +172,13 @@ class MainViewModel : ViewModel() {
         folderList.value?.first { it.id == "calendar" }?.let { setTargetFolder(it) }
     }
 
+    fun getCalendarFolder() = folderList.value?.first { it.id == "calendar" }
+
     fun setKeepFolder() {
         folderList.value?.first { it.id == "keep" }?.let { setTargetFolder(it) }
     }
+
+    fun getKeepFolder() = folderList.value?.first { it.id == "keep" }
 
     fun setTargetFolder(folder: Folder) {
         targetFolder.postValue(folder)

@@ -369,6 +369,8 @@
     <string name="total_records">총 %1$s개의 기록</string>
     <string name="symbol">심볼</string>
     <string name="very_big">매우크게</string>
+    <string name="move_to_keep">보관함으로 이동</string>
+    <string name="move_to_calendar">캘린더로 이동</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

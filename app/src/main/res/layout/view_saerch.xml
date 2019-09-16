@@ -14,7 +14,7 @@
     </View>
 
     <LinearLayout
-        android:id="@+id/headerLy"
+        android:id="@+id/contentLy"
         android:orientation="vertical"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -58,44 +58,55 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="15dp">
 
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:textSize="18dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/bold"
-                android:text="#"/>
+            <LinearLayout
+                android:id="@+id/tagBtn"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:background="@drawable/edit_tag_new"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:alpha="0.4"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp">
 
-            <TextView
-                android:id="@+id/tagInput"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:textSize="18dp"
-                android:hint="@string/search_tag"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColorHint="@color/disableText"
-                android:background="?android:attr/selectableItemBackground"
-                android:fontFamily="@font/thin"/>
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tagText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:textSize="12dp"
+                    android:layout_gravity="center"
+                    android:maxLines="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/select_tag"
+                    android:textColor="@color/primaryText"/>
+
+            </LinearLayout>
+
+            <com.ayaan.twelvepages.ui.view.TagView
+                android:id="@+id/tagView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.ayaan.twelvepages.ui.view.TagView>
+
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="10dp">
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginTop="80dp">
-    </androidx.recyclerview.widget.RecyclerView>
 
 </FrameLayout>

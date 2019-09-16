@@ -210,7 +210,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val weeknumText: TextView = container.findViewById(R.id.weeknumText)
         init {
             weeknumText.setTextColor(AppTheme.lightLine)
-            weeknumText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            weeknumText.setTypeface(AppTheme.boldFont, Typeface.BOLD_ITALIC)
             unTarget()
         }
 
@@ -235,9 +235,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         var color = 0
 
         init {
-            //v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-            v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-            v.holiText.typeface = AppTheme.regularFont
             v.clipChildren = false
             v.bar.pivotY = 0f
         }
@@ -419,6 +416,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     columnDividers[cellNum].alpha = AppStatus.weekLine
                     columnDividers[cellNum].translationX = minWidth * j - lineWidth + calendarPadding
                     weekViewHolders[i].weeknumText.text = String.format(str(R.string.weekNum), tempCal.get(Calendar.WEEK_OF_YEAR))
+                            .toList().joinToString(" ")
 
                     dateCellHolders[cellNum].let {
                         it.setDate(tempCal)

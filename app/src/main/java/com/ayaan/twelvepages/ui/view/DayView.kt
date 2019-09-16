@@ -69,6 +69,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     arrayOf(PopupOptionDialog.Item(str(R.string.copy), R.drawable.copy, AppTheme.primaryText),
                             PopupOptionDialog.Item(str(R.string.cut), R.drawable.cut, AppTheme.primaryText),
                             PopupOptionDialog.Item(str(R.string.move_date), R.drawable.schedule, AppTheme.primaryText),
+                            PopupOptionDialog.Item(str(R.string.move_to_keep), R.drawable.inbox, AppTheme.primaryText),
                             PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)), view, false) { index ->
                 val record = Record().apply { copy(item) }
                 when(index) {
@@ -91,6 +92,15 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                         }, true, true, true, false)
                     }
                     3 -> {
+                        record.folder = MainActivity.getViewModel()?.getKeepFolder()
+                        if(record.isRepeat()) {
+                            RepeatManager.save(activity, record, Runnable { toast(R.string.moved, R.drawable.inbox) })
+                        }else {
+                            RecordManager.save(record)
+                            toast(R.string.moved, R.drawable.inbox)
+                        }
+                    }
+                    4 -> {
                         RecordManager.delete(context as Activity, record, Runnable { toast(R.string.deleted, R.drawable.delete) })
                     }
                 }

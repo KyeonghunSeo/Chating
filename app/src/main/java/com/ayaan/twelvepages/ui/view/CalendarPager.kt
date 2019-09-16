@@ -107,11 +107,13 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
         targetCalendarView.onSelectedDate = { holder, openDayView ->
             dowTexts.forEachIndexed { index, textView ->
                 textView.text = calendarView.dateCellHolders[index].getDowText()
+                /*
                 if(holder.cellNum % 7 == index) {
                     textView.setTypeface(AppTheme.boldFont, Typeface.BOLD)
                 }else {
                     textView.typeface = AppTheme.thinFont
                 }
+                */
                 textView.setTextColor(when (index) {
                     calendarView.sundayPos -> CalendarManager.sundayColor
                     calendarView.saturdayPos -> CalendarManager.saturdayColor
@@ -128,7 +130,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
         }
         targetCalendarView.onTop = { isTop, isBottom ->
             if(isTop){
-                l("isTop")
+
             } else {
 
             }
