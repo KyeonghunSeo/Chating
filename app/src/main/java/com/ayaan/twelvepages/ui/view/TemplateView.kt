@@ -63,6 +63,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         adapter.itemTouchHelper?.attachToRecyclerView(recyclerView)
 
         bottomSheet.setOnClickListener { collapse() }
+        templatePanel.setOnClickListener {}
         setOnTouchListener { _, motionEvent ->
             if(motionEvent.action == MotionEvent.ACTION_DOWN) {
                 if(MainActivity.isProfileOpened()) {
@@ -169,11 +170,10 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun setDate() {
         val folder = MainActivity.getTargetFolder()
         if(folder.isCalendar()) {
-            templateDateText.visibility = View.VISIBLE
             templateDateText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis,
                     false, false, false, true)
         }else {
-            templateDateText.visibility = View.GONE
+            templateDateText.text = folder.name
         }
     }
 
@@ -206,9 +206,17 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         if(adapter.mode == 0) {
-            editBtn.text = str(R.string.edit_template)
+            editBtn.setCardBackgroundColor(AppTheme.lightLine)
+            editImg.setImageResource(R.drawable.edit)
+            editImg.setColorFilter(AppTheme.primaryText)
+            editText.text = str(R.string.edit_template)
+            editText.setTextColor(AppTheme.primaryText)
         }else {
-            editBtn.text = str(R.string.edit_done)
+            editBtn.setCardBackgroundColor(AppTheme.blue)
+            editImg.setImageResource(R.drawable.done)
+            editImg.setColorFilter(AppTheme.background)
+            editText.text = str(R.string.edit_done)
+            editText.setTextColor(AppTheme.background)
         }
 
         adapter.notifyDataSetChanged()

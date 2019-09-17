@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#000000</color>
-    <color name="colorAccent">#000000</color>
+    <color name="colorPrimary">#212121</color>
+    <color name="colorAccent">#212121</color>
 
     <color name="background">#ffffff</color>
     <color name="backgroundDark">#fbfbfb</color>
     <color name="whiteAlpha">#ddffffff</color>
-    <color name="dim">#90000000</color>
+    <color name="dim">#90212121</color>
 
-    <color name="primaryText">#303033</color>
+    <color name="primaryText">#212121</color>
     <color name="semiPrimaryText">#909099</color>
     <color name="secondaryText">#606066</color>
     <color name="disableText">#e4e4e4</color>
@@ -18,22 +18,24 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="red">#d0254c</color>
-    <color name="blue">#009cc6</color>
+    <color name="red">#e73b3b</color>
+    <color name="blue">#47b2f7</color>
+    <color name="yellow">#ffd801</color>
+    <color name="green">#2ecc87</color>
     <color name="grey">#e4e7ef</color>
     <color name="transparent">#00000000</color>
 
     <string-array name="colors">
-        <item>#f95950</item>
-        <item>#ff8a5b</item>
-        <item>#f69f98</item>
-        <item>#ffd159</item>
-        <item>#33b679</item>
-        <item>#009a59</item>
-        <item>#53cae5</item>
-        <item>#009cc6</item>
-        <item>#a17ac6</item>
-        <item>#303033</item>
+        <item>#212121</item>
+        <item>#e73b3b</item>
+        <item>#f35f8c</item>
+        <item>#fb7f77</item>
+        <item>#fdc02d</item>
+        <item>#b38bdc</item>
+        <item>#2ecc87</item>
+        <item>#3dc2c8</item>
+        <item>#47b2f7</item>
+        <item>#948078</item>
     </string-array>
 
     <!--

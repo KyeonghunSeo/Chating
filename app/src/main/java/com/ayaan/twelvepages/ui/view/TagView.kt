@@ -23,13 +23,13 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         const val MODE_NORMAL = 0
         const val MODE_CHECK = 1
         const val MODE_EDIT = 2
-        val tagSize = dpToPx(30)
     }
 
     var onSelected : ((Tag?, Int) -> Unit)? = null
     val items = ArrayList<Tag>()
     var checkedItems = ArrayList<Tag>()
     var mode = MODE_NORMAL
+    var isSmallTag = false
 
     init {
         val flowLayoutManager = FlowLayoutManager()
@@ -96,7 +96,7 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int) : ViewHolder{
-            return if(mode == MODE_NORMAL) {
+            return if(isSmallTag) {
                 ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_tag, parent, false))
             }else {
                 ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_tag_edit, parent, false))
@@ -112,7 +112,7 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 val tag = items[position]
                 when(mode) {
                     MODE_NORMAL -> {
-                        v.contentLy.setBackgroundResource(R.drawable.normal_tag)
+                        v.contentLy.setBackgroundResource(if(isSmallTag) R.drawable.small_tag else R.drawable.normal_tag)
                         v.tagText.setTextColor(AppTheme.background)
                         v.tagText.text = "#${tag.title}"
                         v.contentLy.alpha = 1f

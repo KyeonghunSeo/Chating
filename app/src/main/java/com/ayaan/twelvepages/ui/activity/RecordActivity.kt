@@ -199,7 +199,7 @@ class RecordActivity : BaseActivity() {
     private fun updateFolderUI() {
         val color = record.getColor()
         val fontColor = ColorManager.getFontColor(color)
-        colorBtn.setColorFilter(color)
+        colorBg.setColorFilter(color)
 
         if(record.folder?.isCalendar() == true) {
             folderText.text = AppDateFormat.simpleYmdDate.format(Date(record.dtStart))

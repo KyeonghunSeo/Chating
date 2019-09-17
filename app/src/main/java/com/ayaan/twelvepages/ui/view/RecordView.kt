@@ -444,7 +444,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 drawArrow(canvas, width, height, width - arrowSize, height - arrowSize, width - arrowSize, height)
             }
             else -> {
-                val periodLine = strokeWidth * 1.2f
+                val periodLine = strokeWidth * 1.5f
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = periodLine
                 if(shape == Shape.DASH || shape == Shape.DASH_ARROW) {

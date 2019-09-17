@@ -105,11 +105,17 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         scrollView.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
             val isTop = scrollY == 0
             if(isTop) {
+                topDivider.alpha = AppStatus.weekLine
                 (topDivider.layoutParams as FrameLayout.LayoutParams).let {
                     it.leftMargin = calendarPadding
                     it.rightMargin = calendarPadding
                 }
             }else {
+                if(AppStatus.weekLine == 0f) {
+                    topDivider.alpha = 0.1f
+                }else {
+                    topDivider.alpha = AppStatus.weekLine
+                }
                 (topDivider.layoutParams as FrameLayout.LayoutParams).let {
                     it.leftMargin = 0
                     it.rightMargin = 0
@@ -127,18 +133,18 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         calendarLy.clipToPadding = false
 
         topDivider.setBackgroundColor(AppTheme.primaryText)
-        topDivider.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
+        topDivider.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt()).apply {
             leftMargin = calendarPadding
             rightMargin = calendarPadding
         }
 
         bottomDivider.setBackgroundColor(AppTheme.primaryText)
-        bottomDivider.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
+        bottomDivider.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt()).apply {
             gravity = Gravity.BOTTOM
         }
 
         rowDividers.forEachIndexed { index, view ->
-            view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
+            view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt()).apply {
                 leftMargin = calendarPadding
                 rightMargin = calendarPadding
             }
@@ -146,7 +152,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         columnDividers.forEachIndexed { index, view ->
-            view.layoutParams = LayoutParams(lineWidth.toInt() * 2, 0)
+            view.layoutParams = LayoutParams(lineWidth.toInt(), 0)
             view.setBackgroundColor(AppTheme.primaryText)
         }
 
@@ -416,7 +422,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     columnDividers[cellNum].alpha = AppStatus.weekLine
                     columnDividers[cellNum].translationX = minWidth * j - lineWidth + calendarPadding
                     weekViewHolders[i].weeknumText.text = String.format(str(R.string.weekNum), tempCal.get(Calendar.WEEK_OF_YEAR))
-                            .toList().joinToString(" ")
+                            //.toList().joinToString("")
 
                     dateCellHolders[cellNum].let {
                         it.setDate(tempCal)

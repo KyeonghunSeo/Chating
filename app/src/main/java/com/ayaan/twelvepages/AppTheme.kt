@@ -27,6 +27,8 @@ object AppTheme {
     var lightLine = 0
     var red = 0
     var blue = 0
+    var green = 0
+    var yellow = 0
     var icon = 0
 
     lateinit var hightlightCover: Drawable
@@ -47,6 +49,8 @@ object AppTheme {
         lightLine = resource.getColor(R.color.light_line)
         red = resource.getColor(R.color.red)
         blue = resource.getColor(R.color.blue)
+        green = resource.getColor(R.color.green)
+        yellow = resource.getColor(R.color.yellow)
         icon = resource.getColor(R.color.iconTint)
         hightlightCover = resource.getDrawable(R.drawable.highlightcover)
         blankDrawable = resource.getDrawable(R.drawable.blank)

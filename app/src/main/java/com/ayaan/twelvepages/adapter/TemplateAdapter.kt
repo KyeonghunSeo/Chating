@@ -1,6 +1,7 @@
 package com.ayaan.twelvepages.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,9 +56,8 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             }
             v.titleText.text = template.title
             val color = ColorManager.getColor(template.colorKey)
-            //v.colorImg.setBackgroundColor(color)
-            //v.colorImg.setColorFilter(ColorManager.getFontColor(color))
-            v.colorImg.setColorFilter(color)
+            v.colorBtn.setCardBackgroundColor(color)
+            v.colorImg.setColorFilter(ColorManager.getFontColor(color))
             v.colorImg.setImageResource(SymbolManager.getSymbolResId(template.symbol))
             v.setOnClickListener { adapterInterface.invoke(template, mode) }
         }else {
@@ -65,7 +65,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             v.contentLy.setBackgroundResource(R.drawable.blank)
             v.colorImg.setImageResource(R.drawable.add)
             v.titleText.text = context.getString(R.string.new_template)
-            v.colorImg.setBackgroundColor(AppTheme.background)
+            v.colorBtn.setCardBackgroundColor(Color.TRANSPARENT)
             v.colorImg.setColorFilter(AppTheme.primaryText)
             v.setOnClickListener { adapterInterface.invoke(null, mode) }
         }

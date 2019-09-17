@@ -18,12 +18,12 @@ object SymbolManager{
 
     fun getSymbolResId(symbol: String?): Int {
         return if (symbol == null) {
-            R.drawable.dot
+            R.drawable.blank
         } else {
             return try {
                 Symbol.valueOf(symbol).resId
             } catch (ignored: Exception) {
-                R.drawable.dot
+                R.drawable.blank
             }
         }
     }
