@@ -58,52 +58,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_gravity="right">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/recordViewStyleBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardBackgroundColor="@color/light_line"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="0dp">
-
-                        <ImageView
-                            android:id="@+id/recordViewStyleImg"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_marginLeft="3dp"
-                            android:src="@drawable/record_in_calendar_style"
-                            android:tint="@color/primaryText"
-                            android:padding="5dp"/>
-
-                        <TextView
-                            android:id="@+id/recordViewStyleText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="28dp"
-                            android:layout_marginRight="8dp"
-                            android:textSize="11dp"
-                            android:textColor="@color/primaryText"
-                            android:text="@string/folder"/>
-
-                    </androidx.cardview.widget.CardView>
-
-                </LinearLayout>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp">
-
                 <EditText
                     android:id="@+id/titleInput"
                     android:layout_width="match_parent"
@@ -164,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="20dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -198,16 +152,14 @@
                     <ImageView
                         android:id="@+id/symbolColor"
                         android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/circle_fill"
-                        android:tint="@color/backgroundDark"/>
+                        android:layout_height="25dp"/>
 
                     <ImageView
                         android:id="@+id/symbalImg"
                         android:layout_gravity="center"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:padding="5dp"/>
+                        android:padding="2dp"/>
 
                 </FrameLayout>
 
@@ -244,32 +196,120 @@
 
                 </LinearLayout>
 
-                <FrameLayout
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="right|center_vertical">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="50dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="right|center_vertical"
+                    app:cardCornerRadius="7dp"
+                    app:cardElevation="0dp">
 
                     <ImageView
                         android:id="@+id/colorBg"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/circle_fill"
+                        android:layout_width="50dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/normal_rect_fill"
                         android:tint="@color/light_line"/>
 
-                </FrameLayout>
+                </androidx.cardview.widget.CardView>
 
             </FrameLayout>
 
-            <LinearLayout
-                android:orientation="vertical"
+            <FrameLayout
+                android:id="@+id/recordViewStyleBtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp">
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginTop="5dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/record_in_calendar_style"
+                        android:tint="@color/primaryText"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold"
+                        android:text="@string/calendarBlockStyle"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/recordViewStyleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:textSize="12dp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/titleBtn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginTop="5dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/title"
+                        android:tint="@color/primaryText"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold"
+                        android:text="@string/title"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:textSize="12dp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"/>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/initTitleLy"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="10dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:gravity="center_vertical">
 
                     <ImageView
@@ -304,8 +344,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top"
-                    android:layout_marginTop="15dp"
-                    android:textSize="14dp"
+                    android:layout_marginTop="5dp"
+                    android:textSize="12dp"
                     android:hint="@string/init_text_hint"
                     android:textColorHint="@color/disableText"
                     android:background="@drawable/blank"
@@ -314,11 +354,11 @@
             </LinearLayout>
 
             <FrameLayout
-                android:id="@+id/alarmBtn"
+                android:id="@+id/memoBtn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="5dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -329,7 +369,7 @@
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="15dp"
-                        android:src="@drawable/alarm"
+                        android:src="@drawable/memo"
                         android:tint="@color/primaryText"/>
 
                     <TextView
@@ -340,12 +380,109 @@
                         android:textSize="14dp"
                         android:textColor="@color/primaryText"
                         android:fontFamily="@font/bold"
-                        android:text="@string/alarm"/>
+                        android:text="@string/main_text"/>
 
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/alarmText"
+                    android:id="@+id/memoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:textSize="12dp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"/>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/initMemoLy"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="10dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/cursor"
+                        android:tint="@color/primaryText"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold"
+                        android:text="@string/init_text"/>
+
+                    <TextView
+                        android:id="@+id/initMemoCursorText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="right|center_vertical"
+                        android:textSize="12dp"
+                        android:textColor="@color/secondaryText"
+                        android:text="@string/cursor_pos"/>
+
+                </LinearLayout>
+
+                <com.ayaan.twelvepages.ui.view.base.CustomEditText
+                    android:id="@+id/initMemoInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:layout_marginTop="5dp"
+                    android:textSize="12dp"
+                    android:hint="@string/init_text_hint"
+                    android:textColorHint="@color/disableText"
+                    android:background="@drawable/blank"
+                    android:fontFamily="@font/regular"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/dateBtn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginTop="5dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/calendar"
+                        android:tint="@color/primaryText"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold"
+                        android:text="@string/date"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/dateText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
@@ -361,7 +498,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_marginTop="5dp">
+                android:layout_marginLeft="15dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -389,6 +526,50 @@
 
                 <TextView
                     android:id="@+id/timeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:textSize="12dp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:text="@string/unuse"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/alarmBtn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="5dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/alarm"
+                        android:tint="@color/primaryText"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold"
+                        android:text="@string/alarm"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/alarmText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
@@ -443,11 +624,12 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/memoBtn"
+                android:id="@+id/counterBtn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_marginTop="5dp">
+                android:layout_marginLeft="15dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -458,7 +640,7 @@
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="15dp"
-                        android:src="@drawable/memo"
+                        android:src="@drawable/alarm"
                         android:tint="@color/primaryText"/>
 
                     <TextView
@@ -469,12 +651,12 @@
                         android:textSize="14dp"
                         android:textColor="@color/primaryText"
                         android:fontFamily="@font/bold"
-                        android:text="@string/memo"/>
+                        android:text="@string/alarm"/>
 
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/memoText"
+                    android:id="@+id/counterText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"

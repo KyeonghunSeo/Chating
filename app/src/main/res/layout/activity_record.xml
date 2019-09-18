@@ -23,7 +23,7 @@
             android:id="@+id/addOptionBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="45dp"
             android:layout_gravity="center_vertical|right"
             android:background="?android:attr/selectableItemBackground"
             android:padding="15dp"
@@ -155,25 +155,18 @@
 
             </FrameLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <EditText
+                android:id="@+id/titleInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/titleInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textColorHint="@color/disableText"
-                    android:fontFamily="@font/bold"
-                    android:inputType="text"
-                    android:imeOptions="actionDone"
-                    android:textSize="26dp"
-                    android:hint="@string/title"
-                    android:background="@color/transparent"/>
-
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColorHint="@color/disableText"
+                android:fontFamily="@font/bold"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:textSize="26dp"
+                android:hint="@string/title"
+                android:background="@color/transparent"/>
 
             <TextView
                 android:id="@+id/tagText"

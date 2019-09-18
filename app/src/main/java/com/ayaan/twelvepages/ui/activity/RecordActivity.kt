@@ -68,9 +68,23 @@ class RecordActivity : BaseActivity() {
         callAfterViewDrawed(titleInput, Runnable{
             if(record.id.isNullOrEmpty()) {
                 MainActivity.getTargetTemplate()?.let { template ->
-                    val initSelection = template.recordTitleSelection
-                    if(initSelection <= titleInput.text.length) titleInput.setSelection(initSelection)
-                    if(template.isSetMemo()) memoLy.visibility = View.VISIBLE
+                    if(template.isSetTitle()) {
+                        titleInput.visibility = View.VISIBLE
+                        if(template.recordTitleSelection <= titleInput.text.length) {
+                            titleInput.setSelection(template.recordTitleSelection)
+                        }
+                    }else {
+                        titleInput.visibility = View.GONE
+                    }
+
+                    if(template.isSetMemo()) {
+                        memoLy.visibility = View.VISIBLE
+                        if(template.recordMemoSelection <= memoInput.text.length) {
+                            memoInput.setSelection(template.recordMemoSelection)
+                        }
+                    }else {
+                        memoLy.visibility = View.GONE
+                    }
                 }
                 showKeyPad(titleInput)
             }

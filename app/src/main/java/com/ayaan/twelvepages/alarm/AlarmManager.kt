@@ -17,15 +17,6 @@ import java.util.*
 object AlarmManager {
     private lateinit var manager: AlarmManager
     private lateinit var alarmOffsetStrings: Array<String>
-    val offsets = arrayOf(
-            0L,
-            1000L * 60 * 60 * 9,
-            1000L * 60 * 60 * 12,
-            1000L * 60 * 60 * 18,
-            -1000L * 60 * 30,
-            -1000L * 60 * 60,
-            -1000L * 60 * 60 * 24,
-            -1000L * 60 * 60 * 24 * 7)
     val defaultAlarmTime = arrayOf(
             Prefs.getLong("defaultAlarmTime0", HOUR_MILL * 8),
             Prefs.getLong("defaultAlarmTime1", HOUR_MILL * 12),
@@ -146,16 +137,11 @@ object AlarmManager {
         }
     }
 
-    fun getOffsetText(offset: Long) : String? {
-        val index = offsets.indexOf(offset)
-        return if(index >= 0) alarmOffsetStrings[index]
-        else null
+    fun getAlarmText(record: Record) : String {
+        return getAlarmText(record.getAlarm().dayOffset, record.getAlarm().time)
     }
 
-    fun getAlarmText(record: Record) : String {
-        val dayOffset = record.getAlarm().dayOffset
-        val time = record.getAlarm().time
-
+    fun getAlarmText(dayOffset: Int, time: Long) : String {
         val offsetStr = when(dayOffset) {
             0 -> str(R.string.alarm_at_time)
             -1 -> str(R.string.alarm_at_b1d)
@@ -176,8 +162,6 @@ object AlarmManager {
             defaultAlarmTime[3] -> str(R.string.nightAlarmTime)
             else -> AppDateFormat.time.format(Date(getTodayStartTime() + time))
         }
-
-
 
         return "$offsetStr $timeStr"
     }

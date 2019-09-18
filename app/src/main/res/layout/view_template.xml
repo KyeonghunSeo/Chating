@@ -213,14 +213,15 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="25dp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="25dp"
                         android:layout_marginTop="25dp">
 
                         <TextView
                             android:id="@+id/templateDateText"
                             android:layout_width="wrap_content"
-                            android:layout_height="25dp"
-                            android:gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginLeft="20dp"
                             android:textColor="@color/primaryText"
                             android:fontFamily="@font/bold"
@@ -231,7 +232,7 @@
                             android:id="@+id/editBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
-                            android:layout_gravity="right"
+                            android:layout_gravity="right|center_vertical"
                             android:layout_marginRight="10dp"
                             android:foreground="?android:attr/selectableItemBackground"
                             app:cardBackgroundColor="@color/light_line"

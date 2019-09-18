@@ -28,7 +28,7 @@ class SchedulingDialog(activity: Activity, record: Record,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setLayout(R.layout.container_scheduling_dlg, dpToPx(350))
+        setLayout(R.layout.container_scheduling_dlg, dpToPx(340))
         titleIcon.visibility = View.GONE
         setDowTexts()
         setCalendarPicker()

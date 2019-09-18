@@ -31,6 +31,7 @@
     <string name="add_option">다른 정보 추가</string>
     <string name="detail_info">자세한 정보</string>
     <string name="memo">메모</string>
+    <string name="main_text">본문</string>
     <string name="location">장소</string>
     <string name="set_time">시간 지정</string>
     <string name="alarm">알림</string>
@@ -371,6 +372,7 @@
     <string name="very_big">매우크게</string>
     <string name="move_to_keep">보관함으로 이동</string>
     <string name="move_to_calendar">캘린더로 이동</string>
+    <string name="date">날짜</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

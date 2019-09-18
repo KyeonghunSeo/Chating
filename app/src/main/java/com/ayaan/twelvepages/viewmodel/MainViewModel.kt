@@ -215,10 +215,12 @@ class MainViewModel : ViewModel() {
                 targetTemplate.value?.let {
                     symbol = it.symbol
                     title = it.recordTitle ?: ""
+                    description = it.recordMemo ?: ""
                     type = it.type
                     style = it.style
                     colorKey = it.colorKey
                     tags.addAll(it.tags)
+                    if(it.isSetTime()) isSetTime = true
                     if(it.isSetCheckBox()) isSetCheckBox = true
                     if(it.alarmDayOffset != Int.MIN_VALUE) {
                         setAlarm(it.alarmDayOffset, it.alarmTime)
