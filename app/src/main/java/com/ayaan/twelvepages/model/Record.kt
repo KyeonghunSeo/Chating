@@ -243,13 +243,16 @@ open class Record(@PrimaryKey var id: String? = null,
 
     fun getTitleInCalendar() = if(!title.isNullOrBlank())
         title?.replace(System.getProperty("line.separator"), " ")
-    else str(R.string.empty)
+    else if(!description.isNullOrBlank())
+        description?.replace(System.getProperty("line.separator"), " ")
+    else
+        ""
 
     fun getShortTilte(): String {
         title?.let {
             return it.take(5) + if(it.length > 5) ".." else ""
         }
-        return str(R.string.empty)
+        return ""
     }
 
     fun setAlarm(dayOffset: Int, time: Long) {

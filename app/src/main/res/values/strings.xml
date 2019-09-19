@@ -33,9 +33,9 @@
     <string name="memo">메모</string>
     <string name="main_text">본문</string>
     <string name="location">장소</string>
-    <string name="set_time">시간 지정</string>
+    <string name="set_time">시간설정</string>
     <string name="alarm">알림</string>
-    <string name="enter_memo">이곳에 메모를 입력하세요</string>
+    <string name="enter_memo">이곳에 본문을 입력하세요</string>
     <string name="set_alarm">알림설정</string>
     <string name="and_others">외 %1$s개</string>
 
@@ -287,7 +287,7 @@
     <string name="formula_background">배경</string>
     <string name="formula_stack">한줄</string>
     <string name="formula_expanded">여러줄</string>
-    <string name="formula_stamp">스탬프</string>
+    <string name="formula_stamp">심볼</string>
     <string name="formula_dot">도트</string>
     <string name="formula_range">구간</string>
     <string name="formula_sticker">스티커</string>

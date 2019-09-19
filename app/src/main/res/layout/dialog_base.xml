@@ -36,7 +36,7 @@
                     android:id="@+id/titleIcon"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:layout_marginRight="5dp"/>
+                    android:layout_marginRight="10dp"/>
 
                 <TextView
                     android:id="@+id/titleText"

@@ -83,6 +83,14 @@ class TemplateActivity : BaseActivity() {
         tagView.onSelected = { _, _ -> showTagDialog() }
     }
 
+    private fun showTagDialog() {
+        showDialog(TagDialog(this@TemplateActivity, ArrayList(template.tags)) { tags ->
+            template.tags.clear()
+            template.tags.addAll(tags)
+            updateTagUI()
+        }, true, true, true, false)
+    }
+
     private fun updateSymbolUI() {
         val symbolRes = SymbolManager.getSymbolResId(template.symbol)
         if(symbolRes == R.drawable.blank) {
@@ -266,14 +274,6 @@ class TemplateActivity : BaseActivity() {
             }
         }
         folderText.text = template.folder?.name
-    }
-
-    private fun showTagDialog() {
-        showDialog(TagDialog(this@TemplateActivity, ArrayList(template.tags)) { tags ->
-            template.tags.clear()
-            template.tags.addAll(tags)
-            updateTagUI()
-        }, true, true, true, false)
     }
 
     private fun confirm() {

@@ -136,10 +136,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="14dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15dp"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
                         android:text="@string/symbol"/>
 
                 </LinearLayout>
@@ -188,10 +187,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="14dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15dp"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
                         android:text="@string/color"/>
 
                 </LinearLayout>
@@ -237,10 +235,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="14dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15dp"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
                         android:text="@string/calendarBlockStyle"/>
 
                 </LinearLayout>
@@ -279,10 +276,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="14dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15dp"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
                         android:text="@string/title"/>
 
                 </LinearLayout>
@@ -322,10 +318,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="14dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15dp"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
                         android:text="@string/init_text"/>
 
                     <TextView
@@ -376,10 +371,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="14dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15dp"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
                         android:text="@string/main_text"/>
 
                 </LinearLayout>
@@ -419,10 +413,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="14dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15dp"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
                         android:text="@string/init_text"/>
 
                     <TextView
@@ -473,10 +466,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="14dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15dp"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
                         android:text="@string/date"/>
 
                 </LinearLayout>
@@ -516,10 +508,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="14dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15dp"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
                         android:text="@string/time"/>
 
                 </LinearLayout>
@@ -560,10 +551,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="14dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15dp"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
                         android:text="@string/alarm"/>
 
                 </LinearLayout>
@@ -603,10 +593,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="14dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15dp"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
                         android:text="@string/checkbox"/>
 
                 </LinearLayout>
@@ -647,10 +636,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="14dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15dp"
                         android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
                         android:text="@string/alarm"/>
 
                 </LinearLayout>

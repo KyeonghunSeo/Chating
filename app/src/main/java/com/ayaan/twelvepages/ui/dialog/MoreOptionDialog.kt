@@ -26,7 +26,7 @@ class MoreOptionDialog(private val record: Record,
         }else {
             root.scheduleBtn.alpha = 1f
             root.scheduleBtn.setOnClickListener {
-                recordActivity.showStartEndDialog()
+                recordActivity.showStartEndDialog(0)
                 dismiss()
             }
         }

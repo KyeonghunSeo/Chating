@@ -81,7 +81,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                         activity.viewModel.clip(record)
                     }
                     2 -> {
-                        showDialog(SchedulingDialog(activity, record) { sCal, eCal ->
+                        showDialog(SchedulingDialog(activity, record, 0) { sCal, eCal ->
                             record.setDateTime(sCal, eCal)
                             if(record.isRepeat()) {
                                 RepeatManager.save(activity, record, Runnable { toast(R.string.moved, R.drawable.schedule) })
