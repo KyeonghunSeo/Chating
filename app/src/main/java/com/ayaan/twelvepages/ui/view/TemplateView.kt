@@ -69,7 +69,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 if(MainActivity.isProfileOpened()) {
                     MainActivity.closeProfileView()
                     return@setOnTouchListener true
-                }else if(isExpanded()) {
+                }else if(isExpanded() && addLy.visibility == View.VISIBLE) {
                     collapse()
                     return@setOnTouchListener true
                 }

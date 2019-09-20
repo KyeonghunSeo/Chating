@@ -87,8 +87,13 @@ class RecordActivity : BaseActivity() {
                     }else {
                         memoInput.visibility = View.GONE
                     }
+
+                    if(template.isSetTitle()) {
+                        showKeyPad(titleInput)
+                    }else if(template.isSetMemo()) {
+                        showKeyPad(memoInput)
+                    }
                 }
-                showKeyPad(titleInput)
             }
         })
     }
