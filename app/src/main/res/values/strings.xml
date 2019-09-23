@@ -373,6 +373,12 @@
     <string name="move_to_keep">보관함으로 이동</string>
     <string name="move_to_calendar">캘린더로 이동</string>
     <string name="date">날짜</string>
+    <string name="doned">완료됨</string>
+    <string name="done">완료하기</string>
+    <string name="done_when">완료일 : %1$s</string>
+    <string name="due">%1$s 남음</string>
+    <string name="overdue">%1$s 지남</string>
+    <string name="all_done">모두완료</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

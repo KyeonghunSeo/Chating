@@ -182,6 +182,48 @@ open class Record(@PrimaryKey var id: String? = null,
     fun undone() {
         dtDone = Long.MIN_VALUE
     }
+    fun getDueText(time: Long): String {
+        if(isDone()) {
+            return String.format(str(R.string.done_when), "${AppDateFormat.mde.format(Date(dtDone))} ${AppDateFormat.time.format(Date(dtDone))}")
+        }else {
+            val diffDate = getDiffDate(dtStart, time)
+            return if(isSetTime && diffDate == 0) {
+                val diff = dtStart - time
+                val diffMin = diff / MIN_MILL
+                val diffHour = diff / HOUR_MILL
+                val diffMinHour = diffMin % 60
+                if(diff < 0) {
+                    if(diffMin > -60) {
+                        String.format(str(R.string.overdue), String.format(str(R.string.some_min), diffMin.toString()))
+                    }else {
+                        if(diffMinHour == 0L) {
+                            String.format(str(R.string.overdue), String.format(str(R.string.some_hour), diffHour.toString()))
+                        }else {
+                            String.format(str(R.string.overdue), "${String.format(str(R.string.some_hour), diffHour.toString())} " +
+                                    String.format(str(R.string.some_min), diffMinHour.toString()))
+                        }
+                    }
+                }else {
+                    if(diffMin < 60) {
+                        String.format(str(R.string.due), String.format(str(R.string.some_min), diffMin.toString()))
+                    }else {
+                        if(diffMinHour == 0L) {
+                            String.format(str(R.string.due), String.format(str(R.string.some_hour), diffHour.toString()))
+                        }else {
+                            String.format(str(R.string.due), "${String.format(str(R.string.some_hour), diffHour.toString())} " +
+                                    String.format(str(R.string.some_min), diffMinHour.toString()))
+                        }
+                    }
+                }
+            }else {
+                when {
+                    diffDate > 0 -> String.format(str(R.string.overdue), diffDate.toString())
+                    diffDate < 0 -> String.format(str(R.string.due), diffDate.toString())
+                    else -> str(R.string.today)
+                }
+            }
+        }
+    }
 
     fun isSetCountdown(): Boolean = links.any { it.type == Link.Type.COUNTDOWN.ordinal }
     fun clearCountdown() { links.first{ it.type == Link.Type.COUNTDOWN.ordinal }?.let { links.remove(it) } }

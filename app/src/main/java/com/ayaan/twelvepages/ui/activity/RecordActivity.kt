@@ -176,15 +176,15 @@ class RecordActivity : BaseActivity() {
         updateFolderUI()
         updateTitleUI()
         updateTagUI()
+        updateMemoUI()
+        updateDateUI()
+        updateAlarmUI()
+        updateRepeatUI()
+        updateDdayUI()
         updateCheckBoxUI()
         updateCheckListUI()
         updatePercentageUI()
-        updateDateUI()
-        updateDdayUI()
-        updateRepeatUI()
-        updateAlarmUI()
         updateLocationUI()
-        updateMemoUI()
         updateLinkUI()
     }
 
@@ -330,20 +330,47 @@ class RecordActivity : BaseActivity() {
         }
     }
 
+    fun updateDdayUI() {
+        if(record.isSetCountdown()) {
+            ddayLy.visibility = View.VISIBLE
+            ddayText.text = record.getCountdownText(System.currentTimeMillis())
+            ddayLy.setOnClickListener {
+                showDialog(CustomDialog(this, getString(R.string.countdown),
+                        getString(R.string.delete_dday_sub), null) { result, _, _ ->
+                    if(result) {
+                        record.clearCountdown()
+                        updateDdayUI()
+                    }
+                }, true, true, true, false)
+            }
+        }else {
+            ddayLy.visibility = View.GONE
+        }
+    }
+
     fun updateCheckBoxUI() {
         if(record.isSetCheckBox) {
-            checkBox.visibility = View.VISIBLE
+            checkBoxLy.visibility = View.VISIBLE
+            dueText.text = record.getDueText(System.currentTimeMillis())
             if(record.isDone()) {
                 checkBox.setImageResource(R.drawable.check)
+                checkBtn.setCardBackgroundColor(AppTheme.green)
+                checkBoxText.text = str(R.string.doned)
+                checkBoxText.setTextColor(AppTheme.background)
+                doneImg.setColorFilter(AppTheme.background)
             }else {
                 checkBox.setImageResource(R.drawable.uncheck)
+                checkBtn.setCardBackgroundColor(AppTheme.lightLine)
+                checkBoxText.text = str(R.string.done)
+                checkBoxText.setTextColor(AppTheme.primaryText)
+                doneImg.setColorFilter(AppTheme.primaryText)
             }
-            checkBox.setOnClickListener {
+            checkBtn.setOnClickListener {
                 if(record.isDone()) record.undone()
                 else record.done()
                 updateCheckBoxUI()
             }
-            checkBox.setOnLongClickListener {
+            checkBoxLy.setOnLongClickListener {
                 showDialog(CustomDialog(this, getString(R.string.checkbox),
                         getString(R.string.delete_checkbox_sub), null) { result, _, _ ->
                     if(result) {
@@ -354,7 +381,7 @@ class RecordActivity : BaseActivity() {
                 return@setOnLongClickListener true
             }
         }else {
-            checkBox.visibility = View.GONE
+            checkBoxLy.visibility = View.GONE
         }
     }
 
@@ -362,6 +389,9 @@ class RecordActivity : BaseActivity() {
         if(record.isSetCheckList()) {
             checkListLy.visibility = View.VISIBLE
             checkListView.setCheckList(record)
+            allCheckBtn.setOnClickListener {
+
+            }
         }else {
             checkListLy.visibility = View.GONE
         }
@@ -404,15 +434,17 @@ class RecordActivity : BaseActivity() {
             durationText.text = getDurationText(startCal.timeInMillis, endCal.timeInMillis, record.isSetTime)
 
             if(record.isSetTime) {
+                startTimeText.visibility = View.VISIBLE
+                endTimeText.visibility = View.VISIBLE
                 startTimeText.text = AppDateFormat.time.format(startCal.time)
                 endTimeText.text = AppDateFormat.time.format(endCal.time)
-                startTimeText.setTextColor(AppTheme.primaryText)
-                endTimeText.setTextColor(AppTheme.primaryText)
-                timeBtn.visibility = View.VISIBLE
                 timeBtn.setOnClickListener {
                     record.setDateTime(false, startCal, endCal)
                     updateUI()
                 }
+                timeBtn.setPadding(0, 0, 0, 0)
+                timeImg.setImageResource(R.drawable.close)
+                timeText.visibility = View.GONE
                 endLy.visibility = View.VISIBLE
                 if(startCal == endCal) {
                     durationText.visibility = View.GONE
@@ -420,11 +452,12 @@ class RecordActivity : BaseActivity() {
                     durationText.visibility = View.VISIBLE
                 }
             }else {
-                timeBtn.visibility = View.GONE
-                startTimeText.text = str(R.string.set_time)
-                endTimeText.text = str(R.string.set_time)
-                startTimeText.setTextColor(AppTheme.disableText)
-                endTimeText.setTextColor(AppTheme.disableText)
+                startTimeText.visibility = View.GONE
+                endTimeText.visibility = View.GONE
+                timeBtn.setOnClickListener { showTimePickerDialog(startCal) }
+                timeBtn.setPadding(dpToPx(5), 0, dpToPx(5), 0)
+                timeImg.setImageResource(R.drawable.time)
+                timeText.visibility = View.VISIBLE
                 if(isSameDay(startCal, endCal)) {
                     endLy.visibility = View.GONE
                     durationText.visibility = View.GONE
@@ -463,24 +496,6 @@ class RecordActivity : BaseActivity() {
             record.setDateTime(true, startCal, endCal)
             updateUI()
         }, true, true, true, false)
-    }
-
-    fun updateDdayUI() {
-        if(record.isSetCountdown()) {
-            ddayLy.visibility = View.VISIBLE
-            ddayText.text = record.getCountdownText(System.currentTimeMillis())
-            ddayLy.setOnClickListener {
-                showDialog(CustomDialog(this, getString(R.string.countdown),
-                        getString(R.string.delete_dday_sub), null) { result, _, _ ->
-                    if(result) {
-                        record.clearCountdown()
-                        updateDdayUI()
-                    }
-                }, true, true, true, false)
-            }
-        }else {
-            ddayLy.visibility = View.GONE
-        }
     }
 
     private fun updateRepeatUI() {
@@ -541,8 +556,7 @@ class RecordActivity : BaseActivity() {
                 it.addMarker(MarkerOptions().position(latLng))
 
                 locationText.setOnClickListener {
-                    showDialog(CustomDialog(this, getString(R.string.location), null,
-                            arrayOf(getString(R.string.delete), getString(R.string.edit))) { result, index, _ ->
+                    showDialog(CustomDialog(this, getString(R.string.location), null, arrayOf(getString(R.string.delete), getString(R.string.edit))) { result, index, _ ->
                         if(result) {
                             if(index == 0) {
                                 record.location = null
@@ -734,14 +748,6 @@ class RecordActivity : BaseActivity() {
                             })
                 }catch (e: Exception){}
             }
-        }
-    }
-
-    fun setKeyboardLy(isOpen: Boolean) {
-        if(isOpen) {
-            textEditorLy.visibility = View.GONE
-        }else {
-            textEditorLy.visibility = View.GONE
         }
     }
 

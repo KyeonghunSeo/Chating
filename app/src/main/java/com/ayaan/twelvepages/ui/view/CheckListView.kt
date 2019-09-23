@@ -17,6 +17,7 @@ import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.setGlobalTheme
 import com.ayaan.twelvepages.showDialog
 import com.ayaan.twelvepages.ui.dialog.CustomDialog
+import com.ayaan.twelvepages.ui.dialog.InputDialog
 import com.ayaan.twelvepages.vibrate
 import org.json.JSONArray
 import org.json.JSONObject
@@ -54,6 +55,16 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
         }
     }
 
+    fun allCheck(to: Record) {
+        items.forEach { it.put("dtDone", Long.MIN_VALUE) }
+        setCheckList(to)
+    }
+
+    fun allUnCheck(to: Record) {
+        items.forEach { it.put("dtDone", System.currentTimeMillis()) }
+        setCheckList(to)
+    }
+
     private fun makeItem(item: JSONObject) {
         val v = LayoutInflater.from(context).inflate(R.layout.list_item_checklist, null, false)
         val iconImg = v.findViewById<ImageView>(R.id.iconImg)
@@ -72,8 +83,10 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
         }
 
         titleText.setOnClickListener {
-            val dialog = CustomDialog(context as Activity, context.getString(R.string.edit_item),
-                    null, null) { result, _, text ->
+            val dialog = InputDialog(context as Activity,
+                    R.drawable.uncheck,
+                    context.getString(R.string.edit_item), null, null,
+                    titleText.text.toString(), true) { result, text ->
                 if(result) {
                     item.put("title", text)
                     setItem(v, item)
@@ -81,7 +94,6 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
                 }
             }
             showDialog(dialog, true, true, true, false)
-            dialog.showInput(context.getString(R.string.edit_title), titleText.text.toString())
         }
 
         titleText.setOnLongClickListener {
