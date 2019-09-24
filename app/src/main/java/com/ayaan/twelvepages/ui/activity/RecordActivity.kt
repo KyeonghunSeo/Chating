@@ -1,6 +1,7 @@
 package com.ayaan.twelvepages.ui.activity
 
 import android.Manifest
+import android.animation.LayoutTransition.CHANGING
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -40,6 +41,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.android.synthetic.main.activity_record.*
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
+import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -100,6 +102,7 @@ class RecordActivity : BaseActivity() {
 
     private fun initLayout() {
         topShadow.visibility = View.GONE
+        contentLy.layoutTransition.enableTransitionType(CHANGING)
         mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             if(scrollY > 0) topShadow.visibility = View.VISIBLE
             else topShadow.visibility = View.GONE
@@ -185,6 +188,7 @@ class RecordActivity : BaseActivity() {
         updateCheckListUI()
         updatePercentageUI()
         updateLocationUI()
+        updatePhotoUI()
         updateLinkUI()
     }
 
@@ -365,6 +369,11 @@ class RecordActivity : BaseActivity() {
                 checkBoxText.setTextColor(AppTheme.primaryText)
                 doneImg.setColorFilter(AppTheme.primaryText)
             }
+            checkBox.setOnClickListener {
+                if(record.isDone()) record.undone()
+                else record.done()
+                updateCheckBoxUI()
+            }
             checkBtn.setOnClickListener {
                 if(record.isDone()) record.undone()
                 else record.done()
@@ -386,14 +395,30 @@ class RecordActivity : BaseActivity() {
     }
 
     fun updateCheckListUI() {
-        if(record.isSetCheckList()) {
+        val checkList = record.getCheckList()
+        if(checkList != null) {
             checkListLy.visibility = View.VISIBLE
-            checkListView.setCheckList(record)
-            allCheckBtn.setOnClickListener {
-
-            }
+            checkListView.setCheckList(checkList) { items -> updateCheckListUI(items) }
+            allCheckBtn.setOnClickListener { checkListView.allCheck() }
         }else {
             checkListLy.visibility = View.GONE
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateCheckListUI(items: ArrayList<JSONObject>) {
+        val checkItemsCount = items.count{ it.getLong("dtDone") != Long.MIN_VALUE }
+        checkListText.text = "$checkItemsCount / ${items.size} ${str(R.string.doned)}"
+        if(items.size > 0 && items.size == checkItemsCount) {
+            allCheckBtn.setCardBackgroundColor(AppTheme.green)
+            allCheckText.text = str(R.string.all_doned)
+            allCheckText.setTextColor(AppTheme.background)
+            allCheckImg.setColorFilter(AppTheme.background)
+        }else {
+            allCheckBtn.setCardBackgroundColor(AppTheme.lightLine)
+            allCheckText.text = str(R.string.all_done)
+            allCheckText.setTextColor(AppTheme.primaryText)
+            allCheckImg.setColorFilter(AppTheme.primaryText)
         }
     }
 
@@ -589,10 +614,21 @@ class RecordActivity : BaseActivity() {
         callAfterViewDrawed(memoInput, Runnable{ showKeyPad(memoInput) })
     }
 
+    fun updatePhotoUI() {
+        if(record.isSetPhoto()) {
+            photoLy.visibility = View.VISIBLE
+            photoListView.setList(record)
+            addPhotoBtn.setOnClickListener { showImagePicker() }
+        }else {
+            photoLy.visibility = View.GONE
+        }
+    }
+
     fun updateLinkUI() {
         if(record.isSetLink()) {
             linkLy.visibility = View.VISIBLE
             linkListView.setList(record)
+            addLinkBtn.setOnClickListener { showEditWebsiteDialog() }
         }else {
             linkLy.visibility = View.GONE
         }
@@ -667,7 +703,7 @@ class RecordActivity : BaseActivity() {
     fun showEditWebsiteDialog() {
         showDialog(AddWebLinkDialog(this) { link ->
             record.links.add(link)
-
+            updateLinkUI()
         }, true, true, true, false)
     }
 
@@ -737,7 +773,7 @@ class RecordActivity : BaseActivity() {
                                             l("다운로드 url : ${it.result.toString()}")
                                             record.links.add(Link(imageId, Link.Type.IMAGE.ordinal, strParam0 = it.result.toString()))
                                             hideProgressDialog()
-                                            updateLinkUI()
+                                            updatePhotoUI()
                                         }
                                     }
                                 }

@@ -5,27 +5,21 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout.HORIZONTAL
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.ayaan.twelvepages.adapter.FolderAdapter
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Record
 import io.realm.Realm
-import io.realm.Sort
 import kotlinx.android.synthetic.main.activity_scrap.*
 import org.json.JSONObject
 import java.util.*
 import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.ayaan.twelvepages.*
-import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
 import io.github.ponnamkarthik.richlinkpreview.MetaData
 import io.github.ponnamkarthik.richlinkpreview.ResponseListener
 import io.github.ponnamkarthik.richlinkpreview.RichPreview
-import io.realm.SyncUser
 
 
 class ScrapActivity : Activity() {
@@ -59,7 +53,7 @@ class ScrapActivity : Activity() {
                             webData = metaData
                             TransitionManager.beginDelayedTransition(rootLy, makeFromBottomSlideTransition())
                             contentLy.visibility = View.VISIBLE
-                            linkLy.visibility = View.VISIBLE
+                            photoLy.visibility = View.VISIBLE
                             progressBar.visibility = View.GONE
                             if(!metaData.imageurl.isNullOrBlank())
                                 Glide.with(this@ScrapActivity).load(metaData.imageurl).into(linkImg)
@@ -75,7 +69,7 @@ class ScrapActivity : Activity() {
                         override fun onError(e: Exception) {
                             e.printStackTrace()
                             contentLy.visibility = View.VISIBLE
-                            linkLy.visibility = View.GONE
+                            photoLy.visibility = View.GONE
                             progressBar.visibility = View.GONE
                         }
                     })

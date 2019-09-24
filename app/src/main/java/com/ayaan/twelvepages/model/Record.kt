@@ -189,11 +189,11 @@ open class Record(@PrimaryKey var id: String? = null,
             val diffDate = getDiffDate(dtStart, time)
             return if(isSetTime && diffDate == 0) {
                 val diff = dtStart - time
-                val diffMin = diff / MIN_MILL
-                val diffHour = diff / HOUR_MILL
+                val diffMin = Math.abs(diff / MIN_MILL)
+                val diffHour = Math.abs(diff / HOUR_MILL)
                 val diffMinHour = diffMin % 60
                 if(diff < 0) {
-                    if(diffMin > -60) {
+                    if(diffMin < 60) {
                         String.format(str(R.string.overdue), String.format(str(R.string.some_min), diffMin.toString()))
                     }else {
                         if(diffMinHour == 0L) {
@@ -268,6 +268,7 @@ open class Record(@PrimaryKey var id: String? = null,
             links.add(Link(type = Link.Type.CHECKLIST.ordinal))
         }
     }
+    fun getCheckList() = links.firstOrNull{ it.type == Link.Type.CHECKLIST.ordinal }
 
     fun isSetPercentage(): Boolean = links.any { it.type == Link.Type.PERCENTAGE.ordinal }
     fun clearPercentage() { links.first{ it.type == Link.Type.PERCENTAGE.ordinal }?.let { links.remove(it) } }
@@ -281,7 +282,8 @@ open class Record(@PrimaryKey var id: String? = null,
 
     fun isLunarRepeat(): Boolean = repeat?.contains("lunar") == true
 
-    fun isSetLink(): Boolean = links.any { it.type == Link.Type.IMAGE.ordinal }
+    fun isSetPhoto(): Boolean = links.any { it.type == Link.Type.IMAGE.ordinal }
+    fun isSetLink(): Boolean = links.any { it.type == Link.Type.WEB.ordinal }
 
     fun getTitleInCalendar() = if(!title.isNullOrBlank())
         title?.replace(System.getProperty("line.separator"), " ")

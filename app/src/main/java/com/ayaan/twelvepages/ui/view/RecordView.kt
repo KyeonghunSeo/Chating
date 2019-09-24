@@ -33,7 +33,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val normalStickerSize = dpToPx(35f)
         val datePointSize = dpToPx(30)
         val rectRadius = dpToPx(1.0f)
-        val dotSize = dpToPx(5)
+        val dotSize = dpToPx(4)
         val checkboxSize = dpToPx(10)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         val dashPath = DashPathEffect(floatArrayOf(dpToPx(5.0f), dpToPx(1.0f)), 2f)
@@ -187,22 +187,20 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     fun getViewHeight(): Int {
         return when(formula) {
             STAMP -> {
-                val itemSize = blockTypeSize
-                val width =  mRight - mLeft - defaulMargin
+                val itemSize = blockTypeSize - defaultPadding
+                val width =  mRight - mLeft - defaultPadding * 2
                 val margin = defaulMargin.toInt()
-                val size = itemSize - defaulMargin
                 val totalCnt = childList?.size ?: 0
-                val rows = ((size * totalCnt + margin * (totalCnt - 1)) / width).toInt() + 1
-                (itemSize * rows)
+                val rows = ((itemSize * totalCnt + margin * (totalCnt - 1)) / width).toInt() + 1
+                ((itemSize + margin) * rows) + margin
             }
             DOT -> {
                 val itemSize = dotSize
-                val width =  mRight - mLeft - defaulMargin - defaultPadding * 2
+                val width =  mRight - mLeft - defaulMargin * 2 - defaultPadding * 2
                 val margin = defaulMargin.toInt()
-                val size = itemSize - defaulMargin
                 val totalCnt = childList?.size ?: 0
-                val rows = ((size * totalCnt + margin * (totalCnt - 1)) / width).toInt() + 1
-                (itemSize * rows) + margin
+                val rows = ((itemSize * totalCnt + margin * (totalCnt - 1)) / width).toInt() + 1
+                ((itemSize + margin) * rows) + margin
             }
             EXPANDED -> {
                 val width =  mRight - mLeft - defaulMargin
@@ -505,38 +503,37 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     private fun drawDot(canvas: Canvas) {
         val margin = defaulMargin
-        val size = dotSize - defaulMargin
+        val size = dotSize
         var top = 0f
-        var left = defaultPadding + defaulMargin - baseSize
-        val right = width
+        var left = defaultPadding + defaulMargin
+        val right = width - defaultPadding - defaulMargin
         childList?.sortWith(RecordListComparator())
         childList?.forEach { child ->
             paint.color = child.getColor()
             //canvas.drawRect(left, top, left + size, top + size, paint)
-            canvas.drawCircle(left + size/2, top + size/2, size/2, paint)
+            canvas.drawCircle(left + size/2, top + size/2, (size/2).toFloat(), paint)
             left += size + margin
             if (left + size >= right) {
-                top += dotSize
-                left = defaultPadding + margin
+                top += size + margin
+                left = defaultPadding + defaulMargin
             }
         }
     }
 
     fun drawStamp(canvas: Canvas) {
         val margin = defaulMargin.toInt()
-        val size = (blockTypeSize - defaulMargin).toInt()
+        val size = blockTypeSize - defaultPadding
         var top = 0
-        var left = 0
+        var left = defaultPadding
         val right = width - defaulMargin
         childList?.forEach { child ->
-            val circle = resource.getDrawable(R.drawable.circle_fill)
-            circle.setColorFilter(child.getColor(), PorterDuff.Mode.SRC_ATOP)
-            circle.setBounds(left, top, left + size, top + size)
-            circle.draw(canvas)
+            paint.color = child.getColor()
+            canvas.drawCircle((left + size/2).toFloat(), (top + size/2).toFloat(), (size/2).toFloat(), paint)
 
-            val stamp = resource.getDrawable(SymbolManager.stamps[0])
+            val stamp = resource.getDrawable(SymbolManager.getSymbolResId(child.symbol))
             stamp.setColorFilter(ColorManager.getFontColor(child.getColor()), PorterDuff.Mode.SRC_ATOP)
-            stamp.setBounds(left + margin, top + margin, left + size - margin, top + size - margin)
+            stamp.setBounds(left + defaultPadding, top + defaultPadding,
+                    left + size - defaultPadding, top + size - defaultPadding)
             stamp.draw(canvas)
 /*
             val stroke = resource.getDrawable(R.drawable.circle_stroke_1px)
@@ -546,8 +543,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 */
             left += size + margin
             if(left + size >= right) {
-                top += blockTypeSize
-                left = 0
+                top += size + margin
+                left = defaultPadding
             }
         }
     }
@@ -567,7 +564,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             }
             2 -> {
                 val size = (normalStickerSize * 0.55f).toInt()
-                val top = (height - size - defaultPadding).toInt()
+                val top = (height - size - defaultPadding)
                 var left = (width - size * 2 - defaulMargin).toInt()
                 var resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
                 resource.getDrawable(resId, null)?.let {

@@ -6,152 +6,164 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.model.Link
-import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.setGlobalTheme
 import com.ayaan.twelvepages.showDialog
 import com.ayaan.twelvepages.ui.dialog.CustomDialog
 import com.ayaan.twelvepages.ui.dialog.InputDialog
 import com.ayaan.twelvepages.vibrate
+import kotlinx.android.synthetic.main.list_item_checklist.view.*
+import kotlinx.android.synthetic.main.list_item_checklist_add.view.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.*
 
 class CheckListView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : LinearLayout(context, attrs, defStyleAttr) {
+    : RecyclerView(context, attrs, defStyleAttr) {
     val items = ArrayList<JSONObject>()
-    var record: Record? = null
+    var link: Link? = null
     var jsonArray: JSONArray? = null
+    var onDataChanged: ((ArrayList<JSONObject>) -> Unit)? = null
 
     init {
-        orientation = VERTICAL
-        //layoutTransition = LayoutTransition()
-        //layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        layoutManager = LinearLayoutManager(context, VERTICAL, false)
+        adapter = Adapter()
+        isNestedScrollingEnabled = false
     }
 
-    fun setCheckList(to: Record) {
-        record = to
+    fun setCheckList(l: Link, callback: ((ArrayList<JSONObject>) -> Unit)) {
+        onDataChanged = callback
         items.clear()
-        jsonArray = JSONArray()
-        removeAllViews()
-        makeAddLy()
-        to.links.first { it.type == Link.Type.CHECKLIST.ordinal }?.let { link ->
-            try{
-                JSONArray(link.properties).let {
-                    if(it.length() > 0) {
-                        for(i in 0 until it.length()) {
-                            makeItem(it.getJSONObject(i))
-                        }
+        try{
+            jsonArray = JSONArray(l.properties)
+            jsonArray?.let {
+                if(it.length() > 0) {
+                    for(i in 0 until it.length()) {
+                        items.add(it.getJSONObject(i))
                     }
                 }
-                return@let
-            }catch (e: Exception){ e.printStackTrace() }
+            }
+
+        }catch (e: Exception){ e.printStackTrace() }
+        link = l
+        adapter?.notifyDataSetChanged()
+        onDataChanged?.invoke(items)
+    }
+
+    inner class Adapter : RecyclerView.Adapter<ViewHolder>() {
+        override fun getItemCount(): Int = items.size + 1
+
+        inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
+            init { setGlobalTheme(container) }
         }
-    }
 
-    fun allCheck(to: Record) {
-        items.forEach { it.put("dtDone", Long.MIN_VALUE) }
-        setCheckList(to)
-    }
+        inner class AddViewHolder(container: View) : RecyclerView.ViewHolder(container) {
+            init { setGlobalTheme(container) }
+        }
 
-    fun allUnCheck(to: Record) {
-        items.forEach { it.put("dtDone", System.currentTimeMillis()) }
-        setCheckList(to)
-    }
+        override fun getItemViewType(position: Int): Int {
+            return if(position < items.size) 0 else 1
+        }
 
-    private fun makeItem(item: JSONObject) {
-        val v = LayoutInflater.from(context).inflate(R.layout.list_item_checklist, null, false)
-        val iconImg = v.findViewById<ImageView>(R.id.iconImg)
-        val titleText = v.findViewById<TextView>(R.id.titleText)
-        setGlobalTheme(v)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder  {
+            return if(viewType == 0) ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_checklist, parent, false))
+            else AddViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_checklist_add, parent, false))
+        }
 
-        iconImg.setOnClickListener {
-            vibrate(context)
-            if(item.getLong("dtDone") == Long.MIN_VALUE) {
-                item.put("dtDone", System.currentTimeMillis())
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            if(position < items.size) {
+                val v = (holder as ViewHolder).itemView
+                val item = items[position]
+
+                if(item.getLong("dtDone") != Long.MIN_VALUE) {
+                    v.iconImg.setImageResource(R.drawable.check)
+                    v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                }else {
+                    v.iconImg.setImageResource(R.drawable.uncheck)
+                    v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
+                }
+                v.titleText.text = item.getString("title")
+
+                v.iconImg.setOnClickListener {
+                    vibrate(context)
+                    if(item.getLong("dtDone") == Long.MIN_VALUE) {
+                        item.put("dtDone", System.currentTimeMillis())
+                    }else {
+                        item.put("dtDone", Long.MIN_VALUE)
+                    }
+                    notifyItemChanged(position)
+                    save()
+                }
+
+                v.titleText.setOnClickListener {
+                    val dialog = InputDialog(context as Activity,
+                            R.drawable.uncheck,
+                            context.getString(R.string.edit_item), null, null,
+                            v.titleText.text.toString(), true) { result, text ->
+                        if(result) {
+                            item.put("title", text)
+                            notifyItemChanged(position)
+                            save()
+                        }
+                    }
+                    showDialog(dialog, true, true, true, false)
+                }
+
+                v.titleText.setOnLongClickListener {
+                    showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_item),
+                            v.titleText.text.toString(), null) { result, _, text ->
+                        if(result) {
+                            jsonArray?.remove(items.indexOf(item))
+                            items.remove(item)
+                            notifyItemRemoved(position)
+                            save()
+                        }
+                    }, true, true, true, false)
+                    return@setOnLongClickListener true
+                }
             }else {
-                item.put("dtDone", Long.MIN_VALUE)
-            }
-            setItem(v, item)
-            save()
-        }
-
-        titleText.setOnClickListener {
-            val dialog = InputDialog(context as Activity,
-                    R.drawable.uncheck,
-                    context.getString(R.string.edit_item), null, null,
-                    titleText.text.toString(), true) { result, text ->
-                if(result) {
-                    item.put("title", text)
-                    setItem(v, item)
-                    save()
+                val v = (holder as AddViewHolder).itemView
+                v.titleInput.hint = context.getString(R.string.add_checklist)
+                v.titleInput.setText("")
+                v.titleInput.setOnEditorActionListener { _, actionId, _ ->
+                    if (actionId == IME_ACTION_DONE) {
+                        if(v.titleInput.text.isNotBlank()) {
+                            val newItem = JSONObject()
+                            newItem.put("title", v.titleInput.text.toString())
+                            newItem.put("dtDone", Long.MIN_VALUE)
+                            v.titleInput.setText("")
+                            items.add(newItem)
+                            jsonArray?.put(newItem)
+                            notifyItemInserted(items.size - 1)
+                            save()
+                        }
+                    }
+                    return@setOnEditorActionListener true
                 }
             }
-            showDialog(dialog, true, true, true, false)
         }
-
-        titleText.setOnLongClickListener {
-            showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_item),
-                    titleText.text.toString(), null) { result, _, text ->
-                if(result) {
-                    jsonArray?.remove(items.indexOf(item))
-                    items.remove(item)
-                    removeView(v)
-                    save()
-                }
-            }, true, true, true, false)
-            return@setOnLongClickListener true
-        }
-
-        setItem(v, item)
-        items.add(item)
-        jsonArray?.put(item)
-        addView(v, childCount - 1)
-    }
-
-    private fun setItem(v: View, item: JSONObject) {
-        val iconImg = v.findViewById<ImageView>(R.id.iconImg)
-        val titleText = v.findViewById<TextView>(R.id.titleText)
-
-        if(item.getLong("dtDone") != Long.MIN_VALUE) {
-            iconImg.setImageResource(R.drawable.check)
-            titleText.paintFlags = titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        }else {
-            iconImg.setImageResource(R.drawable.uncheck)
-            titleText.paintFlags = titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
-        }
-        titleText.text = item.getString("title")
-    }
-
-    private fun makeAddLy() {
-        val v = LayoutInflater.from(context).inflate(R.layout.list_item_checklist_add, null, false)
-        setGlobalTheme(v)
-        val titleInput = v.findViewById<EditText>(R.id.titleInput)
-        titleInput.hint = context.getString(R.string.add_checklist)
-        titleInput.setText("")
-        titleInput.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == IME_ACTION_DONE) {
-                if(titleInput.text.isNotBlank()) {
-                    val newItem = JSONObject()
-                    newItem.put("title", titleInput.text.toString())
-                    newItem.put("dtDone", Long.MIN_VALUE)
-                    makeItem(newItem)
-                    titleInput.setText("")
-                    save()
-                }
-            }
-            return@setOnEditorActionListener true
-        }
-        addView(v)
     }
 
     private fun save() {
-        record?.links?.first { it.type == Link.Type.CHECKLIST.ordinal }?.properties = jsonArray?.toString()
+        jsonArray?.let {
+            link?.properties = it.toString()
+            onDataChanged?.invoke(items)
+            return@let
+        }
+    }
+
+    fun allCheck() {
+        if(items.any { it.getLong("dtDone") == Long.MIN_VALUE }) {
+            val time = System.currentTimeMillis()
+            items.forEach { it.put("dtDone", time) }
+        }else {
+            items.forEach { it.put("dtDone", Long.MIN_VALUE) }
+        }
+        adapter?.notifyDataSetChanged()
+        save()
     }
 }

@@ -378,7 +378,10 @@
     <string name="done_when">완료일 : %1$s</string>
     <string name="due">%1$s 남음</string>
     <string name="overdue">%1$s 지남</string>
-    <string name="all_done">모두완료</string>
+    <string name="all_done">모두 완료</string>
+    <string name="all_doned">모두 완료됨</string>
+    <string name="add_photo">사진 추가</string>
+    <string name="add_web_link">웹링크 추가</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>
