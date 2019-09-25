@@ -262,7 +262,7 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     fun isSetCheckList(): Boolean = links.any { it.type == Link.Type.CHECKLIST.ordinal }
-    fun clearCheckList() { links.first{ it.type == Link.Type.CHECKLIST.ordinal }?.let { links.remove(it) } }
+    fun clearCheckList() { links.firstOrNull{ it.type == Link.Type.CHECKLIST.ordinal }?.let { links.remove(it) } }
     fun setCheckList() {
         if(!isSetCheckList()) {
             links.add(Link(type = Link.Type.CHECKLIST.ordinal))
@@ -271,7 +271,7 @@ open class Record(@PrimaryKey var id: String? = null,
     fun getCheckList() = links.firstOrNull{ it.type == Link.Type.CHECKLIST.ordinal }
 
     fun isSetPercentage(): Boolean = links.any { it.type == Link.Type.PERCENTAGE.ordinal }
-    fun clearPercentage() { links.first{ it.type == Link.Type.PERCENTAGE.ordinal }?.let { links.remove(it) } }
+    fun clearPercentage() { links.firstOrNull{ it.type == Link.Type.PERCENTAGE.ordinal }?.let { links.remove(it) } }
     fun setPercentage() {
         if(!isSetPercentage()) {
             links.add(Link(type = Link.Type.PERCENTAGE.ordinal))
@@ -325,4 +325,9 @@ open class Record(@PrimaryKey var id: String? = null,
     fun isScheduled() = dtStart != Long.MIN_VALUE
     fun isOsInstance() = id?.startsWith("osInstance::") == true
     fun getOsEventId() = id?.substring("osInstance::".length, id!!.length)?.toLong() ?: -1
+    fun isSetLocation() = location != null
+    fun isSetMainText() = description != null
+    fun isSetTitle() = title != null
+    fun isSetSymbol() = symbol != null
+
 }

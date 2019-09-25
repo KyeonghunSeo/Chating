@@ -1,28 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:background="@drawable/normal_rect_stroke"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/linkImg"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:scaleType="centerCrop"
-        android:background="@color/light_line"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/photoLy"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="5dp"
+        app:cardElevation="2dp"
+        android:foreground="?android:attr/selectableItemBackground">
 
-    <TextView
-        android:id="@+id/linkText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="55dp"
-        android:layout_marginRight="20dp"
-        android:layout_gravity="center_vertical"
-        android:maxLines="2"
-        android:textSize="14dp"
-        android:fontFamily="@font/bold"
-        android:textColor="@color/primaryText"
-        android:text="@string/title"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/linkImg"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                android:background="@color/light_line"/>
+
+            <TextView
+                android:id="@+id/linkText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center_vertical"
+                android:maxLines="2"
+                android:textSize="13dp"
+                android:fontFamily="@font/bold"
+                android:textColor="@color/primaryText"
+                android:text="@string/title"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

@@ -273,8 +273,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
                             android:layout_gravity="right"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
                             app:cardBackgroundColor="@color/light_line"
                             app:cardCornerRadius="12.5dp"
                             app:cardElevation="0dp">
@@ -282,7 +280,9 @@
                             <LinearLayout
                                 android:orientation="horizontal"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp">
 
                                 <ImageView
                                     android:id="@+id/timeImg"
@@ -814,8 +814,10 @@
                     android:id="@+id/photoListView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="12dp"
+                    android:clipToPadding="false"
+                    android:clipChildren="false"/>
 
             </LinearLayout>
 
@@ -893,7 +895,7 @@
                     android:id="@+id/linkListView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"/>
 
             </LinearLayout>

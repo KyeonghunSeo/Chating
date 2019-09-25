@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.manager.SymbolManager
@@ -122,11 +123,15 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.moreImg.setOnClickListener { toast(R.string.this_is_os_instance) }
         }else {
             v.moreImg.setImageResource(R.drawable.more)
-            v.moreImg.setColorFilter(AppTheme.primaryText)
+            v.moreImg.setColorFilter(AppTheme.secondaryText)
             v.moreImg.setOnClickListener { adapterInterface.invoke(v.moreImg, record, 0) }
         }
 
-        v.iconImg.setColorFilter(record.getColor())
+        val color = record.getColor()
+        val fontColor = ColorManager.getFontColor(color)
+        v.iconImg.setColorFilter(color)
+        v.symbolImg.setColorFilter(fontColor)
+
         if(record.isSetCheckBox) {
             v.iconImg.setPadding(checkBoxPadding, checkBoxPadding, checkBoxPadding, checkBoxPadding)
             if(record.isDone()) {
@@ -151,8 +156,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                 RecordManager.done(record)
             }
         }else {
-            v.iconImg.setPadding(circlePadding, circlePadding, circlePadding, circlePadding)
-            v.iconImg.setImageResource(SymbolManager.getSymbolResId(record.symbol))
+            v.symbolImg.setImageResource(SymbolManager.getSymbolResId(record.symbol))
             v.contentLy.alpha = 1f
             v.iconImg.setOnClickListener(null)
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
@@ -207,9 +211,9 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         }
 
         if(record.description.isNullOrBlank()) {
-            v.memoLy.visibility = View.GONE
+            v.memoText.visibility = View.GONE
         }else {
-            v.memoLy.visibility = View.VISIBLE
+            v.memoText.visibility = View.VISIBLE
             if(!query.isNullOrEmpty()){
                 highlightQuery(v.memoText, record.description!!)
             }else {

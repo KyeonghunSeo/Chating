@@ -244,12 +244,7 @@ class RecordActivity : BaseActivity() {
             symbolDivider.setBackgroundColor(fontColor)
             symbolImg.setColorFilter(fontColor)
             symbolImg.setImageResource(SymbolManager.getSymbolResId(record.symbol))
-            symbolBtn.setOnClickListener {
-                SymbolPickerDialog(record.symbol){
-                    record.symbol = it.name
-                    updateFolderUI()
-                }.show(supportFragmentManager, null)
-            }
+            symbolBtn.setOnClickListener {showSymbolDialog() }
         }
 
         colorBg.setCardBackgroundColor(color)
@@ -278,6 +273,13 @@ class RecordActivity : BaseActivity() {
         }else {
             colorBg.setContentPadding(dpToPx(5), 0, dpToPx(5), 0)
         }
+    }
+
+    fun showSymbolDialog() {
+        SymbolPickerDialog(record.symbol){
+            record.symbol = it.name
+            updateFolderUI()
+        }.show(supportFragmentManager, null)
     }
 
     private fun showDatePickerDialog() {
@@ -324,28 +326,35 @@ class RecordActivity : BaseActivity() {
         }, true, true, true, false)
     }
 
-    private fun updateTitleUI() {
-        if(record.title == null) {
+    fun updateTitleUI() {
+        if(record.title.isNullOrEmpty()) {
+            titleInput.setText("")
             titleInput.visibility = View.GONE
         }else {
-            titleInput.visibility = View.VISIBLE
             titleInput.setText(record.title)
             titleInput.setSelection(record.title?.length ?: 0)
+            titleInput.visibility = View.VISIBLE
         }
+    }
+
+    fun showTitleUI() {
+        titleInput.visibility = View.VISIBLE
+        callAfterViewDrawed(titleInput, Runnable{ showKeyPad(titleInput) })
     }
 
     fun updateDdayUI() {
         if(record.isSetCountdown()) {
             ddayLy.visibility = View.VISIBLE
             ddayText.text = record.getCountdownText(System.currentTimeMillis())
-            ddayLy.setOnClickListener {
-                showDialog(CustomDialog(this, getString(R.string.countdown),
-                        getString(R.string.delete_dday_sub), null) { result, _, _ ->
+            ddayLy.setOnLongClickListener {
+                showDialog(CustomDialog(this, getString(R.string.delete),
+                        getString(R.string.delete_dday_sub), null, R.drawable.delete) { result, _, _ ->
                     if(result) {
                         record.clearCountdown()
                         updateDdayUI()
                     }
                 }, true, true, true, false)
+                return@setOnLongClickListener true
             }
         }else {
             ddayLy.visibility = View.GONE
@@ -380,8 +389,8 @@ class RecordActivity : BaseActivity() {
                 updateCheckBoxUI()
             }
             checkBoxLy.setOnLongClickListener {
-                showDialog(CustomDialog(this, getString(R.string.checkbox),
-                        getString(R.string.delete_checkbox_sub), null) { result, _, _ ->
+                showDialog(CustomDialog(this, getString(R.string.delete),
+                        getString(R.string.delete_checkbox_sub), null, R.drawable.delete) { result, _, _ ->
                     if(result) {
                         record.isSetCheckBox = false
                         updateCheckBoxUI()
@@ -398,6 +407,16 @@ class RecordActivity : BaseActivity() {
         val checkList = record.getCheckList()
         if(checkList != null) {
             checkListLy.visibility = View.VISIBLE
+            checkListLy.setOnLongClickListener {
+                showDialog(CustomDialog(this, getString(R.string.delete),
+                        getString(R.string.delete_checklist_sub), null, R.drawable.delete) { result, _, _ ->
+                    if(result) {
+                        record.clearCheckList()
+                        updateCheckListUI()
+                    }
+                }, true, true, true, false)
+                return@setOnLongClickListener true
+            }
             checkListView.setCheckList(checkList) { items -> updateCheckListUI(items) }
             allCheckBtn.setOnClickListener { checkListView.allCheck() }
         }else {

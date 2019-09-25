@@ -62,17 +62,17 @@ class WebLinkListView @JvmOverloads constructor(context: Context, attrs: Attribu
             if(!imageurl.isNullOrBlank()){
                 Glide.with(context).asBitmap().load(imageurl).into(object : SimpleTarget<Bitmap>(){
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        if(resource.width > dpToPx(80) || resource.height > dpToPx(40)) {
-                            (v.linkImg.layoutParams as FrameLayout.LayoutParams).let {
+                        if(resource.width > dpToPx(90) || resource.height > dpToPx(45)) {
+                            (v.linkImg.layoutParams as LinearLayout.LayoutParams).let {
                                 it.width = dpToPx(80)
-                                it.height = dpToPx(40)
+                                it.height = dpToPx(45)
                             }
                             v.linkImg.setPadding(0, 0, 0, 0)
                             v.linkImg.requestLayout()
                         }else {
-                            (v.linkImg.layoutParams as FrameLayout.LayoutParams).let {
-                                it.width = dpToPx(40)
-                                it.height = dpToPx(40)
+                            (v.linkImg.layoutParams as LinearLayout.LayoutParams).let {
+                                it.width = dpToPx(45)
+                                it.height = dpToPx(45)
                             }
                             val p = dpToPx(10)
                             v.linkImg.setPadding(p, p, p, p)
@@ -87,15 +87,15 @@ class WebLinkListView @JvmOverloads constructor(context: Context, attrs: Attribu
                 Glide.with(context).load(R.drawable.website).into(v.linkImg)
             }
 
-            v.linkImg.setOnClickListener {
+            v.setOnClickListener {
                 try{
                     context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                 }catch (e: Exception) {
                     toast(R.string.invalid_info)
                 }
             }
-            v.linkImg.setOnLongClickListener {
-                showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_item), null, null) { result, _, _ ->
+            v.setOnLongClickListener {
+                showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_item), null, null, R.drawable.delete) { result, _, _ ->
                     if(result) {
                         items.remove(link)
                         record?.links?.remove(link)

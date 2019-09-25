@@ -171,8 +171,8 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                 if(formula != currentFomula) {
                     currentFomula = formula
                     when(currentFomula) {
-                        STAMP -> addBottomMargin(dpToPx(2f), currentFomula)
-                        DOT -> addBottomMargin(dpToPx(4f), currentFomula)
+                        STAMP -> addBottomMargin(dpToPx(1f), currentFomula)
+                        DOT -> addBottomMargin(dpToPx(2f), currentFomula)
                         RANGE -> {
                             addBottomMargin(dpToPx(15f), currentFomula)
                             computeBottomStackStartPos()

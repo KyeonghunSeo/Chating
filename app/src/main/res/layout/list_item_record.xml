@@ -10,10 +10,11 @@
        android:id="@+id/contentLy"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:minHeight="60dp">
+       android:layout_marginLeft="10dp"
+       android:minHeight="50dp">
 
       <FrameLayout
-          android:layout_width="60dp"
+          android:layout_width="50dp"
           android:layout_height="match_parent">
 
          <View
@@ -35,22 +36,30 @@
 
          <ImageView
              android:id="@+id/iconImg"
-             android:layout_width="40dp"
-             android:layout_height="40dp"
+             android:layout_width="50dp"
+             android:layout_height="50dp"
              android:layout_gravity="center_horizontal"
              android:background="?android:attr/selectableItemBackground"
-             android:padding="15dp"
+             android:padding="13dp"
              android:src="@drawable/circle_fill"
+             android:tint="@color/primaryText"/>
+
+         <ImageView
+             android:id="@+id/symbolImg"
+             android:layout_width="50dp"
+             android:layout_height="50dp"
+             android:layout_gravity="center_horizontal"
+             android:background="?android:attr/selectableItemBackground"
+             android:padding="18dp"
              android:tint="@color/primaryText"/>
 
       </FrameLayout>
 
       <ImageView
           android:id="@+id/moreImg"
-          android:layout_width="40dp"
-          android:layout_height="40dp"
-          android:layout_margin="10dp"
-          android:padding="12dp"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:padding="18dp"
           android:layout_gravity="right"
           android:src="@drawable/more"
           android:tint="@color/secondaryText"
@@ -59,19 +68,30 @@
       <LinearLayout
           android:orientation="vertical"
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:layout_marginLeft="60dp">
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="55dp"
+          android:layout_marginRight="25dp">
 
          <TextView
              android:id="@+id/titleText"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:minHeight="40dp"
-             android:gravity="center_vertical"
-             android:textSize="14dp"
+             android:layout_marginTop="16dp"
+             android:textSize="15dp"
              android:fontFamily="@font/bold"
              android:textColor="@color/primaryText"
              android:text="title"/>
+
+         <TextView
+             android:id="@+id/memoText"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="10dp"
+             android:textSize="14dp"
+             android:textColor="@color/primaryText"
+             android:ellipsize="end"
+             android:maxLines="10"
+             android:text="메모" />
 
          <LinearLayout
              android:orientation="vertical"
@@ -198,34 +218,6 @@
                    android:ellipsize="end"
                    android:maxLines="1"
                    android:text="location" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/memoLy"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical">
-
-               <ImageView
-                   android:layout_width="12dp"
-                   android:layout_height="12dp"
-                   android:tint="@color/iconTint"
-                   android:src="@drawable/memo"/>
-
-               <TextView
-                   android:id="@+id/memoText"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginLeft="3dp"
-                   android:textSize="12dp"
-                   android:textColor="@color/primaryText"
-                   android:fontFamily="@font/thin"
-                   android:ellipsize="end"
-                   android:maxLines="5"
-                   android:text="메모" />
 
             </LinearLayout>
 <!--
