@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.net.Uri
 import android.provider.CalendarContract
 import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
@@ -132,6 +133,45 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         v.iconImg.setColorFilter(color)
         v.symbolImg.setColorFilter(fontColor)
 
+        if(record.title.isNullOrBlank()) {
+            v.titleText.text = ""
+            //v.titleText.typeface = AppTheme.regularFont
+            v.memoText.visibility = View.GONE
+            if(!record.description.isNullOrBlank()) {
+                if(!query.isNullOrEmpty()){
+                    highlightQuery(v.titleText, record.description!!)
+                }else {
+                    v.titleText.text = record.description?.trim()
+                }
+            }
+        }else {
+            //v.titleText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            if(!query.isNullOrEmpty()){
+                highlightQuery(v.titleText, record.title!!)
+            }else {
+                v.titleText.text = record.title?.trim()
+            }
+
+            if(record.description.isNullOrBlank()) {
+                v.memoText.visibility = View.GONE
+            }else {
+                v.memoText.visibility = View.VISIBLE
+                if(!query.isNullOrEmpty()){
+                    highlightQuery(v.memoText, record.description!!)
+                }else {
+                    v.memoText.text = record.description?.trim()
+                }
+            }
+        }
+
+        if(record.tags.isNotEmpty()) {
+            v.tagView.visibility = View.VISIBLE
+            v.tagView.isSmallTag = true
+            v.tagView.setItems(record.tags, null)
+        }else {
+            v.tagView.visibility = View.GONE
+        }
+
         if(record.isSetCheckBox) {
             v.iconImg.setPadding(checkBoxPadding, checkBoxPadding, checkBoxPadding, checkBoxPadding)
             if(record.isDone()) {
@@ -191,34 +231,6 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             }
         }else {
             v.timeLy.visibility = View.GONE
-        }
-
-        if(record.tags.isNotEmpty()) {
-            v.tagText.visibility = View.VISIBLE
-            v.tagText.text = record.tags.joinToString("") { "#${it.title}" }
-        }else {
-            v.tagText.visibility = View.GONE
-        }
-
-        if(record.title.isNullOrBlank()) {
-            v.titleText.text = ""
-        }else {
-            if(!query.isNullOrEmpty()){
-                highlightQuery(v.titleText, record.title!!)
-            }else {
-                v.titleText.text = record.title?.trim()
-            }
-        }
-
-        if(record.description.isNullOrBlank()) {
-            v.memoText.visibility = View.GONE
-        }else {
-            v.memoText.visibility = View.VISIBLE
-            if(!query.isNullOrEmpty()){
-                highlightQuery(v.memoText, record.description!!)
-            }else {
-                v.memoText.text = record.description?.trim()
-            }
         }
 
         if(record.location.isNullOrBlank()) {
@@ -296,48 +308,11 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.imageLy.visibility = View.GONE
         }
 
-        if(record.links.any { it.type == Link.Type.WEB.ordinal }){
-            val link = record.links.first{ it.type == Link.Type.WEB.ordinal }
-            val url = link.strParam0
-            val imageurl = link.strParam1
-            val favicon = link.strParam2
-
-            v.linkText.text = link.title
-            if(!imageurl.isNullOrBlank()){
-                Glide.with(context).asBitmap().load(imageurl).into(object : SimpleTarget<Bitmap>(){
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        if(resource.width > dpToPx(80) || resource.height > dpToPx(50)) {
-                            (v.linkImg.layoutParams as LinearLayout.LayoutParams).let {
-                                it.width = dpToPx(80)
-                                it.height = dpToPx(50)
-                            }
-                            v.linkImg.requestLayout()
-                        }else {
-                            (v.linkImg.layoutParams as LinearLayout.LayoutParams).let {
-                                it.width = dpToPx(15)
-                                it.height = dpToPx(15)
-                            }
-                            v.linkImg.requestLayout()
-                        }
-                        v.linkImg.setImageBitmap(resource)
-                    }
-                })
-            } else if(!favicon.isNullOrBlank()) {
-                Glide.with(context).load(favicon).into(v.linkImg)
-            } else {
-                Glide.with(context).load(R.drawable.website).into(v.linkImg)
-            }
-
-            v.linkLy.visibility = View.VISIBLE
-            v.linkLy.setOnClickListener {
-                try{
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-                }catch (e: Exception) {
-                    toast(R.string.invalid_info)
-                }
-            }
+        if(record.isSetLink()){
+            v.webLinkView.visibility = View.VISIBLE
+            v.webLinkView.setList(record)
         }else {
-            v.linkLy.visibility = View.GONE
+            v.webLinkView.visibility = View.GONE
         }
     }
 

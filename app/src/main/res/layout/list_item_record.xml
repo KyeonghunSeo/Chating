@@ -10,7 +10,7 @@
        android:id="@+id/contentLy"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_marginLeft="10dp"
+       android:layout_marginLeft="2dp"
        android:minHeight="50dp">
 
       <FrameLayout
@@ -40,7 +40,7 @@
              android:layout_height="50dp"
              android:layout_gravity="center_horizontal"
              android:background="?android:attr/selectableItemBackground"
-             android:padding="13dp"
+             android:padding="17dp"
              android:src="@drawable/circle_fill"
              android:tint="@color/primaryText"/>
 
@@ -50,7 +50,7 @@
              android:layout_height="50dp"
              android:layout_gravity="center_horizontal"
              android:background="?android:attr/selectableItemBackground"
-             android:padding="18dp"
+             android:padding="20dp"
              android:tint="@color/primaryText"/>
 
       </FrameLayout>
@@ -69,24 +69,34 @@
           android:orientation="vertical"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="55dp"
-          android:layout_marginRight="25dp">
+          android:layout_marginLeft="50dp"
+          android:layout_marginRight="25dp"
+          android:paddingBottom="10dp">
 
          <TextView
              android:id="@+id/titleText"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:layout_marginTop="16dp"
+             android:layout_marginTop="16.0dp"
              android:textSize="15dp"
              android:fontFamily="@font/bold"
              android:textColor="@color/primaryText"
+             android:maxLines="10"
+             android:ellipsize="end"
              android:text="title"/>
+
+         <com.ayaan.twelvepages.ui.view.TagView
+             android:id="@+id/tagView"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="8dp">
+         </com.ayaan.twelvepages.ui.view.TagView>
 
          <TextView
              android:id="@+id/memoText"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:layout_marginTop="10dp"
+             android:layout_marginTop="5dp"
              android:textSize="14dp"
              android:textColor="@color/primaryText"
              android:ellipsize="end"
@@ -94,132 +104,123 @@
              android:text="메모" />
 
          <LinearLayout
+             android:id="@+id/timeLy"
+             android:orientation="horizontal"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="5dp"
+             android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/timeIcon"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:tint="@color/iconTint"
+                android:src="@drawable/schedule"/>
+
+            <TextView
+                android:id="@+id/timeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="14dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/thin"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:text="메모" />
+
+         </LinearLayout>
+
+         <LinearLayout
+             android:id="@+id/alarmLy"
+             android:orientation="horizontal"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="5dp"
+             android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:tint="@color/iconTint"
+                android:src="@drawable/alarm"/>
+
+            <TextView
+                android:id="@+id/alarmText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="14dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/thin"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="alarm" />
+
+         </LinearLayout>
+
+         <LinearLayout
+             android:id="@+id/repeatLy"
+             android:orientation="horizontal"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="5dp"
+             android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:tint="@color/iconTint"
+                android:src="@drawable/repeat"/>
+
+            <TextView
+                android:id="@+id/repeatText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="14dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/thin"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="repeat" />
+
+         </LinearLayout>
+
+         <LinearLayout
+             android:id="@+id/locationLy"
+             android:orientation="horizontal"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="5dp"
+             android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:tint="@color/iconTint"
+                android:src="@drawable/location"/>
+
+            <TextView
+                android:id="@+id/locationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="14dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/thin"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="location" />
+
+         </LinearLayout>
+
+         <LinearLayout
              android:orientation="vertical"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/tagText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:layout_marginTop="3dp"
-                android:textColor="@color/primaryText"
-                android:text="#love#peace"/>
-
-            <LinearLayout
-                android:id="@+id/timeLy"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical">
-
-               <ImageView
-                   android:id="@+id/timeIcon"
-                   android:layout_width="12dp"
-                   android:layout_height="12dp"
-                   android:tint="@color/iconTint"
-                   android:src="@drawable/schedule"/>
-
-               <TextView
-                   android:id="@+id/timeText"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginLeft="3dp"
-                   android:textSize="12dp"
-                   android:textColor="@color/primaryText"
-                   android:fontFamily="@font/thin"
-                   android:ellipsize="end"
-                   android:maxLines="5"
-                   android:text="메모" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/alarmLy"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical">
-
-               <ImageView
-                   android:layout_width="12dp"
-                   android:layout_height="12dp"
-                   android:tint="@color/iconTint"
-                   android:src="@drawable/alarm"/>
-
-               <TextView
-                   android:id="@+id/alarmText"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginLeft="3dp"
-                   android:textSize="12dp"
-                   android:textColor="@color/primaryText"
-                   android:fontFamily="@font/thin"
-                   android:ellipsize="end"
-                   android:maxLines="1"
-                   android:text="alarm" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/repeatLy"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical">
-
-               <ImageView
-                   android:layout_width="12dp"
-                   android:layout_height="12dp"
-                   android:tint="@color/iconTint"
-                   android:src="@drawable/repeat"/>
-
-               <TextView
-                   android:id="@+id/repeatText"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginLeft="3dp"
-                   android:textSize="12dp"
-                   android:textColor="@color/primaryText"
-                   android:fontFamily="@font/thin"
-                   android:ellipsize="end"
-                   android:maxLines="1"
-                   android:text="repeat" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/locationLy"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical">
-
-               <ImageView
-                   android:layout_width="12dp"
-                   android:layout_height="12dp"
-                   android:tint="@color/iconTint"
-                   android:src="@drawable/location"/>
-
-               <TextView
-                   android:id="@+id/locationText"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginLeft="3dp"
-                   android:textSize="12dp"
-                   android:textColor="@color/primaryText"
-                   android:fontFamily="@font/thin"
-                   android:ellipsize="end"
-                   android:maxLines="1"
-                   android:text="location" />
-
-            </LinearLayout>
 <!--
             <FrameLayout
                 android:id="@+id/imageLy"
@@ -295,40 +296,11 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/linkLy"
+            <com.ayaan.twelvepages.ui.view.WebLinkListView
+                android:id="@+id/webLinkView"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="2dp"
-                app:cardCornerRadius="0dp"
-                app:cardElevation="10dp">
-
-               <LinearLayout
-                   android:orientation="horizontal"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content">
-
-                  <ImageView
-                      android:id="@+id/linkImg"
-                      android:layout_width="100dp"
-                      android:layout_height="60dp"
-                      android:scaleType="centerCrop"/>
-
-                  <TextView
-                      android:id="@+id/linkText"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:textSize="16dp"
-                      android:lineSpacingExtra="2dp"
-                      android:textColor="@color/primaryText"
-                      android:ellipsize="end"
-                      android:maxLines="20"
-                      android:text="Title"/>
-
-               </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
+                android:layout_height="wrap_content">
+            </com.ayaan.twelvepages.ui.view.WebLinkListView>
 
          </LinearLayout>
 

@@ -38,6 +38,7 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         flowLayoutManager.isMeasurementCacheEnabled = false
         layoutManager = flowLayoutManager
         adapter = Adapter()
+        isNestedScrollingEnabled = false
     }
 
     fun setItems(newList: List<Tag>, checkedList: ArrayList<Tag>?) {
