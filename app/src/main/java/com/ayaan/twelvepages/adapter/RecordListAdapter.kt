@@ -38,6 +38,8 @@ import com.bumptech.glide.request.transition.Transition
 import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.list_item_record.view.*
 import kotlinx.android.synthetic.main.list_item_record_footer.view.*
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
@@ -132,6 +134,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         val fontColor = ColorManager.getFontColor(color)
         v.iconImg.setColorFilter(color)
         v.symbolImg.setColorFilter(fontColor)
+        v.symbolImg.setImageResource(SymbolManager.getSymbolResId(record.symbol))
 
         if(record.title.isNullOrBlank()) {
             v.titleText.text = ""
@@ -167,38 +170,37 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         if(record.tags.isNotEmpty()) {
             v.tagView.visibility = View.VISIBLE
             v.tagView.isSmallTag = true
-            v.tagView.setItems(record.tags, null)
+            v.tagView.post { v.tagView.setItems(record.tags, null) }
         }else {
             v.tagView.visibility = View.GONE
         }
 
         if(record.isSetCheckBox) {
-            v.iconImg.setPadding(checkBoxPadding, checkBoxPadding, checkBoxPadding, checkBoxPadding)
+            v.checkBox.visibility = View.VISIBLE
             if(record.isDone()) {
-                v.iconImg.setImageResource(R.drawable.checked_fill)
+                v.checkBox.setImageResource(R.drawable.check)
                 if(AppStatus.checkedRecordDisplay == 2 || AppStatus.checkedRecordDisplay == 3) {
                     v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }else {
                     v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
                 }
                 if(AppStatus.checkedRecordDisplay == 1 || AppStatus.checkedRecordDisplay == 3) {
-                    v.contentLy.alpha = 0.5f
+                    v.titleText.alpha = 0.4f
                 }else {
-                    v.contentLy.alpha = 1f
+                    v.titleText.alpha = 1f
                 }
             }else {
-                v.iconImg.setImageResource(R.drawable.uncheck)
-                v.contentLy.alpha = 1f
+                v.checkBox.setImageResource(R.drawable.uncheck)
+                v.titleText.alpha = 1f
                 v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
             }
-            v.iconImg.setOnClickListener {
+            v.checkBox.setOnClickListener {
                 vibrate(context)
                 RecordManager.done(record)
             }
         }else {
-            v.symbolImg.setImageResource(SymbolManager.getSymbolResId(record.symbol))
-            v.contentLy.alpha = 1f
-            v.iconImg.setOnClickListener(null)
+            v.checkBox.visibility = View.GONE
+            v.titleText.alpha = 1f
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 
@@ -257,6 +259,45 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.repeatText.text = RepeatManager.makeRepeatText(record)
         }else {
             v.repeatLy.visibility = View.GONE
+        }
+
+        if(record.isSetCountdown()) {
+            v.ddayLy.visibility = View.VISIBLE
+            v.ddayText.text = record.getCountdownText(System.currentTimeMillis())
+        }else {
+            v.ddayLy.visibility = View.GONE
+        }
+
+        val checkList = record.getCheckList()
+        if(checkList != null) {
+            val items = ArrayList<JSONObject>()
+            v.checkListLy.visibility = View.VISIBLE
+            try{
+                JSONArray(checkList.properties).let {
+                    if(it.length() > 0) {
+                        for(i in 0 until it.length()) {
+                            items.add(it.getJSONObject(i))
+                        }
+                    }
+                }
+                if(items.size > 0) {
+                    val checkItemsCount = items.count{ it.getLong("dtDone") != Long.MIN_VALUE }
+                    v.checkListText.text = "$checkItemsCount / ${items.size} ${str(R.string.doned)}"
+
+                    if(items.size > 0 && items.size == checkItemsCount) {
+
+                    }else {
+
+                    }
+                }else {
+                    v.checkListLy.visibility = View.GONE
+                }
+            }catch (e: Exception){
+                v.checkListLy.visibility = View.GONE
+                e.printStackTrace()
+            }
+        }else {
+            v.checkListLy.visibility = View.GONE
         }
 
         if(record.links.any { it.type == Link.Type.IMAGE.ordinal }){

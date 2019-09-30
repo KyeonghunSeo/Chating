@@ -18,7 +18,7 @@ class RecordListComparator : Comparator<Record> {
                             lf < rf -> -1
                             lf > rf -> 1
                             else -> {
-                                if (lf == RecordCalendarAdapter.Formula.RANGE) {
+                                if (lf == RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT) {
                                     when{
                                         l.getDuration() < r.getDuration() -> -1
                                         l.getDuration() > r.getDuration() -> 1

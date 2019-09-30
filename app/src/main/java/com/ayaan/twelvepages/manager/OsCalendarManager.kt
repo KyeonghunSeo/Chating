@@ -9,7 +9,6 @@ import android.database.Cursor
 import android.provider.CalendarContract
 import android.text.TextUtils
 import androidx.core.app.ActivityCompat
-import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.model.Record
 import com.pixplicity.easyprefs.library.Prefs
@@ -77,7 +76,7 @@ object OsCalendarManager {
             CalendarContract.Events.ORIGINAL_INSTANCE_TIME)
 
     var style: Int = Prefs.getInt("osCalendarStyle",
-            RecordCalendarAdapter.Formula.STACK.shapes[0].ordinal * 100 + RecordCalendarAdapter.Formula.STACK.ordinal)
+            RecordCalendarAdapter.Formula.SINGLE_TEXT.shapes[0].ordinal * 100 + RecordCalendarAdapter.Formula.SINGLE_TEXT.ordinal)
 
     class OsCalendar(val id: Long, val title: String, val color: Int, val accountName: String) {
         override fun toString(): String {

@@ -8,7 +8,7 @@ class RecordCalendarComparator : Comparator<RecordCalendarAdapter.RecordViewHold
             l.formula < r.formula -> -1
             l.formula > r.formula -> 1
             else -> {
-                if(l.formula == RecordCalendarAdapter.Formula.RANGE) {
+                if(l.formula == RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT) {
                     when{
                         l.startCellNum > r.startCellNum -> -1
                         l.startCellNum < r.startCellNum -> 1

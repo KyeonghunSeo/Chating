@@ -6,7 +6,7 @@ import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.ui.view.RecordView
 import io.realm.RealmList
 import io.realm.RealmObject
-import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.STACK
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.SINGLE_TEXT
 import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.StickerManager
 import io.realm.annotations.PrimaryKey
@@ -16,7 +16,7 @@ import java.util.*
 
 open class Record(@PrimaryKey var id: String? = null,
                   var type: Int = 0,
-                  var style: Int = STACK.shapes[Random().nextInt(STACK.shapes.size)].ordinal * 100 + STACK.ordinal,
+                  var style: Int = SINGLE_TEXT.shapes[Random().nextInt(SINGLE_TEXT.shapes.size)].ordinal * 100 + SINGLE_TEXT.ordinal,
                   var symbol: String? = null,
                   var title: String? = null,
                   var isSetTime: Boolean = false,
@@ -217,8 +217,8 @@ open class Record(@PrimaryKey var id: String? = null,
                 }
             }else {
                 when {
-                    diffDate > 0 -> String.format(str(R.string.overdue), diffDate.toString())
-                    diffDate < 0 -> String.format(str(R.string.due), diffDate.toString())
+                    diffDate > 0 -> String.format(str(R.string.overdue), String.format(str(R.string.some_date), diffDate.toString()))
+                    diffDate < 0 -> String.format(str(R.string.due), String.format(str(R.string.some_date), diffDate.toString()))
                     else -> str(R.string.today)
                 }
             }

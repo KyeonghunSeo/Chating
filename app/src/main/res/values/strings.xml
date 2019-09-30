@@ -286,15 +286,15 @@
     <string name="select_tag">태그선택</string>
 
     <string name="formula_background">배경</string>
-    <string name="formula_stack">한줄</string>
-    <string name="formula_expanded">여러줄</string>
-    <string name="formula_stamp">심볼</string>
+    <string name="formula_single_text">한줄 텍스트</string>
+    <string name="formula_multi_line_text">긴 텍스트</string>
+    <string name="formula_symbol">심볼</string>
     <string name="formula_dot">도트</string>
-    <string name="formula_range">구간</string>
+    <string name="formula_bottom_single_text">하단 한줄 텍스트</string>
     <string name="formula_sticker">스티커</string>
 
     <string name="shape_blank">공백</string>
-    <string name="shape_text">텍스트</string>
+    <string name="shape_text">기본</string>
     <string name="shape_rect_fill">채우기</string>
     <string name="shape_rect_stroke">테두리</string>
     <string name="shape_round_fill">둥근채우기</string>
@@ -387,6 +387,8 @@
     <string name="task_info">할일 정보</string>
     <string name="already_active_info">이미 활성화된 정보입니다</string>
     <string name="delete_checklist_sub">체크리스트 정보를 삭제하시겠습니까?</string>
+    <string name="shape_range">구간</string>
+    <string name="shape_dash_range">점선구간</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

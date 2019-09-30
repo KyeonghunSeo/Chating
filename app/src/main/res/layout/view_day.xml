@@ -61,11 +61,11 @@
                 android:layout_height="match_parent">
             </androidx.recyclerview.widget.RecyclerView>
 
-            <View
+            <com.ayaan.twelvepages.ui.view.base.Line
                 android:id="@+id/topShadow"
                 android:layout_width="match_parent"
-                android:layout_height="6dp"
-                android:background="@drawable/line_top_shadow"/>
+                android:layout_height="0.5dp"
+                app:colorFlag="light_line"/>
 
         </FrameLayout>
 

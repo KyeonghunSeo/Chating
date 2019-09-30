@@ -1,9 +1,7 @@
 package com.ayaan.twelvepages.ui.view
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Typeface
 import android.os.Handler
 import android.os.Message
 import android.util.AttributeSet
@@ -24,7 +22,7 @@ import java.util.*
 
 class CalendarPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
-    private val headerHeight = dpToPx(72)
+    private val headerHeight = dpToPx(65)
     private val dowHeight = dpToPx(18)
     private val startPosition = 1000
     private val viewCount = 3

@@ -1,17 +1,13 @@
 package com.ayaan.twelvepages.ui.dialog
 
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.fragment.app.FragmentActivity
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.model.Template
-import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.view.CalendarView
 import com.ayaan.twelvepages.ui.view.RecordView
 import kotlinx.android.synthetic.main.container_in_calendar_style_dlg.*
@@ -21,8 +17,8 @@ import java.util.*
 
 class RecordViewStyleDialog(private val activity: FragmentActivity, record: Record?,
                             template: Template?, private val onResult: (Int, Int) -> Unit) : BaseDialog(activity) {
-    private val recordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.STACK, 0, 0)
-    private val subRecordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.STACK, 0, 0)
+    private val recordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.SINGLE_TEXT, 0, 0)
+    private val subRecordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.SINGLE_TEXT, 0, 0)
     private var noColor = false
 
     init {
@@ -140,15 +136,15 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
 
     private fun drawRecord() {
         when(recordView.formula) {
-            RecordCalendarAdapter.Formula.STACK -> {
+            RecordCalendarAdapter.Formula.SINGLE_TEXT -> {
                 recordView.record.title = getRandomText(R.array.singleline_texts)
                 subRecordView.record.title = getRandomText(R.array.singleline_texts)
             }
-            RecordCalendarAdapter.Formula.EXPANDED -> {
+            RecordCalendarAdapter.Formula.MULTI_TEXT -> {
                 recordView.record.title = getRandomText(R.array.multiline_texts)
                 subRecordView.record.title = getRandomText(R.array.multiline_texts)
             }
-            RecordCalendarAdapter.Formula.RANGE -> {
+            RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT -> {
                 recordView.record.title = getRandomText(R.array.range_texts)
                 subRecordView.record.title = getRandomText(R.array.range_texts)
             }
@@ -159,13 +155,13 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
         subRecordView.setStyle()
 
         val topMargin = when {
-            recordView.formula == RecordCalendarAdapter.Formula.RANGE -> CalendarView.dataStartYOffset + dateWidth
+            recordView.formula == RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT -> CalendarView.dataStartYOffset + dateWidth
             else -> CalendarView.dataStartYOffset
         }
 
         recordView.length = when(recordView.formula) {
-            RecordCalendarAdapter.Formula.STACK -> 1
-            RecordCalendarAdapter.Formula.RANGE -> 4
+            RecordCalendarAdapter.Formula.SINGLE_TEXT -> 1
+            RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT -> 4
             else -> 1
         }
 
@@ -180,7 +176,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
         }
 
         when(recordView.formula) {
-            RecordCalendarAdapter.Formula.STACK -> {
+            RecordCalendarAdapter.Formula.SINGLE_TEXT -> {
                 subRecordView.length = 2
                 subRecordView.mLeft = 0f
                 subRecordView.mRight = dateWidth * 2
@@ -192,7 +188,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
                 colorLy.visibility = View.VISIBLE
                 imageLy.visibility = View.GONE
             }
-            RecordCalendarAdapter.Formula.EXPANDED -> {
+            RecordCalendarAdapter.Formula.MULTI_TEXT -> {
                 subRecordView.length = 1
                 subRecordView.mLeft = 0f
                 subRecordView.mRight = dateWidth
@@ -204,7 +200,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
                 colorLy.visibility = View.VISIBLE
                 imageLy.visibility = View.GONE
             }
-            RecordCalendarAdapter.Formula.RANGE -> {
+            RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT -> {
                 subRecordView.length = 1
                 subRecordView.mLeft = 0f
                 subRecordView.mRight = dateWidth * 3
@@ -216,7 +212,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
                 colorLy.visibility = View.VISIBLE
                 imageLy.visibility = View.GONE
             }
-            RecordCalendarAdapter.Formula.DOT, RecordCalendarAdapter.Formula.STAMP -> {
+            RecordCalendarAdapter.Formula.DOT, RecordCalendarAdapter.Formula.SYMBOL -> {
                 subRecordView.length = 1
                 subRecordView.mLeft = 0f
                 subRecordView.mRight = dateWidth

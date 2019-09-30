@@ -2,6 +2,7 @@ package com.ayaan.twelvepages.ui.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -92,7 +93,6 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {
                 setGlobalTheme(container)
-                //container.layoutParams.height = tagSize
             }
         }
 

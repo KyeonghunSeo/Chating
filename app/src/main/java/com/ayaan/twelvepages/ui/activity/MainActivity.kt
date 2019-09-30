@@ -8,7 +8,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
@@ -18,7 +17,6 @@ import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -29,7 +27,6 @@ import com.ayaan.twelvepages.adapter.FolderAdapter
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
-import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.AppUser
@@ -221,7 +218,7 @@ class MainActivity : BaseActivity() {
             var s = cal.timeInMillis
             val list = ArrayList<Record>()
             val c = 0
-            val formulas = arrayOf(STACK, EXPANDED, DOT)
+            val formulas = arrayOf(SINGLE_TEXT, MULTI_TEXT, DOT)
             list.add(RecordManager.makeNewRecord(s, s).apply {
                 title = "점심약속"
                 type = 1
@@ -284,7 +281,7 @@ class MainActivity : BaseActivity() {
             })
             list.forEach {
                 //val f = formulas[Random().nextInt(formulas.size)]
-                val f = RecordCalendarAdapter.Formula.STACK
+                val f = RecordCalendarAdapter.Formula.SINGLE_TEXT
                 //it.colorKey = 9 // 검정
                 //it.style = f.shapes[Random().nextInt(f.shapes.size)].ordinal * 100 + f.ordinal
                 it.style = f.shapes[0].ordinal * 100 + f.ordinal
@@ -429,6 +426,7 @@ class MainActivity : BaseActivity() {
 
     private fun refreshCalendar() {
         calendarPager.redraw()
+        calendarPager.selectDate(viewModel.targetTime.value ?: System.currentTimeMillis())
         if(dayPager.isOpened()){
             dayPager.notifyDateChanged()
         }

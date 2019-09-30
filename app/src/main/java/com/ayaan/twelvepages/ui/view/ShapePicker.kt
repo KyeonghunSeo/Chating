@@ -20,7 +20,7 @@ class ShapePicker @JvmOverloads constructor(context: Context, attrs: AttributeSe
     lateinit var items: Array<RecordView.Shape>
     var onSelected : ((RecordView.Shape) -> Unit)? = null
     var shape = TEXT
-    var formula = STACK
+    var formula = SINGLE_TEXT
 
     init {
         layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
