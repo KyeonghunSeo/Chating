@@ -238,7 +238,7 @@ class SettingsActivity : BaseActivity() {
                     id = "osInstance::",
                     style = OsCalendarManager.style,
                     colorKey = 0)
-            showDialog(RecordViewStyleDialog(this, record, null) { style, colorKey ->
+            showDialog(RecordViewStyleDialog(this, record, null) { style, colorKey, symbol ->
                 OsCalendarManager.saveStyle(style)
                 setConnectOsCalendar()
             }, true, true, true, false)

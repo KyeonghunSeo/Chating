@@ -26,39 +26,32 @@ object StickerManager {
 
     enum class StickerPack(val titleId: Int, val type: Int, val items: Array<Sticker>) {
         BASIC(R.string.s_basic, 0, arrayOf(
-                Sticker(R.drawable.s_1201, 0),
-                Sticker(R.drawable.s_1202, 0),
-                Sticker(R.drawable.s_1203, 0),
-                Sticker(R.drawable.s_1204, 0),
-                Sticker(R.drawable.s_1205, 0),
-                Sticker(R.drawable.s_1206, 0),
-                Sticker(R.drawable.s_1207, 0),
-                Sticker(R.drawable.s_1208, 0),
-                Sticker(R.drawable.s_1209, 0),
-                Sticker(R.drawable.s_1210, 0),
-                Sticker(R.drawable.s_1211, 0),
-                Sticker(R.drawable.s_1212, 0),
-                Sticker(R.drawable.s_1213, 0),
-                Sticker(R.drawable.s_1214, 0),
-                Sticker(R.drawable.s_1215, 0),
-                Sticker(R.drawable.s_1216, 0),
-                Sticker(R.drawable.s_1217, 0),
-                Sticker(R.drawable.s_1218, 0),
-                Sticker(R.drawable.s_1219, 0),
-                Sticker(R.drawable.s_1220, 0)
+                Sticker(R.drawable.s_basic_0, 0),
+                Sticker(R.drawable.s_basic_1, 0),
+                Sticker(R.drawable.s_basic_2, 0),
+                Sticker(R.drawable.s_basic_3, 0),
+                Sticker(R.drawable.s_basic_4, 0),
+                Sticker(R.drawable.s_basic_5, 0),
+                Sticker(R.drawable.s_basic_6, 0),
+                Sticker(R.drawable.s_basic_7, 0),
+                Sticker(R.drawable.s_basic_8, 0),
+                Sticker(R.drawable.s_basic_9, 0),
+                Sticker(R.drawable.s_basic_10, 0),
+                Sticker(R.drawable.s_basic_11, 0),
+                Sticker(R.drawable.s_basic_12, 0),
+                Sticker(R.drawable.s_basic_13, 0),
+                Sticker(R.drawable.s_basic_14, 0),
+                Sticker(R.drawable.s_basic_15, 0),
+                Sticker(R.drawable.s_basic_16, 0),
+                Sticker(R.drawable.s_basic_17, 0),
+                Sticker(R.drawable.s_basic_18, 0),
+                Sticker(R.drawable.s_basic_19, 0),
+                Sticker(R.drawable.s_basic_20, 0),
+                Sticker(R.drawable.s_basic_21, 0),
+                Sticker(R.drawable.s_basic_22, 0)
         )),
         WORK(R.string.s_work, 0, arrayOf(
-                Sticker(R.drawable.s_1212, 0),
-                Sticker(R.drawable.s_1201, 0),
-                Sticker(R.drawable.s_1201, 0),
-                Sticker(R.drawable.s_1201, 0),
-                Sticker(R.drawable.s_1201, 0),
-                Sticker(R.drawable.s_1201, 0),
-                Sticker(R.drawable.s_1201, 0),
-                Sticker(R.drawable.s_1201, 0),
-                Sticker(R.drawable.s_1201, 0),
-                Sticker(R.drawable.s_1201, 0),
-                Sticker(R.drawable.s_1201, 0)
+                Sticker(R.drawable.s_basic_0, 1)
         ));
     }
 

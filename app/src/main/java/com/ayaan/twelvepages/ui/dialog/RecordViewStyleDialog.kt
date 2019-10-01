@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.manager.ColorManager
+import com.ayaan.twelvepages.manager.SymbolManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.view.CalendarView
@@ -16,7 +17,7 @@ import java.util.*
 
 
 class RecordViewStyleDialog(private val activity: FragmentActivity, record: Record?,
-                            template: Template?, private val onResult: (Int, Int) -> Unit) : BaseDialog(activity) {
+                            template: Template?, private val onResult: (Int, Int, String?) -> Unit) : BaseDialog(activity) {
     private val recordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.SINGLE_TEXT, 0, 0)
     private val subRecordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.SINGLE_TEXT, 0, 0)
     private var noColor = false
@@ -24,25 +25,32 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
     init {
         recordView.childList = ArrayList()
         recordView.childList?.add(recordView.record)
+        recordView.childList?.add(recordView.record)
+        recordView.childList?.add(recordView.record)
         subRecordView.childList = ArrayList()
-        subRecordView.childList?.add(subRecordView.record)
+        subRecordView.childList?.add(recordView.record)
+        subRecordView.childList?.add(recordView.record)
         when {
             record != null -> {
                 recordView.formula = record.getFormula()
                 recordView.record.style = record.style
                 recordView.record.colorKey = record.colorKey
+                recordView.record.symbol = record.symbol
                 subRecordView.formula = record.getFormula()
                 subRecordView.record.style = record.style
                 subRecordView.record.colorKey = record.colorKey
+                subRecordView.record.symbol = record.symbol
                 if(record.id == "osInstance::") noColor = true
             }
             template != null -> {
                 recordView.formula = RecordCalendarAdapter.Formula.styleToFormula(template.style)
                 recordView.record.style = template.style
                 recordView.record.colorKey = template.colorKey
+                recordView.record.symbol = template.symbol
                 subRecordView.formula = RecordCalendarAdapter.Formula.styleToFormula(template.style)
                 subRecordView.record.style = template.style
                 subRecordView.record.colorKey = template.colorKey
+                subRecordView.record.symbol = template.symbol
             }
         }
     }
@@ -79,27 +87,39 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
         previewContainer.addView(recordView)
         previewContainer.addView(subRecordView)
 
-        colorImg.setColorFilter(ColorManager.getColor(recordView.record.colorKey))
-        colorBtn.setOnClickListener {
+        colorBg.setColorFilter(ColorManager.getColor(recordView.record.colorKey))
+        colorLy.setOnClickListener {
             ColorPickerDialog(recordView.record.colorKey){ colorKey ->
                 recordView.record.colorKey = colorKey
                 subRecordView.record.colorKey = colorKey
-                colorImg.setColorFilter(ColorManager.getColor(colorKey))
+                colorBg.setColorFilter(ColorManager.getColor(colorKey))
                 drawRecord()
             }.show(activity.supportFragmentManager, null)
         }
 
-        textColorBtn.setOnClickListener {
-            if(recordView.record.isTextColored()) {
 
-            }else {
-
-            }
+        val symbolRes = SymbolManager.getSymbolResId(recordView.record.symbol)
+        if(symbolRes == R.drawable.blank) {
+            symbalImg.setColorFilter(AppTheme.disableText)
+            symbalImg.setBackgroundResource(R.drawable.circle_stroke_dash)
+        }else {
+            symbalImg.setColorFilter(AppTheme.primaryText)
+            symbalImg.setBackgroundResource(R.drawable.blank)
         }
-
-        imageBtn.setOnClickListener {
-            StickerPickerDialog{ index ->
-
+        symbalImg.setImageResource(symbolRes)
+        symbolBtn.setOnClickListener {
+            SymbolPickerDialog(recordView.record.symbol){
+                recordView.record.symbol = it.name
+                val symbolRes = SymbolManager.getSymbolResId(recordView.record.symbol)
+                if(symbolRes == R.drawable.blank) {
+                    symbalImg.setColorFilter(AppTheme.disableText)
+                    symbalImg.setBackgroundResource(R.drawable.circle_stroke_dash)
+                }else {
+                    symbalImg.setColorFilter(AppTheme.primaryText)
+                    symbalImg.setBackgroundResource(R.drawable.blank)
+                }
+                symbalImg.setImageResource(symbolRes)
+                drawRecord()
             }.show(activity.supportFragmentManager, null)
         }
 
@@ -123,13 +143,9 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
 
         cancelBtn.setOnClickListener { dismiss() }
         confirmBtn.setOnClickListener {
-            onResult.invoke(recordView.record.style, recordView.record.colorKey)
+            onResult.invoke(recordView.record.style, recordView.record.colorKey, recordView.record.symbol)
             dismiss()
         }
-    }
-
-    private fun setTextColerBtn() {
-
     }
 
     private val dateWidth = dpToPx(60f)
@@ -186,7 +202,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
                 subRecordView.translationY = 0f
                 shapeLy.visibility = View.VISIBLE
                 colorLy.visibility = View.VISIBLE
-                imageLy.visibility = View.GONE
+                symbolBtn.visibility = View.GONE
             }
             RecordCalendarAdapter.Formula.MULTI_TEXT -> {
                 subRecordView.length = 1
@@ -198,7 +214,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
                 subRecordView.translationY = 0f
                 shapeLy.visibility = View.VISIBLE
                 colorLy.visibility = View.VISIBLE
-                imageLy.visibility = View.GONE
+                symbolBtn.visibility = View.GONE
             }
             RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT -> {
                 subRecordView.length = 1
@@ -210,7 +226,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
                 subRecordView.translationY = 0f
                 shapeLy.visibility = View.VISIBLE
                 colorLy.visibility = View.VISIBLE
-                imageLy.visibility = View.GONE
+                symbolBtn.visibility = View.GONE
             }
             RecordCalendarAdapter.Formula.DOT, RecordCalendarAdapter.Formula.SYMBOL -> {
                 subRecordView.length = 1
@@ -222,7 +238,11 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
                 subRecordView.translationY = 0f
                 shapeLy.visibility = View.GONE
                 colorLy.visibility = View.VISIBLE
-                imageLy.visibility = View.GONE
+                if(recordView.formula == RecordCalendarAdapter.Formula.SYMBOL) {
+                    symbolBtn.visibility = View.VISIBLE
+                }else {
+                    symbolBtn.visibility = View.GONE
+                }
             }
             RecordCalendarAdapter.Formula.STICKER -> {
                 subRecordView.length = 1
@@ -234,11 +254,14 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
                 subRecordView.translationY = -dpToPx(10f)
                 shapeLy.visibility = View.GONE
                 colorLy.visibility = View.GONE
-                imageLy.visibility = View.VISIBLE
+                symbolBtn.visibility = View.GONE
             }
             else -> {}
         }
-        if(noColor) colorLy.visibility = View.GONE
+        if(noColor) {
+            colorLy.visibility = View.GONE
+            symbolBtn.visibility = View.GONE
+        }
         recordView.setLayout()
         subRecordView.setLayout()
         recordView.invalidate()

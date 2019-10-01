@@ -124,9 +124,10 @@ class TemplateActivity : BaseActivity() {
         recordViewStyleBtn.visibility = View.VISIBLE
         recordViewStyleText.text = RecordView.getStyleText(template.style)
         recordViewStyleBtn.setOnClickListener {
-            showDialog(RecordViewStyleDialog(this, null, template) { style, colorKey ->
+            showDialog(RecordViewStyleDialog(this, null, template) { style, colorKey, symbol ->
                 template.style = style
                 template.colorKey = colorKey
+                template.symbol = symbol
                 updateCalendarBlockStyleUI()
                 updateSymbolUI()
                 updateColorUI()

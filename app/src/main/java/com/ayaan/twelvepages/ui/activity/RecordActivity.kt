@@ -261,9 +261,10 @@ class RecordActivity : BaseActivity() {
         recordViewStyleText.setTextColor(fontColor)
         recordViewStyleText.text = RecordView.getStyleText(record.style)
         recordViewStyleBtn.setOnClickListener {
-            showDialog(RecordViewStyleDialog(this, record, null) { style, colorKey ->
+            showDialog(RecordViewStyleDialog(this, record, null) { style, colorKey, symbol ->
                 record.style = style
                 record.colorKey = colorKey
+                record.symbol = symbol
                 updateFolderUI()
             }, true, true, true, false)
         }
