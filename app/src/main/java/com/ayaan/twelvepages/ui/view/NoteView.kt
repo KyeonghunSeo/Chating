@@ -51,7 +51,7 @@ class NoteView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                         activity.viewModel.clip(record)
                     }
                     2 -> {
-                        showDialog(SchedulingDialog(activity, record) { sCal, eCal ->
+                        showDialog(SchedulingDialog(activity, record, 0) { sCal, eCal ->
                             record.folder = MainActivity.getViewModel()?.getCalendarFolder()
                             record.setDateTime(sCal, eCal)
                             if(record.isRepeat()) {

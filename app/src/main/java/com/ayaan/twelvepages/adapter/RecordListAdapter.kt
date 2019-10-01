@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.net.Uri
 import android.provider.CalendarContract
 import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
@@ -17,6 +18,7 @@ import android.text.style.BackgroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -24,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.manager.SymbolManager
@@ -33,11 +36,11 @@ import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.google.android.libraries.places.internal.it
 import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.list_item_record.view.*
 import kotlinx.android.synthetic.main.list_item_record_footer.view.*
-import java.io.File
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
@@ -47,8 +50,8 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                         val showFooter: Boolean, val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val circlePadding = dpToPx(5)
-    val checkBoxPadding = dpToPx(10)
+    val symbolMargin = dpToPx(40)
+    val noSymbolMargin = dpToPx(16)
     var itemTouchHelper: ItemTouchHelper? = null
     var query: String? = null
     private var footerHolder: FooterViewHolder? = null
@@ -124,39 +127,91 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.moreImg.setOnClickListener { toast(R.string.this_is_os_instance) }
         }else {
             v.moreImg.setImageResource(R.drawable.more)
-            v.moreImg.setColorFilter(AppTheme.primaryText)
+            v.moreImg.setColorFilter(AppTheme.secondaryText)
             v.moreImg.setOnClickListener { adapterInterface.invoke(v.moreImg, record, 0) }
         }
 
-        v.iconImg.setColorFilter(record.getColor())
+        val color = record.getColor()
+        val fontColor = ColorManager.getFontColor(color)
+        val symbol = SymbolManager.getSymbolResId(record.symbol)
+        v.colorBar.setCardBackgroundColor(color)
+        v.iconImg.setColorFilter(color)
+        v.symbolImg.setColorFilter(color)
+        if(symbol == R.drawable.blank) {
+            (v.colorBar.layoutParams as FrameLayout.LayoutParams).topMargin = noSymbolMargin
+            v.symbolImg.visibility = View.GONE
+        }else {
+            (v.colorBar.layoutParams as FrameLayout.LayoutParams).topMargin = symbolMargin
+            v.symbolImg.visibility = View.VISIBLE
+            v.symbolImg.setImageResource(symbol)
+        }
+        v.colorBar.requestLayout()
+
+        if(record.title.isNullOrBlank()) {
+            v.titleText.text = ""
+            //v.titleText.typeface = AppTheme.regularFont
+            v.memoText.visibility = View.GONE
+            if(!record.description.isNullOrBlank()) {
+                if(!query.isNullOrEmpty()){
+                    highlightQuery(v.titleText, record.description!!)
+                }else {
+                    v.titleText.text = record.description?.trim()
+                }
+            }
+        }else {
+            //v.titleText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            if(!query.isNullOrEmpty()){
+                highlightQuery(v.titleText, record.title!!)
+            }else {
+                v.titleText.text = record.title?.trim()
+            }
+
+            if(record.description.isNullOrBlank()) {
+                v.memoText.visibility = View.GONE
+            }else {
+                v.memoText.visibility = View.VISIBLE
+                if(!query.isNullOrEmpty()){
+                    highlightQuery(v.memoText, record.description!!)
+                }else {
+                    v.memoText.text = record.description?.trim()
+                }
+            }
+        }
+
+        if(record.tags.isNotEmpty()) {
+            v.tagView.visibility = View.VISIBLE
+            v.tagView.isSmallTag = true
+            v.tagView.post { v.tagView.setItems(record.tags, null) }
+        }else {
+            v.tagView.visibility = View.GONE
+        }
+
         if(record.isSetCheckBox) {
-            v.iconImg.setPadding(checkBoxPadding, checkBoxPadding, checkBoxPadding, checkBoxPadding)
+            v.checkBox.visibility = View.VISIBLE
             if(record.isDone()) {
-                v.iconImg.setImageResource(R.drawable.checked_fill)
+                v.checkBox.setImageResource(R.drawable.check)
                 if(AppStatus.checkedRecordDisplay == 2 || AppStatus.checkedRecordDisplay == 3) {
                     v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }else {
                     v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
                 }
                 if(AppStatus.checkedRecordDisplay == 1 || AppStatus.checkedRecordDisplay == 3) {
-                    v.contentLy.alpha = 0.5f
+                    v.contentLy.alpha = 0.4f
                 }else {
                     v.contentLy.alpha = 1f
                 }
             }else {
-                v.iconImg.setImageResource(R.drawable.uncheck)
+                v.checkBox.setImageResource(R.drawable.uncheck)
                 v.contentLy.alpha = 1f
                 v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
             }
-            v.iconImg.setOnClickListener {
+            v.checkBox.setOnClickListener {
                 vibrate(context)
                 RecordManager.done(record)
             }
         }else {
-            v.iconImg.setPadding(circlePadding, circlePadding, circlePadding, circlePadding)
-            v.iconImg.setImageResource(SymbolManager.getSymbolResId(record.symbol))
+            v.checkBox.visibility = View.GONE
             v.contentLy.alpha = 1f
-            v.iconImg.setOnClickListener(null)
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 
@@ -191,34 +246,6 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.timeLy.visibility = View.GONE
         }
 
-        if(record.tags.isNotEmpty()) {
-            v.tagText.visibility = View.VISIBLE
-            v.tagText.text = record.tags.joinToString("") { "#${it.title}" }
-        }else {
-            v.tagText.visibility = View.GONE
-        }
-
-        if(record.title.isNullOrBlank()) {
-            v.titleText.text = context.getString(R.string.empty)
-        }else {
-            if(!query.isNullOrEmpty()){
-                highlightQuery(v.titleText, record.title!!)
-            }else {
-                v.titleText.text = record.title?.trim()
-            }
-        }
-
-        if(record.description.isNullOrBlank()) {
-            v.memoLy.visibility = View.GONE
-        }else {
-            v.memoLy.visibility = View.VISIBLE
-            if(!query.isNullOrEmpty()){
-                highlightQuery(v.memoText, record.description!!)
-            }else {
-                v.memoText.text = record.description?.trim()
-            }
-        }
-
         if(record.location.isNullOrBlank()) {
             v.locationLy.visibility = View.GONE
         }else {
@@ -243,6 +270,45 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.repeatText.text = RepeatManager.makeRepeatText(record)
         }else {
             v.repeatLy.visibility = View.GONE
+        }
+
+        if(record.isSetCountdown()) {
+            v.ddayLy.visibility = View.VISIBLE
+            v.ddayText.text = record.getCountdownText(System.currentTimeMillis())
+        }else {
+            v.ddayLy.visibility = View.GONE
+        }
+
+        val checkList = record.getCheckList()
+        if(checkList != null) {
+            val items = ArrayList<JSONObject>()
+            v.checkListLy.visibility = View.VISIBLE
+            try{
+                JSONArray(checkList.properties).let {
+                    if(it.length() > 0) {
+                        for(i in 0 until it.length()) {
+                            items.add(it.getJSONObject(i))
+                        }
+                    }
+                }
+                if(items.size > 0) {
+                    val checkItemsCount = items.count{ it.getLong("dtDone") != Long.MIN_VALUE }
+                    v.checkListText.text = "$checkItemsCount / ${items.size} ${str(R.string.doned)}"
+
+                    if(items.size > 0 && items.size == checkItemsCount) {
+
+                    }else {
+
+                    }
+                }else {
+                    v.checkListLy.visibility = View.GONE
+                }
+            }catch (e: Exception){
+                v.checkListLy.visibility = View.GONE
+                e.printStackTrace()
+            }
+        }else {
+            v.checkListLy.visibility = View.GONE
         }
 
         if(record.links.any { it.type == Link.Type.IMAGE.ordinal }){
@@ -294,48 +360,11 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.imageLy.visibility = View.GONE
         }
 
-        if(record.links.any { it.type == Link.Type.WEB.ordinal }){
-            val link = record.links.first{ it.type == Link.Type.WEB.ordinal }
-            val url = link.strParam0
-            val imageurl = link.strParam1
-            val favicon = link.strParam2
-
-            v.linkText.text = link.title
-            if(!imageurl.isNullOrBlank()){
-                Glide.with(context).asBitmap().load(imageurl).into(object : SimpleTarget<Bitmap>(){
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        if(resource.width > dpToPx(80) || resource.height > dpToPx(50)) {
-                            (v.linkImg.layoutParams as LinearLayout.LayoutParams).let {
-                                it.width = dpToPx(80)
-                                it.height = dpToPx(50)
-                            }
-                            v.linkImg.requestLayout()
-                        }else {
-                            (v.linkImg.layoutParams as LinearLayout.LayoutParams).let {
-                                it.width = dpToPx(15)
-                                it.height = dpToPx(15)
-                            }
-                            v.linkImg.requestLayout()
-                        }
-                        v.linkImg.setImageBitmap(resource)
-                    }
-                })
-            } else if(!favicon.isNullOrBlank()) {
-                Glide.with(context).load(favicon).into(v.linkImg)
-            } else {
-                Glide.with(context).load(R.drawable.website).into(v.linkImg)
-            }
-
-            v.linkLy.visibility = View.VISIBLE
-            v.linkLy.setOnClickListener {
-                try{
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-                }catch (e: Exception) {
-                    toast(R.string.invalid_info)
-                }
-            }
+        if(record.isSetLink()){
+            v.webLinkView.visibility = View.VISIBLE
+            v.webLinkView.setList(record)
         }else {
-            v.linkLy.visibility = View.GONE
+            v.webLinkView.visibility = View.GONE
         }
     }
 

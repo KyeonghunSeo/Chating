@@ -29,14 +29,16 @@
     <string name="weekNum">%1$s주차</string>
     <string name="setting">환경설정</string>
     <string name="add_option">다른 정보 추가</string>
-    <string name="detail_info">자세한 정보</string>
+    <string name="detail_info">추가 정보</string>
     <string name="memo">메모</string>
+    <string name="main_text">본문</string>
     <string name="location">장소</string>
-    <string name="set_time">시간 지정</string>
+    <string name="set_time">시간 설정</string>
     <string name="alarm">알림</string>
-    <string name="enter_memo">이곳에 메모를 입력하세요</string>
+    <string name="enter_memo">이곳에 본문을 입력하세요</string>
     <string name="set_alarm">알림설정</string>
     <string name="and_others">외 %1$s개</string>
+    <string name="basic_info">기본 정보</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>
@@ -141,7 +143,7 @@
     <string name="invalid_info">잘못된 정보입니다</string>
     <string name="saved">저장되었습니다</string>
     <string name="today">오늘</string>
-    <string name="schedule">스케줄</string>
+    <string name="schedule">날짜와 시간</string>
     <string name="first_text_1">또렷한 기억보다</string>
     <string name="first_text_2">흐릿한 잉크자국이</string>
     <string name="first_text_3">더 오래간다</string>
@@ -175,7 +177,7 @@
     <string name="countdown">카운트다운</string>
     <string name="planning">계획하기</string>
     <string name="write_everything">무엇을 기록할까요?</string>
-    <string name="delete_dday_sub">디데이를 삭제할까요?</string>
+    <string name="delete_dday_sub">카운트다운 정보를 삭제하시겠습니까?</string>
     <string name="clear_time">시간설정 해제</string>
     <string name="one_day">하루</string>
     <string name="duration_day">총 %1$s일</string>
@@ -190,7 +192,7 @@
     <string name="long_click_to_show_explain">설명을 보시려면 각 항목을 길게 탭 하세요</string>
     <string name="deadline">기한</string>
     <string name="photo">사진</string>
-    <string name="weblink">웹사이트</string>
+    <string name="weblink">웹링크</string>
     <string name="shedule">스케쥴</string>
     <string name="delete_shedule_sub">스케쥴 정보를 제거합니다</string>
     <string name="weblink_sub">웹사이트 주소를 입력하세요</string>
@@ -207,8 +209,8 @@
     <string name="help">문의사항</string>
     <string name="no_records">이 날의 기록이 없습니다</string>
     <string name="no_records_in_this_folder">이 보관함에 기록이 없습니다</string>
-    <string name="delete_checkbox_sub">체크박스를 제거 할까요?</string>
-    <string name="delete_deadline_sub">기한을 해제 할까요?</string>
+    <string name="delete_checkbox_sub">체크박스 정보를 제거하시겠습니까?</string>
+    <string name="delete_deadline_sub">기한을 해제 하시겠습니까?</string>
     <string name="delete_percentage_sub">성취도를 삭제할까요?</string>
     <string name="premium">프리미엄</string>
     <string name="add_checklist">체크리스트 추가</string>
@@ -284,15 +286,15 @@
     <string name="select_tag">태그선택</string>
 
     <string name="formula_background">배경</string>
-    <string name="formula_stack">한줄</string>
-    <string name="formula_expanded">여러줄</string>
-    <string name="formula_stamp">스탬프</string>
+    <string name="formula_single_text">한줄 텍스트</string>
+    <string name="formula_multi_line_text">긴 텍스트</string>
+    <string name="formula_symbol">심볼</string>
     <string name="formula_dot">도트</string>
-    <string name="formula_range">구간</string>
+    <string name="formula_bottom_single_text">하단 한줄 텍스트</string>
     <string name="formula_sticker">스티커</string>
 
     <string name="shape_blank">공백</string>
-    <string name="shape_text">텍스트</string>
+    <string name="shape_text">기본</string>
     <string name="shape_rect_fill">채우기</string>
     <string name="shape_rect_stroke">테두리</string>
     <string name="shape_round_fill">둥근채우기</string>
@@ -371,6 +373,22 @@
     <string name="very_big">매우크게</string>
     <string name="move_to_keep">보관함으로 이동</string>
     <string name="move_to_calendar">캘린더로 이동</string>
+    <string name="date">날짜</string>
+    <string name="doned">완료됨</string>
+    <string name="done">완료하기</string>
+    <string name="done_when">완료일 : %1$s</string>
+    <string name="due">%1$s 남음</string>
+    <string name="overdue">%1$s 지남</string>
+    <string name="all_done">모두 완료</string>
+    <string name="all_doned">모두 완료됨</string>
+    <string name="add_photo">사진 추가</string>
+    <string name="add_web_link">웹링크 추가</string>
+    <string name="schedule_info">스케줄 정보</string>
+    <string name="task_info">할일 정보</string>
+    <string name="already_active_info">이미 활성화된 정보입니다</string>
+    <string name="delete_checklist_sub">체크리스트 정보를 삭제하시겠습니까?</string>
+    <string name="shape_range">구간</string>
+    <string name="shape_dash_range">점선구간</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

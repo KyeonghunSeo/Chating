@@ -57,120 +57,19 @@ class TemplateActivity : BaseActivity() {
         }
         l(template.toString())
 
-        updateColorUI()
-        updateCalendarBlockStyleUI()
-        updateSymbolUI()
-        updateAlarmUI()
-        updateMemoUI()
-        updateCheckBoxUI()
-        updateTitleUI()
-        updateFolderUI()
-        updateTagUI()
-        updataInitTextUI()
-    }
-
-    private fun updateColorUI() {
-        colorBg.setColorFilter(ColorManager.getColor(template.colorKey))
-        colorBtn.setOnClickListener {
-            ColorPickerDialog(template.colorKey){ colorKey ->
-                template.colorKey = colorKey
-                updateSymbolUI()
-            }.show(supportFragmentManager, null)
-        }
-    }
-
-    private fun updateCalendarBlockStyleUI() {
-        recordViewStyleText.text = RecordView.getStyleText(template.style)
-        recordViewStyleBtn.setOnClickListener {
-            showDialog(RecordViewStyleDialog(this, null, template) { style, colorKey ->
-                template.style = style
-                template.colorKey = colorKey
-                updateCalendarBlockStyleUI()
-                updateSymbolUI()
-            }, true, true, true, false)
-        }
-    }
-
-    private fun updateSymbolUI() {
-        val color = ColorManager.getColor(template.colorKey)
-        val fontColor = ColorManager.getFontColor(color)
-        symbolColor.setColorFilter(color)
-        symbalImg.setColorFilter(fontColor)
-        symbalImg.setImageResource(SymbolManager.getSymbolResId(template.symbol))
-        symbolBtn.setOnClickListener {
-            SymbolPickerDialog(template.symbol){
-                template.symbol = it.name
-                symbalImg.setImageResource(SymbolManager.getSymbolResId(template.symbol))
-            }.show(supportFragmentManager, null)
-        }
-    }
-
-    private fun updateAlarmUI() {
-        alarmText.text = template.getAlarmText()
-        alarmBtn.setOnClickListener {
-            showDialog(AlarmPickerDialog(this, template.alarmDayOffset, template.alarmTime) { result, dayOffset, alarmTime ->
-                if (result) {
-                    template.alarmDayOffset = dayOffset
-                    template.alarmTime = alarmTime
-                } else {
-                    template.alarmDayOffset = Int.MIN_VALUE
-                }
-                updateAlarmUI()
-            }, true, true, true, false)
-        }
-    }
-
-    private fun updateMemoUI() {
-        if(template.isSetMemo()) {
-            memoText.setTextColor(AppTheme.primaryText)
-            memoText.text = getString(R.string.use)
-        }else {
-            memoText.setTextColor(AppTheme.disableText)
-            memoText.text = getString(R.string.unuse)
-        }
-        memoBtn.setOnClickListener {
-            if(template.isSetMemo()) template.clearMemo()
-            else template.setMemo()
-            updateMemoUI()
-        }
-    }
-
-    private fun updateCheckBoxUI() {
-        if(template.isSetCheckBox()) {
-            checkBoxText.setTextColor(AppTheme.primaryText)
-            checkBoxText.text = getString(R.string.use)
-        }else {
-            checkBoxText.setTextColor(AppTheme.disableText)
-            checkBoxText.text = getString(R.string.unuse)
-        }
-        checkBoxBtn.setOnClickListener {
-            if(template.isSetCheckBox()) template.clearCheckBox()
-            else template.setCheckBox()
-            updateCheckBoxUI()
-        }
-    }
-
-    private fun updateTitleUI() {
         if(!template.title.isNullOrBlank()) {
             titleInput.setText(template.title.toString())
         }
-    }
 
-    private fun updateFolderUI() {
-        folderBtn.setOnClickListener {
-            MainActivity.getViewModel()?.folderList?.value?.let { folderList ->
-                showDialog(CustomListDialog(this,
-                        getString(R.string.folder),
-                        null,
-                        null,
-                        false,
-                        folderList.map { if(it.name.isNullOrBlank()) getString(R.string.empty) else it.name!! }) { index ->
-                    template.folder = folderList[index]
-                    updateFolderUI()
-                }, true, true, true, false)
-            }
-        }
-        folderText.text = template.folder?.name
+        updateTagUI()
+        updateSymbolUI()
+        updateColorUI()
+        updateCalendarBlockStyleUI()
+        updateTitleUI()
+        updateMemoUI()
+        updateDateUI()
+        updateCheckBoxUI()
+        updateFolderUI()
     }
 
     private fun updateTagUI() {
@@ -192,22 +91,195 @@ class TemplateActivity : BaseActivity() {
         }, true, true, true, false)
     }
 
-    private fun updataInitTextUI() {
-        val title = template.recordTitle ?: ""
-        initTextInput.setText(title)
-        initTextCursorText.text = String.format(getString(R.string.cursor_pos), template.recordTitleSelection)
-        if(template.recordTitleSelection <= title.length) {
-            initTextInput.setSelection(template.recordTitleSelection)
+    private fun updateSymbolUI() {
+        val symbolRes = SymbolManager.getSymbolResId(template.symbol)
+        if(symbolRes == R.drawable.blank) {
+            symbalImg.setColorFilter(AppTheme.disableText)
+            symbalImg.setBackgroundResource(R.drawable.circle_stroke_dash)
+        }else {
+            symbalImg.setColorFilter(AppTheme.primaryText)
+            symbalImg.setBackgroundResource(R.drawable.blank)
         }
-        initTextInput.onSelectionChanged = { startPos, _ ->
-            template.recordTitleSelection = startPos
-            initTextCursorText.text = String.format(getString(R.string.cursor_pos), startPos)
+        symbalImg.setImageResource(symbolRes)
+        symbolBtn.setOnClickListener {
+            SymbolPickerDialog(template.symbol){
+                template.symbol = it.name
+                updateSymbolUI()
+            }.show(supportFragmentManager, null)
         }
+    }
+
+    private fun updateColorUI() {
+        colorBg.setColorFilter(ColorManager.getColor(template.colorKey))
+        colorBtn.setOnClickListener {
+            ColorPickerDialog(template.colorKey){ colorKey ->
+                template.colorKey = colorKey
+                updateColorUI()
+                updateSymbolUI()
+            }.show(supportFragmentManager, null)
+        }
+    }
+
+    private fun updateCalendarBlockStyleUI() {
+        recordViewStyleBtn.visibility = View.VISIBLE
+        recordViewStyleText.text = RecordView.getStyleText(template.style)
+        recordViewStyleBtn.setOnClickListener {
+            showDialog(RecordViewStyleDialog(this, null, template) { style, colorKey ->
+                template.style = style
+                template.colorKey = colorKey
+                updateCalendarBlockStyleUI()
+                updateSymbolUI()
+                updateColorUI()
+            }, true, true, true, false)
+        }
+    }
+
+    private fun updateTitleUI() {
+        if(template.isSetTitle()) {
+            titleText.setTextColor(AppTheme.primaryText)
+            titleText.text = getString(R.string.use)
+            initTitleLy.visibility = View.VISIBLE
+            val title = template.recordTitle ?: ""
+            initTextInput.setText(title)
+            initTextCursorText.text = String.format(getString(R.string.cursor_pos), template.recordTitleSelection)
+            if(template.recordTitleSelection <= title.length) {
+                initTextInput.setSelection(template.recordTitleSelection)
+            }
+            initTextInput.onSelectionChanged = { startPos, _ ->
+                template.recordTitleSelection = startPos
+                initTextCursorText.text = String.format(getString(R.string.cursor_pos), startPos)
+            }
+        }else {
+            titleText.setTextColor(AppTheme.disableText)
+            titleText.text = getString(R.string.unuse)
+            initTitleLy.visibility = View.GONE
+        }
+        titleBtn.setOnClickListener {
+            if(template.isSetTitle()) template.clearTitle()
+            else template.setTitle()
+            updateTitleUI()
+        }
+    }
+
+    private fun updateMemoUI() {
+        if(template.isSetMemo()) {
+            memoText.setTextColor(AppTheme.primaryText)
+            memoText.text = getString(R.string.use)
+            initMemoLy.visibility = View.VISIBLE
+            val memo = template.recordMemo ?: ""
+            initMemoInput.setText(memo)
+            initMemoCursorText.text = String.format(getString(R.string.cursor_pos), template.recordMemoSelection)
+            if(template.recordMemoSelection <= memo.length) {
+                initMemoInput.setSelection(template.recordMemoSelection)
+            }
+            initMemoInput.onSelectionChanged = { startPos, _ ->
+                template.recordMemoSelection = startPos
+                initMemoCursorText.text = String.format(getString(R.string.cursor_pos), startPos)
+            }
+        }else {
+            memoText.setTextColor(AppTheme.disableText)
+            memoText.text = getString(R.string.unuse)
+            initMemoLy.visibility = View.GONE
+        }
+        memoBtn.setOnClickListener {
+            if(template.isSetMemo()) template.clearMemo()
+            else template.setMemo()
+            updateMemoUI()
+        }
+    }
+
+    private fun updateDateUI() {
+        if(template.isScheduled()) {
+            timeBtn.visibility = View.VISIBLE
+            alarmBtn.visibility = View.VISIBLE
+            updateTimeUI()
+            updateAlarmUI()
+            dateText.setTextColor(AppTheme.primaryText)
+            dateText.text = getString(R.string.use)
+        }else {
+            timeBtn.visibility = View.GONE
+            alarmBtn.visibility = View.GONE
+            dateText.setTextColor(AppTheme.disableText)
+            dateText.text = getString(R.string.unuse)
+        }
+        dateBtn.setOnClickListener {
+            if(template.isScheduled()) template.clearSchdule()
+            else template.setSchedule()
+            updateDateUI()
+        }
+    }
+
+    private fun updateTimeUI() {
+        if(template.isSetTime()) {
+            timeText.setTextColor(AppTheme.primaryText)
+            timeText.text = getString(R.string.use)
+        }else {
+            timeText.setTextColor(AppTheme.disableText)
+            timeText.text = getString(R.string.unuse)
+        }
+        timeBtn.setOnClickListener {
+            if(template.isSetTime()) template.clearTime()
+            else template.setTime()
+            updateTimeUI()
+        }
+    }
+
+    private fun updateAlarmUI() {
+        if(template.alarmDayOffset != Int.MIN_VALUE) {
+            alarmText.setTextColor(AppTheme.primaryText)
+        }else {
+            alarmText.setTextColor(AppTheme.disableText)
+        }
+        alarmText.text = template.getAlarmText()
+        alarmBtn.setOnClickListener {
+            showDialog(AlarmPickerDialog(this, template.alarmDayOffset, template.alarmTime) { result, dayOffset, alarmTime ->
+                if (result) {
+                    template.alarmDayOffset = dayOffset
+                    template.alarmTime = alarmTime
+                } else {
+                    template.alarmDayOffset = Int.MIN_VALUE
+                }
+                updateAlarmUI()
+            }, true, true, true, false)
+        }
+    }
+
+    private fun updateCheckBoxUI() {
+        if(template.isSetCheckBox()) {
+            checkBoxText.setTextColor(AppTheme.primaryText)
+            checkBoxText.text = getString(R.string.use)
+        }else {
+            checkBoxText.setTextColor(AppTheme.disableText)
+            checkBoxText.text = getString(R.string.unuse)
+        }
+        checkBoxBtn.setOnClickListener {
+            if(template.isSetCheckBox()) template.clearCheckBox()
+            else template.setCheckBox()
+            updateCheckBoxUI()
+        }
+    }
+
+    private fun updateFolderUI() {
+        folderBtn.setOnClickListener {
+            MainActivity.getViewModel()?.folderList?.value?.let { folderList ->
+                showDialog(CustomListDialog(this,
+                        getString(R.string.folder),
+                        null,
+                        null,
+                        false,
+                        folderList.map { if(it.name.isNullOrBlank()) getString(R.string.empty) else it.name!! }) { index ->
+                    template.folder = folderList[index]
+                    updateFolderUI()
+                }, true, true, true, false)
+            }
+        }
+        folderText.text = template.folder?.name
     }
 
     private fun confirm() {
         template.title = titleInput.text.toString()
         template.recordTitle = initTextInput.text.toString()
+        template.recordMemo = initMemoInput.text.toString()
         if(template != originalTemplate) {
             realm.executeTransaction {
                 if(template.id.isNullOrEmpty()) {

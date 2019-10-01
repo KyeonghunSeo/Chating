@@ -53,7 +53,7 @@ class CalendarPickerPager @JvmOverloads constructor(context: Context, attrs: Att
     private lateinit var startCal: Calendar
     private lateinit var endCal: Calendar
     private var color: Int = 0
-    private var mode = 0
+    var mode = 0
 
     fun setStartEndCalendar(sCal: Calendar, eCal: Calendar) {
         startCal = sCal

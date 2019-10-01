@@ -45,9 +45,17 @@ class App : Application() {
     private fun initRealm() {
         Realm.init(this)
         val config = RealmConfiguration.Builder()
-                .schemaVersion(1)
+                .schemaVersion(2)
                 .migration { realm, oldVersion, newVersion ->
                     val schema = realm.schema
+                    var version = oldVersion
+                    if (version == 1L) {
+                        schema.get("Template")?.let {
+                            it.addField("recordMemo", String::class.java)
+                                    .addField("recordMemoSelection", Int::class.java)
+                        }
+                        version++
+                    }
                 }.build()
         Realm.setDefaultConfiguration(config)
     }

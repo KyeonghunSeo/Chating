@@ -35,11 +35,17 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
 
     enum class Formula(val nameId: Int, val shapes: Array<RecordView.Shape>) {
         BACKGROUND(R.string.formula_background, arrayOf(BLANK)),
-        STACK(R.string.formula_stack, arrayOf(RECT_FILL, TEXT, RECT_STROKE, THIN_HATCHED, BOLD_HATCHED, NEON_PEN, UNDER_LINE)),
-        EXPANDED(R.string.formula_expanded, arrayOf(TEXT, RECT_FILL, RECT_STROKE, THIN_HATCHED, UPPER_LINE)),
-        STAMP(R.string.formula_stamp, arrayOf(BLANK)),
+        SINGLE_TEXT(R.string.formula_single_text,
+                arrayOf(RECT_FILL, TEXT, RECT_STROKE, ROUND_FILL, ROUND_STROKE, THIN_HATCHED,
+                        BOLD_HATCHED, NEON_PEN, UNDER_LINE, UPPER_LINE, RANGE, DASH_RANGE,
+                        ARROW, DASH_ARROW)),
+        MULTI_TEXT(R.string.formula_multi_line_text, arrayOf(TEXT, RECT_FILL, RECT_STROKE, THIN_HATCHED, BOLD_HATCHED, UNDER_LINE, UPPER_LINE)),
+        SYMBOL(R.string.formula_symbol, arrayOf(BLANK)),
         DOT(R.string.formula_dot, arrayOf(BLANK)),
-        RANGE(R.string.formula_range, arrayOf(LINE, DASH, ARROW, DASH_ARROW, RECT_FILL, BOLD_HATCHED, UPPER_LINE)),
+        BOTTOM_SINGLE_TEXT(R.string.formula_bottom_single_text,
+                arrayOf(RECT_FILL, TEXT, RECT_STROKE, ROUND_FILL, ROUND_STROKE, THIN_HATCHED,
+                        BOLD_HATCHED, NEON_PEN, UNDER_LINE, UPPER_LINE, RANGE, DASH_RANGE,
+                        ARROW, DASH_ARROW)),
         STICKER(R.string.formula_sticker, arrayOf(BLANK)),
         DATE_POINT(R.string.formula_date_point, arrayOf(BLANK));
 
@@ -110,12 +116,12 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         }
         var formula = record.getFormula()
 
-        if(formula == EXPANDED && endCellNum != startCellNum) { // 하루짜리가 아닐때 예외
-            formula = STACK
+        if(formula == MULTI_TEXT && endCellNum != startCellNum) { // 하루짜리가 아닐때 예외
+            formula = SINGLE_TEXT
         }
 
         when(formula){
-            STAMP, DOT, STICKER, DATE_POINT -> {
+            SYMBOL, DOT, STICKER, DATE_POINT -> {
                 (startCellNum .. endCellNum).forEach { cellnum ->
                     val holder =
                             viewHolderList.firstOrNull{ it.formula == formula && it.startCellNum == cellnum }
@@ -171,16 +177,13 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                 if(formula != currentFomula) {
                     currentFomula = formula
                     when(currentFomula) {
-                        DOT -> {
-                            addBottomMargin(dpToPx(5f), currentFomula)
-                        }
-                        RANGE -> {
+                        SYMBOL -> addBottomMargin(dpToPx(1f), currentFomula)
+                        DOT -> addBottomMargin(dpToPx(2f), currentFomula)
+                        BOTTOM_SINGLE_TEXT -> {
                             addBottomMargin(dpToPx(15f), currentFomula)
                             computeBottomStackStartPos()
                         }
-                        STICKER -> {
-                            addBottomMargin(dpToPx(0f), currentFomula)
-                        }
+                        STICKER -> addBottomMargin(dpToPx(0f), currentFomula)
                         else -> {}
                     }
                 }
@@ -190,10 +193,10 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                     it.mRight = it.mLeft + (minWidth * it.length).toInt()
                     val viewHeight = it.getViewHeight()
                     when(formula) {
-                        STACK, RANGE -> {
+                        SINGLE_TEXT, BOTTOM_SINGLE_TEXT -> {
                             it.mTop = computeOrder(it, status) * viewHeight + rowHeightArray[it.cellNum / columns]
                         }
-                        EXPANDED, STAMP, DOT -> {
+                        MULTI_TEXT, SYMBOL, DOT -> {
                             it.mTop = cellBottomArray[it.cellNum]
                         }
                         else -> {

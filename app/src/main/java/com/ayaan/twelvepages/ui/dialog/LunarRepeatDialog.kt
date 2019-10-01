@@ -1,21 +1,19 @@
 package com.ayaan.twelvepages.ui.dialog
 
 import android.app.Activity
-import android.app.Dialog
 import android.os.Bundle
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.model.KoreanLunarCalendar
 import com.ayaan.twelvepages.model.Record
-import com.ayaan.twelvepages.setGlobalTheme
-import com.ayaan.twelvepages.startDialogShowAnimation
-import kotlinx.android.synthetic.main.dialog_lunar_repeat.*
+import kotlinx.android.synthetic.main.container_lunar_repeat_dlg.*
+import kotlinx.android.synthetic.main.dialog_base.*
 import org.json.JSONObject
 import java.util.*
 
 
 class LunarRepeatDialog(activity: Activity, record: Record,
-                        private val onResult: (String?, Long) -> Unit) : Dialog(activity) {
+                        private val onResult: (String?, Long) -> Unit) : BaseDialog(activity) {
     private val cal = Calendar.getInstance()
     private val lunarCal = KoreanLunarCalendar.getInstance()
 
@@ -26,15 +24,13 @@ class LunarRepeatDialog(activity: Activity, record: Record,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window?.attributes?.windowAnimations = R.style.DialogAnimation
-        setContentView(R.layout.dialog_lunar_repeat)
+        setLayout(R.layout.container_lunar_repeat_dlg, dpToPx(325))
+        titleText.text = context.getString(R.string.set_alarm)
+        titleIcon.setImageResource(R.drawable.lunar)
         setLayout()
     }
 
     private fun setLayout() {
-        setGlobalTheme(rootLy)
-        rootLy.layoutParams.width = WRAP_CONTENT
-        rootLy.requestLayout()
         titleText.text = lunarCal.lunarFormat
 
         datePicker.date = cal.timeInMillis

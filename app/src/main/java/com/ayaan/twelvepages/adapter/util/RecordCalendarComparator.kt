@@ -8,7 +8,7 @@ class RecordCalendarComparator : Comparator<RecordCalendarAdapter.RecordViewHold
             l.formula < r.formula -> -1
             l.formula > r.formula -> 1
             else -> {
-                if(l.formula == RecordCalendarAdapter.Formula.RANGE) {
+                if(l.formula == RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT) {
                     when{
                         l.startCellNum > r.startCellNum -> -1
                         l.startCellNum < r.startCellNum -> 1
@@ -18,7 +18,15 @@ class RecordCalendarComparator : Comparator<RecordCalendarAdapter.RecordViewHold
                             when{
                                 lLength < rLength -> -1
                                 lLength > rLength -> 1
-                                else -> RecordListComparator.sort(l.record, r.record)
+                                else -> {
+                                    val lr = l.record
+                                    val rr = r.record
+                                    when{
+                                        lr.dtStart < rr.dtStart -> -1
+                                        lr.dtStart > rr.dtStart -> 1
+                                        else -> RecordListComparator.lastSort(lr, rr)
+                                    }
+                                }
                             }
                         }
                     }
@@ -32,7 +40,15 @@ class RecordCalendarComparator : Comparator<RecordCalendarAdapter.RecordViewHold
                             when{
                                 lLength > rLength -> -1
                                 lLength < rLength -> 1
-                                else -> RecordListComparator.sort(l.record, r.record)
+                                else -> {
+                                    val lr = l.record
+                                    val rr = r.record
+                                    when{
+                                        lr.dtStart < rr.dtStart -> -1
+                                        lr.dtStart > rr.dtStart -> 1
+                                        else -> RecordListComparator.lastSort(lr, rr)
+                                    }
+                                }
                             }
                         }
                     }

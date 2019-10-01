@@ -3,6 +3,30 @@
     <color name="colorPrimary">#212121</color>
     <color name="colorAccent">#212121</color>
 
+    <!--
+
+    <color name="background">#f5f5f1</color>
+    <color name="backgroundDark">#e5e5e1</color>
+    <color name="whiteAlpha">#ddf5f5f1</color>
+    <color name="dim">#90212121</color>
+
+    <color name="primaryText">#424347</color>
+    <color name="semiPrimaryText">#424347</color>
+    <color name="secondaryText">#676f7f</color>
+    <color name="disableText">#dfdcd4</color>
+    <color name="line">#dfdcd4</color>
+    <color name="light_line">#dfdcd4</color>
+    <color name="iconTint">#424347</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#c38375</color>
+    <color name="blue">#47b2f7</color>
+    <color name="yellow">#ffd801</color>
+    <color name="green">#2ecc87</color>
+    <color name="grey">#e4e7ef</color>
+    <color name="transparent">#00000000</color>
+    -->
     <color name="background">#ffffff</color>
     <color name="backgroundDark">#fbfbfb</color>
     <color name="whiteAlpha">#ddffffff</color>

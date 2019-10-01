@@ -81,7 +81,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                         activity.viewModel.clip(record)
                     }
                     2 -> {
-                        showDialog(SchedulingDialog(activity, record) { sCal, eCal ->
+                        showDialog(SchedulingDialog(activity, record, 0) { sCal, eCal ->
                             record.setDateTime(sCal, eCal)
                             if(record.isRepeat()) {
                                 RepeatManager.save(activity, record, Runnable { toast(R.string.moved, R.drawable.schedule) })
@@ -455,15 +455,15 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         //const val mainMonthTextScale = 0.78f
         const val mainMonthTextScale = 1.0f
 
-        val datePosX = -dpToPx(0.0f)
+        val datePosX = -dpToPx(2.0f)
         val datePosY = dpToPx(25.0f)
 
         val dowPosX = dpToPx(1.0f) / headerTextScale
         val holiPosX = dpToPx(2.0f) / headerTextScale
 
         val subYPos = dpToPx(0.0f) / headerTextScale
-        val dowPosY = dpToPx(10.0f) / headerTextScale + subYPos
-        val holiPosY = -dpToPx(32.5f) / headerTextScale + subYPos
+        val dowPosY = dpToPx(11.0f) / headerTextScale + subYPos
+        val holiPosY = -dpToPx(30.0f) / headerTextScale + subYPos
 
         val dowScale = 1.4f / headerTextScale
         val holiScale = 1.75f / headerTextScale

@@ -1,24 +1,23 @@
 package com.ayaan.twelvepages.ui.dialog
 
 import android.app.Activity
-import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.manager.RepeatManager
-import kotlinx.android.synthetic.main.dialog_repeat.*
+import kotlinx.android.synthetic.main.container_repeat_dlg.*
+import kotlinx.android.synthetic.main.dialog_base.*
 import org.json.JSONObject
 import java.util.*
 
 
 class RepeatDialog(private val activity: Activity, record: Record,
-                   private val onResult: (String?, Long) -> Unit) : Dialog(activity) {
+                   private val onResult: (String?, Long) -> Unit) : BaseDialog(activity) {
 
     val jsonObject = JSONObject()
     var freq = 1
@@ -42,18 +41,12 @@ class RepeatDialog(private val activity: Activity, record: Record,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //getScreenSize(context)[0] - dpToPx(50)
-        setContentView(R.layout.dialog_repeat)
-        setGlobalTheme(rootLy)
+        setLayout(R.layout.container_repeat_dlg, getScreenSize(context)[0] - dpToPx(80))
         setLayout()
-        setOnShowListener {
-            startDialogShowAnimation(contentLy)
-        }
     }
 
     private fun setLayout() {
-        rootLy.layoutParams.width = WRAP_CONTENT
-        rootLy.requestLayout()
+        titleIcon.setImageResource(R.drawable.repeat)
 
         val freqBtns = arrayOf(dailyBtn, weeklyBtn, monthlyBtn, yearlyBtn)
         freqBtns.forEachIndexed { index, textView ->
@@ -141,7 +134,9 @@ class RepeatDialog(private val activity: Activity, record: Record,
             dismiss()
         }
 
-        deleteBtn.setOnClickListener {
+        cancelBtn.text = str(R.string.no_repeat)
+        cancelBtn.setTextColor(AppTheme.red)
+        cancelBtn.setOnClickListener {
             onResult.invoke(null, Long.MIN_VALUE)
             dismiss()
         }

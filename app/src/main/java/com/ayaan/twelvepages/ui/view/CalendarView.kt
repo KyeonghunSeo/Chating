@@ -331,8 +331,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             v.dateText.setTextColor(color)
             v.holiText.setTextColor(color)
             v.dowText.setTextColor(color)
-            v.dateText.typeface = AppTheme.thinFont
-            v.holiText.typeface = AppTheme.thinFont
+            v.dateText.typeface = AppTheme.regularFont
+            v.holiText.typeface = AppTheme.regularFont
             v.holiText.alpha = 1f
             v.holiText.translationX = 0f
             v.dowText.alpha = 1f

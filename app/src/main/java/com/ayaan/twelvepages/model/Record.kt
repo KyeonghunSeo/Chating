@@ -6,7 +6,7 @@ import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.ui.view.RecordView
 import io.realm.RealmList
 import io.realm.RealmObject
-import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.STACK
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.SINGLE_TEXT
 import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.StickerManager
 import io.realm.annotations.PrimaryKey
@@ -16,7 +16,7 @@ import java.util.*
 
 open class Record(@PrimaryKey var id: String? = null,
                   var type: Int = 0,
-                  var style: Int = STACK.shapes[Random().nextInt(STACK.shapes.size)].ordinal * 100 + STACK.ordinal,
+                  var style: Int = SINGLE_TEXT.shapes[Random().nextInt(SINGLE_TEXT.shapes.size)].ordinal * 100 + SINGLE_TEXT.ordinal,
                   var symbol: String? = null,
                   var title: String? = null,
                   var isSetTime: Boolean = false,
@@ -182,6 +182,48 @@ open class Record(@PrimaryKey var id: String? = null,
     fun undone() {
         dtDone = Long.MIN_VALUE
     }
+    fun getDueText(time: Long): String {
+        if(isDone()) {
+            return String.format(str(R.string.done_when), "${AppDateFormat.mde.format(Date(dtDone))} ${AppDateFormat.time.format(Date(dtDone))}")
+        }else {
+            val diffDate = getDiffDate(dtStart, time)
+            return if(isSetTime && diffDate == 0) {
+                val diff = dtStart - time
+                val diffMin = Math.abs(diff / MIN_MILL)
+                val diffHour = Math.abs(diff / HOUR_MILL)
+                val diffMinHour = diffMin % 60
+                if(diff < 0) {
+                    if(diffMin < 60) {
+                        String.format(str(R.string.overdue), String.format(str(R.string.some_min), diffMin.toString()))
+                    }else {
+                        if(diffMinHour == 0L) {
+                            String.format(str(R.string.overdue), String.format(str(R.string.some_hour), diffHour.toString()))
+                        }else {
+                            String.format(str(R.string.overdue), "${String.format(str(R.string.some_hour), diffHour.toString())} " +
+                                    String.format(str(R.string.some_min), diffMinHour.toString()))
+                        }
+                    }
+                }else {
+                    if(diffMin < 60) {
+                        String.format(str(R.string.due), String.format(str(R.string.some_min), diffMin.toString()))
+                    }else {
+                        if(diffMinHour == 0L) {
+                            String.format(str(R.string.due), String.format(str(R.string.some_hour), diffHour.toString()))
+                        }else {
+                            String.format(str(R.string.due), "${String.format(str(R.string.some_hour), diffHour.toString())} " +
+                                    String.format(str(R.string.some_min), diffMinHour.toString()))
+                        }
+                    }
+                }
+            }else {
+                when {
+                    diffDate > 0 -> String.format(str(R.string.overdue), String.format(str(R.string.some_date), diffDate.toString()))
+                    diffDate < 0 -> String.format(str(R.string.due), String.format(str(R.string.some_date), diffDate.toString()))
+                    else -> str(R.string.today)
+                }
+            }
+        }
+    }
 
     fun isSetCountdown(): Boolean = links.any { it.type == Link.Type.COUNTDOWN.ordinal }
     fun clearCountdown() { links.first{ it.type == Link.Type.COUNTDOWN.ordinal }?.let { links.remove(it) } }
@@ -220,15 +262,16 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     fun isSetCheckList(): Boolean = links.any { it.type == Link.Type.CHECKLIST.ordinal }
-    fun clearCheckList() { links.first{ it.type == Link.Type.CHECKLIST.ordinal }?.let { links.remove(it) } }
+    fun clearCheckList() { links.firstOrNull{ it.type == Link.Type.CHECKLIST.ordinal }?.let { links.remove(it) } }
     fun setCheckList() {
         if(!isSetCheckList()) {
             links.add(Link(type = Link.Type.CHECKLIST.ordinal))
         }
     }
+    fun getCheckList() = links.firstOrNull{ it.type == Link.Type.CHECKLIST.ordinal }
 
     fun isSetPercentage(): Boolean = links.any { it.type == Link.Type.PERCENTAGE.ordinal }
-    fun clearPercentage() { links.first{ it.type == Link.Type.PERCENTAGE.ordinal }?.let { links.remove(it) } }
+    fun clearPercentage() { links.firstOrNull{ it.type == Link.Type.PERCENTAGE.ordinal }?.let { links.remove(it) } }
     fun setPercentage() {
         if(!isSetPercentage()) {
             links.add(Link(type = Link.Type.PERCENTAGE.ordinal))
@@ -239,17 +282,21 @@ open class Record(@PrimaryKey var id: String? = null,
 
     fun isLunarRepeat(): Boolean = repeat?.contains("lunar") == true
 
-    fun isSetLink(): Boolean = links.any { it.type == Link.Type.IMAGE.ordinal }
+    fun isSetPhoto(): Boolean = links.any { it.type == Link.Type.IMAGE.ordinal }
+    fun isSetLink(): Boolean = links.any { it.type == Link.Type.WEB.ordinal }
 
     fun getTitleInCalendar() = if(!title.isNullOrBlank())
         title?.replace(System.getProperty("line.separator"), " ")
-    else str(R.string.empty)
+    else if(!description.isNullOrBlank())
+        description?.replace(System.getProperty("line.separator"), " ")
+    else
+        ""
 
     fun getShortTilte(): String {
         title?.let {
             return it.take(5) + if(it.length > 5) ".." else ""
         }
-        return str(R.string.empty)
+        return ""
     }
 
     fun setAlarm(dayOffset: Int, time: Long) {
@@ -278,4 +325,9 @@ open class Record(@PrimaryKey var id: String? = null,
     fun isScheduled() = dtStart != Long.MIN_VALUE
     fun isOsInstance() = id?.startsWith("osInstance::") == true
     fun getOsEventId() = id?.substring("osInstance::".length, id!!.length)?.toLong() ?: -1
+    fun isSetLocation() = location != null
+    fun isSetMainText() = description != null
+    fun isSetTitle() = title != null
+    fun isSetSymbol() = symbol != null
+
 }

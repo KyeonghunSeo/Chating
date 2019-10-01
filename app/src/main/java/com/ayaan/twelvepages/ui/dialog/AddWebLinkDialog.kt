@@ -1,22 +1,17 @@
 package com.ayaan.twelvepages.ui.dialog
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.model.Link
-import com.ayaan.twelvepages.model.Record
 import com.bumptech.glide.Glide
 import io.github.ponnamkarthik.richlinkpreview.MetaData
 import io.github.ponnamkarthik.richlinkpreview.ResponseListener
 import io.github.ponnamkarthik.richlinkpreview.RichPreview
-import io.realm.Realm
 import kotlinx.android.synthetic.main.container_web_link_dlg.*
 import kotlinx.android.synthetic.main.dialog_base.*
-import org.json.JSONObject
 import java.util.*
 
 
@@ -61,7 +56,7 @@ class AddWebLinkDialog(activity: Activity, private val onResult: (Link) -> Unit)
                 if(metaData.title.isNullOrEmpty()) {
                     toast(R.string.not_found_web)
                 }else {
-                    linkLy.visibility = View.VISIBLE
+                    photoLy.visibility = View.VISIBLE
                     if(!metaData.imageurl.isNullOrBlank()){
                         linkImg.clearColorFilter()
                         Glide.with(context).load(metaData.imageurl).into(linkImg)
@@ -74,7 +69,6 @@ class AddWebLinkDialog(activity: Activity, private val onResult: (Link) -> Unit)
                     }
                     linkText.text = metaData.title
                     confirmBtn.visibility = View.VISIBLE
-                    confirmBtn.setTextColor(AppTheme.blue)
                     confirmBtn.setOnClickListener {
                         val link = Link(UUID.randomUUID().toString(), Link.Type.WEB.ordinal,
                                 metaData.title, url, metaData.imageurl, metaData.favicon)
@@ -89,7 +83,7 @@ class AddWebLinkDialog(activity: Activity, private val onResult: (Link) -> Unit)
         })
         progressBar.visibility = View.VISIBLE
         confirmBtn.visibility = View.GONE
-        linkLy.visibility = View.GONE
+        photoLy.visibility = View.GONE
         try{
             richPreview.getPreview(url)
         }catch (e: Exception) {

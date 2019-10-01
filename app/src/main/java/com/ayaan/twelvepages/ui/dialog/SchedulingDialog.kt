@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.container_scheduling_dlg.*
 import java.util.*
 
 @SuppressLint("ValidFragment")
-class SchedulingDialog(activity: Activity, record: Record,
+class SchedulingDialog(activity: Activity, record: Record, private val pickerMode: Int,
                        private val onConfirmed: (Calendar, Calendar) -> Unit) : BaseDialog(activity) {
     private val startCal = Calendar.getInstance()
     private val endCal = Calendar.getInstance()
@@ -28,7 +28,7 @@ class SchedulingDialog(activity: Activity, record: Record,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setLayout(R.layout.container_scheduling_dlg, dpToPx(350))
+        setLayout(R.layout.container_scheduling_dlg, dpToPx(340))
         titleIcon.visibility = View.GONE
         setDowTexts()
         setCalendarPicker()
@@ -63,6 +63,7 @@ class SchedulingDialog(activity: Activity, record: Record,
     }
 
     private fun setCalendarPicker() {
+        calendarPicker.mode = pickerMode
         calendarPicker.setStartEndCalendar(startCal, endCal)
         calendarPicker.setColor(color)
         calendarPicker.onTargetedDate = { time ->
@@ -104,5 +105,4 @@ class SchedulingDialog(activity: Activity, record: Record,
             lunarText.visibility = View.GONE
         }
     }
-
 }

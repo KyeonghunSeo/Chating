@@ -9,7 +9,7 @@ object SymbolManager{
     )
 
     enum class Symbol(val resId: Int) {
-        DOT(R.drawable.dot),
+        DOT(R.drawable.blank),
         IDEA(R.drawable.idea),
         NOTE(R.drawable.note),
         STAR(R.drawable.star),

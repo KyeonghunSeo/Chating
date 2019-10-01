@@ -25,9 +25,9 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
     }
 
     private fun setLayout() {
-        rootLy.setOnClickListener { dismiss() }
         titleText.text = context.getString(R.string.select_tag)
         titleIcon.setImageResource(R.drawable.hashtag)
+
         tagView.mode = MODE_CHECK
         tagView.onSelected = { tag, action ->
             if(tagView.mode == MODE_EDIT) {

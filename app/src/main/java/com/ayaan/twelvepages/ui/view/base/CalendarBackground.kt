@@ -18,7 +18,7 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
     private val dashEffect = DashPathEffect(floatArrayOf(dpToPx(5.0f), dpToPx(1.0f)), 2f)
 
     init {
-        paint.color = AppTheme.primaryText
+        paint.color = AppTheme.line
         setWillNotDraw(false)
     }
     
@@ -315,7 +315,7 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     private fun drawPoints(list: ArrayList<Point>, canvas: Canvas?) {
-        val lineWidth = dpToPx(1.0f)
+        val lineWidth = dpToPx(1.5f)
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = lineWidth
         paint.pathEffect = dashEffect
