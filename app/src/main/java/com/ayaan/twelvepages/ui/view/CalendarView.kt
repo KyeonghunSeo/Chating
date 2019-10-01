@@ -29,7 +29,7 @@ import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.view.base.CalendarBackground
-import kotlinx.android.synthetic.main.view_selected_date_header.view.*
+import kotlinx.android.synthetic.main.view_date_cell_header.view.*
 import io.realm.RealmResults
 import java.util.*
 
@@ -46,11 +46,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
-        val dataStartYOffset = dpToPx(36f)
-        val headerHeight = dpToPx(72)
+        val dataStartYOffset = dpToPx(33f)
     }
 
-    private val headerView = View(context)
     private val scrollView = NestedScrollView(context)
     val calendarLy = CalendarBackground(context)
     val weekLys = Array(6) { FrameLayout(context) }
@@ -59,9 +57,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val bottomDivider = View(context)
     private val rowDividers = Array(5) { View(context) }
     private val weekViewHolders = Array(6) { WeekInfoViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.view_selected_week_info, null, false)) }
+            LayoutInflater.from(context).inflate(R.layout.view_week_info, null, false)) }
     val dateCellHolders = Array(maxCellNum) { index -> DateInfoViewHolder(index,
-            LayoutInflater.from(context).inflate(R.layout.view_selected_date_header, null, false) as FrameLayout,
+            LayoutInflater.from(context).inflate(R.layout.view_date_cell_header, null, false) as FrameLayout,
             DateInfoManager.DateInfo()) }
     val recordsViews = Array(maxCellNum) { FrameLayout(context) }
 
@@ -99,23 +97,25 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         scrollView.addView(calendarLy)
         addView(topDivider)
         addView(bottomDivider)
-        addView(headerView)
     }
 
     private fun setLayout() {
-        headerView.layoutParams = LayoutParams(MATCH_PARENT, headerHeight)
-        headerView.setBackgroundColor(AppTheme.background)
-
         scrollView.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         scrollView.isVerticalScrollBarEnabled = false
         scrollView.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
             val isTop = scrollY == 0
             if(isTop) {
+                topDivider.alpha = AppStatus.weekLine
                 (topDivider.layoutParams as FrameLayout.LayoutParams).let {
                     it.leftMargin = calendarPadding
                     it.rightMargin = calendarPadding
                 }
             }else {
+                if(AppStatus.weekLine == 0f) {
+                    topDivider.alpha = 0.1f
+                }else {
+                    topDivider.alpha = AppStatus.weekLine
+                }
                 (topDivider.layoutParams as FrameLayout.LayoutParams).let {
                     it.leftMargin = 0
                     it.rightMargin = 0
@@ -126,26 +126,25 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         calendarLy.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        calendarLy.setPadding(0, headerHeight + calendarTopPadding,
+        calendarLy.setPadding(0, calendarTopPadding,
                 0, calendarBottomPadding)
         calendarLy.orientation = LinearLayout.VERTICAL
         calendarLy.clipChildren = false
         calendarLy.clipToPadding = false
 
         topDivider.setBackgroundColor(AppTheme.primaryText)
-        topDivider.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
-            topMargin = headerHeight
+        topDivider.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt()).apply {
             leftMargin = calendarPadding
             rightMargin = calendarPadding
         }
 
         bottomDivider.setBackgroundColor(AppTheme.primaryText)
-        bottomDivider.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
+        bottomDivider.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt()).apply {
             gravity = Gravity.BOTTOM
         }
 
         rowDividers.forEachIndexed { index, view ->
-            view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 2).apply {
+            view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt()).apply {
                 leftMargin = calendarPadding
                 rightMargin = calendarPadding
             }
@@ -153,7 +152,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         columnDividers.forEachIndexed { index, view ->
-            view.layoutParams = LayoutParams(lineWidth.toInt() * 2, 0)
+            view.layoutParams = LayoutParams(lineWidth.toInt(), 0)
             view.setBackgroundColor(AppTheme.primaryText)
         }
 
@@ -166,7 +165,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
 
             weekLy.addView(weekViewHolders[i].container) // 주간 뷰 추가
-            weekViewHolders[i].container.layoutParams = LayoutParams(dpToPx(150), MATCH_PARENT)
+            weekViewHolders[i].container.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
             for (j in 0..6) { // 컬럼 디바이더 추가
                 columnDividers[i * 7 + j].let {
@@ -186,14 +185,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                             onSelectedDate?.invoke(dateInfoViewHolder, true)
                         } else {
                             vibrate(context)
-                            selectDate(dateInfoViewHolder, weekLys[cellNum / columns].top < scrollView.scrollY + headerHeight)
+                            selectDate(dateInfoViewHolder, weekLys[cellNum / columns].top < scrollView.scrollY)
                         }
                         calendarLy.clearDragPoint()
                     }
                 }
                 dateCell.setOnLongClickListener {
                     if (targetDateHolder != dateInfoViewHolder) {
-                        selectDate(dateInfoViewHolder, weekLys[cellNum / columns].top < scrollView.scrollY + headerHeight)
+                        selectDate(dateInfoViewHolder, weekLys[cellNum / columns].top < scrollView.scrollY)
                     }
                     MainDragAndDropListener.start(it, MainDragAndDropListener.DragMode.INSERT)
                     return@setOnLongClickListener true
@@ -205,12 +204,33 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             for (j in 0..6) { // 기록 홀더 추가
                 recordsViews[i * 7 + j].let {
                     it.layoutParams = LinearLayout.LayoutParams(0, MATCH_PARENT)
-                    it.clipChildren = false
                     weekLy.addView(it)
                 }
             }
 
             calendarLy.addView(weekLy)
+        }
+    }
+
+    inner class WeekInfoViewHolder(val container: View) {
+        val weeknumText: TextView = container.findViewById(R.id.weeknumText)
+        init {
+            weeknumText.setTextColor(AppTheme.lightLine)
+            weeknumText.setTypeface(AppTheme.boldFont, Typeface.BOLD_ITALIC)
+            unTarget()
+        }
+
+        fun unTarget() {
+            container.visibility = View.GONE
+        }
+
+        fun target() {
+            if(AppStatus.isWeekNumDisplay) {
+                container.visibility = View.VISIBLE
+            }else {
+                container.visibility = View.GONE
+            }
+            targetWeekHolder = this
         }
     }
 
@@ -221,9 +241,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         var color = 0
 
         init {
-            //v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-            v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-            v.holiText.typeface = AppTheme.regularFont
             v.clipChildren = false
             v.bar.pivotY = 0f
         }
@@ -236,7 +253,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val alpha = if(isInMonth) 1f else AppStatus.outsideMonthAlpha
             v.dateLy.alpha = alpha
             v.dateText.text = String.format("%01d", tempCal.get(Calendar.DATE))
-            v.dowText.text = AppDateFormat.dowEng.format(tempCal.time)
+            v.dowText.text = AppDateFormat.simpleDow.format(tempCal.time)
             v.bar.scaleY = 0f
             initViews()
         }
@@ -246,12 +263,19 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             targetDateHolder = this
             //v.dateText.typeface = AppTheme.regularFont
             v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            v.holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.text = dateInfo.getSelectedString()
 
             color = getDateTextColor(cellNum, dateInfo.holiday?.isHoli == true, true)
             v.dateText.setTextColor(color)
             v.holiText.setTextColor(color)
             v.dowText.setTextColor(color)
+
+            val weekHolder = weekViewHolders[cellNum / columns]
+            if(targetWeekHolder != weekHolder) {
+                targetWeekHolder?.unTarget()
+                weekHolder.target()
+            }
 
             lastSelectDateAnimSet?.cancel()
             lastSelectDateAnimSet = AnimatorSet()
@@ -267,15 +291,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 anims.add(ObjectAnimator.ofFloat(v.dowText, "translationX", -autoScrollOffset.toFloat(), 1f))
                 anims.add(ObjectAnimator.ofFloat(v.holiText, "alpha", 0f, 1f))
                 anims.add(ObjectAnimator.ofFloat(v.holiText, "translationX", -autoScrollOffset.toFloat(), 1f))
-
-                val weekHolder = weekViewHolders[cellNum / columns]
-                if(targetWeekHolder != weekHolder) {
-                    targetWeekHolder?.let { wh ->
-                        //anims.add(ObjectAnimator.ofFloat(wh.container, "translationX", wh.container.translationX, -calendarPadding.toFloat()))
-                    }
-                    //anims.add(ObjectAnimator.ofFloat(weekHolder.container, "translationX", -calendarPadding.toFloat(), 0f))
-                    targetWeekHolder = weekHolder
-                }
                 it.playTogether(anims)
                 it.interpolator = FastOutSlowInInterpolator()
                 it.duration = animDur
@@ -345,19 +360,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    inner class WeekInfoViewHolder(val container: View) {
-        val weeknumText: TextView = container.findViewById(R.id.weeknumText)
-        val weekArrow: ImageView = container.findViewById(R.id.weekArrow)
-        val indicatorLy: LinearLayout = container.findViewById(R.id.indicatorLy)
-        init {
-            weeknumText.setTextColor(AppTheme.backgroundDark)
-            weeknumText.setTypeface(AppTheme.boldFont, Typeface.ITALIC)
-            container.visibility = View.GONE
-            indicatorLy.visibility = View.GONE
-            weekArrow.visibility = View.GONE
-        }
-    }
-
     fun draw(time: Long) {
         targetCal.timeInMillis = time
         if(width > 0) {
@@ -381,7 +383,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         if (startCellNum < 0) { startCellNum += 7 }
         endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
         rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
-        minCalendarHeight = height.toFloat() - headerHeight - calendarTopPadding - calendarBottomPadding
+        minCalendarHeight = height.toFloat() - calendarTopPadding - calendarBottomPadding
         minWidth = (width.toFloat() - calendarPadding * 2) / columns
         minHeight = minCalendarHeight / rows
 
@@ -419,8 +421,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
                     columnDividers[cellNum].alpha = AppStatus.weekLine
                     columnDividers[cellNum].translationX = minWidth * j - lineWidth + calendarPadding
-                    //weekViewHolders[i].weeknumText.text = tempCal.get(Calendar.WEEK_OF_YEAR).toString()
                     weekViewHolders[i].weeknumText.text = String.format(str(R.string.weekNum), tempCal.get(Calendar.WEEK_OF_YEAR))
+                            //.toList().joinToString("")
 
                     dateCellHolders[cellNum].let {
                         it.setDate(tempCal)
@@ -465,7 +467,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         targetCal.timeInMillis = holder.time
         holder.target()
         if(withScroll) {
-            scrollView.post { scrollView.scrollTo(0, weekLys[holder.cellNum / columns].top - headerHeight) }
+            scrollView.post { scrollView.scrollTo(0, weekLys[holder.cellNum / columns].top) }
         }
         scrollView.post{ onTop?.invoke(scrollView.scrollY == 0, !scrollView.canScrollVertically(1)) }
         todayStatus = getDiffToday(targetCal)
@@ -474,13 +476,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun unselectDate() {
         targetDateHolder?.unTarget()
-        targetWeekHolder?.let { it.container.translationX = -calendarPadding.toFloat() }
+        targetWeekHolder?.unTarget()
         targetWeekHolder = null
     }
 
     private fun onViewEffect(cellNum: Int) {
         timeObjectCalendarAdapter.getViewsAtStart(cellNum).let {
             it.forEach { view ->
+                //view.setTypeface(AppTheme.boldFont, Typeface.BOLD)
                 view.ellipsize = TextUtils.TruncateAt.MARQUEE
                 view.marqueeRepeatLimit = -1
                 view.isFocusable = true
@@ -494,6 +497,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun offViewEffect(cellNum: Int) {
         timeObjectCalendarAdapter.getViewsAtStart(cellNum).let {
             it.forEach { view ->
+                //view.typeface = AppTheme.regularFont
                 view.ellipsize = null
                 view.isSelected = false
             }
@@ -573,12 +577,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    fun onDrag(event: DragEvent) {
+    fun onDrag(event: DragEvent, x: Float, y: Float) {
         val drag = MainDragAndDropListener
-        val xPos = if(MainActivity.isFolderOpen()) event.x - MainActivity.tabSize else event.x
+        val xPos = if(MainActivity.isFolderOpen()) x - MainActivity.tabSize else x
         var cellX = ((xPos - calendarPadding) / minWidth).toInt()
         if(cellX < 0) cellX = 0
-        val yPos = event.y - dragStartYPos
+        val yPos = y - dragStartYPos
         val yCalPos = yPos + scrollView.scrollY
         var cellY = -1
 

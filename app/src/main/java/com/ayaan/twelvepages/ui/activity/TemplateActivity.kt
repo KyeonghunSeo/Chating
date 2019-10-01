@@ -5,9 +5,11 @@ import android.view.View
 import androidx.core.widget.NestedScrollView
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.ColorManager
+import com.ayaan.twelvepages.manager.SymbolManager
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.dialog.*
 import com.ayaan.twelvepages.ui.view.RecordView
+import com.ayaan.twelvepages.ui.view.TagView
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_template.*
 import java.util.*
@@ -26,10 +28,11 @@ class TemplateActivity : BaseActivity() {
             else topShadow.visibility = View.GONE
         }
 
-        deleteBtn.setOnClickListener {
+        backBtn.setOnClickListener { onBackPressed() }
+        moreBtn.setOnClickListener {
             showDialog(PopupOptionDialog(this@TemplateActivity,
                     arrayOf(PopupOptionDialog.Item(getString(R.string.delete), R.drawable.delete, AppTheme.red)),
-                    deleteBtn, false) { index ->
+                    moreBtn, false) { index ->
                 if(index == 0) {
                     showDialog(CustomDialog(this@TemplateActivity,
                             getString(R.string.delete),
@@ -54,16 +57,26 @@ class TemplateActivity : BaseActivity() {
         }
         l(template.toString())
 
+        updateColorUI()
         updateCalendarBlockStyleUI()
+        updateSymbolUI()
         updateAlarmUI()
         updateMemoUI()
         updateCheckBoxUI()
-        updateScheduleUI()
         updateTitleUI()
         updateFolderUI()
-        updateColorUI()
         updateTagUI()
         updataInitTextUI()
+    }
+
+    private fun updateColorUI() {
+        colorBg.setColorFilter(ColorManager.getColor(template.colorKey))
+        colorBtn.setOnClickListener {
+            ColorPickerDialog(template.colorKey){ colorKey ->
+                template.colorKey = colorKey
+                updateSymbolUI()
+            }.show(supportFragmentManager, null)
+        }
     }
 
     private fun updateCalendarBlockStyleUI() {
@@ -73,8 +86,22 @@ class TemplateActivity : BaseActivity() {
                 template.style = style
                 template.colorKey = colorKey
                 updateCalendarBlockStyleUI()
-                updateColorUI()
+                updateSymbolUI()
             }, true, true, true, false)
+        }
+    }
+
+    private fun updateSymbolUI() {
+        val color = ColorManager.getColor(template.colorKey)
+        val fontColor = ColorManager.getFontColor(color)
+        symbolColor.setColorFilter(color)
+        symbalImg.setColorFilter(fontColor)
+        symbalImg.setImageResource(SymbolManager.getSymbolResId(template.symbol))
+        symbolBtn.setOnClickListener {
+            SymbolPickerDialog(template.symbol){
+                template.symbol = it.name
+                symbalImg.setImageResource(SymbolManager.getSymbolResId(template.symbol))
+            }.show(supportFragmentManager, null)
         }
     }
 
@@ -123,21 +150,6 @@ class TemplateActivity : BaseActivity() {
         }
     }
 
-    private fun updateScheduleUI() {
-        if(template.isScheduled()) {
-            scheduleText.setTextColor(AppTheme.primaryText)
-            scheduleText.text = getString(R.string.use)
-        }else {
-            scheduleText.setTextColor(AppTheme.disableText)
-            scheduleText.text = getString(R.string.unuse)
-        }
-        scheduleBtn.setOnClickListener {
-            if(template.isScheduled()) template.clearSchdule()
-            else template.setSchedule()
-            updateScheduleUI()
-        }
-    }
-
     private fun updateTitleUI() {
         if(!template.title.isNullOrBlank()) {
             titleInput.setText(template.title.toString())
@@ -161,25 +173,23 @@ class TemplateActivity : BaseActivity() {
         folderText.text = template.folder?.name
     }
 
-    private fun updateColorUI() {
-        colorImg.setColorFilter(ColorManager.getColor(template.colorKey))
-        colorBtn.setOnClickListener {
-            ColorPickerDialog(template.colorKey){ colorKey ->
-                template.colorKey = colorKey
-                updateColorUI()
-            }.show(supportFragmentManager, null)
+    private fun updateTagUI() {
+        if(template.tags.isEmpty()) {
+            tagBtn.visibility = View.VISIBLE
+            tagBtn.setOnClickListener { showTagDialog() }
+        }else {
+            tagBtn.visibility = View.GONE
         }
+        tagView.setItems(template.tags, null)
+        tagView.onSelected = { _, _ -> showTagDialog() }
     }
 
-    private fun updateTagUI() {
-        tagView.setItems(template.tags, null)
-        tagView.onSelected = { _, _ ->
-            showDialog(TagDialog(this@TemplateActivity, ArrayList(template.tags)) { tags ->
-                template.tags.clear()
-                template.tags.addAll(tags)
-                updateTagUI()
-            }, true, true, true, false)
-        }
+    private fun showTagDialog() {
+        showDialog(TagDialog(this@TemplateActivity, ArrayList(template.tags)) { tags ->
+            template.tags.clear()
+            template.tags.addAll(tags)
+            updateTagUI()
+        }, true, true, true, false)
     }
 
     private fun updataInitTextUI() {

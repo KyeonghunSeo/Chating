@@ -172,13 +172,15 @@ class CalendarSettingsDialog(private val activity: Activity) : BottomSheetDialog
             -1 -> root.calTextSizeText.text = str(R.string.small)
             0 -> root.calTextSizeText.text = str(R.string.normal)
             1 -> root.calTextSizeText.text = str(R.string.big)
+            2 -> root.calTextSizeText.text = str(R.string.very_big)
         }
         //calTextSizeText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (8 + AppStatus.calTextSize).toFloat())
         root.calTextSizeBtn.setOnClickListener {
             when(AppStatus.calTextSize) {
                 -1 -> AppStatus.calTextSize = 0
                 0 -> AppStatus.calTextSize = 1
-                1 -> AppStatus.calTextSize = -1
+                1 -> AppStatus.calTextSize = 2
+                2 -> AppStatus.calTextSize = -1
             }
             Prefs.putInt("calTextSize", AppStatus.calTextSize)
             setCalTextSize()
@@ -189,13 +191,13 @@ class CalendarSettingsDialog(private val activity: Activity) : BottomSheetDialog
     private fun setWeekLine() {
         when(AppStatus.weekLine) {
             0f -> root.weekLineText.text = str(R.string.unvisible)
-            0.05f -> root.weekLineText.text = str(R.string.thin)
+            0.1f -> root.weekLineText.text = str(R.string.thin)
             else -> root.weekLineText.text = str(R.string.bold)
         }
         root.weekLineBtn.setOnClickListener {
             when(AppStatus.weekLine) {
-                0f -> AppStatus.weekLine = 0.05f
-                0.05f -> AppStatus.weekLine = 0.3f
+                0f -> AppStatus.weekLine = 0.1f
+                0.1f -> AppStatus.weekLine = 0.5f
                 else -> AppStatus.weekLine = 0f
             }
             Prefs.putFloat("weekLine", AppStatus.weekLine)

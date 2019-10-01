@@ -172,9 +172,13 @@ class MainViewModel : ViewModel() {
         folderList.value?.first { it.id == "calendar" }?.let { setTargetFolder(it) }
     }
 
+    fun getCalendarFolder() = folderList.value?.first { it.id == "calendar" }
+
     fun setKeepFolder() {
         folderList.value?.first { it.id == "keep" }?.let { setTargetFolder(it) }
     }
+
+    fun getKeepFolder() = folderList.value?.first { it.id == "keep" }
 
     fun setTargetFolder(folder: Folder) {
         targetFolder.postValue(folder)
@@ -209,6 +213,7 @@ class MainViewModel : ViewModel() {
     private fun makeTimeObjectByTatgetTemplate(targetFolder: Folder?, startTime: Long, endTime: Long) =
             RecordManager.makeNewRecord(startTime, endTime).apply {
                 targetTemplate.value?.let {
+                    symbol = it.symbol
                     title = it.recordTitle ?: ""
                     type = it.type
                     style = it.style

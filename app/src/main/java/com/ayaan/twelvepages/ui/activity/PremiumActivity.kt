@@ -13,6 +13,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.viewpager.widget.PagerAdapter
 import com.ayaan.twelvepages.*
 import kotlinx.android.synthetic.main.activity_premium.*
+import kotlinx.android.synthetic.main.pager_item_premium.*
 import java.util.*
 
 class PremiumActivity : BaseActivity() {
@@ -27,12 +28,13 @@ class PremiumActivity : BaseActivity() {
     private fun initLayout() {
         backBtn.setOnClickListener { onBackPressed() }
         viewPager.adapter = Adapter()
-        viewPager.pageMargin = -dpToPx(100)
+        viewPager.offscreenPageLimit = 2
+        viewPager.pageMargin = -dpToPx(80)
     }
 
     inner class Adapter : PagerAdapter() {
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
-            val v = LayoutInflater.from(this@PremiumActivity).inflate(R.layout.pager_item_photo, null, false)
+            val v = LayoutInflater.from(this@PremiumActivity).inflate(R.layout.pager_item_premium, null, false)
             container.addView(v)
             return v
         }

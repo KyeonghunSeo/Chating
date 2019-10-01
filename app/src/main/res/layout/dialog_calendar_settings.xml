@@ -30,13 +30,13 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"
                 android:paddingRight="5dp"
-                android:paddingTop="15dp"
                 android:paddingBottom="15dp">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="50dp"
                     android:layout_height="4dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_gravity="center"
                     app:cardBackgroundColor="@color/line"
                     app:cardElevation="0dp"

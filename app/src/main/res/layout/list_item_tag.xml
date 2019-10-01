@@ -8,7 +8,7 @@
        android:id="@+id/contentLy"
        android:orientation="horizontal"
        android:layout_width="wrap_content"
-       android:layout_height="25dp"
+       android:layout_height="16dp"
        android:background="@drawable/normal_rect_stroke"
        android:foreground="?android:attr/selectableItemBackground"
        android:gravity="center_vertical"
@@ -21,7 +21,7 @@
           android:layout_height="wrap_content"
           android:layout_marginLeft="7dp"
           android:layout_marginRight="7dp"
-          android:textSize="12dp"
+          android:textSize="10dp"
           android:layout_gravity="center"
           android:maxLines="1"
           android:gravity="center_vertical"
@@ -30,12 +30,8 @@
 
       <ImageView
           android:id="@+id/deleteBtn"
-          android:layout_width="25dp"
-          android:layout_height="25dp"
-          android:background="?android:attr/selectableItemBackground"
-          android:padding="5dp"
-          android:src="@drawable/delete_circle"
-          android:tint="@color/iconTint"/>
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
 
    </LinearLayout>
 

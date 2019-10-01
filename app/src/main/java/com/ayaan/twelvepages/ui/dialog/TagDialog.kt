@@ -1,33 +1,33 @@
 package com.ayaan.twelvepages.ui.dialog
 
 import android.app.Activity
-import android.app.Dialog
 import android.os.Bundle
+import android.view.View
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.model.Tag
 import com.ayaan.twelvepages.ui.view.TagView.Companion.MODE_CHECK
 import com.ayaan.twelvepages.ui.view.TagView.Companion.MODE_EDIT
 import io.realm.Realm
-import kotlinx.android.synthetic.main.dialog_tag.*
+import kotlinx.android.synthetic.main.container_tag_dlg.*
+import kotlinx.android.synthetic.main.dialog_base.*
 import java.util.*
 
 
 class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
-                private val onResult: (ArrayList<Tag>) -> Unit) : Dialog(activity) {
+                private val onResult: (ArrayList<Tag>) -> Unit) : BaseDialog(activity) {
     private val realm = Realm.getDefaultInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window?.attributes?.windowAnimations = R.style.DialogAnimation
-        setContentView(R.layout.dialog_tag)
+        setLayout(R.layout.container_tag_dlg, getScreenSize(context)[0] - dpToPx(50))
         setLayout()
     }
 
     private fun setLayout() {
-        setGlobalTheme(rootLy)
         rootLy.setOnClickListener { dismiss() }
-        contentLy.setOnClickListener {}
+        titleText.text = context.getString(R.string.select_tag)
+        titleIcon.setImageResource(R.drawable.hashtag)
         tagView.mode = MODE_CHECK
         tagView.onSelected = { tag, action ->
             if(tagView.mode == MODE_EDIT) {
@@ -35,6 +35,7 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
                     0 -> {
                         if(tag != null) {
                             showDialog(InputDialog(activity,
+                                    R.drawable.hashtag,
                                     context.getString(R.string.edit_tag), null,
                                     context.getString(R.string.enter_tag_name),
                                     tag.title?:"", true) { result, text ->
@@ -42,6 +43,7 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
                             }, true, true, true, false)
                         }else {
                             showDialog(InputDialog(activity,
+                                    R.drawable.hashtag,
                                     context.getString(R.string.new_tag),
                                     context.getString(R.string.new_tag_sub),
                                     context.getString(R.string.enter_tag_name),
@@ -66,17 +68,21 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
         }
         realm.where(Tag::class.java).findAll()?.let { tagView.setItems(it, items) }
 
-        editBtn.setOnClickListener {
+        optionBtn.visibility = View.VISIBLE
+        optionBtn.text = context.getString(R.string.edit_tag)
+        optionBtn.setOnClickListener {
             if(tagView.mode == MODE_CHECK) {
-                editBtn.setTextColor(AppTheme.blue)
-                editBtn.text = context.getString(R.string.edit_done)
+                optionBtn.setTextColor(AppTheme.blue)
+                optionBtn.text = context.getString(R.string.edit_done)
                 tagView.startEditMode()
             }else {
-                editBtn.setTextColor(AppTheme.secondaryText)
-                editBtn.text = context.getString(R.string.edit)
+                optionBtn.setTextColor(AppTheme.secondaryText)
+                optionBtn.text = context.getString(R.string.edit_tag)
                 tagView.endEditMode()
             }
         }
+
+        cancelBtn.visibility = View.GONE
         confirmBtn.setOnClickListener {
             onResult.invoke(tagView.checkedItems)
             dismiss()

@@ -6,12 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_gravity="bottom"
-        android:src="@drawable/bottom_shadow_background"/>
-
     <FrameLayout
         android:layout_width="150dp"
         android:layout_height="40dp"
@@ -22,7 +16,7 @@
             android:layout_height="16dp"
             android:layout_gravity="center"
             app:cardBackgroundColor="@color/light_line"
-            app:cardCornerRadius="13dp"
+            app:cardCornerRadius="8dp"
             app:cardElevation="0dp">
 
             <LinearLayout
@@ -38,7 +32,7 @@
                     android:textColor="@color/disableText"
                     android:gravity="center"
                     android:fontFamily="@font/bold"
-                    android:text="C A L E N D A R"/>
+                    android:text="@string/calendar"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -48,7 +42,7 @@
                     android:textColor="@color/disableText"
                     android:gravity="center"
                     android:fontFamily="@font/bold"
-                    android:text="K E E P"/>
+                    android:text="@string/keep"/>
 
             </LinearLayout>
 
@@ -61,7 +55,7 @@
                     android:layout_width="75dp"
                     android:layout_height="16dp"
                     app:cardBackgroundColor="@color/secondaryText"
-                    app:cardCornerRadius="13dp"
+                    app:cardCornerRadius="8dp"
                     app:cardElevation="0dp">
 
                     <ImageView
@@ -120,8 +114,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="50dp"
                 android:layout_height="4dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
                 app:cardBackgroundColor="@color/line"
                 app:cardElevation="0dp"
@@ -209,7 +203,7 @@
                 android:id="@+id/addLy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="30dp">
+                android:paddingBottom="35dp">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -217,82 +211,137 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp">
 
-                    <LinearLayout
-                        android:orientation="vertical"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:padding="15dp">
-
-                        <TextView
-                            android:id="@+id/templateFolderText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/bold"
-                            android:textSize="30dp"
-                            android:text="2018"
-                            android:visibility="gone"/>
+                        android:layout_height="25dp"
+                        android:layout_marginTop="25dp">
 
                         <TextView
                             android:id="@+id/templateDateText"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_height="25dp"
+                            android:gravity="center_vertical"
+                            android:layout_marginLeft="20dp"
                             android:textColor="@color/primaryText"
                             android:fontFamily="@font/bold"
                             android:textSize="14dp"
                             android:text="2019"/>
 
-                    </LinearLayout>
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/editBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_gravity="right"
+                            android:layout_marginRight="10dp"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            app:cardBackgroundColor="@color/light_line"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="0dp">
+
+                            <ImageView
+                                android:id="@+id/editImg"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_marginLeft="3dp"
+                                android:src="@drawable/edit"
+                                android:tint="@color/primaryText"
+                                android:padding="5dp"/>
+
+                            <TextView
+                                android:id="@+id/editText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="28dp"
+                                android:layout_marginRight="8dp"
+                                android:textSize="11dp"
+                                android:textColor="@color/primaryText"
+                                android:text="@string/edit_template"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                    </FrameLayout>
 
                     <LinearLayout
                         android:id="@+id/decoBtns"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:padding="15dp"
-                        android:clipToPadding="false">
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="15dp">
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/stickerBtn"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:outlineSpotShadowColor="@color/secondaryText"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            app:cardBackgroundColor="@color/background"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="4dp">
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            app:cardBackgroundColor="@color/light_line"
+                            app:cardCornerRadius="15dp"
+                            app:cardElevation="0dp">
 
-                            <ImageView
+                            <LinearLayout
+                                android:orientation="horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:padding="10dp"
-                                android:src="@drawable/heart"
-                                android:background="@drawable/circle_stroke_dash"
-                                android:tint="@color/secondaryText"/>
+                                android:background="?android:attr/selectableItemBackground">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginLeft="2dp"
+                                    android:padding="8dp"
+                                    android:src="@drawable/heart"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_vertical"
+                                    android:layout_marginRight="12dp"
+                                    android:textSize="12dp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:textColor="@color/primaryText"
+                                    android:fontFamily="@font/bold"
+                                    android:text="@string/formula_sticker"/>
+
+                            </LinearLayout>
 
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/datePointBtn"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:outlineSpotShadowColor="@color/secondaryText"
-                            android:foreground="?android:attr/selectableItemBackground"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
                             android:layout_marginLeft="10dp"
-                            app:cardBackgroundColor="@color/background"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="4dp">
+                            app:cardBackgroundColor="@color/light_line"
+                            app:cardCornerRadius="15dp"
+                            app:cardElevation="0dp">
 
-                            <ImageView
+                            <LinearLayout
+                                android:orientation="horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:padding="10dp"
-                                android:src="@drawable/heart"
-                                android:tint="@color/secondaryText"/>
+                                android:background="?android:attr/selectableItemBackground">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginLeft="2dp"
+                                    android:padding="8dp"
+                                    android:src="@drawable/heart"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_vertical"
+                                    android:layout_marginRight="12dp"
+                                    android:textSize="12dp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:textColor="@color/primaryText"
+                                    android:fontFamily="@font/bold"
+                                    android:text="@string/formula_date_point"/>
+
+                            </LinearLayout>
 
                         </androidx.cardview.widget.CardView>
 
@@ -303,6 +352,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:overScrollMode="never"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
                         android:clipToPadding="false"
                         android:clipChildren="false">
                     </androidx.recyclerview.widget.RecyclerView>

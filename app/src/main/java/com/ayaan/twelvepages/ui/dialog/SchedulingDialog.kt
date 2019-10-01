@@ -10,7 +10,7 @@ import com.ayaan.twelvepages.model.KoreanLunarCalendar
 import com.ayaan.twelvepages.model.Record
 import kotlinx.android.synthetic.main.dialog_base.*
 import kotlinx.android.synthetic.main.view_day_of_week.*
-import kotlinx.android.synthetic.main.containter_scheduling_dlg.*
+import kotlinx.android.synthetic.main.container_scheduling_dlg.*
 import java.util.*
 
 @SuppressLint("ValidFragment")
@@ -28,7 +28,7 @@ class SchedulingDialog(activity: Activity, record: Record,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setLayout(R.layout.containter_scheduling_dlg, dpToPx(350))
+        setLayout(R.layout.container_scheduling_dlg, dpToPx(350))
         titleIcon.visibility = View.GONE
         setDowTexts()
         setCalendarPicker()

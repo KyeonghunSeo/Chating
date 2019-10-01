@@ -69,6 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:background="?android:attr/selectableItemBackground"
                     android:layout_gravity="center"
                     android:gravity="center_vertical">
 
@@ -78,14 +79,14 @@
                         android:layout_height="wrap_content"
                         android:textSize="18dp"
                         android:textColor="@color/colorPrimary"
-                        android:text="@string/scrap_in_today"/>
+                        android:text="@string/calendar"/>
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/selectDateBtn"
+                android:id="@+id/saveKeepBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -95,6 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:background="?android:attr/selectableItemBackground"
                     android:layout_gravity="center"
                     android:gravity="center_vertical">
 
@@ -104,7 +106,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="18dp"
                         android:textColor="@color/colorPrimary"
-                        android:text="@string/select_date"/>
+                        android:text="@string/keep"/>
 
                 </LinearLayout>
 
@@ -112,19 +114,11 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textSize="18dp"
-            android:textColor="@color/primaryText"
-            android:text="@string/scrap_in_folder"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/folderListView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>

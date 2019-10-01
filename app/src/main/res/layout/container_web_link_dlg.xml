@@ -4,8 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingRight="27dp"
-    android:paddingLeft="27dp">
+    android:paddingRight="22dp"
+    android:paddingLeft="22dp">
 
     <EditText
         android:id="@+id/input"

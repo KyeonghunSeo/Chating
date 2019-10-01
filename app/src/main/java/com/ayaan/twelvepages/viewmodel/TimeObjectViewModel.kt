@@ -28,11 +28,11 @@ class TimeObjectViewModel : ViewModel() {
 
             if(it.hasExtra(TIME)) {
                 val time = it.getLongExtra(TIME, 0)
-                editingTimeObjectLiveData.value?.let {
-                    it.dtStart = time
-                    it.dtEnd = time
-                    it.timeZone = TimeZone.getDefault().id
-                    editingTimeObjectLiveData.value = it
+                editingTimeObjectLiveData.value?.let { record ->
+                    record.dtStart = time
+                    record.dtEnd = time
+                    record.timeZone = TimeZone.getDefault().id
+                    editingTimeObjectLiveData.value = record
                 }
             }
         }

@@ -14,12 +14,13 @@ import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.view.CalendarView
 import com.ayaan.twelvepages.ui.view.RecordView
-import kotlinx.android.synthetic.main.dialog_incalendar_style.*
+import kotlinx.android.synthetic.main.container_in_calendar_style_dlg.*
+import kotlinx.android.synthetic.main.dialog_base.*
 import java.util.*
 
 
 class RecordViewStyleDialog(private val activity: FragmentActivity, record: Record?,
-                            template: Template?, private val onResult: (Int, Int) -> Unit) : Dialog(activity as Context) {
+                            template: Template?, private val onResult: (Int, Int) -> Unit) : BaseDialog(activity) {
     private val recordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.STACK, 0, 0)
     private val subRecordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.STACK, 0, 0)
     private var noColor = false
@@ -52,8 +53,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window?.attributes?.windowAnimations = R.style.DialogAnimation
-        setContentView(R.layout.dialog_incalendar_style)
+        setLayout(R.layout.container_in_calendar_style_dlg, getScreenSize(context)[0] - dpToPx(50))
         setLayout()
         setOnShowListener {
             drawRecord()
@@ -63,11 +63,8 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
     }
 
     private fun setLayout() {
-        setGlobalTheme(rootLy)
-        contentLy.setOnClickListener {}
-        rootLy.layoutParams.width = MainActivity.getMainPanel()?.width ?: 0
-        rootLy.layoutParams.height = WRAP_CONTENT
-        rootLy.setOnClickListener { dismiss() }
+        titleText.text = context.getString(R.string.calendarBlockStyle)
+        titleIcon.setImageResource(R.drawable.record_in_calendar_style)
 
         val cal = Calendar.getInstance()
         dateText.text = cal.get(Calendar.DATE).toString()

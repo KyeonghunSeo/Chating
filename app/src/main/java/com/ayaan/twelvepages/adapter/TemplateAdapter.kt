@@ -1,6 +1,7 @@
 package com.ayaan.twelvepages.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.manager.ColorManager
+import com.ayaan.twelvepages.manager.SymbolManager
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.setGlobalTheme
 import io.realm.Realm
@@ -28,7 +30,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
 
     var mode = 0
 
-    override fun getItemCount(): Int = items.size + if(mode == 1) 1 else 0
+    override fun getItemCount(): Int = items.size + mode
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
@@ -45,36 +47,37 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         val v = holder.itemView
         if(position < items.size) {
             val template = items[position]
-            v.contentLy.alpha = 1f
             if(mode == 0) {
-
+                v.contentLy.alpha = 1f
+                v.contentLy.setBackgroundResource(R.drawable.blank)
             }else {
-
+                v.contentLy.alpha = 0.5f
+                v.contentLy.setBackgroundResource(R.drawable.edit_mode_background_dash)
             }
             v.titleText.text = template.title
             val color = ColorManager.getColor(template.colorKey)
-            //v.colorImg.setBackgroundColor(color)
-            //v.colorImg.setColorFilter(ColorManager.getFontColor(color))
-            v.colorImg.setColorFilter(color)
-            when{
-                template.isSetCheckBox() -> v.colorImg.setImageResource(R.drawable.check)
-                template.isScheduled() -> v.colorImg.setImageResource(R.drawable.schedule)
-                else -> v.colorImg.setImageResource(R.drawable.note)
-            }
+            v.colorBtn.setCardBackgroundColor(color)
+            v.colorImg.setColorFilter(ColorManager.getFontColor(color))
+            v.colorImg.setImageResource(SymbolManager.getSymbolResId(template.symbol))
             v.setOnClickListener { adapterInterface.invoke(template, mode) }
         }else {
-            v.contentLy.alpha = 0.3f
+            v.contentLy.alpha = 0.5f
+            v.contentLy.setBackgroundResource(R.drawable.blank)
+            v.colorImg.setImageResource(R.drawable.add)
             v.titleText.text = context.getString(R.string.new_template)
-            v.colorImg.setBackgroundColor(AppTheme.background)
+            v.colorBtn.setCardBackgroundColor(Color.TRANSPARENT)
             v.colorImg.setColorFilter(AppTheme.primaryText)
             v.setOnClickListener { adapterInterface.invoke(null, mode) }
         }
     }
 
     private fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-        Collections.swap(items, fromPosition, toPosition)
-        notifyItemMoved(fromPosition, toPosition)
-        return true
+        if(fromPosition < items.size && toPosition < items.size) {
+            Collections.swap(items, fromPosition, toPosition)
+            notifyItemMoved(fromPosition, toPosition)
+            return true
+        }
+        return false
     }
 
     inner class SimpleItemTouchHelperCallback(private val mAdapter: TemplateAdapter) : ItemTouchHelper.Callback() {
@@ -85,7 +88,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         override fun isItemViewSwipeEnabled(): Boolean = false
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-            val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+            val dragFlags = ItemTouchHelper.START or ItemTouchHelper.END
             val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
             return makeMovementFlags(dragFlags, swipeFlags)
         }

@@ -8,143 +8,227 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="50dp">
 
         <ImageView
-            android:id="@+id/deleteBtn"
+            android:id="@+id/backBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="center_vertical|right"
-            android:src="@drawable/more"
-            android:padding="12dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/back"
+            android:padding="13dp"
             android:background="?android:attr/selectableItemBackground"/>
 
-    </FrameLayout>
+        <ImageView
+            android:id="@+id/moreBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical|right"
+            android:src="@drawable/more"
+            android:padding="15dp"
+            android:background="?android:attr/selectableItemBackground"/>
 
-    <View
-        android:id="@+id/topShadow"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_marginTop="100dp"
-        android:visibility="gone"
-        android:background="@drawable/line_top_shadow"/>
+        <com.ayaan.twelvepages.ui.view.base.Line
+            android:id="@+id/topShadow"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_gravity="bottom"
+            app:colorFlag="light_line"
+            android:visibility="gone"/>
+
+    </FrameLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="50dp">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
-            android:paddingBottom="50dp">
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:paddingTop="25dp"
+            android:paddingBottom="60dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_gravity="right">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/recordViewStyleBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardBackgroundColor="@color/light_line"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:id="@+id/recordViewStyleImg"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="3dp"
+                            android:src="@drawable/record_in_calendar_style"
+                            android:tint="@color/primaryText"
+                            android:padding="5dp"/>
+
+                        <TextView
+                            android:id="@+id/recordViewStyleText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="28dp"
+                            android:layout_marginRight="8dp"
+                            android:textSize="11dp"
+                            android:textColor="@color/primaryText"
+                            android:text="@string/folder"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+            </FrameLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp">
+                android:layout_marginTop="15dp">
 
                 <EditText
                     android:id="@+id/titleInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="68dp"
-                    android:maxLines="3"
-                    android:textSize="40dp"
+                    android:maxLines="1"
+                    android:textSize="24dp"
                     android:hint="@string/template_title"
                     android:textColorHint="@color/disableText"
                     android:background="@drawable/blank"
                     android:fontFamily="@font/bold"/>
 
-                <ImageView
-                    android:id="@+id/iconImg"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="right"
-                    android:background="@drawable/circle_fill"
-                    android:padding="15dp"
-                    android:tint="@color/white"
-                    android:src="@drawable/calendar"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp">
+
+                <LinearLayout
+                    android:id="@+id/tagBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:background="@drawable/edit_tag_new"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:alpha="0.4"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp">
+
+                    <TextView
+                        android:id="@+id/tagText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:textSize="12dp"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/select_tag"
+                        android:textColor="@color/primaryText"/>
+
+                </LinearLayout>
+
+                <com.ayaan.twelvepages.ui.view.TagView
+                    android:id="@+id/tagView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </com.ayaan.twelvepages.ui.view.TagView>
 
             </FrameLayout>
 
-            <com.ayaan.twelvepages.ui.view.TagView
-                android:id="@+id/tagView"
+            <FrameLayout
+                android:id="@+id/symbolBtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="33dp"
-                android:layout_marginRight="33dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="80dp">
-            </com.ayaan.twelvepages.ui.view.TagView>
-
-            <LinearLayout
-                android:id="@+id/folderBtn"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="33dp"
-                android:layout_marginRight="33dp">
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginTop="30dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
+                    android:layout_gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/tab"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/star"
                         android:tint="@color/primaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="18dp"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14dp"
                         android:textColor="@color/primaryText"
                         android:fontFamily="@font/bold"
-                        android:text="@string/folder"/>
+                        android:text="@string/symbol"/>
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/folderText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:textSize="16dp"
-                    android:textColor="@color/primaryText"
-                    android:text="@string/folder"/>
+                <FrameLayout
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="right|center_vertical">
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/symbolColor"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/circle_fill"
+                        android:tint="@color/backgroundDark"/>
 
-            <LinearLayout
+                    <ImageView
+                        android:id="@+id/symbalImg"
+                        android:layout_gravity="center"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:padding="5dp"/>
+
+                </FrameLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
                 android:id="@+id/colorBtn"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp">
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginTop="5dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="33dp"
-                    android:layout_marginRight="33dp"
-                    android:gravity="center_vertical">
+                    android:layout_gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:src="@drawable/color"
                         android:tint="@color/primaryText"/>
 
@@ -152,78 +236,35 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="18dp"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14dp"
                         android:textColor="@color/primaryText"
                         android:fontFamily="@font/bold"
                         android:text="@string/color"/>
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/colorImg"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="21dp"
-                    android:padding="14dp"
-                    android:src="@drawable/normal_rect_fill"
-                    android:tint="@color/primaryText"
-                    android:background="?android:attr/selectableItemBackground"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/recordViewStyleBtn"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginLeft="33dp"
-                android:layout_marginRight="33dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
+                <FrameLayout
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="right|center_vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/record_in_calendar_style"
-                        android:tint="@color/primaryText"/>
+                        android:id="@+id/colorBg"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/circle_fill"
+                        android:tint="@color/light_line"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="18dp"
-                        android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
-                        android:text="@string/calendarBlockStyle"/>
+                </FrameLayout>
 
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/recordViewStyleText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:textSize="16dp"
-                    android:textColor="@color/primaryText"
-                    android:text="@string/folder"/>
-
-            </LinearLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginLeft="33dp"
-                android:layout_marginRight="33dp">
+                android:layout_marginTop="30dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -232,8 +273,8 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:src="@drawable/cursor"
                         android:tint="@color/primaryText"/>
 
@@ -241,8 +282,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="18dp"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14dp"
                         android:textColor="@color/primaryText"
                         android:fontFamily="@font/bold"
                         android:text="@string/init_text"/>
@@ -252,9 +293,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="right|center_vertical"
-                        android:textSize="14dp"
-                        android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
+                        android:textSize="12dp"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/cursor_pos"/>
 
                 </LinearLayout>
@@ -264,8 +304,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top"
-                    android:layout_marginTop="20dp"
-                    android:textSize="16dp"
+                    android:layout_marginTop="15dp"
+                    android:textSize="14dp"
                     android:hint="@string/init_text_hint"
                     android:textColorHint="@color/disableText"
                     android:background="@drawable/blank"
@@ -273,147 +313,222 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:orientation="vertical"
+            <FrameLayout
+                android:id="@+id/alarmBtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginTop="30dp">
 
-                <FrameLayout
-                    android:id="@+id/scheduleBtn"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="?android:attr/selectableItemBackground">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/alarm"
+                        android:tint="@color/primaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:textSize="14dp"
-                        android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
-                        android:text="@string/schedule"/>
-
-                    <TextView
-                        android:id="@+id/scheduleText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|center_vertical"
-                        android:textSize="14dp"
-                        android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
-                        android:text="@string/use"/>
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <FrameLayout
-                    android:id="@+id/alarmBtn"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="?android:attr/selectableItemBackground">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
                         android:textSize="14dp"
                         android:textColor="@color/primaryText"
                         android:fontFamily="@font/bold"
                         android:text="@string/alarm"/>
 
-                    <TextView
-                        android:id="@+id/alarmText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|center_vertical"
-                        android:textSize="14dp"
-                        android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
-                        android:text="@string/unuse"/>
+                </LinearLayout>
 
-                </FrameLayout>
+                <TextView
+                    android:id="@+id/alarmText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:textSize="12dp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:text="@string/unuse"/>
 
-            </LinearLayout>
+            </FrameLayout>
 
-            <LinearLayout
-                android:orientation="vertical"
+            <FrameLayout
+                android:id="@+id/timeBtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginTop="5dp">
 
-                <FrameLayout
-                    android:id="@+id/checkBoxBtn"
-                    android:orientation="vertical"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="?android:attr/selectableItemBackground">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/time"
+                        android:tint="@color/primaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold"
+                        android:text="@string/time"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/timeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:textSize="12dp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:text="@string/unuse"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/checkBoxBtn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginTop="5dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/check"
+                        android:tint="@color/primaryText"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
                         android:textSize="14dp"
                         android:textColor="@color/primaryText"
                         android:fontFamily="@font/bold"
                         android:text="@string/checkbox"/>
 
-                    <TextView
-                        android:id="@+id/checkBoxText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|center_vertical"
-                        android:textSize="14dp"
-                        android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
-                        android:text="@string/unuse"/>
+                </LinearLayout>
 
-                </FrameLayout>
+                <TextView
+                    android:id="@+id/checkBoxText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:textSize="12dp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:text="@string/unuse"/>
 
-            </LinearLayout>
+            </FrameLayout>
 
-            <LinearLayout
-                android:orientation="vertical"
+            <FrameLayout
+                android:id="@+id/memoBtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginTop="5dp">
 
-                <FrameLayout
-                    android:id="@+id/memoBtn"
-                    android:orientation="vertical"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="?android:attr/selectableItemBackground">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/memo"
+                        android:tint="@color/primaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
                         android:textSize="14dp"
                         android:textColor="@color/primaryText"
                         android:fontFamily="@font/bold"
                         android:text="@string/memo"/>
 
-                    <TextView
-                        android:id="@+id/memoText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|center_vertical"
-                        android:textSize="14dp"
-                        android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold"
-                        android:text="@string/unuse"/>
+                </LinearLayout>
 
-                </FrameLayout>
+                <TextView
+                    android:id="@+id/memoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:textSize="12dp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold"
+                    android:text="@string/unuse"/>
 
-            </LinearLayout>
+            </FrameLayout>
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/folderBtn"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/tab"
+                android:tint="@color/primaryText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:textSize="18dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/bold"
+                android:text="@string/folder"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/folderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="16dp"
+            android:textColor="@color/primaryText"
+            android:text="@string/folder"/>
+
+    </LinearLayout>
 
 </FrameLayout>

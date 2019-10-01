@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
@@ -16,6 +17,7 @@ import android.text.style.BackgroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -24,10 +26,13 @@ import com.bumptech.glide.Glide
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.manager.RecordManager
+import com.ayaan.twelvepages.manager.SymbolManager
 import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.libraries.places.internal.it
 import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.list_item_record.view.*
@@ -42,7 +47,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                         val showFooter: Boolean, val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val circlePadding = dpToPx(15)
+    val circlePadding = dpToPx(5)
     val checkBoxPadding = dpToPx(10)
     var itemTouchHelper: ItemTouchHelper? = null
     var query: String? = null
@@ -149,7 +154,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             }
         }else {
             v.iconImg.setPadding(circlePadding, circlePadding, circlePadding, circlePadding)
-            v.iconImg.setImageResource(R.drawable.circle_fill)
+            v.iconImg.setImageResource(SymbolManager.getSymbolResId(record.symbol))
             v.contentLy.alpha = 1f
             v.iconImg.setOnClickListener(null)
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
@@ -296,11 +301,28 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             val favicon = link.strParam2
 
             v.linkText.text = link.title
-            if(!imageurl.isNullOrBlank())
-                Glide.with(context).load(imageurl).into(v.linkImg)
-            else if(!favicon.isNullOrBlank())
+            if(!imageurl.isNullOrBlank()){
+                Glide.with(context).asBitmap().load(imageurl).into(object : SimpleTarget<Bitmap>(){
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        if(resource.width > dpToPx(80) || resource.height > dpToPx(50)) {
+                            (v.linkImg.layoutParams as LinearLayout.LayoutParams).let {
+                                it.width = dpToPx(80)
+                                it.height = dpToPx(50)
+                            }
+                            v.linkImg.requestLayout()
+                        }else {
+                            (v.linkImg.layoutParams as LinearLayout.LayoutParams).let {
+                                it.width = dpToPx(15)
+                                it.height = dpToPx(15)
+                            }
+                            v.linkImg.requestLayout()
+                        }
+                        v.linkImg.setImageBitmap(resource)
+                    }
+                })
+            } else if(!favicon.isNullOrBlank()) {
                 Glide.with(context).load(favicon).into(v.linkImg)
-            else {
+            } else {
                 Glide.with(context).load(R.drawable.website).into(v.linkImg)
             }
 

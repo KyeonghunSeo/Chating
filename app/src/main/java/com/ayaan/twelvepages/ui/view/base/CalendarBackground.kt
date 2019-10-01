@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.ui.view.CalendarView
 import java.util.*
@@ -17,7 +18,7 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
     private val dashEffect = DashPathEffect(floatArrayOf(dpToPx(5.0f), dpToPx(1.0f)), 2f)
 
     init {
-        paint.color = Color.parseColor("#90000000")
+        paint.color = AppTheme.primaryText
         setWillNotDraw(false)
     }
     
@@ -321,11 +322,11 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
         val path = Path()
         list.forEachIndexed { index, p ->
             if(index == 0) {
-                path.moveTo(p.x.toFloat() + CalendarView.calendarPadding,
-                        p.y.toFloat() + CalendarView.headerHeight + CalendarView.calendarTopPadding)
+                path.moveTo(p.x.toFloat() + CalendarView.calendarPadding + lineWidth /* 한포인트 옆으로 이동 */,
+                        p.y.toFloat() + CalendarView.calendarTopPadding)
             }else {
-                path.lineTo(p.x.toFloat() + CalendarView.calendarPadding,
-                        p.y.toFloat() +CalendarView.headerHeight + CalendarView.calendarTopPadding)
+                path.lineTo(p.x.toFloat() + CalendarView.calendarPadding + lineWidth,
+                        p.y.toFloat() + CalendarView.calendarTopPadding)
             }
         }
         path.close()

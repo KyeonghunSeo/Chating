@@ -44,7 +44,7 @@ object MainDragAndDropListener : View.OnDragListener {
         }
     }
 
-    fun drop() {
+    private fun drop() {
         if(dragMode == MainDragAndDropListener.DragMode.INSERT) {
             if(currentTime < startTime) {
                 val t = startTime

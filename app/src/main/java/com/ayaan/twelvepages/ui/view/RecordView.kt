@@ -12,12 +12,10 @@ import android.widget.TextView
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.App.Companion.resource
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
-import com.ayaan.twelvepages.manager.StampManager
+import com.ayaan.twelvepages.manager.SymbolManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import android.graphics.DashPathEffect
-import android.widget.LinearLayout
-import androidx.core.graphics.ColorUtils
 import com.ayaan.twelvepages.adapter.util.RecordListComparator
 import com.ayaan.twelvepages.manager.ColorManager
 
@@ -26,23 +24,19 @@ import com.ayaan.twelvepages.manager.ColorManager
 class RecordView constructor(context: Context, val record: Record, var formula: RecordCalendarAdapter.Formula,
                              val cellNum: Int, var length: Int) : TextView(context) {
     companion object {
-        var standardTextSize = 9f
+        var standardTextSize = 8f
         val baseSize = dpToPx(0.5f)
-        val blockTypeSize = dpToPx(15.0f).toInt()
-        val defaulMargin = dpToPx(1.5f) // 뷰간 간격
         val strokeWidth = dpToPx(1f) // 선
-        val sidePadding = dpToPx(2.0f).toInt()
-        val smallTextPadding = dpToPx(1.9f)
-        val normalTextPadding = dpToPx(1.1f)
-        val bigTextPadding = dpToPx(0.7f)
-        val bottomPadding = dpToPx(3.0f)
-        val normalStickerSize = dpToPx(40f)
+        val blockTypeSize = dpToPx(15.5f).toInt() // 블록 크기
+        val defaulMargin = dpToPx(1.5f) // 뷰간 간격
+        val defaultPadding = dpToPx(2.0f).toInt()
+        val normalStickerSize = dpToPx(35f)
         val datePointSize = dpToPx(30)
         val rectRadius = dpToPx(1.0f)
         val dotSize = dpToPx(5)
         val checkboxSize = dpToPx(10)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
-        val dashPath = DashPathEffect(floatArrayOf(dpToPx(3.0f), dpToPx(1.0f)), 2f)
+        val dashPath = DashPathEffect(floatArrayOf(dpToPx(5.0f), dpToPx(1.0f)), 2f)
         fun getStyleText(style: Int) : String{
             val formula = RecordCalendarAdapter.Formula.styleToFormula(style)
             val shape = Shape.styleToShape(style)
@@ -85,20 +79,22 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     var shape = Shape.TEXT
 
     init {
-        setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
+        //setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
         setStyle()
     }
 
     @SuppressLint("RtlHardcoded")
     fun setStyle() {
-        var sPadding = sidePadding
+        var sPadding = defaultPadding
+        var textPadding = 0
         shape = record.getShape()
         when(formula) {
             BACKGROUND -> {}
             STACK -> {
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
                 setTypeface(AppTheme.regularFont, Typeface.NORMAL)
                 text = record.getTitleInCalendar()
-                gravity = Gravity.LEFT
+                gravity = Gravity.CENTER_VERTICAL
                 setSingleLine(true)
                 setHorizontallyScrolling(true)
                 maxLines = 1
@@ -111,15 +107,18 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 gravity = Gravity.LEFT
             }
             EXPANDED -> {
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize - 1)
                 setTypeface(AppTheme.regularFont, Typeface.NORMAL)
                 text = record.getTitleInCalendar()
-                gravity = Gravity.LEFT
+                gravity = Gravity.CENTER_VERTICAL
                 setSingleLine(false)
                 setHorizontallyScrolling(false)
                 maxLines = 5
                 ellipsize = TextUtils.TruncateAt.END
+                textPadding = defaultPadding
             }
             RANGE -> {
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize + 1)
                 //setTypeface(AppTheme.boldFont, Typeface.BOLD)
                 setTypeface(AppTheme.regularFont, Typeface.NORMAL)
                 text = record.getTitleInCalendar()
@@ -140,12 +139,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         }else {
             sPadding
         }
-        val textPadding =  when(AppStatus.calTextSize) { /*글씨 크기에 따른 패딩 조정*/
-            -1 -> smallTextPadding
-            1 -> bigTextPadding
-            else -> normalTextPadding
-        }.toInt()
-        setPadding(leftPadding, textPadding, sPadding, 0)
+        setPadding(leftPadding, textPadding, sPadding, textPadding)
 
         paintColor = ColorManager.getColor(record.colorKey)
         fontColor = if(shape == Shape.NEON_PEN) {
@@ -203,12 +197,12 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             }
             DOT -> {
                 val itemSize = dotSize
-                val width =  mRight - mLeft - defaulMargin - sidePadding * 2
+                val width =  mRight - mLeft - defaulMargin - defaultPadding * 2
                 val margin = defaulMargin.toInt()
                 val size = itemSize - defaulMargin
                 val totalCnt = childList?.size ?: 0
                 val rows = ((size * totalCnt + margin * (totalCnt - 1)) / width).toInt() + 1
-                (itemSize * rows)
+                (itemSize * rows) + margin
             }
             EXPANDED -> {
                 val width =  mRight - mLeft - defaulMargin
@@ -223,7 +217,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 if(measuredHeight < blockTypeSize) {
                     blockTypeSize
                 }else {
-                    measuredHeight + bottomPadding.toInt()
+                    (measuredHeight + defaulMargin).toInt()
                 }
             }
             else -> {
@@ -236,10 +230,16 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     fun setLayout() {
         when(formula) {
             STICKER -> layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-            DATE_POINT -> layoutParams = FrameLayout.LayoutParams(datePointSize, datePointSize)
+            DATE_POINT -> layoutParams = FrameLayout.LayoutParams(datePointSize, datePointSize).apply {
+                topMargin = (datePointSize * -0.2f).toInt()
+                leftMargin = (datePointSize * -0.2f).toInt()
+            }
             else -> {
                 layoutParams = FrameLayout.LayoutParams((mRight - mLeft - defaulMargin).toInt(),
-                        (mBottom - mTop - defaulMargin).toInt()).apply { topMargin = mTop.toInt() }
+                        (mBottom - mTop - defaulMargin).toInt()).apply {
+                    topMargin = mTop.toInt()
+                    leftMargin = defaultPadding
+                }
             }
         }
     }
@@ -322,7 +322,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         }
 
         if(record.isSetCheckBox) {
-            drawCheckBox(canvas, (sidePadding - defaulMargin / 2).toInt())
+            drawCheckBox(canvas, (defaultPadding - defaulMargin / 2).toInt())
         }
     }
 
@@ -385,7 +385,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         paint.pathEffect = null
         canvas.translate(scrollX.toFloat(), 0f)
         val space = textSpaceWidth + if(record.isSetCheckBox) checkboxSize else 0
-        val sPadding = sidePadding * 4
+        val sPadding = defaultPadding * 4
 
         var textLPos = width / 2 - space / 2 - defaulMargin * 2
         if(textLPos < sPadding) textLPos = sPadding - defaulMargin * 2
@@ -444,7 +444,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 drawArrow(canvas, width, height, width - arrowSize, height - arrowSize, width - arrowSize, height)
             }
             else -> {
-                val periodLine = strokeWidth * 1.4f
+                val periodLine = strokeWidth * 1.5f
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = periodLine
                 if(shape == Shape.DASH || shape == Shape.DASH_ARROW) {
@@ -507,16 +507,17 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val margin = defaulMargin
         val size = dotSize - defaulMargin
         var top = 0f
-        var left = sidePadding + defaulMargin
+        var left = defaultPadding + defaulMargin - baseSize
         val right = width
         childList?.sortWith(RecordListComparator())
         childList?.forEach { child ->
             paint.color = child.getColor()
-            canvas.drawRect(left, top, left + size, top + size, paint)
+            //canvas.drawRect(left, top, left + size, top + size, paint)
+            canvas.drawCircle(left + size/2, top + size/2, size/2, paint)
             left += size + margin
             if (left + size >= right) {
                 top += dotSize
-                left = sidePadding + margin
+                left = defaultPadding + margin
             }
         }
     }
@@ -533,7 +534,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             circle.setBounds(left, top, left + size, top + size)
             circle.draw(canvas)
 
-            val stamp = resource.getDrawable(StampManager.stamps[0])
+            val stamp = resource.getDrawable(SymbolManager.stamps[0])
             stamp.setColorFilter(ColorManager.getFontColor(child.getColor()), PorterDuff.Mode.SRC_ATOP)
             stamp.setBounds(left + margin, top + margin, left + size - margin, top + size - margin)
             stamp.draw(canvas)
@@ -556,7 +557,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         when(childCount) {
             1 -> {
                 val size = normalStickerSize.toInt()
-                val top = (height - normalStickerSize - bottomPadding).toInt()
+                val top = (height - normalStickerSize - defaultPadding).toInt()
                 val left = (width - normalStickerSize - defaulMargin).toInt()
                 val resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
                 resource.getDrawable(resId, null)?.let {
@@ -566,7 +567,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             }
             2 -> {
                 val size = (normalStickerSize * 0.55f).toInt()
-                val top = (height - size - bottomPadding).toInt()
+                val top = (height - size - defaultPadding).toInt()
                 var left = (width - size * 2 - defaulMargin).toInt()
                 var resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
                 resource.getDrawable(resId, null)?.let {
@@ -582,7 +583,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             }
             3 -> {
                 val size = (normalStickerSize * 0.55f).toInt()
-                var top = (height - size - bottomPadding).toInt()
+                var top = (height - size - defaultPadding).toInt()
                 var left = (width - size * 2 - defaulMargin).toInt()
                 var resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
                 resource.getDrawable(resId, null)?.let {
@@ -605,7 +606,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             }
             4 -> {
                 val size = (normalStickerSize * 0.50f).toInt()
-                var top = (height - size - bottomPadding).toInt()
+                var top = (height - size - defaultPadding).toInt()
                 var left = (width - size * 2 - defaulMargin).toInt()
                 var resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
                 resource.getDrawable(resId, null)?.let {
@@ -635,8 +636,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             else -> {
                 val size = Math.max(normalStickerSize * 0.33f, normalStickerSize * (1f - 0.05f * childCount))
                 var right = width - defaulMargin
-                val bottom = height - bottomPadding
-                val overlap = size - ((width - defaulMargin - sidePadding) - (size * childCount)) / (1 - childCount)
+                val bottom = height - defaultPadding
+                val overlap = size - ((width - defaulMargin - defaultPadding) - (size * childCount)) / (1 - childCount)
                 (childCount - 1 downTo 0).forEach { index ->
                     val resId = childList?.get(index)?.getSticker()?.resId ?: R.drawable.help
                     resource.getDrawable(resId, null)?.let {
@@ -651,12 +652,12 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     private fun drawDatePoint(canvas: Canvas) {
         val size = datePointSize
-        var top = -size / 2
-        var left = -size / 2
+        var top = 0
+        var left = 0
         childList?.forEach { child ->
             val sticker = child.getSticker()
             val circle = resource.getDrawable(sticker?.resId ?: R.drawable.help, null)
-            circle.alpha = 200
+            circle.alpha = 150
             circle.setBounds(left, top, (left + size), (top + size))
             circle.draw(canvas)
         }
@@ -669,7 +670,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         paint.strokeWidth = gap
         childList?.forEachIndexed { index, timeObject ->
             if(index < 8) {
-                val startX = sidePadding + (index * gap * 2)
+                val startX = defaultPadding + (index * gap * 2)
                 paint.color = timeObject.getColor()
                 canvas.drawLine(startX, startY, startX, startY + legnth, paint)
             }
@@ -732,7 +733,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 val top = 0f
                 val right = width.toFloat()
                 val bottom = height.toFloat()
-                val edge = sidePadding
+                val edge = defaultPadding
 
                 var path = Path()
                 path.moveTo(left, top)

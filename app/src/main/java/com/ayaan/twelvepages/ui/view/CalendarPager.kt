@@ -1,34 +1,43 @@
 package com.ayaan.twelvepages.ui.view
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Handler
 import android.os.Message
 import android.util.AttributeSet
 import android.view.DragEvent
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.ui.view.base.PagingControlableViewPager
+import kotlinx.android.synthetic.main.view_calendar_header.view.*
 import java.util.*
 
 class CalendarPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
+    private val headerHeight = dpToPx(72)
+    private val dowHeight = dpToPx(18)
     private val startPosition = 1000
     private val viewCount = 3
+    private val headerView = LayoutInflater.from(context).inflate(R.layout.view_calendar_header, null, false)
     private val viewPager = PagingControlableViewPager(context)
     private val calendarViews = List(viewCount) { CalendarView(context) }
     var onSelectedDate: ((CalendarView, CalendarView.DateInfoViewHolder, Boolean) -> Unit)? = null
-    var onTop: ((Boolean, Boolean) -> Unit)? = null
 
     private val tempCal = Calendar.getInstance()
     private var targetCalendarView : CalendarView = calendarViews[startPosition % viewCount]
     private var firstSelectDateFlag = false
     private var selectDateTime = Long.MIN_VALUE
+    private val dowTexts: Array<TextView>
 
     init {
         addView(viewPager)
@@ -51,6 +60,12 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
                 l("$position 페이지 선택됨 : ${AppDateFormat.ymd.format(targetCalendarView.targetCal.time)}")
             }
         })
+
+        dowTexts = arrayOf(headerView.dowText0, headerView.dowText1, headerView.dowText2, headerView.dowText3,
+                headerView.dowText4, headerView.dowText5, headerView.dowText6)
+        headerView.setBackgroundColor(AppTheme.background)
+        addView(headerView)
+        setDayOfWeek()
         /*
         viewPager.setPageTransformer(true) { view, position ->
             val pageWidth = view.width
@@ -90,9 +105,36 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
         targetCalendarView.unselectDate()
         targetCalendarView = calendarView
         targetCalendarView.onSelectedDate = { holder, openDayView ->
+            dowTexts.forEachIndexed { index, textView ->
+                textView.text = calendarView.dateCellHolders[index].getDowText()
+                /*
+                if(holder.cellNum % 7 == index) {
+                    textView.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+                }else {
+                    textView.typeface = AppTheme.thinFont
+                }
+                */
+                textView.setTextColor(when (index) {
+                    calendarView.sundayPos -> CalendarManager.sundayColor
+                    calendarView.saturdayPos -> CalendarManager.saturdayColor
+                    else -> {
+                        if(holder.cellNum % 7 == index) {
+                            CalendarManager.selectedDateColor
+                        }else {
+                            CalendarManager.dateColor
+                        }
+                    }
+                })
+            }
             onSelectedDate?.invoke(targetCalendarView, holder, openDayView)
         }
-        targetCalendarView.onTop = onTop
+        targetCalendarView.onTop = { isTop, isBottom ->
+            if(isTop){
+
+            } else {
+
+            }
+        }
     }
 
     inner class CalendarPagerAdapter : PagerAdapter() {
@@ -148,9 +190,22 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     fun redraw() {
+        setDayOfWeek()
         calendarViews.forEach {
             it.unselectDate()
             it.redraw()
+        }
+    }
+
+    private fun setDayOfWeek() {
+        if(AppStatus.isDowDisplay) {
+            headerView.dowLy.visibility = View.VISIBLE
+            headerView.layoutParams = LayoutParams(MATCH_PARENT, headerHeight)
+            (viewPager.layoutParams as LayoutParams).topMargin = headerHeight
+        }else {
+            headerView.dowLy.visibility = View.GONE
+            headerView.layoutParams = LayoutParams(MATCH_PARENT, headerHeight - dowHeight)
+            (viewPager.layoutParams as LayoutParams).topMargin = headerHeight - dowHeight
         }
     }
 
@@ -178,7 +233,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     fun onDrag(event: DragEvent) {
-        targetCalendarView.onDrag(event)
+        targetCalendarView.onDrag(event, event.x, event.y - headerHeight)
         when {
             event.x < autoPagingThreshold -> {
                 if(autoPagingFlag != -1) {

@@ -54,7 +54,9 @@ class PopupOptionDialog(activity: Activity, private val items: Array<Item>, priv
         val w = MainActivity.getMainPanel()?.width ?: 0
         val h = MainActivity.getMainPanel()?.height ?: 0
         val left = location[0]
-        val top = location[1] - AppStatus.statusBarHeight
+        var top = location[1] - AppStatus.statusBarHeight
+        if(top <= 0) top = dpToPx(5)
+
         (contentLy.layoutParams as FrameLayout.LayoutParams).let {
             if(left < w/2) {
                 if(top + buttonSize * items.size < h) {

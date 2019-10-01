@@ -7,11 +7,13 @@ import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.tempCal
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.STACK
+import com.ayaan.twelvepages.manager.SymbolManager
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
 open class Template(@PrimaryKey var id: String? = null,
+                    var symbol: String? = null,
                     var title: String? = null,
                     var type: Int = 0,
                     var colorKey: Int = 0,
@@ -35,6 +37,7 @@ open class Template(@PrimaryKey var id: String? = null,
         other as Template
 
         if (id != other.id) return false
+        if (symbol != other.symbol) return false
         if (title != other.title) return false
         if (type != other.type) return false
         if (colorKey != other.colorKey) return false
@@ -51,6 +54,7 @@ open class Template(@PrimaryKey var id: String? = null,
 
     fun copy(data: Template) {
         id = data.id
+        symbol = data.symbol
         title = data.title
         type = data.type
         colorKey = data.colorKey
@@ -90,7 +94,7 @@ open class Template(@PrimaryKey var id: String? = null,
     }
 
     override fun toString(): String {
-        return "Template(id=$id, title=$title, type=$type, colorKey=$colorKey, style=$style, folder=$folder, tags=$tags, order=$order)"
+        return "Template(id=$id, symbol=$symbol, title=$title, type=$type, colorKey=$colorKey, style=$style, folder=$folder, tags=$tags, order=$order)"
     }
 
 }

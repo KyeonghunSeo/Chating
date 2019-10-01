@@ -6,15 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.model.AppUser
 import com.ayaan.twelvepages.model.Record
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.list_item_date_decoration.view.*
-import java.util.*
 
-class DateDecorationAdapter(val context: Context, val items: List<Record>,
-                            val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
-    : RecyclerView.Adapter<DateDecorationAdapter.ViewHolder>() {
+class DecorationItemsAdapter(val context: Context, val items: List<Record>,
+                             val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
+    : RecyclerView.Adapter<DecorationItemsAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = items.size
 

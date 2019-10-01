@@ -28,6 +28,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private var withAnimtion = false
     private var minWidth = 0f
     private var minHeight = 0f
+    private val rowBottomMargin = dpToPx(5f)
     private var drawStartYOffset = CalendarView.dataStartYOffset
     private val cellBottomArray = Array(42){ drawStartYOffset }
     private val rowHeightArray = Array(6){ drawStartYOffset }
@@ -171,7 +172,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                     currentFomula = formula
                     when(currentFomula) {
                         DOT -> {
-                            addBottomMargin(RecordView.sidePadding.toFloat(), currentFomula)
+                            addBottomMargin(dpToPx(5f), currentFomula)
                         }
                         RANGE -> {
                             addBottomMargin(dpToPx(15f), currentFomula)
@@ -218,7 +219,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
 
     private fun computeBottomStackStartPos() {
         (0..5).forEach{ index ->
-            rowHeightArray[index] = Math.max(minHeight - blockTypeSize,
+            rowHeightArray[index] = Math.max(minHeight - blockTypeSize - rowBottomMargin,
                     cellBottomArray.sliceArray(index*7..index*7+6).max() ?: 0f)
         }
     }
@@ -240,7 +241,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
 
         calendarView.weekLys.forEachIndexed { index, weekLy ->
             if(index < rows) {
-                val newHeight = rowHeightArray[index]
+                val newHeight = rowHeightArray[index] + rowBottomMargin
                 val finalHeight = Math.max(minHeight, newHeight)
                 calendarHeight += finalHeight
                 weekLy.layoutParams.height = finalHeight.toInt()

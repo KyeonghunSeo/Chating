@@ -8,6 +8,7 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Environment
 import android.text.format.DateFormat
+import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.widget.NestedScrollView
 import com.ayaan.twelvepages.*
@@ -32,7 +33,6 @@ import java.util.*
 
 class SettingsActivity : BaseActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -42,7 +42,10 @@ class SettingsActivity : BaseActivity() {
 
     private fun initLayout() {
         backBtn.setOnClickListener { onBackPressed() }
-        mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, y: Int, _: Int, _: Int -> }
+        mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, y: Int, _: Int, _: Int ->
+            if(y > 0) topShadow.visibility = View.VISIBLE
+            else topShadow.visibility = View.GONE
+        }
         setCheckedRecordDisplay()
         setTemplate()
         setDefaultAlarmTime()
@@ -265,7 +268,7 @@ class SettingsActivity : BaseActivity() {
     override fun onStop() {
         super.onStop()
         if(FirebaseAuth.getInstance().currentUser != null) {
-            MainActivity.getCalendarPager()?.redraw()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
         }else {
             MainActivity.instance?.finish()
         }

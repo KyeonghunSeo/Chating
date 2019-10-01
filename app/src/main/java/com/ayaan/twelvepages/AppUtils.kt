@@ -272,6 +272,11 @@ fun makeFromTopSlideTransition() : Transition {
     return transition
 }
 
+fun getCurrentYear() : Int {
+    tempCal.timeInMillis = System.currentTimeMillis()
+    return tempCal.get(Calendar.YEAR)
+}
+
 fun makeFadeTransition() : Transition {
     val transition = Fade()
     transition.duration = ANIM_DUR
