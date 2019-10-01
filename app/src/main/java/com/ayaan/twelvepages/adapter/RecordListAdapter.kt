@@ -18,6 +18,7 @@ import android.text.style.BackgroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -49,8 +50,8 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                         val showFooter: Boolean, val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val circlePadding = dpToPx(5)
-    val checkBoxPadding = dpToPx(10)
+    val symbolMargin = dpToPx(40)
+    val noSymbolMargin = dpToPx(16)
     var itemTouchHelper: ItemTouchHelper? = null
     var query: String? = null
     private var footerHolder: FooterViewHolder? = null
@@ -132,9 +133,19 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
 
         val color = record.getColor()
         val fontColor = ColorManager.getFontColor(color)
+        val symbol = SymbolManager.getSymbolResId(record.symbol)
+        v.colorBar.setCardBackgroundColor(color)
         v.iconImg.setColorFilter(color)
-        v.symbolImg.setColorFilter(fontColor)
-        v.symbolImg.setImageResource(SymbolManager.getSymbolResId(record.symbol))
+        v.symbolImg.setColorFilter(color)
+        if(symbol == R.drawable.blank) {
+            (v.colorBar.layoutParams as FrameLayout.LayoutParams).topMargin = noSymbolMargin
+            v.symbolImg.visibility = View.GONE
+        }else {
+            (v.colorBar.layoutParams as FrameLayout.LayoutParams).topMargin = symbolMargin
+            v.symbolImg.visibility = View.VISIBLE
+            v.symbolImg.setImageResource(symbol)
+        }
+        v.colorBar.requestLayout()
 
         if(record.title.isNullOrBlank()) {
             v.titleText.text = ""
@@ -185,13 +196,13 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                     v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
                 }
                 if(AppStatus.checkedRecordDisplay == 1 || AppStatus.checkedRecordDisplay == 3) {
-                    v.titleText.alpha = 0.4f
+                    v.contentLy.alpha = 0.4f
                 }else {
-                    v.titleText.alpha = 1f
+                    v.contentLy.alpha = 1f
                 }
             }else {
                 v.checkBox.setImageResource(R.drawable.uncheck)
-                v.titleText.alpha = 1f
+                v.contentLy.alpha = 1f
                 v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
             }
             v.checkBox.setOnClickListener {
@@ -200,7 +211,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             }
         }else {
             v.checkBox.visibility = View.GONE
-            v.titleText.alpha = 1f
+            v.contentLy.alpha = 1f
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 

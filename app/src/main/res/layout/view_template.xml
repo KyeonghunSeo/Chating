@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:layout_width="150dp"
+        android:layout_width="160dp"
         android:layout_height="40dp"
         android:layout_gravity="bottom|center_horizontal">
 
@@ -17,7 +17,7 @@
             android:layout_gravity="center"
             app:cardBackgroundColor="@color/light_line"
             app:cardCornerRadius="8dp"
-            app:cardElevation="0dp">
+            app:cardElevation="1dp">
 
             <LinearLayout
                 android:orientation="horizontal"

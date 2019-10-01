@@ -10,13 +10,13 @@
        android:id="@+id/contentLy"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_marginLeft="1dp"
        android:minHeight="50dp">
 
       <FrameLayout
           android:layout_width="50dp"
           android:layout_height="match_parent"
-          android:visibility="gone">
+          android:paddingBottom="16dp"
+          android:visibility="visible">
 
          <View
              android:id="@+id/upperLine"
@@ -35,22 +35,34 @@
              android:layout_gravity="center_horizontal"
              android:visibility="gone"/>
 
+         <androidx.cardview.widget.CardView
+             android:id="@+id/colorBar"
+             android:layout_width="3dp"
+             android:layout_height="match_parent"
+             android:layout_marginTop="16dp"
+             android:layout_gravity="center_horizontal"
+             app:cardElevation="0dp"
+             app:cardCornerRadius="1.5dp">
+         </androidx.cardview.widget.CardView>
+
          <ImageView
              android:id="@+id/iconImg"
              android:layout_width="50dp"
              android:layout_height="50dp"
              android:layout_gravity="center_horizontal"
-             android:padding="17dp"
+             android:padding="20dp"
              android:src="@drawable/circle_fill"
-             android:tint="@color/primaryText"/>
+             android:tint="@color/primaryText"
+             android:visibility="gone"/>
 
          <ImageView
              android:id="@+id/symbolImg"
-             android:layout_width="50dp"
-             android:layout_height="50dp"
+             android:layout_width="18dp"
+             android:layout_height="18dp"
+             android:layout_marginTop="16dp"
              android:layout_gravity="center_horizontal"
-             android:padding="20dp"
-             android:tint="@color/primaryText"/>
+             android:tint="@color/primaryText"
+             android:visibility="gone"/>
 
       </FrameLayout>
 
@@ -68,7 +80,7 @@
           android:orientation="vertical"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="18dp"
+          android:layout_marginLeft="40dp"
           android:layout_marginRight="25dp"
           android:paddingBottom="10dp">
 
@@ -328,10 +340,9 @@
                 android:id="@+id/imageLy"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="2dp"
-                app:cardCornerRadius="0dp"
-                app:cardElevation="1dp">
+                android:layout_margin="5dp"
+                app:cardElevation="1dp"
+                app:cardCornerRadius="4dp">
 
                <LinearLayout
                    android:orientation="horizontal"
@@ -348,13 +359,13 @@
                   <FrameLayout
                       android:id="@+id/subImageLy"
                       android:layout_width="80dp"
-                      android:layout_height="80dp">
+                      android:layout_height="80dp"
+                      android:layout_marginLeft="1dp">
 
                      <ImageView
                          android:id="@+id/subImageView"
                          android:layout_width="80dp"
                          android:layout_height="80dp"
-                         android:layout_marginLeft="1dp"
                          android:scaleType="centerCrop"/>
 
                      <TextView
@@ -366,11 +377,6 @@
                          android:textSize="20dp"
                          android:background="@drawable/highlightcover"
                          android:text="+10"/>
-
-                     <com.ayaan.twelvepages.ui.view.base.Line
-                         android:layout_width="1dp"
-                         android:layout_height="match_parent"
-                         app:colorFlag="secondary"/>
 
                   </FrameLayout>
 
