@@ -26,6 +26,7 @@ class WebLinkListView @JvmOverloads constructor(context: Context, attrs: Attribu
     : RecyclerView(context, attrs, defStyleAttr) {
     var record: Record? = null
     val items = ArrayList<Link>()
+    var isEnabledEdit = true
 
     init {
         layoutManager = LinearLayoutManager(context, VERTICAL, false)
@@ -94,14 +95,17 @@ class WebLinkListView @JvmOverloads constructor(context: Context, attrs: Attribu
                     toast(R.string.invalid_info)
                 }
             }
+
             v.setOnLongClickListener {
-                showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_item), null, null, R.drawable.delete) { result, _, _ ->
-                    if(result) {
-                        items.remove(link)
-                        record?.links?.remove(link)
-                        notifyItemRemoved(position)
-                    }
-                }, true, true, true, false)
+                if(isEnabledEdit) {
+                    showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_item), null, null, R.drawable.delete) { result, _, _ ->
+                        if(result) {
+                            items.remove(link)
+                            record?.links?.remove(link)
+                            notifyItemRemoved(position)
+                        }
+                    }, true, true, true, false)
+                }
                 return@setOnLongClickListener true
             }
         }

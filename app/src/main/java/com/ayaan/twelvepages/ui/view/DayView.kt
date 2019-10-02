@@ -23,8 +23,6 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Fade
-import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.DecorationItemsAdapter
 import com.ayaan.twelvepages.adapter.RecordListAdapter
@@ -216,12 +214,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }else {
             emptyLy.visibility = View.VISIBLE
         }
-
-        if(decoList.isEmpty()) {
-            decoListView.visibility = View.GONE
-        }else {
-            decoListView.visibility = View.VISIBLE
-        }
     }
 
     private fun collocateData(data: RealmResults<Record>, e: ArrayList<Record>) {
@@ -347,7 +339,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun setDateOpenedStyle() {
-        TransitionManager.beginDelayedTransition(contentLy, makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN })
+        //TransitionManager.beginDelayedTransition(contentLy, makeFadeTransition().apply { (this as Fade).mode = Fade.MODE_IN })
         contentLy.visibility = View.VISIBLE
         dateLy.scaleY = headerTextScale
         dateLy.scaleX = headerTextScale
@@ -395,55 +387,59 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         fakeDateText.visibility = View.GONE
     }
 
-    @SuppressLint("StaticFieldLeak")
     fun targeted() {
         l("[데이뷰 타겟팅] : " + AppDateFormat.ymde.format(targetCal.time) )
         postDelayed({
             MainActivity.instance?.let { activity ->
-                object : AsyncTask<String, String, String?>() {
-                    var photos: ArrayList<Photo>? = null
-                    var pastRecords: List<Record>? = null
-
-                    override fun doInBackground(vararg args: String): String? {
-                        val realm = Realm.getDefaultInstance()
-
-                        if (ActivityCompat.checkSelfPermission(activity,
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                            photos = getPhotosByDate(activity, targetCal)
-                        }
-
-                        var startTime = getCalendarTime0(targetCal) - YEAR_MILL
-                        var endTime = getCalendarTime23(targetCal) - YEAR_MILL
-                        pastRecords = realm.where(Record::class.java)
-                                .beginGroup()
-                                .notEqualTo("dtCreated", -1L)
-                                .endGroup()
-                                .and()
-                                .beginGroup()
-                                .greaterThanOrEqualTo("dtEnd", startTime)
-                                .lessThanOrEqualTo("dtStart", endTime)
-                                .endGroup()
-                                .sort("dtStart", Sort.ASCENDING)
-                                .findAll().map { realm.copyFromRealm(it) }
-
-                        realm.close()
-                        return null
-                    }
-
-                    override fun onPreExecute() { adapter.readyFooterView() }
-                    override fun onProgressUpdate(vararg text: String) {}
-                    override fun onPostExecute(result: String?) {
-                        if(MainActivity.getDayPager()?.isOpened() == true) {
-                            adapter.setFooterView(photos, pastRecords)
-                        }
-                    }
-                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+                setFooterView(activity)
             }
-        }, 500)
+        }, 0)
     }
 
     fun unTargeted() {
         adapter.clearFooterView()
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private fun setFooterView(activity: Activity) {
+        object : AsyncTask<String, String, String?>() {
+            var photos: ArrayList<Photo>? = null
+            var pastRecords: List<Record>? = null
+
+            override fun doInBackground(vararg args: String): String? {
+                val realm = Realm.getDefaultInstance()
+
+                if (ActivityCompat.checkSelfPermission(activity,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    photos = getPhotosByDate(activity, targetCal)
+                }
+
+                var startTime = getCalendarTime0(targetCal) - YEAR_MILL
+                var endTime = getCalendarTime23(targetCal) - YEAR_MILL
+                pastRecords = realm.where(Record::class.java)
+                        .beginGroup()
+                        .notEqualTo("dtCreated", -1L)
+                        .endGroup()
+                        .and()
+                        .beginGroup()
+                        .greaterThanOrEqualTo("dtEnd", startTime)
+                        .lessThanOrEqualTo("dtStart", endTime)
+                        .endGroup()
+                        .sort("dtStart", Sort.ASCENDING)
+                        .findAll().map { realm.copyFromRealm(it) }
+
+                realm.close()
+                return null
+            }
+
+            override fun onPreExecute() { adapter.readyFooterView() }
+            override fun onProgressUpdate(vararg text: String) {}
+            override fun onPostExecute(result: String?) {
+                if(MainActivity.getDayPager()?.isOpened() == true) {
+                    adapter.setFooterView(photos, pastRecords)
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 
     fun getDateLy() : LinearLayout = dateLy
@@ -453,15 +449,15 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     companion object {
         const val headerTextScale = 4.5f
         //const val mainMonthTextScale = 0.78f
-        const val mainMonthTextScale = 1.0f
+        const val mainMonthTextScale = 0.8f
 
-        val datePosX = -dpToPx(2.0f)
+        val datePosX = -dpToPx(1.0f)
         val datePosY = dpToPx(25.0f)
 
         val dowPosX = dpToPx(1.0f) / headerTextScale
         val holiPosX = dpToPx(2.0f) / headerTextScale
 
-        val subYPos = dpToPx(0.0f) / headerTextScale
+        val subYPos = -dpToPx(0.5f) / headerTextScale
         val dowPosY = dpToPx(11.0f) / headerTextScale + subYPos
         val holiPosY = -dpToPx(30.0f) / headerTextScale + subYPos
 

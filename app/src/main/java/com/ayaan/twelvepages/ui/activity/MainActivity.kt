@@ -324,7 +324,7 @@ class MainActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun updateCountdownUI(list: RealmResults<Record>?) {
-        if(list.isNullOrEmpty()) {
+        if(list.isNullOrEmpty() || System.currentTimeMillis() < Prefs.getLong("briefingCountdownTime", 0)) {
             countdownBtn.visibility = View.GONE
         }else {
             countdownBtn.visibility = View.VISIBLE
@@ -337,6 +337,8 @@ class MainActivity : BaseActivity() {
                 countdownText.setTextColor(AppTheme.primaryText)
                 countdownText.setOnClickListener {
                     showDialog(CountdownListDialog(this) {
+                        Prefs.putLong("briefingCountdownTime", getTodayStartTime() + DAY_MILL)
+                        countdownBtn.visibility = View.GONE
                     }, true, true, true, false)
                 }
             }
@@ -345,7 +347,7 @@ class MainActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun updateUndoneUI(list: RealmResults<Record>?) {
-        if(list.isNullOrEmpty()) {
+        if(list.isNullOrEmpty() || System.currentTimeMillis() < Prefs.getLong("briefingUndoneTime", 0)) {
             undoneBtn.visibility = View.GONE
         }else {
             undoneBtn.visibility = View.VISIBLE
@@ -357,16 +359,18 @@ class MainActivity : BaseActivity() {
                 //undoneText.setTextColor(fontColor)
 
                 /*
-                var tail = if (list.size > 1) String.format(str(R.string.and_others), list.size - 1) else ""
+                var tail = if (list.size > 1) " "+ String.format(str(R.string.and_others), list.size - 1)
+                else ""
                 if (tail.contains("other") && list.size > 2) {
                     tail = tail.replace("other", "others")
                 }
-                undoneText.text = "${str(R.string.undone_records)}\n${record.getShortTilte()} $tail"
+                undoneText.text = "${str(R.string.undone_records)}${record.getShortTilte()}$tail"
                 */
-
-                undoneText.text = list.size.toString()
-                undoneText.setOnClickListener {
+                undoneText.text = String.format(str(R.string.counts), list.size)
+                undoneBtn.setOnClickListener {
                     showDialog(UndoneListDialog(this) {
+                        Prefs.putLong("briefingUndoneTime", getTodayStartTime() + DAY_MILL)
+                        undoneBtn.visibility = View.GONE
                     }, true, true, true, false)
                 }
             }
@@ -494,7 +498,7 @@ class MainActivity : BaseActivity() {
                         ObjectAnimator.ofFloat(todayBtn, "translationX",  todayBtn.translationX, distance))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
-                todayBtn.setOnClickListener { selectDate(System.currentTimeMillis()) }
+                todayBtn.setOnClickListener { selectDate(getTodayStartTime()) }
                 todayBtn.isEnabled = true
             }
             else -> {

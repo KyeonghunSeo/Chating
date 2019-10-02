@@ -38,6 +38,7 @@
     <string name="enter_memo">이곳에 본문을 입력하세요</string>
     <string name="set_alarm">알림설정</string>
     <string name="and_others">외 %1$s개</string>
+    <string name="counts">%1$s개</string>
     <string name="basic_info">기본 정보</string>
 
     <string-array name="holidays">
@@ -205,10 +206,10 @@
     <string name="vote_to_new_feature">새로운 기능 투표하기</string>
     <string name="evaluate_text">개발자에게 관심과 응원은 언제나 큰 힘이 됩니다:)</string>
     <string name="email_text">문제가 발생했다면 이곳으로 이메일을 보내주세요</string>
-    <string name="vote_text">\'12Page\'는 사용자들과 함께 만들어가는 앱 입니다\n가장 많은 선택을 받은 기능이 우선적으로 개발됩니다</string>
+    <string name="vote_text">\'C A L U A\'는 사용자들과 함께 만들어가는 앱 입니다\n가장 많은 투표를 받은 기능이 우선적으로 개발됩니다</string>
     <string name="help">문의사항</string>
     <string name="no_records">이 날의 기록이 없습니다</string>
-    <string name="no_records_in_this_folder">이 보관함에 기록이 없습니다</string>
+    <string name="no_records_in_this_folder">보관함에 기록이 없습니다</string>
     <string name="delete_checkbox_sub">체크박스 정보를 제거하시겠습니까?</string>
     <string name="delete_deadline_sub">기한을 해제 하시겠습니까?</string>
     <string name="delete_percentage_sub">성취도를 삭제할까요?</string>
@@ -389,6 +390,8 @@
     <string name="delete_checklist_sub">체크리스트 정보를 삭제하시겠습니까?</string>
     <string name="shape_range">구간</string>
     <string name="shape_dash_range">점선구간</string>
+    <string name="photos_this_day">이 날의 사진</string>
+    <string name="no_show_this_day">오늘하루 보지않기</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

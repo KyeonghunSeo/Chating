@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.*
@@ -74,6 +75,7 @@ class NoteView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         LayoutInflater.from(context).inflate(R.layout.view_note, this, true)
         setBackgroundColor(AppTheme.background)
         recyclerView.layoutManager = LinearLayoutManager(context)
+        //recyclerView.layoutManager = GridLayoutManager(context, 2)
         recyclerView.adapter = adapter
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

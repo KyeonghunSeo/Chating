@@ -6,6 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import androidx.core.widget.NestedScrollView
 import com.ayaan.twelvepages.*
 import kotlinx.android.synthetic.main.activity_about_us.*
 import java.util.*
@@ -21,6 +23,12 @@ class AboutUsActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun initLayout() {
+        backBtn.setOnClickListener { onBackPressed() }
+        mainScrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, y: Int, _: Int, _: Int ->
+            if(y > 0) topShadow.visibility = View.VISIBLE
+            else topShadow.visibility = View.GONE
+        }
+
         evaluateBtn.setOnClickListener {
             val uri = Uri.parse("market://details?id=com.hellowo.day2life")
             val intent = Intent(Intent.ACTION_VIEW, uri)
@@ -53,20 +61,20 @@ class AboutUsActivity : BaseActivity() {
 
         aboutUsText.text = when(Locale.getDefault().language) {
             "ko" -> {
-                """이제는 찾을수 없는
-                    마음을 울렸던 책의 한 구절을 적어두었던
-포스트잇은 어디로 사라진걸까?
+                """이제는 기억나지 않는
+마음을 울렸던
+어느 책의 한 구절 처럼,
 
-문득 기록하지 않아서 잊혀지는 것들이
-너무나 많다는 생각이 들었습니다.
+기록하지 않아 사라진 것들에 대한
+아쉬움을 담아..
 
-계속해서 발전해 나갈것입니다.
-
-사용해 주셔서 감사합니다."""
+즐겁게 기록하고
+성장할 수 있는
+다이어리를 만듭니다.
+                    """
             }
             else -> {
                 """
-
                 """
             }
         }

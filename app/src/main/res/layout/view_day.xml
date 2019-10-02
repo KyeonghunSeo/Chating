@@ -6,70 +6,63 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/contentLy"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="120dp"
-        android:animateLayoutChanges="false">
+        android:paddingTop="110dp"
+        android:descendantFocusability="blocksDescendants">
+
+        <LinearLayout
+            android:id="@+id/emptyLy"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="100dp"
+            android:layout_margin="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/disableText"
+                android:textSize="18dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/bold"
+                android:textStyle="italic"
+                android:text="@string/no_records"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/disableText"
+                android:textSize="16dp"
+                android:layout_marginTop="10dp"
+                android:textStyle="italic"
+                android:text="@string/motto_sample"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recordListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/decoListView"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="40dp">
         </androidx.recyclerview.widget.RecyclerView>
 
-        <FrameLayout
-            android:orientation="vertical"
+        <com.ayaan.twelvepages.ui.view.base.Line
+            android:id="@+id/topShadow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:descendantFocusability="blocksDescendants">
+            android:layout_height="0.5dp"
+            app:colorFlag="light_line"/>
 
-            <LinearLayout
-                android:id="@+id/emptyLy"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="100dp"
-                android:layout_margin="30dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/disableText"
-                    android:textSize="18dp"
-                    android:layout_marginTop="15dp"
-                    android:fontFamily="@font/bold"
-                    android:textStyle="italic"
-                    android:text="@string/no_records"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/disableText"
-                    android:textSize="16dp"
-                    android:layout_marginTop="10dp"
-                    android:textStyle="italic"
-                    android:text="@string/motto_sample"/>
-
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recordListView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </androidx.recyclerview.widget.RecyclerView>
-
-            <com.ayaan.twelvepages.ui.view.base.Line
-                android:id="@+id/topShadow"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                app:colorFlag="light_line"/>
-
-        </FrameLayout>
-
-    </LinearLayout>
+    </FrameLayout>
 
     <include layout="@layout/view_date_cell_header" />
 

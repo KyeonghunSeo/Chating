@@ -219,6 +219,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                     onVisibility?.invoke(false)
                     restoreViews()
                     targetDayView.hide(dataSize)
+                    targetDayView.unTargeted()
                 }
             })
             TransitionManager.beginDelayedTransition(this, transiion)

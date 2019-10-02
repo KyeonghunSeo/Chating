@@ -44,9 +44,15 @@ class RecordCalendarComparator : Comparator<RecordCalendarAdapter.RecordViewHold
                                     val lr = l.record
                                     val rr = r.record
                                     when{
-                                        lr.dtStart < rr.dtStart -> -1
-                                        lr.dtStart > rr.dtStart -> 1
-                                        else -> RecordListComparator.lastSort(lr, rr)
+                                        lr.ordering < rr.ordering -> -1
+                                        lr.ordering > rr.ordering -> 1
+                                        else -> {
+                                            when{
+                                                lr.dtStart < rr.dtStart -> -1
+                                                lr.dtStart > rr.dtStart -> 1
+                                                else -> RecordListComparator.lastSort(lr, rr)
+                                            }
+                                        }
                                     }
                                 }
                             }

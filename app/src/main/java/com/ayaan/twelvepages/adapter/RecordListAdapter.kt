@@ -4,11 +4,8 @@ import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Typeface
-import android.net.Uri
 import android.provider.CalendarContract
 import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
 import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
@@ -19,11 +16,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.LinearLayout
+import android.widget.LinearLayout.HORIZONTAL
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.ColorManager
@@ -34,8 +31,6 @@ import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
 import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.list_item_record.view.*
 import kotlinx.android.synthetic.main.list_item_record_footer.view.*
@@ -65,7 +60,9 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     }
 
     class RecordViewHolder(container: View) : RecyclerView.ViewHolder(container) {
-        init { setGlobalTheme(container) }
+        init {
+            setGlobalTheme(container)
+        }
         fun onItemSelected() {}
         fun onItemClear() {}
     }
@@ -136,12 +133,14 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         val symbol = SymbolManager.getSymbolResId(record.symbol)
         v.colorBar.setCardBackgroundColor(color)
         v.iconImg.setColorFilter(color)
-        v.symbolImg.setColorFilter(color)
+        v.symbolImg.setColorFilter(fontColor)
         if(symbol == R.drawable.blank) {
             (v.colorBar.layoutParams as FrameLayout.LayoutParams).topMargin = noSymbolMargin
+            v.iconImg.visibility = View.GONE
             v.symbolImg.visibility = View.GONE
         }else {
             (v.colorBar.layoutParams as FrameLayout.LayoutParams).topMargin = symbolMargin
+            v.iconImg.visibility = View.VISIBLE
             v.symbolImg.visibility = View.VISIBLE
             v.symbolImg.setImageResource(symbol)
         }
@@ -363,6 +362,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         if(record.isSetLink()){
             v.webLinkView.visibility = View.VISIBLE
             v.webLinkView.setList(record)
+            v.webLinkView.isEnabledEdit = false
         }else {
             v.webLinkView.visibility = View.GONE
         }
@@ -420,35 +420,29 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     fun readyFooterView() {
         footerHolder?.let {
             it.itemView.visibility = View.VISIBLE
-            it.itemView.footerProgress.visibility = View.VISIBLE
+            it.itemView.footerProgress.visibility = View.GONE
             it.itemView.footerContentLy.visibility = View.GONE
         }
     }
 
     fun setFooterView(photos: ArrayList<Photo>?, pastRecords: List<Record>?) {
+        l(photos?.size.toString())
         footerHolder?.let { holder ->
             val v = holder.itemView
-            TransitionManager.beginDelayedTransition(holder.itemView.footerRootLy, makeFromBottomSlideTransition())
+            //TransitionManager.beginDelayedTransition(holder.itemView.footerRootLy, makeFromBottomSlideTransition())
             v.footerProgress.visibility = View.GONE
             v.footerContentLy.visibility = View.VISIBLE
+
             photos?.let { photos ->
                 if(photos.isNotEmpty()) {
                     v.photoLy.visibility = View.VISIBLE
-                    photos.firstOrNull()?.let {
-                        Glide.with(context).load(it.url).into(v.photoImg)
-                    }
-                    v.photoImg.setOnClickListener {
-                        ImageViewer.Builder(context, photos.map { "file://${it.url}" })
-                                .hideStatusBar(false)
-                                .setStartPosition(0)
-                                .show()
-                    }
+                    v.photoListView.setList(photos)
                 }else {
                     v.photoLy.visibility = View.GONE
                 }
             }
             pastRecords?.let {
-                v.pastRecordTitleText.text = it.firstOrNull()?.getTitleInCalendar()
+                //v.pastRecordTitleText.text = it.firstOrNull()?.getTitleInCalendar()
             }
         }
     }

@@ -7,20 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.dpToPx
-import com.ayaan.twelvepages.setGlobalTheme
+import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.container_normal_list_dlg.*
 import kotlinx.android.synthetic.main.dialog_base.*
-import kotlinx.android.synthetic.main.list_item_normal.view.*
+import kotlinx.android.synthetic.main.list_item_countdown.view.*
+import java.util.*
 
 
 class CountdownListDialog(activity: Activity, val onResult: (Boolean) -> Unit) : BaseDialog(activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setLayout(R.layout.container_normal_list_dlg, dpToPx(325))
+        setLayout(R.layout.container_normal_list_dlg, getScreenSize(context)[0] - dpToPx(50))
         setLayout()
     }
 
@@ -29,11 +28,12 @@ class CountdownListDialog(activity: Activity, val onResult: (Boolean) -> Unit) :
         titleIcon.setImageResource(R.drawable.countdown)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = ItemAdapter()
+        confirmBtn.text = str(R.string.no_show_this_day)
         confirmBtn.setOnClickListener {
             dismiss()
             onResult.invoke(true)
         }
-        cancelBtn.setOnClickListener { dismiss() }
+        cancelBtn.visibility = View.GONE
     }
 
     inner class ItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -48,15 +48,18 @@ class CountdownListDialog(activity: Activity, val onResult: (Boolean) -> Unit) :
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_normal, parent, false))
+                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_countdown, parent, false))
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             items?.get(position)?.let { record ->
                 val v = holder.itemView
+                v.colorBar.setCardBackgroundColor(record.getColor())
                 v.titleText.text = record.getTitleInCalendar()
-
+                v.subText.text = AppDateFormat.mde.format(Date(record.dtStart))
+                v.countdownText.text = record.getCountdownText(System.currentTimeMillis())
                 v.setOnClickListener {
                     MainActivity.instance?.selectDate(record.dtStart)
+                    toast(R.string.moved, R.drawable.schedule)
                     dismiss()
                 }
             }

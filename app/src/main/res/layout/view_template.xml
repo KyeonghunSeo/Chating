@@ -17,7 +17,7 @@
             android:layout_gravity="center"
             app:cardBackgroundColor="@color/light_line"
             app:cardCornerRadius="8dp"
-            app:cardElevation="1dp">
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:orientation="horizontal"
