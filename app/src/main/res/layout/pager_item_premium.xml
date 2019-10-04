@@ -9,30 +9,32 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="120dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
         app:cardElevation="30dp"
         app:cardCornerRadius="15dp">
 
         <LinearLayout
-            android:id="@+id/diaryBtn0"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:background="?android:attr/selectableItemBackground">
 
             <TextView
+                android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="25dp"
                 android:textColor="@color/primaryText"
                 android:textSize="20dp"
-                android:text="@string/diary_set_0_title"
+                android:text="@string/premium_item_0_title"
                 android:fontFamily="@font/bold"/>
 
             <TextView
+                android:id="@+id/subText"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -40,7 +42,6 @@
                 android:textColor="@color/primaryText"
                 android:lineSpacingExtra="3dp"
                 android:textSize="12dp"
-                android:text="@string/diary_set_0_sub"
                 android:fontFamily="@font/regular"/>
         </LinearLayout>
 

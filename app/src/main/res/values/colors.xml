@@ -42,9 +42,9 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="red">#e73b3b</color>
-    <color name="blue">#47b2f7</color>
-    <color name="yellow">#ffd801</color>
+    <color name="red">#ec4243</color>
+    <color name="blue">#4262f0</color>
+    <color name="yellow">#E0BC57</color>
     <color name="green">#2ecc87</color>
     <color name="grey">#e4e7ef</color>
     <color name="transparent">#00000000</color>

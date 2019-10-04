@@ -1,32 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:clipChildren="false">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="50dp">
 
         <ImageView
             android:id="@+id/backBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:src="@drawable/close"
+            android:src="@drawable/back"
             android:background="?android:attr/selectableItemBackground"
             android:tint="@color/primaryText"
-            android:padding="15dp"/>
+            android:padding="13dp"/>
 
     </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/primaryText"
+        android:textSize="24dp"
+        android:text="C A L U A"
+        android:fontFamily="@font/bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/primaryText"
+        android:textSize="14dp"
+        android:text="Diary"
+        android:fontFamily="@font/bold"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/yellow"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/crown"
+                android:tint="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginLeft="5dp"
+                android:textSize="16dp"
+                android:text="@string/premium"
+                android:fontFamily="@font/bold"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
         android:clipChildren="false">
     </androidx.viewpager.widget.ViewPager>
 
@@ -35,7 +91,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="30dp"
-        android:layout_gravity="bottom"
         android:text="@string/upgrade_premium"
+        android:textSize="16dp"
+        android:fontFamily="@font/bold"
         app:cornerRadius="22dp"/>
-</FrameLayout>
+</LinearLayout>

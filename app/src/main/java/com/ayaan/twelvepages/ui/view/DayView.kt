@@ -449,7 +449,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     companion object {
         const val headerTextScale = 4.5f
         //const val mainMonthTextScale = 0.78f
-        const val mainMonthTextScale = 0.8f
+        const val mainMonthTextScale = 1.0f
 
         val datePosX = -dpToPx(1.0f)
         val datePosY = dpToPx(25.0f)

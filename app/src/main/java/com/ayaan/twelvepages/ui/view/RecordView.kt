@@ -24,7 +24,7 @@ import com.ayaan.twelvepages.manager.ColorManager
 class RecordView constructor(context: Context, val record: Record, var formula: RecordCalendarAdapter.Formula,
                              val cellNum: Int, var length: Int) : TextView(context) {
     companion object {
-        var standardTextSize = 8f
+        var standardTextSize = 9f
         val baseSize = dpToPx(0.5f)
         val strokeWidth = dpToPx(1f) // 선
         val blockTypeSize = dpToPx(15.5f).toInt() // 블록 크기
@@ -565,7 +565,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             }
             4 -> {
                 val size = (normalStickerSize * 0.50f).toInt()
-                var top = (height - size - defaultPadding).toInt()
+                var top = (height - size - defaultPadding)
                 var left = (width - size * 2 - defaulMargin).toInt()
                 var resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
                 resource.getDrawable(resId, null)?.let {
@@ -600,7 +600,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 (childCount - 1 downTo 0).forEach { index ->
                     val resId = childList?.get(index)?.getSticker()?.resId ?: R.drawable.help
                     resource.getDrawable(resId, null)?.let {
-                        it.setBounds((right - size).toInt(), (bottom - size).toInt(), right.toInt(), bottom.toInt())
+                        it.setBounds((right - size).toInt(), (bottom - size).toInt(), right.toInt(), bottom)
                         it.draw(canvas)
                     }
                     right -= overlap

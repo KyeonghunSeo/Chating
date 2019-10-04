@@ -169,6 +169,7 @@ class CalendarSettingsDialog(private val activity: Activity) : BottomSheetDialog
 
     private fun setCalTextSize() {
         when(AppStatus.calTextSize) {
+            -2 -> root.calTextSizeText.text = str(R.string.very_small)
             -1 -> root.calTextSizeText.text = str(R.string.small)
             0 -> root.calTextSizeText.text = str(R.string.normal)
             1 -> root.calTextSizeText.text = str(R.string.big)
@@ -177,10 +178,11 @@ class CalendarSettingsDialog(private val activity: Activity) : BottomSheetDialog
         //calTextSizeText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (8 + AppStatus.calTextSize).toFloat())
         root.calTextSizeBtn.setOnClickListener {
             when(AppStatus.calTextSize) {
+                -2 -> AppStatus.calTextSize = -1
                 -1 -> AppStatus.calTextSize = 0
                 0 -> AppStatus.calTextSize = 1
                 1 -> AppStatus.calTextSize = 2
-                2 -> AppStatus.calTextSize = -1
+                2 -> AppStatus.calTextSize = -2
             }
             Prefs.putInt("calTextSize", AppStatus.calTextSize)
             setCalTextSize()
