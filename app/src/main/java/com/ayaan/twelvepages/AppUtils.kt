@@ -655,4 +655,82 @@ public Bitmap buildUpdate(String time) // 위젯에서 폰트 적용
     return myBitmap;
 }
 
+
+// 데모 기록 입력
+val cal = Calendar.getInstance()
+            cal.set(2019, 9, 1)
+            var s = cal.timeInMillis
+            val list = ArrayList<Record>()
+            val c = 0
+            val formulas = arrayOf(SINGLE_TEXT, MULTI_TEXT, DOT)
+            list.add(RecordManager.makeNewRecord(s, s).apply {
+                title = "점심약속"
+                type = 1
+                colorKey = c + Random().nextInt(10)
+            })
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*2, s+DAY_MILL*3).apply {
+                title = "오후미팅"
+                type = 1
+                colorKey = c + Random().nextInt(10)
+            })
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*5, s+DAY_MILL*5).apply {
+                title = "치과"
+                type = 1
+                colorKey = c + Random().nextInt(10)
+            })
+            list.add(RecordManager.makeNewRecord(s, s+DAY_MILL*3).apply {
+                title = "회사 프로젝트"
+                type = 1
+                colorKey = c + Random().nextInt(10)
+            })
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*7, s+DAY_MILL*7).apply {
+                title = "친구생일"
+                type = 1
+                colorKey = c + Random().nextInt(10)
+            })
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*7, s+DAY_MILL*7).apply {
+                title = "선물사기"
+                type = 2
+                colorKey = c + Random().nextInt(10)
+            })
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*11, s+DAY_MILL*17).apply {
+                title = "점심약속"
+                type = 1
+                colorKey = c + Random().nextInt(10)
+            })
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*22, s+DAY_MILL*23).apply {
+                title = "오후미팅"
+                type = 1
+                colorKey = c + Random().nextInt(10)
+            })
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*27, s+DAY_MILL*30).apply {
+                title = "헬스장"
+                type = 1
+                colorKey = c + Random().nextInt(10)
+            })
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*29, s+DAY_MILL*29).apply {
+                title = "대청소"
+                type = 1
+                colorKey = c + Random().nextInt(10)
+            })
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*10, s+DAY_MILL*10).apply {
+                title = "빨래하기"
+                isSetCheckBox = true
+                colorKey = c + Random().nextInt(10)
+            })
+            list.add(RecordManager.makeNewRecord(s+DAY_MILL*25, s+DAY_MILL*25).apply {
+                title = "택배받기"
+                isSetCheckBox = true
+                colorKey = c + Random().nextInt(10)
+            })
+            list.forEach {
+                //val f = formulas[Random().nextInt(formulas.size)]
+                val f = RecordCalendarAdapter.Formula.SINGLE_TEXT
+                //it.colorKey = 9 // 검정
+                //it.style = f.shapes[Random().nextInt(f.shapes.size)].ordinal * 100 + f.ordinal
+                it.style = f.shapes[0].ordinal * 100 + f.ordinal
+            }
+            RecordManager.save(list)
+            return@setOnLongClickListener true
+
  */

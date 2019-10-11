@@ -64,6 +64,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         bottomSheet.setOnClickListener { collapse() }
         templatePanel.setOnClickListener {}
+
         setOnTouchListener { _, motionEvent ->
             if(motionEvent.action == MotionEvent.ACTION_DOWN) {
                 if(MainActivity.isProfileOpened()) {

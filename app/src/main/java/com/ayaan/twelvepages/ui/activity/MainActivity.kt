@@ -24,12 +24,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
-import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
-import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
 import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RecordManager
-import com.ayaan.twelvepages.model.AppUser
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.CalendarSettingsDialog
@@ -38,7 +35,6 @@ import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
 import com.ayaan.twelvepages.ui.dialog.UndoneListDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.auth.FirebaseAuth
@@ -46,7 +42,6 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
 import com.pixplicity.easyprefs.library.Prefs
 import com.theartofdev.edmodo.cropper.CropImage
-import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
@@ -66,7 +61,6 @@ class MainActivity : BaseActivity() {
         fun getCalendarPager() = instance?.calendarPager
         fun getMainDateLy() = instance?.mainDateLy
         fun getMainYearText() = instance?.mainYearText
-        fun getProfileBtn() = instance?.profileBtn
         fun getTemplateView() = instance?.templateView
         fun getTargetTemplate() = getViewModel()?.targetTemplate?.value
         fun getTargetCalendarView() = getViewModel()?.targetCalendarView?.value
@@ -137,7 +131,8 @@ class MainActivity : BaseActivity() {
         mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainDateLy.pivotX = 0f
         mainDateLy.pivotY = dpToPx(25f)
-        mainPanel.setOnClickListener {}
+        headerBar.setOnClickListener {}
+        bottomBar.setOnClickListener {}
         callAfterViewDrawed(rootLy, Runnable{
             /*
             val rectangle = Rect()
@@ -197,98 +192,6 @@ class MainActivity : BaseActivity() {
             RecordManager.deleteAllRecord()
             return@setOnLongClickListener true
         }
-
-        mainYearText.setOnLongClickListener {
-            /*
-            AppTheme.thinFont = ResourcesCompat.getFont(this, R.font.thin_s)!!
-            AppTheme.regularFont = ResourcesCompat.getFont(this, R.font.regular_s)!!
-            AppTheme.boldFont = ResourcesCompat.getFont(this, R.font.bold_s)!!
-            initTheme(rootLy)
-            */
-            val realm = Realm.getDefaultInstance()
-            realm.executeTransaction{
-                realm.where(Folder::class.java).findAll()?.deleteAllFromRealm()
-            }
-            realm.close()
-            return@setOnLongClickListener true
-        }
-        mainMonthText.setOnLongClickListener {
-            val cal = Calendar.getInstance()
-            cal.set(2019, 8, 1)
-            var s = cal.timeInMillis
-            val list = ArrayList<Record>()
-            val c = 0
-            val formulas = arrayOf(SINGLE_TEXT, MULTI_TEXT, DOT)
-            list.add(RecordManager.makeNewRecord(s, s).apply {
-                title = "점심약속"
-                type = 1
-                colorKey = c + Random().nextInt(10)
-            })
-            list.add(RecordManager.makeNewRecord(s+DAY_MILL*2, s+DAY_MILL*3).apply {
-                title = "오후미팅"
-                type = 1
-                colorKey = c + Random().nextInt(10)
-            })
-            list.add(RecordManager.makeNewRecord(s+DAY_MILL*5, s+DAY_MILL*5).apply {
-                title = "치과"
-                type = 1
-                colorKey = c + Random().nextInt(10)
-            })
-            list.add(RecordManager.makeNewRecord(s, s+DAY_MILL*3).apply {
-                title = "회사 프로젝트"
-                type = 1
-                colorKey = c + Random().nextInt(10)
-            })
-            list.add(RecordManager.makeNewRecord(s+DAY_MILL*7, s+DAY_MILL*7).apply {
-                title = "친구생일"
-                type = 1
-                colorKey = c + Random().nextInt(10)
-            })
-            list.add(RecordManager.makeNewRecord(s+DAY_MILL*7, s+DAY_MILL*7).apply {
-                title = "선물사기"
-                type = 2
-                colorKey = c + Random().nextInt(10)
-            })
-            list.add(RecordManager.makeNewRecord(s+DAY_MILL*11, s+DAY_MILL*17).apply {
-                title = "점심약속"
-                type = 1
-                colorKey = c + Random().nextInt(10)
-            })
-            list.add(RecordManager.makeNewRecord(s+DAY_MILL*22, s+DAY_MILL*23).apply {
-                title = "오후미팅"
-                type = 1
-                colorKey = c + Random().nextInt(10)
-            })
-            list.add(RecordManager.makeNewRecord(s+DAY_MILL*27, s+DAY_MILL*30).apply {
-                title = "헬스장"
-                type = 1
-                colorKey = c + Random().nextInt(10)
-            })
-            list.add(RecordManager.makeNewRecord(s+DAY_MILL*29, s+DAY_MILL*29).apply {
-                title = "대청소"
-                type = 1
-                colorKey = c + Random().nextInt(10)
-            })
-            list.add(RecordManager.makeNewRecord(s+DAY_MILL*10, s+DAY_MILL*10).apply {
-                title = "빨래하기"
-                isSetCheckBox = true
-                colorKey = c + Random().nextInt(10)
-            })
-            list.add(RecordManager.makeNewRecord(s+DAY_MILL*25, s+DAY_MILL*25).apply {
-                title = "택배받기"
-                isSetCheckBox = true
-                colorKey = c + Random().nextInt(10)
-            })
-            list.forEach {
-                //val f = formulas[Random().nextInt(formulas.size)]
-                val f = RecordCalendarAdapter.Formula.SINGLE_TEXT
-                //it.colorKey = 9 // 검정
-                //it.style = f.shapes[Random().nextInt(f.shapes.size)].ordinal * 100 + f.ordinal
-                it.style = f.shapes[0].ordinal * 100 + f.ordinal
-            }
-            RecordManager.save(list)
-            return@setOnLongClickListener true
-        }
     }
 
     private fun initObserver() {
@@ -306,7 +209,7 @@ class MainActivity : BaseActivity() {
                 startActivity(Intent(this@MainActivity, RecordActivity::class.java))
             }
         })
-        viewModel.appUser.observe(this, Observer { appUser -> appUser?.let { updateUserUI(it) } })
+        viewModel.appUser.observe(this, Observer { appUser -> appUser?.let { profileView.updateUserUI(it) } })
         viewModel.templateList.observe(this, Observer { templateView.notifyListChanged() })
         viewModel.folderList.observe(this, Observer { list ->
             //folderAdapter.refresh(list)
@@ -393,8 +296,7 @@ class MainActivity : BaseActivity() {
                 it.leftMargin = dpToPx(10)
             }
             animSet.playTogether(ObjectAnimator.ofFloat(folderArrowImg, "rotation", 0f, 180f),
-                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", 0f, -dpToPx(13f)),
-                    ObjectAnimator.ofFloat(profileBtn, "translationX", 0f, tabSize.toFloat()))
+                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", 0f, -dpToPx(13f)))
         }else {
             (folderListView.layoutParams as FrameLayout.LayoutParams).leftMargin = -tabSize
             (contentLy.layoutParams as FrameLayout.LayoutParams).let {
@@ -406,8 +308,7 @@ class MainActivity : BaseActivity() {
                 it.leftMargin = -dpToPx(40)
             }
             animSet.playTogether(ObjectAnimator.ofFloat(folderArrowImg, "rotation", 180f, 0f),
-                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", -dpToPx(13f), 0f),
-                    ObjectAnimator.ofFloat(profileBtn, "translationX", tabSize.toFloat(), 0f))
+                    ObjectAnimator.ofFloat(folderArrowImg, "translationX", -dpToPx(13f), 0f))
         }
         animSet.start()
         mainPanel.requestLayout()
@@ -433,22 +334,6 @@ class MainActivity : BaseActivity() {
         calendarPager.selectDate(viewModel.targetTime.value ?: System.currentTimeMillis())
         if(dayPager.isOpened()){
             dayPager.notifyDateChanged()
-        }
-    }
-
-    private fun updateUserUI(appUser: AppUser) {
-        l("[프로필 갱신]")
-        updateProfileImage()
-        profileView.updateUserUI(appUser)
-    }
-
-    private fun updateProfileImage() {
-        when {
-            FirebaseAuth.getInstance().currentUser?.photoUrl != null ->
-                Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl)
-                    .apply(RequestOptions().override(dpToPx(150)))
-                    .into(profileImg)
-            else -> profileImg.setImageResource(R.drawable.profile)
         }
     }
 
@@ -543,7 +428,7 @@ class MainActivity : BaseActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
-            RC_PRFOFILE_IMAGE -> {
+            RC_PROFILE_IMAGE -> {
                 permissions.indices
                         .filter { permissions[it] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[it] == PackageManager.PERMISSION_GRANTED }
                         .forEach { _ -> showPhotoPicker(requestCode) }
@@ -578,7 +463,7 @@ class MainActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_PRFOFILE_IMAGE && resultCode == RESULT_OK) {
+        if (requestCode == RC_PROFILE_IMAGE && resultCode == RESULT_OK) {
             data?.let { CropImage.activity(data.data).setAspectRatio(1, 1).start(this) }
         }else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
@@ -606,7 +491,7 @@ class MainActivity : BaseActivity() {
                                         user?.updateProfile(profileUpdates)
                                                 ?.addOnCompleteListener { task ->
                                                     if (task.isSuccessful) {
-                                                        updateProfileImage()
+                                                        profileView.updateUserUI(viewModel.appUser.value!!)
                                                     }
                                                     hideProgressDialog()
                                                 }

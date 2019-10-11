@@ -74,6 +74,7 @@ class NoteView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_note, this, true)
         setBackgroundColor(AppTheme.background)
+        setGlobalTheme(rootLy)
         recyclerView.layoutManager = LinearLayoutManager(context)
         //recyclerView.layoutManager = GridLayoutManager(context, 2)
         recyclerView.adapter = adapter

@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
 import com.ayaan.twelvepages.*
 import kotlinx.android.synthetic.main.activity_about_us.*
@@ -59,17 +60,17 @@ class AboutUsActivity : BaseActivity() {
             startActivity(intent)
         }
 
+        aboutUsText.typeface = ResourcesCompat.getFont(this, R.font.regular_s)
         aboutUsText.text = when(Locale.getDefault().language) {
             "ko" -> {
                 """이제는 기억나지 않는
 마음을 울렸던
-어느 책의 한 구절 처럼,
+어느 책의 한 구절 처럼
 
 기록하지 않아 사라진 것들에 대한
-아쉬움을 담아..
+아쉬움을 담아
 
-즐겁게 기록하고
-성장할 수 있는
+흘러가는 일상을 기록하는
 다이어리를 만듭니다.
                     """
             }

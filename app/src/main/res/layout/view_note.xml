@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginTop="0dp"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="15dp"
             android:animateLayoutChanges="true"
             android:clipChildren="false">
 
@@ -27,7 +27,7 @@
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/primaryText"
                 android:fontFamily="@font/bold"
-                android:textSize="18dp"/>
+                android:textSize="20dp"/>
 
         </LinearLayout>
 

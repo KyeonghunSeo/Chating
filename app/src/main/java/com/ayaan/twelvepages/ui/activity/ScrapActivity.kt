@@ -147,7 +147,9 @@ class ScrapActivity : Activity() {
                 return@let
             }
         }else {
-            timeObject.description = text
+            if(!subject.isNullOrEmpty()) {
+                timeObject.description = text
+            }
         }
         return timeObject
     }

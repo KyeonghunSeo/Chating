@@ -9,16 +9,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import androidx.cardview.widget.CardView
+import androidx.core.content.res.ResourcesCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.transition.*
 import com.google.firebase.auth.FirebaseAuth
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.AppUser
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.model.Tag
@@ -27,6 +24,8 @@ import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.activity.PremiumActivity
 import com.ayaan.twelvepages.ui.activity.SettingsActivity
 import com.ayaan.twelvepages.ui.dialog.InputDialog
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import io.realm.Realm
 import io.realm.Sort
 import kotlinx.android.synthetic.main.view_profile.view.*
@@ -38,19 +37,15 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private val scale = 0.7f
     private val animDur = 300L
-    private val profileCloseMargin = dpToPx(13)
-    private val profileOpenTopMargin = dpToPx(70)
-    private val profileOpenLeftMargin = dpToPx(22)
-    private val profileCardRadius = dpToPx(12f)
     private val zOffset = dpToPx(30f)
     private val panelOffset = dpToPx(200f)
-    private val profileViewScale = 2.5f
     var viewMode = ViewMode.CLOSED
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_profile, this, true).let {
             setBackgroundColor(AppTheme.background)
         }
+
         mottoText.setOnClickListener {
             showDialog(InputDialog(context as Activity,
                     R.drawable.note,
@@ -59,6 +54,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 if(result) { MainActivity.getViewModel()?.saveMotto(text) }
             }, true, true, true, false)
         }
+        profileImg.setOnClickListener { MainActivity.instance?.checkExternalStoragePermission(RC_PROFILE_IMAGE) }
         searchBtn.setOnClickListener { MainActivity.instance?.showSearchView() }
         settingsBtn.setOnClickListener { MainActivity.instance?.let {
             it.startActivityForResult(Intent(it, SettingsActivity::class.java), RC_SETTING) } }
@@ -68,9 +64,18 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     fun updateUserUI(appUser: AppUser) {
         l("[프로필 뷰 갱신]" + appUser.id)
+        when {
+            FirebaseAuth.getInstance().currentUser?.photoUrl != null ->
+                Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl)
+                        .apply(RequestOptions().override(dpToPx(150)))
+                        .into(profileImg)
+            else -> profileImg.setImageResource(R.drawable.profile)
+        }
+
         nameText.text = FirebaseAuth.getInstance().currentUser?.displayName
         emailText.text = FirebaseAuth.getInstance().currentUser?.email
         if(appUser.motto?.isNotBlank() == true) {
+            mottoText.typeface = ResourcesCompat.getFont(context, R.font.regular_s)
             mottoText.text = appUser.motto
         }
     }
@@ -129,81 +134,34 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     fun show() {
         vibrate(context)
         startAnalytics()
-        MainActivity.getProfileBtn()?.let { profileBtn ->
-            val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
-            profileBtn.setOnClickListener{ MainActivity.instance?.checkExternalStoragePermission(RC_PRFOFILE_IMAGE) }
-            profileBtn.pivotX = 0f
-            profileBtn.pivotY = 0f
-            val transiion = makeChangeBounceTransition()
-            transiion.duration = animDur
-            transiion.setPathMotion(ArcMotion())
-            transiion.addListener(object : TransitionListenerAdapter(){
-                override fun onTransitionStart(transition: Transition) {
-                    val animSet = AnimatorSet()
-                    val animList = ArrayList<Animator>()
-                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX",  profileBtn.scaleX, profileViewScale))
-                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY",  profileBtn.scaleY, profileViewScale))
-                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, dpToPx(25f)))
-                    MainActivity.getMainPanel()?.let {
-                        animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, scale))
-                        animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))
-                        animList.add(ObjectAnimator.ofFloat(it, "translationX", 0f, panelOffset))
-                        animList.add(ObjectAnimator.ofFloat(it, "radius", 0f, dpToPx(6f)))
-                    }
-                    animSet.playTogether(animList)
-                    animSet.duration = animDur
-                    animSet.interpolator = FastOutSlowInInterpolator()
-                    animSet.start()
-                }
-            })
-            TransitionManager.beginDelayedTransition(profileBtn, transiion)
-            (profileBtn.layoutParams as LayoutParams).let {
-                it.topMargin = profileOpenTopMargin
-                it.leftMargin = profileOpenLeftMargin
-            }
-            (profileCard.layoutParams as LayoutParams).setMargins(0, 0, 0, 0)
-            profileBtn.requestLayout()
-            profileCard.requestLayout()
-            requestLayout()
+        val animSet = AnimatorSet()
+        val animList = ArrayList<Animator>()
+        MainActivity.getMainPanel()?.let {
+            animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, scale))
+            animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))
+            animList.add(ObjectAnimator.ofFloat(it, "translationX", 0f, panelOffset))
+            animList.add(ObjectAnimator.ofFloat(it, "radius", 0f, dpToPx(6f)))
         }
+        animSet.playTogether(animList)
+        animSet.duration = animDur
+        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.start()
         viewMode = ViewMode.OPENED
     }
 
     fun hide() {
-        MainActivity.getProfileBtn()?.let { profileBtn ->
-            val profileCard = profileBtn.findViewById<CardView>(R.id.profileCard)
-            profileBtn.setOnClickListener { show() }
-            val transiion = makeChangeBounceTransition()
-            transiion.duration = animDur
-            transiion.setPathMotion(ArcMotion())
-            transiion.addListener(object : TransitionListenerAdapter(){
-                override fun onTransitionStart(transition: Transition) {
-                    val animSet = AnimatorSet()
-                    val animList = ArrayList<Animator>()
-                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleX", profileBtn.scaleX, 1f))
-                    animList.add(ObjectAnimator.ofFloat(profileBtn, "scaleY", profileBtn.scaleY, 1f))
-                    animList.add(ObjectAnimator.ofFloat(profileCard, "radius", profileCard.radius, profileCardRadius))
-                    MainActivity.getMainPanel()?.let {
-                        animList.add(ObjectAnimator.ofFloat(it, "scaleX", it.scaleX, 1f))
-                        animList.add(ObjectAnimator.ofFloat(it, "scaleY", it.scaleY, 1f))
-                        animList.add(ObjectAnimator.ofFloat(it, "translationX", it.translationX, 0f))
-                        animList.add(ObjectAnimator.ofFloat(it, "radius", zOffset, 0f))
-                    }
-                    animSet.playTogether(animList)
-                    animSet.duration = animDur
-                    animSet.interpolator = FastOutSlowInInterpolator()
-                    animSet.start()
-                }
-            })
-            TransitionManager.beginDelayedTransition(profileBtn, transiion)
-            (profileBtn.layoutParams as LayoutParams).let {
-                it.topMargin = 0
-                it.leftMargin = dpToPx(1)
-            }
-            (profileCard.layoutParams as LayoutParams).setMargins(profileCloseMargin, profileCloseMargin, profileCloseMargin, profileCloseMargin)
-            profileCard.requestLayout()
-            requestLayout()
+        val animSet = AnimatorSet()
+        val animList = ArrayList<Animator>()
+        MainActivity.getMainPanel()?.let {
+            animList.add(ObjectAnimator.ofFloat(it, "scaleX", it.scaleX, 1f))
+            animList.add(ObjectAnimator.ofFloat(it, "scaleY", it.scaleY, 1f))
+            animList.add(ObjectAnimator.ofFloat(it, "translationX", it.translationX, 0f))
+            animList.add(ObjectAnimator.ofFloat(it, "radius", zOffset, 0f))
         }
+        animSet.playTogether(animList)
+        animSet.duration = animDur
+        animSet.interpolator = FastOutSlowInInterpolator()
+        animSet.start()
         viewMode = ViewMode.CLOSED
     }
 
