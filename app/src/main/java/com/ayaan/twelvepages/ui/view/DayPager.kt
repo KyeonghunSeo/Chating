@@ -99,7 +99,6 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             if(dayView.parent == null) container.addView(dayView)
             return dayView
         }
-
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {}
         override fun isViewFromObject(view: View, `object`: Any): Boolean = view == `object`
         override fun getCount() = 2000
