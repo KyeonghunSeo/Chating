@@ -16,9 +16,8 @@
     <LinearLayout
         android:id="@+id/contentLy"
         android:orientation="vertical"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="right"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:elevation="10dp"
         android:background="@color/background">
 

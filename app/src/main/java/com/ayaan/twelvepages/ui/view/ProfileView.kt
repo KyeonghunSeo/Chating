@@ -55,7 +55,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             }, true, true, true, false)
         }
         profileImg.setOnClickListener { MainActivity.instance?.checkExternalStoragePermission(RC_PROFILE_IMAGE) }
-        searchBtn.setOnClickListener { MainActivity.instance?.showSearchView() }
         settingsBtn.setOnClickListener { MainActivity.instance?.let {
             it.startActivityForResult(Intent(it, SettingsActivity::class.java), RC_SETTING) } }
         premiumTag.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, PremiumActivity::class.java)) } }

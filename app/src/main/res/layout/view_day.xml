@@ -73,7 +73,7 @@
         android:layout_marginTop="32dp"
         android:translationX="-3dp"
         android:scaleType="fitXY"
-        android:tint="@color/light_line"
+        android:tint="@color/disableText"
         android:src="@drawable/align_left"/>
 
 </FrameLayout>

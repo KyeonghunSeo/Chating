@@ -194,15 +194,6 @@
             android:src="@drawable/setting"
             android:tint="@color/primaryText"/>
 
-        <ImageView
-            android:id="@+id/searchBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="15dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/search"
-            android:tint="@color/primaryText"/>
-
     </LinearLayout>
 
     <TextView

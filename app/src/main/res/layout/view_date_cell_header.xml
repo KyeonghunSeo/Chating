@@ -45,33 +45,16 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <TextView
+            android:id="@+id/holiText"
             android:layout_width="wrap_content"
-            android:layout_height="10dp">
-
-            <TextView
-                android:id="@+id/fakeDateText"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:layout_marginRight="2dp"
-                android:textSize="11dp"
-                android:textColor="@color/transparent"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/holiText"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="2dp"
-                android:gravity="center_vertical"
-                android:textSize="8dp"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:textColor="@color/primaryText"/>
-
-        </LinearLayout>
+            android:layout_height="10dp"
+            android:layout_marginRight="2dp"
+            android:gravity="center_vertical"
+            android:textSize="8dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textColor="@color/primaryText"/>
 
     </LinearLayout>
 

@@ -60,7 +60,7 @@ class MainActivity : BaseActivity() {
         fun getCalendarLy() = instance?.calendarLy
         fun getCalendarPager() = instance?.calendarPager
         fun getMainDateLy() = instance?.mainDateLy
-        fun getMainYearText() = instance?.mainYearText
+        fun getFakeDateText() = instance?.fakeDateText
         fun getTemplateView() = instance?.templateView
         fun getTargetTemplate() = getViewModel()?.targetTemplate?.value
         fun getTargetCalendarView() = getViewModel()?.targetCalendarView?.value
@@ -181,6 +181,8 @@ class MainActivity : BaseActivity() {
                 profileView.show()
             }
         }
+
+        searchBtn.setOnClickListener { showSearchView() }
 
         mainDateLy.setOnClickListener {
             showDialog(DatePickerDialog(this, viewModel.targetTime.value!!) {
@@ -340,7 +342,7 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            mainYearText.visibility = View.GONE
+            fakeDateText.text = it.get(Calendar.DATE).toString()
             if(it.get(Calendar.YEAR) == getCurrentYear()) {
                 mainMonthText.text = AppDateFormat.month.format(it.time)
             }else {

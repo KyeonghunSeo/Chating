@@ -241,7 +241,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         init {
             v.clipChildren = false
-            v.bar.pivotY = 0f
         }
 
         fun setDate(cal : Calendar) {

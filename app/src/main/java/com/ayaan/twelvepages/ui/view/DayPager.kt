@@ -47,7 +47,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     init {
         setCardBackgroundColor(CalendarManager.backgroundColor)
         elevation = 0f
-        radius = dpToPx(3f)
+        radius = dpToPx(8f)
         addView(viewPager)
         viewPager.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         viewPager.adapter = CalendarPagerAdapter()
@@ -180,7 +180,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                         it.height = MATCH_PARENT
                         it.setMargins(0, 0, 0, 0)
                     }
-                    targetDayView.getDateLy().fakeDateText.visibility = View.VISIBLE
+                    MainActivity.getFakeDateText()?.visibility = View.VISIBLE
                     requestLayout()
                 }
             })
@@ -229,7 +229,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 val yPos = location[1] - AppStatus.statusBarHeight
                 it.setMargins(xPos, yPos, 0, 0)
             }
-            targetDayView.getDateLy().fakeDateText.visibility = View.GONE
+            MainActivity.getFakeDateText()?.visibility = View.GONE
             requestLayout()
         }
     }

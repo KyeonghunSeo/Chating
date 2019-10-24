@@ -145,7 +145,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         visibility = View.VISIBLE
         val animSet = AnimatorSet()
         animSet.playTogether(ObjectAnimator.ofFloat(contentLy, "elevation", 0f, dpToPx(10f)))
-        animSet.duration = 150
+        animSet.duration = 50
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(p0: Animator?) {
@@ -166,7 +166,6 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
                 backgroundLy.visibility = View.VISIBLE
                 backgroundLy.setOnClickListener { hide() }
                 (contentLy.layoutParams as LayoutParams).let {
-                    it.width = MATCH_PARENT
                     it.height = WRAP_CONTENT
                     it.setMargins(0, 0, 0, 0)
                 }
@@ -192,7 +191,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             override fun onTransitionEnd(transition: Transition) {
                 val animSet = AnimatorSet()
                 animSet.playTogether(ObjectAnimator.ofFloat(contentLy, "elevation", 10f, dpToPx(0f)))
-                animSet.duration = 150
+                animSet.duration = 50
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(p0: Animator?) {
@@ -206,8 +205,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         backgroundLy.visibility = View.GONE
         backgroundLy.setOnClickListener(null)
         (contentLy.layoutParams as LayoutParams).let {
-            it.width = dpToPx(50)
-            it.height = dpToPx(50)
+            it.height = 0
             it.setMargins(0, 0, 0, 0)
         }
         contentLy.requestLayout()
