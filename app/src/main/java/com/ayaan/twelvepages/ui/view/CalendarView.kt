@@ -487,7 +487,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 view.isFocusable = true
                 view.postDelayed({
                     view.isSelected = true
-                }, 1000)
+                }, 200)
             }
         }
     }

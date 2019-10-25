@@ -59,7 +59,7 @@ class MainActivity : BaseActivity() {
         fun getMainPanel() = instance?.mainPanel
         fun getCalendarLy() = instance?.calendarLy
         fun getCalendarPager() = instance?.calendarPager
-        fun getMainDateLy() = instance?.mainDateLy
+        fun getMainMonthText() = instance?.mainMonthText
         fun getFakeDateText() = instance?.fakeDateText
         fun getTemplateView() = instance?.templateView
         fun getTargetTemplate() = getViewModel()?.targetTemplate?.value
@@ -129,8 +129,7 @@ class MainActivity : BaseActivity() {
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
         mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        mainDateLy.pivotX = 0f
-        mainDateLy.pivotY = dpToPx(25f)
+        mainMonthText.pivotY = dpToPx(190f)
         headerBar.setOnClickListener {}
         bottomBar.setOnClickListener {}
         callAfterViewDrawed(rootLy, Runnable{
