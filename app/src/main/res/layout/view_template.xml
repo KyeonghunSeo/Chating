@@ -8,15 +8,15 @@
 
     <FrameLayout
         android:layout_width="160dp"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_gravity="bottom|center_horizontal">
 
         <androidx.cardview.widget.CardView
             android:layout_width="150dp"
-            android:layout_height="16dp"
+            android:layout_height="18dp"
             android:layout_gravity="center"
             app:cardBackgroundColor="@color/light_line"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="9dp"
             app:cardElevation="0dp">
 
             <LinearLayout
@@ -53,9 +53,9 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/addBtn"
                     android:layout_width="75dp"
-                    android:layout_height="16dp"
+                    android:layout_height="18dp"
                     app:cardBackgroundColor="@color/secondaryText"
-                    app:cardCornerRadius="8dp"
+                    app:cardCornerRadius="9dp"
                     app:cardElevation="0dp">
 
                     <ImageView
@@ -98,7 +98,7 @@
     <com.ayaan.twelvepages.ui.view.base.Line
         android:layout_width="match_parent"
         android:layout_height="1.0dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="45dp"
         android:layout_gravity="bottom"
         app:colorFlag="light_line"/>
 

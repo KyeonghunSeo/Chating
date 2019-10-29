@@ -34,7 +34,7 @@
             android:id="@+id/contentLy"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="40dp">
+            android:layout_marginBottom="45dp">
 
             <FrameLayout
                 android:id="@+id/calendarLy"
@@ -66,7 +66,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="20dp"
-                            android:textSize="77dp"
+                            android:textSize="66dp"
                             android:textColor="@color/transparent"
                             android:visibility="gone"/>
 
@@ -274,25 +274,26 @@
         <FrameLayout
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:layout_gravity="bottom">
 
             <ImageView
                 android:id="@+id/profileBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_marginLeft="5dp"
-                android:padding="11dp"
+                android:padding="12dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/menu"
                 android:tint="@color/secondaryText"/>
 
             <ImageView
                 android:id="@+id/searchBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_gravity="right"
-                android:padding="11dp"
+                android:layout_marginRight="5dp"
+                android:padding="12dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/search"
                 android:tint="@color/secondaryText"/>

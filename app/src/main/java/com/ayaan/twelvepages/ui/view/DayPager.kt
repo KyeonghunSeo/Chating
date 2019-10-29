@@ -9,13 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.OvershootInterpolator
-import android.widget.LinearLayout.HORIZONTAL
-import android.widget.LinearLayout.VERTICAL
 import androidx.cardview.widget.CardView
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
@@ -25,7 +19,6 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.view.base.PagingControlableViewPager
-import kotlinx.android.synthetic.main.view_date_cell_header.view.*
 import java.util.*
 
 
@@ -47,7 +40,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     init {
         setCardBackgroundColor(CalendarManager.backgroundColor)
         elevation = 0f
-        radius = dpToPx(8f)
+        radius = dpToPx(4f)
         addView(viewPager)
         viewPager.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         viewPager.adapter = CalendarPagerAdapter()

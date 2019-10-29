@@ -88,7 +88,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         var sPadding = defaultPadding
         var textPadding = 0
         shape = record.getShape()
-        setTypeface(AppTheme.regularFont, Typeface.NORMAL)
+        //setTypeface(AppTheme.regularFont, Typeface.NORMAL)
+        setTypeface(AppTheme.boldFont, Typeface.BOLD)
         when(formula) {
             SINGLE_TEXT, BOTTOM_SINGLE_TEXT -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
@@ -611,8 +612,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     private fun drawDatePoint(canvas: Canvas) {
         val size = datePointSize
-        var top = 0
-        var left = 0
+        var top = (baseSize * 2).toInt()
+        var left = -(baseSize * 4).toInt()
         childList?.forEach { child ->
             val sticker = child.getSticker()
             val circle = resource.getDrawable(sticker?.resId ?: R.drawable.help, null)

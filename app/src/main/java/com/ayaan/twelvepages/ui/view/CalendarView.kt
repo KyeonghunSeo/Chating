@@ -241,6 +241,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         init {
             v.clipChildren = false
+            v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            v.holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
         }
 
         fun setDate(cal : Calendar) {
@@ -260,8 +263,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             targetDateHolder?.unTarget()
             targetDateHolder = this
             //v.dateText.typeface = AppTheme.regularFont
-            v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-            v.holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            //v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            //v.holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.text = dateInfo.getSelectedString()
 
             color = getDateTextColor(cellNum, dateInfo.holiday?.isHoli == true, true)
@@ -329,14 +332,14 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             v.dateText.setTextColor(color)
             v.holiText.setTextColor(color)
             v.dowText.setTextColor(color)
-            v.dateText.typeface = AppTheme.regularFont
-            v.holiText.typeface = AppTheme.regularFont
+            //v.dateText.typeface = AppTheme.regularFont
+            //v.holiText.typeface = AppTheme.regularFont
             v.holiText.alpha = 1f
             v.holiText.translationX = 0f
             v.dowText.alpha = 1f
             v.dowText.translationX = 0f
-            v.dowText.visibility = View.GONE
             v.holiText.text = dateInfo.getUnSelectedString()
+            v.dowText.visibility = View.GONE
         }
 
         fun getDowText(): String = v.dowText?.text?.toString()?:""

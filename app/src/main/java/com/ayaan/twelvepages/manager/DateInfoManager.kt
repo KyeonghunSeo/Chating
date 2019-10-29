@@ -24,23 +24,12 @@ object DateInfoManager {
     class DateInfo(var holiday: Holiday? = null, var diffDate: Int = 0, var lunar: String = "") {
         fun getSelectedString(): String {
             val result = StringBuilder()
-            when (diffDate) {
-                0 -> result.append(todayString)
-                1 -> result.append(tomorrowString)
-                -1 -> result.append(yesterdayString)
-                else -> {
-                    when{
-                        diffDate > 0 -> result.append(String.format(App.resource.getString(R.string.date_after), Math.abs(diffDate)))
-                        diffDate < 0 -> result.append(String.format(App.resource.getString(R.string.date_before), Math.abs(diffDate)))
-                    }
-                }
-            }
             holiday?.title?.let {
-                if (result.isNotEmpty()) result.append(" ")
+                if (result.isNotEmpty()) result.append(" · ")
                 result.append(it)
             }
             if(lunar.isNotEmpty()) {
-                if (result.isNotEmpty()) result.append(" ")
+                if (result.isNotEmpty()) result.append(" · ")
                 result.append(lunar)
             }
             return result.toString()
@@ -48,14 +37,26 @@ object DateInfoManager {
 
         fun getUnSelectedString(): String {
             val result = StringBuilder()
-            if(diffDate == 0) {
-                result.append(todayString)
-            }
             holiday?.title?.let {
-                if (result.isNotEmpty()) result.append(" ")
+                if (result.isNotEmpty()) result.append(" · ")
                 result.append(it)
             }
             return result.toString()
+        }
+
+        fun getDiffDateString() : String {
+            return when (diffDate) {
+                0 -> todayString
+                1 -> tomorrowString
+                -1 -> yesterdayString
+                else -> {
+                    when{
+                        diffDate > 0 -> String.format(App.resource.getString(R.string.date_after), Math.abs(diffDate))
+                        diffDate < 0 -> String.format(App.resource.getString(R.string.date_before), Math.abs(diffDate))
+                        else -> todayString
+                    }
+                }
+            }
         }
     }
 

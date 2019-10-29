@@ -2,6 +2,7 @@ package com.ayaan.twelvepages.ui.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Handler
 import android.os.Message
 import android.util.AttributeSet
@@ -61,7 +62,6 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
 
         dowTexts = arrayOf(headerView.dowText0, headerView.dowText1, headerView.dowText2, headerView.dowText3,
                 headerView.dowText4, headerView.dowText5, headerView.dowText6)
-        headerView.setBackgroundColor(AppTheme.background)
         addView(headerView)
         setDayOfWeek()
         /*
@@ -112,6 +112,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
                     textView.typeface = AppTheme.thinFont
                 }
                 */
+                textView.setTypeface(AppTheme.boldFont, Typeface.BOLD)
                 textView.setTextColor(when (index) {
                     calendarView.sundayPos -> CalendarManager.sundayColor
                     calendarView.saturdayPos -> CalendarManager.saturdayColor
