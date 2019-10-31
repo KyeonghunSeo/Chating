@@ -112,7 +112,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
                     textView.typeface = AppTheme.thinFont
                 }
                 */
-                textView.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+                textView.typeface = CalendarManager.dateFont
                 textView.setTextColor(when (index) {
                     calendarView.sundayPos -> CalendarManager.sundayColor
                     calendarView.saturdayPos -> CalendarManager.saturdayColor

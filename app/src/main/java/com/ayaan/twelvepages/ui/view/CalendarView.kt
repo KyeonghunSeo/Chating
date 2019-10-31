@@ -241,9 +241,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         init {
             v.clipChildren = false
-            v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-            v.dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-            v.holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            v.dateText.typeface = CalendarManager.dateFont
+            v.dowText.typeface = CalendarManager.dateFont
+            v.holiText.typeface = CalendarManager.dateFont
         }
 
         fun setDate(cal : Calendar) {

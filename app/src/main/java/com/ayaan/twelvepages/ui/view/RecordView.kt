@@ -88,8 +88,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         var sPadding = defaultPadding
         var textPadding = 0
         shape = record.getShape()
-        //setTypeface(AppTheme.regularFont, Typeface.NORMAL)
-        setTypeface(AppTheme.boldFont, Typeface.BOLD)
+        setTypeface(AppTheme.regularFont, Typeface.NORMAL)
+        //setTypeface(AppTheme.boldFont, Typeface.BOLD)
         when(formula) {
             SINGLE_TEXT, BOTTOM_SINGLE_TEXT -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)

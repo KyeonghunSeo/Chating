@@ -134,10 +134,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         setGlobalTheme(rootLy)
         initRecyclerView()
         clipChildren = false
-        dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-        //dateText.typeface = AppTheme.regularFont
-        dowText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-        holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
         dateLy.clipChildren = false
         dateLy.pivotX = 0f
         dateLy.pivotY = 0f
