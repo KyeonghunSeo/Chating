@@ -65,7 +65,7 @@
                             android:id="@+id/fakeDateText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="20dp"
+                            android:layout_marginRight="10dp"
                             android:textSize="66dp"
                             android:textColor="@color/transparent"
                             android:visibility="gone"/>
@@ -177,12 +177,16 @@
                     android:elevation="10dp"
                     android:layout_gravity="center_horizontal|bottom">
 
-                    <FrameLayout
+                    <androidx.cardview.widget.CardView
                         android:id="@+id/todayCard"
                         android:layout_width="wrap_content"
-                        android:layout_height="20dp"
+                        android:layout_height="18dp"
                         android:layout_margin="10dp"
-                        android:foreground="?android:attr/selectableItemBackground">
+                        android:alpha="0"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardElevation="0dp"
+                        app:cardCornerRadius="9dp"
+                        app:cardBackgroundColor="@color/secondaryText">
 
                         <LinearLayout
                             android:id="@+id/todayContentLy"
@@ -190,7 +194,6 @@
                             android:orientation="horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:alpha="0"
                             android:layout_marginRight="8dp"
                             android:layout_marginLeft="8dp">
 
@@ -199,18 +202,17 @@
                                 android:layout_width="12dp"
                                 android:layout_height="12dp"
                                 android:layout_marginRight="3dp"
-                                android:src="@drawable/arrow_fill_left"
-                                android:tint="@color/primaryText"
+                                android:src="@drawable/arrow_left"
+                                android:tint="@color/background"
                                 android:layout_gravity="center_vertical" />
 
                             <TextView
                                 android:id="@+id/todayText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="10dp"
-                                android:textColor="@color/primaryText"
+                                android:textSize="9dp"
+                                android:textColor="@color/background"
                                 android:layout_gravity="center_vertical"
-                                android:fontFamily="@font/bold"
                                 android:text="@string/today"/>
 
                             <ImageView
@@ -219,12 +221,12 @@
                                 android:layout_height="12dp"
                                 android:layout_marginLeft="3dp"
                                 android:src="@drawable/arrow_fill_right"
-                                android:tint="@color/primaryText"
+                                android:tint="@color/background"
                                 android:layout_gravity="center_vertical|right" />
 
                         </LinearLayout>
 
-                    </FrameLayout>
+                    </androidx.cardview.widget.CardView>
 
                 </FrameLayout>
 

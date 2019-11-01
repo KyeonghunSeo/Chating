@@ -40,7 +40,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     init {
         setCardBackgroundColor(CalendarManager.backgroundColor)
         elevation = 0f
-        radius = dpToPx(4f)
+        radius = dpToPx(0f)
         addView(viewPager)
         viewPager.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         viewPager.adapter = CalendarPagerAdapter()

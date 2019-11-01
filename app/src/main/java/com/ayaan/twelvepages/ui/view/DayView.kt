@@ -141,7 +141,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.pivotY = 0f
         holiText.pivotX = 0f
         holiText.pivotY = 0f
+        (diffText.layoutParams as LayoutParams).gravity = Gravity.NO_GRAVITY
         (dateLy.layoutParams as LayoutParams).gravity = Gravity.NO_GRAVITY
+        dowText.layoutParams.height = dpToPx(28)
         topShadow.visibility = View.GONE
         dateText.setBackgroundResource(AppTheme.selectableItemBackground)
         dateText.setOnClickListener {
@@ -274,13 +276,17 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dateText.setTextColor(color)
         dowText.setTextColor(AppTheme.primaryText)
         holiText.setTextColor(color)
+        diffText.setTextColor(color)
         holiText.text = dateInfo.getSelectedString()
-        dowText.text = "${AppDateFormat.dow.format(targetCal.time)}, ${dateInfo.getSelectedString()}"
+        diffText.text = dateInfo.getDiffDateString()
+        diffText.translationX = MainActivity.getTargetCalendarView()?.targetDateHolder?.getDiffTextLeft()?.toFloat()?:0f
+        dowText.text = "${AppDateFormat.dow.format(targetCal.time)} · ${dateInfo.getDiffDateString()}\n${dateInfo.getSelectedString()}"
     }
 
     @SuppressLint("SetTextI18n")
     fun show(dataSize: Int) {
-        dowText.text = "${AppDateFormat.dow.format(targetCal.time)}, ${dateInfo.getSelectedString()}"
+        dowText.text = "${AppDateFormat.dow.format(targetCal.time)} · ${dateInfo.getDiffDateString()}\n${dateInfo.getSelectedString()}"
+        diffText.translationX = MainActivity.getTargetCalendarView()?.targetDateHolder?.getDiffTextLeft()?.toFloat()?:0f
         val animSet = AnimatorSet()
         animSet.playTogether(
                 ObjectAnimator.ofFloat(bar, "alpha", 1f, 0f),
@@ -300,8 +306,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY),
                 ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "scaleX", 1f, mainMonthTextScale),
                 ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "scaleY", 1f, mainMonthTextScale),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "translationY", 1f, mainMonthTextY),
                 ObjectAnimator.ofFloat(dowText, "alpha", 0f, 1f),
-                ObjectAnimator.ofFloat(holiText, "alpha", 1f, 0f))
+                ObjectAnimator.ofFloat(holiText, "alpha", 1f, 0f),
+                ObjectAnimator.ofFloat(diffText, "alpha", 1f, 0f))
         animSet.duration = 250L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
@@ -309,6 +317,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun hide(dataSize: Int) {
         contentLy.visibility = View.GONE
+        diffText.translationX = MainActivity.getTargetCalendarView()?.targetDateHolder?.getDiffTextLeft()?.toFloat()?:0f
         val animSet = AnimatorSet()
         animSet.playTogether(
                 ObjectAnimator.ofFloat(bar, "alpha", 0f, 1f),
@@ -328,8 +337,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(holiText, "translationY", holiPosY, 0f),
                 ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "scaleX", mainMonthTextScale, 1f),
                 ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "scaleY", mainMonthTextScale, 1f),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "translationY", mainMonthTextY, 0f),
                 ObjectAnimator.ofFloat(dowText, "alpha", 1f, 0f),
-                ObjectAnimator.ofFloat(holiText, "alpha", 0f, 1f))
+                ObjectAnimator.ofFloat(holiText, "alpha", 0f, 1f),
+                ObjectAnimator.ofFloat(diffText, "alpha", 0f, 1f))
         animSet.duration = 250L
         animSet.interpolator = FastOutSlowInInterpolator()
         animSet.start()
@@ -346,6 +357,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.scaleY = holiScale
         holiText.scaleX = holiScale
         holiText.alpha = 0f
+        diffText.alpha = 0f
         dateLy.translationX = datePosX
         dateLy.translationY = datePosY
         dowText.translationX = dowPosX
@@ -353,8 +365,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.translationX = holiPosX
         holiText.translationY = holiPosY
         MainActivity.getMainMonthText()?.let {
-            it.scaleX = mainMonthTextScale
-            it.scaleY = mainMonthTextScale
         }
         previewDataImg.alpha = 0f
         previewDataImg.translationY = dpToPx(120f)
@@ -371,6 +381,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.scaleY = 1f
         holiText.scaleX = 1f
         holiText.alpha = 1f
+        diffText.alpha = 1f
         dateLy.translationX = 0f
         dateLy.translationY = 0f
         dowText.translationX = 0f
@@ -378,8 +389,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.translationX = 0f
         holiText.translationY = 0f
         MainActivity.getMainMonthText()?.let {
-            it.scaleX = 1f
-            it.scaleY = 1f
         }
         previewDataImg.alpha = 0f
         previewDataImg.translationY = 0f
@@ -447,19 +456,20 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     companion object {
         const val headerTextScale = 6.0f
-        const val mainMonthTextScale = 0.85f
+        const val mainMonthTextScale = 1.00f
+        val mainMonthTextY = dpToPx(7.5f)
 
         val datePosX = -dpToPx(4.0f)
-        val datePosY = -dpToPx(24.0f)
+        val datePosY = -dpToPx(20.0f)
 
-        val dowPosX = dpToPx(1.5f) / headerTextScale
-        val holiPosX = dpToPx(2.0f) / headerTextScale
+        val dowPosX = -dpToPx(2.0f) / headerTextScale
+        val holiPosX = dpToPx(0.0f) / headerTextScale
 
-        val subYPos = dpToPx(57.0f) / headerTextScale
+        val subYPos = dpToPx(28.0f) / headerTextScale
         val dowPosY = dpToPx(0.0f) / headerTextScale + subYPos
         val holiPosY = -dpToPx(0.0f) / headerTextScale + subYPos
 
-        val dowScale = 1.6f / headerTextScale
+        val dowScale = 2.1f / headerTextScale
         val holiScale = 1.75f / headerTextScale
     }
 

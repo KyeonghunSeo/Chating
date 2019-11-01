@@ -28,20 +28,18 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="8dp"
-                    android:textColor="@color/disableText"
+                    android:textSize="9dp"
+                    android:textColor="@color/secondaryText"
                     android:gravity="center"
-                    android:fontFamily="@font/bold"
                     android:text="@string/calendar"/>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="10dp"
-                    android:textColor="@color/disableText"
+                    android:textSize="9dp"
+                    android:textColor="@color/secondaryText"
                     android:gravity="center"
-                    android:fontFamily="@font/bold"
                     android:text="@string/keep"/>
 
             </LinearLayout>
@@ -97,7 +95,7 @@
 
     <com.ayaan.twelvepages.ui.view.base.Line
         android:layout_width="match_parent"
-        android:layout_height="1.0dp"
+        android:layout_height="0.0dp"
         android:layout_marginBottom="45dp"
         android:layout_gravity="bottom"
         app:colorFlag="light_line"/>

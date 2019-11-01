@@ -214,7 +214,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     inner class WeekInfoViewHolder(val container: View) {
         val weeknumText: TextView = container.findViewById(R.id.weeknumText)
         init {
-            weeknumText.setTextColor(AppTheme.lightLine)
+            weeknumText.setTextColor(AppTheme.disableText)
             weeknumText.setTypeface(AppTheme.boldFont, Typeface.BOLD_ITALIC)
             unTarget()
         }
@@ -244,6 +244,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             v.dateText.typeface = CalendarManager.dateFont
             v.dowText.typeface = CalendarManager.dateFont
             v.holiText.typeface = CalendarManager.dateFont
+            v.diffText.typeface = CalendarManager.dateFont
         }
 
         fun setDate(cal : Calendar) {
@@ -254,7 +255,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val alpha = if(isInMonth) 1f else AppStatus.outsideMonthAlpha
             v.dateLy.alpha = alpha
             v.dateText.text = String.format("%01d", tempCal.get(Calendar.DATE))
-            v.dowText.text = AppDateFormat.simpleDow.format(tempCal.time)
+            v.dowText.tag = AppDateFormat.simpleDow.format(tempCal.time)
             v.bar.scaleY = 0f
             initViews()
         }
@@ -266,11 +267,12 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             //v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             //v.holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.text = dateInfo.getSelectedString()
+            v.diffText.text = dateInfo.getDiffDateString()
 
             color = getDateTextColor(cellNum, dateInfo.holiday?.isHoli == true, true)
             v.dateText.setTextColor(color)
             v.holiText.setTextColor(color)
-            v.dowText.setTextColor(color)
+            v.diffText.setTextColor(color)
 
             val weekHolder = weekViewHolders[cellNum / columns]
             if(targetWeekHolder != weekHolder) {
@@ -288,10 +290,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 })
                 val anims = ArrayList<Animator>()
                 anims.add(ObjectAnimator.ofFloat(v.bar, "scaleY", v.bar.scaleY, 1f))
-                anims.add(ObjectAnimator.ofFloat(v.dowText, "alpha", 0f, 1f))
-                anims.add(ObjectAnimator.ofFloat(v.dowText, "translationX", -autoScrollOffset.toFloat(), 1f))
                 anims.add(ObjectAnimator.ofFloat(v.holiText, "alpha", 0f, 1f))
                 anims.add(ObjectAnimator.ofFloat(v.holiText, "translationX", -autoScrollOffset.toFloat(), 1f))
+                anims.add(ObjectAnimator.ofFloat(v.diffText, "alpha", 0f, 1f))
+                anims.add(ObjectAnimator.ofFloat(v.diffText, "translationX", -autoScrollOffset.toFloat(), 1f))
                 it.playTogether(anims)
                 it.interpolator = FastOutSlowInInterpolator()
                 it.duration = animDur
@@ -329,20 +331,20 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         private fun initViews() {
             color = getDateTextColor(cellNum, dateInfo.holiday?.isHoli == true, false)
+            v.dowText.visibility = View.GONE
             v.dateText.setTextColor(color)
             v.holiText.setTextColor(color)
-            v.dowText.setTextColor(color)
-            //v.dateText.typeface = AppTheme.regularFont
-            //v.holiText.typeface = AppTheme.regularFont
+            v.diffText.setTextColor(color)
             v.holiText.alpha = 1f
             v.holiText.translationX = 0f
-            v.dowText.alpha = 1f
-            v.dowText.translationX = 0f
+            v.diffText.alpha = 1f
+            v.diffText.translationX = 0f
             v.holiText.text = dateInfo.getUnSelectedString()
-            v.dowText.visibility = View.GONE
+            v.diffText.text = ""
         }
 
-        fun getDowText(): String = v.dowText?.text?.toString()?:""
+        fun getDowText(): String = v.dowText?.tag as String? ?:""
+        fun getDiffTextLeft() = v.diffText.left
     }
 
     private fun getDateTextColor(cellNum: Int, isHoli: Boolean, isSelected: Boolean) : Int {

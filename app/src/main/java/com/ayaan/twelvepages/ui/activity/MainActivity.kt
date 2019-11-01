@@ -364,7 +364,6 @@ class MainActivity : BaseActivity() {
     private fun refreshTodayView(todayOffset: Int) {
         when {
             todayOffset != 0 -> {
-                todayBtn.visibility = View.VISIBLE
                 //var distance = Math.min(Math.abs(todayOffset / 7 * dpToPx(2f)), dpToPx(150f))
                 var distance = 0f
                 if(todayOffset < 0) {
@@ -380,7 +379,7 @@ class MainActivity : BaseActivity() {
                     todayLeftArrow.visibility = View.VISIBLE
                 }
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayContentLy, "alpha",  todayContentLy.alpha, 1f),
+                animSet.playTogether(ObjectAnimator.ofFloat(todayCard, "alpha",  todayCard.alpha, 1f),
                         ObjectAnimator.ofFloat(todayBtn, "translationX",  todayBtn.translationX, distance))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
@@ -389,7 +388,7 @@ class MainActivity : BaseActivity() {
             }
             else -> {
                 val animSet = AnimatorSet()
-                animSet.playTogether(ObjectAnimator.ofFloat(todayContentLy, "alpha",  todayContentLy.alpha, 0f),
+                animSet.playTogether(ObjectAnimator.ofFloat(todayCard, "alpha",  todayCard.alpha, 0f),
                         ObjectAnimator.ofFloat(todayBtn, "translationX", todayBtn.translationX, 0f))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
