@@ -256,7 +256,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             v.dateLy.alpha = alpha
             v.dateText.text = String.format("%01d", tempCal.get(Calendar.DATE))
             v.dowText.tag = AppDateFormat.simpleDow.format(tempCal.time)
-            v.bar.scaleY = 0f
+            v.bar.scaleX = 0.9f
+            v.bar.scaleY = 0.9f
+            v.bar.alpha = 0f
             initViews()
         }
 
@@ -285,11 +287,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             lastSelectDateAnimSet?.let {
                 it.addListener(object : AnimatorListenerAdapter(){
                     override fun onAnimationCancel(animation: Animator?) {
-                        v.bar.scaleY = 0f
+                        v.bar.scaleX = 0.9f
+                        v.bar.scaleY = 0.9f
+                        v.bar.alpha = 0f
                     }
                 })
                 val anims = ArrayList<Animator>()
+                anims.add(ObjectAnimator.ofFloat(v.bar, "scaleX", v.bar.scaleX, 1f))
                 anims.add(ObjectAnimator.ofFloat(v.bar, "scaleY", v.bar.scaleY, 1f))
+                anims.add(ObjectAnimator.ofFloat(v.bar, "alpha", v.bar.alpha, 1f))
                 anims.add(ObjectAnimator.ofFloat(v.holiText, "alpha", 0f, 1f))
                 anims.add(ObjectAnimator.ofFloat(v.holiText, "translationX", -autoScrollOffset.toFloat(), 1f))
                 anims.add(ObjectAnimator.ofFloat(v.diffText, "alpha", 0f, 1f))
@@ -316,11 +322,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             lastUnSelectDateAnimSet?.let {
                 it.addListener(object : AnimatorListenerAdapter(){
                     override fun onAnimationCancel(animation: Animator?) {
-                        v.bar.scaleY = 0f
+                        v.bar.scaleX = 0.9f
+                        v.bar.scaleY = 0.9f
+                        v.bar.alpha = 0f
                     }
                 })
                 val anims = ArrayList<Animator>()
-                anims.add(ObjectAnimator.ofFloat(v.bar, "scaleY", v.bar.scaleY, 0f))
+                anims.add(ObjectAnimator.ofFloat(v.bar, "scaleX", v.bar.scaleX, 0.9f))
+                anims.add(ObjectAnimator.ofFloat(v.bar, "scaleY", v.bar.scaleY, 0.9f))
+                anims.add(ObjectAnimator.ofFloat(v.bar, "alpha", v.bar.alpha, 0f))
                 it.playTogether(anims)
                 it.interpolator = FastOutSlowInInterpolator()
                 it.duration = animDur
