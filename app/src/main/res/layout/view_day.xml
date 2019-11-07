@@ -10,36 +10,14 @@
         android:id="@+id/contentLy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="110dp"
+        android:paddingTop="120dp"
         android:descendantFocusability="blocksDescendants">
 
         <LinearLayout
             android:id="@+id/emptyLy"
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
-            android:layout_margin="30dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/disableText"
-                android:textSize="18dp"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/bold"
-                android:textStyle="italic"
-                android:text="@string/no_records"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/disableText"
-                android:textSize="16dp"
-                android:layout_marginTop="10dp"
-                android:textStyle="italic"
-                android:text="@string/motto_sample"/>
-
+            android:layout_height="wrap_content">
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

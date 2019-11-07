@@ -132,13 +132,11 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         val fontColor = ColorManager.getFontColor(color)
         val symbol = SymbolManager.getSymbolResId(record.symbol)
         v.colorBar.setCardBackgroundColor(color)
-        v.iconImg.setColorFilter(color)
+        v.colorBg.setCardBackgroundColor(color)
         v.symbolImg.setColorFilter(fontColor)
         if(symbol == R.drawable.blank) {
-            v.iconImg.visibility = View.GONE
             v.symbolImg.visibility = View.GONE
         }else {
-            v.iconImg.visibility = View.VISIBLE
             v.symbolImg.visibility = View.VISIBLE
             v.symbolImg.setImageResource(symbol)
         }

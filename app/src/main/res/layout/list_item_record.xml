@@ -3,390 +3,402 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:layout_height="wrap_content">
 
-   <FrameLayout
+   <androidx.cardview.widget.CardView
        android:id="@+id/contentLy"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_marginLeft="20dp"
-       android:layout_marginRight="20dp">
+       android:foreground="?android:attr/selectableItemBackground"
+       android:layout_margin="10dp"
+       app:cardCornerRadius="5dp"
+       app:cardElevation="0dp"
+       app:cardBackgroundColor="@color/background">
 
       <FrameLayout
-          android:layout_width="50dp"
-          android:layout_height="50dp">
-
-         <View
-             android:id="@+id/upperLine"
-             android:layout_width="2dp"
-             android:layout_height="32dp"
-             android:background="@color/light_line"
-             android:layout_gravity="center_horizontal"
-             android:visibility="gone"/>
-
-         <View
-             android:id="@+id/bottomLine"
-             android:layout_width="2dp"
-             android:layout_height="match_parent"
-             android:layout_marginTop="32dp"
-             android:background="@color/light_line"
-             android:layout_gravity="center_horizontal"
-             android:visibility="gone"/>
-
-         <androidx.cardview.widget.CardView
-             android:id="@+id/colorBar"
-             android:layout_width="match_parent"
-             android:layout_height="3dp"
-             android:layout_gravity="center_vertical"
-             app:cardElevation="0dp"
-             app:cardCornerRadius="1.5dp"
-             android:visibility="gone">
-         </androidx.cardview.widget.CardView>
-
-         <ImageView
-             android:id="@+id/iconImg"
-             android:layout_width="18dp"
-             android:layout_height="18dp"
-             android:layout_gravity="center_vertical"
-             android:src="@drawable/circle_fill"
-             android:tint="@color/primaryText"
-             android:visibility="gone"/>
-
-         <ImageView
-             android:id="@+id/symbolImg"
-             android:layout_width="18dp"
-             android:layout_height="18dp"
-             android:padding="2dp"
-             android:layout_marginTop="16dp"
-             android:layout_gravity="center_horizontal"
-             android:tint="@color/primaryText"/>
-
-      </FrameLayout>
-
-      <ImageView
-          android:id="@+id/moreImg"
-          android:layout_width="50dp"
-          android:layout_height="50dp"
-          android:padding="17dp"
-          android:layout_gravity="right"
-          android:src="@drawable/more"
-          android:tint="@color/secondaryText"
-          android:background="?android:attr/selectableItemBackground"/>
-
-      <LinearLayout
-          android:orientation="vertical"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="50dp"
-          android:paddingBottom="10dp">
+          android:padding="10dp">
+
+         <FrameLayout
+             android:id="@+id/leftLy"
+             android:layout_width="50dp"
+             android:layout_height="50dp"
+             android:visibility="gone">
+
+            <View
+                android:id="@+id/upperLine"
+                android:layout_width="2dp"
+                android:layout_height="32dp"
+                android:background="@color/light_line"
+                android:layout_gravity="center_horizontal"/>
+
+            <View
+                android:id="@+id/bottomLine"
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="32dp"
+                android:background="@color/light_line"
+                android:layout_gravity="center_horizontal"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/colorBar"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_gravity="center_vertical"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="1.5dp">
+            </androidx.cardview.widget.CardView>
+
+         </FrameLayout>
 
          <LinearLayout
+             android:id="@+id/topLy"
              android:orientation="horizontal"
              android:layout_width="match_parent"
-             android:layout_height="50dp">
+             android:layout_height="30dp"
+             android:gravity="center_vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/colorBg"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="14dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="0dp">
+
+               <ImageView
+                   android:id="@+id/symbolImg"
+                   android:layout_width="16dp"
+                   android:layout_height="16dp"
+                   android:tint="@color/primaryText"/>
+
+            </androidx.cardview.widget.CardView>
 
             <ImageView
                 android:id="@+id/checkBox"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:padding="17dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="8dp"
                 android:src="@drawable/check"
                 android:tint="@color/primaryText"/>
 
             <TextView
                 android:id="@+id/titleText"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="50dp"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:textSize="16dp"
+                android:textSize="15dp"
                 android:fontFamily="@font/bold"
                 android:textColor="@color/primaryText"
                 android:text="title"/>
 
          </LinearLayout>
 
-         <TextView
-             android:id="@+id/memoText"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="5dp"
-             android:layout_marginBottom="5dp"
-             android:lineSpacingExtra="3dp"
-             android:textSize="14dp"
-             android:textColor="@color/primaryText"
-             android:ellipsize="end"
-             android:maxLines="10"
-             android:text="메모" />
-
-         <com.ayaan.twelvepages.ui.view.TagView
-             android:id="@+id/tagView"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="5dp">
-         </com.ayaan.twelvepages.ui.view.TagView>
-
-         <LinearLayout
-             android:id="@+id/timeLy"
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="5dp"
-             android:layout_marginBottom="5dp"
-             android:gravity="center_vertical">
-
-            <ImageView
-                android:id="@+id/timeIcon"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:tint="@color/iconTint"
-                android:src="@drawable/schedule"/>
-
-            <TextView
-                android:id="@+id/timeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="13dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
-                android:ellipsize="end"
-                android:maxLines="5"
-                android:text="메모" />
-
-         </LinearLayout>
-
-         <LinearLayout
-             android:id="@+id/alarmLy"
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="5dp"
-             android:layout_marginBottom="5dp"
-             android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:tint="@color/iconTint"
-                android:src="@drawable/alarm"/>
-
-            <TextView
-                android:id="@+id/alarmText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="13dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="alarm" />
-
-         </LinearLayout>
-
-         <LinearLayout
-             android:id="@+id/repeatLy"
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="5dp"
-             android:layout_marginBottom="5dp"
-             android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:tint="@color/iconTint"
-                android:src="@drawable/repeat"/>
-
-            <TextView
-                android:id="@+id/repeatText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="13dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="repeat" />
-
-         </LinearLayout>
-
-         <LinearLayout
-             android:id="@+id/ddayLy"
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="5dp"
-             android:layout_marginBottom="5dp"
-             android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:tint="@color/iconTint"
-                android:src="@drawable/countdown"/>
-
-            <TextView
-                android:id="@+id/ddayText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="13dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="countdown" />
-
-         </LinearLayout>
-
-         <LinearLayout
-             android:id="@+id/checkListLy"
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="5dp"
-             android:layout_marginBottom="5dp"
-             android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:tint="@color/iconTint"
-                android:src="@drawable/checklist"/>
-
-            <TextView
-                android:id="@+id/checkListText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="13dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="checkList" />
-
-         </LinearLayout>
-
-         <LinearLayout
-             android:id="@+id/locationLy"
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="5dp"
-             android:layout_marginBottom="5dp"
-             android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:tint="@color/iconTint"
-                android:src="@drawable/location"/>
-
-            <TextView
-                android:id="@+id/locationText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="13dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="location" />
-
-         </LinearLayout>
+         <ImageView
+             android:id="@+id/moreImg"
+             android:layout_width="50dp"
+             android:layout_height="50dp"
+             android:paddingRight="10dp"
+             android:paddingTop="10dp"
+             android:paddingLeft="23dp"
+             android:paddingBottom="23dp"
+             android:layout_gravity="right"
+             android:src="@drawable/more"
+             android:tint="@color/semiPrimaryText"
+             android:background="?android:attr/selectableItemBackground"/>
 
          <LinearLayout
              android:orientation="vertical"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:gravity="center_vertical">
-<!--
-            <FrameLayout
-                android:id="@+id/imageLy"
+             android:layout_marginTop="30dp"
+             android:layout_marginLeft="30dp">
+
+            <TextView
+                android:id="@+id/memoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:lineSpacingExtra="3dp"
+                android:textSize="14dp"
+                android:textColor="@color/primaryText"
+                android:ellipsize="end"
+                android:maxLines="10"
+                android:text="메모" />
+
+            <com.ayaan.twelvepages.ui.view.TagView
+                android:id="@+id/tagView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:clipToPadding="false"
-                android:clipChildren="false">
+                android:layout_marginTop="5dp">
+            </com.ayaan.twelvepages.ui.view.TagView>
 
-               <androidx.viewpager.widget.ViewPager
-                   android:id="@+id/photoPager"
-                   android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/timeLy"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+
+               <ImageView
+                   android:id="@+id/timeIcon"
+                   android:layout_width="14dp"
+                   android:layout_height="14dp"
+                   android:tint="@color/iconTint"
+                   android:src="@drawable/schedule"/>
+
+               <TextView
+                   android:id="@+id/timeText"
+                   android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:clipChildren="false"
-                   android:clipToPadding="false">
-               </androidx.viewpager.widget.ViewPager>
+                   android:layout_marginLeft="5dp"
+                   android:textSize="13dp"
+                   android:textColor="@color/primaryText"
+                   android:fontFamily="@font/thin"
+                   android:ellipsize="end"
+                   android:maxLines="5"
+                   android:text="메모" />
 
-            </FrameLayout>
--->
+            </LinearLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/imageLy"
+            <LinearLayout
+                android:id="@+id/alarmLy"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+
+               <ImageView
+                   android:layout_width="14dp"
+                   android:layout_height="14dp"
+                   android:tint="@color/iconTint"
+                   android:src="@drawable/alarm"/>
+
+               <TextView
+                   android:id="@+id/alarmText"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="5dp"
+                   android:textSize="13dp"
+                   android:textColor="@color/primaryText"
+                   android:fontFamily="@font/thin"
+                   android:ellipsize="end"
+                   android:maxLines="1"
+                   android:text="alarm" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/repeatLy"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+
+               <ImageView
+                   android:layout_width="14dp"
+                   android:layout_height="14dp"
+                   android:tint="@color/iconTint"
+                   android:src="@drawable/repeat"/>
+
+               <TextView
+                   android:id="@+id/repeatText"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="5dp"
+                   android:textSize="13dp"
+                   android:textColor="@color/primaryText"
+                   android:fontFamily="@font/thin"
+                   android:ellipsize="end"
+                   android:maxLines="1"
+                   android:text="repeat" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ddayLy"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+
+               <ImageView
+                   android:layout_width="14dp"
+                   android:layout_height="14dp"
+                   android:tint="@color/iconTint"
+                   android:src="@drawable/countdown"/>
+
+               <TextView
+                   android:id="@+id/ddayText"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="5dp"
+                   android:textSize="13dp"
+                   android:textColor="@color/primaryText"
+                   android:fontFamily="@font/thin"
+                   android:ellipsize="end"
+                   android:maxLines="1"
+                   android:text="countdown" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/checkListLy"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+
+               <ImageView
+                   android:layout_width="14dp"
+                   android:layout_height="14dp"
+                   android:tint="@color/iconTint"
+                   android:src="@drawable/checklist"/>
+
+               <TextView
+                   android:id="@+id/checkListText"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="5dp"
+                   android:textSize="13dp"
+                   android:textColor="@color/primaryText"
+                   android:fontFamily="@font/thin"
+                   android:ellipsize="end"
+                   android:maxLines="1"
+                   android:text="checkList" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/locationLy"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+
+               <ImageView
+                   android:layout_width="14dp"
+                   android:layout_height="14dp"
+                   android:tint="@color/iconTint"
+                   android:src="@drawable/location"/>
+
+               <TextView
+                   android:id="@+id/locationText"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="5dp"
+                   android:textSize="13dp"
+                   android:textColor="@color/primaryText"
+                   android:fontFamily="@font/thin"
+                   android:ellipsize="end"
+                   android:maxLines="1"
+                   android:text="location" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_margin="5dp"
-                app:cardElevation="0dp"
-                app:cardCornerRadius="6dp">
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+               <!--
+                           <FrameLayout
+                               android:id="@+id/imageLy"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:clipToPadding="false"
+                               android:clipChildren="false">
 
-               <LinearLayout
-                   android:orientation="horizontal"
+                              <androidx.viewpager.widget.ViewPager
+                                  android:id="@+id/photoPager"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:clipChildren="false"
+                                  android:clipToPadding="false">
+                              </androidx.viewpager.widget.ViewPager>
+
+                           </FrameLayout>
+               -->
+
+               <androidx.cardview.widget.CardView
+                   android:id="@+id/imageLy"
                    android:layout_width="match_parent"
-                   android:layout_height="match_parent">
+                   android:layout_height="100dp"
+                   android:layout_margin="5dp"
+                   app:cardElevation="0dp"
+                   app:cardCornerRadius="6dp">
 
-                  <ImageView
-                      android:id="@+id/mainImgView"
-                      android:layout_width="0dp"
-                      android:layout_height="match_parent"
-                      android:layout_weight="1"
-                      android:scaleType="centerCrop"/>
-
-                  <FrameLayout
-                      android:id="@+id/subImageLy"
-                      android:layout_width="100dp"
-                      android:layout_height="100dp"
-                      android:layout_marginLeft="1dp">
+                  <LinearLayout
+                      android:orientation="horizontal"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
 
                      <ImageView
-                         android:id="@+id/subImageView"
-                         android:layout_width="100dp"
-                         android:layout_height="100dp"
+                         android:id="@+id/mainImgView"
+                         android:layout_width="0dp"
+                         android:layout_height="match_parent"
+                         android:layout_weight="1"
                          android:scaleType="centerCrop"/>
 
-                     <TextView
-                         android:id="@+id/subImageText"
-                         android:layout_width="match_parent"
-                         android:layout_height="match_parent"
-                         android:gravity="center"
-                         android:textColor="@color/white"
-                         android:textSize="20dp"
-                         android:background="@drawable/highlightcover"
-                         android:text="+10"/>
+                     <FrameLayout
+                         android:id="@+id/subImageLy"
+                         android:layout_width="100dp"
+                         android:layout_height="100dp"
+                         android:layout_marginLeft="1dp">
 
-                  </FrameLayout>
+                        <ImageView
+                            android:id="@+id/subImageView"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:scaleType="centerCrop"/>
 
-               </LinearLayout>
+                        <TextView
+                            android:id="@+id/subImageText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:background="@drawable/highlightcover"
+                            android:text="+10"/>
 
-            </androidx.cardview.widget.CardView>
+                     </FrameLayout>
 
-            <com.ayaan.twelvepages.ui.view.WebLinkListView
-                android:id="@+id/webLinkView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </com.ayaan.twelvepages.ui.view.WebLinkListView>
+                  </LinearLayout>
+
+               </androidx.cardview.widget.CardView>
+
+               <com.ayaan.twelvepages.ui.view.WebLinkListView
+                   android:id="@+id/webLinkView"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+               </com.ayaan.twelvepages.ui.view.WebLinkListView>
+
+            </LinearLayout>
 
          </LinearLayout>
 
-      </LinearLayout>
+      </FrameLayout>
 
-   </FrameLayout>
+   </androidx.cardview.widget.CardView>
 
 </FrameLayout>

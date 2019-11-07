@@ -1,5 +1,6 @@
 package com.ayaan.twelvepages.ui.view
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -103,22 +104,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             initViews()
         }
 
-        calendarBtn.setOnClickListener {
-            if(MainActivity.getTargetFolder().id == "calendar") {
-                MainActivity.getTargetTime()?.let { expand(it, it) }
-            }else {
-                MainActivity.getViewModel()?.setCalendarFolder()
-            }
-        }
-
-        keepBtn.setOnClickListener {
-            if(MainActivity.getTargetFolder().id == "keep") {
-                MainActivity.getTargetTime()?.let { expand(it, it) }
-            }else {
-                MainActivity.getViewModel()?.setKeepFolder()
-            }
-        }
-
         stickerBtn.setOnClickListener { addSticker() }
         datePointBtn.setOnClickListener { addDatePoint() }
     }
@@ -186,6 +171,8 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         initViews()
         clipLy.visibility = View.GONE
         addLy.visibility = View.VISIBLE
+        ObjectAnimator.ofFloat(backgroundLy, "alpha", backgroundLy.alpha, 1f).start()
+        MainActivity.instance?.window?.let { dimStatusBar(it) }
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
         if(AppStatus.templateMode == 0) {
             startExpandAnimation()
@@ -268,11 +255,15 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun startExpandAnimation() {}
 
     fun collapse() {
+        ObjectAnimator.ofFloat(backgroundLy, "alpha", backgroundLy.alpha, 0f).start()
+        MainActivity.instance?.window?.let { removeDimStatusBar(it) }
         MainActivity.instance?.clearCalendarHighlight()
         behavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun hiddened() {
+        ObjectAnimator.ofFloat(backgroundLy, "alpha", backgroundLy.alpha, 0f).start()
+        MainActivity.instance?.window?.let { removeDimStatusBar(it) }
         adapter.mode = 0
         adapter.notifyDataSetChanged()
         MainActivity.instance?.clearCalendarHighlight()
@@ -284,14 +275,6 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun notifyListChanged() {
-        TransitionManager.beginDelayedTransition(addBtn, makeChangeBounceTransition())
-        (addBtn.layoutParams as FrameLayout.LayoutParams).gravity = if(MainActivity.getTargetFolder().id == "calendar") {
-            Gravity.LEFT
-        }else {
-            Gravity.RIGHT
-        }
-        addBtn.requestLayout()
-
         if(isExpanded()) {
             val newItems = ArrayList<Template>()
             filterCurrentFolder(newItems)

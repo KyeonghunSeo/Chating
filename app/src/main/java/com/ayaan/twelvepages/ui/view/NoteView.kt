@@ -132,6 +132,7 @@ class NoteView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private fun updateData(data: RealmResults<Record>, list: ArrayList<Record>) {
         list.clear()
         data.forEach { list.add(it.makeCopyObject()) }
+        //data.sort()
 
         if(list.isNotEmpty()) {
             emptyLy.visibility = View.GONE

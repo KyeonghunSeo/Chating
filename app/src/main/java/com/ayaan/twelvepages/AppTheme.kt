@@ -29,6 +29,7 @@ object AppTheme {
     var blue = 0
     var green = 0
     var yellow = 0
+    var dimColor = 0
     var icon = 0
 
     lateinit var hightlightCover: Drawable
@@ -52,6 +53,7 @@ object AppTheme {
         green = resource.getColor(R.color.green)
         yellow = resource.getColor(R.color.yellow)
         icon = resource.getColor(R.color.iconTint)
+        dimColor = resource.getColor(R.color.dim)
         hightlightCover = resource.getDrawable(R.drawable.highlightcover)
         blankDrawable = resource.getDrawable(R.drawable.blank)
         thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
