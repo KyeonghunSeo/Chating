@@ -10,6 +10,7 @@ import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.model.*
 import com.ayaan.twelvepages.ui.view.CalendarView
+import com.pixplicity.easyprefs.library.Prefs
 import io.realm.*
 import java.util.*
 
@@ -28,6 +29,7 @@ class MainViewModel : ViewModel() {
     val openFolder = MutableLiveData<Boolean>()
     val countdownRecords = MutableLiveData<RealmResults<Record>>()
     val undoneRecords = MutableLiveData<RealmResults<Record>>()
+    val isPremium = MutableLiveData<Boolean>()
 
     private var realmAsyncTask: RealmAsyncTask? = null
 
@@ -35,6 +37,7 @@ class MainViewModel : ViewModel() {
         targetTime.value = System.currentTimeMillis()
         openFolder.value = false
         clipRecord.value = null
+        isPremium.value = Prefs.getBoolean("isPremium", false)
     }
 
     fun initRealm(syncUser: SyncUser?) {

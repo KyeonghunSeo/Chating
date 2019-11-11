@@ -10,7 +10,7 @@
         android:id="@+id/contentLy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="120dp"
+        android:paddingTop="115dp"
         android:descendantFocusability="blocksDescendants">
 
         <LinearLayout

@@ -405,7 +405,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 drawArrow(canvas, width, height, width - arrowSize, height - arrowSize, width - arrowSize, height)
             }
             else -> {
-                val periodLine = strokeWidth * 1.3f
+                val periodLine = strokeWidth * 1.8f
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = periodLine
                 if(shape == Shape.DASH_RANGE || shape == Shape.DASH_ARROW) {
@@ -418,14 +418,14 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 paint.style = Paint.Style.FILL
 
                 if(shape == Shape.ARROW || shape == Shape.DASH_ARROW) {
-                    val arrowSize = (periodLine * 2.5f).toInt()
-                    val arrowWidth = (periodLine * 2.5f).toInt()
+                    val arrowSize = (periodLine * 1.8f).toInt()
+                    val arrowWidth = (periodLine * 1.8f).toInt()
                             drawArrow(canvas, 0, height / 2, arrowWidth, height / 2 - arrowSize, arrowWidth, height / 2  + arrowSize)
                     drawArrow(canvas, width, height / 2, width - arrowWidth, height / 2 - arrowSize, width - arrowWidth, height / 2  + arrowSize)
                 }else {
-                    val dividerSize = periodLine * 2.5f
-                    canvas.drawRect(0f, height / 2f - dividerSize, periodLine * 1.2f, height / 2f + dividerSize, paint)
-                    canvas.drawRect(width - periodLine * 1.2f, height / 2f - dividerSize, width.toFloat(), height / 2f + dividerSize, paint)
+                    val dividerSize = periodLine * 2.0f
+                    canvas.drawRect(0f, height / 2f - dividerSize, periodLine, height / 2f + dividerSize, paint)
+                    canvas.drawRect(width - periodLine, height / 2f - dividerSize, width.toFloat(), height / 2f + dividerSize, paint)
                 }
                 /*
                 val lineY = (periodLine * 1.5f).toInt()

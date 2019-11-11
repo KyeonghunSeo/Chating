@@ -13,7 +13,8 @@ object SymbolManager{
         IDEA(R.drawable.idea),
         NOTE(R.drawable.note),
         STAR(R.drawable.star),
-        HEART(R.drawable.heart)
+        HEART(R.drawable.heart),
+        RANGE(R.drawable.range)
     }
 
     fun getSymbolResId(symbol: String?): Int {

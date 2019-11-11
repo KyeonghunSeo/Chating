@@ -25,6 +25,7 @@ import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
+import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Folder
@@ -255,8 +256,8 @@ class MainActivity : BaseActivity() {
                 val fontColor = ColorManager.getFontColor(color)
                 countdownText.text = record.getCountdownText(System.currentTimeMillis())
                 //countdownCard.setCardBackgroundColor(color)
-                countdownImg.setColorFilter(AppTheme.primaryText)
-                countdownText.setTextColor(AppTheme.primaryText)
+                countdownImg.setColorFilter(AppTheme.secondaryText)
+                countdownText.setTextColor(AppTheme.secondaryText)
                 countdownText.setOnClickListener {
                     showDialog(CountdownListDialog(this) {
                         Prefs.putLong("briefingCountdownTime", getTodayStartTime() + DAY_MILL)
@@ -368,6 +369,7 @@ class MainActivity : BaseActivity() {
     private fun setDateText() {
         getTargetCal()?.let {
             fakeDateText.text = it.get(Calendar.DATE).toString()
+            mainMonthText.setTextColor(CalendarManager.selectedDateColor)
             if(it.get(Calendar.YEAR) == getCurrentYear()) {
                 mainMonthText.text = AppDateFormat.month.format(it.time)
             }else {

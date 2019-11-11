@@ -216,7 +216,7 @@
                 android:layout_marginBottom="15dp"
                 android:lineSpacingExtra="3dp"
                 android:textColor="@color/primaryText"
-                android:textSize="15dp"
+                android:textSize="17dp"
                 android:background="@color/transparent"
                 android:hint="@string/enter_memo"/>
 

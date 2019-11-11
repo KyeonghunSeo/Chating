@@ -274,7 +274,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }
 
         dateText.setTextColor(color)
-        dowText.setTextColor(AppTheme.primaryText)
+        dowText.setTextColor(CalendarManager.selectedDateColor)
         holiText.setTextColor(color)
         diffText.setTextColor(color)
         holiText.text = dateInfo.getSelectedString()
