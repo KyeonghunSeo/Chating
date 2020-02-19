@@ -78,7 +78,7 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
             return@setOnTouchListener super.onTouchEvent(motionEvent)
         }
-
+        //haha
         behavior = BottomSheetBehavior.from(bottomSheet)
         behavior.isHideable = true
         behavior.state = BottomSheetBehavior.STATE_HIDDEN
