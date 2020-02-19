@@ -286,7 +286,9 @@ open class Record(@PrimaryKey var id: String? = null,
     fun isSetLink(): Boolean = links.any { it.type == Link.Type.WEB.ordinal }
 
     fun getTitleInCalendar() = if(!title.isNullOrBlank())
-        title?.replace(System.getProperty("line.separator"), " ")
+        title?.replace(System.getProperty("line.separator"), " ") + if(!description.isNullOrBlank()) {
+            "\n${description?.replace(System.getProperty("line.separator"), " ")}"
+        }else ""
     else if(!description.isNullOrBlank())
         description?.replace(System.getProperty("line.separator"), " ")
     else

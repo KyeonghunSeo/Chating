@@ -25,14 +25,12 @@ import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
+import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
-import com.ayaan.twelvepages.ui.dialog.CalendarSettingsDialog
-import com.ayaan.twelvepages.ui.dialog.CountdownListDialog
-import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
-import com.ayaan.twelvepages.ui.dialog.UndoneListDialog
+import com.ayaan.twelvepages.ui.dialog.*
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
@@ -99,6 +97,7 @@ class MainActivity : BaseActivity() {
 
     private fun initMain() {
         initLayout()
+        initBottomBar()
         initCalendarView()
         initFolderView()
         initDayView()
@@ -145,6 +144,26 @@ class MainActivity : BaseActivity() {
             rootLy.getLocationInWindow(location)
             AppStatus.statusBarHeight = location[1]
         })
+    }
+
+    private fun initBottomBar() {
+        calendarBtn.setOnClickListener {
+            if(getTargetFolder().id == "calendar") {
+                viewModel.targetTime.value?.let {
+                    viewModel.targetTime.value?.let { templateView.expand(it, it) }
+                }
+            }else {
+                viewModel.setCalendarFolder()
+            }
+        }
+
+        keepBtn.setOnClickListener {
+            if(getTargetFolder().id == "keep") {
+                viewModel.targetTime.value?.let { templateView.expand(it, it) }
+            }else {
+                viewModel.setKeepFolder()
+            }
+        }
     }
 
     private fun initCalendarView() {
@@ -237,8 +256,8 @@ class MainActivity : BaseActivity() {
                 val fontColor = ColorManager.getFontColor(color)
                 countdownText.text = record.getCountdownText(System.currentTimeMillis())
                 //countdownCard.setCardBackgroundColor(color)
-                countdownImg.setColorFilter(AppTheme.primaryText)
-                countdownText.setTextColor(AppTheme.primaryText)
+                countdownImg.setColorFilter(AppTheme.secondaryText)
+                countdownText.setTextColor(AppTheme.secondaryText)
                 countdownText.setOnClickListener {
                     showDialog(CountdownListDialog(this) {
                         Prefs.putLong("briefingCountdownTime", getTodayStartTime() + DAY_MILL)
@@ -328,6 +347,14 @@ class MainActivity : BaseActivity() {
             noteView.notifyDataChanged()
         }
         templateView.notifyListChanged()
+
+        TransitionManager.beginDelayedTransition(addBtn, makeChangeBounceTransition())
+        (addBtn.layoutParams as FrameLayout.LayoutParams).gravity = if(MainActivity.getTargetFolder().id == "calendar") {
+            Gravity.LEFT
+        }else {
+            Gravity.RIGHT
+        }
+        addBtn.requestLayout()
     }
 
     private fun refreshCalendar() {
@@ -342,6 +369,7 @@ class MainActivity : BaseActivity() {
     private fun setDateText() {
         getTargetCal()?.let {
             fakeDateText.text = it.get(Calendar.DATE).toString()
+            mainMonthText.setTextColor(CalendarManager.selectedDateColor)
             if(it.get(Calendar.YEAR) == getCurrentYear()) {
                 mainMonthText.text = AppDateFormat.month.format(it.time)
             }else {

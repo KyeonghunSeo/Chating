@@ -131,18 +131,12 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         val color = record.getColor()
         val fontColor = ColorManager.getFontColor(color)
         val symbol = SymbolManager.getSymbolResId(record.symbol)
-        v.colorBar.setCardBackgroundColor(color)
-        v.iconImg.setColorFilter(color)
-        v.symbolImg.setColorFilter(fontColor)
+        v.symbolImg.setColorFilter(color)
         if(symbol == R.drawable.blank) {
-            v.iconImg.visibility = View.GONE
-            v.symbolImg.visibility = View.GONE
+            v.symbolImg.setImageResource(R.drawable.grey_rect_fill_radius_2)
         }else {
-            v.iconImg.visibility = View.VISIBLE
-            v.symbolImg.visibility = View.VISIBLE
             v.symbolImg.setImageResource(symbol)
         }
-        v.colorBar.requestLayout()
 
         if(record.title.isNullOrBlank()) {
             v.titleText.text = ""

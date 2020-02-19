@@ -24,6 +24,7 @@ import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.ChangeBounds
 import androidx.transition.Fade
@@ -623,6 +624,32 @@ fun backupDB(activity: BaseActivity?, onSuccess: Runnable?) {
         }
         realm.close()
     }
+}
+
+fun dimStatusBar(window: Window) {
+    var flags = window.peekDecorView().systemUiVisibility
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+    }
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//        flags = flags and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
+//    }
+//    window.navigationBarColor = manipulateColor(Color.WHITE, factor)
+    window.peekDecorView().systemUiVisibility = flags
+    window.statusBarColor = AppTheme.dimColor
+}
+
+fun removeDimStatusBar(window: Window) {
+    var flags = window.peekDecorView().systemUiVisibility
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+    }
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//        flags = flags and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
+//    }
+//    window.navigationBarColor = manipulateColor(Color.WHITE, factor)
+    window.peekDecorView().systemUiVisibility = flags
+    window.statusBarColor = AppTheme.background
 }
 
 /* 코드

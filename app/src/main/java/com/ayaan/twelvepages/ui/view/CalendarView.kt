@@ -256,16 +256,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             v.dateLy.alpha = alpha
             v.dateText.text = String.format("%01d", tempCal.get(Calendar.DATE))
             v.dowText.tag = AppDateFormat.simpleDow.format(tempCal.time)
-            v.bar.scaleY = 0f
+            v.bar.scaleX = 0.95f
+            v.bar.scaleY = 0.95f
+            v.bar.alpha = 0f
             initViews()
         }
 
         fun target() {
             targetDateHolder?.unTarget()
             targetDateHolder = this
-            //v.dateText.typeface = AppTheme.regularFont
-            //v.dateText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-            //v.holiText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
             v.holiText.text = dateInfo.getSelectedString()
             v.diffText.text = dateInfo.getDiffDateString()
 
@@ -285,15 +284,17 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             lastSelectDateAnimSet?.let {
                 it.addListener(object : AnimatorListenerAdapter(){
                     override fun onAnimationCancel(animation: Animator?) {
-                        v.bar.scaleY = 0f
+                        v.bar.scaleX = 0.95f
+                        v.bar.scaleY = 0.95f
+                        v.bar.alpha = 0f
                     }
                 })
                 val anims = ArrayList<Animator>()
+                anims.add(ObjectAnimator.ofFloat(v.bar, "scaleX", v.bar.scaleX, 1f))
                 anims.add(ObjectAnimator.ofFloat(v.bar, "scaleY", v.bar.scaleY, 1f))
+                anims.add(ObjectAnimator.ofFloat(v.bar, "alpha", v.bar.alpha, 1f))
                 anims.add(ObjectAnimator.ofFloat(v.holiText, "alpha", 0f, 1f))
-                anims.add(ObjectAnimator.ofFloat(v.holiText, "translationX", -autoScrollOffset.toFloat(), 1f))
                 anims.add(ObjectAnimator.ofFloat(v.diffText, "alpha", 0f, 1f))
-                anims.add(ObjectAnimator.ofFloat(v.diffText, "translationX", -autoScrollOffset.toFloat(), 1f))
                 it.playTogether(anims)
                 it.interpolator = FastOutSlowInInterpolator()
                 it.duration = animDur
@@ -316,11 +317,15 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             lastUnSelectDateAnimSet?.let {
                 it.addListener(object : AnimatorListenerAdapter(){
                     override fun onAnimationCancel(animation: Animator?) {
-                        v.bar.scaleY = 0f
+                        v.bar.scaleX = 0.95f
+                        v.bar.scaleY = 0.95f
+                        v.bar.alpha = 0f
                     }
                 })
                 val anims = ArrayList<Animator>()
-                anims.add(ObjectAnimator.ofFloat(v.bar, "scaleY", v.bar.scaleY, 0f))
+                anims.add(ObjectAnimator.ofFloat(v.bar, "scaleX", v.bar.scaleX, 0.95f))
+                anims.add(ObjectAnimator.ofFloat(v.bar, "scaleY", v.bar.scaleY, 0.95f))
+                anims.add(ObjectAnimator.ofFloat(v.bar, "alpha", v.bar.alpha, 0f))
                 it.playTogether(anims)
                 it.interpolator = FastOutSlowInInterpolator()
                 it.duration = animDur
@@ -336,9 +341,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             v.holiText.setTextColor(color)
             v.diffText.setTextColor(color)
             v.holiText.alpha = 1f
-            v.holiText.translationX = 0f
             v.diffText.alpha = 1f
-            v.diffText.translationX = 0f
             v.holiText.text = dateInfo.getUnSelectedString()
             v.diffText.text = ""
         }
