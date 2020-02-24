@@ -386,7 +386,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    fun showSearchView() { searchView.show() }
+    private fun showSearchView() { searchView.show() }
 
     @SuppressLint("SetTextI18n", "RtlHardcoded")
     private fun refreshTodayView(todayOffset: Int) {
