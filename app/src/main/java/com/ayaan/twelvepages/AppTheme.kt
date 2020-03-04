@@ -58,8 +58,8 @@ object AppTheme {
         hightlightCover = resource.getDrawable(R.drawable.highlightcover)
         blankDrawable = resource.getDrawable(R.drawable.blank)
         brandFont = ResourcesCompat.getFont(context, R.font.write_right)!!
-        thinFont = ResourcesCompat.getFont(context, R.font.thin)!!
-        regularFont = ResourcesCompat.getFont(context, R.font.regular)!!
-        boldFont = ResourcesCompat.getFont(context, R.font.bold)!!
+        thinFont = ResourcesCompat.getFont(context, R.font.thin_s)!!
+        regularFont = ResourcesCompat.getFont(context, R.font.regular_s)!!
+        boldFont = ResourcesCompat.getFont(context, R.font.bold_s)!!
     }
 }

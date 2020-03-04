@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
+                    android:fontFamily="@font/bold_s"
                     android:text="title"/>
 
             </LinearLayout>
@@ -116,27 +116,27 @@
                     android:id="@+id/cancelBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="44dp"
-                    app:cornerRadius="19dp"
+                    app:cornerRadius="1dp"
                     android:layout_marginRight="5dp"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:background="?android:attr/selectableItemBackground"
-                    android:textSize="12dp"
+                    android:textSize="11dp"
                     android:gravity="center"
                     android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/bold"
+                    android:fontFamily="@font/bold_s"
                     android:text="@string/cancel"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/confirmBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="44dp"
-                    app:cornerRadius="19dp"
+                    app:cornerRadius="1dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:background="?android:attr/selectableItemBackground"
-                    android:textSize="12dp"
+                    android:textSize="11dp"
                     android:gravity="center"
-                    android:fontFamily="@font/bold"
+                    android:fontFamily="@font/bold_s"
                     android:text="@string/confirm"/>
 
             </LinearLayout>

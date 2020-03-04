@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CALUA</string>
+    <string name="app_name">하루여담</string>
     <string name="notification_default_channel" translatable="false">com.hellowo.alarm.default</string>
 
     <string name="cancel">취소</string>
@@ -145,12 +145,13 @@
     <string name="saved">저장되었습니다</string>
     <string name="today">오늘</string>
     <string name="schedule">날짜와 시간</string>
-    <string name="first_text_1">또렷한 기억보다</string>
-    <string name="first_text_2">흐릿한 잉크자국이</string>
-    <string name="first_text_3">더 오래간다</string>
-    <string name="sign_in_with_google">시 작 하 기</string>
-    <string name="logo_text">기록의 즐거움</string>
-    <string name="init_setting_script_0">%1$s님의 라이프스타일에 맞는\n다이어리 구성을 선택해주세요.</string>
+    <string name="first_text_1">흐릿한 기록은</string>
+    <string name="first_text_2">또렷한 기억보다</string>
+    <string name="first_text_3">더 가치있다.</string>
+    <string name="sign_in_with_google">시작하기</string>
+    <string name="logo_text">캘린더 · 다이어리</string>
+    <string name="logo_text_2">기\n록\n되\n어\n가\n치\n있\n는</string>
+    <string name="init_setting_script_0">반갑습니다 %1$s 님 :D\n어떤 다이어리가 필요하신가요?\n원하는 다이어리 구성을 선택해보세요.</string>
     <string name="select_os_calendar">외부캘린더 가져오기</string>
     <string name="search_tag">태그로 검색하기</string>
     <string name="edit_folder">폴더 편집</string>
@@ -198,7 +199,7 @@
     <string name="delete_shedule_sub">스케쥴 정보를 제거합니다</string>
     <string name="weblink_sub">웹사이트 주소를 입력하세요</string>
     <string name="motto">메모</string>
-    <string name="motto_sample">지혜란\n생각이 떠올랐을때\n바로 기록하는 것이다</string>
+    <string name="motto_sample">지혜란,\n생각이 떠올랐을때\n바로 기록하는 것이다</string>
     <string name="about_us">ABOUT US</string>
     <string name="search">검색</string>
     <string name="evaluation">앱 평가하기</string>
@@ -206,7 +207,7 @@
     <string name="vote_to_new_feature">새로운 기능 투표하기</string>
     <string name="evaluate_text">개발자에게 관심과 응원은 언제나 큰 힘이 됩니다:)</string>
     <string name="email_text">문제가 발생했다면 이곳으로 이메일을 보내주세요</string>
-    <string name="vote_text">\'CALUA Diary\'는 사용자들과 함께 만들어가는 앱 입니다. 가장 많은 투표를 받은 기능이 우선적으로 개발됩니다</string>
+    <string name="vote_text">\'하루여담\'은 사용자들과 함께 만들어가는 앱 입니다. 가장 많은 투표를 받은 기능이 우선적으로 개발됩니다</string>
     <string name="help">문의사항</string>
     <string name="no_records">이 날의 기록이 없습니다</string>
     <string name="no_records_in_this_folder">보관함에 기록이 없습니다</string>
@@ -321,7 +322,7 @@
     <string name="nightAlarmTime">밤</string>
     <string name="device_calendar">OS 캘린더</string>
     <string name="task_setting">완료된 기록</string>
-    <string name="os_calendar_style">OS 캘린더 스타일</string>
+    <string name="os_calendar_style">OS 캘린더 표시 스타일</string>
     <string name="reference_os_calendar">OS 캘린더 참조하기</string>
     <string name="no_reference">참조안함</string>
     <string name="referencing">%1$s개 캘린더 참조중</string>
@@ -342,7 +343,7 @@
     <string name="go_today">오늘로 이동</string>
     <string name="no_alarm">알림없음</string>
     <string name="galaxy">갤럭시</string>
-    <string name="export_done">[CALUA]폴더로 내보내기가 완료되었습니다</string>
+    <string name="export_done">[하루여담] 폴더로 내보내기가 완료되었습니다</string>
     <string name="template">템플릿</string>
     <string name="calendar_settings_sub">캘린더에 표시할 정보 및 스타일 설정</string>
     <string name="template_use">템플릿 사용</string>
@@ -359,14 +360,15 @@
     <string name="diary_set_0_title">기본</string>
     <string name="diary_set_0_sub">일정과 할일을 관리하고\n중요한 것들을 메모합니다.\n처음 구성으로 시작하기에 좋습니다.</string>
     <string name="diary_set_1_title">플래너</string>
-    <string name="diary_set_1_sub">일정을 시간별로 철저히 관리하고.\n할일은 중요도에 따라 달리 표시합니다.\n긴 일정이나 프로젝트는 구분하여 따로 표시합니다.\n일정이 많고 바쁘신 분들에게 좋은 구성입니다.</string>
+    <string name="diary_set_1_sub">일정을 시간별로 철저히 관리하고.\n할일은 중요도에 따라 달리 표시합니다.\n긴 일정이나 프로젝트는\n따로 구분하여 강조해서 표시합니다.\n바쁜 스케쥴 관리가 필요하신 분들에게\n좋은 구성입니다.</string>
     <string name="diary_set_2_title">일기장</string>
-    <string name="diary_set_2_sub">소소한 일상, 떠오르는 생각들을 기록하고,\n그날 그날의 감정을 스티커로 표시합니다.\n평소 노트를 많이 사용하시는 분들에게\n좋은 구성입니다.</string>
+    <string name="diary_set_2_sub">소소한 일상, 떠오르는 생각들을 기록하고,\n그날 그날의 감정을 스티커로 표시합니다.\n평소 노트에 많은것을 기록하시는 분들에게\n좋은 구성입니다.</string>
     <string name="diary_set_3_title">나만의 다이어리</string>
-    <string name="diary_set_3_sub">완전한 백지에서 시작합니다.\n처음부터 나만의 방식으로\n다이어리를 구성할 수 있습니다.</string>
+    <string name="diary_set_3_sub">완전한 백지에서 시작합니다.\n조금 어렵게 느껴질수 있지만\n처음부터 나만의 방식으로\n다이어리를 구성해 볼 수 있습니다.</string>
     <string name="init_template">시작 템플릿</string>
-    <string name="init_setting_info">＊초기설정은 사용중 언제든지 편집이 가능합니다.</string>
-    <string name="init_setting_script_1">기존에 사용중이거나 디바이스에 저장되어있는 다른 일정들을 참조하려면 아래 권한을 획득하신 후, 가져올 캘린더를 선택해주세요.</string>
+    <string name="init_setting_info">· 처음구성된 다이어리는 사용하면서 자유롭게 변경 가능합니다.</string>
+    <string name="init_setting_script_1">이미 사용중이던 OS 캘린더가 있으신가요?\n필요하다면 캘린더 접근 권한을 획득 후,\n참조할 캘린더를 선택해보세요.</string>
+    <string name="last_setting_script">이제 마지막 입니다!\n좌우명이나 목표가 있다면 적어보세요.</string>
     <string name="init_loading_text">다이어리를 구성중 입니다.\n잠시만 기다려주세요…</string>
     <string name="upgrade_premium">업그레이드</string>
     <string name="total_records">총 %1$s개의 기록</string>
@@ -396,6 +398,7 @@
     <string name="premium_item_0_title">광고 제거</string>
     <string name="premium_item_1_title">사진 첨부</string>
     <string name="premium_item_2_title">데이터 자동 백업</string>
+    <string name="login_backup_text">모든 기록은 선택한 계정에 안전하게 보관됩니다.</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

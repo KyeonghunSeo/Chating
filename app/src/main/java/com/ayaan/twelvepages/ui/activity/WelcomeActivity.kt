@@ -1,14 +1,17 @@
 package com.ayaan.twelvepages.ui.activity
 
 import android.Manifest
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.view.Window
 import androidx.core.app.ActivityCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -20,6 +23,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.manager.OsCalendarManager
+import com.ayaan.twelvepages.model.AppUser
 import com.ayaan.twelvepages.ui.dialog.OsCalendarDialog
 import com.google.firebase.storage.FirebaseStorage
 import com.pixplicity.easyprefs.library.Prefs
@@ -37,10 +41,21 @@ class WelcomeActivity : BaseActivity() {
         initTheme(rootLy)
         loginBtn.setOnClickListener { signInWithGoogle() }
         callAfterViewDrawed(rootLy, Runnable{
+            val rectangle = Rect()
+            window.decorView.getWindowVisibleDisplayFrame(rectangle)
+            val statusBarHeight = rectangle.top
+            val contentViewTop = window.findViewById<View>(Window.ID_ANDROID_CONTENT).getTop()
+            val titleBarHeight = contentViewTop - statusBarHeight
+            val location = IntArray(2)
+            rootLy.getLocationInWindow(location)
+            AppStatus.statusBarHeight = location[1]
+            l("StatusBar Height= " + statusBarHeight + " , TitleBar Height = " + titleBarHeight + " , AppStatus.statusBarHeight = " + AppStatus.statusBarHeight)
+
             if(FirebaseAuth.getInstance().currentUser == null) {
                 startShow()
             }else {
-                startMainActivity()
+                startCustomSettings()
+                //startMainActivity()
             }
         })
     }
@@ -150,6 +165,8 @@ class WelcomeActivity : BaseActivity() {
                 diaryNum = index
                 selectors.forEachIndexed { i, imageView ->
                     imageView.visibility = if(index == i) View.VISIBLE else View.GONE
+                    ObjectAnimator.ofFloat(btns[i], "cardElevation", if(index == i) dpToPx(30f) else dpToPx(1f)).start()
+                    ObjectAnimator.ofFloat(btns[i], "alpha", if(index == i) 1f else 0.5f).start()
                 }
             }
         }
@@ -180,7 +197,8 @@ class WelcomeActivity : BaseActivity() {
                 doubleTabFlag = false
                 hideScript()
                 initSettingLy.postDelayed({
-                    startFinishLy()
+                    setLastSettingLy()
+                    showScript()
                 }, 1000)
             }
         }
@@ -191,7 +209,7 @@ class WelcomeActivity : BaseActivity() {
             val size = OsCalendarManager.getConnectedCalendarIdsSet().size
             osCalendarText.text = if(size == 0) {
                 osCalendarText.setTextColor(AppTheme.disableText)
-                str(R.string.no_reference)
+                ""
             } else {
                 osCalendarText.setTextColor(AppTheme.primaryText)
                 String.format(str(R.string.referencing), size)
@@ -199,9 +217,43 @@ class WelcomeActivity : BaseActivity() {
         }}, true, true, true, false)
     }
 
+    private fun setLastSettingLy() {
+        lastSettingLy.visibility = View.VISIBLE
+        calendarOptionLy.visibility = View.GONE
+
+        optionTitleText.text = str(R.string.last_setting_script)
+
+        nextBtn.setOnClickListener {
+            if(doubleTabFlag) {
+                doubleTabFlag = false
+                hideScript()
+
+                val realm = Realm.getDefaultInstance()
+                val appUser = realm.where(AppUser::class.java).findFirst()
+                if(appUser != null) {
+                    realm.executeTransaction {
+                        appUser.motto = mottoEdit.text.toString()
+                    }
+                }else {
+                    realm.executeTransaction {
+                        it.createObject(AppUser::class.java, FirebaseAuth.getInstance().uid)?.apply {
+                            motto = mottoEdit.text.toString()
+                        }
+                    }
+                }
+                realm.close()
+
+                initSettingLy.postDelayed({
+                    startFinishLy()
+                }, 1000)
+            }
+        }
+    }
+
     private fun startFinishLy() {
         loginLy.visibility = View.VISIBLE
         loginBtn.visibility = View.GONE
+        loginBackupText.visibility = View.GONE
         loadingText.visibility = View.VISIBLE
         loadingView.visibility = View.VISIBLE
         val animSet = AnimatorSet()
@@ -224,7 +276,7 @@ class WelcomeActivity : BaseActivity() {
             handler.postDelayed({
                 startMainActivity()
             }, 500)
-        }, 3000)
+        }, 5000)
     }
 
     private fun showScript() {
@@ -361,4 +413,6 @@ class WelcomeActivity : BaseActivity() {
             }
         }
     }
+
+    override fun onBackPressed() {}
 }

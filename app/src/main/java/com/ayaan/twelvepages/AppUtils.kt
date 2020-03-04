@@ -431,25 +431,13 @@ fun setGlobalTheme(view: View?) {
                 val v = vg.getChildAt(i)
                 when (v) {
                     is TextView -> {
-                        when(v.typeface) {
-                            AppTheme.boldFont -> v.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-                            AppTheme.thinFont -> v.typeface = AppTheme.thinFont
-                            else -> v.typeface = AppTheme.regularFont
-                        }
-                    }
-                    is EditText -> {
-                        when(v.typeface) {
-                            AppTheme.boldFont -> v.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-                            AppTheme.thinFont -> v.typeface = AppTheme.thinFont
-                            else -> v.typeface = AppTheme.regularFont
-                        }
-                    }
-                    is Button -> {
-                        when(v.typeface) {
-                            AppTheme.boldFont -> v.setTypeface(AppTheme.boldFont, Typeface.BOLD)
-                            AppTheme.thinFont -> v.typeface = AppTheme.thinFont
-                            else -> v.typeface = AppTheme.regularFont
-                        }
+                        if(v.typeface == Typeface.DEFAULT) v.typeface = AppTheme.regularFont
+//                        when(v.typeface) {
+//                            AppTheme.brandFont -> v.typeface = AppTheme.brandFont
+//                            AppTheme.boldFont -> v.typeface = AppTheme.boldFont
+//                            AppTheme.thinFont -> v.typeface = AppTheme.thinFont
+//                            else -> v.typeface = AppTheme.regularFont
+//                        }
                     }
                     is Line -> {
                         when(v.colorFlag) {

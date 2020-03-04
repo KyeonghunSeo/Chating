@@ -36,7 +36,7 @@
     <color name="primaryText">#212121</color>
     <color name="semiPrimaryText">#909099</color>
     <color name="secondaryText">#606066</color>
-    <color name="disableText">#e4e4e4</color>
+    <color name="disableText">#c0c0c0</color>
     <color name="line">#d4d4d4</color>
     <color name="light_line">#f6f6f6</color>
     <color name="iconTint">#303033</color>

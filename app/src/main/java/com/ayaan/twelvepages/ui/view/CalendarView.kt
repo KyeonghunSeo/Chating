@@ -537,23 +537,25 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun setTimeObjectCalendarAdapter() {
         withAnim = false
         recordList?.removeAllChangeListeners()
-        recordList = RecordManager.getRecordList(calendarStartTime, calendarEndTime, MainActivity.getTargetFolder()).apply {
-            try{
-                addChangeListener { result, changeSet ->
-                    //l("result.isLoaded ${result.isLoaded}")
-                    //l("changeSet ${changeSet.isCompleteResult}")
-                    val t = System.currentTimeMillis()
-                    changeSet.insertionRanges.firstOrNull()?.let {
-                        lastUpdatedItem = result[it.startIndex]
-                        l("추가된 데이터 : ${lastUpdatedItem.toString()}")
+        try{
+            recordList = RecordManager.getRecordList(calendarStartTime, calendarEndTime, MainActivity.getTargetFolder()).apply {
+                try{
+                    addChangeListener { result, changeSet ->
+                        //l("result.isLoaded ${result.isLoaded}")
+                        //l("changeSet ${changeSet.isCompleteResult}")
+                        val t = System.currentTimeMillis()
+                        changeSet.insertionRanges.firstOrNull()?.let {
+                            lastUpdatedItem = result[it.startIndex]
+                            l("추가된 데이터 : ${lastUpdatedItem.toString()}")
+                        }
+                        timeObjectCalendarAdapter.refresh(result, withAnim)
+                        withAnim = true
+                        l("${AppDateFormat.month.format(targetCal.time)} 오브젝트 그리기 : 데이터 ${result.size} 개 / ${(System.currentTimeMillis() - t) / 1000f} 초")
+                        onDrawed?.invoke(monthCal)
                     }
-                    timeObjectCalendarAdapter.refresh(result, withAnim)
-                    withAnim = true
-                    l("${AppDateFormat.month.format(targetCal.time)} 오브젝트 그리기 : 데이터 ${result.size} 개 / ${(System.currentTimeMillis() - t) / 1000f} 초")
-                    onDrawed?.invoke(monthCal)
-                }
-            }catch (e: Exception){ e.printStackTrace() }
-        }
+                }catch (e: Exception){ e.printStackTrace() }
+            }
+        }catch (e: Exception){ e.printStackTrace() }
     }
 
     private fun getCellNumByTime(time: Long) : Int {

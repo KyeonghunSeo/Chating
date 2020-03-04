@@ -27,10 +27,10 @@
             android:layout_gravity="center"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/secondaryText"
             android:textSize="16dp"
             android:text="@string/first_text_1"
-            android:fontFamily="@font/bold"
+            android:fontFamily="@font/regular_s"
             android:alpha="0"/>
 
         <TextView
@@ -39,10 +39,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/secondaryText"
             android:textSize="16dp"
             android:text="@string/first_text_2"
-            android:fontFamily="@font/bold"
+            android:fontFamily="@font/regular_s"
             android:alpha="0" />
 
         <TextView
@@ -51,10 +51,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="20dp"
-            android:textColor="@color/primaryText"
-            android:textSize="16dp"
+            android:textColor="@color/secondaryText"
+            android:textSize="18dp"
             android:text="@string/first_text_3"
-            android:fontFamily="@font/bold"
+            android:fontFamily="@font/bold_s"
             android:alpha="0" />
 
     </LinearLayout>
@@ -65,60 +65,196 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:paddingBottom="10dp"
         android:clipToPadding="false"
         android:alpha="0">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/primaryText"
-            android:textSize="14dp"
-            android:text="@string/logo_text"
-            android:fontFamily="@font/thin"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/primaryText"
-            android:textSize="24dp"
-            android:text="C A L U A"
-            android:fontFamily="@font/bold"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/secondary_rect_stroke">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/primaryText"
-            android:textSize="14dp"
-            android:text="Diary"
-            android:fontFamily="@font/bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primaryText"
+                    android:textSize="25dp"
+                    android:text=""
+                    android:padding="10dp"
+                    android:fontFamily="@font/write_right"/>
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="120dp"
-            android:src="@mipmap/ic_launcher"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/disableText"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primaryText"
+                    android:textSize="25dp"
+                    android:text="하"
+                    android:padding="10dp"
+                    android:fontFamily="@font/write_right"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/disableText"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primaryText"
+                    android:textSize="25dp"
+                    android:text="루"
+                    android:padding="10dp"
+                    android:fontFamily="@font/write_right"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/disableText"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primaryText"
+                    android:textSize="25dp"
+                    android:text="여"
+                    android:padding="10dp"
+                    android:fontFamily="@font/write_right"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/disableText"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primaryText"
+                    android:textSize="25dp"
+                    android:text="담"
+                    android:padding="10dp"
+                    android:fontFamily="@font/write_right"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/disableText"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primaryText"
+                    android:textSize="25dp"
+                    android:text=""
+                    android:padding="10dp"
+                    android:fontFamily="@font/write_right"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="38dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondaryText"
+                    android:gravity="center_horizontal"
+                    android:textSize="11dp"
+                    android:text="@string/logo_text_2"
+                    android:fontFamily="@font/regular_s"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/disableText"
+                    android:layout_gravity="center_horizontal"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="295dp">
+
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="1dp"
+                    android:background="@color/disableText"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/secondaryText"
+                    android:gravity="center_horizontal"
+                    android:textSize="8dp"
+                    android:text="@string/logo_text"
+                    android:fontFamily="@font/regular_s"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="238dp"
+                android:src="@drawable/temp_logo"
+                android:tint="@color/secondaryText"
+                android:alpha="0.8"/>
+
+        </FrameLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/loginBtn"
             android:layout_width="250dp"
             android:layout_height="50dp"
-            android:layout_marginTop="145dp"
-            app:cornerRadius="21dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:textSize="14dp"
+            android:layout_marginTop="200dp"
+            android:layout_gravity="center"
+            app:cornerRadius="1dp"
+            app:backgroundTint="@color/secondaryText"
+            android:textColor="@color/white"
+            android:textSize="12dp"
             android:gravity="center"
-            android:fontFamily="@font/bold"
+            android:fontFamily="@font/bold_s"
             android:text="@string/sign_in_with_google"/>
+
+        <TextView
+            android:id="@+id/loginBackupText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/secondaryText"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:textSize="8dp"
+            android:text="@string/login_backup_text"
+            android:fontFamily="@font/thin_s"/>
 
         <ProgressBar
             android:id="@+id/loadingView"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="130dp"
+            android:layout_gravity="center_horizontal"
             android:visibility="gone"/>
 
         <TextView
@@ -126,11 +262,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:textColor="@color/primaryText"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/secondaryText"
             android:textSize="12dp"
             android:gravity="center"
             android:text="@string/init_loading_text"
-            android:fontFamily="@font/thin"
+            android:fontFamily="@font/regular_s"
             android:visibility="gone"/>
 
     </LinearLayout>
@@ -161,10 +298,10 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="70dp"
             android:lineSpacingExtra="3dp"
-            android:textColor="@color/primaryText"
-            android:textSize="18dp"
+            android:textColor="@color/secondaryText"
+            android:textSize="15dp"
             android:text="@string/app_name"
-            android:fontFamily="@font/regular"/>
+            android:fontFamily="@font/bold_s"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -190,13 +327,13 @@
                     android:gravity="center">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/diaryBtn0"
                         android:layout_width="300dp"
                         android:layout_height="match_parent"
                         app:cardElevation="30dp"
-                        app:cardCornerRadius="15dp">
+                        app:cardCornerRadius="2dp">
 
                         <LinearLayout
-                            android:id="@+id/diaryBtn0"
                             android:orientation="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -206,21 +343,21 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="25dp"
-                                android:textColor="@color/primaryText"
+                                android:textColor="@color/secondaryText"
                                 android:textSize="20dp"
                                 android:text="@string/diary_set_0_title"
-                                android:fontFamily="@font/bold"/>
+                                android:fontFamily="@font/bold_s"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:layout_marginLeft="25dp"
-                                android:textColor="@color/primaryText"
+                                android:textColor="@color/secondaryText"
                                 android:lineSpacingExtra="3dp"
                                 android:textSize="12dp"
                                 android:text="@string/diary_set_0_sub"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/regular_s"/>
                         </LinearLayout>
 
                         <ImageView
@@ -232,14 +369,15 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/diaryBtn1"
                         android:layout_width="300dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="30dp"
-                        app:cardElevation="30dp"
-                        app:cardCornerRadius="15dp">
+                        app:cardElevation="1dp"
+                        app:cardCornerRadius="2dp"
+                        android:alpha="0.5">
 
                         <LinearLayout
-                            android:id="@+id/diaryBtn1"
                             android:orientation="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -249,21 +387,21 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="25dp"
-                                android:textColor="@color/primaryText"
+                                android:textColor="@color/secondaryText"
                                 android:textSize="20dp"
                                 android:text="@string/diary_set_1_title"
-                                android:fontFamily="@font/bold"/>
+                                android:fontFamily="@font/bold_s"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:layout_marginLeft="25dp"
-                                android:textColor="@color/primaryText"
+                                android:textColor="@color/secondaryText"
                                 android:lineSpacingExtra="3dp"
                                 android:textSize="12dp"
                                 android:text="@string/diary_set_1_sub"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/regular_s"/>
                         </LinearLayout>
 
                         <ImageView
@@ -276,14 +414,15 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/diaryBtn2"
                         android:layout_width="300dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="30dp"
-                        app:cardElevation="30dp"
-                        app:cardCornerRadius="15dp">
+                        app:cardElevation="1dp"
+                        app:cardCornerRadius="2dp"
+                        android:alpha="0.5">
 
                         <LinearLayout
-                            android:id="@+id/diaryBtn2"
                             android:orientation="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -293,21 +432,21 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="25dp"
-                                android:textColor="@color/primaryText"
+                                android:textColor="@color/secondaryText"
                                 android:textSize="20dp"
                                 android:text="@string/diary_set_2_title"
-                                android:fontFamily="@font/bold"/>
+                                android:fontFamily="@font/bold_s"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:layout_marginLeft="25dp"
-                                android:textColor="@color/primaryText"
+                                android:textColor="@color/secondaryText"
                                 android:lineSpacingExtra="3dp"
                                 android:textSize="12dp"
                                 android:text="@string/diary_set_2_sub"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/regular_s"/>
 
                         </LinearLayout>
 
@@ -321,14 +460,15 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/diaryBtn3"
                         android:layout_width="300dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="30dp"
-                        app:cardElevation="30dp"
-                        app:cardCornerRadius="15dp">
+                        app:cardElevation="1dp"
+                        app:cardCornerRadius="2dp"
+                        android:alpha="0.5">
 
                         <LinearLayout
-                            android:id="@+id/diaryBtn3"
                             android:orientation="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -338,21 +478,21 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="25dp"
-                                android:textColor="@color/primaryText"
+                                android:textColor="@color/secondaryText"
                                 android:textSize="20dp"
                                 android:text="@string/diary_set_3_title"
-                                android:fontFamily="@font/bold"/>
+                                android:fontFamily="@font/bold_s"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:layout_marginLeft="25dp"
-                                android:textColor="@color/primaryText"
+                                android:textColor="@color/secondaryText"
                                 android:lineSpacingExtra="3dp"
                                 android:textSize="12dp"
                                 android:text="@string/diary_set_3_sub"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/regular_s"/>
 
                         </LinearLayout>
 
@@ -375,42 +515,72 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
-                android:paddingTop="40dp"
-                android:paddingBottom="40dp"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
                 android:clipToPadding="false"
                 android:visibility="gone">
 
-               <LinearLayout
-                   android:orientation="vertical"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                   <com.google.android.material.button.MaterialButton
-                       android:id="@+id/osCalendarBtn"
-                       android:layout_width="match_parent"
-                       android:layout_height="44dp"
-                       app:cornerRadius="19dp"
-                       style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                       android:background="?android:attr/selectableItemBackground"
-                       android:textSize="12dp"
-                       android:gravity="center"
-                       android:textColor="@color/secondaryText"
-                       android:fontFamily="@font/bold"
-                       android:text="@string/reference_os_calendar"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/osCalendarBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:cornerRadius="1dp"
+                        android:textSize="12dp"
+                        android:gravity="center"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/bold_s"
+                        android:text="@string/reference_os_calendar"/>
 
-                   <TextView
-                       android:id="@+id/osCalendarText"
-                       android:layout_width="wrap_content"
-                       android:layout_height="0dp"
-                       android:layout_weight="1"
-                       android:layout_marginTop="20dp"
-                       android:textColor="@color/disableText"
-                       android:lineSpacingExtra="3dp"
-                       android:textSize="14dp"
-                       android:fontFamily="@font/regular"
-                       android:text="@string/no_reference"/>
+                    <TextView
+                        android:id="@+id/osCalendarText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="15dp"
+                        android:textColor="@color/disableText"
+                        android:lineSpacingExtra="3dp"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/regular_s"
+                        android:text=""/>
 
-               </LinearLayout>
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/lastSettingLy"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                android:clipToPadding="false"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/mottoEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:textColorHint="@color/disableText"
+                        android:textColor="@color/primaryText"
+                        android:maxLength="180"
+                        android:background="@color/transparent"
+                        android:hint="@string/motto_sample"/>
+
+                </LinearLayout>
 
             </FrameLayout>
 
@@ -426,8 +596,9 @@
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="30dp"
-                android:textSize="10dp"
-                android:textColor="@color/line"
+                android:textSize="9dp"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/thin_s"
                 android:text="@string/init_setting_info"/>
 
             <LinearLayout
@@ -442,25 +613,25 @@
                     android:id="@+id/prevBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="44dp"
-                    app:cornerRadius="19dp"
                     android:layout_marginRight="10dp"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:textSize="12dp"
+                    app:cornerRadius="1dp"
+                    app:backgroundTint="@color/secondaryText"
+                    android:textSize="11dp"
                     android:gravity="center"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/bold"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/bold_s"
                     android:text="@string/cancel"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/nextBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="44dp"
-                    app:cornerRadius="19dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:textSize="12dp"
+                    app:cornerRadius="1dp"
+                    app:backgroundTint="@color/secondaryText"
+                    android:textSize="11dp"
                     android:gravity="center"
-                    android:fontFamily="@font/bold"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/bold_s"
                     android:text="@string/confirm"/>
 
             </LinearLayout>

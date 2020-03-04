@@ -132,17 +132,7 @@ class MainActivity : BaseActivity() {
         headerBar.setOnClickListener {}
         bottomBar.setOnClickListener {}
         callAfterViewDrawed(rootLy, Runnable{
-            /*
-            val rectangle = Rect()
-            window.decorView.getWindowVisibleDisplayFrame(rectangle)
-            val statusBarHeight = rectangle.top
-            val contentViewTop = window.findViewById<View>(Window.ID_ANDROID_CONTENT).getTop()
-            val titleBarHeight = contentViewTop - statusBarHeight
-            l("StatusBar Height= " + statusBarHeight + " , TitleBar Height = " + titleBarHeight)
-            */
-            val location = IntArray(2)
-            rootLy.getLocationInWindow(location)
-            AppStatus.statusBarHeight = location[1]
+
         })
     }
 
