@@ -34,6 +34,7 @@
                 android:gravity="center_vertical"
                 android:layout_marginRight="2dp"
                 android:textSize="11dp"
+                android:fontFamily="@font/date"
                 android:textColor="@color/primaryText"
                 android:text="27"/>
 
@@ -49,9 +50,10 @@
             android:id="@+id/holiText"
             android:layout_width="wrap_content"
             android:layout_height="10dp"
+            android:layout_marginTop="1dp"
             android:layout_marginRight="2dp"
             android:gravity="center_vertical"
-            android:textSize="8dp"
+            android:textSize="7dp"
             android:singleLine="true"
             android:ellipsize="end"
             android:textColor="@color/primaryText"/>
@@ -62,12 +64,13 @@
         android:id="@+id/diffText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="3dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="2dp"
         android:layout_gravity="right"
         android:textSize="6dp"
         android:singleLine="true"
         android:ellipsize="end"
+        android:fontFamily="@font/date"
         android:textColor="@color/primaryText"/>
 
 </FrameLayout>

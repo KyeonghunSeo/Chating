@@ -38,7 +38,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private val scale = 0.7f
     private val animDur = 300L
     private val zOffset = dpToPx(30f)
-    private val panelOffset = dpToPx(200f)
+    private val panelOffset = dpToPx(170f)
     var viewMode = ViewMode.CLOSED
 
     init {
@@ -139,7 +139,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, scale))
             animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))
             animList.add(ObjectAnimator.ofFloat(it, "translationX", 0f, panelOffset))
-            animList.add(ObjectAnimator.ofFloat(it, "radius", 0f, dpToPx(6f)))
+            animList.add(ObjectAnimator.ofFloat(it, "radius", 0f, dpToPx(2f)))
         }
         animSet.playTogether(animList)
         animSet.duration = animDur

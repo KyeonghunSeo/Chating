@@ -151,7 +151,8 @@
     <string name="sign_in_with_google">시작하기</string>
     <string name="logo_text">캘린더 · 다이어리</string>
     <string name="logo_text_2">기\n록\n되\n어\n가\n치\n있\n는</string>
-    <string name="init_setting_script_0">반갑습니다 %1$s 님 :D\n어떤 다이어리가 필요하신가요?\n원하는 다이어리 구성을 선택해보세요.</string>
+    <string name="logo_text_w">일상을 기록하는 즐거움</string>
+    <string name="init_setting_script_0">반갑습니다! %1$s 님.\n어떤 다이어리가 필요하신가요?\n원하는 다이어리 구성을 선택해보세요.</string>
     <string name="select_os_calendar">외부캘린더 가져오기</string>
     <string name="search_tag">태그로 검색하기</string>
     <string name="edit_folder">폴더 편집</string>
@@ -207,7 +208,7 @@
     <string name="vote_to_new_feature">새로운 기능 투표하기</string>
     <string name="evaluate_text">개발자에게 관심과 응원은 언제나 큰 힘이 됩니다:)</string>
     <string name="email_text">문제가 발생했다면 이곳으로 이메일을 보내주세요</string>
-    <string name="vote_text">\'하루여담\'은 사용자들과 함께 만들어가는 앱 입니다. 가장 많은 투표를 받은 기능이 우선적으로 개발됩니다</string>
+    <string name="vote_text">\'하루여담\'은 사용자들과 함께 만들어가는 앱 입니다.\n가장 많은 투표를 받은 기능이 우선적으로 개발됩니다</string>
     <string name="help">문의사항</string>
     <string name="no_records">이 날의 기록이 없습니다</string>
     <string name="no_records_in_this_folder">보관함에 기록이 없습니다</string>
@@ -371,7 +372,7 @@
     <string name="last_setting_script">이제 마지막 입니다!\n좌우명이나 목표가 있다면 적어보세요.</string>
     <string name="init_loading_text">다이어리를 구성중 입니다.\n잠시만 기다려주세요…</string>
     <string name="upgrade_premium">업그레이드</string>
-    <string name="total_records">총 %1$s개의 기록</string>
+    <string name="total_records">지금까지 총 %1$s개의 기록을 남겼습니다.</string>
     <string name="symbol">심볼</string>
     <string name="very_big">매우크게</string>
     <string name="move_to_keep">보관함으로 이동</string>

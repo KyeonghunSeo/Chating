@@ -7,8 +7,8 @@
         android:id="@+id/dowLy"
         android:layout_width="match_parent"
         android:layout_height="18dp"
-        android:layout_marginLeft="10.0dp"
-        android:layout_marginRight="10.0dp"
+        android:layout_marginLeft="15.0dp"
+        android:layout_marginRight="15.0dp"
         android:layout_gravity="bottom"
         android:orientation="horizontal">
 
@@ -17,63 +17,63 @@
             android:text="S"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="11dp"
+            android:textSize="10dp"
             android:layout_weight="1"
-            android:paddingLeft="2.0dp"/>
+            android:paddingLeft="3.0dp"/>
 
         <TextView
             android:id="@+id/dowText1"
             android:text="S"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="11dp"
+            android:textSize="10dp"
             android:layout_weight="1"
-            android:paddingLeft="2.0dp"/>
+            android:paddingLeft="3.0dp"/>
 
         <TextView
             android:id="@+id/dowText2"
             android:text="S"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="11dp"
+            android:textSize="10dp"
             android:layout_weight="1"
-            android:paddingLeft="2.0dp"/>
+            android:paddingLeft="3.0dp"/>
 
         <TextView
             android:id="@+id/dowText3"
             android:text="S"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="11dp"
+            android:textSize="10dp"
             android:layout_weight="1"
-            android:paddingLeft="2.0dp"/>
+            android:paddingLeft="3.0dp"/>
 
         <TextView
             android:id="@+id/dowText4"
             android:text="S"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="11dp"
+            android:textSize="10dp"
             android:layout_weight="1"
-            android:paddingLeft="2.0dp"/>
+            android:paddingLeft="3.0dp"/>
 
         <TextView
             android:id="@+id/dowText5"
             android:text="S"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="11dp"
+            android:textSize="10dp"
             android:layout_weight="1"
-            android:paddingLeft="2.0dp"/>
+            android:paddingLeft="3.0dp"/>
 
         <TextView
             android:id="@+id/dowText6"
             android:text="S"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="11dp"
+            android:textSize="10dp"
             android:layout_weight="1"
-            android:paddingLeft="2.0dp"/>
+            android:paddingLeft="3.0dp"/>
     </LinearLayout>
 
 </FrameLayout>

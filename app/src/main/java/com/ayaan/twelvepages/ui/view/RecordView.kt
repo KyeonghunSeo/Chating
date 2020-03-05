@@ -24,15 +24,15 @@ import com.ayaan.twelvepages.manager.ColorManager
 class RecordView constructor(context: Context, val record: Record, var formula: RecordCalendarAdapter.Formula,
                              val cellNum: Int, var length: Int) : TextView(context) {
     companion object {
-        var standardTextSize = 9f
+        var standardTextSize = 8f
         val baseSize = dpToPx(0.5f)
         val strokeWidth = dpToPx(1f) // 선
-        val blockTypeSize = dpToPx(15.5f).toInt() // 블록 크기
+        val blockTypeSize = dpToPx(15.0f).toInt() // 블록 크기
         val defaulMargin = dpToPx(1.5f) // 뷰간 간격
         val defaultPadding = dpToPx(2.0f).toInt()
         val normalStickerSize = dpToPx(35f)
         val datePointSize = dpToPx(30)
-        val rectRadius = dpToPx(1.0f)
+        val rectRadius = dpToPx(0.0f)
         val dotSize = dpToPx(4)
         val checkboxSize = dpToPx(10)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
@@ -88,7 +88,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         var sPadding = defaultPadding
         var textPadding = 0
         shape = record.getShape()
-        setTypeface(AppTheme.regularFont, Typeface.NORMAL)
+        typeface = AppTheme.regularFont
         //setTypeface(AppTheme.boldFont, Typeface.BOLD)
         when(formula) {
             SINGLE_TEXT, BOTTOM_SINGLE_TEXT -> {
@@ -340,7 +340,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             if(AppStatus.checkedRecordDisplay in 2..3) {
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
-            val check = resource.getDrawable(R.drawable.checked_fill)
+            val check = resource.getDrawable(R.drawable.check)
             check.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
             check.setBounds(xOffset, (centerY - radius).toInt(),
                     xOffset + checkboxSize, (centerY + radius).toInt())

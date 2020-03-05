@@ -15,6 +15,7 @@ object AppTheme {
     var thinFont: Typeface = Typeface.DEFAULT
     var regularFont: Typeface = Typeface.DEFAULT
     var boldFont: Typeface = Typeface.DEFAULT
+    var dateFont: Typeface = Typeface.DEFAULT
 
     var selectableItemBackground = 0
     var background = 0
@@ -61,5 +62,6 @@ object AppTheme {
         thinFont = ResourcesCompat.getFont(context, R.font.thin_s)!!
         regularFont = ResourcesCompat.getFont(context, R.font.regular_s)!!
         boldFont = ResourcesCompat.getFont(context, R.font.bold_s)!!
+        dateFont = ResourcesCompat.getFont(context, R.font.date)!!
     }
 }

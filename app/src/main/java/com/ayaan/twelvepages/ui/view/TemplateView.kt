@@ -304,7 +304,5 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    fun getAddButton(): CardView? = templatePanel
-
     fun isExpanded() = behavior.state != BottomSheetBehavior.STATE_HIDDEN
 }

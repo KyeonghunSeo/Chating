@@ -315,7 +315,7 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     private fun drawPoints(list: ArrayList<Point>, canvas: Canvas?) {
-        val lineWidth = dpToPx(1.5f)
+        val lineWidth = dpToPx(1.0f)
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = lineWidth
         paint.pathEffect = dashEffect

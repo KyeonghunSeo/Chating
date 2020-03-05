@@ -40,7 +40,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val columns = 7
         val todayCal: Calendar = Calendar.getInstance()
         val dragStartYPos = dpToPx(0f)
-        val calendarPadding = dpToPx(10)
+        val calendarPadding = dpToPx(15)
         val calendarTopPadding = dpToPx(2)
         val calendarBottomPadding = dpToPx(42)
         val autoScrollThreshold = dpToPx(70)
@@ -215,7 +215,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val weeknumText: TextView = container.findViewById(R.id.weeknumText)
         init {
             weeknumText.setTextColor(AppTheme.disableText)
-            weeknumText.setTypeface(AppTheme.boldFont, Typeface.BOLD_ITALIC)
+            weeknumText.typeface = AppTheme.boldFont
             unTarget()
         }
 
@@ -242,8 +242,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         init {
             v.clipChildren = false
             v.dateText.typeface = CalendarManager.dateFont
-            v.dowText.typeface = CalendarManager.dateFont
-            v.holiText.typeface = CalendarManager.dateFont
+            v.dowText.typeface = AppTheme.regularFont
+            v.holiText.typeface = AppTheme.regularFont
             v.diffText.typeface = CalendarManager.dateFont
         }
 
@@ -254,7 +254,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             DateInfoManager.getHoliday(dateInfo, cal)
             val alpha = if(isInMonth) 1f else AppStatus.outsideMonthAlpha
             v.dateLy.alpha = alpha
-            v.dateText.text = String.format("%01d", tempCal.get(Calendar.DATE))
+            v.dateText.text = String.format("%02d", tempCal.get(Calendar.DATE))
             v.dowText.tag = AppDateFormat.simpleDow.format(tempCal.time)
             v.bar.scaleX = 0.95f
             v.bar.scaleY = 0.95f

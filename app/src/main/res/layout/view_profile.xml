@@ -8,173 +8,168 @@
         android:orientation="vertical"
         android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:paddingBottom="20dp">
+        android:paddingTop="80dp"
+        android:paddingBottom="50dp">
 
-        <LinearLayout
+        <FrameLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="23dp">
+            android:layout_height="wrap_content"
+            android:clipChildren="false">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp">
+            <androidx.cardview.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                android:layout_marginBottom="20dp"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="1dp">
 
-                <androidx.cardview.widget.CardView
+                <ImageView
+                    android:id="@+id/profileImg"
                     android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="10dp"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="75dp">
+                    android:layout_height="200dp"
+                    android:foreground="?android:attr/selectableItemBackground" />
 
-                    <ImageView
-                        android:id="@+id/profileImg"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:foreground="?android:attr/selectableItemBackground" />
+            </androidx.cardview.widget.CardView>
 
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
+            <FrameLayout
+                android:id="@+id/premiumTag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp"
+                android:background="@color/colorPrimary"
                 android:layout_gravity="bottom">
 
-                <TextView
-                    android:id="@+id/nameText"
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/primaryText"
-                    android:textSize="12dp"
-                    android:text="name"
-                    android:fontFamily="@font/bold"/>
-
-                <TextView
-                    android:id="@+id/emailText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:textColor="@color/primaryText"
-                    android:textSize="10dp"
-                    android:text="email"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/mottoText"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="30dp"
-                android:lineSpacingExtra="3dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/thin"
-                android:maxLines="10"
-                android:ellipsize="end"
-                android:textSize="14dp"
-                android:hint="@string/motto"
-                android:text="@string/motto_sample"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:background="?android:attr/selectableItemBackground">
+                    android:background="?android:attr/selectableItemBackground"
+                    android:padding="5dp">
 
                     <TextView
-                        android:id="@+id/totalRecordsText"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/nameText"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="0dp"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/total_records"
-                        android:textColor="@color/primaryText"
-                        android:textSize="14dp"/>
+                        android:textColor="@color/background"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="10dp"
+                        android:text="name"
+                        android:fontFamily="@font/bold_s"/>
 
-                </FrameLayout>
+                    <TextView
+                        android:id="@+id/emailText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:textColor="@color/background"
+                        android:textSize="8dp"
+                        android:text="email"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/crown"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:tint="@color/yellow"/>
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false">
+
+                <TextView
+                    android:id="@+id/mottoText"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:maxLength="100"
+                    android:ellipsize="end"
+                    android:textSize="13dp"
+                    android:hint="@string/motto"
+                    android:text="@string/motto_sample"
+                    android:background="?android:attr/selectableItemBackground"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_gravity="right">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground">
+
+                        <TextView
+                            android:id="@+id/totalRecordsText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="0dp"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/total_records"
+                            android:textColor="@color/secondaryText"
+                            android:fontFamily="@font/bold_s"
+                            android:textSize="12dp"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/aboutUsBtn"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:layout_marginLeft="20dp"
-        android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical">
 
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/temp_logo"
+            android:tint="@color/secondaryText"/>
+
         <TextView
+            android:id="@+id/aboutUsBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/primaryText"
             android:textSize="20dp"
-            android:text="C A L U A"
-            android:fontFamily="@font/bold"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="2dp"
-            android:textColor="@color/primaryText"
-            android:textSize="10dp"
-            android:text="Diary"
-            android:fontFamily="@font/bold"/>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/premiumTag"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/yellow">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingLeft="10dp"
-                android:paddingRight="12dp"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/crown"
-                    android:tint="@color/white"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="12dp"
-                    android:text="@string/premium"
-                    android:fontFamily="@font/bold"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+            android:text="@string/app_name"
+            android:padding="10dp"
+            android:fontFamily="@font/write_right"/>
 
     </LinearLayout>
 
@@ -182,16 +177,17 @@
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right">
+        android:layout_marginLeft="5dp"
+        android:layout_gravity="bottom">
 
         <ImageView
             android:id="@+id/settingsBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="15dp"
+            android:padding="16dp"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/setting"
-            android:tint="@color/primaryText"/>
+            android:tint="@color/iconTint"/>
 
     </LinearLayout>
 

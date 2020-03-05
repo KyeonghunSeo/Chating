@@ -137,21 +137,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initBottomBar() {
-        calendarBtn.setOnClickListener {
-            if(getTargetFolder().id == "calendar") {
-                viewModel.targetTime.value?.let {
-                    viewModel.targetTime.value?.let { templateView.expand(it, it) }
-                }
-            }else {
-                viewModel.setCalendarFolder()
-            }
-        }
-
-        keepBtn.setOnClickListener {
-            if(getTargetFolder().id == "keep") {
+        addBtn.setOnClickListener {
+            viewModel.targetTime.value?.let {
                 viewModel.targetTime.value?.let { templateView.expand(it, it) }
-            }else {
-                viewModel.setKeepFolder()
             }
         }
     }
@@ -337,14 +325,6 @@ class MainActivity : BaseActivity() {
             noteView.notifyDataChanged()
         }
         templateView.notifyListChanged()
-
-        TransitionManager.beginDelayedTransition(addBtn, makeChangeBounceTransition())
-        (addBtn.layoutParams as FrameLayout.LayoutParams).gravity = if(MainActivity.getTargetFolder().id == "calendar") {
-            Gravity.LEFT
-        }else {
-            Gravity.RIGHT
-        }
-        addBtn.requestLayout()
     }
 
     private fun refreshCalendar() {
@@ -359,6 +339,7 @@ class MainActivity : BaseActivity() {
     private fun setDateText() {
         getTargetCal()?.let {
             fakeDateText.text = it.get(Calendar.DATE).toString()
+            mainMonthText.typeface = AppTheme.regularFont
             mainMonthText.setTextColor(CalendarManager.selectedDateColor)
             if(it.get(Calendar.YEAR) == getCurrentYear()) {
                 mainMonthText.text = AppDateFormat.month.format(it.time)
@@ -387,12 +368,12 @@ class MainActivity : BaseActivity() {
                 if(todayOffset < 0) {
                     distance *= -1
                     (todayBtn.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT or Gravity.BOTTOM
-                    todayText.setPadding(dpToPx(8), 0, 0, 0)
+                    todayText.setPadding(dpToPx(5), 0, 0, 0)
                     todayRightArrow.visibility = View.VISIBLE
                     todayLeftArrow.visibility = View.GONE
                 }else {
                     (todayBtn.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.LEFT or Gravity.BOTTOM
-                    todayText.setPadding(0, 0, dpToPx(8), 0)
+                    todayText.setPadding(0, 0, dpToPx(5), 0)
                     todayRightArrow.visibility = View.GONE
                     todayLeftArrow.visibility = View.VISIBLE
                 }
@@ -482,7 +463,7 @@ class MainActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_PROFILE_IMAGE && resultCode == RESULT_OK) {
-            data?.let { CropImage.activity(data.data).setAspectRatio(1, 1).start(this) }
+            data?.let { CropImage.activity(data.data).setAspectRatio(3, 4).start(this) }
         }else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
             if (resultCode == RESULT_OK) {
@@ -531,7 +512,7 @@ class MainActivity : BaseActivity() {
             if(viewModel.openFolder.value == true) viewModel.openFolder.value = false
             if(dayPager.isOpened()) dayPager.hide()
             profileView.hide()
-            CalendarSettingsDialog(this).show(supportFragmentManager, null)
+            CalendarSettingsSheet(this).show(supportFragmentManager, null)
         }else if(requestCode == RC_SETTING && resultCode == RC_LOGOUT) {
             finish()
             startActivity(Intent(this, WelcomeActivity::class.java))

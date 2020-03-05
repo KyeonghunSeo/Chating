@@ -11,10 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.setGlobalTheme
+import com.ayaan.twelvepages.ui.dialog.LoadingDialog
 
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
-    var progressDialog: ProgressDialog? = null
+    var progressDialog: LoadingDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +37,10 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun showProgressDialog(msg: String?) {
+    fun showProgressDialog(msg: String?, sub: String? = null) {
         hideProgressDialog()
-        progressDialog = ProgressDialog(this)
-        progressDialog?.let {
-            if(msg.isNullOrEmpty()) it.setMessage(getString(R.string.plz_wait))
-            else it.setMessage(msg)
-            it.setCancelable(false)
-            it.show()
+        progressDialog = LoadingDialog(this, if(msg.isNullOrEmpty()) getString(R.string.plz_wait) else msg, sub).apply {
+            com.ayaan.twelvepages.showDialog(this, false, true, true, false)
         }
     }
 

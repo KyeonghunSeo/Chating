@@ -455,7 +455,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     fun getPreviewDataImg() : View = previewDataImg
 
     companion object {
-        const val headerTextScale = 6.0f
+        const val headerTextScale = 4.0f
         const val mainMonthTextScale = 1.00f
         val mainMonthTextY = dpToPx(7.5f)
 

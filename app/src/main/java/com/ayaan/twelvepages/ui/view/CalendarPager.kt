@@ -23,7 +23,7 @@ import java.util.*
 
 class CalendarPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
-    private val headerHeight = dpToPx(70)
+    private val headerHeight = dpToPx(100)
     private val dowHeight = dpToPx(18)
     private val startPosition = 1000
     private val viewCount = 3
@@ -112,7 +112,7 @@ class CalendarPager @JvmOverloads constructor(context: Context, attrs: Attribute
                     textView.typeface = AppTheme.thinFont
                 }
                 */
-                textView.typeface = CalendarManager.dateFont
+                textView.typeface = AppTheme.regularFont
                 textView.setTextColor(when (index) {
                     calendarView.sundayPos -> CalendarManager.sundayColor
                     calendarView.saturdayPos -> CalendarManager.saturdayColor

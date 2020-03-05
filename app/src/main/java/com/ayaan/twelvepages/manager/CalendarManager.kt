@@ -18,6 +18,6 @@ object CalendarManager {
         sundayColor = Prefs.getInt("sundayColor", AppTheme.red)
         saturdayColor = Prefs.getInt("saturdayColor", dateColor)
         selectedDateColor = AppTheme.secondaryText
-        dateFont = AppTheme.regularFont
+        dateFont = AppTheme.dateFont
     }
 }
