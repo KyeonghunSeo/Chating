@@ -51,7 +51,7 @@ object MainDragAndDropListener : View.OnDragListener {
                 startTime = currentTime
                 currentTime = t
             }
-            MainActivity.instance?.expandControlView(startTime, currentTime)
+            MainActivity.instance?.showTemplateSheet(startTime, currentTime)
         }
     }
 

@@ -33,6 +33,7 @@ import com.ayaan.twelvepages.manager.SymbolManager
 import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.*
+import com.ayaan.twelvepages.ui.sheet.MoreOptionSheet
 import com.ayaan.twelvepages.ui.view.RecordView
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -194,7 +195,7 @@ class RecordActivity : BaseActivity() {
 
     private fun updateHeaderUI() {
         addOptionBtn.setOnClickListener {
-            MoreOptionDialog(record, this).show(supportFragmentManager, null)
+            MoreOptionSheet(record, this).show(supportFragmentManager, null)
         }
 
         moreBtn.setOnClickListener {

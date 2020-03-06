@@ -1,14 +1,14 @@
-package com.ayaan.twelvepages.ui.dialog
+package com.ayaan.twelvepages.ui.sheet
 
 import android.app.Activity
 import android.app.Dialog
-import android.os.Build
-import android.view.View
 import android.view.WindowManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.manager.DateInfoManager
 import com.ayaan.twelvepages.ui.activity.MainActivity
+import com.ayaan.twelvepages.ui.dialog.BottomSheetDialog
+import com.ayaan.twelvepages.ui.dialog.CustomListDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.dialog_calendar_settings.view.*

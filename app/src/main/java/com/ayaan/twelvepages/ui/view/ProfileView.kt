@@ -26,6 +26,7 @@ import com.ayaan.twelvepages.ui.activity.SettingsActivity
 import com.ayaan.twelvepages.ui.dialog.InputDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.firestore.FirebaseFirestore
 import io.realm.Realm
 import io.realm.Sort
 import kotlinx.android.synthetic.main.view_profile.view.*
@@ -130,9 +131,34 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 
+    private fun versionCheck() {
+        val versionName = App.context.packageManager.getPackageInfo(App.context.packageName, 0).versionName
+        val db = FirebaseFirestore.getInstance()
+        db.collection("version")
+                .document("latest")
+                .set(hashMapOf("name" to "1.0.0"))
+                .addOnSuccessListener { documentReference ->
+                    l("!!!!!!!!!!!!")
+                }
+        db.collection("version")
+                .document("latest")
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        l("DocumentSnapshot data: ${document.data}")
+                    } else {
+                        l("No such document")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    l("get failed with ")
+                }
+    }
+
     fun show() {
         vibrate(context)
         startAnalytics()
+        versionCheck()
         val animSet = AnimatorSet()
         val animList = ArrayList<Animator>()
         MainActivity.getMainPanel()?.let {

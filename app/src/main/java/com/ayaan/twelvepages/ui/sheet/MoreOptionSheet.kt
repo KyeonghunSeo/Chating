@@ -1,17 +1,17 @@
-package com.ayaan.twelvepages.ui.dialog
+package com.ayaan.twelvepages.ui.sheet
 
 import android.app.Dialog
 import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.toast
 import com.ayaan.twelvepages.ui.activity.RecordActivity
+import com.ayaan.twelvepages.ui.dialog.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.dialog_more_option.view.*
 
 
-class MoreOptionDialog(private val record: Record,
-                       private val recordActivity: RecordActivity) : BottomSheetDialog() {
+class MoreOptionSheet(private val record: Record,
+                      private val recordActivity: RecordActivity) : BottomSheetDialog() {
 
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style, R.layout.dialog_more_option)

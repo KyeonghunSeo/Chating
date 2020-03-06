@@ -19,6 +19,7 @@ import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
@@ -31,6 +32,8 @@ import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.*
+import com.ayaan.twelvepages.ui.sheet.CalendarSettingsSheet
+import com.ayaan.twelvepages.ui.sheet.TemplateSheet
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
@@ -84,6 +87,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         l("[MainActivity onCreate]")
         instance = this
+        //viewModel = ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         setContentView(R.layout.activity_main)
         initTheme(rootLy)
@@ -137,11 +141,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initBottomBar() {
-        addBtn.setOnClickListener {
-            viewModel.targetTime.value?.let {
-                viewModel.targetTime.value?.let { templateView.expand(it, it) }
-            }
-        }
+        addBtn.setOnClickListener { viewModel.targetTime.value?.let { showTemplateSheet(it, it) } }
     }
 
     private fun initCalendarView() {
@@ -338,8 +338,9 @@ class MainActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
         getTargetCal()?.let {
-            fakeDateText.text = it.get(Calendar.DATE).toString()
+            fakeDateText.typeface = AppTheme.dateFont
             mainMonthText.typeface = AppTheme.regularFont
+            fakeDateText.text = String.format("%02d", it.get(Calendar.DATE))
             mainMonthText.setTextColor(CalendarManager.selectedDateColor)
             if(it.get(Calendar.YEAR) == getCurrentYear()) {
                 mainMonthText.text = AppDateFormat.month.format(it.time)
@@ -445,8 +446,8 @@ class MainActivity : BaseActivity() {
         } catch (ex: android.content.ActivityNotFoundException) { ex.printStackTrace() }
     }
 
-    fun expandControlView(dtStart: Long, dtEnd: Long) {
-        templateView.expand(dtStart, dtEnd)
+    fun showTemplateSheet(dtStart: Long, dtEnd: Long) {
+        TemplateSheet(dtStart, dtEnd).show(supportFragmentManager, null)
     }
 
     override fun onBackPressed() {

@@ -42,7 +42,7 @@
                 android:id="@+id/dowText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="8dp"/>
+                android:textSize="7dp"/>
 
         </LinearLayout>
 
@@ -65,12 +65,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:layout_marginRight="2dp"
+        android:layout_marginRight="3dp"
         android:layout_gravity="right"
         android:textSize="6dp"
         android:singleLine="true"
         android:ellipsize="end"
-        android:fontFamily="@font/date"
         android:textColor="@color/primaryText"/>
 
 </FrameLayout>

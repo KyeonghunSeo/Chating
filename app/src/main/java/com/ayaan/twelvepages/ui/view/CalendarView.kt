@@ -163,9 +163,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 weekLy.addView(rowDividers[i - 1]) // 로우 디바이더 추가
             }
 
-            weekLy.addView(weekViewHolders[i].container) // 주간 뷰 추가
-            weekViewHolders[i].container.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-
             for (j in 0..6) { // 컬럼 디바이더 추가
                 columnDividers[i * 7 + j].let {
                     weekLy.addView(it)
@@ -200,6 +197,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 weekLy.addView(dateCell)
             }
 
+            weekLy.addView(weekViewHolders[i].container) // 주간 뷰 추가
+            weekViewHolders[i].container.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+
             for (j in 0..6) { // 기록 홀더 추가
                 recordsViews[i * 7 + j].let {
                     it.layoutParams = LinearLayout.LayoutParams(0, MATCH_PARENT)
@@ -214,7 +214,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     inner class WeekInfoViewHolder(val container: View) {
         val weeknumText: TextView = container.findViewById(R.id.weeknumText)
         init {
-            weeknumText.setTextColor(AppTheme.disableText)
+            weeknumText.setTextColor(AppTheme.line)
             weeknumText.typeface = AppTheme.boldFont
             unTarget()
         }
@@ -244,7 +244,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             v.dateText.typeface = CalendarManager.dateFont
             v.dowText.typeface = AppTheme.regularFont
             v.holiText.typeface = AppTheme.regularFont
-            v.diffText.typeface = CalendarManager.dateFont
+            v.diffText.typeface = AppTheme.regularFont
         }
 
         fun setDate(cal : Calendar) {

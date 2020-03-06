@@ -222,11 +222,11 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
 
             if(position == root.viewPager.currentItem) {
                 if(position == 0) {
-                    v.iconImg.setBackgroundColor(AppTheme.disableText)
+                    v.iconImg.setBackgroundColor(AppTheme.backgroundDark)
                     v.iconImg.setColorFilter(AppTheme.primary)
                     v.iconImg.alpha = 1f
                 }else {
-                    v.colorSampleView.setBackgroundColor(AppTheme.disableText)
+                    v.colorSampleView.setBackgroundColor(AppTheme.backgroundDark)
                     v.colorSampleView.alpha = 1f
                 }
             }else {

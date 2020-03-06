@@ -65,8 +65,8 @@
                             android:id="@+id/fakeDateText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="10.5dp"
-                            android:textSize="66dp"
+                            android:layout_marginRight="8.0dp"
+                            android:textSize="48dp"
                             android:textColor="@color/transparent"
                             android:visibility="gone"/>
 

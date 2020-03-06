@@ -43,16 +43,16 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="red">#ec4243</color>
-    <color name="blue">#4262f0</color>
+    <color name="red">#f95a37</color>
+    <color name="blue">#7dc9e7</color>
     <color name="yellow">#E0BC57</color>
     <color name="green">#2ecc87</color>
     <color name="grey">#e4e7ef</color>
     <color name="transparent">#00000000</color>
 
     <string-array name="colors">
-        <item>#212121</item>
-        <item>#e73b3b</item>
+        <item>#606066</item>
+        <item>#f95a37</item>
         <item>#f35f8c</item>
         <item>#fb7f77</item>
         <item>#fdc02d</item>

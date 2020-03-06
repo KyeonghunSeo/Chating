@@ -26,7 +26,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     companion object {
         var standardTextSize = 8f
         val baseSize = dpToPx(0.5f)
-        val strokeWidth = dpToPx(1f) // 선
+        val strokeWidth = dpToPx(0.5f) // 선
         val blockTypeSize = dpToPx(15.0f).toInt() // 블록 크기
         val defaulMargin = dpToPx(1.5f) // 뷰간 간격
         val defaultPadding = dpToPx(2.0f).toInt()
@@ -34,7 +34,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val datePointSize = dpToPx(30)
         val rectRadius = dpToPx(0.0f)
         val dotSize = dpToPx(4)
-        val checkboxSize = dpToPx(10)
+        val checkboxSize = dpToPx(8)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         val dashPath = DashPathEffect(floatArrayOf(dpToPx(5.0f), dpToPx(1.0f)), 2f)
         fun getStyleText(style: Int) : String{
@@ -405,7 +405,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 drawArrow(canvas, width, height, width - arrowSize, height - arrowSize, width - arrowSize, height)
             }
             else -> {
-                val periodLine = strokeWidth * 1.8f
+                val periodLine = strokeWidth * 1.5f
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = periodLine
                 if(shape == Shape.DASH_RANGE || shape == Shape.DASH_ARROW) {
@@ -418,12 +418,12 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 paint.style = Paint.Style.FILL
 
                 if(shape == Shape.ARROW || shape == Shape.DASH_ARROW) {
-                    val arrowSize = (periodLine * 1.8f).toInt()
-                    val arrowWidth = (periodLine * 1.8f).toInt()
+                    val arrowSize = (periodLine * 4.0f).toInt()
+                    val arrowWidth = (periodLine * 4.0f).toInt()
                             drawArrow(canvas, 0, height / 2, arrowWidth, height / 2 - arrowSize, arrowWidth, height / 2  + arrowSize)
                     drawArrow(canvas, width, height / 2, width - arrowWidth, height / 2 - arrowSize, width - arrowWidth, height / 2  + arrowSize)
                 }else {
-                    val dividerSize = periodLine * 2.0f
+                    val dividerSize = periodLine * 4.0f
                     canvas.drawRect(0f, height / 2f - dividerSize, periodLine, height / 2f + dividerSize, paint)
                     canvas.drawRect(width - periodLine, height / 2f - dividerSize, width.toFloat(), height / 2f + dividerSize, paint)
                 }

@@ -257,7 +257,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     @SuppressLint("SetTextI18n")
     private fun setDateText() {
-        dateText.text = String.format("%01d", targetCal.get(Calendar.DATE))
+        dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
         DateInfoManager.getHoliday(dateInfo, targetCal)
         color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
             CalendarManager.sundayColor
@@ -273,19 +273,23 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             color
         }
 
+        diffText.translationX = MainActivity.getTargetCalendarView()?.targetDateHolder?.getDiffTextLeft()?.toFloat()?:0f
         dateText.setTextColor(color)
         dowText.setTextColor(CalendarManager.selectedDateColor)
         holiText.setTextColor(color)
-        diffText.setTextColor(color)
-        holiText.text = dateInfo.getSelectedString()
-        diffText.text = dateInfo.getDiffDateString()
-        diffText.translationX = MainActivity.getTargetCalendarView()?.targetDateHolder?.getDiffTextLeft()?.toFloat()?:0f
-        dowText.text = "${AppDateFormat.dow.format(targetCal.time)} · ${dateInfo.getDiffDateString()}\n${dateInfo.getSelectedString()}"
+        val selectedString = dateInfo.getSelectedString()
+        val diffString = dateInfo.getDiffDateString()
+        dowText.text = "${AppDateFormat.dow.format(targetCal.time)}\n${diffString}" +
+                if(selectedString.isNotBlank()) " · $selectedString" else ""
+        diffText.text = diffString
+        holiText.text = selectedString
     }
 
     @SuppressLint("SetTextI18n")
     fun show(dataSize: Int) {
-        dowText.text = "${AppDateFormat.dow.format(targetCal.time)} · ${dateInfo.getDiffDateString()}\n${dateInfo.getSelectedString()}"
+        val selectedString = dateInfo.getSelectedString()
+        dowText.text = "${AppDateFormat.dow.format(targetCal.time)}\n${dateInfo.getDiffDateString()}" +
+                if(selectedString.isNotBlank()) " · $selectedString" else ""
         diffText.translationX = MainActivity.getTargetCalendarView()?.targetDateHolder?.getDiffTextLeft()?.toFloat()?:0f
         val animSet = AnimatorSet()
         animSet.playTogether(
@@ -456,21 +460,21 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     companion object {
         const val headerTextScale = 4.0f
-        const val mainMonthTextScale = 1.00f
-        val mainMonthTextY = dpToPx(7.5f)
+        const val mainMonthTextScale = 0.68f
+        val mainMonthTextY = dpToPx(-58.0f)
 
-        val datePosX = -dpToPx(4.0f)
-        val datePosY = -dpToPx(20.0f)
+        val datePosX = dpToPx(2.0f)
+        val datePosY = -dpToPx(10.0f)
 
-        val dowPosX = -dpToPx(2.0f) / headerTextScale
+        val dowPosX = dpToPx(0.5f) / headerTextScale
         val holiPosX = dpToPx(0.0f) / headerTextScale
 
-        val subYPos = dpToPx(28.0f) / headerTextScale
+        val subYPos = dpToPx(17.0f) / headerTextScale
         val dowPosY = dpToPx(0.0f) / headerTextScale + subYPos
         val holiPosY = -dpToPx(0.0f) / headerTextScale + subYPos
 
-        val dowScale = 2.3f / headerTextScale
-        val holiScale = 1.75f / headerTextScale
+        val dowScale = 2.00f / headerTextScale
+        val holiScale = 2.00f / headerTextScale
     }
 
 }
