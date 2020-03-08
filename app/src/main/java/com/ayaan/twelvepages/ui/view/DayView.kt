@@ -466,7 +466,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         val datePosX = dpToPx(2.0f)
         val datePosY = -dpToPx(10.0f)
 
-        val dowPosX = dpToPx(0.5f) / headerTextScale
+        val dowPosX = dpToPx(5.5f) / headerTextScale
         val holiPosX = dpToPx(0.0f) / headerTextScale
 
         val subYPos = dpToPx(17.0f) / headerTextScale

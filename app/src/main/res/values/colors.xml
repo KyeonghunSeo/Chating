@@ -43,7 +43,8 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="red">#f95a37</color>
+    <color name="red">#fb7f77</color>
+    <color name="reds">#f95a37</color>
     <color name="blue">#7dc9e7</color>
     <color name="yellow">#E0BC57</color>
     <color name="green">#2ecc87</color>

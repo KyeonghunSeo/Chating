@@ -7,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.ayaan.twelvepages.AppTheme
-import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.SymbolManager
 import com.ayaan.twelvepages.model.Template
-import com.ayaan.twelvepages.setGlobalTheme
 import io.realm.Realm
 import kotlinx.android.synthetic.main.list_item_template.view.*
 import java.util.*
@@ -30,7 +28,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
 
     var mode = 0
 
-    override fun getItemCount(): Int = items.size + mode
+    override fun getItemCount(): Int = items.size + 1
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         init {
@@ -54,21 +52,63 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
                 v.contentLy.alpha = 0.5f
                 v.contentLy.setBackgroundResource(R.drawable.edit_mode_background_dash)
             }
+            v.colorImg.visibility = View.GONE
+            v.cardView.setCardBackgroundColor(AppTheme.background)
+            v.cardView.cardElevation = dpToPx(10f)
             v.titleText.text = template.title
             val color = ColorManager.getColor(template.colorKey)
+            v.colorImg.setImageBitmap(null)
             v.colorBtn.setCardBackgroundColor(color)
-            v.colorImg.setColorFilter(ColorManager.getFontColor(color))
-            v.colorImg.setImageResource(SymbolManager.getSymbolResId(template.symbol))
-            v.setOnClickListener { adapterInterface.invoke(template, mode) }
+            v.setOnClickListener {
+                adapterInterface.invoke(template, mode)
+                if(mode == 1) endEditMode()
+            }
+            v.setOnLongClickListener {
+                if(mode == 0) {
+                }else {
+                    itemTouchHelper?.startDrag(holder)
+                }
+                return@setOnLongClickListener true
+            }
         }else {
+            v.cardView.setCardBackgroundColor(AppTheme.background)
+            v.cardView.cardElevation = 0f
             v.contentLy.alpha = 0.5f
             v.contentLy.setBackgroundResource(R.drawable.blank)
-            v.colorImg.setImageResource(R.drawable.add)
-            v.titleText.text = context.getString(R.string.new_template)
+            v.colorImg.visibility = View.VISIBLE
+            if(mode == 0) {
+                v.colorImg.setImageResource(R.drawable.setting)
+                v.titleText.text = context.getString(R.string.edit_template)
+            }else {
+                v.colorImg.setImageResource(R.drawable.add)
+                v.titleText.text = context.getString(R.string.new_template)
+            }
             v.colorBtn.setCardBackgroundColor(Color.TRANSPARENT)
             v.colorImg.setColorFilter(AppTheme.primaryText)
-            v.setOnClickListener { adapterInterface.invoke(null, mode) }
+            v.setOnClickListener {
+                if(mode == 0) {
+                    startEditMode()
+                }else {
+                    endEditMode()
+                    adapterInterface.invoke(null, mode)
+                }
+            }
+            v.setOnLongClickListener {
+                endEditMode()
+                return@setOnLongClickListener true
+            }
         }
+    }
+
+    private fun startEditMode() {
+        mode = 1
+        notifyDataSetChanged()
+        toast(R.string.long_tab_to_move)
+    }
+
+    private fun endEditMode() {
+        mode = 0
+        notifyDataSetChanged()
     }
 
     private fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
@@ -84,7 +124,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         private val ALPHA_FULL = 1.0f
         private var reordering = false
 
-        override fun isLongPressDragEnabled(): Boolean = true
+        override fun isLongPressDragEnabled(): Boolean = false
         override fun isItemViewSwipeEnabled(): Boolean = false
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {

@@ -65,7 +65,7 @@
                             android:id="@+id/fakeDateText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="8.0dp"
+                            android:layout_marginRight="13.0dp"
                             android:textSize="48dp"
                             android:textColor="@color/transparent"
                             android:visibility="gone"/>
@@ -286,8 +286,8 @@
                 android:id="@+id/addBtn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/add_circle"
-                android:padding="14dp"
+                android:src="@drawable/pen"
+                android:padding="15dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:layout_gravity="center_horizontal"
                 android:tint="@color/colorPrimary"/>

@@ -31,6 +31,7 @@ import com.ayaan.twelvepages.ui.dialog.BottomSheetDialog
 import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.sheet_template.*
 import kotlinx.android.synthetic.main.sheet_template.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -68,33 +69,20 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
         super.setupDialog(dialog, style, R.layout.sheet_template)
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         setLayout()
+        val mainViewModel: MainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+        mainViewModel.templateList.observe(this, androidx.lifecycle.Observer { notifyListChanged() })
         dialog.setOnShowListener {
             vibrate(requireContext())
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val mainViewModel: MainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
-        mainViewModel.templateList.observe(activity!!, androidx.lifecycle.Observer { notifyListChanged() })
-    }
-
     private fun setLayout() {
         root.recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         root.recyclerView.adapter = adapter
+        root.recyclerView.post { root.recyclerView.scrollToPosition(0) }
         adapter.itemTouchHelper?.attachToRecyclerView(root.recyclerView)
-
-        root.editBtn.setOnClickListener {
-            if(adapter.mode == 0) {
-                adapter.mode = 1
-            }else {
-                adapter.mode = 0
-            }
-            initViews()
-        }
         root.stickerBtn.setOnClickListener { addSticker() }
         root.datePointBtn.setOnClickListener { addDatePoint() }
-
         setDate()
         initViews()
     }
@@ -164,21 +152,6 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
         }else {
             root.decoBtns.visibility = View.GONE
         }
-
-        if(adapter.mode == 0) {
-            root.editBtn.setCardBackgroundColor(AppTheme.lightLine)
-            root.editImg.setImageResource(R.drawable.edit)
-            root.editImg.setColorFilter(AppTheme.primaryText)
-            root.editText.text = str(R.string.edit_template)
-            root.editText.setTextColor(AppTheme.primaryText)
-        }else {
-            root.editBtn.setCardBackgroundColor(AppTheme.blue)
-            root.editImg.setImageResource(R.drawable.done)
-            root.editImg.setColorFilter(AppTheme.background)
-            root.editText.text = str(R.string.edit_done)
-            root.editText.setTextColor(AppTheme.background)
-        }
-
         adapter.notifyDataSetChanged()
     }
 

@@ -400,6 +400,11 @@
     <string name="premium_item_1_title">사진 첨부</string>
     <string name="premium_item_2_title">데이터 자동 백업</string>
     <string name="login_backup_text">모든 기록은 선택한 계정에 안전하게 보관됩니다.</string>
+    <string name="long_tab_to_move">길게 눌러 정렬할 수 있습니다.</string>
+    <string name="version_is">버전 %1$s</string>
+    <string name="latest_ver">최신버전</string>
+    <string name="need_update">업데이트 가능</string>
+    <string name="history">히스토리</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

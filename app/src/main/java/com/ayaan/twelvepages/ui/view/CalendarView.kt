@@ -214,7 +214,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     inner class WeekInfoViewHolder(val container: View) {
         val weeknumText: TextView = container.findViewById(R.id.weeknumText)
         init {
-            weeknumText.setTextColor(AppTheme.line)
+            weeknumText.setTextColor(AppTheme.lightLine)
             weeknumText.typeface = AppTheme.boldFont
             unTarget()
         }

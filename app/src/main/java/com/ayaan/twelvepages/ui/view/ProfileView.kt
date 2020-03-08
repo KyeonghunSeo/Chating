@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.AsyncTask
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -131,28 +132,36 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 
+    var latestVer = ""
+
+    @SuppressLint("SetTextI18n")
     private fun versionCheck() {
-        val versionName = App.context.packageManager.getPackageInfo(App.context.packageName, 0).versionName
-        val db = FirebaseFirestore.getInstance()
-        db.collection("version")
-                .document("latest")
-                .set(hashMapOf("name" to "1.0.0"))
-                .addOnSuccessListener { documentReference ->
-                    l("!!!!!!!!!!!!")
-                }
-        db.collection("version")
-                .document("latest")
-                .get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        l("DocumentSnapshot data: ${document.data}")
-                    } else {
-                        l("No such document")
+        if(latestVer.isBlank()) {
+            val currentVersion = App.context.packageManager.getPackageInfo(App.context.packageName, 0).versionName
+            versionText.text = currentVersion
+            val db = FirebaseFirestore.getInstance()
+            db.collection("version")
+                    .document("latest")
+                    .get()
+                    .addOnSuccessListener { document ->
+                        if (document != null) {
+                            latestVer = document.data?.get("name").toString()
+                            if(currentVersion == latestVer) {
+                                versionText.setTextColor(AppTheme.disableText)
+                                versionText.text = "${versionText.text} (${str(R.string.latest_ver)})"
+                            }else {
+                                versionText.setTextColor(AppTheme.secondaryText)
+                                versionText.text = "${versionText.text} (${str(R.string.need_update)})"
+                                versionText.setOnClickListener {
+                                    latestVer = ""
+                                    hide()
+                                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/")))
+                                }
+                            }
+                            l("DocumentSnapshot data: ${document.data}")
+                        }
                     }
-                }
-                .addOnFailureListener { exception ->
-                    l("get failed with ")
-                }
+        }
     }
 
     fun show() {

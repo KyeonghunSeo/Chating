@@ -93,32 +93,68 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
                 android:clipChildren="false">
 
                 <TextView
                     android:id="@+id/mottoText"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
                     android:lineSpacingExtra="3dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold_s"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/regular_s"
                     android:maxLength="100"
                     android:ellipsize="end"
-                    android:textSize="13dp"
+                    android:textSize="12dp"
                     android:hint="@string/motto"
                     android:text="@string/motto_sample"
                     android:background="?android:attr/selectableItemBackground"/>
 
                 <LinearLayout
                     android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="35dp"
+                    android:gravity="center_vertical">
+
+                    <com.ayaan.twelvepages.ui.view.base.Line
+                        android:layout_width="30dp"
+                        android:layout_height="1dp"
+                        app:colorFlag="line"/>
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="7dp"
+                        android:src="@drawable/history"
+                        android:tint="@color/secondaryText"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="3dp"
+                        android:textSize="10dp"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/bold_s"
+                        android:text="@string/history"/>
+
+                    <com.ayaan.twelvepages.ui.view.base.Line
+                        android:layout_width="30dp"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="7dp"
+                        app:colorFlag="line"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="10dp"
                     android:layout_gravity="right">
 
                     <FrameLayout
@@ -134,7 +170,7 @@
                             android:layout_gravity="center_vertical"
                             android:text="@string/total_records"
                             android:textColor="@color/secondaryText"
-                            android:fontFamily="@font/bold_s"
+                            android:fontFamily="@font/regular_s"
                             android:textSize="12dp"/>
 
                     </FrameLayout>
@@ -194,14 +230,16 @@
     <TextView
         android:id="@+id/versionText"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_margin="20dp"
+        android:layout_height="50dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginRight="10dp"
         android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:layout_gravity="bottom|right"
         android:textColor="@color/disableText"
-        android:textSize="12dp"
-        android:text="버전 1.0 (최신)"
-        android:fontFamily="@font/bold"/>
+        android:textSize="11dp"
+        android:text="버전 1.0"
+        android:fontFamily="@font/regular_s"/>
 
 </FrameLayout>

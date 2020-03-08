@@ -21,159 +21,132 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="40dp">
+        android:paddingBottom="30dp"
+        android:clipToPadding="false"
+        android:clipChildren="false">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:clipChildren="false">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="25dp"
-                android:layout_marginTop="25dp">
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:id="@+id/templateDateText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"
+                    android:layout_marginLeft="25dp"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="16dp"
                     android:text="2019"/>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/editBtn"
+                <LinearLayout
+                    android:id="@+id/decoBtns"
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_marginRight="10dp"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp">
+                    android:layout_height="40dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="15dp">
 
-                    <ImageView
-                        android:id="@+id/editImg"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginLeft="3dp"
-                        android:src="@drawable/edit"
-                        android:tint="@color/primaryText"
-                        android:padding="5dp"/>
-
-                    <TextView
-                        android:id="@+id/editText"
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/stickerBtn"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="28dp"
-                        android:layout_marginRight="8dp"
-                        android:textSize="11dp"
-                        android:textColor="@color/primaryText"
-                        android:text="@string/edit_template"/>
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        app:cardBackgroundColor="@color/background"
+                        app:cardCornerRadius="1dp"
+                        app:cardElevation="0dp">
 
-                </androidx.cardview.widget.CardView>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingRight="10dp"
+                            android:paddingLeft="10dp"
+                            android:gravity="center_vertical"
+                            android:background="?android:attr/selectableItemBackground">
+
+                            <ImageView
+                                android:layout_width="13dp"
+                                android:layout_height="13dp"
+                                android:src="@drawable/star"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginLeft="3dp"
+                                android:textSize="12dp"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:textColor="@color/secondaryText"
+                                android:fontFamily="@font/bold_s"
+                                android:text="@string/formula_sticker"/>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/datePointBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        app:cardBackgroundColor="@color/background"
+                        app:cardCornerRadius="1dp"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingRight="10dp"
+                            android:paddingLeft="10dp"
+                            android:gravity="center_vertical"
+                            android:background="?android:attr/selectableItemBackground">
+
+                            <ImageView
+                                android:layout_width="13dp"
+                                android:layout_height="13dp"
+                                android:src="@drawable/calendar_check"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginLeft="3dp"
+                                android:textSize="12dp"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:textColor="@color/secondaryText"
+                                android:fontFamily="@font/bold_s"
+                                android:text="@string/formula_date_point"/>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
 
             </FrameLayout>
-
-            <LinearLayout
-                android:id="@+id/decoBtns"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="15dp">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/stickerBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="0dp">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="?android:attr/selectableItemBackground">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginLeft="2dp"
-                            android:padding="8dp"
-                            android:src="@drawable/heart"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:layout_marginRight="12dp"
-                            android:textSize="12dp"
-                            android:maxLines="1"
-                            android:ellipsize="end"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/bold"
-                            android:text="@string/formula_sticker"/>
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/datePointBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="0dp">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="?android:attr/selectableItemBackground">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginLeft="2dp"
-                            android:padding="8dp"
-                            android:src="@drawable/heart"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:layout_marginRight="12dp"
-                            android:textSize="12dp"
-                            android:maxLines="1"
-                            android:ellipsize="end"
-                            android:textColor="@color/primaryText"
-                            android:fontFamily="@font/bold"
-                            android:text="@string/formula_date_point"/>
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:overScrollMode="never"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
                 android:clipToPadding="false"
                 android:clipChildren="false">
             </androidx.recyclerview.widget.RecyclerView>
