@@ -7,7 +7,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Typeface
 import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
@@ -17,7 +16,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import android.widget.LinearLayout.HORIZONTAL
 import androidx.core.app.ActivityCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
@@ -40,8 +38,8 @@ import io.realm.OrderedCollectionChangeSet
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
-import kotlinx.android.synthetic.main.view_day.view.*
 import kotlinx.android.synthetic.main.view_date_cell_header.view.*
+import kotlinx.android.synthetic.main.view_day.view.*
 import java.util.*
 import java.util.Calendar.SATURDAY
 import java.util.Calendar.SUNDAY
@@ -170,7 +168,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         })
         adapter.itemTouchHelper?.attachToRecyclerView(recordListView)
 
-        decoListView.layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
+        decoListView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         decoListView.adapter = decoAdapter
     }
 

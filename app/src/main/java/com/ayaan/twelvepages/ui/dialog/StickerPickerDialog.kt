@@ -1,14 +1,17 @@
 package com.ayaan.twelvepages.ui.dialog
 
+import android.app.Activity
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
@@ -20,10 +23,6 @@ import com.ayaan.twelvepages.manager.StickerManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.dialog_sticker_picker.view.*
-import kotlinx.android.synthetic.main.dialog_sticker_picker.view.recyclerView
-import kotlinx.android.synthetic.main.dialog_sticker_picker.view.rootLy
-import kotlinx.android.synthetic.main.dialog_sticker_picker.view.settingBtn
-import kotlinx.android.synthetic.main.dialog_sticker_picker.view.viewPager
 import kotlinx.android.synthetic.main.list_item_sticker_picker_tab.view.*
 import kotlinx.android.synthetic.main.pager_item_sticker_picker.view.*
 import java.util.*
@@ -36,14 +35,23 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
         super.setupDialog(dialog, style, R.layout.dialog_sticker_picker)
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         sheetBehavior.isHideable = false
+        setLayout()
+        dialog.setOnShowListener {}
+    }
+
+    private fun setLayout() {
         setViewPager()
         setTab()
-
         root.rootLy.setOnClickListener { dismiss() }
         root.settingBtn.setOnClickListener {
-
+            showDialog(EditStickerPackDialog(activity as Activity) { result ->
+                if(result) {
+                    StickerManager.saveCurrentPack()
+                    setLayout()
+                    toast(R.string.long_tab_to_move)
+                }
+            }, true, true, true, false)
         }
-        dialog.setOnShowListener {}
     }
 
     private fun setViewPager() {
@@ -52,10 +60,10 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
-                if(position == 0) {
-                    currentPack = null
+                currentPack = if(position == 0) {
+                    null
                 }else {
-                    currentPack = StickerManager.packs[position - 1]
+                    StickerManager.packs[position - 1]
                 }
                 root.recyclerView.scrollToPosition(position)
                 root.recyclerView.adapter?.notifyDataSetChanged()
@@ -82,11 +90,15 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                 val recentPack = StickerManager.recentPack
                 if(recentPack.isEmpty()) {
                     v.emptyLy.visibility = View.VISIBLE
+                    v.contentLy.visibility = View.GONE
                 }else {
                     v.emptyLy.visibility = View.GONE
+                    v.contentLy.visibility = View.VISIBLE
                     setStickerImage(stickerImgs, recentPack)
                 }
             }else {
+                v.emptyLy.visibility = View.GONE
+                v.contentLy.visibility = View.VISIBLE
                 val stickerPack = StickerManager.packs[position - 1]
                 setStickerImage(stickerImgs, stickerPack.items.toList())
             }
@@ -99,13 +111,10 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
         override fun getCount(): Int = StickerManager.packs.size + 1
         override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
             super.setPrimaryItem(container, position, `object`)
-            (`object` as View).scrollView.isNestedScrollingEnabled = true
             for (i in 0 until count) {
-                if (i != position) {
-                    container.getChildAt(i)?.scrollView?.isNestedScrollingEnabled = false
-                }
+                container.getChildAt(i)?.findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = false
             }
-            container.requestLayout()
+            (`object` as View).findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = true
         }
 
         private fun setStickerImage(stickerImgs: Array<ImageView>, items: List<StickerManager.Sticker>) {
@@ -120,7 +129,7 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                         dismiss()
                     }
                 }else {
-                    view.visibility = View.GONE
+                    view.visibility = View.INVISIBLE
                 }
             }
         }
@@ -128,6 +137,7 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
 
     inner class TabAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         var itemTouchHelper: ItemTouchHelper? = null
+        var dragPack: StickerManager.StickerPack? = null
 
         init {
             val callback = SimpleItemTouchHelperCallback(this)
@@ -164,13 +174,14 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                 v.setOnLongClickListener {
                     root.settingBtn.setImageResource(R.drawable.delete)
                     root.settingBtn.setColorFilter(AppTheme.red)
+                    dragPack = stickerPack
                     itemTouchHelper?.startDrag(holder)
                     return@setOnLongClickListener true
                 }
             }
 
             if(position == root.viewPager.currentItem) {
-                v.iconImg.setBackgroundColor(AppTheme.backgroundDark)
+                v.iconImg.setBackgroundColor(AppTheme.lightLine)
                 if(position == 0) {
                     v.iconImg.setColorFilter(AppTheme.primary)
                     v.iconImg.alpha = 1f
@@ -214,6 +225,8 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
 
+            private var isDeleted = false
+
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
                 // We only want the active item to change
                 if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
@@ -223,9 +236,23 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                         itemViewHolder?.onItemSelected()
                     }
                 }else if(actionState == ItemTouchHelper.ACTION_STATE_IDLE){
-                    root.settingBtn.setImageResource(R.drawable.add)
-                    root.settingBtn.setColorFilter(AppTheme.secondaryText)
+                    if(isDeleted) {
+                        if(StickerManager.packs.size > 1) {
+                            dragPack?.let { StickerManager.deletePack(it) }
+                            setTab()
+                            toast(R.string.deleted, R.drawable.delete)
+                        }else {
+                            toast(R.string.cant_deleted_last_one, R.drawable.info)
+                        }
+                    }
                     StickerManager.saveCurrentPack()
+                    setViewPager()
+                    root.viewPager.setCurrentItem(StickerManager.packs.indexOf(currentPack) + 1, false)
+                    isDeleted = false
+                    dragPack = null
+                    root.settingBtn.setImageResource(R.drawable.setting)
+                    root.settingBtn.setBackgroundResource(AppTheme.selectableItemBackground)
+                    root.settingBtn.setColorFilter(AppTheme.secondaryText)
                 }
 
                 super.onSelectedChanged(viewHolder, actionState)
@@ -237,6 +264,20 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                 (viewHolder.itemView as CardView).cardElevation = dpToPx(10f)
                 super.onChildDraw(c, recyclerView, viewHolder,
                         dX, dY + if(isCurrentlyActive) dragYOffset else 0, actionState, isCurrentlyActive)
+
+                val location = IntArray(2)
+                viewHolder.itemView.getLocationInWindow(location)
+                val x = location[0] + viewHolder.itemView.width
+                val y = location[1] + viewHolder.itemView.height
+                val deleteLocation = IntArray(2)
+                root.settingBtn.getLocationInWindow(deleteLocation)
+                isDeleted = if(x > deleteLocation[0] && y > deleteLocation[1] + dragYOffset) {
+                    root.settingBtn.setBackgroundColor(AppTheme.lightLine)
+                    true
+                }else {
+                    root.settingBtn.setBackgroundResource(AppTheme.selectableItemBackground)
+                    false
+                }
             }
 
             override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {

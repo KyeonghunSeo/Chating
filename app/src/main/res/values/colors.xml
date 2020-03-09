@@ -28,7 +28,7 @@
     <color name="transparent">#00000000</color>
 
     -->
-    <color name="background">#ffffff</color>
+    <color name="background">#fefefe</color>
     <color name="backgroundDark">#fbfbfb</color>
     <color name="whiteAlpha">#ddffffff</color>
     <color name="dim">#90212121</color>

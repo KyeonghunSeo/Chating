@@ -3,19 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clipChildren="false">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         app:cardElevation="10dp"
         app:cardCornerRadius="0dp">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="350dp">
+            android:layout_height="250dp"
+            android:layout_marginBottom="40dp">
         </androidx.viewpager.widget.ViewPager>
 
     </androidx.cardview.widget.CardView>
@@ -38,7 +39,7 @@
             android:id="@+id/settingBtn"
             android:layout_width="45dp"
             android:layout_height="40dp"
-            android:src="@drawable/add"
+            android:src="@drawable/setting"
             android:tint="@color/secondaryText"
             android:background="?android:attr/selectableItemBackground"
             android:padding="10dp"/>
@@ -54,6 +55,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginRight="45dp"
         android:layout_gravity="bottom"
         android:elevation="10dp"
         android:clipChildren="false">

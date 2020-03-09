@@ -14,7 +14,7 @@ object StickerManager {
     init {
         Prefs.getString("stickerPacks", StickerPack.BASIC.name)
                 .split(",")
-                .mapTo(packs) { StickerManager.StickerPack.valueOf(it) }
+                .mapTo(packs) { StickerPack.valueOf(it) }
         Prefs.getString("recentStickerPack", null)?.let { recentStickerPack ->
                 recentStickerPack.split(",")
                         .mapTo(recentPack) {
@@ -26,7 +26,7 @@ object StickerManager {
 
     enum class StickerPack(val titleId: Int, val type: Int, val items: Array<Sticker>) {
         BASIC(R.string.s_basic, 0, arrayOf(
-                Sticker(R.drawable.s_basic_0, 0),
+                Sticker(R.drawable.cat, 0),
                 Sticker(R.drawable.s_basic_1, 0),
                 Sticker(R.drawable.s_basic_2, 0),
                 Sticker(R.drawable.s_basic_3, 0),
@@ -50,8 +50,37 @@ object StickerManager {
                 Sticker(R.drawable.s_basic_21, 0),
                 Sticker(R.drawable.s_basic_22, 0)
         )),
+        FINANCE(R.string.s_finance, 0, arrayOf(
+                Sticker(R.drawable.s_finance_0, 1),
+                Sticker(R.drawable.s_finance_1, 1),
+                Sticker(R.drawable.s_finance_2, 1),
+                Sticker(R.drawable.s_finance_3, 1),
+                Sticker(R.drawable.s_finance_4, 1),
+                Sticker(R.drawable.s_finance_5, 1),
+                Sticker(R.drawable.s_finance_6, 1),
+                Sticker(R.drawable.s_finance_7, 1),
+                Sticker(R.drawable.s_finance_8, 1),
+                Sticker(R.drawable.s_finance_9, 1),
+                Sticker(R.drawable.s_finance_10, 1),
+                Sticker(R.drawable.s_finance_11, 1)
+        )),
         WORK(R.string.s_work, 0, arrayOf(
-                Sticker(R.drawable.s_basic_0, 1)
+                Sticker(R.drawable.s_business_0, 2),
+                Sticker(R.drawable.s_business_1, 2),
+                Sticker(R.drawable.s_business_2, 2),
+                Sticker(R.drawable.s_business_3, 2),
+                Sticker(R.drawable.s_business_4, 2),
+                Sticker(R.drawable.s_business_5, 2),
+                Sticker(R.drawable.s_business_6, 2),
+                Sticker(R.drawable.s_business_7, 2),
+                Sticker(R.drawable.s_business_8, 2),
+                Sticker(R.drawable.s_business_9, 2),
+                Sticker(R.drawable.s_business_10, 2),
+                Sticker(R.drawable.s_business_11, 2),
+                Sticker(R.drawable.s_business_12, 2),
+                Sticker(R.drawable.s_business_13, 2),
+                Sticker(R.drawable.s_business_15, 2),
+                Sticker(R.drawable.s_business_16, 2)
         ));
     }
 

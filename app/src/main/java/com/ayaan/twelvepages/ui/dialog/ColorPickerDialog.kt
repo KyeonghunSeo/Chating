@@ -50,6 +50,7 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
                 if(result) {
                     ColorManager.saveCurrentPack()
                     setLayout()
+                    toast(R.string.long_tab_to_move)
                 }
             }, true, true, true, false)
         }
@@ -75,10 +76,10 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
             }
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
-                if(position == 0) {
-                    currentPack = null
+                currentPack = if(position == 0) {
+                    null
                 }else {
-                    currentPack = ColorManager.packs[position - 1]
+                    ColorManager.packs[position - 1]
                 }
                 root.recyclerView.scrollToPosition(position)
                 root.recyclerView.adapter?.notifyDataSetChanged()
@@ -222,11 +223,11 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
 
             if(position == root.viewPager.currentItem) {
                 if(position == 0) {
-                    v.iconImg.setBackgroundColor(AppTheme.backgroundDark)
+                    v.iconImg.setBackgroundColor(AppTheme.lightLine)
                     v.iconImg.setColorFilter(AppTheme.primary)
                     v.iconImg.alpha = 1f
                 }else {
-                    v.colorSampleView.setBackgroundColor(AppTheme.backgroundDark)
+                    v.colorSampleView.setBackgroundColor(AppTheme.lightLine)
                     v.colorSampleView.alpha = 1f
                 }
             }else {
@@ -290,7 +291,7 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
                     root.viewPager.setCurrentItem(ColorManager.packs.indexOf(currentPack) + 1, false)
                     isDeleted = false
                     dragPack = null
-                    root.settingBtn.setImageResource(R.drawable.add)
+                    root.settingBtn.setImageResource(R.drawable.setting)
                     root.settingBtn.setBackgroundResource(AppTheme.selectableItemBackground)
                     root.settingBtn.setColorFilter(AppTheme.secondaryText)
                 }
@@ -314,7 +315,7 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
                 val deleteLocation = IntArray(2)
                 root.settingBtn.getLocationInWindow(deleteLocation)
                 isDeleted = if(x > deleteLocation[0] && y > deleteLocation[1] + dragYOffset) {
-                    root.settingBtn.setBackgroundColor(AppTheme.backgroundDark)
+                    root.settingBtn.setBackgroundColor(AppTheme.lightLine)
                     true
                 }else {
                     root.settingBtn.setBackgroundResource(AppTheme.selectableItemBackground)

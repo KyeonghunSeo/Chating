@@ -60,7 +60,6 @@
                         android:id="@+id/stickerBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:layout_marginRight="10dp"
                         app:cardBackgroundColor="@color/background"
                         app:cardCornerRadius="1dp"
                         app:cardElevation="0dp">
@@ -100,9 +99,11 @@
                         android:id="@+id/datePointBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
                         app:cardBackgroundColor="@color/background"
                         app:cardCornerRadius="1dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:orientation="horizontal"
