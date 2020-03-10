@@ -3,22 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground">
 
    <FrameLayout
        android:id="@+id/contentLy"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:foreground="?android:attr/selectableItemBackground"
-       android:layout_marginLeft="10dp"
-       android:layout_marginRight="10dp"
-       android:layout_marginTop="5dp"
-       android:layout_marginBottom="5dp">
+       android:paddingLeft="25dp"
+       android:paddingRight="10dp">
 
       <FrameLayout
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:padding="5dp">
+          android:layout_height="wrap_content">
 
          <FrameLayout
              android:id="@+id/leftLy"
@@ -53,8 +50,22 @@
              android:paddingBottom="23dp"
              android:layout_gravity="right"
              android:src="@drawable/more"
-             android:tint="@color/semiPrimaryText"
+             android:tint="@color/secondaryText"
              android:background="?android:attr/selectableItemBackground"/>
+
+         <FrameLayout
+             android:id="@+id/colorBg"
+             android:layout_width="20dp"
+             android:layout_height="20dp"
+             android:layout_marginRight="15dp">
+
+            <ImageView
+                android:id="@+id/symbolImg"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:tint="@color/secondaryText"/>
+
+         </FrameLayout>
 
          <LinearLayout
              android:id="@+id/topLy"
@@ -69,21 +80,7 @@
                 android:layout_height="30dp"
                 android:padding="5dp"
                 android:src="@drawable/check"
-                android:tint="@color/primaryText"/>
-
-            <FrameLayout
-                android:id="@+id/colorBg"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginRight="15dp">
-
-               <ImageView
-                   android:id="@+id/symbolImg"
-                   android:layout_width="20dp"
-                   android:layout_height="20dp"
-                   android:tint="@color/primaryText"/>
-
-            </FrameLayout>
+                android:tint="@color/secondaryText"/>
 
             <TextView
                 android:id="@+id/titleText"
@@ -95,7 +92,7 @@
                 android:ellipsize="end"
                 android:textSize="15dp"
                 android:fontFamily="@font/bold"
-                android:textColor="@color/primaryText"
+                android:textColor="@color/secondaryText"
                 android:text="title"/>
 
          </LinearLayout>
@@ -104,8 +101,7 @@
              android:orientation="vertical"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:layout_marginTop="30dp"
-             android:layout_marginLeft="30dp">
+             android:layout_marginTop="30dp">
 
             <TextView
                 android:id="@+id/memoText"
@@ -115,7 +111,7 @@
                 android:layout_marginBottom="5dp"
                 android:lineSpacingExtra="3dp"
                 android:textSize="14dp"
-                android:textColor="@color/primaryText"
+                android:textColor="@color/secondaryText"
                 android:ellipsize="end"
                 android:maxLines="10"
                 android:text="메모" />
@@ -148,7 +144,7 @@
                    android:layout_height="wrap_content"
                    android:layout_marginLeft="5dp"
                    android:textSize="13dp"
-                   android:textColor="@color/primaryText"
+                   android:textColor="@color/secondaryText"
                    android:fontFamily="@font/thin"
                    android:ellipsize="end"
                    android:maxLines="5"
@@ -177,7 +173,7 @@
                    android:layout_height="wrap_content"
                    android:layout_marginLeft="5dp"
                    android:textSize="13dp"
-                   android:textColor="@color/primaryText"
+                   android:textColor="@color/secondaryText"
                    android:fontFamily="@font/thin"
                    android:ellipsize="end"
                    android:maxLines="1"
@@ -206,7 +202,7 @@
                    android:layout_height="wrap_content"
                    android:layout_marginLeft="5dp"
                    android:textSize="13dp"
-                   android:textColor="@color/primaryText"
+                   android:textColor="@color/secondaryText"
                    android:fontFamily="@font/thin"
                    android:ellipsize="end"
                    android:maxLines="1"
@@ -235,7 +231,7 @@
                    android:layout_height="wrap_content"
                    android:layout_marginLeft="5dp"
                    android:textSize="13dp"
-                   android:textColor="@color/primaryText"
+                   android:textColor="@color/secondaryText"
                    android:fontFamily="@font/thin"
                    android:ellipsize="end"
                    android:maxLines="1"
@@ -264,7 +260,7 @@
                    android:layout_height="wrap_content"
                    android:layout_marginLeft="5dp"
                    android:textSize="13dp"
-                   android:textColor="@color/primaryText"
+                   android:textColor="@color/secondaryText"
                    android:fontFamily="@font/thin"
                    android:ellipsize="end"
                    android:maxLines="1"
@@ -293,7 +289,7 @@
                    android:layout_height="wrap_content"
                    android:layout_marginLeft="5dp"
                    android:textSize="13dp"
-                   android:textColor="@color/primaryText"
+                   android:textColor="@color/secondaryText"
                    android:fontFamily="@font/thin"
                    android:ellipsize="end"
                    android:maxLines="1"

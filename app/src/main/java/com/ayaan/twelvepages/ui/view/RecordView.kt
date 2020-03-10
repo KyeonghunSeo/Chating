@@ -33,7 +33,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val normalStickerSize = dpToPx(35f)
         val datePointSize = dpToPx(30)
         val rectRadius = dpToPx(0.0f)
-        val dotSize = dpToPx(4)
+        val dotSize = dpToPx(3)
         val checkboxSize = dpToPx(8)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         val dashPath = DashPathEffect(floatArrayOf(dpToPx(5.0f), dpToPx(1.0f)), 2f)
@@ -473,8 +473,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         childList?.sortWith(RecordListComparator())
         childList?.forEach { child ->
             paint.color = child.getColor()
-            //canvas.drawRect(left, top, left + size, top + size, paint)
-            canvas.drawCircle(left + size/2, top + size/2, (size/2).toFloat(), paint)
+            canvas.drawRect(left, top, left + size, top + size, paint)
+            //canvas.drawCircle(left + size/2, top + size/2, (size/2).toFloat(), paint)
             left += size + margin
             if (left + size >= right) {
                 top += size + margin

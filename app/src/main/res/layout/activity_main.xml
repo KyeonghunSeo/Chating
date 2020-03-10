@@ -290,7 +290,7 @@
                 android:padding="15dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:layout_gravity="center_horizontal"
-                android:tint="@color/colorPrimary"/>
+                android:tint="@color/secondaryText"/>
 
             <ImageView
                 android:id="@+id/profileBtn"

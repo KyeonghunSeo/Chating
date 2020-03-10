@@ -65,7 +65,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     arrayOf(PopupOptionDialog.Item(str(R.string.copy), R.drawable.copy, AppTheme.primaryText),
                             PopupOptionDialog.Item(str(R.string.cut), R.drawable.cut, AppTheme.primaryText),
                             PopupOptionDialog.Item(str(R.string.move_date), R.drawable.schedule, AppTheme.primaryText),
-                            PopupOptionDialog.Item(str(R.string.move_to_keep), R.drawable.inbox, AppTheme.primaryText),
                             PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)), view, false) { index ->
                 val record = Record().apply { copy(item) }
                 when(index) {
@@ -88,6 +87,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                         }, true, true, true, false)
                     }
                     3 -> {
+                        RecordManager.delete(context as Activity, record, Runnable { toast(R.string.deleted, R.drawable.delete) })
+                    }
+                    4 -> {
                         record.folder = MainActivity.getViewModel()?.getKeepFolder()
                         if(record.isRepeat()) {
                             RepeatManager.save(activity, record, Runnable { toast(R.string.moved, R.drawable.inbox) })
@@ -95,9 +97,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                             RecordManager.save(record)
                             toast(R.string.moved, R.drawable.inbox)
                         }
-                    }
-                    4 -> {
-                        RecordManager.delete(context as Activity, record, Runnable { toast(R.string.deleted, R.drawable.delete) })
                     }
                 }
             }, true, false, true, false)
@@ -283,6 +282,57 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.text = selectedString
     }
 
+    fun targeted() {
+        l("[데이뷰 타겟팅] : " + AppDateFormat.ymde.format(targetCal.time) )
+        postDelayed({
+            MainActivity.instance?.let { activity ->
+                setFooterView(activity)
+            }
+        }, 0)
+    }
+
+    fun unTargeted() {
+        adapter.clearFooterView()
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private fun setFooterView(activity: Activity) {
+        object : AsyncTask<String, String, String?>() {
+            var photos: ArrayList<Photo>? = null
+            var beforeYearRecords: List<Record>? = null
+
+            override fun doInBackground(vararg args: String): String? {
+                val realm = Realm.getDefaultInstance()
+
+                if (ActivityCompat.checkSelfPermission(activity,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    photos = getPhotosByDate(activity, targetCal)
+                }
+
+                val startTime = getCalendarTime0(targetCal) - YEAR_MILL
+                val endTime = getCalendarTime23(targetCal) - YEAR_MILL
+                beforeYearRecords = realm.where(Record::class.java)
+                        .notEqualTo("dtCreated", -1L)
+                        .greaterThanOrEqualTo("dtEnd", startTime)
+                        .lessThanOrEqualTo("dtStart", endTime)
+                        .sort("dtStart", Sort.ASCENDING)
+                        .findAll().map { realm.copyFromRealm(it) }
+                beforeYearRecords?.forEach { l(it.toString()) }
+
+                realm.close()
+                return null
+            }
+
+            override fun onPreExecute() { adapter.readyFooterView() }
+            override fun onProgressUpdate(vararg text: String) {}
+            override fun onPostExecute(result: String?) {
+                if(MainActivity.getDayPager()?.isOpened() == true) {
+                    adapter.setFooterView(photos, beforeYearRecords)
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+    }
+
     @SuppressLint("SetTextI18n")
     fun show(dataSize: Int) {
         val selectedString = dateInfo.getSelectedString()
@@ -395,61 +445,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         previewDataImg.alpha = 0f
         previewDataImg.translationY = 0f
         bar.alpha = 1f
-    }
-
-    fun targeted() {
-        l("[데이뷰 타겟팅] : " + AppDateFormat.ymde.format(targetCal.time) )
-        postDelayed({
-            MainActivity.instance?.let { activity ->
-                setFooterView(activity)
-            }
-        }, 0)
-    }
-
-    fun unTargeted() {
-        adapter.clearFooterView()
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private fun setFooterView(activity: Activity) {
-        object : AsyncTask<String, String, String?>() {
-            var photos: ArrayList<Photo>? = null
-            var pastRecords: List<Record>? = null
-
-            override fun doInBackground(vararg args: String): String? {
-                val realm = Realm.getDefaultInstance()
-
-                if (ActivityCompat.checkSelfPermission(activity,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    photos = getPhotosByDate(activity, targetCal)
-                }
-
-                var startTime = getCalendarTime0(targetCal) - YEAR_MILL
-                var endTime = getCalendarTime23(targetCal) - YEAR_MILL
-                pastRecords = realm.where(Record::class.java)
-                        .beginGroup()
-                        .notEqualTo("dtCreated", -1L)
-                        .endGroup()
-                        .and()
-                        .beginGroup()
-                        .greaterThanOrEqualTo("dtEnd", startTime)
-                        .lessThanOrEqualTo("dtStart", endTime)
-                        .endGroup()
-                        .sort("dtStart", Sort.ASCENDING)
-                        .findAll().map { realm.copyFromRealm(it) }
-
-                realm.close()
-                return null
-            }
-
-            override fun onPreExecute() { adapter.readyFooterView() }
-            override fun onProgressUpdate(vararg text: String) {}
-            override fun onPostExecute(result: String?) {
-                if(MainActivity.getDayPager()?.isOpened() == true) {
-                    adapter.setFooterView(photos, pastRecords)
-                }
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 
     fun getDateLy() : LinearLayout = dateLy

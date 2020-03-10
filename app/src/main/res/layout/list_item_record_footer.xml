@@ -7,51 +7,57 @@
 
    <ProgressBar
        android:id="@+id/footerProgress"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content" />
+       android:layout_width="30dp"
+       android:layout_height="30dp"
+       android:layout_gravity="center" />
 
    <LinearLayout
        android:id="@+id/footerContentLy"
        android:orientation="vertical"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_margin="20dp">
-
-      <androidx.recyclerview.widget.RecyclerView
-          android:id="@+id/decoListView"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_gravity="bottom">
-      </androidx.recyclerview.widget.RecyclerView>
+       android:layout_margin="25dp">
 
       <LinearLayout
           android:id="@+id/photoLy"
           android:orientation="vertical"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginTop="20dp">
+          android:layout_marginTop="30dp">
 
          <LinearLayout
              android:orientation="horizontal"
-             android:layout_width="match_parent"
+             android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:layout_gravity="center_vertical">
+             android:gravity="center_vertical">
+
+            <com.ayaan.twelvepages.ui.view.base.Line
+                android:layout_width="30dp"
+                android:layout_height="1dp"
+                app:colorFlag="line"/>
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginLeft="7dp"
                 android:src="@drawable/photo"
-                android:tint="@color/primaryText"/>
+                android:tint="@color/secondaryText"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:textSize="16dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/bold"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:textSize="10dp"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/bold_s"
                 android:text="@string/photos_this_day"/>
+
+            <com.ayaan.twelvepages.ui.view.base.Line
+                android:layout_width="30dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="7dp"
+                app:colorFlag="line"/>
 
          </LinearLayout>
 
@@ -59,8 +65,63 @@
              android:id="@+id/photoListView"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:layout_marginTop="10dp">
+             android:layout_marginTop="15dp">
          </com.ayaan.twelvepages.ui.view.OsPhotoListView>
+
+      </LinearLayout>
+
+      <LinearLayout
+          android:id="@+id/beforeYearLy"
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="30dp">
+
+         <LinearLayout
+             android:orientation="horizontal"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:gravity="center_vertical">
+
+            <com.ayaan.twelvepages.ui.view.base.Line
+                android:layout_width="30dp"
+                android:layout_height="1dp"
+                app:colorFlag="line"/>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginLeft="7dp"
+                android:src="@drawable/bookmark"
+                android:tint="@color/secondaryText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:textSize="10dp"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/bold_s"
+                android:text="@string/before_year_records"/>
+
+            <com.ayaan.twelvepages.ui.view.base.Line
+                android:layout_width="30dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="7dp"
+                app:colorFlag="line"/>
+
+         </LinearLayout>
+
+         <TextView
+             android:id="@+id/beforeYearText"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="15dp"
+             android:gravity="center_vertical"
+             android:textSize="12dp"
+             android:textColor="@color/secondaryText"
+             android:fontFamily="@font/regular_s"/>
 
       </LinearLayout>
 

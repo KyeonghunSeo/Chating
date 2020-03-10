@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
@@ -31,6 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import io.realm.Realm
 import io.realm.Sort
 import kotlinx.android.synthetic.main.view_profile.view.*
+import kotlinx.android.synthetic.main.view_saerch.view.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -85,6 +87,22 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private fun startAnalytics() {
         object : AsyncTask<String, String, String?>() {
             var totalCount = 0L
+            val tagStr = StringBuilder()
+            val lastRecordStr = StringBuilder()
+
+            override fun onPreExecute() {
+                historyLy.setOnClickListener {
+                    if(moreHistoryLy.visibility == View.VISIBLE) {
+                        moreHistoryLy.visibility = View.GONE
+                        moreText.visibility = View.VISIBLE
+                    }else {
+                        moreHistoryLy.visibility = View.VISIBLE
+                        moreText.visibility = View.GONE
+                    }
+                }
+                moreHistoryLy.visibility = View.GONE
+                moreText.visibility = View.VISIBLE
+            }
 
             override fun doInBackground(vararg args: String): String? {
                 val realm = Realm.getDefaultInstance()
@@ -100,6 +118,8 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 latestRecords.forEach {
                     l("latest data -> $it")
                 }
+
+                ////////////////////////////////////////////////////////////////////////////////////
 
                 val tagCounts = HashMap<Tag, Int>()
                 realm.where(Tag::class.java).findAll().forEach {
@@ -118,7 +138,19 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     return@Comparator countCompare * -1
                 })
 
-                l("sortedTags : ${sortedTags.keys.map { it.title }}")
+                sortedTags.forEach {
+                    tagStr.append("#${it.key.title} : ${it.value}개\n")
+                }
+
+                ////////////////////////////////////////////////////////////////////////////////////
+
+                val lastRecord = realm.where(Record::class.java)
+                        .sort("dtUpdated", Sort.DESCENDING).findFirst()
+                lastRecord?.let {
+                    lastRecordStr.append("${App.context.getString(R.string.last_record_is)} " +
+                            "${AppDateFormat.ymde.format(Date(it.dtUpdated))} " +
+                            AppDateFormat.time.format(Date(it.dtUpdated)))
+                }
 
                 realm.close()
                 return null
@@ -127,6 +159,8 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             override fun onPostExecute(result: String?) {
                 if(viewMode == ViewMode.OPENED) {
                     totalRecordsText.text = String.format(str(R.string.total_records), totalCount)
+                    totalTagText.text = tagStr.trim()
+                    lastRecordText.text = lastRecordStr
                 }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)

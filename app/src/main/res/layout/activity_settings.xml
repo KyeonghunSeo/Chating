@@ -23,8 +23,9 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/back"
-                android:padding="13dp"
+                android:src="@drawable/arrow_left"
+                android:padding="16dp"
+                android:tint="@color/secondaryText"
                 android:background="?android:attr/selectableItemBackground"/>
 
             <TextView
@@ -32,8 +33,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/bold"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/bold_s"
                 android:textSize="18dp"
                 android:text="@string/setting"/>
 
@@ -62,48 +63,29 @@
             android:paddingRight="25dp"
             android:paddingBottom="50dp">
 
-            <FrameLayout
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:gravity="center_vertical"
+                android:layout_marginTop="30dp"
+                 android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/display_settings"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="16dp"/>
-
-            </FrameLayout>
-
-            <com.ayaan.twelvepages.ui.view.base.Line
-                android:layout_width="match_parent"
-                android:layout_height="0.0dp"
-                android:layout_marginTop="5dp"
-                app:colorFlag="primary"/>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="0dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/calendar"
-                    android:textColor="@color/primaryText"
+                    android:textColor="@color/disableText"
+                    android:fontFamily="@font/bold_s"
                     android:textSize="12dp"/>
 
-            </FrameLayout>
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/calendarSettingBtn"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="45dp"
                 android:background="?android:attr/selectableItemBackground">
 
                 <LinearLayout
@@ -116,16 +98,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/calendar_settings"
-                        android:textColor="@color/primaryText"
-                        android:textSize="14dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="@string/calendar_settings_sub"
                         android:textColor="@color/secondaryText"
-                        android:textSize="10dp"/>
+                        android:textSize="13dp"/>
 
                 </LinearLayout>
 
@@ -134,23 +108,8 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical|right"
                     android:src="@drawable/arrow_right"
-                    android:tint="@color/iconTint"/>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="0dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/task_setting"
-                    android:textColor="@color/primaryText"
-                    android:textSize="12dp"/>
+                    android:tint="@color/iconTint"
+                    android:padding="5dp"/>
 
             </FrameLayout>
 
@@ -166,8 +125,8 @@
                     android:layout_marginLeft="0dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/check_option"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
 
                 <TextView
                     android:id="@+id/checkedRecordDisplayText"
@@ -176,30 +135,14 @@
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/check_option_0"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="13dp"/>
 
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="0dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/template"
-                    android:textColor="@color/primaryText"
-                    android:textSize="12dp"/>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/templateBtn"
+                android:id="@+id/rememberPhotoBtn"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="?android:attr/selectableItemBackground">
@@ -209,60 +152,69 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="0dp"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/template_use"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    android:text="@string/photos_this_day"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
 
                 <TextView
-                    android:id="@+id/templateText"
+                    android:id="@+id/rememberPhotoText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
-                    android:text="@string/check_option_0"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:text="@string/use"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="13dp"/>
 
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp">
+                android:id="@+id/rememberBeforeYearBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="0dp"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/alarm_setting"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="16dp"/>
+                    android:text="@string/before_year_records"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:id="@+id/rememberBeforeYearText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/use"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="13dp"/>
 
             </FrameLayout>
 
-            <com.ayaan.twelvepages.ui.view.base.Line
-                android:layout_width="match_parent"
-                android:layout_height="0.0dp"
-                android:layout_marginTop="5dp"
-                app:colorFlag="primary"/>
-
-            <FrameLayout
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="0dp">
+                android:gravity="center_vertical"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/default_alarm_time"
-                    android:textColor="@color/primaryText"
+                    android:textColor="@color/disableText"
+                    android:fontFamily="@font/bold_s"
                     android:textSize="12dp"/>
 
-            </FrameLayout>
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/morningAlarmTimeBtn"
@@ -276,8 +228,8 @@
                     android:layout_marginLeft="0dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/morningAlarmTime"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
 
                 <TextView
                     android:id="@+id/morningAlarmTimeText"
@@ -286,9 +238,9 @@
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/check_option_0"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="13dp"/>
 
             </FrameLayout>
 
@@ -304,8 +256,8 @@
                     android:layout_marginLeft="0dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/afternoonAlarmTime"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
 
                 <TextView
                     android:id="@+id/afternoonAlarmTimeText"
@@ -314,9 +266,9 @@
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/check_option_0"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="13dp"/>
 
             </FrameLayout>
 
@@ -332,8 +284,8 @@
                     android:layout_marginLeft="0dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/eveningAlarmTime"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
 
                 <TextView
                     android:id="@+id/eveningAlarmTimeText"
@@ -342,9 +294,9 @@
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/check_option_0"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="13dp"/>
 
             </FrameLayout>
 
@@ -360,8 +312,8 @@
                     android:layout_marginLeft="0dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/nightAlarmTime"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
 
                 <TextView
                     android:id="@+id/nightAlarmTimeText"
@@ -370,33 +322,30 @@
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/check_option_0"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="13dp"/>
 
             </FrameLayout>
 
-            <FrameLayout
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp">
+                android:gravity="center_vertical"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/import_external_data"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="16dp"/>
+                    android:textColor="@color/disableText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="12dp"/>
 
-            </FrameLayout>
-
-            <com.ayaan.twelvepages.ui.view.base.Line
-                android:layout_width="match_parent"
-                android:layout_height="0.0dp"
-                android:layout_marginTop="5dp"
-                app:colorFlag="primary"/>
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -416,8 +365,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/connect_os_calendar"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
 
                 <TextView
                     android:id="@+id/osCalendarText"
@@ -426,9 +375,9 @@
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/check_option_0"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="13dp"/>
 
             </FrameLayout>
 
@@ -443,8 +392,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/os_calendar_style"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
 
                 <TextView
                     android:id="@+id/osCalendarStyleText"
@@ -453,33 +402,30 @@
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/check_option_0"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="13dp"/>
 
             </FrameLayout>
 
-            <FrameLayout
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp">
+                android:gravity="center_vertical"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/advanced_setting"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="16dp"/>
+                    android:textColor="@color/disableText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="12dp"/>
 
-            </FrameLayout>
-
-            <com.ayaan.twelvepages.ui.view.base.Line
-                android:layout_width="match_parent"
-                android:layout_height="0.0dp"
-                android:layout_marginTop="5dp"
-                app:colorFlag="primary"/>
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -499,15 +445,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/export"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center_vertical|right"
                     android:src="@drawable/arrow_right"
-                    android:tint="@color/iconTint"/>
+                    android:tint="@color/iconTint"
+                    android:padding="5dp"/>
 
             </FrameLayout>
 
@@ -522,8 +469,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/backup"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
 
                 <TextView
                     android:id="@+id/backupText"
@@ -532,46 +479,79 @@
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/last_backup_time"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="13dp"/>
 
             </FrameLayout>
 
-            <FrameLayout
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp">
+                android:gravity="center_vertical"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/account_settings"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="16dp"/>
+                    android:textColor="@color/disableText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="12dp"/>
 
-            </FrameLayout>
-
-            <com.ayaan.twelvepages.ui.view.base.Line
-                android:layout_width="match_parent"
-                android:layout_height="0.0dp"
-                android:layout_marginTop="5dp"
-                app:colorFlag="primary"/>
+            </LinearLayout>
 
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="45dp">
+                android:id="@+id/supportBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
 
                 <TextView
-                    android:id="@+id/emailText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:textSize="14dp"/>
+                    android:text="@string/support"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:src="@drawable/arrow_right"
+                    android:tint="@color/iconTint"
+                    android:padding="5dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/premiumBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/premium"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:id="@+id/premiumText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/request"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="13dp"/>
 
             </FrameLayout>
 
@@ -586,8 +566,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/logout"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14dp"/>
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:id="@+id/emailText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="13dp"/>
 
             </FrameLayout>
 

@@ -19,7 +19,7 @@ class OsPhotoListView @JvmOverloads constructor(context: Context, attrs: Attribu
     val items = ArrayList<Photo>()
 
     init {
-        layoutManager = GridLayoutManager(context, 3)
+        layoutManager = GridLayoutManager(context, 4)
         adapter = Adapter()
         isNestedScrollingEnabled = false
     }

@@ -114,66 +114,99 @@
                     android:background="?android:attr/selectableItemBackground"/>
 
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="35dp"
-                    android:gravity="center_vertical">
-
-                    <com.ayaan.twelvepages.ui.view.base.Line
-                        android:layout_width="30dp"
-                        android:layout_height="1dp"
-                        app:colorFlag="line"/>
-
-                    <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_marginLeft="7dp"
-                        android:src="@drawable/history"
-                        android:tint="@color/secondaryText"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:layout_marginLeft="3dp"
-                        android:textSize="10dp"
-                        android:textColor="@color/secondaryText"
-                        android:fontFamily="@font/bold_s"
-                        android:text="@string/history"/>
-
-                    <com.ayaan.twelvepages.ui.view.base.Line
-                        android:layout_width="30dp"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="7dp"
-                        app:colorFlag="line"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
+                    android:id="@+id/historyLy"
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="right">
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_marginTop="35dp">
 
-                    <FrameLayout
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="?android:attr/selectableItemBackground">
+                        android:gravity="center_vertical">
+
+                        <com.ayaan.twelvepages.ui.view.base.Line
+                            android:layout_width="30dp"
+                            android:layout_height="1dp"
+                            app:colorFlag="line"/>
+
+                        <ImageView
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginLeft="7dp"
+                            android:src="@drawable/history"
+                            android:tint="@color/secondaryText"/>
 
                         <TextView
-                            android:id="@+id/totalRecordsText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="0dp"
+                            android:gravity="center_vertical"
+                            android:layout_marginLeft="3dp"
+                            android:textSize="10dp"
+                            android:textColor="@color/secondaryText"
+                            android:fontFamily="@font/bold_s"
+                            android:text="@string/history"/>
+
+                        <com.ayaan.twelvepages.ui.view.base.Line
+                            android:layout_width="30dp"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="7dp"
+                            app:colorFlag="line"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/totalRecordsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/total_records"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/regular_s"
+                        android:textSize="11dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/moreHistoryLy"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/totalTagText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:layout_gravity="center_vertical"
-                            android:text="@string/total_records"
                             android:textColor="@color/secondaryText"
                             android:fontFamily="@font/regular_s"
-                            android:textSize="12dp"/>
+                            android:textSize="11dp"/>
 
-                    </FrameLayout>
+                        <TextView
+                            android:id="@+id/lastRecordText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="@color/secondaryText"
+                            android:fontFamily="@font/regular_s"
+                            android:textSize="11dp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/moreText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/secondaryText"
+                        android:text="@string/show_more"
+                        android:fontFamily="@font/regular_s"
+                        android:textSize="11dp"/>
 
                 </LinearLayout>
 

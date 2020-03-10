@@ -2,6 +2,7 @@ package com.ayaan.twelvepages.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.text.DateTimePatternGenerator
 import android.os.AsyncTask
@@ -47,13 +48,15 @@ class SettingsActivity : BaseActivity() {
             else topShadow.visibility = View.GONE
         }
         setCheckedRecordDisplay()
-        setTemplate()
+        setRememberPhoto()
         setDefaultAlarmTime()
         setConnectOsCalendar()
         setExport()
         setBackup()
 
         emailText.text = FirebaseAuth.getInstance().currentUser?.email
+        premiumBtn.setOnClickListener { startActivity(Intent(this, PremiumActivity::class.java)) }
+        supportBtn.setOnClickListener { startActivity(Intent(this, AboutUsActivity::class.java)) }
         logoutBtn.setOnClickListener {
             showDialog(CustomDialog(this@SettingsActivity, getString(R.string.logout),
                     getString(R.string.ask_logout), null) { result, _, _ ->
@@ -73,20 +76,16 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    private fun setTemplate() {
-        if(AppStatus.templateMode == 0) {
-            templateText.text = str(R.string.use)
+    private fun setRememberPhoto() {
+        if(AppStatus.rememberPhoto) {
+            rememberPhotoText.text = str(R.string.use)
         }else {
-            templateText.text = str(R.string.unuse)
+            rememberPhotoText.text = str(R.string.unuse)
         }
-        templateBtn.setOnClickListener {
-            if(AppStatus.templateMode == 0) {
-                AppStatus.templateMode = 1
-            }else {
-                AppStatus.templateMode = 0
-            }
-            Prefs.putInt("templateMode", AppStatus.templateMode)
-            setTemplate()
+        rememberPhotoBtn.setOnClickListener {
+            AppStatus.rememberPhoto = !AppStatus.rememberPhoto
+            Prefs.putBoolean("rememberPhoto", AppStatus.rememberPhoto)
+            setRememberPhoto()
         }
     }
 

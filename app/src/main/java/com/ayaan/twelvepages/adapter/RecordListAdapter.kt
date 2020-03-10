@@ -418,7 +418,6 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     }
 
     fun setFooterView(photos: ArrayList<Photo>?, pastRecords: List<Record>?) {
-        l(photos?.size.toString())
         footerHolder?.let { holder ->
             val v = holder.itemView
             //TransitionManager.beginDelayedTransition(holder.itemView.footerRootLy, makeFromBottomSlideTransition())
@@ -433,8 +432,16 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                     v.photoLy.visibility = View.GONE
                 }
             }
-            pastRecords?.let {
-                //v.pastRecordTitleText.text = it.firstOrNull()?.getTitleInCalendar()
+            pastRecords?.let { list ->
+                if(list.isNotEmpty()) {
+                    v.beforeYearLy.visibility = View.VISIBLE
+                    v.beforeYearText.text = list.firstOrNull()?.getTitleInCalendar()
+                    v.beforeYearText.setOnClickListener {
+
+                    }
+                }else {
+                    v.beforeYearLy.visibility = View.GONE
+                }
             }
         }
     }
