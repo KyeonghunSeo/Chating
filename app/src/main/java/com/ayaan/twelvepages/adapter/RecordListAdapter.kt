@@ -131,41 +131,35 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         val color = record.getColor()
         val fontColor = ColorManager.getFontColor(color)
         val symbol = SymbolManager.getSymbolResId(record.symbol)
+        v.colorBg.setBackgroundColor(color)
         v.symbolImg.setColorFilter(color)
-        if(symbol == R.drawable.blank) {
-            v.symbolImg.setImageResource(R.drawable.grey_rect_fill_radius_2)
-        }else {
-            v.symbolImg.setImageResource(symbol)
-        }
+//        if(symbol == R.drawable.blank) {
+//            v.symbolImg.setImageResource(R.drawable.grey_rect_fill_radius_2)
+//        }else {
+//            v.symbolImg.setImageResource(symbol)
+//        }
+
+        v.updatedText.text = AppDateFormat.simpleYmdDateTime.format(Date(record.dtUpdated))
 
         if(record.title.isNullOrBlank()) {
-            v.titleText.text = ""
-            //v.titleText.typeface = AppTheme.regularFont
-            v.memoText.visibility = View.GONE
-            if(!record.description.isNullOrBlank()) {
-                if(!query.isNullOrEmpty()){
-                    highlightQuery(v.titleText, record.description!!)
-                }else {
-                    v.titleText.text = record.description?.trim()
-                }
-            }
+            v.titleText.visibility = View.GONE
         }else {
-            //v.titleText.setTypeface(AppTheme.boldFont, Typeface.BOLD)
+            v.titleText.visibility = View.VISIBLE
             if(!query.isNullOrEmpty()){
                 highlightQuery(v.titleText, record.title!!)
             }else {
                 v.titleText.text = record.title?.trim()
             }
+        }
 
-            if(record.description.isNullOrBlank()) {
-                v.memoText.visibility = View.GONE
+        if(record.description.isNullOrBlank()) {
+            v.memoText.visibility = View.GONE
+        }else {
+            v.memoText.visibility = View.VISIBLE
+            if(!query.isNullOrEmpty()){
+                highlightQuery(v.memoText, record.description!!)
             }else {
-                v.memoText.visibility = View.VISIBLE
-                if(!query.isNullOrEmpty()){
-                    highlightQuery(v.memoText, record.description!!)
-                }else {
-                    v.memoText.text = record.description?.trim()
-                }
+                v.memoText.text = record.description?.trim()
             }
         }
 
@@ -179,6 +173,13 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
 
         if(record.isSetCheckBox) {
             v.checkBox.visibility = View.VISIBLE
+            v.titleText.visibility = View.VISIBLE
+            if(v.titleText.text.isEmpty()) {
+                v.titleText.text = "　　${str(R.string.todo)}"
+            }else {
+                v.titleText.text = "　　${v.titleText.text}"
+            }
+
             if(record.isDone()) {
                 v.checkBox.setImageResource(R.drawable.check)
                 if(AppStatus.checkedRecordDisplay == 2 || AppStatus.checkedRecordDisplay == 3) {
@@ -207,6 +208,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         }
 
         if(record.isScheduled()) {
+            v.symbolImg.visibility = View.VISIBLE
             v.timeLy.visibility = View.VISIBLE
             val totalDate = getDiffDate(record.dtStart, record.dtEnd) + 1
             if(totalDate == 1) {
@@ -234,6 +236,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                 }
             }
         }else {
+            v.symbolImg.visibility = View.GONE
             v.timeLy.visibility = View.GONE
         }
 

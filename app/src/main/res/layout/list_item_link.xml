@@ -7,13 +7,13 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/photoLy"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
         app:cardElevation="1dp"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="1dp"
         android:foreground="?android:attr/selectableItemBackground">
 
         <LinearLayout
@@ -28,18 +28,37 @@
                 android:scaleType="centerCrop"
                 android:background="@color/light_line"/>
 
-            <TextView
-                android:id="@+id/linkText"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="20dp"
                 android:layout_gravity="center_vertical"
-                android:maxLines="2"
-                android:textSize="13dp"
-                android:fontFamily="@font/bold"
-                android:textColor="@color/primaryText"
-                android:text="@string/title"/>
+                android:layout_marginLeft="15dp">
+
+                <TextView
+                    android:id="@+id/linkText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="12dp"
+                    android:textColor="@color/secondaryText"
+                    android:text="@string/title"/>
+
+                <TextView
+                    android:id="@+id/domainText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="9dp"
+                    android:fontFamily="@font/thin_s"
+                    android:textColor="@color/disableText"
+                    android:text="@string/title"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

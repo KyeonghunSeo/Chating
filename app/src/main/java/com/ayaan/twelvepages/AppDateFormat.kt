@@ -33,6 +33,7 @@ object AppDateFormat {
     val ymSimpleDate = SimpleDateFormat("yyyy.M")
     val ymdkey = SimpleDateFormat("yyyyMMdd")
     val simpleYmdDate = SimpleDateFormat("yy.MM.dd")
+    val simpleYmdDateTime = SimpleDateFormat("yy.MM.dd HH:mm")
     val ymdthmszkey: DateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
     val ymdtkey: DateFormat = SimpleDateFormat("yyyyMMddHHmmss")
 

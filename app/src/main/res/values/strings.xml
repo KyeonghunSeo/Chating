@@ -411,9 +411,10 @@
     <string name="request">신청하기</string>
     <string name="support">사용자 지원</string>
     <string name="show_more">더 보기…</string>
-    <string name="empty_records">이 날의 기록이 없습니다…</string>
+    <string name="empty_records">이 날의 기록이 없습니다..</string>
     <string name="rememer_this_day">추억</string>
     <string name="before_year_records">1년전 이 날의 기록</string>
+    <string name="todo">할일</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

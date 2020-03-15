@@ -117,8 +117,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     topDivider.alpha = AppStatus.weekLine
                 }
                 (topDivider.layoutParams as FrameLayout.LayoutParams).let {
-                    it.leftMargin = 0
-                    it.rightMargin = 0
+                    it.leftMargin = calendarPadding
+                    it.rightMargin = calendarPadding
                 }
             }
             topDivider.requestLayout()

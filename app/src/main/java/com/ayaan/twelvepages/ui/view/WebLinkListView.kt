@@ -60,6 +60,7 @@ class WebLinkListView @JvmOverloads constructor(context: Context, attrs: Attribu
             val favicon = link.strParam2
 
             v.linkText.text = link.title
+            v.domainText.text = url
             if(!imageurl.isNullOrBlank()){
                 Glide.with(context).asBitmap().load(imageurl).into(object : SimpleTarget<Bitmap>(){
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
@@ -100,9 +101,10 @@ class WebLinkListView @JvmOverloads constructor(context: Context, attrs: Attribu
                 if(isEnabledEdit) {
                     showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_item), null, null, R.drawable.delete) { result, _, _ ->
                         if(result) {
+                            val pos = items.indexOf(link)
                             items.remove(link)
                             record?.links?.remove(link)
-                            notifyItemRemoved(position)
+                            notifyItemRemoved(pos)
                         }
                     }, true, true, true, false)
                 }
