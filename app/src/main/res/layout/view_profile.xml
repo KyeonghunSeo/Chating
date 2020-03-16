@@ -127,10 +127,12 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical">
 
-                        <com.ayaan.twelvepages.ui.view.base.Line
+                        <View
                             android:layout_width="30dp"
-                            android:layout_height="1dp"
-                            app:colorFlag="line"/>
+                            android:layout_height="2dp"
+                            android:background="@drawable/dashed_line"
+                            android:layout_gravity="center"
+                            android:layerType="software"/>
 
                         <ImageView
                             android:layout_width="10dp"
@@ -149,11 +151,13 @@
                             android:fontFamily="@font/bold_s"
                             android:text="@string/history"/>
 
-                        <com.ayaan.twelvepages.ui.view.base.Line
+                        <View
                             android:layout_width="30dp"
-                            android:layout_height="1dp"
+                            android:layout_height="2dp"
                             android:layout_marginLeft="7dp"
-                            app:colorFlag="line"/>
+                            android:background="@drawable/dashed_line"
+                            android:layout_gravity="center"
+                            android:layerType="software"/>
 
                     </LinearLayout>
 

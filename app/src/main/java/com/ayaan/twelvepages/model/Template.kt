@@ -34,6 +34,7 @@ open class Template(@PrimaryKey var id: String? = null,
 
     init {
         setTitle()
+        setSchedule()
     }
 
     override fun equals(other: Any?): Boolean {

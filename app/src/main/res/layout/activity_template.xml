@@ -10,22 +10,41 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
-        <ImageView
-            android:id="@+id/backBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/back"
-            android:padding="13dp"
-            android:background="?android:attr/selectableItemBackground"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/backBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/arrow_left"
+                android:padding="16dp"
+                android:tint="@color/secondaryText"
+                android:background="?android:attr/selectableItemBackground"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/bold_s"
+                android:textSize="18dp"
+                android:text="@string/template"/>
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/moreBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginRight="5dp"
             android:layout_gravity="center_vertical|right"
             android:src="@drawable/more"
-            android:padding="15dp"
+            android:padding="16dp"
             android:background="?android:attr/selectableItemBackground"/>
 
         <com.ayaan.twelvepages.ui.view.base.Line
@@ -62,19 +81,19 @@
                     android:id="@+id/titleInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
+                    android:maxLines="3"
                     android:textSize="24dp"
                     android:hint="@string/template_title"
                     android:textColorHint="@color/disableText"
                     android:background="@drawable/blank"
-                    android:fontFamily="@font/bold"/>
+                    android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp">
+                android:layout_marginTop="10dp">
 
                 <LinearLayout
                     android:id="@+id/tagBtn"
@@ -101,7 +120,7 @@
                         android:maxLines="1"
                         android:gravity="center_vertical"
                         android:text="@string/select_tag"
-                        android:textColor="@color/primaryText"/>
+                        android:textColor="@color/secondaryText"/>
 
                 </LinearLayout>
 
@@ -113,12 +132,22 @@
 
             </FrameLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/dashed_line"
+                android:layout_gravity="center"
+                android:layerType="software"/>
+
             <FrameLayout
                 android:id="@+id/symbolBtn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="5dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -130,7 +159,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/star"
-                        android:tint="@color/primaryText"/>
+                        android:tint="@color/secondaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -138,7 +167,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textSize="15dp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/symbol"/>
 
                 </LinearLayout>
@@ -181,7 +210,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/color"
-                        android:tint="@color/primaryText"/>
+                        android:tint="@color/secondaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -189,16 +218,16 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textSize="15dp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/color"/>
 
                 </LinearLayout>
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="50dp"
-                    android:layout_height="14dp"
+                    android:layout_width="40dp"
+                    android:layout_height="10dp"
                     android:layout_gravity="right|center_vertical"
-                    app:cardCornerRadius="7dp"
+                    app:cardCornerRadius="0dp"
                     app:cardElevation="0dp">
 
                     <ImageView
@@ -229,7 +258,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/record_in_calendar_style"
-                        android:tint="@color/primaryText"/>
+                        android:tint="@color/secondaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -237,7 +266,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textSize="15dp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/calendarBlockStyle"/>
 
                 </LinearLayout>
@@ -248,8 +277,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:textSize="12dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"/>
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
 
@@ -270,7 +299,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/title"
-                        android:tint="@color/primaryText"/>
+                        android:tint="@color/secondaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -278,7 +307,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textSize="15dp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/title"/>
 
                 </LinearLayout>
@@ -289,8 +318,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:textSize="12dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"/>
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
 
@@ -312,7 +341,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/cursor"
-                        android:tint="@color/primaryText"/>
+                        android:tint="@color/secondaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -320,7 +349,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textSize="15dp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/init_text"/>
 
                     <TextView
@@ -344,7 +373,7 @@
                     android:hint="@string/init_text_hint"
                     android:textColorHint="@color/disableText"
                     android:background="@drawable/blank"
-                    android:fontFamily="@font/regular"/>
+                    android:fontFamily="@font/regular_s"/>
 
             </LinearLayout>
 
@@ -365,7 +394,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/memo"
-                        android:tint="@color/primaryText"/>
+                        android:tint="@color/secondaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -373,7 +402,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textSize="15dp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/main_text"/>
 
                 </LinearLayout>
@@ -384,8 +413,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:textSize="12dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"/>
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
 
@@ -407,7 +436,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/cursor"
-                        android:tint="@color/primaryText"/>
+                        android:tint="@color/secondaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -415,7 +444,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textSize="15dp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/init_text"/>
 
                     <TextView
@@ -439,58 +468,16 @@
                     android:hint="@string/init_text_hint"
                     android:textColorHint="@color/disableText"
                     android:background="@drawable/blank"
-                    android:fontFamily="@font/regular"/>
+                    android:fontFamily="@font/regular_s"/>
 
             </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/dateBtn"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_marginTop="5dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/calendar"
-                        android:tint="@color/primaryText"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="15dp"
-                        android:textColor="@color/primaryText"
-                        android:text="@string/date"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/dateText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
-                    android:textSize="12dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
-                    android:text="@string/unuse"/>
-
-            </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/timeBtn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_marginLeft="15dp">
+                android:layout_marginTop="5dp"
+                android:background="?android:attr/selectableItemBackground">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -502,7 +489,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/time"
-                        android:tint="@color/primaryText"/>
+                        android:tint="@color/secondaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -510,7 +497,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textSize="15dp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/time"/>
 
                 </LinearLayout>
@@ -521,8 +508,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:textSize="12dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
                     android:text="@string/unuse"/>
 
             </FrameLayout>
@@ -531,9 +518,8 @@
                 android:id="@+id/alarmBtn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_marginLeft="15dp"
-                android:layout_marginBottom="5dp">
+                android:layout_marginTop="5dp"
+                android:background="?android:attr/selectableItemBackground">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -545,7 +531,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/alarm"
-                        android:tint="@color/primaryText"/>
+                        android:tint="@color/secondaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -553,7 +539,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textSize="15dp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/alarm"/>
 
                 </LinearLayout>
@@ -564,8 +550,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:textSize="12dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
                     android:text="@string/unuse"/>
 
             </FrameLayout>
@@ -587,7 +573,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/check"
-                        android:tint="@color/primaryText"/>
+                        android:tint="@color/secondaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -595,7 +581,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textSize="15dp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/checkbox"/>
 
                 </LinearLayout>
@@ -606,8 +592,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:textSize="12dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
                     android:text="@string/unuse"/>
 
             </FrameLayout>
@@ -630,7 +616,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/alarm"
-                        android:tint="@color/primaryText"/>
+                        android:tint="@color/secondaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -638,7 +624,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textSize="15dp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/alarm"/>
 
                 </LinearLayout>
@@ -649,8 +635,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:textSize="12dp"
-                    android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
                     android:text="@string/unuse"/>
 
             </FrameLayout>
@@ -676,7 +662,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/tab"
-                android:tint="@color/primaryText"/>
+                android:tint="@color/secondaryText"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -684,8 +670,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:textSize="18dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/bold"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/bold_s"
                 android:text="@string/folder"/>
 
         </LinearLayout>
@@ -696,7 +682,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textSize="16dp"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/secondaryText"
             android:text="@string/folder"/>
 
     </LinearLayout>

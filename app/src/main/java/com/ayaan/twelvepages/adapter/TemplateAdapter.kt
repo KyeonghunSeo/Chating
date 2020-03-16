@@ -59,6 +59,14 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             val color = ColorManager.getColor(template.colorKey)
             v.colorImg.setImageBitmap(null)
             v.colorBtn.setCardBackgroundColor(color)
+
+            if(template.tags.isNotEmpty()) {
+                v.tagText.visibility = View.VISIBLE
+                v.tagText.text = template.tags.joinToString(prefix = "#", separator = "#", transform = { it.title.toString() })
+            }else {
+                v.tagText.visibility = View.GONE
+            }
+
             v.setOnClickListener {
                 adapterInterface.invoke(template, mode)
                 if(mode == 1) endEditMode()
@@ -76,6 +84,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             v.contentLy.alpha = 0.5f
             v.contentLy.setBackgroundResource(R.drawable.blank)
             v.colorImg.visibility = View.VISIBLE
+            v.tagText.visibility = View.GONE
             if(mode == 0) {
                 v.colorImg.setImageResource(R.drawable.setting)
                 v.titleText.text = context.getString(R.string.edit_template)

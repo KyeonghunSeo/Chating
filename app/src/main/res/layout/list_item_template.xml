@@ -58,6 +58,21 @@
                 android:fontFamily="@font/bold_s"
                 android:text="새 할일"/>
 
+            <TextView
+                android:id="@+id/tagText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:gravity="center_horizontal"
+                android:textSize="6dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/disableText"
+                android:fontFamily="@font/bold_s"
+                android:text="#"/>
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

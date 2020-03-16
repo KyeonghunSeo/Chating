@@ -24,7 +24,7 @@ class PhotoListView @JvmOverloads constructor(context: Context, attrs: Attribute
     val items = ArrayList<Link>()
 
     init {
-        layoutManager = GridLayoutManager(context, 3)
+        layoutManager = GridLayoutManager(context, 4)
         adapter = Adapter()
         isNestedScrollingEnabled = false
     }

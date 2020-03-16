@@ -195,6 +195,9 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                             l("DocumentSnapshot data: ${document.data}")
                         }
                     }
+                    .addOnFailureListener {
+                        l("Failed get version: ${it.message}")
+                    }
         }
     }
 

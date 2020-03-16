@@ -21,6 +21,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.ColorManager
@@ -413,10 +414,9 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     }
 
     fun readyFooterView() {
-        footerHolder?.let {
-            it.itemView.visibility = View.VISIBLE
-            it.itemView.footerProgress.visibility = View.GONE
-            it.itemView.footerContentLy.visibility = View.GONE
+        footerHolder?.let { holder ->
+            holder.itemView.footerProgress.visibility = View.VISIBLE
+            holder.itemView.footerContentLy.visibility = View.GONE
         }
     }
 
@@ -450,8 +450,9 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     }
 
     fun clearFooterView() {
-        footerHolder?.let {
-            it.itemView.visibility = View.GONE
+        footerHolder?.let { holder ->
+            holder.itemView.footerProgress.visibility = View.GONE
+            holder.itemView.footerContentLy.visibility = View.GONE
         }
     }
 

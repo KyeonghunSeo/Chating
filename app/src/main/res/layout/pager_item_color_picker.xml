@@ -18,8 +18,7 @@
         <FrameLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="50.0dp"
-            android:background="@drawable/top_shadow">
+            android:layout_height="50.0dp">
 
             <TextView
                 android:id="@+id/titleText"
@@ -28,8 +27,12 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/bold"
+                android:fontFamily="@font/bold_s"
                 android:textSize="18dp"
+                android:shadowColor="@color/secondaryText"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
                 android:text="@string/style" />
 
         </FrameLayout>

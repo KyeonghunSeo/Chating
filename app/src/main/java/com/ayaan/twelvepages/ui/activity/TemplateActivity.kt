@@ -190,24 +190,10 @@ class TemplateActivity : BaseActivity() {
     }
 
     private fun updateDateUI() {
-        if(template.isScheduled()) {
-            timeBtn.visibility = View.VISIBLE
-            alarmBtn.visibility = View.VISIBLE
-            updateTimeUI()
-            updateAlarmUI()
-            dateText.setTextColor(AppTheme.primaryText)
-            dateText.text = getString(R.string.use)
-        }else {
-            timeBtn.visibility = View.GONE
-            alarmBtn.visibility = View.GONE
-            dateText.setTextColor(AppTheme.disableText)
-            dateText.text = getString(R.string.unuse)
-        }
-        dateBtn.setOnClickListener {
-            if(template.isScheduled()) template.clearSchdule()
-            else template.setSchedule()
-            updateDateUI()
-        }
+        timeBtn.visibility = View.VISIBLE
+        alarmBtn.visibility = View.VISIBLE
+        updateTimeUI()
+        updateAlarmUI()
     }
 
     private fun updateTimeUI() {

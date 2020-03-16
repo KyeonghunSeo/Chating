@@ -45,7 +45,7 @@ object AppTheme {
         backgroundDark = resource.getColor(R.color.backgroundDark)
         backgroundAlpha = resource.getColor(R.color.whiteAlpha)
         primary = resource.getColor(R.color.colorPrimary)
-        primaryText = resource.getColor(R.color.primaryText)
+        primaryText = resource.getColor(R.color.secondaryText)
         secondaryText = resource.getColor(R.color.secondaryText)
         disableText = resource.getColor(R.color.disableText)
         line = resource.getColor(R.color.line)

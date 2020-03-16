@@ -249,7 +249,7 @@ class RecordActivity : BaseActivity() {
         }
 
         colorBg.setCardBackgroundColor(color)
-        colorImg.setColorFilter(fontColor)
+        colorImg.setBackgroundColor(color)
         colorBtn.setOnClickListener {
             ColorPickerDialog(record.colorKey){ colorKey ->
                 record.colorKey = colorKey
@@ -257,9 +257,6 @@ class RecordActivity : BaseActivity() {
             }.show(supportFragmentManager, null)
         }
 
-        recordViewStyleDivider.setBackgroundColor(fontColor)
-        recordViewStyleImg.setColorFilter(fontColor)
-        recordViewStyleText.setTextColor(fontColor)
         recordViewStyleText.text = RecordView.getStyleText(record.style)
         recordViewStyleBtn.setOnClickListener {
             showDialog(RecordViewStyleDialog(this, record, null) { style, colorKey, symbol ->

@@ -151,6 +151,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
     private val dateWidth = dpToPx(60f)
 
     private fun drawRecord() {
+
         when(recordView.formula) {
             RecordCalendarAdapter.Formula.SINGLE_TEXT -> {
                 recordView.record.title = getRandomText(R.array.singleline_texts)

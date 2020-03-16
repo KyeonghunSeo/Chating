@@ -162,7 +162,7 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
             if(colorKey == selectedColorKey) {
                 v.setImageResource(R.drawable.selected_circle)
             }else {
-                v.setImageResource(R.drawable.circle_fill)
+                v.setImageResource(R.drawable.normal_rect_fill)
             }
             v.setColorFilter(color)
             v.setOnClickListener {

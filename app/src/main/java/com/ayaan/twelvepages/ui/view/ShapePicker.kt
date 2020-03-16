@@ -55,12 +55,12 @@ class ShapePicker @JvmOverloads constructor(context: Context, attrs: AttributeSe
             if(item == shape) {
                 v.titleText.setTextColor(Color.WHITE)
                 v.titleText.typeface = AppTheme.boldFont
-                v.contentLy.setBackgroundColor(AppTheme.primary)
+                v.contentLy.setBackgroundColor(AppTheme.secondaryText)
                 v.contentLy.alpha = 1f
             }else {
-                v.titleText.setTextColor(AppTheme.primary)
+                v.titleText.setTextColor(AppTheme.secondaryText)
                 v.titleText.typeface = AppTheme.regularFont
-                v.contentLy.setBackgroundColor(AppTheme.disableText)
+                v.contentLy.setBackgroundColor(AppTheme.lightLine)
                 v.contentLy.alpha = 0.4f
             }
 

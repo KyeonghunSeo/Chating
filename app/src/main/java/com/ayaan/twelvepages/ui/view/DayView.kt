@@ -208,6 +208,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         }else {
             emptyLy.visibility = View.VISIBLE
         }
+
+        if(decoList.isNotEmpty()) {
+            decoListView.visibility = View.VISIBLE
+        }else {
+            decoListView.visibility = View.GONE
+        }
     }
 
     private fun collocateData(data: RealmResults<Record>, e: ArrayList<Record>) {
@@ -292,12 +298,16 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun unTargeted() {
+        footerTask?.cancel(true)
+        footerTask = null
         adapter.clearFooterView()
     }
 
+    var footerTask: AsyncTask<String, String, String?>? = null
+
     @SuppressLint("StaticFieldLeak")
     private fun setFooterView(activity: Activity) {
-        object : AsyncTask<String, String, String?>() {
+        footerTask = object : AsyncTask<String, String, String?>() {
             var photos: ArrayList<Photo>? = null
             var beforeYearRecords: List<Record>? = null
 
@@ -317,9 +327,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                         .lessThanOrEqualTo("dtStart", endTime)
                         .sort("dtStart", Sort.ASCENDING)
                         .findAll().map { realm.copyFromRealm(it) }
-                beforeYearRecords?.forEach { l(it.toString()) }
 
                 realm.close()
+
+                Thread.sleep(500)
                 return null
             }
 
