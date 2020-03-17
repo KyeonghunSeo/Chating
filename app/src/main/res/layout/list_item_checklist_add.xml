@@ -9,7 +9,7 @@
        android:layout_width="wrap_content"
        android:layout_height="30dp"
        android:layout_marginLeft="5dp"
-       android:textSize="15dp"
+       android:textSize="14dp"
        android:gravity="center_vertical"
        android:background="@color/transparent"
        android:textColor="@color/primaryText"

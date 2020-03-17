@@ -141,8 +141,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         (diffText.layoutParams as LayoutParams).gravity = Gravity.NO_GRAVITY
         (dateLy.layoutParams as LayoutParams).gravity = Gravity.NO_GRAVITY
         dowText.layoutParams.height = dpToPx(28)
-        topShadow.visibility = View.GONE
-        dateText.setBackgroundResource(AppTheme.selectableItemBackground)
+        topShadow.visibility = View.VISIBLE
         dateText.setOnClickListener {
             MainActivity.instance?.let {
                 showDialog(DatePickerDialog(it, targetCal.timeInMillis) { time ->
@@ -159,12 +158,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private fun initRecyclerView() {
         recordListView.layoutManager = LinearLayoutManager(context)
         recordListView.adapter = adapter
-        recordListView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if(recordListView.computeVerticalScrollOffset() > 0) topShadow.visibility = View.VISIBLE
-                else topShadow.visibility = View.GONE
-            }
-        })
+//        recordListView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                if(recordListView.computeVerticalScrollOffset() > 0) topShadow.visibility = View.VISIBLE
+//                else topShadow.visibility = View.GONE
+//            }
+//        })
         adapter.itemTouchHelper?.attachToRecyclerView(recordListView)
 
         decoListView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -329,8 +328,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                         .findAll().map { realm.copyFromRealm(it) }
 
                 realm.close()
-
-                Thread.sleep(500)
                 return null
             }
 
@@ -338,6 +335,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             override fun onProgressUpdate(vararg text: String) {}
             override fun onPostExecute(result: String?) {
                 if(MainActivity.getDayPager()?.isOpened() == true) {
+                    if(!(photos.isNullOrEmpty() && beforeYearRecords.isNullOrEmpty())) {
+                        emptyLy.visibility = View.GONE
+                    }
                     adapter.setFooterView(photos, beforeYearRecords)
                 }
             }
@@ -465,7 +465,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     companion object {
         const val headerTextScale = 4.0f
         const val mainMonthTextScale = 0.68f
-        val mainMonthTextY = dpToPx(-58.0f)
+        private val dp = dpToPx(1f)
+        val mainMonthTextY = if(dp == 3.5f) dpToPx(0.0f) else dpToPx(3.0f)
 
         val datePosX = dpToPx(2.0f)
         val datePosY = -dpToPx(10.0f)

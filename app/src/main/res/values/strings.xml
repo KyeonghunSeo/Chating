@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">하루여담</string>
+    <string name="app_name">달의기록</string>
     <string name="notification_default_channel" translatable="false">com.hellowo.alarm.default</string>
 
     <string name="cancel">취소</string>
@@ -29,7 +29,7 @@
     <string name="weekNum">%1$s주차</string>
     <string name="setting">환경설정</string>
     <string name="add_option">더 많은 정보</string>
-    <string name="detail_info">추가 정보</string>
+    <string name="detail_info">기타 정보</string>
     <string name="memo">메모</string>
     <string name="main_text">본문</string>
     <string name="location">장소</string>
@@ -140,7 +140,7 @@
     <string name="add_new">새로입력</string>
     <string name="create_folder">폴더 생성</string>
     <string name="enter_folder_name">폴더 제목을 입력하세요</string>
-    <string name="select_date">날짜 선택</string>
+    <string name="select_date">날짜선택</string>
     <string name="invalid_info">잘못된 정보입니다</string>
     <string name="saved">저장되었습니다</string>
     <string name="today">오늘</string>
@@ -150,11 +150,11 @@
     <string name="first_text_3">더 가치있다.</string>
     <string name="sign_in_with_google">시작하기</string>
     <string name="logo_text">캘린더 · 다이어리</string>
-    <string name="logo_text_2">기\n록\n되\n어\n가\n치\n있\n는</string>
-    <string name="logo_text_w">일상을 기록하는 즐거움</string>
+    <string name="logo_text_2">반\n짝\n이\n는\n일\n상\n의\n기\n록</string>
+    <string name="logo_text_w">일상을 적는 즐거움</string>
     <string name="init_setting_script_0">반갑습니다! %1$s 님.\n어떤 다이어리가 필요하신가요?\n원하는 다이어리 구성을 선택해보세요.</string>
     <string name="select_os_calendar">외부캘린더 가져오기</string>
-    <string name="search_tag">태그로 검색하기</string>
+    <string name="search_tag">태그선택</string>
     <string name="edit_folder">폴더 편집</string>
     <string name="delete_folder">서랍 삭제</string>
     <string name="delete_folder_sub">이 서랍에 보관된 모든 기록(총 %1$s개)이 삭제됩니다.\n정말 삭제하시겠습니까?</string>
@@ -208,7 +208,7 @@
     <string name="vote_to_new_feature">새로운 기능 투표하기</string>
     <string name="evaluate_text">개발자에게 관심과 응원은 언제나 큰 힘이 됩니다:)</string>
     <string name="email_text">문제가 발생했다면 이곳으로 이메일을 보내주세요</string>
-    <string name="vote_text">\'하루여담\'은 사용자들과 함께 만들어가는 앱 입니다.\n가장 많은 투표를 받은 기능이 우선적으로 개발됩니다</string>
+    <string name="vote_text">\'달의기록\'은 사용자들과 함께 만들어가는 앱 입니다.\n가장 많은 투표를 받은 기능이 우선적으로 개발됩니다</string>
     <string name="help">문의사항</string>
     <string name="no_records">이 날의 기록이 없습니다</string>
     <string name="no_records_in_this_folder">보관함에 기록이 없습니다</string>
@@ -344,7 +344,7 @@
     <string name="go_today">오늘로 이동</string>
     <string name="no_alarm">알림없음</string>
     <string name="galaxy">갤럭시</string>
-    <string name="export_done">[하루여담] 폴더로 내보내기가 완료되었습니다</string>
+    <string name="export_done">[달의기록] 폴더로 내보내기가 완료되었습니다</string>
     <string name="template">템플릿</string>
     <string name="calendar_settings_sub">캘린더에 표시할 정보 및 스타일 설정</string>
     <string name="template_use">템플릿 사용</string>
@@ -415,6 +415,11 @@
     <string name="rememer_this_day">추억</string>
     <string name="before_year_records">1년전 이 날의 기록</string>
     <string name="todo">할일</string>
+    <string name="select_color">색깔선택</string>
+    <string name="filter_checkbox">체크박스여부</string>
+    <string name="filter_photo">사진여부</string>
+    <string name="no_keyword">키워드없음</string>
+    <string name="whole_range">전체기간</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

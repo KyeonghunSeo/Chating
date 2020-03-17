@@ -10,13 +10,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.model.Link
-import com.ayaan.twelvepages.setGlobalTheme
-import com.ayaan.twelvepages.showDialog
 import com.ayaan.twelvepages.ui.dialog.CustomDialog
 import com.ayaan.twelvepages.ui.dialog.InputDialog
-import com.ayaan.twelvepages.vibrate
 import kotlinx.android.synthetic.main.list_item_checklist.view.*
 import kotlinx.android.synthetic.main.list_item_checklist_add.view.*
 import org.json.JSONArray
@@ -27,7 +24,7 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
     val items = ArrayList<JSONObject>()
     var link: Link? = null
     var jsonArray: JSONArray? = null
-    var onDataChanged: ((ArrayList<JSONObject>) -> Unit)? = null
+    private var onDataChanged: ((ArrayList<JSONObject>) -> Unit)? = null
 
     init {
         layoutManager = LinearLayoutManager(context, VERTICAL, false)
@@ -47,8 +44,10 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
                     }
                 }
             }
-
-        }catch (e: Exception){ e.printStackTrace() }
+        }catch (e: Exception){
+            e.printStackTrace()
+            jsonArray = JSONArray()
+        }
         link = l
         adapter?.notifyDataSetChanged()
         onDataChanged?.invoke(items)

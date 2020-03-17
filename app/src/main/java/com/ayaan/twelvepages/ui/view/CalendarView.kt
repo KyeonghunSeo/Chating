@@ -112,7 +112,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
             }else {
                 if(AppStatus.weekLine == 0f) {
-                    topDivider.alpha = 0.1f
+                    topDivider.alpha = 0.8f
                 }else {
                     topDivider.alpha = AppStatus.weekLine
                 }
@@ -131,13 +131,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         calendarLy.clipChildren = false
         calendarLy.clipToPadding = false
 
-        topDivider.setBackgroundColor(AppTheme.primaryText)
-        topDivider.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt()).apply {
+        topDivider.setBackgroundResource(R.drawable.dashed_line)
+        topDivider.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 4).apply {
             leftMargin = calendarPadding
             rightMargin = calendarPadding
         }
 
-        bottomDivider.setBackgroundColor(AppTheme.primaryText)
+        //bottomDivider.setBackgroundColor(AppTheme.primaryText)
         bottomDivider.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt()).apply {
             gravity = Gravity.BOTTOM
         }

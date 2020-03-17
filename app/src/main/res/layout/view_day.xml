@@ -10,40 +10,54 @@
         android:id="@+id/contentLy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="95dp"
+        android:elevation="1dp"
+        android:paddingTop="100dp"
         android:descendantFocusability="blocksDescendants">
-
-        <com.ayaan.twelvepages.ui.view.base.Line
-            android:id="@+id/topShadow"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            app:colorFlag="line"/>
 
         <LinearLayout
             android:id="@+id/emptyLy"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="95dp"
+            android:layout_marginBottom="50dp"
             android:layout_gravity="center"
             android:gravity="center">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@drawable/dashed_line"
+                android:layout_gravity="center"
+                android:layerType="software"
+                android:alpha="0"/>
+
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="25dp"
                 android:src="@drawable/paper"
                 android:tint="@color/light_line"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
                 android:textColor="@color/light_line"
                 android:fontFamily="@font/bold_s"
+                android:textSize="12dp"
                 android:gravity="center"
                 android:text="@string/empty_records"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/dashed_line"
+                android:layout_gravity="center"
+                android:layerType="software"
+                android:alpha="0"/>
 
         </LinearLayout>
 
@@ -52,20 +66,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <View
+                android:id="@+id/topShadow"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/dashed_line"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:elevation="1dp"
+                android:layerType="software"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/decoListView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:clipToPadding="false"
-                android:layout_marginBottom="10dp">
+                android:layout_marginTop="15dp"
+                android:clipToPadding="false">
             </androidx.recyclerview.widget.RecyclerView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recordListView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"
+                android:clipToPadding="false">
             </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>

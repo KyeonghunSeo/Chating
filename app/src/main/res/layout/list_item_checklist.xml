@@ -11,7 +11,7 @@
        android:padding="5dp"
        android:layout_marginRight="5dp"
        android:layout_gravity="center_vertical"
-       android:tint="@color/primaryText"
+       android:tint="@color/secondaryText"
        android:src="@drawable/check"
        android:background="?android:attr/selectableItemBackground"/>
 
@@ -20,8 +20,8 @@
        android:layout_width="wrap_content"
        android:layout_height="30dp"
        android:gravity="center_vertical"
-       android:textSize="15dp"
-       android:textColor="@color/primaryText"
+       android:textSize="14dp"
+       android:textColor="@color/secondaryText"
        android:text="title"
        android:background="?android:attr/selectableItemBackground"/>
 

@@ -36,7 +36,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val dotSize = dpToPx(3)
         val checkboxSize = dpToPx(8)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
-        val dashPath = DashPathEffect(floatArrayOf(dpToPx(5.0f), dpToPx(1.0f)), 2f)
+        val dashPath = DashPathEffect(floatArrayOf(dpToPx(2.0f), dpToPx(2.0f)), 2f)
         fun getStyleText(style: Int) : String{
             val formula = RecordCalendarAdapter.Formula.styleToFormula(style)
             val shape = Shape.styleToShape(style)
@@ -405,7 +405,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 drawArrow(canvas, width, height, width - arrowSize, height - arrowSize, width - arrowSize, height)
             }
             else -> {
-                val periodLine = strokeWidth * 1.5f
+                val periodLine = strokeWidth * 1.0f
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = periodLine
                 if(shape == Shape.DASH_RANGE || shape == Shape.DASH_ARROW) {
@@ -418,12 +418,12 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 paint.style = Paint.Style.FILL
 
                 if(shape == Shape.ARROW || shape == Shape.DASH_ARROW) {
-                    val arrowSize = (periodLine * 4.0f).toInt()
-                    val arrowWidth = (periodLine * 4.0f).toInt()
+                    val arrowSize = (periodLine * 5.0f).toInt()
+                    val arrowWidth = (periodLine * 5.0f).toInt()
                             drawArrow(canvas, 0, height / 2, arrowWidth, height / 2 - arrowSize, arrowWidth, height / 2  + arrowSize)
                     drawArrow(canvas, width, height / 2, width - arrowWidth, height / 2 - arrowSize, width - arrowWidth, height / 2  + arrowSize)
                 }else {
-                    val dividerSize = periodLine * 4.0f
+                    val dividerSize = periodLine * 5.0f
                     canvas.drawRect(0f, height / 2f - dividerSize, periodLine, height / 2f + dividerSize, paint)
                     canvas.drawRect(width - periodLine, height / 2f - dividerSize, width.toFloat(), height / 2f + dividerSize, paint)
                 }

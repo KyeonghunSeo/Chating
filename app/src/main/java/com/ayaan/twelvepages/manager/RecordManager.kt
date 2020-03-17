@@ -5,9 +5,7 @@ import android.app.Activity
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.alarm.RegistedAlarm
-import com.ayaan.twelvepages.model.Record
-import com.ayaan.twelvepages.model.Folder
-import com.ayaan.twelvepages.model.Tag
+import com.ayaan.twelvepages.model.*
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import io.realm.Case
 import io.realm.Realm
@@ -62,12 +60,27 @@ object RecordManager {
         return result
     }
 
-    fun getRecordList(query: String, tags: ArrayList<Tag>) : RealmResults<Record> {
+    fun getRecordList(query: String,
+                      tags: ArrayList<String>,
+                      startTime: Long = Long.MIN_VALUE,
+                      endTime: Long = Long.MIN_VALUE,
+                      colorKey: Int = Int.MIN_VALUE,
+                      isCheckBox: Boolean = false,
+                      isPhoto: Boolean = false) : RealmResults<Record> {
+
         val realm = Realm.getDefaultInstance()
         val q = realm.where(Record::class.java)
                 .beginGroup()
                 .notEqualTo("dtCreated", -1L)
                 .endGroup()
+
+        if(startTime != Long.MIN_VALUE) {
+            q.and()
+                    .beginGroup()
+                    .greaterThanOrEqualTo("dtEnd", startTime)
+                    .lessThanOrEqualTo("dtStart", endTime)
+                    .endGroup()
+        }
 
         if(tags.isEmpty() || query.isNotEmpty()) {
             q.and()
@@ -89,7 +102,34 @@ object RecordManager {
         tags.forEach {
             q.and()
                     .beginGroup()
-                    .equalTo("tags.id", it.id)
+                    .equalTo("tags.title", it)
+                    .endGroup()
+        }
+
+        if(colorKey != Int.MIN_VALUE) {
+            q.and()
+                    .beginGroup()
+                    .equalTo("colorKey", colorKey)
+                    .endGroup()
+        }
+
+        if(isCheckBox) {
+            q.and()
+                    .beginGroup()
+                        .beginGroup()
+                        .equalTo("isSetCheckBox", true)
+                        .endGroup()
+                        .or()
+                        .beginGroup()
+                        .equalTo("links.type", Link.Type.CHECKLIST.ordinal)
+                        .endGroup()
+                    .endGroup()
+        }
+
+        if(isPhoto) {
+            q.and()
+                    .beginGroup()
+                    .equalTo("links.type", Link.Type.IMAGE.ordinal)
                     .endGroup()
         }
 

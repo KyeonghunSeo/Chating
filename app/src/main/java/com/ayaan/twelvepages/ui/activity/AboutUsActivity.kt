@@ -70,7 +70,7 @@ class AboutUsActivity : BaseActivity() {
 기록하지 않아 사라진 것들에 대한
 아쉬움을 담아
 
-흘러가는 일상을 담는
+흘러가는 일상을 적는
 다이어리를 만듭니다.
                     """
             }

@@ -121,11 +121,11 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
 
         if(record.isOsInstance()) {
             v.moreImg.setImageResource(R.drawable.help)
-            v.moreImg.setColorFilter(AppTheme.disableText)
+            v.moreImg.setColorFilter(AppTheme.line)
             v.moreImg.setOnClickListener { toast(R.string.this_is_os_instance) }
         }else {
             v.moreImg.setImageResource(R.drawable.more)
-            v.moreImg.setColorFilter(AppTheme.secondaryText)
+            v.moreImg.setColorFilter(AppTheme.disableText)
             v.moreImg.setOnClickListener { adapterInterface.invoke(v.moreImg, record, 0) }
         }
 
@@ -288,13 +288,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                 }
                 if(items.size > 0) {
                     val checkItemsCount = items.count{ it.getLong("dtDone") != Long.MIN_VALUE }
-                    v.checkListText.text = "$checkItemsCount / ${items.size} ${str(R.string.doned)}"
-
-                    if(items.size > 0 && items.size == checkItemsCount) {
-
-                    }else {
-
-                    }
+                    v.checkListText.text = "$checkItemsCount / ${items.size} ${str(R.string.doned)} - ${items.joinToString(", ", transform = {it.getString("title")})}"
                 }else {
                     v.checkListLy.visibility = View.GONE
                 }

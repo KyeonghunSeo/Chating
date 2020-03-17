@@ -44,7 +44,7 @@ class AddWebLinkDialog(activity: Activity, private val onResult: (Link) -> Unit)
     }
 
     private fun startSearch() {
-        var url = input.text.toString()
+        var url = input.text.toString().trim()
         if(!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://$url"
             input.setText(url)

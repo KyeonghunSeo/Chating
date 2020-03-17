@@ -20,8 +20,8 @@
          <FrameLayout
              android:id="@+id/colorBg"
              android:layout_width="15dp"
-             android:layout_height="1.0dp"
-             android:layout_marginLeft="20dp">
+             android:layout_height="1.5dp"
+             android:layout_marginLeft="25dp">
 
          </FrameLayout>
 
@@ -57,41 +57,28 @@
              android:layout_height="match_parent"
              android:layout_weight="1"/>
 
-         <LinearLayout
-             android:id="@+id/alarmLy"
-             android:orientation="horizontal"
+         <TextView
+             android:id="@+id/updatedText"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:tint="@color/iconTint"
-                android:src="@drawable/alarm"/>
-
-            <TextView
-                android:id="@+id/alarmText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="9dp"
-                android:textColor="@color/secondaryText"
-                android:fontFamily="@font/regular_s"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="alarm" />
-
-         </LinearLayout>
+             android:layout_marginRight="-5dp"
+             android:layout_gravity="center_vertical"
+             android:maxLines="1"
+             android:ellipsize="end"
+             android:textSize="7dp"
+             android:fontFamily="@font/thin_s"
+             android:textColor="@color/disableText"
+             android:text="@string/date_time"
+             android:visibility="visible"/>
 
          <ImageView
              android:id="@+id/moreImg"
              android:layout_width="40dp"
              android:layout_height="40dp"
-             android:layout_marginRight="5dp"
+             android:layout_marginRight="14dp"
              android:padding="11dp"
              android:src="@drawable/more"
-             android:tint="@color/secondaryText"
+             android:tint="@color/disableText"
              android:background="?android:attr/selectableItemBackground"/>
 
       </LinearLayout>
@@ -162,114 +149,152 @@
          </com.ayaan.twelvepages.ui.view.TagView>
 
          <LinearLayout
-             android:id="@+id/repeatLy"
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
+             android:id="@+id/optionLy"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:layout_marginTop="5dp"
-             android:gravity="center_vertical">
+             android:layout_marginLeft="1dp"
+             android:layout_marginBottom="3dp">
 
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:tint="@color/iconTint"
-                android:src="@drawable/repeat"/>
-
-            <TextView
-                android:id="@+id/repeatText"
+            <LinearLayout
+                android:id="@+id/alarmLy"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="12dp"
-                android:textColor="@color/secondaryText"
-                android:fontFamily="@font/thin_s"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="repeat" />
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical">
 
-         </LinearLayout>
+               <ImageView
+                   android:layout_width="11dp"
+                   android:layout_height="11dp"
+                   android:tint="@color/secondaryText"
+                   android:src="@drawable/alarm"/>
 
-         <LinearLayout
-             android:id="@+id/ddayLy"
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="5dp"
-             android:gravity="center_vertical">
+               <TextView
+                   android:id="@+id/alarmText"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="5dp"
+                   android:textSize="9dp"
+                   android:textColor="@color/secondaryText"
+                   android:fontFamily="@font/regular_s"
+                   android:ellipsize="end"
+                   android:maxLines="1"
+                   android:text="alarm" />
 
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:tint="@color/iconTint"
-                android:src="@drawable/countdown"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/ddayText"
+            <LinearLayout
+                android:id="@+id/repeatLy"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="12dp"
-                android:textColor="@color/secondaryText"
-                android:fontFamily="@font/thin_s"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="countdown" />
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical">
 
-         </LinearLayout>
+               <ImageView
+                   android:layout_width="11dp"
+                   android:layout_height="11dp"
+                   android:tint="@color/secondaryText"
+                   android:src="@drawable/repeat"/>
 
-         <LinearLayout
-             android:id="@+id/checkListLy"
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="5dp"
-             android:gravity="center_vertical">
+               <TextView
+                   android:id="@+id/repeatText"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="5dp"
+                   android:textSize="9dp"
+                   android:textColor="@color/secondaryText"
+                   android:fontFamily="@font/thin_s"
+                   android:ellipsize="end"
+                   android:maxLines="1"
+                   android:text="repeat" />
 
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:tint="@color/iconTint"
-                android:src="@drawable/checklist"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/checkListText"
+            <LinearLayout
+                android:id="@+id/ddayLy"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="12dp"
-                android:textColor="@color/secondaryText"
-                android:fontFamily="@font/thin_s"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="checkList" />
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical">
 
-         </LinearLayout>
+               <ImageView
+                   android:layout_width="11dp"
+                   android:layout_height="11dp"
+                   android:tint="@color/secondaryText"
+                   android:src="@drawable/countdown"/>
 
-         <LinearLayout
-             android:id="@+id/locationLy"
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="5dp"
-             android:gravity="center_vertical">
+               <TextView
+                   android:id="@+id/ddayText"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="5dp"
+                   android:textSize="9dp"
+                   android:textColor="@color/secondaryText"
+                   android:fontFamily="@font/thin_s"
+                   android:ellipsize="end"
+                   android:maxLines="1"
+                   android:text="countdown" />
 
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:tint="@color/iconTint"
-                android:src="@drawable/location"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/locationText"
+            <LinearLayout
+                android:id="@+id/checkListLy"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="12dp"
-                android:textColor="@color/secondaryText"
-                android:fontFamily="@font/thin_s"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="location" />
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical">
+
+               <ImageView
+                   android:layout_width="11dp"
+                   android:layout_height="11dp"
+                   android:tint="@color/secondaryText"
+                   android:src="@drawable/checklist"/>
+
+               <TextView
+                   android:id="@+id/checkListText"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="5dp"
+                   android:textSize="9dp"
+                   android:textColor="@color/secondaryText"
+                   android:fontFamily="@font/thin_s"
+                   android:ellipsize="end"
+                   android:maxLines="1"
+                   android:text="checkList" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/locationLy"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical">
+
+               <ImageView
+                   android:layout_width="11dp"
+                   android:layout_height="11dp"
+                   android:tint="@color/secondaryText"
+                   android:src="@drawable/location"/>
+
+               <TextView
+                   android:id="@+id/locationText"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="5dp"
+                   android:textSize="9dp"
+                   android:textColor="@color/secondaryText"
+                   android:fontFamily="@font/thin_s"
+                   android:ellipsize="end"
+                   android:maxLines="1"
+                   android:text="location" />
+
+            </LinearLayout>
 
          </LinearLayout>
 
@@ -299,6 +324,7 @@
              android:layout_width="match_parent"
              android:layout_height="70dp"
              android:layout_marginTop="5dp"
+             android:layout_marginBottom="3dp"
              app:cardElevation="0dp"
              app:cardCornerRadius="1dp">
 
@@ -346,23 +372,11 @@
              android:id="@+id/webLinkView"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:layout_marginTop="5dp">
-         </com.ayaan.twelvepages.ui.view.WebLinkListView>
-
-         <TextView
-             android:id="@+id/updatedText"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
+             android:clipChildren="false"
+             android:clipToPadding="false"
              android:layout_marginTop="5dp"
-             android:layout_marginRight="0dp"
-             android:maxLines="1"
-             android:ellipsize="end"
-             android:textSize="8dp"
-             android:fontFamily="@font/thin_s"
-             android:textColor="@color/disableText"
-             android:text="@string/date_time"
-             android:visibility="visible"/>
-
+             android:layout_marginBottom="3dp">
+         </com.ayaan.twelvepages.ui.view.WebLinkListView>
 
       </LinearLayout>
 

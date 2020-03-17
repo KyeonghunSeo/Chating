@@ -15,6 +15,7 @@
        android:layout_width="20dp"
        android:layout_height="20dp"
        android:layout_gravity="center"
+       android:indeterminateTint="@color/secondaryText"
        android:layout_margin="25dp" />
 
    <LinearLayout

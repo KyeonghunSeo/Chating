@@ -37,7 +37,7 @@ class App : Application() {
         Toasty.Config.getInstance()
                 .tintIcon(true)
                 .setToastTypeface(AppTheme.regularFont)
-                .setTextSize(14)
+                .setTextSize(12)
                 .allowQueue(false)
                 .apply()
     }
@@ -45,15 +45,22 @@ class App : Application() {
     private fun initRealm() {
         Realm.init(this)
         val config = RealmConfiguration.Builder()
-                .schemaVersion(2)
+                .schemaVersion(3)
                 .migration { realm, oldVersion, newVersion ->
                     val schema = realm.schema
                     var version = oldVersion
                     if (version == 1L) {
-                        schema.get("Template")?.let {
-                            it.addField("recordMemo", String::class.java)
-                                    .addField("recordMemoSelection", Int::class.java)
-                        }
+                        schema.get("Template")
+                                ?.addField("recordMemo", String::class.java)
+                                ?.addField("recordMemoSelection", Int::class.java)
+                        version++
+                    }
+
+                    if (version == 2L) {
+                        schema.create("SearchFilter")
+                                ?.addField("id", String::class.java, FieldAttribute.PRIMARY_KEY)
+                                ?.addField("filter", String::class.java)
+                                ?.addField("order", Int::class.java)
                         version++
                     }
                 }.build()

@@ -32,16 +32,16 @@ class MoreOptionSheet(private val record: Record,
             }
         }
 
-        if(record.isSetSymbol()) {
-            root.symbolBtn.alpha = 0.4f
-            root.symbolBtn.setOnClickListener { toast(R.string.already_active_info) }
-        }else {
-            root.symbolBtn.alpha = 1f
-            root.symbolBtn.setOnClickListener {
-                recordActivity.showSymbolDialog()
-                dismiss()
-            }
-        }
+//        if(record.isSetSymbol()) {
+//            root.symbolBtn.alpha = 0.4f
+//            root.symbolBtn.setOnClickListener { toast(R.string.already_active_info) }
+//        }else {
+//            root.symbolBtn.alpha = 1f
+//            root.symbolBtn.setOnClickListener {
+//                recordActivity.showSymbolDialog()
+//                dismiss()
+//            }
+//        }
 
         if(record.isScheduled()) {
             root.scheduleBtn.alpha = 0.4f

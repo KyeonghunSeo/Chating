@@ -132,7 +132,8 @@ class MainActivity : BaseActivity() {
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
         mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        mainMonthText.pivotY = dpToPx(190f)
+        mainMonthText.pivotY = 0f
+        mainMonthText.pivotX = 0f
         headerBar.setOnClickListener {}
         bottomBar.setOnClickListener {}
         callAfterViewDrawed(rootLy, Runnable{
@@ -141,6 +142,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initBottomBar() {
+        bottomBar.setOnClickListener { if(dayPager.isOpened()) dayPager.hide() }
         addBtn.setOnClickListener { viewModel.targetTime.value?.let { showTemplateSheet(it, it) } }
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -24,14 +24,16 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
 
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:tint="@color/primaryText"
+                android:tint="@color/secondaryText"
                 android:src="@drawable/search"
-                android:padding="15dp"/>
+                android:padding="16dp"/>
 
             <EditText
                 android:id="@+id/searchInput"
@@ -44,65 +46,275 @@
                 android:imeOptions="actionSearch"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textSize="18dp"
+                android:textSize="16dp"
                 android:layout_gravity="center"/>
 
             <ImageView
                 android:id="@+id/clearBtn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:tint="@color/primaryText"
+                android:layout_marginRight="-5dp"
+                android:tint="@color/secondaryText"
                 android:src="@drawable/close"
-                android:padding="15dp"/>
+                android:padding="16dp"/>
+
+            <ImageView
+                android:id="@+id/saveBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:tint="@color/secondaryText"
+                android:src="@drawable/save"
+                android:padding="16dp"/>
 
         </LinearLayout>
 
-        <FrameLayout
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp"
+            android:scrollbars="none">
 
             <LinearLayout
-                android:id="@+id/tagBtn"
+                android:id="@+id/filtersLy"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="26dp"
-                android:background="@drawable/edit_tag_new"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:alpha="0.4"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp">
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp">
 
-                <TextView
-                    android:id="@+id/tagText"
+                <LinearLayout
+                    android:id="@+id/dateBtn"
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:textSize="12dp"
-                    android:layout_gravity="center"
-                    android:maxLines="1"
+                    android:layout_height="26dp"
+                    android:background="@drawable/edit_tag_new"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
-                    android:text="@string/select_tag"
-                    android:textColor="@color/primaryText"/>
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:alpha="0.4"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp">
+
+                    <TextView
+                        android:id="@+id/dateText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:textSize="11dp"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/select_date"
+                        android:textColor="@color/secondaryText"/>
+
+                    <ImageView
+                        android:id="@+id/dateClearBtn"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="-3dp"
+                        android:src="@drawable/delete_circle"
+                        android:tint="@color/secondaryText"
+                        android:padding="5dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tagBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:background="@drawable/edit_tag_new"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:alpha="0.4"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp">
+
+                    <TextView
+                        android:id="@+id/tagText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:textSize="11dp"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/select_tag"
+                        android:textColor="@color/secondaryText"/>
+
+                    <ImageView
+                        android:id="@+id/tagClearBtn"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="-3dp"
+                        android:src="@drawable/delete_circle"
+                        android:tint="@color/secondaryText"
+                        android:padding="5dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/colorBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:background="@drawable/edit_tag_new"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:alpha="0.4"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp">
+
+                    <TextView
+                        android:id="@+id/colorText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:textSize="11dp"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/select_color"
+                        android:textColor="@color/secondaryText"/>
+
+                    <ImageView
+                        android:id="@+id/colorClearBtn"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="-3dp"
+                        android:src="@drawable/delete_circle"
+                        android:tint="@color/secondaryText"
+                        android:padding="5dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/checkBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:background="@drawable/edit_tag_new"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:alpha="0.4"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp">
+
+                    <TextView
+                        android:id="@+id/checkText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:textSize="11dp"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/filter_checkbox"
+                        android:textColor="@color/secondaryText"/>
+
+                    <ImageView
+                        android:id="@+id/checkClearBtn"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="-3dp"
+                        android:src="@drawable/delete_circle"
+                        android:tint="@color/secondaryText"
+                        android:padding="5dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/photoBtn"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:background="@drawable/edit_tag_new"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:alpha="0.4"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp">
+
+                    <TextView
+                        android:id="@+id/photoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:textSize="11dp"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/filter_photo"
+                        android:textColor="@color/secondaryText"/>
+
+                    <ImageView
+                        android:id="@+id/photoClearBtn"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="-3dp"
+                        android:src="@drawable/delete_circle"
+                        android:tint="@color/secondaryText"
+                        android:padding="5dp"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <com.ayaan.twelvepages.ui.view.TagView
-                android:id="@+id/tagView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </com.ayaan.twelvepages.ui.view.TagView>
+        </HorizontalScrollView>
 
-        </FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/filterListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:clipToPadding="false"/>
+
+        <View
+            android:id="@+id/topShadow"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/dashed_line"
+            android:elevation="1dp"
+            android:layerType="software"
+            android:visibility="visible"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:clipToPadding="false"
             android:elevation="10dp">
         </androidx.recyclerview.widget.RecyclerView>
 

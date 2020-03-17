@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/primaryText"
                     android:textSize="25dp"
-                    android:text="하"
+                    android:text="달"
                     android:padding="10dp"
                     android:fontFamily="@font/write_right"/>
 
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/primaryText"
                     android:textSize="25dp"
-                    android:text="루"
+                    android:text="의"
                     android:padding="10dp"
                     android:fontFamily="@font/write_right"/>
 
@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/primaryText"
                     android:textSize="25dp"
-                    android:text="여"
+                    android:text="기"
                     android:padding="10dp"
                     android:fontFamily="@font/write_right"/>
 
@@ -141,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/primaryText"
                     android:textSize="25dp"
-                    android:text="담"
+                    android:text="록"
                     android:padding="10dp"
                     android:fontFamily="@font/write_right"/>
 

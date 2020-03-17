@@ -32,53 +32,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="14dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/bold"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/bold_s"
                 android:text="@string/basic_info"/>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/symbolBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:layout_marginRight="10dp"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="0dp">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginLeft="2dp"
-                            android:src="@drawable/star"
-                            android:tint="@color/primaryText"
-                            android:padding="8dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="12dp"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="12dp"
-                            android:textColor="@color/primaryText"
-                            android:text="@string/symbol"
-                            android:fontFamily="@font/bold"/>
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
+                android:layout_marginTop="10dp">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/titleBtn"
@@ -88,7 +50,7 @@
                     android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15.0dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -110,9 +72,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/title"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -123,9 +85,10 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
+                    android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15.0dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -147,9 +110,47 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/main_text"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/symbolBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/light_line"
+                    app:cardCornerRadius="1dp"
+                    app:cardElevation="0dp"
+                    android:visibility="invisible">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="2dp"
+                            android:src="@drawable/star"
+                            android:tint="@color/primaryText"
+                            android:padding="8dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="12dp"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="12dp"
+                            android:textColor="@color/secondaryText"
+                            android:text="@string/symbol"
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -162,15 +163,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:textSize="14dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/bold"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/bold_s"
                 android:text="@string/schedule_info"/>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="10dp">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/scheduleBtn"
@@ -180,7 +181,7 @@
                     android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -202,9 +203,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/schedule"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -218,7 +219,7 @@
                     android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15.0dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -240,9 +241,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/alarm"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -255,7 +256,7 @@
                     android:layout_weight="1"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15.0dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -277,9 +278,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/repeat"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -301,7 +302,7 @@
                     android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -323,9 +324,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/lunar_repeat"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -339,7 +340,7 @@
                     android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15.0dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -361,9 +362,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/countdown"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -376,7 +377,7 @@
                     android:visibility="invisible"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15.0dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -398,9 +399,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/title"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -413,15 +414,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:textSize="14dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/bold"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/bold_s"
                 android:text="@string/task_info"/>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="10dp">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/checkboxBtn"
@@ -431,7 +432,7 @@
                     android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -453,9 +454,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/checkbox"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -469,7 +470,7 @@
                     android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15.0dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -491,9 +492,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/checklist"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -506,7 +507,7 @@
                     android:visibility="invisible"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15.0dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -528,9 +529,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/repeat"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -543,15 +544,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:textSize="14dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/bold"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/bold_s"
                 android:text="@string/detail_info"/>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="10dp">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/tagBtn"
@@ -561,7 +562,7 @@
                     android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -583,9 +584,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/tag"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -599,7 +600,7 @@
                     android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15.0dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -621,9 +622,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/location"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -636,7 +637,7 @@
                     android:layout_weight="1"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15.0dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -658,9 +659,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/photo"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -682,7 +683,7 @@
                     android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -704,9 +705,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/weblink"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -720,7 +721,7 @@
                     android:visibility="invisible"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15.0dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -742,9 +743,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/location"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 
@@ -757,7 +758,7 @@
                     android:visibility="invisible"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="15.0dp"
+                    app:cardCornerRadius="1dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -779,9 +780,9 @@
                             android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
-                            android:textColor="@color/primaryText"
+                            android:textColor="@color/secondaryText"
                             android:text="@string/photo"
-                            android:fontFamily="@font/bold"/>
+                            android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
 

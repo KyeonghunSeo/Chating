@@ -13,6 +13,7 @@ import com.ayaan.twelvepages.model.Record
 import com.pixplicity.easyprefs.library.Prefs
 import io.realm.Realm
 import java.util.*
+import kotlin.math.abs
 
 object AlarmManager {
     private lateinit var manager: AlarmManager
@@ -148,9 +149,9 @@ object AlarmManager {
             -7 -> str(R.string.alarm_at_b1w)
             else -> {
                 if(dayOffset > 0) {
-                    String.format(App.resource.getString(R.string.date_after), Math.abs(dayOffset))
+                    String.format(App.resource.getString(R.string.date_after), abs(dayOffset))
                 }else {
-                    String.format(App.resource.getString(R.string.date_before), Math.abs(dayOffset))
+                    String.format(App.resource.getString(R.string.date_before), abs(dayOffset))
                 }
             }
         }

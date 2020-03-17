@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -64,28 +65,24 @@ class WebLinkListView @JvmOverloads constructor(context: Context, attrs: Attribu
             if(!imageurl.isNullOrBlank()){
                 Glide.with(context).asBitmap().load(imageurl).into(object : SimpleTarget<Bitmap>(){
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        if(resource.width > dpToPx(90) || resource.height > dpToPx(45)) {
+                        if(resource.width > dpToPx(90) || resource.height > dpToPx(40)) {
                             (v.linkImg.layoutParams as LinearLayout.LayoutParams).let {
                                 it.width = dpToPx(80)
-                                it.height = dpToPx(45)
+                                it.height = dpToPx(40)
                             }
                             v.linkImg.setPadding(0, 0, 0, 0)
                             v.linkImg.requestLayout()
                         }else {
-                            (v.linkImg.layoutParams as LinearLayout.LayoutParams).let {
-                                it.width = dpToPx(45)
-                                it.height = dpToPx(45)
-                            }
-                            val p = dpToPx(10)
-                            v.linkImg.setPadding(p, p, p, p)
-                            v.linkImg.requestLayout()
+                            setLinkImgSmall(v.linkImg)
                         }
                         v.linkImg.setImageBitmap(resource)
                     }
                 })
             } else if(!favicon.isNullOrBlank()) {
+                setLinkImgSmall(v.linkImg)
                 Glide.with(context).load(favicon).into(v.linkImg)
             } else {
+                setLinkImgSmall(v.linkImg)
                 Glide.with(context).load(R.drawable.website).into(v.linkImg)
             }
 
@@ -110,6 +107,16 @@ class WebLinkListView @JvmOverloads constructor(context: Context, attrs: Attribu
                 }
                 return@setOnLongClickListener true
             }
+        }
+
+        private fun setLinkImgSmall(linkImg: ImageView) {
+            (linkImg.layoutParams as LinearLayout.LayoutParams).let {
+                it.width = dpToPx(40)
+                it.height = dpToPx(40)
+            }
+            val p = dpToPx(10)
+            linkImg.setPadding(p, p, p, p)
+            linkImg.requestLayout()
         }
     }
 }
