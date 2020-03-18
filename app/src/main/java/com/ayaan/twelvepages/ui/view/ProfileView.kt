@@ -182,10 +182,10 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                             latestVer = document.data?.get("name").toString()
                             if(currentVersion == latestVer) {
                                 versionText.setTextColor(AppTheme.disableText)
-                                versionText.text = "${versionText.text} (${str(R.string.latest_ver)})"
+                                versionText.text = "${versionText.text} [${str(R.string.latest_ver)}]"
                             }else {
                                 versionText.setTextColor(AppTheme.secondaryText)
-                                versionText.text = "${versionText.text} (${str(R.string.need_update)})"
+                                versionText.text = "${versionText.text} [${str(R.string.need_update)}]"
                                 versionText.setOnClickListener {
                                     latestVer = ""
                                     hide()

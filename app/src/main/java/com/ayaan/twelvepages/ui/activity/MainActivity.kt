@@ -33,6 +33,7 @@ import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.*
 import com.ayaan.twelvepages.ui.sheet.CalendarSettingsSheet
+import com.ayaan.twelvepages.ui.sheet.DayViewSettingsSheet
 import com.ayaan.twelvepages.ui.sheet.TemplateSheet
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.bumptech.glide.Glide
@@ -436,6 +437,22 @@ class MainActivity : BaseActivity() {
                         .forEach { _ -> showPhotoPicker(requestCode) }
                 return
             }
+            RC_PHOTO_ON_DAYVIEW -> {
+                permissions.indices
+                        .filter { permissions[it] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[it] == PackageManager.PERMISSION_GRANTED }
+                        .forEach { _ ->
+                            AppStatus.rememberPhoto = YES
+                            Prefs.putInt("rememberPhoto", AppStatus.rememberPhoto)
+                            dayPager.redraw()
+                        }
+                return
+            }
+            RC_IMAGE_ATTACHMENT -> {
+                permissions.indices
+                        .filter { permissions[it] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[it] == PackageManager.PERMISSION_GRANTED }
+                        .forEach { _ -> supportFragmentManager.fragments.forEach { it?.onRequestPermissionsResult(requestCode, permissions, grantResults) } }
+                return
+            }
         }
     }
 
@@ -516,6 +533,12 @@ class MainActivity : BaseActivity() {
             if(dayPager.isOpened()) dayPager.hide()
             profileView.hide()
             CalendarSettingsSheet(this).show(supportFragmentManager, null)
+        }else if(requestCode == RC_SETTING && resultCode == RESULT_DAYVIEW_SETTING) {
+            if(!getTargetFolder().isCalendar()) viewModel.setCalendarFolder()
+            if(viewModel.openFolder.value == true) viewModel.openFolder.value = false
+            if(dayPager.isClosed()) dayPager.show()
+            profileView.hide()
+            DayViewSettingsSheet(this).show(supportFragmentManager, null)
         }else if(requestCode == RC_SETTING && resultCode == RC_LOGOUT) {
             finish()
             startActivity(Intent(this, WelcomeActivity::class.java))

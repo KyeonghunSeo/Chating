@@ -62,7 +62,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
                 }
             }
         }, true, false, true, false)
-    }
+    }.apply { isSearchListMode = true }
     private val tags = ArrayList<Tag>()
     private val tagTitles = ArrayList<String>()
     private val startCal = Calendar.getInstance()
@@ -352,17 +352,24 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
                     val icb = filter.getBoolean("isCheckBox")
                     val ip = filter.getBoolean("isPhoto")
                     searchInput.setText(kw)
-                    startCal.timeInMillis = st
-                    endCal.timeInMillis = et
-                    record.setDateTime(startCal, endCal)
                     startTime = st
                     endTime = et
+                    if(st != Long.MIN_VALUE) {
+                        startCal.timeInMillis = st
+                        endCal.timeInMillis = et
+                    }else {
+                        startCal.timeInMillis = System.currentTimeMillis()
+                        endCal.timeInMillis = System.currentTimeMillis()
+                    }
+                    record.setDateTime(startCal, endCal)
                     tagTitles.clear()
                     if(tts.isNotEmpty()) {
                         tts.split("||").forEach { tagTitles.add(it) }
                     }
                     colorKey = ck
-                    record.colorKey = ck
+                    if(colorKey == Int.MIN_VALUE) {
+                        record.colorKey = 0
+                    }
                     isCheckBox = icb
                     isPhoto = ip
                     updateFilterUI()

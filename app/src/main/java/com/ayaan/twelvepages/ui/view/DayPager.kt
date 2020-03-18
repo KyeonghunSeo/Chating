@@ -229,5 +229,16 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED
     fun isClosed(): Boolean = viewMode == ViewMode.CLOSED
+    fun redraw() {
+        dayViews.forEach {
+            it.notifyDateChanged()
+            it.setHeaderLy()
+            if(it == targetDayView) {
+                it.targeted()
+            }else {
+                it.unTargeted()
+            }
+        }
+    }
 
 }

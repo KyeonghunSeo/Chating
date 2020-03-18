@@ -11,10 +11,25 @@
         android:layout_marginLeft="5dp"
         android:layout_marginBottom="5dp"
         android:layout_marginRight="15dp"
-        app:cardElevation="1dp"
-        app:cardCornerRadius="1dp"
-        app:cardBackgroundColor="@color/background"
+        android:outlineSpotShadowColor="@color/disableText"
+        android:outlineAmbientShadowColor="@color/disableText"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="0dp"
         android:foreground="?android:attr/selectableItemBackground">
+
+        <View
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundDark"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/search"
+            android:tint="@color/backgroundDark"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="-10dp"
+            android:layout_marginBottom="-15dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -26,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginBottom="15dp"
                 android:layout_marginRight="20dp">
@@ -39,6 +54,7 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textSize="11dp"
+                    android:fontFamily="@font/bold_s"
                     android:textColor="@color/secondaryText"
                     android:text="@string/title"/>
 
@@ -58,7 +74,7 @@
                         android:ellipsize="end"
                         android:textSize="8dp"
                         android:fontFamily="@font/thin_s"
-                        android:textColor="@color/disableText"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/tag"/>
 
                     <TextView
@@ -70,7 +86,7 @@
                         android:ellipsize="end"
                         android:textSize="8dp"
                         android:fontFamily="@font/thin_s"
-                        android:textColor="@color/disableText"
+                        android:textColor="@color/secondaryText"
                         android:text="@string/date_time"/>
 
                 </LinearLayout>
@@ -79,14 +95,14 @@
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="2dp"
                     android:gravity="center_vertical">
 
                     <ImageView
                         android:id="@+id/colorImg"
                         android:layout_width="15dp"
                         android:layout_height="4dp"
-                        android:layout_marginRight="3dp"/>
+                        android:layout_marginRight="5dp"/>
 
                     <ImageView
                         android:id="@+id/checkImg"
@@ -94,7 +110,7 @@
                         android:layout_height="20dp"
                         android:src="@drawable/check"
                         android:padding="5dp"
-                        android:tint="@color/disableText"/>
+                        android:tint="@color/secondaryText"/>
 
                     <ImageView
                         android:id="@+id/photoImg"
@@ -102,7 +118,7 @@
                         android:layout_height="20dp"
                         android:src="@drawable/photo"
                         android:padding="5dp"
-                        android:tint="@color/disableText"/>
+                        android:tint="@color/secondaryText"/>
 
                 </LinearLayout>
 
@@ -117,7 +133,7 @@
             android:src="@drawable/close"
             android:padding="10dp"
             android:layout_gravity="right"
-            android:tint="@color/secondaryText"
+            android:tint="@color/disableText"
             android:background="?android:attr/selectableItemBackground"/>
 
     </androidx.cardview.widget.CardView>

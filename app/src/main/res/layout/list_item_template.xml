@@ -7,7 +7,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:orientation="vertical"
-        android:layout_width="60dp"
+        android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginRight="15dp"
         android:paddingTop="10dp"
@@ -15,9 +15,30 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:outlineSpotShadowColor="@color/disableText"
         android:outlineAmbientShadowColor="@color/disableText"
-        app:cardCornerRadius="1dp"
+        app:cardCornerRadius="0dp"
         app:cardBackgroundColor="@color/backgroundDark"
-        app:cardElevation="3dp">
+        app:cardElevation="10dp">
+
+        <FrameLayout
+            android:id="@+id/backgroundLy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:background="@color/backgroundDark"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/bookmark"
+                android:tint="@color/backgroundDark"
+                android:layout_gravity="right"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="-5dp"/>
+
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/contentLy"

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLy"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_bg_dark">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/light_line">
+    </View>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="50dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_gravity="center_horizontal"
+        app:cardBackgroundColor="@color/line"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="1dp">
+    </androidx.cardview.widget.CardView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp">
+
+            <FrameLayout
+                android:id="@+id/updatedTimeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/show_updated_time"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:id="@+id/updatedTimeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/visible"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13.0dp"
+                    android:fontFamily="@font/bold_s"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/weekNumDisplayBtn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/weekNumDisplay"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:id="@+id/weekNumDisplayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/sun"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13.0dp"
+                    android:fontFamily="@font/bold_s"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/checkedRecordDisplayBtn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/check_option"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:id="@+id/checkedRecordDisplayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/unvisible"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13.0dp"
+                    android:fontFamily="@font/bold_s"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/rememberPhotoBtn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/photos_this_day"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:id="@+id/rememberPhotoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/use"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13.0dp"
+                    android:fontFamily="@font/bold_s"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/rememberBeforeYearBtn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/before_year_records"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:id="@+id/rememberBeforeYearText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/use"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13.0dp"
+                    android:fontFamily="@font/bold_s"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>

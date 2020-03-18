@@ -47,8 +47,6 @@ class SettingsActivity : BaseActivity() {
             if(y > 0) topShadow.visibility = View.VISIBLE
             else topShadow.visibility = View.GONE
         }
-        setCheckedRecordDisplay()
-        setRememberPhoto()
         setDefaultAlarmTime()
         setConnectOsCalendar()
         setExport()
@@ -74,18 +72,12 @@ class SettingsActivity : BaseActivity() {
                 finish()
             }
         }
-    }
 
-    private fun setRememberPhoto() {
-        if(AppStatus.rememberPhoto) {
-            rememberPhotoText.text = str(R.string.use)
-        }else {
-            rememberPhotoText.text = str(R.string.unuse)
-        }
-        rememberPhotoBtn.setOnClickListener {
-            AppStatus.rememberPhoto = !AppStatus.rememberPhoto
-            Prefs.putBoolean("rememberPhoto", AppStatus.rememberPhoto)
-            setRememberPhoto()
+        dayviewSettingBtn.setOnClickListener {
+            MainActivity.instance?.let {
+                setResult(RESULT_DAYVIEW_SETTING)
+                finish()
+            }
         }
     }
 
@@ -155,25 +147,6 @@ class SettingsActivity : BaseActivity() {
     private fun setBackupTimeText() {
         val lastBackupTime = Prefs.getLong("last_backup_time", 0L)
         backupText.text = AppDateFormat.ymd.format(Date(lastBackupTime)) + " " + AppDateFormat.time.format(Date(lastBackupTime))
-    }
-
-    private fun setCheckedRecordDisplay() {
-        when(AppStatus.checkedRecordDisplay) {
-            0 -> checkedRecordDisplayText.text = str(R.string.check_option_0)
-            1 -> checkedRecordDisplayText.text = str(R.string.check_option_1)
-            2 -> checkedRecordDisplayText.text = str(R.string.check_option_2)
-            3 -> checkedRecordDisplayText.text = str(R.string.check_option_3)
-        }
-        checkedRecordDisplayBtn.setOnClickListener {
-            when(AppStatus.checkedRecordDisplay) {
-                0 -> AppStatus.checkedRecordDisplay = 1
-                1 -> AppStatus.checkedRecordDisplay = 2
-                2 -> AppStatus.checkedRecordDisplay = 3
-                3 -> AppStatus.checkedRecordDisplay = 0
-            }
-            Prefs.putInt("checkedRecordDisplay", AppStatus.checkedRecordDisplay)
-            setCheckedRecordDisplay()
-        }
     }
 
     private fun setDefaultAlarmTime() {

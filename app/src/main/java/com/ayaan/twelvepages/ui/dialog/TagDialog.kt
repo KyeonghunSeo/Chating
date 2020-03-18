@@ -88,7 +88,7 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
             dismiss()
         }
         setOnCancelListener {
-            onResult.invoke(tagView.checkedItems)
+            //onResult.invoke(tagView.checkedItems)
         }
     }
 

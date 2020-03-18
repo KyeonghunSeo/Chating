@@ -5,12 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/photoLy"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
-        app:cardElevation="1dp"
-        app:cardCornerRadius="1dp"
+        android:layout_marginBottom="5dp"
+        android:outlineSpotShadowColor="@color/disableText"
+        android:outlineAmbientShadowColor="@color/disableText"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="0dp"
         android:foreground="?android:attr/selectableItemBackground">
 
         <LinearLayout
@@ -23,7 +25,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
-                android:background="@color/light_line"/>
+                android:background="@color/backgroundDark"/>
 
             <LinearLayout
                 android:orientation="vertical"

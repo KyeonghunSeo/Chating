@@ -44,6 +44,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.util.*
+import kotlin.math.abs
 
 val tempCal: Calendar = Calendar.getInstance()
 private val tempCal2: Calendar  = Calendar.getInstance()
@@ -130,6 +131,11 @@ fun getDiffToday(cal: Calendar): Int {
     return getDiffDate(tempCal, cal)
 }
 
+fun getDiffTodayText(t: Long): String {
+    val diffDate = getDiffDate(System.currentTimeMillis(), t)
+    return getDiffDateText(diffDate)
+}
+
 fun getDiffDate(t1: Long, t2: Long): Int {
     tempCal.timeInMillis = t1
     tempCal2.timeInMillis = t2
@@ -154,6 +160,12 @@ fun getDiffYear(t1: Long, t2: Long): Int {
     tempCal.timeInMillis = t1
     tempCal2.timeInMillis = t2
     return tempCal2.get(Calendar.YEAR) - tempCal.get(Calendar.YEAR)
+}
+
+fun getDiffDateText(diffDate: Int): String = when{
+    diffDate > 0 -> String.format(App.resource.getString(R.string.date_after), abs(diffDate))
+    diffDate < 0 -> String.format(App.resource.getString(R.string.date_before), abs(diffDate))
+    else -> App.resource.getString(R.string.today)
 }
 
 fun getTodayStartTime() : Long {

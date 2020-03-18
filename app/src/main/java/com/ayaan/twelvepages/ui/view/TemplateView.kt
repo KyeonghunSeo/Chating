@@ -43,15 +43,12 @@ class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeS
         LayoutInflater.from(context).inflate(R.layout.view_template, this, true)
 
         bottomSheet.setOnClickListener { collapse() }
-        templatePanel.setOnClickListener {}
+        templatePanel.setOnClickListener {  }
 
         setOnTouchListener { _, motionEvent ->
             if(motionEvent.action == MotionEvent.ACTION_DOWN) {
                 if(MainActivity.isProfileOpened()) {
                     MainActivity.closeProfileView()
-                    return@setOnTouchListener true
-                }else if(isExpanded()) {
-                    collapse()
                     return@setOnTouchListener true
                 }
             }

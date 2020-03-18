@@ -1,5 +1,6 @@
 package com.ayaan.twelvepages.adapter
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
@@ -15,19 +16,14 @@ import android.text.style.BackgroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.LinearLayout.HORIZONTAL
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.ayaan.twelvepages.*
-import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.manager.RecordManager
-import com.ayaan.twelvepages.manager.SymbolManager
 import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
@@ -46,10 +42,9 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                         val showFooter: Boolean, val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val symbolMargin = dpToPx(40)
-    val noSymbolMargin = dpToPx(16)
     var itemTouchHelper: ItemTouchHelper? = null
     var query: String? = null
+    var isSearchListMode = false
     private var footerHolder: FooterViewHolder? = null
     private val photoSideMargin = dpToPx(30)
     private val photoSize: Int = AppStatus.screenWidth / 2
@@ -99,20 +94,6 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         val record = items[position]
         val v = holder.itemView
 
-        /*
-        if(position == 0) {
-            v.upperLine.visibility = View.GONE
-        }else {
-            v.upperLine.visibility = View.VISIBLE
-        }
-
-        if(position == items.lastIndex) {
-            v.bottomLine.visibility = View.GONE
-        }else {
-            v.bottomLine.visibility = View.VISIBLE
-        }
-        */
-
         v.setOnClickListener { onItemClick(record) }
         v.setOnLongClickListener {
             itemTouchHelper?.startDrag(holder)
@@ -130,17 +111,15 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         }
 
         val color = record.getColor()
-        val fontColor = ColorManager.getFontColor(color)
-        val symbol = SymbolManager.getSymbolResId(record.symbol)
         v.colorBg.setBackgroundColor(color)
         v.symbolImg.setColorFilter(color)
-//        if(symbol == R.drawable.blank) {
-//            v.symbolImg.setImageResource(R.drawable.grey_rect_fill_radius_2)
-//        }else {
-//            v.symbolImg.setImageResource(symbol)
-//        }
 
-        v.updatedText.text = AppDateFormat.simpleYmdDateTime.format(Date(record.dtUpdated))
+        if(AppStatus.isDisplayUpdateTime) {
+            v.updatedText.visibility = View.VISIBLE
+            v.updatedText.text = AppDateFormat.simpleYmdDateTime.format(Date(record.dtUpdated))
+        }else {
+            v.updatedText.visibility = View.GONE
+        }
 
         if(record.title.isNullOrBlank()) {
             v.titleText.visibility = View.GONE
@@ -189,13 +168,13 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                     v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
                 }
                 if(AppStatus.checkedRecordDisplay == 1 || AppStatus.checkedRecordDisplay == 3) {
-                    v.contentLy.alpha = 0.4f
+                    v.titleLy.alpha = 0.4f
                 }else {
-                    v.contentLy.alpha = 1f
+                    v.titleLy.alpha = 1f
                 }
             }else {
                 v.checkBox.setImageResource(R.drawable.uncheck)
-                v.contentLy.alpha = 1f
+                v.titleLy.alpha = 1f
                 v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
             }
             v.checkBox.setOnClickListener {
@@ -204,7 +183,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             }
         }else {
             v.checkBox.visibility = View.GONE
-            v.contentLy.alpha = 1f
+            v.titleLy.alpha = 1f
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 
@@ -221,19 +200,36 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                                 AppDateFormat.time.format(Date(record.dtEnd))
                     }
                 }else {
-                    v.timeLy.visibility = View.GONE
+                    v.timeText.text = ""
+                }
+
+                if(isSearchListMode) {
+                    v.timeText.text = AppDateFormat.ymde.format(Date(record.dtStart)) +
+                            " ${v.timeText.text} [${getDiffTodayText(record.dtStart)}]"
                 }
             }else {
-                tempCal.timeInMillis = record.dtStart
-                val toDateNum = getDiffDate(tempCal, currentCal)
-                if(record.isSetTime) {
-                    v.timeText.text = "${AppDateFormat.dateTime.format(Date(record.dtStart))} ~ " +
-                            AppDateFormat.dateTime.format(Date(record.dtEnd)) +
-                            " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"
+                if(isSearchListMode) {
+                    if(record.isSetTime) {
+                        v.timeText.text = "${AppDateFormat.simpleYmdDateTime.format(Date(record.dtStart))} ~ " +
+                                AppDateFormat.simpleYmdDateTime.format(Date(record.dtEnd)) +
+                                " [${getDiffTodayText(record.dtStart)}]"
+                    }else {
+                        v.timeText.text = "${AppDateFormat.ymde.format(Date(record.dtStart))} ~ " +
+                                AppDateFormat.ymde.format(Date(record.dtEnd)) +
+                                " [${getDiffTodayText(record.dtStart)}]"
+                    }
                 }else {
-                    v.timeText.text = "${AppDateFormat.md.format(Date(record.dtStart))} ~ " +
-                            AppDateFormat.md.format(Date(record.dtEnd)) +
-                            " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"
+                    tempCal.timeInMillis = record.dtStart
+                    val toDateNum = getDiffDate(tempCal, currentCal)
+                    if(record.isSetTime) {
+                        v.timeText.text = "${AppDateFormat.dateTime.format(Date(record.dtStart))} ~ " +
+                                AppDateFormat.dateTime.format(Date(record.dtEnd)) +
+                                " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"
+                    }else {
+                        v.timeText.text = "${AppDateFormat.md.format(Date(record.dtStart))} ~ " +
+                                AppDateFormat.md.format(Date(record.dtEnd)) +
+                                " (${String.format(context.getString(R.string.date_of_total), "${toDateNum + 1}/$totalDate")})"
+                    }
                 }
             }
         }else {
@@ -420,24 +416,33 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             //TransitionManager.beginDelayedTransition(holder.itemView.footerRootLy, makeFromBottomSlideTransition())
             v.footerProgress.visibility = View.GONE
             v.footerContentLy.visibility = View.VISIBLE
+            v.photoLy.visibility = View.GONE
+            v.beforeYearLy.visibility = View.GONE
 
-            photos?.let { photos ->
+            if(photos != null) {
+                v.photoEmptyLy.visibility = View.GONE
                 if(photos.isNotEmpty()) {
                     v.photoLy.visibility = View.VISIBLE
                     v.photoListView.setList(photos)
                 }else {
                     v.photoLy.visibility = View.GONE
                 }
+            }else {
+                v.photoLy.visibility = View.VISIBLE
+                v.photoEmptyLy.visibility = View.VISIBLE
+                v.photoEmptyLy.setOnClickListener {
+                    ActivityCompat.requestPermissions(MainActivity.instance!!,
+                            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), RC_PHOTO_ON_DAYVIEW)
+                }
             }
-            pastRecords?.let { list ->
-                if(list.isNotEmpty()) {
-                    v.beforeYearLy.visibility = View.VISIBLE
-                    v.beforeYearText.text = list.firstOrNull()?.getTitleInCalendar()
-                    v.beforeYearText.setOnClickListener {
 
+            pastRecords?.let { list ->
+                list.firstOrNull()?.let { record ->
+                    v.beforeYearLy.visibility = View.VISIBLE
+                    v.beforeYearText.text = record.getTitleInCalendar()
+                    v.beforeYearText.setOnClickListener {
+                        MainActivity.instance?.selectDate(getCalendarTime0(record.dtStart))
                     }
-                }else {
-                    v.beforeYearLy.visibility = View.GONE
                 }
             }
         }

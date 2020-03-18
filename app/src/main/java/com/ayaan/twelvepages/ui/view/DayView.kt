@@ -254,11 +254,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun initTime(time: Long) {
         targetCal.timeInMillis = time
-        setDateText()
+        setHeaderLy()
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setDateText() {
+    fun setHeaderLy() {
         dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
         DateInfoManager.getHoliday(dateInfo, targetCal)
         color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
@@ -313,19 +313,29 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             override fun doInBackground(vararg args: String): String? {
                 val realm = Realm.getDefaultInstance()
 
-                if (ActivityCompat.checkSelfPermission(activity,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    photos = getPhotosByDate(activity, targetCal)
+                photos = when(AppStatus.rememberPhoto) {
+                    YES -> {
+                        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                == PackageManager.PERMISSION_GRANTED) {
+                            getPhotosByDate(activity, targetCal)
+                        }else {
+                            null
+                        }
+                    }
+                    NO -> ArrayList()
+                    else -> null
                 }
 
-                val startTime = getCalendarTime0(targetCal) - YEAR_MILL
-                val endTime = getCalendarTime23(targetCal) - YEAR_MILL
-                beforeYearRecords = realm.where(Record::class.java)
-                        .notEqualTo("dtCreated", -1L)
-                        .greaterThanOrEqualTo("dtEnd", startTime)
-                        .lessThanOrEqualTo("dtStart", endTime)
-                        .sort("dtStart", Sort.ASCENDING)
-                        .findAll().map { realm.copyFromRealm(it) }
+                if(AppStatus.rememberBeforeYear == YES) {
+                    val startTime = getCalendarTime0(targetCal) - YEAR_MILL
+                    val endTime = getCalendarTime23(targetCal) - YEAR_MILL
+                    beforeYearRecords = realm.where(Record::class.java)
+                            .notEqualTo("dtCreated", -1L)
+                            .greaterThanOrEqualTo("dtEnd", startTime)
+                            .lessThanOrEqualTo("dtStart", endTime)
+                            .sort("dtStart", Sort.ASCENDING)
+                            .findAll().map { realm.copyFromRealm(it) }
+                }
 
                 realm.close()
                 return null

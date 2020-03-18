@@ -22,24 +22,24 @@
     <string name="style">스타일</string>
     <string name="color">색상</string>
     <string name="visible">표시</string>
-    <string name="unvisible">표시 안함</string>
+    <string name="unvisible">표시안함</string>
     <string name="delete">삭제</string>
     <string name="start">시작</string>
     <string name="end">종료</string>
     <string name="weekNum">%1$s주차</string>
     <string name="setting">환경설정</string>
     <string name="add_option">더 많은 정보</string>
-    <string name="detail_info">기타 정보</string>
+    <string name="detail_info">기타정보</string>
     <string name="memo">메모</string>
     <string name="main_text">본문</string>
     <string name="location">장소</string>
-    <string name="set_time">시간 설정</string>
+    <string name="set_time">시간설정</string>
     <string name="alarm">알림</string>
     <string name="enter_memo">이곳에 본문을 입력하세요</string>
     <string name="set_alarm">알림설정</string>
     <string name="and_others">외 %1$s개</string>
     <string name="counts">%1$s개</string>
-    <string name="basic_info">기본 정보</string>
+    <string name="basic_info">기본정보</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>
@@ -402,7 +402,7 @@
     <string name="login_backup_text">모든 기록은 선택한 계정에 안전하게 보관됩니다.</string>
     <string name="long_tab_to_move">길게 누르면 순서를 변경할 수 있습니다.</string>
     <string name="version_is">버전 %1$s</string>
-    <string name="latest_ver">최신버전</string>
+    <string name="latest_ver">최신</string>
     <string name="need_update">업데이트 가능</string>
     <string name="history">히스토리</string>
     <string name="s_finance">금융, 재무</string>
@@ -420,6 +420,9 @@
     <string name="filter_photo">사진여부</string>
     <string name="no_keyword">키워드없음</string>
     <string name="whole_range">전체기간</string>
+    <string name="dayview_settings">일간화면 및 기록목록 설정</string>
+    <string name="show_updated_time">마지막 수정시간 표시</string>
+    <string name="rc_photo_this_day">이 날에 찍은 사진들을\n함께 표시해보세요.</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

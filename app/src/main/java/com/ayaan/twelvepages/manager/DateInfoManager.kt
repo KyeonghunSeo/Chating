@@ -7,6 +7,7 @@ import com.ayaan.twelvepages.getDiffToday
 import com.ayaan.twelvepages.model.KoreanLunarCalendar
 import java.lang.StringBuilder
 import java.util.*
+import kotlin.math.abs
 
 object DateInfoManager {
     private val solarHolidays = HashMap<String, Holiday>()
@@ -51,8 +52,8 @@ object DateInfoManager {
                 -1 -> yesterdayString
                 else -> {
                     when{
-                        diffDate > 0 -> String.format(App.resource.getString(R.string.date_after), Math.abs(diffDate))
-                        diffDate < 0 -> String.format(App.resource.getString(R.string.date_before), Math.abs(diffDate))
+                        diffDate > 0 -> String.format(App.resource.getString(R.string.date_after), abs(diffDate))
+                        diffDate < 0 -> String.format(App.resource.getString(R.string.date_before), abs(diffDate))
                         else -> todayString
                     }
                 }

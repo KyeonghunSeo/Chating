@@ -116,86 +116,33 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/checkedRecordDisplayBtn"
+                android:id="@+id/dayviewSettingBtn"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="?android:attr/selectableItemBackground">
 
-                <TextView
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/check_option"
-                    android:textColor="@color/secondaryText"
-                    android:textSize="13dp"/>
+                    android:layout_gravity="center_vertical">
 
-                <TextView
-                    android:id="@+id/checkedRecordDisplayText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dayview_settings"
+                        android:textColor="@color/secondaryText"
+                        android:textSize="13dp"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center_vertical|right"
-                    android:text="@string/check_option_0"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/bold_s"
-                    android:textSize="13dp"/>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/rememberPhotoBtn"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/photos_this_day"
-                    android:textColor="@color/secondaryText"
-                    android:textSize="13dp"/>
-
-                <TextView
-                    android:id="@+id/rememberPhotoText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:text="@string/use"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/bold_s"
-                    android:textSize="13dp"/>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/rememberBeforeYearBtn"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/before_year_records"
-                    android:textColor="@color/secondaryText"
-                    android:textSize="13dp"/>
-
-                <TextView
-                    android:id="@+id/rememberBeforeYearText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:text="@string/use"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/bold_s"
-                    android:textSize="13dp"/>
+                    android:src="@drawable/arrow_right"
+                    android:tint="@color/iconTint"
+                    android:padding="5dp"/>
 
             </FrameLayout>
 

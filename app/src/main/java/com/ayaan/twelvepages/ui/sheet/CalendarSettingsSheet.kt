@@ -2,6 +2,8 @@ package com.ayaan.twelvepages.ui.sheet
 
 import android.app.Activity
 import android.app.Dialog
+import android.os.Build
+import android.view.View
 import android.view.WindowManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.CalendarManager
@@ -20,10 +22,10 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
         super.setupDialog(dialog, style, R.layout.dialog_calendar_settings)
         dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         dialog.window?.navigationBarColor = AppTheme.backgroundDark
-//        val flags =  dialog.window?.peekDecorView()?.systemUiVisibility
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            dialog.window?.peekDecorView()?.systemUiVisibility = flags!! and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
-//        }
+        val flags =  dialog.window?.peekDecorView()?.systemUiVisibility
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            dialog.window?.peekDecorView()?.systemUiVisibility = flags!! or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
         sheetBehavior.peekHeight = dpToPx(200)
         sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         setLayout()
@@ -40,6 +42,7 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
         setOutsideMonth()
         setCalTextSize()
         setWeekLine()
+        setCheckedRecordDisplay()
     }
 
     private fun setStartDow() {
@@ -227,6 +230,26 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
             AppStatus.isWeekNumDisplay = !AppStatus.isWeekNumDisplay
             Prefs.putBoolean("isWeekNumDisplay", AppStatus.isWeekNumDisplay)
             setWeekNumDisplay()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
+        }
+    }
+
+    private fun setCheckedRecordDisplay() {
+        when(AppStatus.checkedRecordDisplay) {
+            0 -> root.checkedRecordDisplayText.text = str(R.string.check_option_0)
+            1 -> root.checkedRecordDisplayText.text = str(R.string.check_option_1)
+            2 -> root.checkedRecordDisplayText.text = str(R.string.check_option_2)
+            3 -> root.checkedRecordDisplayText.text = str(R.string.check_option_3)
+        }
+        root.checkedRecordDisplayBtn.setOnClickListener {
+            when(AppStatus.checkedRecordDisplay) {
+                0 -> AppStatus.checkedRecordDisplay = 1
+                1 -> AppStatus.checkedRecordDisplay = 2
+                2 -> AppStatus.checkedRecordDisplay = 3
+                3 -> AppStatus.checkedRecordDisplay = 0
+            }
+            Prefs.putInt("checkedRecordDisplay", AppStatus.checkedRecordDisplay)
+            setCheckedRecordDisplay()
             MainActivity.getCalendarPager()?.redrawAndSelect()
         }
     }

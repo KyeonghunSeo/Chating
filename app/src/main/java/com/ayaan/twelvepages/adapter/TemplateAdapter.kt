@@ -52,6 +52,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
                 v.contentLy.alpha = 0.5f
                 v.contentLy.setBackgroundResource(R.drawable.edit_mode_background_dash)
             }
+            v.backgroundLy.visibility = View.VISIBLE
             v.colorImg.visibility = View.GONE
             v.cardView.setCardBackgroundColor(AppTheme.background)
             v.cardView.cardElevation = dpToPx(10f)
@@ -79,12 +80,13 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
                 return@setOnLongClickListener true
             }
         }else {
+            v.backgroundLy.visibility = View.GONE
+            v.colorImg.visibility = View.VISIBLE
+            v.tagText.visibility = View.GONE
             v.cardView.setCardBackgroundColor(AppTheme.background)
             v.cardView.cardElevation = 0f
             v.contentLy.alpha = 0.5f
             v.contentLy.setBackgroundResource(R.drawable.blank)
-            v.colorImg.visibility = View.VISIBLE
-            v.tagText.visibility = View.GONE
             if(mode == 0) {
                 v.colorImg.setImageResource(R.drawable.setting)
                 v.titleText.text = context.getString(R.string.edit_template)

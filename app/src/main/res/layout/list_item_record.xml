@@ -88,13 +88,14 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:paddingTop="25dp"
-          android:paddingBottom="10dp"
+          android:paddingBottom="20dp"
           android:paddingLeft="25dp"
           android:paddingRight="25dp"
           android:clipChildren="false"
           android:clipToPadding="false">
 
          <FrameLayout
+             android:id="@+id/titleLy"
              android:orientation="horizontal"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"

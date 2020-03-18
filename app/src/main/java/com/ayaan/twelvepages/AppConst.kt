@@ -16,6 +16,10 @@ const val ANIM_DUR = 275L
 const val ID = "id"
 const val TIME = "time"
 
+const val NONE = 0
+const val NO = 1
+const val YES = 2
+
 const val RC_PERMISSIONS = 0
 const val RC_LOGIN = 9080
 const val RC_LOGOUT = 9081
@@ -26,8 +30,10 @@ const val RC_IMAGE_ATTACHMENT = 9093
 const val RC_SETTING = 9094
 const val RC_SHARE = 9095
 const val RC_EXPORT_PERMISSION = 9096
+const val RC_PHOTO_ON_DAYVIEW = 9097
 
 const val RESULT_CALENDAR_SETTING = 100
+const val RESULT_DAYVIEW_SETTING = 101
 
 var mainBarHeight = dpToPx(50)
 var smallMargin = dpToPx(10f)

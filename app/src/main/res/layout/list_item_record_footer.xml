@@ -81,6 +81,33 @@
              android:layout_marginTop="15dp">
          </com.ayaan.twelvepages.ui.view.OsPhotoListView>
 
+         <LinearLayout
+             android:id="@+id/photoEmptyLy"
+             android:orientation="horizontal"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="?android:attr/selectableItemBackground"
+             android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/color_palette_1"
+                android:scaleType="centerCrop"
+                android:alpha="0.5"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:textSize="12dp"
+                android:textColor="@color/line"
+                android:fontFamily="@font/bold_s"
+                android:text="@string/rc_photo_this_day"/>
+
+         </LinearLayout>
+
       </LinearLayout>
 
       <LinearLayout
