@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingRight="22dp"
-    android:paddingLeft="22dp">
+    android:paddingLeft="22dp"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <EditText
         android:id="@+id/input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="16dp"
+        android:textSize="14dp"
         android:imeOptions="actionSearch"
         android:maxLines="1"
         android:singleLine="true"
@@ -32,17 +35,20 @@
         android:id="@+id/photoLy"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginBottom="3dp"
-        android:visibility="gone">
+        android:layout_marginBottom="10dp"
+        android:outlineSpotShadowColor="@color/disableText"
+        android:outlineAmbientShadowColor="@color/disableText"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="0dp"
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/linkImg"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
             android:scaleType="centerCrop"
             android:background="@color/backgroundDark"/>
 
@@ -50,13 +56,13 @@
             android:id="@+id/linkText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="65dp"
+            android:layout_marginLeft="55dp"
             android:layout_marginRight="20dp"
             android:layout_gravity="center_vertical"
             android:maxLines="2"
-            android:textSize="14dp"
-            android:fontFamily="@font/bold"
-            android:textColor="@color/primaryText"
+            android:textSize="12dp"
+            android:fontFamily="@font/bold_s"
+            android:textColor="@color/secondaryText"
             android:text="@string/title"/>
 
     </androidx.cardview.widget.CardView>

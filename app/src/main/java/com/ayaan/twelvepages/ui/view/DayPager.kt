@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,10 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     init {
         setCardBackgroundColor(CalendarManager.backgroundColor)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            outlineAmbientShadowColor = AppTheme.secondaryText
+            outlineSpotShadowColor = AppTheme.secondaryText
+        }
         elevation = 0f
         radius = dpToPx(0f)
         addView(viewPager)
@@ -46,7 +51,15 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         viewPager.adapter = CalendarPagerAdapter()
         viewPager.setCurrentItem(startPosition, false)
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
-            override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrollStateChanged(state: Int) {
+                if(state == 1 && isOpened()) {
+                    dayViews.forEach {
+                        if(it != targetDayView) {
+                            it.unTargeted()
+                        }
+                    }
+                }
+            }
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
                 selectedTargetDayView(dayViews[position % viewCount])
@@ -70,13 +83,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private fun selectedTargetDayView(dayView: DayView) {
         targetDayView = dayView
         if(isOpened()) {
-            dayViews.forEach {
-                if(it == targetDayView) {
-                    it.targeted()
-                }else {
-                    it.unTargeted()
-                }
-            }
+            dayView.targeted()
         }
     }
 

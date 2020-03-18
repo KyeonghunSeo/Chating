@@ -136,14 +136,11 @@ class MainActivity : BaseActivity() {
         mainMonthText.pivotY = 0f
         mainMonthText.pivotX = 0f
         headerBar.setOnClickListener {}
-        bottomBar.setOnClickListener {}
-        callAfterViewDrawed(rootLy, Runnable{
-
-        })
+        callAfterViewDrawed(rootLy, Runnable{})
     }
 
     private fun initBottomBar() {
-        bottomBar.setOnClickListener { if(dayPager.isOpened()) dayPager.hide() }
+        bottomBar.setOnClickListener { if(dayPager.isOpened()) dayPager.hide() else dayPager.show() }
         addBtn.setOnClickListener { viewModel.targetTime.value?.let { showTemplateSheet(it, it) } }
     }
 
@@ -342,7 +339,7 @@ class MainActivity : BaseActivity() {
     private fun setDateText() {
         getTargetCal()?.let {
             fakeDateText.typeface = AppTheme.dateFont
-            mainMonthText.typeface = AppTheme.regularFont
+            mainMonthText.typeface = AppTheme.boldFont
             fakeDateText.text = String.format("%02d", it.get(Calendar.DATE))
             mainMonthText.setTextColor(CalendarManager.selectedDateColor)
             if(it.get(Calendar.YEAR) == getCurrentYear()) {

@@ -20,7 +20,7 @@
          <FrameLayout
              android:id="@+id/colorBg"
              android:layout_width="15dp"
-             android:layout_height="1.5dp"
+             android:layout_height="1.0dp"
              android:layout_marginLeft="25dp">
 
          </FrameLayout>
@@ -88,7 +88,7 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:paddingTop="25dp"
-          android:paddingBottom="20dp"
+          android:paddingBottom="10dp"
           android:paddingLeft="25dp"
           android:paddingRight="25dp"
           android:clipChildren="false"
@@ -325,7 +325,7 @@
              android:layout_width="match_parent"
              android:layout_height="70dp"
              android:layout_marginTop="5dp"
-             android:layout_marginBottom="3dp"
+             android:layout_marginBottom="8dp"
              app:cardElevation="0dp"
              app:cardCornerRadius="1dp">
 
@@ -375,9 +375,15 @@
              android:layout_height="wrap_content"
              android:clipChildren="false"
              android:clipToPadding="false"
-             android:layout_marginTop="5dp"
-             android:layout_marginBottom="3dp">
+             android:layout_marginBottom="5dp">
          </com.ayaan.twelvepages.ui.view.WebLinkListView>
+
+         <View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:layout_marginTop="20dp"
+             android:background="@drawable/dashed_line"
+             android:layerType="software"/>
 
       </LinearLayout>
 

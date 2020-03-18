@@ -27,6 +27,7 @@ class AddWebLinkDialog(activity: Activity, private val onResult: (Link) -> Unit)
         titleText.text = str(R.string.weblink)
         titleIcon.setImageResource(R.drawable.website)
         confirmBtn.visibility = View.GONE
+        photoLy.visibility = View.GONE
         optionBtn.visibility = View.VISIBLE
         optionBtn.text = str(R.string.search)
         optionBtn.setOnClickListener {

@@ -75,14 +75,17 @@ class WebLinkListView @JvmOverloads constructor(context: Context, attrs: Attribu
                         }else {
                             setLinkImgSmall(v.linkImg)
                         }
+                        v.linkImg.clearColorFilter()
                         v.linkImg.setImageBitmap(resource)
                     }
                 })
             } else if(!favicon.isNullOrBlank()) {
                 setLinkImgSmall(v.linkImg)
+                v.linkImg.clearColorFilter()
                 Glide.with(context).load(favicon).into(v.linkImg)
             } else {
                 setLinkImgSmall(v.linkImg)
+                v.linkImg.setColorFilter(AppTheme.icon)
                 Glide.with(context).load(R.drawable.website).into(v.linkImg)
             }
 

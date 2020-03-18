@@ -423,6 +423,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                 v.photoEmptyLy.visibility = View.GONE
                 if(photos.isNotEmpty()) {
                     v.photoLy.visibility = View.VISIBLE
+                    v.photoListView.visibility = View.VISIBLE
                     v.photoListView.setList(photos)
                 }else {
                     v.photoLy.visibility = View.GONE
@@ -430,6 +431,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             }else {
                 v.photoLy.visibility = View.VISIBLE
                 v.photoEmptyLy.visibility = View.VISIBLE
+                v.photoListView.visibility = View.GONE
                 v.photoEmptyLy.setOnClickListener {
                     ActivityCompat.requestPermissions(MainActivity.instance!!,
                             arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), RC_PHOTO_ON_DAYVIEW)

@@ -13,8 +13,8 @@
         android:paddingTop="10dp"
         android:paddingBottom="8dp"
         android:foreground="?android:attr/selectableItemBackground"
-        android:outlineSpotShadowColor="@color/disableText"
-        android:outlineAmbientShadowColor="@color/disableText"
+        android:outlineSpotShadowColor="@color/semiPrimaryText"
+        android:outlineAmbientShadowColor="@color/semiPrimaryText"
         app:cardCornerRadius="0dp"
         app:cardBackgroundColor="@color/backgroundDark"
         app:cardElevation="10dp">

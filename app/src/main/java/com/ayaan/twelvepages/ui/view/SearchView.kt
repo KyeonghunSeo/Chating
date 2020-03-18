@@ -372,6 +372,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
                     }
                     isCheckBox = icb
                     isPhoto = ip
+                    hideKeyPad(searchInput)
                     updateFilterUI()
                     notifyDataChanged()
                 }catch (e: Exception) { e.printStackTrace() }

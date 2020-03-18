@@ -211,7 +211,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             animList.add(ObjectAnimator.ofFloat(it, "scaleX", 1f, scale))
             animList.add(ObjectAnimator.ofFloat(it, "scaleY", 1f, scale))
             animList.add(ObjectAnimator.ofFloat(it, "translationX", 0f, panelOffset))
-            animList.add(ObjectAnimator.ofFloat(it, "radius", 0f, dpToPx(2f)))
+            animList.add(ObjectAnimator.ofFloat(it, "radius", 0f, dpToPx(1f)))
         }
         animSet.playTogether(animList)
         animSet.duration = animDur
@@ -227,7 +227,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             animList.add(ObjectAnimator.ofFloat(it, "scaleX", it.scaleX, 1f))
             animList.add(ObjectAnimator.ofFloat(it, "scaleY", it.scaleY, 1f))
             animList.add(ObjectAnimator.ofFloat(it, "translationX", it.translationX, 0f))
-            animList.add(ObjectAnimator.ofFloat(it, "radius", zOffset, 0f))
+            animList.add(ObjectAnimator.ofFloat(it, "radius", dpToPx(1f), 0f))
         }
         animSet.playTogether(animList)
         animSet.duration = animDur

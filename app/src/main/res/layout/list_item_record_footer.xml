@@ -23,92 +23,84 @@
        android:orientation="vertical"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_margin="25dp">
+       android:padding="25dp"
+       android:clipToPadding="false"
+       android:clipChildren="false">
 
-      <LinearLayout
+      <FrameLayout
           android:id="@+id/photoLy"
-          android:orientation="vertical"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginBottom="30dp">
+          android:layout_marginBottom="25dp"
+          android:background="@color/backgroundDark">
 
-         <LinearLayout
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:gravity="center_vertical">
+         <FrameLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
             <View
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_weight="1"
-                android:layout_marginRight="7dp"
-                android:background="@drawable/dashed_line"
-                android:layout_gravity="center"
-                android:layerType="software"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/edit_mode_background_dash"/>
 
-            <ImageView
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:src="@drawable/photo"
-                android:tint="@color/secondaryText"/>
+         </FrameLayout>
+
+         <LinearLayout
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="5dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginBottom="-10dp"
                 android:textSize="12dp"
                 android:textColor="@color/secondaryText"
                 android:fontFamily="@font/bold_s"
                 android:text="@string/photos_this_day"/>
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="7dp"
-                android:background="@drawable/dashed_line"
-                android:layout_gravity="center"
-                android:layerType="software"/>
-
-         </LinearLayout>
-
-         <com.ayaan.twelvepages.ui.view.OsPhotoListView
-             android:id="@+id/photoListView"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="15dp">
-         </com.ayaan.twelvepages.ui.view.OsPhotoListView>
-
-         <LinearLayout
-             android:id="@+id/photoEmptyLy"
-             android:orientation="horizontal"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:background="?android:attr/selectableItemBackground"
-             android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/color_palette_1"
-                android:scaleType="centerCrop"
-                android:alpha="0.5"/>
-
-            <TextView
-                android:layout_width="wrap_content"
+            <com.ayaan.twelvepages.ui.view.OsPhotoListView
+                android:id="@+id/photoListView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                android:textSize="12dp"
-                android:textColor="@color/line"
-                android:fontFamily="@font/bold_s"
-                android:text="@string/rc_photo_this_day"/>
+                android:layout_margin="25dp">
+            </com.ayaan.twelvepages.ui.view.OsPhotoListView>
+
+            <LinearLayout
+                android:id="@+id/photoEmptyLy"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="25dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical">
+
+               <ImageView
+                   android:layout_width="70dp"
+                   android:layout_height="70dp"
+                   android:src="@drawable/color_palette_1"
+                   android:scaleType="centerCrop"
+                   android:alpha="0.5"/>
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:gravity="center_vertical"
+                   android:layout_marginLeft="20dp"
+                   android:textSize="12dp"
+                   android:textColor="@color/line"
+                   android:fontFamily="@font/bold_s"
+                   android:text="@string/rc_photo_this_day"/>
+
+            </LinearLayout>
 
          </LinearLayout>
 
-      </LinearLayout>
+      </FrameLayout>
 
       <LinearLayout
           android:id="@+id/beforeYearLy"
