@@ -32,8 +32,8 @@
              android:id="@+id/titleText"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:textColor="@color/primaryText"
-             android:textSize="14dp"
+             android:textColor="@color/secondaryText"
+             android:textSize="13dp"
              android:text="title"/>
 
          <TextView
@@ -41,8 +41,7 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:textSize="10dp"
-             android:textColor="@color/primaryText"
-             android:fontFamily="@font/thin"
+             android:textColor="@color/secondaryText"
              android:text="#love#peace"/>
 
       </LinearLayout>

@@ -420,8 +420,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 if(shape == Shape.ARROW || shape == Shape.DASH_ARROW) {
                     val arrowSize = (periodLine * 5.0f).toInt()
                     val arrowWidth = (periodLine * 5.0f).toInt()
-                            drawArrow(canvas, 0, height / 2, arrowWidth, height / 2 - arrowSize, arrowWidth, height / 2  + arrowSize)
-                    drawArrow(canvas, width, height / 2, width - arrowWidth, height / 2 - arrowSize, width - arrowWidth, height / 2  + arrowSize)
+                    drawArrow(canvas, 0, height / 2, arrowWidth, height / 2 - arrowSize, arrowWidth, height / 2  + arrowSize + periodLine.toInt())
+                    drawArrow(canvas, width, height / 2, width - arrowWidth, height / 2 - arrowSize, width - arrowWidth, height / 2  + arrowSize + periodLine.toInt())
                 }else {
                     val dividerSize = periodLine * 5.0f
                     canvas.drawRect(0f, height / 2f - dividerSize, periodLine, height / 2f + dividerSize, paint)
@@ -516,9 +516,17 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val childCount = childList?.size ?: 0
         when(childCount) {
             1 -> {
-                val size = normalStickerSize.toInt()
-                val top = (height - normalStickerSize - defaultPadding).toInt()
-                val left = (width - normalStickerSize - defaulMargin).toInt()
+//                val size = normalStickerSize.toInt()
+//                val top = (height - normalStickerSize - defaultPadding).toInt()
+//                val left = (width - normalStickerSize - defaulMargin).toInt()
+//                val resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
+//                resource.getDrawable(resId, null)?.let {
+//                    it.setBounds(left, top, (left + size), (top + size))
+//                    it.draw(canvas)
+//                }
+                val size = width - defaultPadding * 2
+                val top = (height - size - defaultPadding).toInt()
+                val left = (width - size - defaulMargin).toInt()
                 val resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
                 resource.getDrawable(resId, null)?.let {
                     it.setBounds(left, top, (left + size), (top + size))

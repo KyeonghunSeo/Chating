@@ -35,7 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="25dp"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="30dp"
+                android:clipChildren="false">
 
                 <TextView
                     android:id="@+id/templateDateText"
@@ -54,15 +55,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
                     android:layout_gravity="right|center_vertical"
-                    android:layout_marginRight="25dp">
+                    android:layout_marginRight="25dp"
+                    android:clipChildren="false">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/stickerBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="28dp"
-                        app:cardBackgroundColor="@color/backgroundDark"
-                        app:cardCornerRadius="0dp"
-                        app:cardElevation="0dp">
+                        android:outlineSpotShadowColor="@color/secondaryText"
+                        android:outlineAmbientShadowColor="@color/secondaryText"
+                        app:cardElevation="1dp"
+                        app:cardCornerRadius="0dp">
+
+                        <View
+                            android:layout_width="6dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/backgroundDark"/>
 
                         <LinearLayout
                             android:orientation="horizontal"
@@ -88,7 +96,7 @@
                                 android:maxLines="1"
                                 android:ellipsize="end"
                                 android:textColor="@color/secondaryText"
-                                android:fontFamily="@font/bold_s"
+                                android:fontFamily="@font/regular_s"
                                 android:text="@string/formula_sticker"/>
 
                         </LinearLayout>

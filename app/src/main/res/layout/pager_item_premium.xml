@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:clipChildren="false">
 
     <androidx.cardview.widget.CardView
@@ -13,36 +13,50 @@
         android:layout_marginRight="50dp"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
+        android:outlineSpotShadowColor="@color/semiPrimaryText"
+        android:outlineAmbientShadowColor="@color/semiPrimaryText"
         app:cardElevation="30dp"
-        app:cardCornerRadius="15dp">
+        app:cardCornerRadius="1dp"
+        app:cardBackgroundColor="@color/backgroundDark">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/light_line"/>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:padding="30dp"
             android:background="?android:attr/selectableItemBackground">
 
             <TextView
                 android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="25dp"
-                android:textColor="@color/primaryText"
-                android:textSize="20dp"
+                android:textColor="@color/secondaryText"
+                android:textSize="15dp"
                 android:text="@string/premium_item_0_title"
-                android:fontFamily="@font/bold"/>
+                android:fontFamily="@font/bold_s"/>
 
             <TextView
                 android:id="@+id/subText"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="25dp"
-                android:textColor="@color/primaryText"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondaryText"
+                android:layout_marginTop="10dp"
                 android:lineSpacingExtra="3dp"
-                android:textSize="12dp"
-                android:fontFamily="@font/regular"/>
+                android:textSize="11dp"
+                android:fontFamily="@font/regular_s"/>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="15dp"/>
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

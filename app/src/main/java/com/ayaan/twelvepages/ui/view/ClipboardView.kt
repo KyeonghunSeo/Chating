@@ -1,46 +1,29 @@
 package com.ayaan.twelvepages.ui.view
 
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.os.Handler
-import android.os.Looper
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
-import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
-import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
-import com.ayaan.twelvepages.adapter.TemplateAdapter
-import com.ayaan.twelvepages.adapter.util.TemplateDiffCallback
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
-import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
-import com.ayaan.twelvepages.ui.activity.TemplateActivity
-import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.android.synthetic.main.view_template.view.*
+import kotlinx.android.synthetic.main.view_clipboard.view.*
 import java.util.*
-import kotlin.collections.ArrayList
 
-class TemplateView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+class ClipboardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
     private val startCal = Calendar.getInstance()
     private val endCal = Calendar.getInstance()
     private val panelElevation = dpToPx(30f)
     private var behavior: BottomSheetBehavior<View>
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_template, this, true)
+        LayoutInflater.from(context).inflate(R.layout.view_clipboard, this, true)
 
         bottomSheet.setOnClickListener { collapse() }
         templatePanel.setOnClickListener {  }

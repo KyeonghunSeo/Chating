@@ -9,9 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
+import android.widget.GridView
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
@@ -26,6 +28,7 @@ import kotlinx.android.synthetic.main.dialog_sticker_picker.view.*
 import kotlinx.android.synthetic.main.list_item_sticker_picker_tab.view.*
 import kotlinx.android.synthetic.main.pager_item_sticker_picker.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit) : BottomSheetDialog() {
@@ -80,30 +83,46 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
     inner class StickerPagerAdapter : PagerAdapter() {
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             val v = LayoutInflater.from(context).inflate(R.layout.pager_item_sticker_picker, null, false)
-            val stickerImgs = arrayOf(
-                    v.colorImg0, v.colorImg1, v.colorImg2, v.colorImg3,
-                    v.colorImg4, v.colorImg5, v.colorImg6, v.colorImg7,
-                    v.colorImg8, v.colorImg9, v.colorImg10, v.colorImg11,
-                    v.colorImg12, v.colorImg13, v.colorImg14, v.colorImg15,
-                    v.colorImg16, v.colorImg17, v.colorImg18, v.colorImg19)
             if(position == 0) {
                 val recentPack = StickerManager.recentPack
                 if(recentPack.isEmpty()) {
                     v.emptyLy.visibility = View.VISIBLE
-                    v.contentLy.visibility = View.GONE
+                    v.stickerPackGridView.visibility = View.GONE
                 }else {
                     v.emptyLy.visibility = View.GONE
-                    v.contentLy.visibility = View.VISIBLE
-                    setStickerImage(stickerImgs, recentPack)
+                    v.stickerPackGridView.visibility = View.VISIBLE
+                    v.stickerPackGridView.layoutManager = GridLayoutManager(context, 5)
+                    v.stickerPackGridView.adapter = StickerAdapter(Array(recentPack.size) { i -> recentPack[i] })
                 }
             }else {
                 v.emptyLy.visibility = View.GONE
-                v.contentLy.visibility = View.VISIBLE
                 val stickerPack = StickerManager.packs[position - 1]
-                setStickerImage(stickerImgs, stickerPack.items.toList())
+                v.stickerPackGridView.layoutManager = GridLayoutManager(context, 5)
+                v.stickerPackGridView.adapter = StickerAdapter(stickerPack.items)
             }
             container.addView(v)
             return v
+        }
+
+        inner class StickerAdapter(val items: Array<StickerManager.Sticker>) : RecyclerView.Adapter<StickerAdapter.ViewHolder>() {
+
+            override fun getItemCount(): Int = items.size
+
+            inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container)
+
+            override fun onCreateViewHolder(parent: ViewGroup, position: Int)
+                    = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_sticker, parent, false))
+
+            override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+                val sticker = items[position]
+                val v = holder.itemView
+                Glide.with(context!!).load(sticker.resId).into(v.findViewById<ImageView>(R.id.imageView))
+                v.setOnClickListener {
+                    StickerManager.updateRecentSticker(sticker)
+                    onResult.invoke(sticker)
+                    dismiss()
+                }
+            }
         }
 
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) { container.removeView(`object` as View) }
@@ -115,23 +134,6 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                 container.getChildAt(i)?.findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = false
             }
             (`object` as View).findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = true
-        }
-
-        private fun setStickerImage(stickerImgs: Array<ImageView>, items: List<StickerManager.Sticker>) {
-            stickerImgs.forEachIndexed { index, view ->
-                if(index < items.size) {
-                    val sticker = items[index]
-                    view.visibility = View.VISIBLE
-                    Glide.with(context!!).load(sticker.resId).into(view)
-                    view.setOnClickListener {
-                        StickerManager.updateRecentSticker(sticker)
-                        onResult.invoke(sticker)
-                        dismiss()
-                    }
-                }else {
-                    view.visibility = View.INVISIBLE
-                }
-            }
         }
     }
 
@@ -150,7 +152,11 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
         inner class ViewHolder(val container: View) : RecyclerView.ViewHolder(container) {
             init { onItemClear() }
             fun onItemSelected() {}
-            fun onItemClear() { (container as CardView).cardElevation = dpToPx(0f) }
+            fun onItemClear() {
+                container.postDelayed({
+                    (container as CardView).cardElevation = dpToPx(0f)
+                }, 100)
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int)
@@ -187,6 +193,7 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                     v.iconImg.alpha = 1f
                 }else {
                     removeImageViewFilter(v.iconImg)
+                    v.iconImg.alpha = 1f
                 }
             }else {
                 v.iconImg.setBackgroundColor(Color.TRANSPARENT)
@@ -195,6 +202,7 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                     v.iconImg.alpha = 1f
                 }else {
                     setImageViewGrayFilter(v.iconImg)
+                    v.iconImg.alpha = 0.5f
                 }
             }
         }
@@ -247,7 +255,7 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                     }
                     StickerManager.saveCurrentPack()
                     setViewPager()
-                    root.viewPager.setCurrentItem(StickerManager.packs.indexOf(currentPack) + 1, false)
+                    currentPack?.let { root.viewPager.setCurrentItem(StickerManager.packs.indexOf(it) + 1, false) }
                     isDeleted = false
                     dragPack = null
                     root.settingBtn.setImageResource(R.drawable.setting)

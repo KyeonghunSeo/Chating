@@ -58,7 +58,7 @@ class UndoneListDialog(activity: Activity, val onResult: (Boolean) -> Unit) : Ba
                 val v = holder.itemView
                 v.colorBar.setCardBackgroundColor(record.getColor())
                 v.titleText.text = record.getTitleInCalendar()
-                v.subText.text = "${AppDateFormat.mde.format(Date(record.dtEnd))} (${record.getDueText(System.currentTimeMillis())})"
+                v.subText.text = "${AppDateFormat.ymde.format(Date(record.dtEnd))} (${record.getDueText(System.currentTimeMillis())})"
 
                 v.checkBtn.setOnClickListener {
                     if(items.size == 1) {

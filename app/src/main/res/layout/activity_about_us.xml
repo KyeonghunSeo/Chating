@@ -179,7 +179,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/secondaryText"
-                android:textSize="9dp"
+                android:textSize="8dp"
                 android:text="@string/logo_text"
                 android:fontFamily="@font/regular_s"/>
 

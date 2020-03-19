@@ -7,7 +7,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:orientation="vertical"
-        android:layout_width="80dp"
+        android:layout_width="70dp"
         android:layout_height="80dp"
         android:layout_marginRight="15dp"
         android:paddingTop="10dp"
@@ -45,14 +45,14 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_margin="0dp">
+            android:padding="13dp"
+            android:clipToPadding="false">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/colorBtn"
-                android:layout_width="15dp"
+                android:layout_width="13dp"
                 android:layout_height="2dp"
-                android:layout_gravity="center_horizontal"
+                app:cardBackgroundColor="@color/secondaryText"
                 app:cardCornerRadius="0dp"
                 app:cardElevation="0dp">
 
@@ -68,11 +68,8 @@
                 android:id="@+id/titleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:gravity="center_horizontal"
-                android:textSize="10dp"
+                android:layout_marginTop="4dp"
+                android:textSize="9dp"
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:textColor="@color/secondaryText"
@@ -83,16 +80,55 @@
                 android:id="@+id/tagText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:gravity="center_horizontal"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="2dp"
                 android:textSize="6dp"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:textColor="@color/disableText"
-                android:fontFamily="@font/bold_s"
+                android:textColor="@color/semiPrimaryText"
+                android:fontFamily="@font/regular_s"
                 android:text="#"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginRight="-3dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right">
+
+                    <ImageView
+                        android:id="@+id/alarmImg"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/alarm"
+                        android:tint="@color/semiPrimaryText" />
+
+                    <ImageView
+                        android:id="@+id/checkImg"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/check"
+                        android:tint="@color/semiPrimaryText"/>
+
+                    <ImageView
+                        android:id="@+id/timeImg"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/time"
+                        android:tint="@color/semiPrimaryText"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
 
         </LinearLayout>
 

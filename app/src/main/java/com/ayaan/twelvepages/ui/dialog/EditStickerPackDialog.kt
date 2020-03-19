@@ -27,8 +27,8 @@ class EditStickerPackDialog(activity: Activity, val onResult: (Boolean) -> Unit)
     }
 
     private fun setLayout() {
-        titleText.text = context.getString(R.string.color_pack_setting)
-        titleIcon.setImageResource(R.drawable.color)
+        titleText.text = context.getString(R.string.sticker_pack_setting)
+        titleIcon.setImageResource(R.drawable.star)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = ItemAdapter()
         confirmBtn.setOnClickListener {

@@ -28,6 +28,7 @@ import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
+import com.ayaan.twelvepages.ui.sheet.TagRecordSheet
 import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.list_item_record.view.*
 import kotlinx.android.synthetic.main.list_item_record_footer.view.*
@@ -147,12 +148,16 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.tagView.visibility = View.VISIBLE
             v.tagView.isSmallTag = true
             v.tagView.post { v.tagView.setItems(record.tags, null) }
+            v.tagView.onSelected = { tag, _ ->
+                tag?.let { TagRecordSheet(it, record).show(MainActivity.instance!!.supportFragmentManager, null) }
+            }
         }else {
             v.tagView.visibility = View.GONE
         }
 
         if(record.isSetCheckBox) {
             v.checkBox.visibility = View.VISIBLE
+            v.checkArea.visibility = View.VISIBLE
             v.titleText.visibility = View.VISIBLE
             if(v.titleText.text.isEmpty()) {
                 v.titleText.text = "　　${str(R.string.todo)}"
@@ -177,12 +182,13 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                 v.titleLy.alpha = 1f
                 v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
             }
-            v.checkBox.setOnClickListener {
+            v.checkArea.setOnClickListener {
                 vibrate(context)
                 RecordManager.done(record)
             }
         }else {
             v.checkBox.visibility = View.GONE
+            v.checkArea.visibility = View.GONE
             v.titleLy.alpha = 1f
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
@@ -352,6 +358,12 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         }else {
             v.webLinkView.visibility = View.GONE
         }
+
+        if(AppStatus.displayRecordDivider == 0) {
+            v.divider.visibility = View.GONE
+        }else {
+            v.divider.visibility = View.VISIBLE
+        }
     }
 
     private fun onItemClick(record: Record) {
@@ -442,8 +454,9 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
                 list.firstOrNull()?.let { record ->
                     v.beforeYearLy.visibility = View.VISIBLE
                     v.beforeYearText.text = record.getTitleInCalendar()
-                    v.beforeYearText.setOnClickListener {
+                    v.beforeYearLy.setOnClickListener {
                         MainActivity.instance?.selectDate(getCalendarTime0(record.dtStart))
+                        toast(R.string.moved, R.drawable.schedule)
                     }
                 }
             }

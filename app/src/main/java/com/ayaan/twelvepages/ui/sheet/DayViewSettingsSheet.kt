@@ -37,10 +37,11 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
 
     private fun setLayout() {
         setShowUpdateTime()
-        setWeekNumDisplay()
+        setDisplayDayViewWeekNum()
         setCheckedRecordDisplay()
         setRememberPhoto()
         setRememberBeforeYear()
+        setDisplayRecordDivider()
     }
 
     private fun setShowUpdateTime() {
@@ -59,8 +60,8 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
         }
     }
 
-    private fun setWeekNumDisplay() {
-        if(AppStatus.isWeekNumDisplay) {
+    private fun setDisplayDayViewWeekNum() {
+        if(AppStatus.isDisplayDayViewWeekNum) {
             root.weekNumDisplayText.text = str(R.string.visible)
             root.weekNumDisplayText.setTextColor(AppTheme.primaryText)
         }else {
@@ -68,10 +69,10 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
             root.weekNumDisplayText.setTextColor(AppTheme.disableText)
         }
         root.weekNumDisplayBtn.setOnClickListener {
-            AppStatus.isWeekNumDisplay = !AppStatus.isWeekNumDisplay
-            Prefs.putBoolean("isWeekNumDisplay", AppStatus.isWeekNumDisplay)
-            setWeekNumDisplay()
-            MainActivity.getCalendarPager()?.redrawAndSelect()
+            AppStatus.isDisplayDayViewWeekNum = !AppStatus.isDisplayDayViewWeekNum
+            Prefs.putBoolean("isDisplayDayViewWeekNum", AppStatus.isDisplayDayViewWeekNum)
+            setDisplayDayViewWeekNum()
+            MainActivity.getDayPager()?.redraw()
         }
     }
 
@@ -142,6 +143,28 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
             AppStatus.rememberBeforeYear = if(AppStatus.rememberBeforeYear == NONE || AppStatus.rememberBeforeYear == NO) YES else NO
             Prefs.putInt("rememberBeforeYear", AppStatus.rememberBeforeYear)
             setRememberBeforeYear()
+            MainActivity.getDayPager()?.redraw()
+        }
+    }
+
+    private fun setDisplayRecordDivider() {
+        when(AppStatus.displayRecordDivider) {
+            0 -> {
+                root.recordDividerText.text = str(R.string.unvisible)
+                root.recordDividerText.setTextColor(AppTheme.disableText)
+            }
+            else -> {
+                root.recordDividerText.text = str(R.string.visible)
+                root.recordDividerText.setTextColor(AppTheme.primaryText)
+            }
+        }
+        root.recordDividerBtn.setOnClickListener {
+            when(AppStatus.displayRecordDivider) {
+                0 -> AppStatus.displayRecordDivider = 1
+                else -> AppStatus.displayRecordDivider = 0
+            }
+            Prefs.putInt("displayRecordDivider", AppStatus.displayRecordDivider)
+            setDisplayRecordDivider()
             MainActivity.getDayPager()?.redraw()
         }
     }

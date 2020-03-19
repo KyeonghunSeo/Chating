@@ -1,7 +1,9 @@
 package com.ayaan.twelvepages.manager
 
+import com.ayaan.twelvepages.App
 import com.ayaan.twelvepages.R
 import com.pixplicity.easyprefs.library.Prefs
+import java.lang.Exception
 import kotlin.collections.ArrayList
 
 object StickerManager {
@@ -10,46 +12,34 @@ object StickerManager {
 
     var packs = ArrayList<StickerPack>()
     var recentPack = ArrayList<Sticker>()
+    val packageName = App.context.packageName
+    val resource = App.resource
 
     init {
         Prefs.getString("stickerPacks", StickerPack.BASIC.name)
                 .split(",")
-                .mapTo(packs) { StickerPack.valueOf(it) }
+                .mapTo(packs) {
+                    try{
+                        StickerPack.valueOf(it)
+                    }catch (e: Exception) {
+                        StickerPack.BASIC
+                    }
+                }
         Prefs.getString("recentStickerPack", null)?.let { recentStickerPack ->
                 recentStickerPack.split(",")
                         .mapTo(recentPack) {
-                    val stickerKey = it.toInt()
-                    StickerPack.values()[stickerKey / 10000].items[stickerKey % 10000]
+                            val stickerKey = it.toInt()
+                            try{
+                                StickerPack.values()[stickerKey / 10000].items[stickerKey % 10000]
+                            }catch (e: Exception) {
+                                StickerPack.BASIC.items.first()
+                            }
                 }
         }
     }
 
     enum class StickerPack(val titleId: Int, val type: Int, val items: Array<Sticker>) {
-        BASIC(R.string.s_basic, 0, arrayOf(
-                Sticker(R.drawable.cat, 0),
-                Sticker(R.drawable.s_basic_1, 0),
-                Sticker(R.drawable.s_basic_2, 0),
-                Sticker(R.drawable.s_basic_3, 0),
-                Sticker(R.drawable.s_basic_4, 0),
-                Sticker(R.drawable.s_basic_5, 0),
-                Sticker(R.drawable.s_basic_6, 0),
-                Sticker(R.drawable.s_basic_7, 0),
-                Sticker(R.drawable.s_basic_8, 0),
-                Sticker(R.drawable.s_basic_9, 0),
-                Sticker(R.drawable.s_basic_10, 0),
-                Sticker(R.drawable.s_basic_11, 0),
-                Sticker(R.drawable.s_basic_12, 0),
-                Sticker(R.drawable.s_basic_13, 0),
-                Sticker(R.drawable.s_basic_14, 0),
-                Sticker(R.drawable.s_basic_15, 0),
-                Sticker(R.drawable.s_basic_16, 0),
-                Sticker(R.drawable.s_basic_17, 0),
-                Sticker(R.drawable.s_basic_18, 0),
-                Sticker(R.drawable.s_basic_19, 0),
-                Sticker(R.drawable.s_basic_20, 0),
-                Sticker(R.drawable.s_basic_21, 0),
-                Sticker(R.drawable.s_basic_22, 0)
-        )),
+        BASIC(R.string.s_basic, 0, Array(100) { i -> Sticker(resource.getIdentifier("s_basic_$i", "drawable", packageName), 0) } ),
         FINANCE(R.string.s_finance, 0, arrayOf(
                 Sticker(R.drawable.s_finance_0, 1),
                 Sticker(R.drawable.s_finance_1, 1),
@@ -81,10 +71,88 @@ object StickerManager {
                 Sticker(R.drawable.s_business_13, 2),
                 Sticker(R.drawable.s_business_15, 2),
                 Sticker(R.drawable.s_business_16, 2)
-        ));
+        )),
+        CALIGRAPHY(R.string.s_caligraphy, 1, arrayOf(
+                Sticker(R.drawable.s_cali_0, 3),
+                Sticker(R.drawable.s_cali_1, 3),
+                Sticker(R.drawable.s_cali_2, 3),
+                Sticker(R.drawable.s_cali_3, 3),
+                Sticker(R.drawable.s_cali_4, 3),
+                Sticker(R.drawable.s_cali_5, 3),
+                Sticker(R.drawable.s_cali_6, 3),
+                Sticker(R.drawable.s_cali_7, 3),
+                Sticker(R.drawable.s_cali_8, 3),
+                Sticker(R.drawable.s_cali_9, 3),
+                Sticker(R.drawable.s_cali_10, 3),
+                Sticker(R.drawable.s_cali_11, 3),
+                Sticker(R.drawable.s_cali_12, 3),
+                Sticker(R.drawable.s_cali_13, 3),
+                Sticker(R.drawable.s_cali_14, 3),
+                Sticker(R.drawable.s_cali_15, 3)
+        )),
+        BODY(R.string.s_body, 0, arrayOf(
+                Sticker(R.drawable.s_body_0, 4),
+                Sticker(R.drawable.s_body_1, 4),
+                Sticker(R.drawable.s_body_2, 4),
+                Sticker(R.drawable.s_body_3, 4),
+                Sticker(R.drawable.s_body_4, 4),
+                Sticker(R.drawable.s_body_5, 4),
+                Sticker(R.drawable.s_body_6, 4),
+                Sticker(R.drawable.s_body_7, 4),
+                Sticker(R.drawable.s_body_8, 4),
+                Sticker(R.drawable.s_body_9, 4),
+                Sticker(R.drawable.s_body_10, 4),
+                Sticker(R.drawable.s_body_11, 4),
+                Sticker(R.drawable.s_body_12, 4),
+                Sticker(R.drawable.s_body_13, 4),
+                Sticker(R.drawable.s_body_14, 4),
+                Sticker(R.drawable.s_body_15, 4),
+                Sticker(R.drawable.s_body_16, 4),
+                Sticker(R.drawable.s_body_17, 4),
+                Sticker(R.drawable.s_body_18, 4),
+                Sticker(R.drawable.s_body_19, 4),
+                Sticker(R.drawable.s_body_20, 4),
+                Sticker(R.drawable.s_body_21, 4),
+                Sticker(R.drawable.s_body_22, 4),
+                Sticker(R.drawable.s_body_23, 4),
+                Sticker(R.drawable.s_body_24, 4)
+        )),
+        FOOD(R.string.s_food, 0, arrayOf(
+                Sticker(R.drawable.s_food_0, 5),
+                Sticker(R.drawable.s_food_1, 5),
+                Sticker(R.drawable.s_food_2, 5),
+                Sticker(R.drawable.s_food_3, 5),
+                Sticker(R.drawable.s_food_4, 5),
+                Sticker(R.drawable.s_food_5, 5),
+                Sticker(R.drawable.s_food_6, 5),
+                Sticker(R.drawable.s_food_7, 5),
+                Sticker(R.drawable.s_food_8, 5),
+                Sticker(R.drawable.s_food_9, 5),
+                Sticker(R.drawable.s_food_10, 5),
+                Sticker(R.drawable.s_food_11, 5),
+                Sticker(R.drawable.s_food_12, 5),
+                Sticker(R.drawable.s_food_13, 5),
+                Sticker(R.drawable.s_food_14, 5),
+                Sticker(R.drawable.s_food_15, 5),
+                Sticker(R.drawable.s_food_16, 5),
+                Sticker(R.drawable.s_food_17, 5),
+                Sticker(R.drawable.s_food_18, 5),
+                Sticker(R.drawable.s_food_19, 5),
+                Sticker(R.drawable.s_food_20, 5),
+                Sticker(R.drawable.s_food_21, 5),
+                Sticker(R.drawable.s_food_22, 5),
+                Sticker(R.drawable.s_food_23, 5),
+                Sticker(R.drawable.s_food_24, 5)
+        )),
+        WEATHER(R.string.s_weather, 0, Array(27) { i -> Sticker(resource.getIdentifier("s_weather_$i", "drawable", packageName), 6) } )
     }
 
-    fun getSticker(stickerKey: Int) = StickerPack.values()[stickerKey / 10000].items[stickerKey % 10000]
+    fun getSticker(stickerKey: Int) = try {
+        StickerPack.values()[stickerKey / 10000].items[stickerKey % 10000]
+    }catch (e: Exception){
+        StickerPack.BASIC.items.first()
+    }
+
     fun getStickerKey(sticker: Sticker) : Int {
         val pack = StickerPack.values()[sticker.packNum]
         val index = pack.items.indexOf(sticker)

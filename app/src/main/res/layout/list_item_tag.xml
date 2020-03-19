@@ -21,11 +21,10 @@
           android:layout_height="wrap_content"
           android:layout_marginLeft="7dp"
           android:layout_marginRight="7dp"
-          android:textSize="9dp"
+          android:textSize="8dp"
           android:layout_gravity="center"
           android:maxLines="1"
           android:gravity="center_vertical"
-          android:fontFamily="@font/thin_s"
           android:text="#hashtag"
           android:textColor="@color/primaryText"/>
 

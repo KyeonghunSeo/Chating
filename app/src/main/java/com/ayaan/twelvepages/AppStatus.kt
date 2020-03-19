@@ -18,6 +18,8 @@ object AppStatus {
     var rememberPhoto = 0
     var rememberBeforeYear = 0
     var isDisplayUpdateTime = true
+    var displayRecordDivider = 1
+    var isDisplayDayViewWeekNum = false
 
     var screenWidth = 0
     var screenHeight = 0
@@ -35,6 +37,8 @@ object AppStatus {
         rememberPhoto = Prefs.getInt("rememberPhoto", 0)
         rememberBeforeYear = Prefs.getInt("rememberBeforeYear", 0)
         isDisplayUpdateTime = Prefs.getBoolean("isDisplayUpdateTime", true)
+        displayRecordDivider = Prefs.getInt("displayRecordDivider", 1)
+        isDisplayDayViewWeekNum = Prefs.getBoolean("isDisplayDayViewWeekNum", true)
 
         val screenSize = getScreenSize(context)
         screenWidth = screenSize[0]

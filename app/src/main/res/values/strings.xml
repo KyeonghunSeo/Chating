@@ -44,7 +44,6 @@
     <string-array name="holidays">
         <item>@string/unvisible</item>
         <item>@string/kr</item>
-        <item>@string/jp</item>
     </string-array>
 
     <string-array name="day_of_weeks">
@@ -126,6 +125,7 @@
     <string name="tag">태그</string>
     <string name="enter_tag">태그 이름</string>
     <string name="no_tag">태그없음</string>
+    <string name="total_count">총 %1$s개</string>
     <string name="delete_tag_sub">이 태그가 붙어있는 모든 기록(총 %1$s개)에서 해당 태그가 삭제됩니다.</string>
     <string name="keep">보관함</string>
     <string name="attachment">첨부</string>
@@ -150,7 +150,7 @@
     <string name="first_text_3">더 가치있다.</string>
     <string name="sign_in_with_google">시작하기</string>
     <string name="logo_text">캘린더 · 다이어리</string>
-    <string name="logo_text_2">반\n짝\n이\n는\n일\n상\n의\n기\n록</string>
+    <string name="logo_text_2">일\n상\n을\n적\n는\n즐\n거\n움</string>
     <string name="logo_text_w">일상을 적는 즐거움</string>
     <string name="init_setting_script_0">반갑습니다! %1$s 님.\n어떤 다이어리가 필요하신가요?\n원하는 다이어리 구성을 선택해보세요.</string>
     <string name="select_os_calendar">외부캘린더 가져오기</string>
@@ -227,7 +227,7 @@
     <string name="delete_sub">정말 삭제하시겠습니까?</string>
     <string name="calendar">캘린더</string>
     <string name="folder">폴더</string>
-    <string name="check_option">완료된 기록 표시방법</string>
+    <string name="check_option">완료된 기록 표시</string>
     <string name="check_option_0">기본</string>
     <string name="check_option_1">흐리게</string>
     <string name="check_option_2">삭제선</string>
@@ -262,6 +262,7 @@
     <string name="close">닫기</string>
     <string name="new_tag_sub">기록에 태그를 붙이면 빠르게 검색할수 있고, 유용한 통계자료도 만들수 있습니다</string>
     <string name="enter_tag_name">이곳에 태그이름을 입력</string>
+    <string name="plz_enter_tag_name">태그이름을 입력해주세요.</string>
     <string name="edit_tag">태그편집</string>
     <string name="already_exist_tag">이미 존재하는 태그이름 입니다</string>
     <string name="back_c">BACK</string>
@@ -351,7 +352,7 @@
     <string name="thin">흐리게</string>
     <string name="bold">진하게</string>
     <string name="formula_date_point">날짜강조</string>
-    <string name="undone_records">미완료 기록</string>
+    <string name="undone_records">미완료기록</string>
     <string name="import_external_data">외부 데이터</string>
     <string name="import_naver_calendar">네이버 캘린더 가져오기</string>
     <string name="this_is_os_instance">외부 데이터는 앱 내에서 편집할수 없습니다</string>
@@ -371,8 +372,8 @@
     <string name="init_setting_script_1">이미 사용중이던 OS 캘린더가 있으신가요?\n필요하다면 캘린더 접근 권한을 획득 후,\n참조할 캘린더를 선택해보세요.</string>
     <string name="last_setting_script">이제 마지막 입니다!\n좌우명이나 목표가 있다면 적어보세요.</string>
     <string name="init_loading_text">다이어리를 구성중 입니다.\n잠시만 기다려주세요…</string>
-    <string name="upgrade_premium">업그레이드</string>
-    <string name="total_records">지금까지 총 %1$s개의 기록을 남겼습니다.</string>
+    <string name="upgrade_premium">프리미엄 구독하기</string>
+    <string name="total_records">지금까지의 기록 : 총 %1$s개</string>
     <string name="symbol">심볼</string>
     <string name="very_big">매우크게</string>
     <string name="move_to_keep">보관함으로 이동</string>
@@ -396,9 +397,18 @@
     <string name="photos_this_day">이 날의 사진</string>
     <string name="no_show_this_day">오늘하루 보지않기</string>
     <string name="very_small">매우작게</string>
-    <string name="premium_item_0_title">광고 제거</string>
-    <string name="premium_item_1_title">사진 첨부</string>
-    <string name="premium_item_2_title">데이터 자동 백업</string>
+    <string name="premium_item_0_title">광고제거</string>
+    <string name="premium_item_0_sub">광고를 제거하고\n더 쾌적하게 기록해보세요.</string>
+    <string name="premium_item_1_title">사진첨부</string>
+    <string name="premium_item_1_sub">기록에 사진을 첨부해보세요.\n기록이 더욱 풍성해집니다.</string>
+    <string name="premium_item_2_title">데이터 자동백업</string>
+    <string name="premium_item_2_sub">자동 데이터 백업하고\n더 안전하게 데이터를 관리해보세요.</string>
+    <string name="premium_item_3_title">무제한 템플릿</string>
+    <string name="premium_item_3_sub">템플릿을 자유롭게 만들고\n나만의 다이어리 시스템을 만들어보세요.</string>
+    <string name="premium_item_4_title">프리미엄 스티커</string>
+    <string name="premium_item_4_sub">멋진 스티커로\n다이어리를 더 아름답게 꾸며보세요.\n스티커는 지속적으로 추가됩니다.</string>
+    <string name="premium_item_5_title">그 외 모든기능 해제</string>
+    <string name="premium_item_5_sub">다양한 모양으로 캘린더를 꾸미고\n디데이를 설정해서 기념일을 챙길수도 있습니다.\n모든 기능을 활용하여 나만의 다이어리를 완성해보세요.</string>
     <string name="login_backup_text">모든 기록은 선택한 계정에 안전하게 보관됩니다.</string>
     <string name="long_tab_to_move">길게 누르면 순서를 변경할 수 있습니다.</string>
     <string name="version_is">버전 %1$s</string>
@@ -406,11 +416,12 @@
     <string name="need_update">업데이트 가능</string>
     <string name="history">히스토리</string>
     <string name="s_finance">금융, 재무</string>
-    <string name="last_record_is">"마지막 기록 시간 : "</string>
+    <string name="first_record_is">처음 기록 : </string>
+    <string name="last_record_is">마지막 기록 : </string>
     <string name="email">이메일</string>
     <string name="request">신청하기</string>
     <string name="support">사용자 지원</string>
-    <string name="show_more">더 보기…</string>
+    <string name="show_more">더 보기..</string>
     <string name="empty_records">이 날의 기록이 없습니다..</string>
     <string name="rememer_this_day">추억</string>
     <string name="before_year_records">1년전 이 날의 기록</string>
@@ -423,6 +434,19 @@
     <string name="dayview_settings">일간화면 및 기록목록 설정</string>
     <string name="show_updated_time">마지막 수정시간 표시</string>
     <string name="rc_photo_this_day">이 날에 찍은 사진들을\n함께 표시해보세요.</string>
+    <string name="record_list">기록목록</string>
+    <string name="dayview">일간화면</string>
+    <string name="display_record_divider">목록 구분선 표시</string>
+    <string name="record_about_this_tag">이 태그가 붙은 기록들</string>
+    <string name="show_all">모두보기..</string>
+    <string name="total_tag">태그 : 총 %1$s개</string>
+    <string name="s_fantasy">판타지</string>
+    <string name="s_body">건강, 헬스</string>
+    <string name="sticker_pack_setting">스티커팩 설정</string>
+    <string name="s_food">음식</string>
+    <string name="s_peaple">사람들</string>
+    <string name="s_caligraphy">캘리그라피</string>
+    <string name="s_weather">날씨</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

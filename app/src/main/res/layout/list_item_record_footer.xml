@@ -6,9 +6,8 @@
     android:layout_height="wrap_content">
 
    <View
-       android:layout_width="wrap_content"
-       android:layout_height="1dp">
-   </View>
+       android:layout_width="match_parent"
+       android:layout_height="1dp"/> <!-- 리사이클러뷰 아이템 생성 -->
 
    <ProgressBar
        android:id="@+id/footerProgress"
@@ -31,19 +30,19 @@
           android:id="@+id/photoLy"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginBottom="25dp"
+          android:layout_marginBottom="15dp"
+          android:foreground="@drawable/edit_mode_background_dash"
           android:background="@color/backgroundDark">
 
-         <FrameLayout
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/edit_mode_background_dash"/>
-
-         </FrameLayout>
+         <ImageView
+             android:layout_width="20dp"
+             android:layout_height="25dp"
+             android:src="@drawable/bookmark_fill"
+             android:layout_gravity="right"
+             android:layout_marginRight="10dp"
+             android:layout_marginTop="-3dp"
+             android:scaleType="fitXY"
+             android:tint="@color/light_line"/>
 
          <LinearLayout
              android:orientation="vertical"
@@ -55,8 +54,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:layout_marginTop="25dp"
-                android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginBottom="-10dp"
                 android:textSize="12dp"
                 android:textColor="@color/secondaryText"
@@ -67,7 +66,7 @@
                 android:id="@+id/photoListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="25dp">
+                android:layout_margin="20dp">
             </com.ayaan.twelvepages.ui.view.OsPhotoListView>
 
             <LinearLayout
@@ -75,7 +74,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="25dp"
+                android:layout_margin="20dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical">
 
@@ -102,66 +101,55 @@
 
       </FrameLayout>
 
-      <LinearLayout
+      <FrameLayout
           android:id="@+id/beforeYearLy"
-          android:orientation="vertical"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginBottom="30dp">
+          android:layout_marginBottom="15dp"
+          android:foreground="@drawable/edit_mode_background_dash"
+          android:background="@color/backgroundDark">
+
+         <ImageView
+             android:layout_width="20dp"
+             android:layout_height="25dp"
+             android:src="@drawable/bookmark_fill"
+             android:layout_gravity="right"
+             android:layout_marginRight="10dp"
+             android:layout_marginTop="-3dp"
+             android:scaleType="fitXY"
+             android:tint="@color/light_line"/>
 
          <LinearLayout
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:gravity="center_vertical">
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_weight="1"
-                android:layout_marginRight="7dp"
-                android:background="@drawable/dashed_line"
-                android:layout_gravity="center"
-                android:layerType="software"/>
-
-            <ImageView
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:src="@drawable/bookmark"
-                android:tint="@color/secondaryText"/>
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:gravity="center_vertical"
+             android:layout_marginTop="20dp"
+             android:layout_marginLeft="20dp"
+             android:layout_marginBottom="-10dp"
+             android:textSize="12dp"
+             android:textColor="@color/secondaryText"
+             android:fontFamily="@font/bold_s"
+             android:text="@string/before_year_records"/>
 
             <TextView
+                android:id="@+id/beforeYearText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="5dp"
                 android:textSize="12dp"
                 android:textColor="@color/secondaryText"
-                android:fontFamily="@font/bold_s"
-                android:text="@string/before_year_records"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="7dp"
-                android:background="@drawable/dashed_line"
-                android:layout_gravity="center"
-                android:layerType="software"/>
+                android:fontFamily="@font/regular_s"/>
 
          </LinearLayout>
 
-         <TextView
-             android:id="@+id/beforeYearText"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="15dp"
-             android:gravity="center_vertical"
-             android:textSize="12dp"
-             android:textColor="@color/secondaryText"
-             android:fontFamily="@font/regular_s"/>
-
-      </LinearLayout>
+      </FrameLayout>
 
    </LinearLayout>
 

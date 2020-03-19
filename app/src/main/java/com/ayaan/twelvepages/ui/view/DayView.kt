@@ -106,7 +106,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val decoAdapter = DecorationItemsAdapter(context, decoList) { view, item, action ->
         MainActivity.instance?.let { activity ->
             showDialog(PopupOptionDialog(activity,
-                    arrayOf(PopupOptionDialog.Item(str(R.string.edit), R.drawable.edit, AppTheme.primaryText),
+                    arrayOf(PopupOptionDialog.Item(str(R.string.edit), R.drawable.pen, AppTheme.primaryText),
                             PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)), view, false) { index ->
                 val record = Record().apply { copy(item) }
                 when(index) {
@@ -281,7 +281,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         holiText.setTextColor(color)
         val selectedString = dateInfo.getSelectedString()
         val diffString = dateInfo.getDiffDateString()
-        dowText.text = "${AppDateFormat.dow.format(targetCal.time)}\n${diffString}" +
+        dowText.text = (if(AppStatus.isDisplayDayViewWeekNum) "${String.format(str(R.string.weekNum), targetCal.get(Calendar.WEEK_OF_YEAR))} · " else "") +
+                "${AppDateFormat.dow.format(targetCal.time)}\n${diffString}" +
                 if(selectedString.isNotBlank()) " · $selectedString" else ""
         diffText.text = diffString
         holiText.text = selectedString
@@ -327,8 +328,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 }
 
                 if(AppStatus.rememberBeforeYear == YES) {
-                    val startTime = getCalendarTime0(targetCal) - YEAR_MILL
-                    val endTime = getCalendarTime23(targetCal) - YEAR_MILL
+                    tempCal.timeInMillis = targetCal.timeInMillis
+                    tempCal.add(Calendar.YEAR, -1)
+                    val startTime = getCalendarTime0(tempCal)
+                    val endTime = getCalendarTime23(tempCal)
                     beforeYearRecords = realm.where(Record::class.java)
                             .notEqualTo("dtCreated", -1L)
                             .greaterThanOrEqualTo("dtEnd", startTime)
@@ -357,7 +360,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     @SuppressLint("SetTextI18n")
     fun show(dataSize: Int) {
         val selectedString = dateInfo.getSelectedString()
-        dowText.text = "${AppDateFormat.dow.format(targetCal.time)}\n${dateInfo.getDiffDateString()}" +
+        dowText.text = (if(AppStatus.isDisplayDayViewWeekNum) "${String.format(str(R.string.weekNum), targetCal.get(Calendar.WEEK_OF_YEAR))} · " else "") +
+                "${AppDateFormat.dow.format(targetCal.time)}\n${dateInfo.getDiffDateString()}" +
                 if(selectedString.isNotBlank()) " · $selectedString" else ""
         diffText.translationX = MainActivity.getTargetCalendarView()?.targetDateHolder?.getDiffTextLeft()?.toFloat()?:0f
         val animSet = AnimatorSet()
@@ -474,9 +478,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     companion object {
         const val headerTextScale = 4.0f
-        const val mainMonthTextScale = 0.68f
+        const val mainMonthTextScale = 0.75f
         private val dp = dpToPx(1f)
-        val mainMonthTextY = if(dp == 3.5f) dpToPx(0.0f) else dpToPx(3.0f)
+        val mainMonthTextY = if(dp == 3.5f) dpToPx(0.0f) else dpToPx(2.5f)
 
         val datePosX = dpToPx(2.0f)
         val datePosY = -dpToPx(10.0f)
@@ -484,12 +488,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         val dowPosX = dpToPx(5.5f) / headerTextScale
         val holiPosX = dpToPx(0.0f) / headerTextScale
 
-        val subYPos = dpToPx(17.0f) / headerTextScale
+        val subYPos = dpToPx(19.5f) / headerTextScale
         val dowPosY = dpToPx(0.0f) / headerTextScale + subYPos
         val holiPosY = -dpToPx(0.0f) / headerTextScale + subYPos
 
-        val dowScale = 2.00f / headerTextScale
-        val holiScale = 2.00f / headerTextScale
+        val dowScale = 1.90f / headerTextScale
+        val holiScale = 1.90f / headerTextScale
     }
 
 }

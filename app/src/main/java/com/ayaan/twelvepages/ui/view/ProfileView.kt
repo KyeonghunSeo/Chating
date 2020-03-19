@@ -81,6 +81,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             mottoText.typeface = ResourcesCompat.getFont(context, R.font.regular_s)
             mottoText.text = appUser.motto
         }
+        setImageViewGrayFilter(premiumImg)
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -88,6 +89,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         object : AsyncTask<String, String, String?>() {
             var totalCount = 0L
             val tagStr = StringBuilder()
+            val firstRecordStr = StringBuilder()
             val lastRecordStr = StringBuilder()
 
             override fun onPreExecute() {
@@ -138,16 +140,28 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                     return@Comparator countCompare * -1
                 })
 
+                tagStr.append("${String.format(str(R.string.total_tag), tagCounts.values.sum())}\n")
+
                 sortedTags.forEach {
                     tagStr.append("#${it.key.title} : ${it.value}개\n")
                 }
 
                 ////////////////////////////////////////////////////////////////////////////////////
 
+                val firstRecord = realm.where(Record::class.java)
+                        .sort("dtUpdated", Sort.ASCENDING).findFirst()
+                firstRecord?.let {
+                    firstRecordStr.append("${App.context.getString(R.string.first_record_is)} " +
+                            "${it.getShortTilte()} - " +
+                            "${AppDateFormat.ymde.format(Date(it.dtUpdated))} " +
+                            AppDateFormat.time.format(Date(it.dtUpdated)))
+                }
+
                 val lastRecord = realm.where(Record::class.java)
                         .sort("dtUpdated", Sort.DESCENDING).findFirst()
                 lastRecord?.let {
                     lastRecordStr.append("${App.context.getString(R.string.last_record_is)} " +
+                            "${it.getShortTilte()} - " +
                             "${AppDateFormat.ymde.format(Date(it.dtUpdated))} " +
                             AppDateFormat.time.format(Date(it.dtUpdated)))
                 }
@@ -160,6 +174,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 if(viewMode == ViewMode.OPENED) {
                     totalRecordsText.text = String.format(str(R.string.total_records), totalCount)
                     totalTagText.text = tagStr.trim()
+                    firstRecordText.text = firstRecordStr
                     lastRecordText.text = lastRecordStr
                 }
             }

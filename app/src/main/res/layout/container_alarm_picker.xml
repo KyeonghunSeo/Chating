@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/bold_s"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/secondaryText"
             android:textSize="14dp"/>
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/bold_s"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/secondaryText"
             android:textSize="14dp"/>
 
         <TextView

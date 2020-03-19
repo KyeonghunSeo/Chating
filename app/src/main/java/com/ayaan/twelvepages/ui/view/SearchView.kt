@@ -153,7 +153,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private fun updateFilterUI() {
         if(startTime == Long.MIN_VALUE) {
             dateBtn.setBackgroundResource(R.drawable.edit_tag_new)
-            dateBtn.alpha = 0.4f
+            dateBtn.alpha = 0.7f
             dateText.text = str(R.string.select_date)
             dateClearBtn.visibility = View.GONE
         }else {
@@ -174,7 +174,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
         if(tagTitles.isEmpty()) {
             tagBtn.setBackgroundResource(R.drawable.edit_tag_new)
-            tagBtn.alpha = 0.4f
+            tagBtn.alpha = 0.7f
             tagText.text = str(R.string.search_tag)
             tagClearBtn.visibility = View.GONE
         }else {
@@ -190,7 +190,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
 
         if(colorKey == Int.MIN_VALUE) {
-            colorBtn.alpha = 0.4f
+            colorBtn.alpha = 0.7f
             colorBtn.setBackgroundResource(R.drawable.edit_tag_new)
             colorText.setTextColor(AppTheme.secondaryText)
             colorClearBtn.setColorFilter(AppTheme.secondaryText)
@@ -214,7 +214,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
 
         if(!isCheckBox) {
-            checkBtn.alpha = 0.4f
+            checkBtn.alpha = 0.7f
             checkBtn.setBackgroundResource(R.drawable.edit_tag_new)
             checkClearBtn.visibility = View.GONE
         }else {
@@ -229,7 +229,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
 
         if(!isPhoto) {
-            photoBtn.alpha = 0.4f
+            photoBtn.alpha = 0.7f
             photoBtn.setBackgroundResource(R.drawable.edit_tag_new)
             photoClearBtn.visibility = View.GONE
         }else {
@@ -310,6 +310,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         isPhoto = false
         updateFilterUI()
         searchInput.setText("")
+        recordList?.removeAllChangeListeners()
     }
 
     private fun saveFilters() {

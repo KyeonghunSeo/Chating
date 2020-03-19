@@ -1,98 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:clipChildren="false">
+    android:layout_height="match_parent">
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:clipChildren="false">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:id="@+id/backBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/arrow_left"
+                android:padding="16dp"
+                android:tint="@color/secondaryText"
+                android:background="?android:attr/selectableItemBackground"/>
+
+        </FrameLayout>
 
         <ImageView
-            android:id="@+id/backBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/back"
-            android:background="?android:attr/selectableItemBackground"
-            android:tint="@color/primaryText"
-            android:padding="13dp"/>
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/temp_logo"
+            android:layout_gravity="center_horizontal"
+            android:alpha="0.8"
+            android:tint="@color/secondaryText"/>
 
-    </FrameLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/primaryText"
-        android:textSize="24dp"
-        android:text="C A L U A"
-        android:fontFamily="@font/bold"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/primaryText"
-        android:textSize="14dp"
-        android:text="Diary"
-        android:fontFamily="@font/bold"/>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:layout_marginTop="10dp"
-        app:cardCornerRadius="12.5dp"
-        app:cardBackgroundColor="@color/yellow"
-        app:cardElevation="0dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/secondaryText"
+            android:textSize="10dp"
+            android:text="@string/logo_text_w"
+            android:fontFamily="@font/regular_s"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="12dp"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/crown"
-                android:tint="@color/white"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/secondary_rect_stroke_thin">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:layout_marginLeft="5dp"
-                android:textSize="14dp"
-                android:text="@string/premium"
-                android:fontFamily="@font/bold"/>
+                android:textColor="@color/primaryText"
+                android:textSize="20dp"
+                android:text="하"
+                android:alpha="0"
+                android:padding="10dp"
+                android:fontFamily="@font/write_right"/>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/disableText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryText"
+                android:textSize="20dp"
+                android:text="달"
+                android:padding="10dp"
+                android:fontFamily="@font/write_right"/>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/disableText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryText"
+                android:textSize="20dp"
+                android:text="의"
+                android:padding="10dp"
+                android:fontFamily="@font/write_right"/>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/disableText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryText"
+                android:textSize="20dp"
+                android:text="기"
+                android:padding="10dp"
+                android:fontFamily="@font/write_right"/>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/disableText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryText"
+                android:textSize="20dp"
+                android:text="록"
+                android:padding="10dp"
+                android:fontFamily="@font/write_right"/>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/disableText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryText"
+                android:textSize="20dp"
+                android:text="기"
+                android:alpha="0"
+                android:padding="10dp"
+                android:fontFamily="@font/write_right"/>
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+        <View
+            android:layout_width="100dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/disableText"/>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"
-        android:clipChildren="false">
-    </androidx.viewpager.widget.ViewPager>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/secondaryText"
+            android:textSize="8dp"
+            android:text="@string/logo_text"
+            android:fontFamily="@font/regular_s"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/payBtn"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="30dp"
-        android:text="@string/upgrade_premium"
-        android:textSize="16dp"
-        android:fontFamily="@font/bold"
-        app:cornerRadius="22dp"/>
-</LinearLayout>
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipChildren="false">
+        </androidx.viewpager.widget.ViewPager>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/payBtn"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                app:cornerRadius="0dp"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:elevation="10dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/premium_mark"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/upgrade_premium"
+                    android:textSize="13dp"
+                    android:textColor="@color/background"
+                    android:fontFamily="@font/bold_s"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

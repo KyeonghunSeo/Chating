@@ -59,9 +59,11 @@ class SettingsActivity : BaseActivity() {
             showDialog(CustomDialog(this@SettingsActivity, getString(R.string.logout),
                     getString(R.string.ask_logout), null) { result, _, _ ->
                 if(result) {
-                    FirebaseAuth.getInstance().signOut()
-                    setResult(RC_LOGOUT)
-                    finish()
+                    backupDB(this, Runnable{
+                        FirebaseAuth.getInstance().signOut()
+                        setResult(RC_LOGOUT)
+                        finish()
+                    })
                 }
             }, true, true, true, false)
         }

@@ -98,18 +98,15 @@
              android:id="@+id/titleLy"
              android:orientation="horizontal"
              android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:gravity="center_vertical">
+             android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/checkBox"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:scaleType="centerInside"
                 android:layout_marginTop="5dp"
-                android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/check"
-                android:paddingBottom="2dp"
-                android:paddingRight="2dp"
                 android:tint="@color/secondaryText"/>
 
             <TextView
@@ -121,10 +118,10 @@
                 android:layout_marginBottom="3dp"
                 android:maxLines="3"
                 android:ellipsize="end"
-                android:textSize="14dp"
+                android:textSize="13dp"
                 android:fontFamily="@font/bold_s"
                 android:textColor="@color/secondaryText"
-                android:text="title"/>
+                android:text="　　titletitletitle"/>
 
          </FrameLayout>
 
@@ -206,7 +203,7 @@
                    android:layout_marginLeft="5dp"
                    android:textSize="9dp"
                    android:textColor="@color/secondaryText"
-                   android:fontFamily="@font/thin_s"
+                   android:fontFamily="@font/regular_s"
                    android:ellipsize="end"
                    android:maxLines="1"
                    android:text="repeat" />
@@ -234,7 +231,7 @@
                    android:layout_marginLeft="5dp"
                    android:textSize="9dp"
                    android:textColor="@color/secondaryText"
-                   android:fontFamily="@font/thin_s"
+                   android:fontFamily="@font/regular_s"
                    android:ellipsize="end"
                    android:maxLines="1"
                    android:text="countdown" />
@@ -262,7 +259,7 @@
                    android:layout_marginLeft="5dp"
                    android:textSize="9dp"
                    android:textColor="@color/secondaryText"
-                   android:fontFamily="@font/thin_s"
+                   android:fontFamily="@font/regular_s"
                    android:ellipsize="end"
                    android:maxLines="1"
                    android:text="checkList" />
@@ -290,7 +287,7 @@
                    android:layout_marginLeft="5dp"
                    android:textSize="9dp"
                    android:textColor="@color/secondaryText"
-                   android:fontFamily="@font/thin_s"
+                   android:fontFamily="@font/regular_s"
                    android:ellipsize="end"
                    android:maxLines="1"
                    android:text="location" />
@@ -325,7 +322,7 @@
              android:layout_width="match_parent"
              android:layout_height="70dp"
              android:layout_marginTop="5dp"
-             android:layout_marginBottom="8dp"
+             android:layout_marginBottom="3dp"
              app:cardElevation="0dp"
              app:cardCornerRadius="1dp">
 
@@ -373,12 +370,14 @@
              android:id="@+id/webLinkView"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
+             android:layout_marginTop="5dp"
+             android:layout_marginBottom="3dp"
              android:clipChildren="false"
-             android:clipToPadding="false"
-             android:layout_marginBottom="5dp">
+             android:clipToPadding="false">
          </com.ayaan.twelvepages.ui.view.WebLinkListView>
 
          <View
+             android:id="@+id/divider"
              android:layout_width="match_parent"
              android:layout_height="1dp"
              android:layout_marginTop="20dp"
@@ -386,6 +385,13 @@
              android:layerType="software"/>
 
       </LinearLayout>
+
+      <View
+          android:id="@+id/checkArea"
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          android:layout_marginTop="18dp"
+          android:layout_marginLeft="14dp"/>
 
    </FrameLayout>
 

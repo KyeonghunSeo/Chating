@@ -55,7 +55,7 @@ class CountdownListDialog(activity: Activity, val onResult: (Boolean) -> Unit) :
                 val v = holder.itemView
                 v.colorBar.setCardBackgroundColor(record.getColor())
                 v.titleText.text = record.getTitleInCalendar()
-                v.subText.text = AppDateFormat.mde.format(Date(record.dtStart))
+                v.subText.text = AppDateFormat.ymde.format(Date(record.dtStart))
                 v.countdownText.text = record.getCountdownText(System.currentTimeMillis())
                 v.setOnClickListener {
                     MainActivity.instance?.selectDate(record.dtStart)

@@ -60,8 +60,8 @@ object RecordManager {
         return result
     }
 
-    fun getRecordList(query: String,
-                      tags: ArrayList<String>,
+    fun getRecordList(query: String = "",
+                      tags: ArrayList<String> = ArrayList(),
                       startTime: Long = Long.MIN_VALUE,
                       endTime: Long = Long.MIN_VALUE,
                       colorKey: Int = Int.MIN_VALUE,
@@ -133,7 +133,7 @@ object RecordManager {
                     .endGroup()
         }
 
-        val result = q.sort("dtCreated", Sort.DESCENDING).findAllAsync()
+        val result = q.sort("dtStart", Sort.DESCENDING).findAllAsync()
         realm.close()
         return result
     }

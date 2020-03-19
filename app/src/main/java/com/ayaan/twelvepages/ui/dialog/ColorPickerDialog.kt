@@ -188,7 +188,11 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
         inner class ViewHolder(val container: View) : RecyclerView.ViewHolder(container) {
             init { onItemClear() }
             fun onItemSelected() {}
-            fun onItemClear() { (container as CardView).cardElevation = dpToPx(0f) }
+            fun onItemClear() {
+                container.postDelayed({
+                    (container as CardView).cardElevation = dpToPx(0f)
+                }, 100)
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int)
@@ -288,7 +292,7 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
                     }
                     ColorManager.saveCurrentPack()
                     setViewPager()
-                    root.viewPager.setCurrentItem(ColorManager.packs.indexOf(currentPack) + 1, false)
+                    currentPack?.let { root.viewPager.setCurrentItem(ColorManager.packs.indexOf(it) + 1, false) }
                     isDeleted = false
                     dragPack = null
                     root.settingBtn.setImageResource(R.drawable.setting)

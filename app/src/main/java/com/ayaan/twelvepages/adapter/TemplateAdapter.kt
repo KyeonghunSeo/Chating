@@ -68,6 +68,24 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
                 v.tagText.visibility = View.GONE
             }
 
+            if(template.isSetCheckBox()) {
+                v.checkImg.visibility = View.VISIBLE
+            }else {
+                v.checkImg.visibility = View.GONE
+            }
+
+            if(template.isSetTime()) {
+                v.timeImg.visibility = View.VISIBLE
+            }else {
+                v.timeImg.visibility = View.GONE
+            }
+
+            if(template.alarmDayOffset != Int.MIN_VALUE) {
+                v.alarmImg.visibility = View.VISIBLE
+            }else {
+                v.alarmImg.visibility = View.GONE
+            }
+
             v.setOnClickListener {
                 adapterInterface.invoke(template, mode)
                 if(mode == 1) endEditMode()
@@ -83,14 +101,18 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             v.backgroundLy.visibility = View.GONE
             v.colorImg.visibility = View.VISIBLE
             v.tagText.visibility = View.GONE
+            v.checkImg.visibility = View.GONE
+            v.timeImg.visibility = View.GONE
+            v.alarmImg.visibility = View.GONE
             v.cardView.setCardBackgroundColor(AppTheme.background)
             v.cardView.cardElevation = 0f
             v.contentLy.alpha = 0.5f
-            v.contentLy.setBackgroundResource(R.drawable.blank)
             if(mode == 0) {
+                v.contentLy.setBackgroundResource(R.drawable.blank)
                 v.colorImg.setImageResource(R.drawable.setting)
                 v.titleText.text = context.getString(R.string.edit_template)
             }else {
+                v.contentLy.setBackgroundResource(R.drawable.edit_mode_background_dash)
                 v.colorImg.setImageResource(R.drawable.add)
                 v.titleText.text = context.getString(R.string.new_template)
             }

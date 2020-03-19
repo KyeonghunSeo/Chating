@@ -12,6 +12,7 @@ import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.setGlobalTheme
 import com.ayaan.twelvepages.str
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_premium.*
 import kotlinx.android.synthetic.main.pager_item_premium.view.*
 
@@ -37,8 +38,6 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
         viewPager.adapter = Adapter()
         viewPager.offscreenPageLimit = 2
         viewPager.pageMargin = -dpToPx(80)
-
-
     }
 
     inner class Adapter : PagerAdapter() {
@@ -49,14 +48,28 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
             when(position) {
                 0 -> {
                     v.titleText.text = str(R.string.premium_item_0_title)
+                    v.subText.text = str(R.string.premium_item_0_sub)
+                    Glide.with(this@PremiumActivity).load(R.drawable.premium_ad).into(v.imageView)
                 }
                 1 -> {
                     v.titleText.text = str(R.string.premium_item_1_title)
+                    v.subText.text = str(R.string.premium_item_1_sub)
+                    Glide.with(this@PremiumActivity).load(R.drawable.premium_photo).into(v.imageView)
                 }
                 2 -> {
                     v.titleText.text = str(R.string.premium_item_2_title)
+                    v.subText.text = str(R.string.premium_item_2_sub)
+                    Glide.with(this@PremiumActivity).load(R.drawable.premium_ad).into(v.imageView)
+                }
+                3 -> {
+                    v.titleText.text = str(R.string.premium_item_3_title)
+                    v.subText.text = str(R.string.premium_item_3_sub)
+                    Glide.with(this@PremiumActivity).load(R.drawable.premium_template).into(v.imageView)
                 }
                 else -> {
+                    v.titleText.text = str(R.string.premium_item_4_title)
+                    v.subText.text = str(R.string.premium_item_4_sub)
+                    Glide.with(this@PremiumActivity).load(R.drawable.premium_ad).into(v.imageView)
                 }
             }
 
@@ -65,7 +78,7 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
         }
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) { container.removeView(`object` as View) }
         override fun isViewFromObject(view: View, `object`: Any): Boolean = view == `object`
-        override fun getCount(): Int = 4
+        override fun getCount(): Int = 5
     }
 
     override fun onBillingInitialized() {

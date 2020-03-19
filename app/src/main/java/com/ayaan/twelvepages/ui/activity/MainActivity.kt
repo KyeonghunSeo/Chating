@@ -19,7 +19,6 @@ import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
@@ -27,7 +26,6 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
 import com.ayaan.twelvepages.manager.CalendarManager
-import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
@@ -63,7 +61,6 @@ class MainActivity : BaseActivity() {
         fun getCalendarPager() = instance?.calendarPager
         fun getMainMonthText() = instance?.mainMonthText
         fun getFakeDateText() = instance?.fakeDateText
-        fun getTemplateView() = instance?.templateView
         fun getTargetTemplate() = getViewModel()?.targetTemplate?.value
         fun getTargetCalendarView() = getViewModel()?.targetCalendarView?.value
         fun getTargetTime() = getViewModel()?.targetTime?.value
@@ -132,15 +129,19 @@ class MainActivity : BaseActivity() {
 
     private fun initLayout() {
         rootLy.setOnDragListener(MainDragAndDropListener)
+        mainPanel.setOnClickListener {}
         mainDateLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         mainMonthText.pivotY = 0f
         mainMonthText.pivotX = 0f
-        headerBar.setOnClickListener {}
         callAfterViewDrawed(rootLy, Runnable{})
     }
 
     private fun initBottomBar() {
-        bottomBar.setOnClickListener { if(dayPager.isOpened()) dayPager.hide() else dayPager.show() }
+        bottomBar.setOnClickListener {
+            if(dayPager.viewMode != ViewMode.ANIMATING) {
+                if(dayPager.isOpened()) dayPager.hide() else dayPager.show()
+            }
+        }
         addBtn.setOnClickListener { viewModel.targetTime.value?.let { showTemplateSheet(it, it) } }
     }
 
@@ -208,7 +209,7 @@ class MainActivity : BaseActivity() {
             }
         })
         viewModel.appUser.observe(this, Observer { appUser -> appUser?.let { profileView.updateUserUI(it) } })
-        viewModel.templateList.observe(this, Observer { templateView.notifyListChanged() })
+        viewModel.templateList.observe(this, Observer { clipboardView.notifyListChanged() })
         viewModel.folderList.observe(this, Observer { list ->
             //folderAdapter.refresh(list)
         })
@@ -218,7 +219,7 @@ class MainActivity : BaseActivity() {
         })
         viewModel.openFolder.observe(this, Observer { updateFolderUI(it) })
         viewModel.targetCalendarView.observe(this, Observer { setDateText() })
-        viewModel.clipRecord.observe(this, Observer { templateView.clip(it) })
+        viewModel.clipRecord.observe(this, Observer { clipboardView.clip(it) })
         viewModel.countdownRecords.observe(this, Observer { updateCountdownUI(it) })
         viewModel.undoneRecords.observe(this, Observer { updateUndoneUI(it) })
     }
@@ -230,13 +231,10 @@ class MainActivity : BaseActivity() {
         }else {
             countdownBtn.visibility = View.VISIBLE
             list[0]?.let { record ->
-                val color = record.getColor()
-                val fontColor = ColorManager.getFontColor(color)
-                countdownText.text = record.getCountdownText(System.currentTimeMillis())
-                //countdownCard.setCardBackgroundColor(color)
-                countdownImg.setColorFilter(AppTheme.secondaryText)
-                countdownText.setTextColor(AppTheme.secondaryText)
-                countdownText.setOnClickListener {
+                var tail = if (list.size > 1) " " + String.format(str(R.string.and_others), list.size - 1) else ""
+                if (tail.contains("other") && list.size > 2) tail = tail.replace("other", "others")
+                countdownText.text = "${record.getShortTilte()} ${record.getCountdownText(System.currentTimeMillis())}$tail"
+                countdownBtn.setOnClickListener {
                     showDialog(CountdownListDialog(this) {
                         Prefs.putLong("briefingCountdownTime", getTodayStartTime() + DAY_MILL)
                         countdownBtn.visibility = View.GONE
@@ -253,21 +251,9 @@ class MainActivity : BaseActivity() {
         }else {
             undoneBtn.visibility = View.VISIBLE
             list[0]?.let { record ->
-                val color = record.getColor()
-                val fontColor = ColorManager.getFontColor(color)
-                //undoneCard.setCardBackgroundColor(color)
-                //undoneImg.setColorFilter(fontColor)
-                //undoneText.setTextColor(fontColor)
-
-                /*
-                var tail = if (list.size > 1) " "+ String.format(str(R.string.and_others), list.size - 1)
-                else ""
-                if (tail.contains("other") && list.size > 2) {
-                    tail = tail.replace("other", "others")
-                }
-                undoneText.text = "${str(R.string.undone_records)}${record.getShortTilte()}$tail"
-                */
-                undoneText.text = String.format(str(R.string.counts), list.size)
+                var tail = if (list.size > 1) " "+ String.format(str(R.string.and_others), list.size - 1) else ""
+                if (tail.contains("other") && list.size > 2) tail = tail.replace("other", "others")
+                undoneText.text = "${str(R.string.undone_records)} ${record.getShortTilte()}$tail"
                 undoneBtn.setOnClickListener {
                     showDialog(UndoneListDialog(this) {
                         Prefs.putLong("briefingUndoneTime", getTodayStartTime() + DAY_MILL)
@@ -324,7 +310,7 @@ class MainActivity : BaseActivity() {
             noteView.visibility = View.VISIBLE
             noteView.notifyDataChanged()
         }
-        templateView.notifyListChanged()
+        clipboardView.notifyListChanged()
     }
 
     private fun refreshCalendar() {
@@ -354,7 +340,7 @@ class MainActivity : BaseActivity() {
         calendarPager.selectDate(time)
         if(dayPager.isOpened()){
             dayPager.initTime(time)
-            dayPager.notifyDateChanged()
+            dayPager.redraw()
         }
     }
 
@@ -383,7 +369,10 @@ class MainActivity : BaseActivity() {
                         ObjectAnimator.ofFloat(todayBtn, "translationX",  todayBtn.translationX, distance))
                 animSet.interpolator = FastOutSlowInInterpolator()
                 animSet.start()
-                todayBtn.setOnClickListener { selectDate(getTodayStartTime()) }
+                todayBtn.setOnClickListener {
+                    selectDate(getTodayStartTime())
+                    toast(R.string.moved, R.drawable.schedule)
+                }
                 todayBtn.isEnabled = true
             }
             else -> {
@@ -470,7 +459,7 @@ class MainActivity : BaseActivity() {
         when{
             searchView.isOpened() -> searchView.hide()
             profileView.isOpened() -> profileView.hide()
-            templateView.isExpanded() -> templateView.collapse()
+            clipboardView.isExpanded() -> clipboardView.collapse()
             viewModel.openFolder.value == true -> viewModel.openFolder.value = false
             dayPager.isOpened() -> dayPager.hide()
             else -> super.onBackPressed()

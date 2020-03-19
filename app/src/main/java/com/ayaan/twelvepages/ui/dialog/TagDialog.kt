@@ -48,7 +48,13 @@ class TagDialog(val activity: Activity, val items: ArrayList<Tag>,
                                     context.getString(R.string.new_tag_sub),
                                     context.getString(R.string.enter_tag_name),
                                     "", true) { result, text ->
-                                if(result) { createTag(text) }
+                                if(result) {
+                                    if(text.isEmpty()) {
+                                        toast(R.string.plz_enter_tag_name)
+                                    }else {
+                                        createTag(text)
+                                    }
+                                }
                             }, true, true, true, false)
                         }
                     }
