@@ -491,16 +491,13 @@
                     android:textColor="@color/secondaryText"
                     android:textSize="13dp"/>
 
-                <TextView
-                    android:id="@+id/premiumText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center_vertical|right"
-                    android:text="@string/request"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/bold_s"
-                    android:textSize="13dp"/>
+                    android:src="@drawable/arrow_right"
+                    android:tint="@color/iconTint"
+                    android:padding="5dp"/>
 
             </FrameLayout>
 

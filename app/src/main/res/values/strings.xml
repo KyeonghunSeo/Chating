@@ -216,6 +216,7 @@
     <string name="delete_deadline_sub">기한을 해제 하시겠습니까?</string>
     <string name="delete_percentage_sub">성취도를 삭제할까요?</string>
     <string name="premium">프리미엄</string>
+    <string name="premium_sub">프리미엄 에디션</string>
     <string name="add_checklist">체크리스트 추가</string>
     <string name="edit_item">아이템 편집</string>
     <string name="edit_title">아이템 이름</string>
@@ -335,7 +336,7 @@
     <string name="move_date">날짜이동</string>
     <string name="moved">이동되었습니다</string>
     <string name="paste">선택된 날에\n붙여넣기</string>
-    <string name="copied">복사되었습니다</string>
+    <string name="copied">복사되었습니다.</string>
     <string name="cut">잘라내기</string>
     <string name="recent_color_empty">최근 사용한 컬러가 없습니다</string>
     <string name="recent_color_pack">최근 사용한 컬러</string>
@@ -397,16 +398,18 @@
     <string name="photos_this_day">이 날의 사진</string>
     <string name="no_show_this_day">오늘하루 보지않기</string>
     <string name="very_small">매우작게</string>
+    <string name="premium_item_main_title">나만의 다이어리를 완성</string>
+    <string name="premium_item_main_sub">나만의 방식\n나만의 스타일로\n기록을 더 가치있게</string>
     <string name="premium_item_0_title">광고제거</string>
     <string name="premium_item_0_sub">광고를 제거하고\n더 쾌적하게 기록해보세요.</string>
     <string name="premium_item_1_title">사진첨부</string>
     <string name="premium_item_1_sub">기록에 사진을 첨부해보세요.\n기록이 더욱 풍성해집니다.</string>
     <string name="premium_item_2_title">데이터 자동백업</string>
-    <string name="premium_item_2_sub">자동 데이터 백업하고\n더 안전하게 데이터를 관리해보세요.</string>
+    <string name="premium_item_2_sub">자동으로 데이터를 백업하고\n더 안전하게 데이터를 관리합니다.</string>
     <string name="premium_item_3_title">무제한 템플릿</string>
-    <string name="premium_item_3_sub">템플릿을 자유롭게 만들고\n나만의 다이어리 시스템을 만들어보세요.</string>
+    <string name="premium_item_3_sub">템플릿을 자유롭게 만들고\n나만의 시스템을 만들어보세요.</string>
     <string name="premium_item_4_title">프리미엄 스티커</string>
-    <string name="premium_item_4_sub">재미있는 스티커로\n다이어리를 더 멋지게 꾸며보세요.\n프리미엄 스티커는 지속적으로 추가됩니다.</string>
+    <string name="premium_item_4_sub">다양한 스티커로\n더 멋지게 꾸며보세요.\n프리미엄 스티커는 지속적으로 추가됩니다.</string>
     <string name="premium_item_5_title">그 외 모든기능 해제</string>
     <string name="premium_item_5_sub">다양한 모양으로 캘린더를 꾸미고\n디데이를 설정해서 기념일을 챙길수도 있습니다.\n모든 기능을 활용하여 나만의 다이어리를 완성해보세요.</string>
     <string name="login_backup_text">모든 기록은 선택한 계정에 안전하게 보관됩니다.</string>
@@ -448,6 +451,8 @@
     <string name="s_caligraphy">캘리그라피</string>
     <string name="s_weather">날씨</string>
     <string name="sticker_position">스티커 위치</string>
+    <string name="s_dogs">강아지들</string>
+    <string name="s_pet">반려동물</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="30dp"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@color/colorPrimary"
                 android:layout_gravity="bottom">
 
@@ -46,7 +47,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="35dp"
-                    android:background="?android:attr/selectableItemBackground"
                     android:padding="5dp">
 
                     <TextView
@@ -78,8 +78,8 @@
 
                 <ImageView
                     android:id="@+id/premiumImg"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
                     android:src="@drawable/premium_mark"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="10dp"/>

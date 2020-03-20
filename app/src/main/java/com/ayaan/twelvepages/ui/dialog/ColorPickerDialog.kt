@@ -228,7 +228,7 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
             if(position == root.viewPager.currentItem) {
                 if(position == 0) {
                     v.iconImg.setBackgroundColor(AppTheme.lightLine)
-                    v.iconImg.setColorFilter(AppTheme.primary)
+                    v.iconImg.setColorFilter(AppTheme.blue)
                     v.iconImg.alpha = 1f
                 }else {
                     v.colorSampleView.setBackgroundColor(AppTheme.lightLine)
@@ -297,7 +297,7 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
                     dragPack = null
                     root.settingBtn.setImageResource(R.drawable.setting)
                     root.settingBtn.setBackgroundResource(AppTheme.selectableItemBackground)
-                    root.settingBtn.setColorFilter(AppTheme.secondaryText)
+                    root.settingBtn.setColorFilter(AppTheme.disableText)
                 }
 
                 super.onSelectedChanged(viewHolder, actionState)

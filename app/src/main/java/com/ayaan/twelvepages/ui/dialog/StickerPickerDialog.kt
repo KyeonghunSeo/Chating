@@ -215,7 +215,7 @@ class StickerPickerDialog(private var stickerPosition: Int = 0,
             if(position == root.viewPager.currentItem) {
                 v.iconImg.setBackgroundColor(AppTheme.lightLine)
                 if(position == 0) {
-                    v.iconImg.setColorFilter(AppTheme.primary)
+                    v.iconImg.setColorFilter(AppTheme.blue)
                     v.iconImg.alpha = 1f
                 }else {
                     removeImageViewFilter(v.iconImg)
@@ -286,7 +286,7 @@ class StickerPickerDialog(private var stickerPosition: Int = 0,
                     dragPack = null
                     root.settingBtn.setImageResource(R.drawable.setting)
                     root.settingBtn.setBackgroundResource(AppTheme.selectableItemBackground)
-                    root.settingBtn.setColorFilter(AppTheme.secondaryText)
+                    root.settingBtn.setColorFilter(AppTheme.disableText)
                 }
 
                 super.onSelectedChanged(viewHolder, actionState)

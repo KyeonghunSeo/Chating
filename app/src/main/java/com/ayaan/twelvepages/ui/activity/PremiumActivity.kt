@@ -45,21 +45,26 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
 
             when(position) {
                 0 -> {
+                    v.titleText.text = str(R.string.premium_item_main_title)
+                    v.subText.text = str(R.string.premium_item_main_sub)
+                    Glide.with(this@PremiumActivity).load(R.drawable.premium_system).into(v.imageView)
+                }
+                1 -> {
                     v.titleText.text = str(R.string.premium_item_0_title)
                     v.subText.text = str(R.string.premium_item_0_sub)
                     Glide.with(this@PremiumActivity).load(R.drawable.premium_ad).into(v.imageView)
                 }
-                1 -> {
+                2 -> {
                     v.titleText.text = str(R.string.premium_item_1_title)
                     v.subText.text = str(R.string.premium_item_1_sub)
                     Glide.with(this@PremiumActivity).load(R.drawable.premium_photo).into(v.imageView)
                 }
-                2 -> {
+                3 -> {
                     v.titleText.text = str(R.string.premium_item_2_title)
                     v.subText.text = str(R.string.premium_item_2_sub)
-                    Glide.with(this@PremiumActivity).load(R.drawable.premium_ad).into(v.imageView)
+                    Glide.with(this@PremiumActivity).load(R.drawable.premium_backup).into(v.imageView)
                 }
-                3 -> {
+                4 -> {
                     v.titleText.text = str(R.string.premium_item_3_title)
                     v.subText.text = str(R.string.premium_item_3_sub)
                     Glide.with(this@PremiumActivity).load(R.drawable.premium_template).into(v.imageView)
@@ -76,7 +81,7 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
         }
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) { container.removeView(`object` as View) }
         override fun isViewFromObject(view: View, `object`: Any): Boolean = view == `object`
-        override fun getCount(): Int = 5
+        override fun getCount(): Int = 6
     }
 
     override fun onBillingInitialized() {

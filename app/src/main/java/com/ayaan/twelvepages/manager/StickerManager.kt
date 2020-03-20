@@ -72,24 +72,7 @@ object StickerManager {
                 Sticker(R.drawable.s_business_15, 2),
                 Sticker(R.drawable.s_business_16, 2)
         )),
-        CALIGRAPHY(R.string.s_caligraphy, 1, arrayOf(
-                Sticker(R.drawable.s_cali_0, 3),
-                Sticker(R.drawable.s_cali_1, 3),
-                Sticker(R.drawable.s_cali_2, 3),
-                Sticker(R.drawable.s_cali_3, 3),
-                Sticker(R.drawable.s_cali_4, 3),
-                Sticker(R.drawable.s_cali_5, 3),
-                Sticker(R.drawable.s_cali_6, 3),
-                Sticker(R.drawable.s_cali_7, 3),
-                Sticker(R.drawable.s_cali_8, 3),
-                Sticker(R.drawable.s_cali_9, 3),
-                Sticker(R.drawable.s_cali_10, 3),
-                Sticker(R.drawable.s_cali_11, 3),
-                Sticker(R.drawable.s_cali_12, 3),
-                Sticker(R.drawable.s_cali_13, 3),
-                Sticker(R.drawable.s_cali_14, 3),
-                Sticker(R.drawable.s_cali_15, 3)
-        )),
+        CALIGRAPHY(R.string.s_caligraphy, 0, Array(16){ i -> Sticker(resource.getIdentifier("s_cali_$i", "drawable", packageName), 3) } ),
         BODY(R.string.s_body, 0, arrayOf(
                 Sticker(R.drawable.s_body_0, 4),
                 Sticker(R.drawable.s_body_1, 4),
@@ -144,7 +127,10 @@ object StickerManager {
                 Sticker(R.drawable.s_food_23, 5),
                 Sticker(R.drawable.s_food_24, 5)
         )),
-        WEATHER(R.string.s_weather, 0, Array(27) { i -> Sticker(resource.getIdentifier("s_weather_$i", "drawable", packageName), 6) } )
+        WEATHER(R.string.s_weather, 0, Array(27) { i -> Sticker(resource.getIdentifier("s_weather_$i", "drawable", packageName), 6) } ),
+        DOGS(R.string.s_dogs, 0, Array(30) { i -> Sticker(resource.getIdentifier("s_dog_$i", "drawable", packageName), 7) } ),
+        PEOPLE(R.string.s_peaple, 0, Array(20) { i -> Sticker(resource.getIdentifier("s_people_$i", "drawable", packageName), 8) } ),
+        PET(R.string.s_pet, 0, Array(50) { i -> Sticker(resource.getIdentifier("s_pet_$i", "drawable", packageName), 9) } )
     }
 
     fun getSticker(stickerKey: Int) = try {

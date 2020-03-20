@@ -41,8 +41,6 @@ class TagRecordSheet(private val tag: Tag, private val record: Record?) : Bottom
     private fun setLayout() {
         root.titleText.text = "#${tag.title}"
 
-        val tags = ArrayList<String>()
-        tags.add(tag.title!!)
 
         root.recyclerView.layoutManager = LinearLayoutManager(context)
         val adapter = SimpleRecordListAdapter(context!!, items) {
@@ -58,8 +56,10 @@ class TagRecordSheet(private val tag: Tag, private val record: Record?) : Bottom
     }
 
     private fun loadData(adapter: SimpleRecordListAdapter) {
+        val tags = ArrayList<String>()
+        tags.add(tag.title!!)
         recordList?.removeAllChangeListeners()
-        recordList = RecordManager.getRecordList(tags = ArrayList())
+        recordList = RecordManager.getRecordList(tags = tags)
         recordList?.addChangeListener { result, changeSet ->
             root.countText.text = String.format(str(R.string.total_count), result.size)
             if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
