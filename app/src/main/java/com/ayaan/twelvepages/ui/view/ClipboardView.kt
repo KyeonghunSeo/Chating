@@ -24,10 +24,6 @@ class ClipboardView @JvmOverloads constructor(context: Context, attrs: Attribute
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_clipboard, this, true)
-
-        bottomSheet.setOnClickListener { collapse() }
-        templatePanel.setOnClickListener {  }
-
         setOnTouchListener { _, motionEvent ->
             if(motionEvent.action == MotionEvent.ACTION_DOWN) {
                 if(MainActivity.isProfileOpened()) {
@@ -46,10 +42,7 @@ class ClipboardView @JvmOverloads constructor(context: Context, attrs: Attribute
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if(newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    templatePanel.elevation = 0f
                     hiddened()
-                }else {
-                    templatePanel.elevation = panelElevation
                 }
             }
         })
@@ -60,11 +53,6 @@ class ClipboardView @JvmOverloads constructor(context: Context, attrs: Attribute
         if(record == null) {
             collapse()
         }else {
-            if(record.id.isNullOrEmpty()) {
-                clipTypeText.text = str(R.string.copy)
-            }else {
-                clipTypeText.text = str(R.string.cut)
-            }
             clipText.text = record.getTitleInCalendar()
             clipIconImg.setColorFilter(record.getColor())
             clipPasteBtn.setOnClickListener {
@@ -91,20 +79,17 @@ class ClipboardView @JvmOverloads constructor(context: Context, attrs: Attribute
                 }
                 MainActivity.getViewModel()?.clipRecord?.value = null
             }
-            clipLy.visibility = View.VISIBLE
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 
     fun collapse() {
-        ObjectAnimator.ofFloat(backgroundLy, "alpha", backgroundLy.alpha, 0f).start()
         MainActivity.instance?.window?.let { removeDimStatusBar(it) }
         MainActivity.instance?.clearCalendarHighlight()
         behavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun hiddened() {
-        ObjectAnimator.ofFloat(backgroundLy, "alpha", backgroundLy.alpha, 0f).start()
         MainActivity.instance?.window?.let { removeDimStatusBar(it) }
         MainActivity.instance?.clearCalendarHighlight()
     }

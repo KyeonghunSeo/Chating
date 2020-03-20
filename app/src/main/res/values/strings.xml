@@ -334,7 +334,7 @@
     <string name="copy">복사</string>
     <string name="move_date">날짜이동</string>
     <string name="moved">이동되었습니다</string>
-    <string name="paste">붙여넣기</string>
+    <string name="paste">선택된 날에\n붙여넣기</string>
     <string name="copied">복사되었습니다</string>
     <string name="cut">잘라내기</string>
     <string name="recent_color_empty">최근 사용한 컬러가 없습니다</string>
@@ -406,7 +406,7 @@
     <string name="premium_item_3_title">무제한 템플릿</string>
     <string name="premium_item_3_sub">템플릿을 자유롭게 만들고\n나만의 다이어리 시스템을 만들어보세요.</string>
     <string name="premium_item_4_title">프리미엄 스티커</string>
-    <string name="premium_item_4_sub">멋진 스티커로\n다이어리를 더 아름답게 꾸며보세요.\n스티커는 지속적으로 추가됩니다.</string>
+    <string name="premium_item_4_sub">재미있는 스티커로\n다이어리를 더 멋지게 꾸며보세요.\n프리미엄 스티커는 지속적으로 추가됩니다.</string>
     <string name="premium_item_5_title">그 외 모든기능 해제</string>
     <string name="premium_item_5_sub">다양한 모양으로 캘린더를 꾸미고\n디데이를 설정해서 기념일을 챙길수도 있습니다.\n모든 기능을 활용하여 나만의 다이어리를 완성해보세요.</string>
     <string name="login_backup_text">모든 기록은 선택한 계정에 안전하게 보관됩니다.</string>
@@ -447,6 +447,7 @@
     <string name="s_peaple">사람들</string>
     <string name="s_caligraphy">캘리그라피</string>
     <string name="s_weather">날씨</string>
+    <string name="sticker_position">스티커 위치</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

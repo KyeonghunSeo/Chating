@@ -24,6 +24,7 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.StickerManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.dialog_sticker_picker.*
 import kotlinx.android.synthetic.main.dialog_sticker_picker.view.*
 import kotlinx.android.synthetic.main.list_item_sticker_picker_tab.view.*
 import kotlinx.android.synthetic.main.pager_item_sticker_picker.view.*
@@ -31,7 +32,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit) : BottomSheetDialog() {
+class StickerPickerDialog(private var stickerPosition: Int = 0,
+                          private val onResult: (StickerManager.Sticker, Int) -> Unit) : BottomSheetDialog() {
     var currentPack: StickerManager.StickerPack? = null
 
     override fun setupDialog(dialog: Dialog, style: Int) {
@@ -43,9 +45,11 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
     }
 
     private fun setLayout() {
+        initPositionBtns()
         setViewPager()
         setTab()
         root.rootLy.setOnClickListener { dismiss() }
+        root.positionLy.setOnClickListener {}
         root.settingBtn.setOnClickListener {
             showDialog(EditStickerPackDialog(activity as Activity) { result ->
                 if(result) {
@@ -54,6 +58,28 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                     toast(R.string.long_tab_to_move)
                 }
             }, true, true, true, false)
+        }
+    }
+
+    private fun initPositionBtns() {
+        val btns = arrayOf(root.positionBtn0, root.positionBtn1, root.positionBtn2, root.positionBtn3, root.positionBtn4)
+        btns.forEachIndexed { index, btn ->
+            btn?.setOnClickListener {
+                stickerPosition = index
+                setPositionBtns()
+            }
+        }
+        setPositionBtns()
+    }
+
+    private fun setPositionBtns() {
+        val btns = arrayOf(root.positionBtn0, root.positionBtn1, root.positionBtn2, root.positionBtn3, root.positionBtn4)
+        btns.forEachIndexed { index, btn ->
+            if(index == stickerPosition) {
+                btn?.alpha = 1f
+            }else {
+                btn?.alpha = 0.35f
+            }
         }
     }
 
@@ -119,7 +145,7 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                 Glide.with(context!!).load(sticker.resId).into(v.findViewById<ImageView>(R.id.imageView))
                 v.setOnClickListener {
                     StickerManager.updateRecentSticker(sticker)
-                    onResult.invoke(sticker)
+                    onResult.invoke(sticker, stickerPosition)
                     dismiss()
                 }
             }
@@ -173,7 +199,7 @@ class StickerPickerDialog(private val onResult: (StickerManager.Sticker) -> Unit
                 v.setOnLongClickListener(null)
             }else {
                 val stickerPack = StickerManager.packs[position - 1]
-                val p = dpToPx(5)
+                val p = dpToPx(7)
                 v.iconImg.setPadding(p,p,p,p)
                 v.iconImg.setImageResource(stickerPack.items[0].resId)
                 v.setOnClickListener { root.viewPager.currentItem = StickerManager.packs.indexOf(stickerPack) + 1 }

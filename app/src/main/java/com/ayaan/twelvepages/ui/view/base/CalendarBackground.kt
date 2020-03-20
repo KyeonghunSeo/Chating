@@ -15,7 +15,7 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
     : LinearLayout(context, attrs, defStyleAttr) {
     private val paint = Paint()
     private val strokeWidth = dpToPx(0f)
-    private val dashEffect = DashPathEffect(floatArrayOf(dpToPx(5.0f), dpToPx(1.0f)), 2f)
+    private val dashEffect = DashPathEffect(floatArrayOf(dpToPx(2.0f), dpToPx(2.0f)), 2f)
 
     init {
         paint.color = AppTheme.line

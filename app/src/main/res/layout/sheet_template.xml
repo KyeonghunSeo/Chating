@@ -96,7 +96,7 @@
                                 android:maxLines="1"
                                 android:ellipsize="end"
                                 android:textColor="@color/secondaryText"
-                                android:fontFamily="@font/regular_s"
+                                android:fontFamily="@font/bold_s"
                                 android:text="@string/formula_sticker"/>
 
                         </LinearLayout>

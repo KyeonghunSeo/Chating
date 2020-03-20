@@ -18,6 +18,7 @@ import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 import android.graphics.DashPathEffect
 import com.ayaan.twelvepages.adapter.util.RecordListComparator
 import com.ayaan.twelvepages.manager.ColorManager
+import com.ayaan.twelvepages.manager.StickerManager
 
 
 @SuppressLint("ViewConstructor")
@@ -26,11 +27,12 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     companion object {
         var standardTextSize = 8f
         val baseSize = dpToPx(0.5f)
-        val strokeWidth = dpToPx(0.5f) // 선
-        val blockTypeSize = dpToPx(15.0f).toInt() // 블록 크기
-        val defaulMargin = dpToPx(1.5f) // 뷰간 간격
-        val defaultPadding = dpToPx(2.0f).toInt()
-        val normalStickerSize = dpToPx(35f)
+        val strokeWidth = baseSize // 선
+        val blockTypeSize = dpToPx(15) // 블록 크기
+        val defaulMargin = baseSize * 3 // 뷰간 간격
+        val defaultPadding = dpToPx(2)
+        val stickerLeft = -dpToPx(1)
+        val normalStickerSize = dpToPx(20)
         val datePointSize = dpToPx(30)
         val rectRadius = dpToPx(0.0f)
         val dotSize = dpToPx(3)
@@ -89,7 +91,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         var textPadding = 0
         shape = record.getShape()
         typeface = AppTheme.regularFont
-        //setTypeface(AppTheme.boldFont, Typeface.BOLD)
         when(formula) {
             SINGLE_TEXT, BOTTOM_SINGLE_TEXT -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
@@ -205,7 +206,9 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     fun setLayout() {
         when(formula) {
-            STICKER -> layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+            STICKER -> layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
+                leftMargin = stickerLeft
+            }
             DATE_POINT -> layoutParams = FrameLayout.LayoutParams(datePointSize, datePointSize).apply {
                 topMargin = (datePointSize * -0.2f).toInt()
                 leftMargin = (datePointSize * -0.2f).toInt()
@@ -513,9 +516,77 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     }
 
     private fun drawSticker(canvas: Canvas) {
-        val childCount = childList?.size ?: 0
-        when(childCount) {
-            1 -> {
+        childList?.forEach { record ->
+            record.getStickerLink()?.let { link ->
+                val sticker = StickerManager.getSticker(link.intParam0)
+                when(link.intParam1) {
+                    1 -> {
+                        val size = ((width * 0.7f) - defaultPadding * 2).toInt()
+                        val top = height - size - defaultPadding
+                        val left = width - size - defaultPadding - stickerLeft
+                        val resId = sticker.resId
+                        resource.getDrawable(resId, null)?.let {
+                            it.setBounds(left, top, (left + size), (top + size))
+                            it.alpha = 255
+                            it.draw(canvas)
+                        }
+                        return@let
+                    }
+                    2 -> {
+                        val size = ((width * 0.7f) - defaultPadding * 2).toInt()
+                        val top = height - size - defaultPadding
+                        val left = defaultPadding - stickerLeft
+                        val resId = sticker.resId
+                        resource.getDrawable(resId, null)?.let {
+                            it.setBounds(left, top, (left + size), (top + size))
+                            it.alpha = 255
+                            it.draw(canvas)
+                        }
+                        return@let
+                    }
+                    3 -> {
+                        val size = normalStickerSize
+                        val top = (baseSize.toInt() * 4)
+                        val left = 0
+                        val resId = sticker.resId
+                        resource.getDrawable(resId, null)?.let {
+                            it.setBounds(left, top, (left + size), (top + size))
+                            it.alpha = 200
+                            it.draw(canvas)
+                        }
+                        return@let
+                    }
+                    4 -> {
+                        val size = normalStickerSize
+                        val top = (baseSize.toInt() * 4)
+                        val left = width - size - (baseSize.toInt() * 6) - stickerLeft
+                        val resId = sticker.resId
+                        resource.getDrawable(resId, null)?.let {
+                            it.setBounds(left, top, (left + size), (top + size))
+                            it.alpha = 200
+                            it.draw(canvas)
+                        }
+                        return@let
+                    }
+                    else -> {
+                        val size = width - defaultPadding * 2
+                        val top = height - size - defaultPadding
+                        val left = width - size - defaultPadding - stickerLeft
+                        val resId = sticker.resId
+                        resource.getDrawable(resId, null)?.let {
+                            it.setBounds(left, top, (left + size), (top + size))
+                            it.alpha = 255
+                            it.draw(canvas)
+                        }
+                        return@let
+                    }
+                }
+            }
+        }
+
+//        val childCount = childList?.size ?: 0
+//        when(childCount) {
+//            1 -> {
 //                val size = normalStickerSize.toInt()
 //                val top = (height - normalStickerSize - defaultPadding).toInt()
 //                val left = (width - normalStickerSize - defaulMargin).toInt()
@@ -524,98 +595,90 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 //                    it.setBounds(left, top, (left + size), (top + size))
 //                    it.draw(canvas)
 //                }
-                val size = width - defaultPadding * 2
-                val top = (height - size - defaultPadding).toInt()
-                val left = (width - size - defaulMargin).toInt()
-                val resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
-                resource.getDrawable(resId, null)?.let {
-                    it.setBounds(left, top, (left + size), (top + size))
-                    it.draw(canvas)
-                }
-            }
-            2 -> {
-                val size = (normalStickerSize * 0.55f).toInt()
-                val top = (height - size - defaultPadding)
-                var left = (width - size * 2 - defaulMargin).toInt()
-                var resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
-                resource.getDrawable(resId, null)?.let {
-                    it.setBounds(left, top, (left + size), (top + size))
-                    it.draw(canvas)
-                }
-                resId = childList?.get(1)?.getSticker()?.resId ?: R.drawable.help
-                left += size
-                resource.getDrawable(resId, null)?.let {
-                    it.setBounds(left, top, (left + size), (top + size))
-                    it.draw(canvas)
-                }
-            }
-            3 -> {
-                val size = (normalStickerSize * 0.55f).toInt()
-                var top = (height - size - defaultPadding).toInt()
-                var left = (width - size * 2 - defaulMargin).toInt()
-                var resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
-                resource.getDrawable(resId, null)?.let {
-                    it.setBounds(left, top, (left + size), (top + size))
-                    it.draw(canvas)
-                }
-                resId = childList?.get(1)?.getSticker()?.resId ?: R.drawable.help
-                left += size
-                resource.getDrawable(resId, null)?.let {
-                    it.setBounds(left, top, (left + size), (top + size))
-                    it.draw(canvas)
-                }
-                resId = childList?.get(2)?.getSticker()?.resId ?: R.drawable.help
-                left -= (size * 0.5f).toInt()
-                top -= (size * 0.8f).toInt()
-                resource.getDrawable(resId, null)?.let {
-                    it.setBounds(left, top, (left + size), (top + size))
-                    it.draw(canvas)
-                }
-            }
-            4 -> {
-                val size = (normalStickerSize * 0.50f).toInt()
-                var top = (height - size - defaultPadding)
-                var left = (width - size * 2 - defaulMargin).toInt()
-                var resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
-                resource.getDrawable(resId, null)?.let {
-                    it.setBounds(left, top, (left + size), (top + size))
-                    it.draw(canvas)
-                }
-                resId = childList?.get(1)?.getSticker()?.resId ?: R.drawable.help
-                left += size
-                resource.getDrawable(resId, null)?.let {
-                    it.setBounds(left, top, (left + size), (top + size))
-                    it.draw(canvas)
-                }
-                resId = childList?.get(2)?.getSticker()?.resId ?: R.drawable.help
-                left -= size
-                top -= size
-                resource.getDrawable(resId, null)?.let {
-                    it.setBounds(left, top, (left + size), (top + size))
-                    it.draw(canvas)
-                }
-                resId = childList?.get(3)?.getSticker()?.resId ?: R.drawable.help
-                left += size
-                resource.getDrawable(resId, null)?.let {
-                    it.setBounds(left, top, (left + size), (top + size))
-                    it.draw(canvas)
-                }
-            }
-            else -> {
-                val size = Math.max(normalStickerSize * 0.33f, normalStickerSize * (1f - 0.05f * childCount))
-                var right = width - defaulMargin
-                val bottom = height - defaultPadding
-                val overlap = size - ((width - defaulMargin - defaultPadding) - (size * childCount)) / (1 - childCount)
-                (childCount - 1 downTo 0).forEach { index ->
-                    val resId = childList?.get(index)?.getSticker()?.resId ?: R.drawable.help
-                    resource.getDrawable(resId, null)?.let {
-                        it.setBounds((right - size).toInt(), (bottom - size).toInt(), right.toInt(), bottom)
-                        it.draw(canvas)
-                    }
-                    right -= overlap
-                }
-            }
-        }
+//            }
+//            2 -> {
+//                val size = (normalStickerSize * 0.55f).toInt()
+//                val top = (height - size - defaultPadding)
+//                var left = (width - size * 2 - defaulMargin).toInt()
+//                var resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
+//                resource.getDrawable(resId, null)?.let {
+//                    it.setBounds(left, top, (left + size), (top + size))
+//                    it.draw(canvas)
+//                }
+//                resId = childList?.get(1)?.getSticker()?.resId ?: R.drawable.help
+//                left += size
+//                resource.getDrawable(resId, null)?.let {
+//                    it.setBounds(left, top, (left + size), (top + size))
+//                    it.draw(canvas)
+//                }
+//            }
+//            3 -> {
+//                val size = (normalStickerSize * 0.55f).toInt()
+//                var top = (height - size - defaultPadding).toInt()
+//                var left = (width - size * 2 - defaulMargin).toInt()
+//                var resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
+//                resource.getDrawable(resId, null)?.let {
+//                    it.setBounds(left, top, (left + size), (top + size))
+//                    it.draw(canvas)
+//                }
+//                resId = childList?.get(1)?.getSticker()?.resId ?: R.drawable.help
+//                left += size
+//                resource.getDrawable(resId, null)?.let {
+//                    it.setBounds(left, top, (left + size), (top + size))
+//                    it.draw(canvas)
+//                }
+//                resId = childList?.get(2)?.getSticker()?.resId ?: R.drawable.help
+//                left -= (size * 0.5f).toInt()
+//                top -= (size * 0.8f).toInt()
+//                resource.getDrawable(resId, null)?.let {
+//                    it.setBounds(left, top, (left + size), (top + size))
+//                    it.draw(canvas)
+//                }
+//            }
+//            4 -> {
+//                val size = (normalStickerSize * 0.50f).toInt()
+//                var top = (height - size - defaultPadding)
+//                var left = (width - size * 2 - defaulMargin).toInt()
+//                var resId = childList?.get(0)?.getSticker()?.resId ?: R.drawable.help
+//                resource.getDrawable(resId, null)?.let {
+//                    it.setBounds(left, top, (left + size), (top + size))
+//                    it.draw(canvas)
+//                }
+//                resId = childList?.get(1)?.getSticker()?.resId ?: R.drawable.help
+//                left += size
+//                resource.getDrawable(resId, null)?.let {
+//                    it.setBounds(left, top, (left + size), (top + size))
+//                    it.draw(canvas)
+//                }
+//                resId = childList?.get(2)?.getSticker()?.resId ?: R.drawable.help
+//                left -= size
+//                top -= size
+//                resource.getDrawable(resId, null)?.let {
+//                    it.setBounds(left, top, (left + size), (top + size))
+//                    it.draw(canvas)
+//                }
+//                resId = childList?.get(3)?.getSticker()?.resId ?: R.drawable.help
+//                left += size
+//                resource.getDrawable(resId, null)?.let {
+//                    it.setBounds(left, top, (left + size), (top + size))
+//                    it.draw(canvas)
+//                }
+//            }
+//            else -> {
+//                val size = Math.max(normalStickerSize * 0.33f, normalStickerSize * (1f - 0.05f * childCount))
+//                var right = width - defaulMargin
+//                val bottom = height - defaultPadding
+//                val overlap = size - ((width - defaulMargin - defaultPadding) - (size * childCount)) / (1 - childCount)
+//                (childCount - 1 downTo 0).forEach { index ->
+//                    val resId = childList?.get(index)?.getSticker()?.resId ?: R.drawable.help
+//                    resource.getDrawable(resId, null)?.let {
+//                        it.setBounds((right - size).toInt(), (bottom - size).toInt(), right.toInt(), bottom)
+//                        it.draw(canvas)
+//                    }
+//                    right -= overlap
+//                }
+//            }
+//        }
     }
 
     private fun drawDatePoint(canvas: Canvas) {

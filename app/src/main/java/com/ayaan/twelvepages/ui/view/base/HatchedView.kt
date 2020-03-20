@@ -12,7 +12,7 @@ import com.ayaan.twelvepages.dpToPx
 
 class HatchedView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : View(context, attrs, defStyleAttr) {
-    private val strokeWidth = dpToPx(1f)
+    private val strokeWidth = dpToPx(0.5f)
     private val dashWidth = dpToPx(2f)
     val paint = Paint()
 
@@ -26,6 +26,10 @@ class HatchedView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 "normal" -> {
                     paint.strokeWidth = strokeWidth
                     paint.color = AppTheme.primaryText
+                }
+                "white" -> {
+                    paint.strokeWidth = strokeWidth
+                    paint.color = AppTheme.lightLine
                 }
             }
         }else {

@@ -30,7 +30,7 @@ class LeafFallFrameLayout @JvmOverloads constructor(context: Context, attrs: Att
             val d = resources.getDrawable(LEAVES[viewId])
             val leafImageView = ImageView(context)
             leafImageView.setImageDrawable(d)
-            leafImageView.setColorFilter(AppTheme.disableText)
+            leafImageView.setColorFilter(AppTheme.lightLine)
             addView(leafImageView)
 
             val animationLayout = leafImageView.layoutParams as FrameLayout.LayoutParams
@@ -72,14 +72,12 @@ class LeafFallFrameLayout @JvmOverloads constructor(context: Context, attrs: Att
         animator.duration = 11000
         animator.interpolator = AccelerateInterpolator()
         animator.startDelay = delay
-
         animator.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
             var width = getWidth()
             var height = getHeight()
             var startx = Random().nextInt(width)
             var movex = Random().nextInt(width) - width / 2
             var angle = 50 + (Math.random() * 101).toInt()
-
             override fun onAnimationUpdate(animation: ValueAnimator) {
                 val value = animation.animatedValue as Float
                 leafImageView.rotation = angle * value
@@ -90,7 +88,6 @@ class LeafFallFrameLayout @JvmOverloads constructor(context: Context, attrs: Att
                 }
             }
         })
-
         animator.start()
     }
 
@@ -100,7 +97,7 @@ class LeafFallFrameLayout @JvmOverloads constructor(context: Context, attrs: Att
 
     companion object {
         private val topMargin = dpToPx(25)
-        private val leafSize = dpToPx(10)
+        private val leafSize = dpToPx(9)
         private val LEAVES = intArrayOf(R.drawable.sakura0, R.drawable.sakura1)
     }
 }

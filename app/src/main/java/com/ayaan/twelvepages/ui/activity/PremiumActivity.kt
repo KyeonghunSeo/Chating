@@ -8,10 +8,7 @@ import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.TransactionDetails
-import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.dpToPx
-import com.ayaan.twelvepages.setGlobalTheme
-import com.ayaan.twelvepages.str
+import com.ayaan.twelvepages.*
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_premium.*
 import kotlinx.android.synthetic.main.pager_item_premium.view.*
@@ -26,6 +23,7 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
         initTheme(rootLy)
         initLayout()
         payBtn.setOnClickListener { subscribe() }
+        callAfterViewDrawed(rootLy, Runnable{ leafFallView.start() })
     }
 
     private fun subscribe() {
@@ -82,14 +80,26 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
     }
 
     override fun onBillingInitialized() {
+        l("[onBillingInitialized]")
     }
 
     override fun onPurchaseHistoryRestored() {
     }
 
     override fun onProductPurchased(productId: String, details: TransactionDetails?) {
+        //details?.purchaseInfo?.purchaseData?
     }
 
     override fun onBillingError(errorCode: Int, error: Throwable?) {
+    }
+
+    override fun onStop() {
+        super.onStop()
+        leafFallView.stop()
+    }
+
+    public override fun onDestroy() {
+        bp?.release()
+        super.onDestroy()
     }
 }

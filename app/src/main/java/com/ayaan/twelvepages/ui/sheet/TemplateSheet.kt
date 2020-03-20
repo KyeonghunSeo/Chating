@@ -89,7 +89,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
 
     private fun addSticker() {
         MainActivity.instance?.let {
-            StickerPickerDialog{ sticker ->
+            StickerPickerDialog{ sticker, position ->
                 val records = ArrayList<Record>()
                 while (startCal <= endCal) {
                     val dtStart = getCalendarTime0(startCal)
@@ -98,7 +98,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
                         id = "sticker_${UUID.randomUUID()}"
                         dtCreated = System.currentTimeMillis()
                         setFormula(RecordCalendarAdapter.Formula.STICKER)
-                        setSticker(sticker)
+                        setSticker(sticker, position)
                     })
                     startCal.add(Calendar.DATE, 1)
                 }
@@ -111,7 +111,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
 
     private fun addDatePoint() {
         MainActivity.instance?.let {
-            StickerPickerDialog{ sticker ->
+            StickerPickerDialog{ sticker, position ->
                 val records = ArrayList<Record>()
                 while (startCal <= endCal) {
                     val dtStart = getCalendarTime0(startCal)
@@ -120,7 +120,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
                         id = "sticker_${UUID.randomUUID()}"
                         dtCreated = System.currentTimeMillis()
                         setFormula(RecordCalendarAdapter.Formula.DATE_POINT)
-                        setSticker(sticker)
+                        setSticker(sticker, position)
                     })
                     startCal.add(Calendar.DATE, 1)
                 }

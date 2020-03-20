@@ -68,6 +68,15 @@
         android:clipToPadding="false"
         android:alpha="0">
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/temp_logo"
+            android:tint="@color/secondaryText"
+            android:alpha="1.0"/>
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -77,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/secondary_rect_stroke">
 
                 <TextView
@@ -210,16 +219,6 @@
                     android:fontFamily="@font/regular_s"/>
 
             </LinearLayout>
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="238dp"
-                android:src="@drawable/temp_logo"
-                android:tint="@color/secondaryText"
-                android:alpha="0.8"/>
 
         </FrameLayout>
 

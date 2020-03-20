@@ -1,64 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clipChildren="false">
+    android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
+        android:id="@+id/positionLy"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="0dp">
+        android:layout_margin="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:fontFamily="@font/bold_s"
+            android:textColor="@color/light_line"
+            android:text="@string/sticker_position"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:clipChildren="false">
+
+            <FrameLayout
+                android:id="@+id/positionBtn0"
+                android:layout_width="40dp"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/normal_rect_stroke"
+                    android:tint="@color/light_line"/>
+
+                <com.ayaan.twelvepages.ui.view.base.HatchedView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom"
+                    app:style="white"/>
+
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <FrameLayout
+                android:id="@+id/positionBtn1"
+                android:layout_width="40dp"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/normal_rect_stroke"
+                    android:tint="@color/light_line"/>
+
+                <com.ayaan.twelvepages.ui.view.base.HatchedView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="bottom|right"
+                    app:style="white"/>
+
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <FrameLayout
+                android:id="@+id/positionBtn2"
+                android:layout_width="40dp"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/normal_rect_stroke"
+                    android:tint="@color/light_line"/>
+
+                <com.ayaan.twelvepages.ui.view.base.HatchedView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="bottom"
+                    app:style="white"/>
+
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <FrameLayout
+                android:id="@+id/positionBtn3"
+                android:layout_width="40dp"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/normal_rect_stroke"
+                    android:tint="@color/light_line"/>
+
+                <com.ayaan.twelvepages.ui.view.base.HatchedView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    app:style="white"/>
+
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <FrameLayout
+                android:id="@+id/positionBtn4"
+                android:layout_width="40dp"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/normal_rect_stroke"
+                    android:tint="@color/light_line"/>
+
+                <com.ayaan.twelvepages.ui.view.base.HatchedView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="right"
+                    app:style="white"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
+            android:layout_height="270dp"
             android:layout_marginBottom="40dp">
         </androidx.viewpager.widget.ViewPager>
 
-    </androidx.cardview.widget.CardView>
+        <com.ayaan.twelvepages.ui.view.base.Line
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="40dp"
+            app:colorFlag="line"/>
 
-    <com.ayaan.twelvepages.ui.view.base.Line
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="40dp"
-        android:elevation="10dp"
-        app:colorFlag="line"/>
-
-    <FrameLayout
-        android:layout_width="45dp"
-        android:layout_height="40dp"
-        android:layout_gravity="right|bottom"
-        android:elevation="10dp">
-
-        <ImageView
-            android:id="@+id/settingBtn"
+        <FrameLayout
             android:layout_width="45dp"
             android:layout_height="40dp"
-            android:src="@drawable/setting"
-            android:tint="@color/secondaryText"
-            android:background="?android:attr/selectableItemBackground"
-            android:padding="10dp"/>
+            android:layout_gravity="right|bottom">
 
-        <com.ayaan.twelvepages.ui.view.base.Line
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            app:colorFlag="line"/>
+            <ImageView
+                android:id="@+id/settingBtn"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:src="@drawable/setting"
+                android:tint="@color/secondaryText"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="10dp"/>
+
+            <com.ayaan.twelvepages.ui.view.base.Line
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                app:colorFlag="line"/>
+
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginRight="45dp"
+            android:layout_gravity="bottom"
+            android:clipChildren="false">
+        </androidx.recyclerview.widget.RecyclerView>
 
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginRight="45dp"
-        android:layout_gravity="bottom"
-        android:elevation="10dp"
-        android:clipChildren="false">
-    </androidx.recyclerview.widget.RecyclerView>
-
-</FrameLayout>
+</LinearLayout>

@@ -44,24 +44,16 @@ open class Record(@PrimaryKey var id: String? = null,
     @Ignore var repeatKey: String? = null
 
     fun setFormula(formula: RecordCalendarAdapter.Formula) {
-        style = getTextColred() + formula.shapes[0].ordinal * 100 + formula.ordinal
+        style = formula.shapes[0].ordinal * 100 + formula.ordinal
     }
 
     fun getFormula() = RecordCalendarAdapter.Formula.styleToFormula(style)
 
     fun setShape(shape: RecordView.Shape) {
-        style = getTextColred() + shape.ordinal * 100 + getFormula().ordinal
+        style = shape.ordinal * 100 + getFormula().ordinal
     }
 
     fun getShape() = RecordView.Shape.styleToShape(style)
-
-    fun isTextColored() = getTextColred() > 10000
-
-    fun setTextColored(colored: Boolean) {
-        style = if(colored) 10000 else 0 + getShape().ordinal * 100 + getFormula().ordinal
-    }
-
-    fun getTextColred() = style / 10000 * 10000
 
     fun getDuration() = dtEnd - dtStart
 
@@ -245,15 +237,18 @@ open class Record(@PrimaryKey var id: String? = null,
 
     fun isSetSticker(): Boolean = links.any { it.type == Link.Type.STICKER.ordinal }
     fun clearSticker() { links.firstOrNull{ it.type == Link.Type.STICKER.ordinal }?.let { links.remove(it) } }
-    fun setSticker(sticker: StickerManager.Sticker) {
+    fun setSticker(sticker: StickerManager.Sticker, position: Int) {
         if(isSetSticker()) {
             links.firstOrNull{ it.type == Link.Type.STICKER.ordinal }?.let {
-                it.intParam0 = StickerManager.getStickerKey(sticker) }
+                it.intParam0 = StickerManager.getStickerKey(sticker)
+                it.intParam1 = position
+            }
         }else {
             links.add(Link(UUID.randomUUID().toString(), Link.Type.STICKER.ordinal,
-                    intParam0 = StickerManager.getStickerKey(sticker)))
+                    intParam0 = StickerManager.getStickerKey(sticker), intParam1 = position))
         }
     }
+    fun getStickerLink(): Link? = links.firstOrNull{ it.type == Link.Type.STICKER.ordinal }
     fun getSticker(): StickerManager.Sticker? {
         links.firstOrNull{ it.type == Link.Type.STICKER.ordinal }?.let {
             return StickerManager.getSticker(it.intParam0)

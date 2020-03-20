@@ -74,6 +74,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     }
                     1 -> {
                         activity.viewModel.clip(record)
+                        cutRecord(item)
                     }
                     2 -> {
                         showDialog(SchedulingDialog(activity, record, 0) { sCal, eCal ->
@@ -111,8 +112,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 val record = Record().apply { copy(item) }
                 when(index) {
                     0 -> {
-                        StickerPickerDialog{ sticker ->
-                            record.setSticker(sticker)
+                        StickerPickerDialog(record.getStickerLink()?.intParam1 ?: 0){ sticker, position ->
+                            record.setSticker(sticker, position)
                             RecordManager.save(record)
                             toast(R.string.saved, R.drawable.done)
                         }.show(activity.supportFragmentManager, null)
@@ -470,6 +471,14 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         previewDataImg.alpha = 0f
         previewDataImg.translationY = 0f
         bar.alpha = 1f
+    }
+
+    private fun cutRecord(record: Record) {
+        if(mainList.contains(record)) {
+            val pos = mainList.indexOf(record)
+            mainList.remove(record)
+            adapter.notifyItemRemoved(pos)
+        }
     }
 
     fun getDateLy() : LinearLayout = dateLy
