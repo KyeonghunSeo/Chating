@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "358462425934-qn06a80ch9fu693ppidjkgojn7vl1ik3.apps.googleusercontent.com",
+          "client_id": "358462425934-hfbmmrupsq5m1ipf9rh93u2rn98c54g8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ayaan.twelvepages",
-            "certificate_hash": "3c5ee37fa7f3d0c78faae7560c20667a2652696d"
+            "certificate_hash": "007f30ea2de1e16189d917c4f83331e306f22b5a"
           }
         },
         {
@@ -45,7 +45,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAPFJF5d9o4wUgwznL0v29ZU0sX97oRllA"
+          "current_key": "AIzaSyDqEQrjmuHV6uM26UDGvjIn05_sLBoZ4wk"
         }
       ],
       "services": {

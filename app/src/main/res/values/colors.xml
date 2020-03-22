@@ -52,16 +52,16 @@
     <color name="transparent">#00000000</color>
 
     <string-array name="colors">
-        <item>#606066</item>
+        <item>#909099</item>
+        <item>#212121</item>
+        <item>#47b2f7</item>
+        <item>#7dc9e7</item>
         <item>#f95a37</item>
         <item>#f35f8c</item>
-        <item>#fb7f77</item>
+        <item>#2ecc87</item>
+        <item>#36722E</item>
         <item>#fdc02d</item>
         <item>#b38bdc</item>
-        <item>#2ecc87</item>
-        <item>#3dc2c8</item>
-        <item>#47b2f7</item>
-        <item>#948078</item>
     </string-array>
 
     <!--

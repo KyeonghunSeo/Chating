@@ -11,6 +11,8 @@ import com.anjlab.android.iab.v3.TransactionDetails
 import com.ayaan.twelvepages.*
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_premium.*
+import kotlinx.android.synthetic.main.activity_premium.backBtn
+import kotlinx.android.synthetic.main.activity_premium.rootLy
 import kotlinx.android.synthetic.main.pager_item_premium.view.*
 
 class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
@@ -19,7 +21,7 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_premium)
-        //bp = BillingProcessor(this, AppConst.GOOGLE_IN_APP_LICENCE_KEY, this)
+        bp = BillingProcessor(this, str(R.string.in_app_license), this)
         initTheme(rootLy)
         initLayout()
         payBtn.setOnClickListener { subscribe() }

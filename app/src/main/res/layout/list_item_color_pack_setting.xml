@@ -20,47 +20,33 @@
           android:layout_gravity="center_vertical"
           android:gravity="center">
 
-         <LinearLayout
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content">
+         <ImageView
+             android:id="@+id/sample0"
+             android:layout_width="24dp"
+             android:layout_height="6dp"
+             android:src="@drawable/normal_rect_fill"
+             android:padding="1.0dp"/>
 
-            <ImageView
-                android:id="@+id/sample0"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/normal_rect_fill"
-                android:padding="1.0dp"/>
+         <ImageView
+             android:id="@+id/sample1"
+             android:layout_width="24dp"
+             android:layout_height="6dp"
+             android:src="@drawable/normal_rect_fill"
+             android:padding="1.0dp"/>
 
-            <ImageView
-                android:id="@+id/sample1"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/normal_rect_fill"
-                android:padding="1.0dp"/>
+         <ImageView
+             android:id="@+id/sample2"
+             android:layout_width="24dp"
+             android:layout_height="6dp"
+             android:src="@drawable/normal_rect_fill"
+             android:padding="1.0dp"/>
 
-         </LinearLayout>
-
-         <LinearLayout
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/sample2"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/normal_rect_fill"
-                android:padding="1.0dp"/>
-
-            <ImageView
-                android:id="@+id/sample3"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/normal_rect_fill"
-                android:padding="1.0dp"/>
-
-         </LinearLayout>
+         <ImageView
+             android:id="@+id/sample3"
+             android:layout_width="24dp"
+             android:layout_height="6dp"
+             android:src="@drawable/normal_rect_fill"
+             android:padding="1.0dp"/>
 
       </LinearLayout>
 

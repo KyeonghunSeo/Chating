@@ -160,7 +160,7 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
 
         private fun setColorBtn(v: ImageView, colorKey: Int, color: Int) {
             if(colorKey == selectedColorKey) {
-                v.setImageResource(R.drawable.selected_circle)
+                v.setImageResource(R.drawable.selected_color)
             }else {
                 v.setImageResource(R.drawable.normal_rect_fill)
             }

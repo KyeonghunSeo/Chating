@@ -31,13 +31,13 @@ class AboutUsActivity : BaseActivity() {
         }
 
         evaluateBtn.setOnClickListener {
-            val uri = Uri.parse("market://details?id=com.hellowo.day2life")
+            val uri = Uri.parse("market://details?id=com.ayaan.twelvepages")
             val intent = Intent(Intent.ACTION_VIEW, uri)
             try {
                 startActivity(intent)
             } catch (e: ActivityNotFoundException) {
                 startActivity(Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://play.google.com/store/apps/details?id=com.hellowo.day2life")))
+                        Uri.parse("http://play.google.com/store/apps/details?id=com.ayaan.twelvepages")))
             }
         }
 

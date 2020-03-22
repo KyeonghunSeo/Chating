@@ -9,7 +9,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/viewPagerContainer"
         android:layout_width="match_parent"
-        android:layout_height="105dp"
+        android:layout_height="106dp"
         android:layout_marginTop="240dp"
         app:cardElevation="10dp"
         app:cardCornerRadius="0dp">

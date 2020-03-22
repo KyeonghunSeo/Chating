@@ -19,7 +19,7 @@ class ShapePicker @JvmOverloads constructor(context: Context, attrs: AttributeSe
     : RecyclerView(context, attrs, defStyleAttr) {
     lateinit var items: Array<RecordView.Shape>
     var onSelected : ((RecordView.Shape) -> Unit)? = null
-    var shape = TEXT
+    var shape = RECT_FILL_BLUR
     var formula = SINGLE_TEXT
 
     init {

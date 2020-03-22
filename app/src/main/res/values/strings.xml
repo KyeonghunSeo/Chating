@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">달의기록</string>
     <string name="notification_default_channel" translatable="false">com.hellowo.alarm.default</string>
+    <string name="in_app_license">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyY7awWGkfP4KgO2stB0K2ysfCmKbubc/9TBFaNivq1ihuTfndycMPb+gzQ9lzxtYFw3IHiS+pBvi86b1aM6CDsKQXpGlVepXeG8sy8vdmNXwcwDFr5lftWk944T96BwK1VyrA2NVlXdk8e9+MrTDrGfZd+gXrOxHexr6AalhqgMtcfS1/eDmKOg/6vRM8SNtu03k7DjEkIUKLHlnPL1KHW0WWqZ7z4iR1lfHShbgiBXjtHN+zL2J0AaIUelvTAt5ctAmIkDYEbYdrGXGZC+FqCBz+1GgPShhE1yLLI0lswe9Bhle54lNMTSYGC20cxtoJxdQGRK5jiVTE2yWP469/QIDAQAB</string>
 
     <string name="cancel">취소</string>
     <string name="plz_wait">잠시만 기다려주세요…</string>
@@ -223,12 +224,12 @@
     <string name="delete_item">아이템 삭제</string>
     <string name="lunar_repeat">음력반복</string>
     <string name="dow_display">요일 표시</string>
-    <string name="weekline_display">주간 경계선 표시</string>
+    <string name="weekline_display">주간경계선 표시</string>
     <string name="enter_here">이곳에 입력하세요</string>
     <string name="delete_sub">정말 삭제하시겠습니까?</string>
     <string name="calendar">캘린더</string>
     <string name="folder">폴더</string>
-    <string name="check_option">완료된 기록 표시</string>
+    <string name="check_option">완료된기록 표시</string>
     <string name="check_option_0">기본</string>
     <string name="check_option_1">흐리게</string>
     <string name="check_option_2">삭제선</string>
@@ -294,25 +295,25 @@
     <string name="formula_single_text">한줄 텍스트</string>
     <string name="formula_multi_line_text">긴 텍스트</string>
     <string name="formula_symbol">심볼</string>
-    <string name="formula_dot">도트</string>
+    <string name="formula_dot">점</string>
     <string name="formula_bottom_single_text">하단 한줄 텍스트</string>
     <string name="formula_sticker">스티커</string>
 
     <string name="shape_blank">공백</string>
-    <string name="shape_text">기본</string>
-    <string name="shape_rect_fill">채우기</string>
+    <string name="shape_text">글씨</string>
+    <string name="shape_rect_fill">배경색</string>
     <string name="shape_rect_stroke">테두리</string>
-    <string name="shape_round_fill">둥근채우기</string>
+    <string name="shape_round_fill">둥근배경색</string>
     <string name="shape_round_stroke">둥근테두리</string>
     <string name="shape_bold_hatched">굵은사선</string>
-    <string name="shape_thin_hatched">빗금</string>
+    <string name="shape_thin_hatched">사선</string>
     <string name="shape_upper_line">윗줄</string>
     <string name="shape_under_line">밑줄</string>
     <string name="shape_neon_pen">형광팬</string>
-    <string name="shape_line">선</string>
-    <string name="shape_dash">점선</string>
-    <string name="shape_arrow">화살표</string>
-    <string name="shape_dash_arrow">점선화살표</string>
+    <string name="shape_line">구간선</string>
+    <string name="shape_dash">구간점선</string>
+    <string name="shape_arrow">구간화살표</string>
+    <string name="shape_dash_arrow">구간점선화살표</string>
     <string name="weekNumDisplay">주차 표시</string>
     <string name="s_basic">기본</string>
     <string name="s_work">비지니스</string>
@@ -453,6 +454,15 @@
     <string name="sticker_position">스티커 위치</string>
     <string name="s_dogs">강아지들</string>
     <string name="s_pet">반려동물</string>
+    <string name="s_agri">농업</string>
+    <string name="shape_color_pen">색연필</string>
+    <string name="shape_rect_fill_blur">흐린배경색</string>
+    <string name="s_office">오피스</string>
+    <string name="s_bakery">베이커리</string>
+    <string name="s_mental">멘탈</string>
+    <string name="s_school">학교</string>
+    <string name="s_operation">경영</string>
+    <string name="s_cloth">의복</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>
