@@ -7,17 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.dpToPx
+import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.StickerManager
-import com.ayaan.twelvepages.setGlobalTheme
-import com.ayaan.twelvepages.str
+import com.ayaan.twelvepages.ui.activity.BaseActivity
 import kotlinx.android.synthetic.main.container_normal_list_dlg.*
 import kotlinx.android.synthetic.main.dialog_base.*
 import kotlinx.android.synthetic.main.list_item_sticker_pack_setting.view.*
 
 
-class EditStickerPackDialog(activity: Activity, val onResult: (Boolean) -> Unit) : BaseDialog(activity) {
+class EditStickerPackDialog(val activity: BaseActivity, val onResult: (Boolean) -> Unit) : BaseDialog(activity) {
     private val selectedItems = StickerManager.packs
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +67,11 @@ class EditStickerPackDialog(activity: Activity, val onResult: (Boolean) -> Unit)
                 if(selectedItems.contains(stickerPack)) {
                     selectedItems.remove(stickerPack)
                 }else {
-                    selectedItems.add(stickerPack)
+                    if(stickerPack != StickerManager.StickerPack.BASIC && !AppStatus.isPremium){
+                        showPremiumDialog(activity)
+                    }else {
+                        selectedItems.add(stickerPack)
+                    }
                 }
                 notifyItemChanged(position)
             }

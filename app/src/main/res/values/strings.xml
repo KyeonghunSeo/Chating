@@ -170,7 +170,7 @@
     <string name="small">작게</string>
     <string name="normal">기본</string>
     <string name="big">크게</string>
-    <string name="export">txt파일로 내보내기</string>
+    <string name="export">txt파일로 내보내기[베타]</string>
     <string name="holi_display">공휴일, 기념일 표시</string>
     <string name="kr">대한민국</string>
     <string name="jp">일본</string>
@@ -217,7 +217,9 @@
     <string name="delete_deadline_sub">기한을 해제 하시겠습니까?</string>
     <string name="delete_percentage_sub">성취도를 삭제할까요?</string>
     <string name="premium">프리미엄</string>
+    <string name="premium_function">해당 기능은 프리미엄 기능입니다</string>
     <string name="premium_sub">프리미엄 에디션</string>
+    <string name="premium_dlg_sub">프리미엄 에디션의 다양한 기능들을 살펴보고 구독해보세요.</string>
     <string name="add_checklist">체크리스트 추가</string>
     <string name="edit_item">아이템 편집</string>
     <string name="edit_title">아이템 이름</string>
@@ -463,6 +465,9 @@
     <string name="s_school">학교</string>
     <string name="s_operation">경영</string>
     <string name="s_cloth">의복</string>
+    <string name="try_again_after_min">1분 후에 다시 시도해주세요.</string>
+    <string name="show_now">지금 살펴보기</string>
+    <string name="later">나중에</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

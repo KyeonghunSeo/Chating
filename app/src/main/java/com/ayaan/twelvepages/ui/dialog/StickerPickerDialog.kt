@@ -22,6 +22,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.StickerManager
+import com.ayaan.twelvepages.ui.activity.BaseActivity
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.dialog_sticker_picker.*
@@ -51,7 +52,7 @@ class StickerPickerDialog(private var stickerPosition: Int = 0,
         root.rootLy.setOnClickListener { dismiss() }
         root.positionLy.setOnClickListener {}
         root.settingBtn.setOnClickListener {
-            showDialog(EditStickerPackDialog(activity as Activity) { result ->
+            showDialog(EditStickerPackDialog(activity as BaseActivity) { result ->
                 if(result) {
                     StickerManager.saveCurrentPack()
                     setLayout()

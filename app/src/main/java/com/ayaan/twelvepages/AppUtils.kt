@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.database.Cursor
 import android.graphics.*
@@ -33,6 +34,8 @@ import androidx.transition.Transition
 import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.BaseActivity
+import com.ayaan.twelvepages.ui.activity.PremiumActivity
+import com.ayaan.twelvepages.ui.dialog.CustomDialog
 import com.ayaan.twelvepages.ui.view.CalendarView
 import com.ayaan.twelvepages.ui.view.base.Line
 import com.google.firebase.auth.FirebaseAuth
@@ -624,6 +627,18 @@ fun backupDB(activity: BaseActivity?, onSuccess: Runnable?) {
         }
         realm.close()
     }
+}
+
+fun showPremiumDialog(activity: BaseActivity) {
+    val dialog = CustomDialog(activity, activity.getString(R.string.premium_function),
+            activity.getString(R.string.premium_dlg_sub), null, R.drawable.crown) { result, _, _ ->
+        if(result) {
+            activity.startActivity(Intent(activity, PremiumActivity::class.java))
+        }
+    }
+    showDialog(dialog, true, true, true, false)
+    dialog.setConfirmBtn(str(R.string.show_now))
+    dialog.setCancleBtn(str(R.string.later))
 }
 
 fun dimStatusBar(window: Window) {

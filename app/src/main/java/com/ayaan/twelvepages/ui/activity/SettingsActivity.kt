@@ -138,10 +138,15 @@ class SettingsActivity : BaseActivity() {
     private fun setBackup() {
         setBackupTimeText()
         backupBtn.setOnClickListener {
-            backupDB(this, Runnable{
-                setBackupTimeText()
-                toast(R.string.success_backup, R.drawable.done)
-            })
+            val lastBackupTime = Prefs.getLong("last_backup_time", 0L)
+            if(AppStatus.isPremium || lastBackupTime < System.currentTimeMillis() - MIN_MILL) {
+                backupDB(this, Runnable{
+                    setBackupTimeText()
+                    toast(R.string.success_backup, R.drawable.done)
+                })
+            }else {
+                toast(R.string.try_again_after_min, R.drawable.info)
+            }
         }
     }
 

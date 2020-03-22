@@ -625,7 +625,7 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         val lastBackupTime = Prefs.getLong("last_backup_time", 0L)
-        if(lastBackupTime < System.currentTimeMillis() - DAY_MILL * 1) {
+        if(AppStatus.isPremium || lastBackupTime < System.currentTimeMillis() - DAY_MILL * 7) {
             backupDB(null, null)
         }
     }

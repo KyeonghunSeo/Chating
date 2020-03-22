@@ -1,8 +1,10 @@
 package com.ayaan.twelvepages.ui.sheet
 
 import android.app.Dialog
+import com.ayaan.twelvepages.AppStatus
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.model.Record
+import com.ayaan.twelvepages.showPremiumDialog
 import com.ayaan.twelvepages.toast
 import com.ayaan.twelvepages.ui.activity.RecordActivity
 import com.ayaan.twelvepages.ui.dialog.BottomSheetDialog
@@ -164,8 +166,12 @@ class MoreOptionSheet(private val record: Record,
         }
 
         root.photoBtn.setOnClickListener {
-            recordActivity.showImagePicker()
-            dismiss()
+            if(AppStatus.isPremium) {
+                recordActivity.showImagePicker()
+                dismiss()
+            }else {
+                showPremiumDialog(recordActivity)
+            }
         }
 
         root.webLinkBtn.setOnClickListener {

@@ -55,19 +55,19 @@ class CustomDialog(activity: Activity, private val title: String, private val su
         }
 
         confirmBtn.setOnClickListener {
-            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
             onResult.invoke(true, 0, input.text.toString())
             dismiss()
         }
 
         cancelBtn.setOnClickListener {
-            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
             onResult.invoke(false, 0, null)
             dismiss()
         }
 
         setOnCancelListener {
-            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
             onResult.invoke(false, 0, null)
             dismiss()
         }
@@ -84,6 +84,14 @@ class CustomDialog(activity: Activity, private val title: String, private val su
             }
             return@setOnEditorActionListener false
         }
+    }
+
+    fun setConfirmBtn(text: String) {
+        confirmBtn.text = text
+    }
+
+    fun setCancleBtn(text: String) {
+        cancelBtn.text = text
     }
 
 }

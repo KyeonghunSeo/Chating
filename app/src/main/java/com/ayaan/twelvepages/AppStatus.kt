@@ -20,6 +20,7 @@ object AppStatus {
     var isDisplayUpdateTime = true
     var displayRecordDivider = 1
     var isDisplayDayViewWeekNum = false
+    var isPremium = false
 
     var screenWidth = 0
     var screenHeight = 0
@@ -39,6 +40,7 @@ object AppStatus {
         isDisplayUpdateTime = Prefs.getBoolean("isDisplayUpdateTime", true)
         displayRecordDivider = Prefs.getInt("displayRecordDivider", 1)
         isDisplayDayViewWeekNum = Prefs.getBoolean("isDisplayDayViewWeekNum", true)
+        isPremium = Prefs.getBoolean("isPremium", false)
 
         val screenSize = getScreenSize(context)
         screenWidth = screenSize[0]
