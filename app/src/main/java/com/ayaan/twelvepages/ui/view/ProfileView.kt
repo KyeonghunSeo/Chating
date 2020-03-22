@@ -81,7 +81,11 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             mottoText.typeface = ResourcesCompat.getFont(context, R.font.regular_s)
             mottoText.text = appUser.motto
         }
-        setImageViewGrayFilter(premiumImg)
+        if(AppStatus.isPremium) {
+            premiumImg.clearColorFilter()
+        }else {
+            setImageViewGrayFilter(premiumImg)
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
