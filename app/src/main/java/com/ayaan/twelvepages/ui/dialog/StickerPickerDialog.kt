@@ -97,6 +97,11 @@ class StickerPickerDialog(private var stickerPosition: Int = 0,
                 }
                 root.recyclerView.scrollToPosition(position)
                 root.recyclerView.adapter?.notifyDataSetChanged()
+
+                for (i in 0 until (root.viewPager.adapter?.count ?: 0)) {
+                    root.viewPager.getChildAt(i)?.findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = false
+                }
+                root.viewPager.getChildAt(position).findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = true
             }
         })
     }
@@ -157,10 +162,10 @@ class StickerPickerDialog(private var stickerPosition: Int = 0,
         override fun getCount(): Int = StickerManager.packs.size + 1
         override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
             super.setPrimaryItem(container, position, `object`)
-            for (i in 0 until count) {
-                container.getChildAt(i)?.findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = false
-            }
-            (`object` as View).findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = true
+//            for (i in 0 until count) {
+//                container.getChildAt(i)?.findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = false
+//            }
+//            (`object` as View).findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = true
         }
     }
 
