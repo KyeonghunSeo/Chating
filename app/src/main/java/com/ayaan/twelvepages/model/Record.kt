@@ -326,5 +326,6 @@ open class Record(@PrimaryKey var id: String? = null,
     fun isSetMainText() = description != null
     fun isSetTitle() = title != null
     fun isSetSymbol() = symbol != null
+    fun isBlankText(): Boolean = title.isNullOrBlank() && description.isNullOrBlank()
 
 }

@@ -22,14 +22,19 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
+import com.ayaan.twelvepages.alarm.AlarmManager
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.OsCalendarManager
-import com.ayaan.twelvepages.model.AppUser
+import com.ayaan.twelvepages.model.*
 import com.ayaan.twelvepages.ui.dialog.OsCalendarDialog
+import com.ayaan.twelvepages.ui.view.RecordView
 import com.google.firebase.storage.FirebaseStorage
 import com.pixplicity.easyprefs.library.Prefs
 import io.realm.*
 import kotlinx.android.synthetic.main.activity_welcome.*
 import java.io.File
+import java.util.*
 
 
 class WelcomeActivity : BaseActivity() {
@@ -55,6 +60,7 @@ class WelcomeActivity : BaseActivity() {
                 startShow()
             }else {
                 startMainActivity()
+                //startCustomSettings()
             }
         })
     }
@@ -137,19 +143,264 @@ class WelcomeActivity : BaseActivity() {
     }
 
     var doubleTabFlag = true
-    var maxCount = 0
     var diaryNum = 0
 
     private fun setDiaryLy() {
         val user = FirebaseAuth.getInstance().currentUser
         optionTitleText.text = String.format(getString(R.string.init_setting_script_0), user?.displayName)
-        maxCount = 0
         diaryLy.visibility = View.VISIBLE
         prevBtn.visibility = View.GONE
         nextBtn.setOnClickListener {
             if(doubleTabFlag) {
                 doubleTabFlag = false
                 hideScript()
+
+                val realm = Realm.getDefaultInstance()
+                realm.executeTransaction {
+                    try{
+                        realm.createObject(Folder::class.java, "calendar").apply {
+                            name = App.context.getString(R.string.calendar)
+                            type = 0
+                            order = 0
+                        }
+                    }catch (e: Exception){e.printStackTrace()}
+
+                    realm.where(Folder::class.java).equalTo("id", "calendar").findFirst()?.let { f ->
+                        realm.where(Template::class.java).findAll()?.deleteAllFromRealm() /* 이부분 지워도 됨 */
+
+                        val record = Record()
+                        var od = realm.where(Template::class.java).max("order")?.toInt() ?: -1
+                        when(diaryNum) {
+                            0 -> {
+                                var importantTag: Tag? = null
+                                val tagOrder = realm.where(Tag::class.java).max("order")?.toInt() ?: -1
+                                importantTag = realm.where(Tag::class.java).equalTo("title", str(R.string.important)).findFirst()
+                                if(importantTag == null) {
+                                    importantTag = realm.createObject(Tag::class.java, UUID.randomUUID().toString())
+                                    importantTag?.title = str(R.string.important)
+                                    importantTag?.order = tagOrder + 1
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.SINGLE_TEXT)
+                                record.setShape(RecordView.Shape.COLOR_PEN)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.event)
+                                    style = record.style
+                                    colorKey = 0
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.SINGLE_TEXT)
+                                record.setShape(RecordView.Shape.COLOR_PEN)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.todo)
+                                    style = record.style
+                                    colorKey = 0
+                                    setCheckBox()
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.MULTI_TEXT)
+                                record.setShape(RecordView.Shape.COLOR_PEN)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.memo)
+                                    style = record.style
+                                    clearTitle()
+                                    setMemo()
+                                    colorKey = 0
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.SINGLE_TEXT)
+                                record.setShape(RecordView.Shape.NEON_PEN)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.important_event)
+                                    style = record.style
+                                    colorKey = 2
+                                    alarmDayOffset = 0
+                                    alarmTime = AlarmManager.defaultAlarmTime[0]
+                                    importantTag?.let { tags.add(it) }
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT)
+                                record.setShape(RecordView.Shape.DASH_RANGE)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.plan)
+                                    style = record.style
+                                    colorKey = 0
+                                }
+                            }
+                            1 -> {
+                                var importantTag: Tag? = null
+                                var emerTag: Tag? = null
+                                val tagOrder = realm.where(Tag::class.java).max("order")?.toInt() ?: -1
+                                importantTag = realm.where(Tag::class.java).equalTo("title", str(R.string.important)).findFirst()
+                                if(importantTag == null) {
+                                    importantTag = realm.createObject(Tag::class.java, UUID.randomUUID().toString())
+                                    importantTag?.title = str(R.string.important)
+                                    importantTag?.order = tagOrder + 1
+                                }
+                                emerTag = realm.where(Tag::class.java).equalTo("title", str(R.string.emergency)).findFirst()
+                                if(emerTag == null) {
+                                    emerTag = realm.createObject(Tag::class.java, UUID.randomUUID().toString())
+                                    emerTag?.title = str(R.string.emergency)
+                                    emerTag?.order = tagOrder + 2
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.SINGLE_TEXT)
+                                record.setShape(RecordView.Shape.RECT_FILL)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.event)
+                                    style = record.style
+                                    colorKey = 2
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.SINGLE_TEXT)
+                                record.setShape(RecordView.Shape.BOLD_HATCHED)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.important_event)
+                                    style = record.style
+                                    alarmDayOffset = 0
+                                    alarmTime = AlarmManager.defaultAlarmTime[0]
+                                    colorKey = 4
+                                    setTime()
+                                    importantTag?.let { tags.add(it) }
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.DOT)
+                                record.setShape(RecordView.Shape.BLANK)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.todo)
+                                    style = record.style
+                                    colorKey = 0
+                                    setCheckBox()
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.SINGLE_TEXT)
+                                record.setShape(RecordView.Shape.UNDER_LINE)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.important_todo)
+                                    style = record.style
+                                    colorKey = 0
+                                    alarmDayOffset = 0
+                                    alarmTime = AlarmManager.defaultAlarmTime[0]
+                                    setCheckBox()
+                                    emerTag?.let { tags.add(it) }
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT)
+                                record.setShape(RecordView.Shape.DASH_RANGE)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.plan)
+                                    style = record.style
+                                    colorKey = 6
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.MULTI_TEXT)
+                                record.setShape(RecordView.Shape.COLOR_PEN)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.memo)
+                                    style = record.style
+                                    colorKey = 0
+                                    clearTitle()
+                                    setMemo()
+                                }
+                            }
+                            2 -> {
+                                var diaryTag: Tag? = null
+                                val tagOrder = realm.where(Tag::class.java).max("order")?.toInt() ?: -1
+                                diaryTag = realm.where(Tag::class.java).equalTo("title", str(R.string.diary)).findFirst()
+                                if(diaryTag == null) {
+                                    diaryTag = realm.createObject(Tag::class.java, UUID.randomUUID().toString())
+                                    diaryTag?.title = str(R.string.diary)
+                                    diaryTag?.order = tagOrder + 1
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.MULTI_TEXT)
+                                record.setShape(RecordView.Shape.UPPER_LINE)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.diary)
+                                    style = record.style
+                                    colorKey = 0
+                                    setMemo()
+                                    diaryTag?.let { tags.add(it) }
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.DOT)
+                                record.setShape(RecordView.Shape.BLANK)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.memo)
+                                    style = record.style
+                                    colorKey = 0
+                                    clearTitle()
+                                    setMemo()
+                                }
+
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT)
+                                record.setShape(RecordView.Shape.DASH_RANGE)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.plan)
+                                    style = record.style
+                                    colorKey = 0
+                                }
+                            }
+                            else -> {
+                                od++
+                                record.setFormula(RecordCalendarAdapter.Formula.SINGLE_TEXT)
+                                record.setShape(RecordView.Shape.COLOR_PEN)
+                                realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
+                                    folder = f
+                                    order = od
+                                    title = str(R.string.new_record)
+                                    style = record.style
+                                    colorKey = 0
+                                }
+
+                            }
+                        }
+                    }
+                }
+                realm.close()
+
                 initSettingLy.postDelayed({
                     setCalendarOptionLy()
                     showScript()

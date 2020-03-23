@@ -3,26 +3,32 @@ package com.ayaan.twelvepages.ui.activity
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.transition.TransitionManager
+import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Record
+import com.bumptech.glide.Glide
+import io.github.ponnamkarthik.richlinkpreview.MetaData
+import io.github.ponnamkarthik.richlinkpreview.ResponseListener
+import io.github.ponnamkarthik.richlinkpreview.RichPreview
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_scrap.*
 import org.json.JSONObject
 import java.util.*
-import androidx.transition.TransitionManager
-import com.bumptech.glide.Glide
-import com.ayaan.twelvepages.*
-import io.github.ponnamkarthik.richlinkpreview.MetaData
-import io.github.ponnamkarthik.richlinkpreview.ResponseListener
-import io.github.ponnamkarthik.richlinkpreview.RichPreview
 
 
-class ScrapActivity : Activity() {
+class ScrapActivity : BaseActivity() {
     lateinit var realm: Realm
     var webData: MetaData? = null
     var text: String? = null
@@ -32,14 +38,16 @@ class ScrapActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scrap)
+        rootLy.layoutParams.width = AppStatus.screenWidth
+        rootLy.layoutParams.height = AppStatus.screenHeight
+        setGlobalTheme(rootLy)
         val intent = intent
 
         if (intent.action != null && intent.action == Intent.ACTION_SEND) {
-            for (key in intent.extras!!.keySet()) {
-                val value = intent.extras!!.get(key)
-                l("intent send extra : " + String.format("%s / %s (%s)", key,
-                        value!!.toString(), value.javaClass.name))
-            }
+//            for (key in intent.extras!!.keySet()) {
+//                val value = intent.extras!!.get(key)
+//                //l("intent send extra : " + String.format("%s / %s (%s)", key, value!!.toString(), value.javaClass.name))
+//            }
 
             text = intent.getStringExtra(Intent.EXTRA_TEXT)
             subject = intent.getStringExtra(Intent.EXTRA_SUBJECT)
@@ -53,14 +61,29 @@ class ScrapActivity : Activity() {
                             webData = metaData
                             TransitionManager.beginDelayedTransition(rootLy, makeFromBottomSlideTransition())
                             contentLy.visibility = View.VISIBLE
-                            photoLy.visibility = View.VISIBLE
                             progressBar.visibility = View.GONE
-                            if(!metaData.imageurl.isNullOrBlank())
+                            if(!metaData.imageurl.isNullOrBlank()) {
+                                linkImg.layoutParams.width = dpToPx(150)
+                                linkImg.layoutParams.height = dpToPx(100)
+                                linkImg.scaleType = ImageView.ScaleType.CENTER_CROP
+                                linkImg.setPadding(0, 0, 0, 0)
+                                linkImg.requestLayout()
                                 Glide.with(this@ScrapActivity).load(metaData.imageurl).into(linkImg)
-                            else if(!metaData.favicon.isNullOrBlank())
+                            }else if(!metaData.favicon.isNullOrBlank()) {
+                                linkImg.layoutParams.width = dpToPx(40)
+                                linkImg.layoutParams.height = dpToPx(40)
+                                linkImg.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                                linkImg.setPadding(dpToPx(10), dpToPx(10), dpToPx(10), dpToPx(10))
+                                linkImg.requestLayout()
                                 Glide.with(this@ScrapActivity).load(metaData.favicon).into(linkImg)
+                            }
                             else {
-                                linkImg.setColorFilter(AppTheme.secondaryText)
+                                linkImg.layoutParams.width = dpToPx(40)
+                                linkImg.layoutParams.height = dpToPx(40)
+                                linkImg.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                                linkImg.setColorFilter(AppTheme.icon)
+                                linkImg.setPadding(dpToPx(10), dpToPx(10), dpToPx(10), dpToPx(10))
+                                linkImg.requestLayout()
                                 Glide.with(this@ScrapActivity).load(R.drawable.website).into(linkImg)
                             }
                             linkText.text = metaData.title
@@ -68,14 +91,16 @@ class ScrapActivity : Activity() {
 
                         override fun onError(e: Exception) {
                             e.printStackTrace()
+                            titleText.text = str(R.string.scrap_text)
+                            linkText.text = text
                             contentLy.visibility = View.VISIBLE
-                            photoLy.visibility = View.GONE
                             progressBar.visibility = View.GONE
                         }
                     })
                     richPreview.getPreview(text)
                 }else {
-                    contentLy.visibility = View.VISIBLE
+                    titleText.text = str(R.string.scrap_text)
+                    linkText.text = text
                     progressBar.visibility = View.GONE
                 }
 
@@ -106,11 +131,26 @@ class ScrapActivity : Activity() {
                 saveTodayBtn.setOnClickListener {
                     realm.where(Folder::class.java).equalTo("id", "calendar").findFirst()?.let {
                         saveTimeObject(makeTimeObject(it, System.currentTimeMillis()))
+                        finish()
                     }
                 }
-                saveKeepBtn.setOnClickListener {
-                    realm.where(Folder::class.java).equalTo("id", "keep").findFirst()?.let {
-                        saveTimeObject(makeTimeObject(it, Long.MIN_VALUE))
+                saveAndOpenBtn.setOnClickListener {
+                    realm.where(Folder::class.java).equalTo("id", "calendar").findFirst()?.let {
+                        val record = makeTimeObject(it, System.currentTimeMillis())
+                        saveTimeObject(record)
+                        packageManager.getLaunchIntentForPackage(packageName)?.let { intent ->
+                            val bundle = Bundle()
+                            bundle.putString("recordId", record.id)
+                            if(MainActivity.instance == null) {
+                                intent.putExtra("action", 2)
+                                intent.putExtra("bundle", bundle)
+                            }else {
+                                MainActivity.instance?.playAction(2, bundle)
+                            }
+                            intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                            startActivity(intent)
+                        }
+                        finish()
                     }
                 }
             }
@@ -123,7 +163,6 @@ class ScrapActivity : Activity() {
     private fun saveTimeObject(record: Record) {
         RecordManager.save(record)
         Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show()
-        finish()
     }
 
     private fun makeTimeObject(folder: Folder?, time: Long) : Record {
@@ -134,8 +173,9 @@ class ScrapActivity : Activity() {
         }
         timeObject.folder = folder
         timeObject.type = 0
-        timeObject.title = subject ?: text
+        timeObject.setFormula(RecordCalendarAdapter.Formula.DOT)
         if (webData != null) {
+            timeObject.title = subject ?: text
             webData?.let {
                 timeObject.description = it.description
                 val properties = JSONObject()
@@ -147,9 +187,8 @@ class ScrapActivity : Activity() {
                 return@let
             }
         }else {
-            if(!subject.isNullOrEmpty()) {
-                timeObject.description = text
-            }
+            timeObject.title = null
+            timeObject.description = "${if(subject.isNullOrEmpty()) "" else "$subject\n"}${if(text.isNullOrEmpty()) "" else text}"
         }
         return timeObject
     }

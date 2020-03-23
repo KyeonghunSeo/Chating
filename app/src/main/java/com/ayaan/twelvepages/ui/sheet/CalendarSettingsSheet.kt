@@ -41,6 +41,7 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
         setLunarDisplay()
         setOutsideMonth()
         setCalTextSize()
+        setCalFontWidth()
         setWeekLine()
         setCheckedRecordDisplay()
     }
@@ -196,6 +197,22 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
             }
             Prefs.putInt("calTextSize", AppStatus.calTextSize)
             setCalTextSize()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
+        }
+    }
+
+    private fun setCalFontWidth() {
+        when(AppStatus.calRecordFontWidth) {
+            0 -> root.calFontWidthText.text = str(R.string.normal)
+            1 -> root.calFontWidthText.text = str(R.string.bold)
+        }
+        root.calFontWidthBtn.setOnClickListener {
+            when(AppStatus.calRecordFontWidth) {
+                0 -> AppStatus.calRecordFontWidth = 1
+                1 -> AppStatus.calRecordFontWidth = 0
+            }
+            Prefs.putInt("calRecordFontWidth", AppStatus.calRecordFontWidth)
+            setCalFontWidth()
             MainActivity.getCalendarPager()?.redrawAndSelect()
         }
     }

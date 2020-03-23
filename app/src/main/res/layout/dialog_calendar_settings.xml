@@ -280,6 +280,34 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/calFontWidthBtn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/cal_font_width"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:id="@+id/calFontWidthText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/bold"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13.0dp"
+                    android:fontFamily="@font/bold_s"/>
+
+            </FrameLayout>
+
+            <FrameLayout
                 android:id="@+id/weekLineBtn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"

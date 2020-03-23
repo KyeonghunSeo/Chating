@@ -23,7 +23,7 @@ import com.ayaan.twelvepages.manager.StickerManager
 
 @SuppressLint("ViewConstructor")
 class RecordView constructor(context: Context, val record: Record, var formula: RecordCalendarAdapter.Formula,
-                             val cellNum: Int, var length: Int) : TextView(context) {
+                             val cellNum: Int, var length: Int) : androidx.appcompat.widget.AppCompatTextView(context) {
     companion object {
         var standardTextSize = 8f
         val baseSize = dpToPx(0.5f)
@@ -36,7 +36,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val datePointSize = dpToPx(30)
         val rectRadius = dpToPx(0.0f)
         val dotSize = dpToPx(3)
-        val checkboxSize = dpToPx(8)
+        val checkboxSize = dpToPx(10)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         val dashPath = DashPathEffect(floatArrayOf(dpToPx(2.0f), dpToPx(2.0f)), 2f)
         fun getStyleText(style: Int) : String{
@@ -95,10 +95,10 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         var sPadding = defaultPadding
         var textPadding = 0
         shape = record.getShape()
-        typeface = if(shape.isFillColor) {
-            AppTheme.boldFont
-        }else {
+        typeface = if(AppStatus.calRecordFontWidth == 0) {
             AppTheme.regularFont
+        }else {
+            AppTheme.boldFont
         }
 
         when(formula) {
@@ -304,37 +304,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         if(record.isSetCheckBox) {
             drawCheckBox(canvas, (defaultPadding - defaulMargin / 2).toInt())
         }
-    }
-
-    private fun drawDot(canvas: Canvas, xOffset: Int) {
-        val radius = checkboxSize / 2f
-        val centerY = (blockTypeSize - defaulMargin) / 2f
-        if(record.isDone()) {
-            if(AppStatus.checkedRecordDisplay in 2..3) {
-                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            }
-            val check = resource.getDrawable(R.drawable.dot)
-            check.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
-            check.setBounds(
-                    xOffset,
-                    (centerY - radius).toInt(),
-                    xOffset + checkboxSize,
-                    (centerY + radius).toInt()
-            )
-            check.draw(canvas)
-        }else {
-            paint.style = Paint.Style.STROKE
-            val check = resource.getDrawable(R.drawable.dot)
-            check.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
-            check.setBounds(
-                    xOffset,
-                    (centerY - radius).toInt(),
-                    xOffset + checkboxSize,
-                    (centerY + radius).toInt()
-            )
-            check.draw(canvas)
-        }
-        paint.style = Paint.Style.FILL
     }
 
     private fun drawCheckBox(canvas: Canvas, xOffset: Int) {

@@ -10,9 +10,11 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import androidx.core.app.ActivityCompat
 import androidx.core.widget.NestedScrollView
@@ -139,14 +141,18 @@ class RecordActivity : BaseActivity() {
             }
             override fun afterTextChanged(p0: Editable?) {}
         })
-        titleInput.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == IME_ACTION_DONE) {
-                confirm()
+
+        if(record.id == null) {
+            titleInput.imeOptions = EditorInfo.IME_ACTION_DONE
+            titleInput.setRawInputType(InputType.TYPE_CLASS_TEXT)
+            titleInput.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == IME_ACTION_DONE) {
+                    confirm()
+                }
+                return@setOnEditorActionListener false
             }
-            return@setOnEditorActionListener false
         }
         titleInput.setHorizontallyScrolling(false)
-        titleInput.maxLines = 3
         titleInput.isFocusable = true
         titleInput.isFocusableInTouchMode = true
 
@@ -661,7 +667,10 @@ class RecordActivity : BaseActivity() {
 
     private fun confirm() {
         if(record.id.isNullOrEmpty() || originalData != record) {
-            if(originalData?.isRepeat() == true) {
+            if(record.id.isNullOrEmpty() && record.isBlankText()) {
+                toast(R.string.discard_blank_record, R.drawable.delete)
+                finish()
+            }else if(originalData?.isRepeat() == true) {
                 RepeatManager.save(this, record, Runnable { savedFinish() })
             }else {
                 RecordManager.save(record)

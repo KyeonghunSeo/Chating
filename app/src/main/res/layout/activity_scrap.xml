@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLy"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipChildren="false"
     android:background="@color/whiteAlpha">
 
     <LinearLayout
@@ -12,105 +13,92 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:gravity="center_vertical">
+        android:clipChildren="false">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/photoLy"
+        <TextView
+            android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp">
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textColor="@color/secondaryText"
+            android:fontFamily="@font/bold_s"
+            android:textSize="18dp"
+            android:text="@string/scrap_web_page"/>
+
+        <FrameLayout
+            android:id="@+id/photoLy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:foreground="@drawable/edit_mode_background_dash"
+            android:background="@color/backgroundDark">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:gravity="center_vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="20dp">
 
                 <ImageView
                     android:id="@+id/linkImg"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    android:scaleType="centerCrop"/>
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"/>
 
                 <TextView
                     android:id="@+id/linkText"
-                    android:layout_margin="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:textSize="13dp"
                     android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/bold_s"
                     android:text="title"/>
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:textColor="@color/primaryText"/>
+        </FrameLayout>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:clipChildren="false">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/saveTodayBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                app:contentPadding="15dp">
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                app:cornerRadius="0dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:textSize="12dp"
+                android:gravity="center"
+                android:fontFamily="@font/bold_s"
+                android:text="@string/scrap"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_marginLeft="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18dp"
-                        android:textColor="@color/colorPrimary"
-                        android:text="@string/calendar"/>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/saveKeepBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                app:contentPadding="15dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_marginLeft="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18dp"
-                        android:textColor="@color/colorPrimary"
-                        android:text="@string/keep"/>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveAndOpenBtn"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                app:cornerRadius="0dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:textSize="12dp"
+                android:gravity="center"
+                android:fontFamily="@font/bold_s"
+                android:backgroundTint="@color/light_line"
+                android:textColor="@color/secondaryText"
+                android:text="@string/scrap_and_open"/>
 
         </LinearLayout>
 

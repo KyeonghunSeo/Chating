@@ -17,6 +17,7 @@ import com.ayaan.twelvepages.ui.dialog.LoadingDialog
 open class BaseActivity : AppCompatActivity() {
     var progressDialog: LoadingDialog? = null
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT

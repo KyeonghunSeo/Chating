@@ -43,7 +43,9 @@ object ColorManager {
         WINTER(R.string.winter, R.drawable.color_palette_4,
                 resource.getStringArray(R.array.colors_winter).map { Color.parseColor(it) }.toTypedArray()),
         GALAXY(R.string.galaxy, R.drawable.color_palette_5,
-                resource.getStringArray(R.array.colors_galaxy).map { Color.parseColor(it) }.toTypedArray())
+                resource.getStringArray(R.array.colors_galaxy).map { Color.parseColor(it) }.toTypedArray()),
+        OCEAN(R.string.ocean, R.drawable.color_palette_5,
+                resource.getStringArray(R.array.colors_ocean).map { Color.parseColor(it) }.toTypedArray())
     }
 
     fun getColor(colorKey: Int) = ColorPack.values()[colorKey / colorPaletteSize].items[colorKey % colorPaletteSize]

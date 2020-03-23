@@ -52,13 +52,13 @@
     <color name="transparent">#00000000</color>
 
     <string-array name="colors">
-        <item>#909099</item>
         <item>#212121</item>
+        <item>#909099</item>
         <item>#47b2f7</item>
         <item>#7dc9e7</item>
         <item>#f95a37</item>
         <item>#f35f8c</item>
-        <item>#2ecc87</item>
+        <item>#00a388</item>
         <item>#36722E</item>
         <item>#fdc02d</item>
         <item>#b38bdc</item>
@@ -141,6 +141,19 @@
         <item>#335E7D</item>
         <item>#233A52</item>
         <item>#090A0A</item>
+    </string-array>
+
+    <string-array name="colors_ocean">
+        <item>#78EFEA</item>
+        <item>#40C8CA</item>
+        <item>#00B6C9</item>
+        <item>#00AEC9</item>
+        <item>#0093C0</item>
+        <item>#0B95AC</item>
+        <item>#0F8D98</item>
+        <item>#1E6269</item>
+        <item>#00507F</item>
+        <item>#00243D</item>
     </string-array>
 
 </resources>

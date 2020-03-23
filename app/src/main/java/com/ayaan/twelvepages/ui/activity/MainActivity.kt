@@ -121,8 +121,7 @@ class MainActivity : BaseActivity() {
         when(action) {
             2 -> {
                 bundle?.let {
-                    viewModel.setTargetTimeObjectById(bundle.getString("recordId"),
-                            bundle.getLong("dtStart", Long.MIN_VALUE))
+                    viewModel.setTargetTimeObjectById(bundle.getString("recordId"), bundle.getLong("dtStart", Long.MIN_VALUE))
                 }
             }
         }

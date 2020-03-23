@@ -368,7 +368,7 @@
     <string name="diary_set_1_title">플래너</string>
     <string name="diary_set_1_sub">일정을 시간별로 철저히 관리하고.\n할일은 중요도에 따라 달리 표시합니다.\n긴 일정이나 프로젝트는\n따로 구분하여 강조해서 표시합니다.\n바쁜 스케쥴 관리가 필요하신 분들에게\n좋은 구성입니다.</string>
     <string name="diary_set_2_title">일기장</string>
-    <string name="diary_set_2_sub">소소한 일상, 떠오르는 생각들을 기록하고,\n그날 그날의 감정을 스티커로 표시합니다.\n평소 노트에 많은것을 기록하시는 분들에게\n좋은 구성입니다.</string>
+    <string name="diary_set_2_sub">소소한 일상, 떠오르는 생각들을 기록하고,\n그날 그날의 감정을 스티커로 표시합니다.\n일기장이나 날짜노트가 필요하신 분들에게\n좋은 구성입니다.</string>
     <string name="diary_set_3_title">나만의 다이어리</string>
     <string name="diary_set_3_sub">완전한 백지에서 시작합니다.\n조금 어렵게 느껴질수 있지만\n처음부터 나만의 방식으로\n다이어리를 구성해 볼 수 있습니다.</string>
     <string name="init_template">시작 템플릿</string>
@@ -468,6 +468,21 @@
     <string name="try_again_after_min">1분 후에 다시 시도해주세요.</string>
     <string name="show_now">지금 살펴보기</string>
     <string name="later">나중에</string>
+    <string name="event">일정</string>
+    <string name="important_event">중요일정</string>
+    <string name="important">중요</string>
+    <string name="new_record">새 기록</string>
+    <string name="emergency">긴급</string>
+    <string name="important_todo">긴급할일</string>
+    <string name="plan">계획</string>
+    <string name="diary">일기</string>
+    <string name="discard_blank_record">아무것도 기록하지 않아 버려집니다.</string>
+    <string name="scrap_and_open">스크랩 후 열기</string>
+    <string name="scrap">스크랩하기</string>
+    <string name="cal_font_width">폰트 굵기</string>
+    <string name="ocean">오션</string>
+    <string name="scrap_web_page">웹페이지 스크랩</string>
+    <string name="scrap_text">텍스트 스트랩</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

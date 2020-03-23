@@ -158,7 +158,6 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         if(record.isSetCheckBox) {
             v.checkBox.visibility = View.VISIBLE
             v.checkArea.visibility = View.VISIBLE
-            v.titleText.visibility = View.VISIBLE
             if(v.titleText.text.isEmpty()) {
                 v.titleText.text = "　　${str(R.string.todo)}"
             }else {

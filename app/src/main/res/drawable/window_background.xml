@@ -7,6 +7,6 @@
 		<bitmap
 			android:alpha="0"
 			android:gravity="center"
-			android:src="@drawable/done"/>
+			android:src="@drawable/temp_logo"/>
 	</item>
 </layer-list>

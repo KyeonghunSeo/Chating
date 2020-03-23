@@ -50,8 +50,8 @@
         <activity android:name="com.ayaan.twelvepages.ui.activity.AboutUsActivity" />
         <activity android:name="com.ayaan.twelvepages.ui.activity.PremiumActivity" />
         <activity
-            android:name="com.ayaan.twelvepages.ui.activity.ScrapActivity"
-            android:theme="@style/Theme.Transparent">
+            android:theme="@style/TranTheme"
+            android:name="com.ayaan.twelvepages.ui.activity.ScrapActivity">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.SEND" />
 

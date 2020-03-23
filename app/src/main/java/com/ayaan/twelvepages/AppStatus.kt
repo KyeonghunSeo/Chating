@@ -21,6 +21,7 @@ object AppStatus {
     var displayRecordDivider = 1
     var isDisplayDayViewWeekNum = false
     var isPremium = false
+    var calRecordFontWidth = 0
 
     var screenWidth = 0
     var screenHeight = 0
@@ -41,6 +42,7 @@ object AppStatus {
         displayRecordDivider = Prefs.getInt("displayRecordDivider", 1)
         isDisplayDayViewWeekNum = Prefs.getBoolean("isDisplayDayViewWeekNum", true)
         isPremium = Prefs.getBoolean("isPremium", false)
+        calRecordFontWidth = Prefs.getInt("calRecordFontWidth", 0)
 
         val screenSize = getScreenSize(context)
         screenWidth = screenSize[0]
