@@ -114,7 +114,7 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 when(mode) {
                     MODE_NORMAL -> {
                         v.contentLy.setBackgroundResource(if(isSmallTag) R.drawable.small_tag else R.drawable.normal_tag)
-                        v.tagText.setTextColor(AppTheme.primaryText)
+                        v.tagText.setTextColor(AppTheme.secondaryText)
                         v.tagText.text = "#${tag.title}"
                         v.contentLy.alpha = 1f
                         v.deleteBtn.visibility = View.GONE
@@ -122,14 +122,14 @@ class TagView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     MODE_CHECK, MODE_EDIT -> {
                         if(checkedItems.any { tag.id == it.id }) {
                             v.contentLy.setBackgroundResource(R.drawable.edit_tag_checked)
-                            v.tagText.setTextColor(AppTheme.primaryText)
-                            v.deleteBtn.setColorFilter(AppTheme.primaryText)
+                            v.tagText.setTextColor(AppTheme.secondaryText)
+                            v.deleteBtn.setColorFilter(AppTheme.secondaryText)
                             v.tagText.text = "#${tag.title}"
                             v.contentLy.alpha = 1f
                         }else {
                             v.contentLy.setBackgroundResource(R.drawable.edit_tag)
-                            v.tagText.setTextColor(AppTheme.primaryText)
-                            v.deleteBtn.setColorFilter(AppTheme.primaryText)
+                            v.tagText.setTextColor(AppTheme.secondaryText)
+                            v.deleteBtn.setColorFilter(AppTheme.secondaryText)
                             v.tagText.text = "${tag.title}"
                             v.contentLy.alpha = 0.4f
                         }

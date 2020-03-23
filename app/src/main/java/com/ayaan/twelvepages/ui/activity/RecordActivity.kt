@@ -206,7 +206,7 @@ class RecordActivity : BaseActivity() {
 
         moreBtn.setOnClickListener {
             showDialog(PopupOptionDialog(this,
-                    arrayOf(PopupOptionDialog.Item(str(R.string.share), R.drawable.share, AppTheme.primaryText),
+                    arrayOf(PopupOptionDialog.Item(str(R.string.share), R.drawable.share, AppTheme.secondaryText),
                             PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)),
                     moreBtn, false) { index ->
                 when(index) {
@@ -380,8 +380,8 @@ class RecordActivity : BaseActivity() {
                 checkBox.setImageResource(R.drawable.uncheck)
                 checkBtn.setCardBackgroundColor(AppTheme.lightLine)
                 checkBoxText.text = str(R.string.done)
-                checkBoxText.setTextColor(AppTheme.primaryText)
-                doneImg.setColorFilter(AppTheme.primaryText)
+                checkBoxText.setTextColor(AppTheme.secondaryText)
+                doneImg.setColorFilter(AppTheme.secondaryText)
             }
             checkBox.setOnClickListener {
                 if(record.isDone()) record.undone()
@@ -441,8 +441,8 @@ class RecordActivity : BaseActivity() {
         }else {
             allCheckBtn.setCardBackgroundColor(AppTheme.lightLine)
             allCheckText.text = str(R.string.all_done)
-            allCheckText.setTextColor(AppTheme.primaryText)
-            allCheckImg.setColorFilter(AppTheme.primaryText)
+            allCheckText.setTextColor(AppTheme.secondaryText)
+            allCheckImg.setColorFilter(AppTheme.secondaryText)
         }
     }
 

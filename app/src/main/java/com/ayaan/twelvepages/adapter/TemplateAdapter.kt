@@ -117,7 +117,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
                 v.titleText.text = context.getString(R.string.new_template)
             }
             v.colorBtn.setCardBackgroundColor(Color.TRANSPARENT)
-            v.colorImg.setColorFilter(AppTheme.primaryText)
+            v.colorImg.setColorFilter(AppTheme.secondaryText)
             v.setOnClickListener {
                 if(mode == 0) {
                     startEditMode()

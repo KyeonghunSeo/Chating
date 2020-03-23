@@ -348,7 +348,7 @@
     <string name="not_found_web">웹 페이지를 찾을수 없습니다</string>
     <string name="go_today">오늘로 이동</string>
     <string name="no_alarm">알림없음</string>
-    <string name="galaxy">갤럭시</string>
+    <string name="galaxy">은하수</string>
     <string name="export_done">[달의기록] 폴더로 내보내기가 완료되었습니다</string>
     <string name="template">템플릿</string>
     <string name="calendar_settings_sub">캘린더에 표시할 정보 및 스타일 설정</string>
@@ -483,6 +483,8 @@
     <string name="ocean">오션</string>
     <string name="scrap_web_page">웹페이지 스크랩</string>
     <string name="scrap_text">텍스트 스트랩</string>
+    <string name="mirror_sea">바다의거울</string>
+    <string name="flood_night">파스텔</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

@@ -199,7 +199,7 @@ class SettingsActivity : BaseActivity() {
             osCalendarText.setTextColor(AppTheme.disableText)
             str(R.string.no_reference)
         } else {
-            osCalendarText.setTextColor(AppTheme.primaryText)
+            osCalendarText.setTextColor(AppTheme.secondaryText)
             String.format(str(R.string.referencing), size)
         }
         osCalendarBtn.setOnClickListener {

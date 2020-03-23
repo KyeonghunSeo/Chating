@@ -62,9 +62,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val adapter = RecordListAdapter(context, mainList, targetCal, true) { view, item, action ->
         MainActivity.instance?.let { activity ->
             showDialog(PopupOptionDialog(activity,
-                    arrayOf(PopupOptionDialog.Item(str(R.string.copy), R.drawable.copy, AppTheme.primaryText),
-                            PopupOptionDialog.Item(str(R.string.cut), R.drawable.cut, AppTheme.primaryText),
-                            PopupOptionDialog.Item(str(R.string.move_date), R.drawable.schedule, AppTheme.primaryText),
+                    arrayOf(PopupOptionDialog.Item(str(R.string.copy), R.drawable.copy, AppTheme.secondaryText),
+                            PopupOptionDialog.Item(str(R.string.cut), R.drawable.cut, AppTheme.secondaryText),
+                            PopupOptionDialog.Item(str(R.string.move_date), R.drawable.schedule, AppTheme.secondaryText),
                             PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)), view, false) { index ->
                 val record = Record().apply { copy(item) }
                 when(index) {
@@ -107,7 +107,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private val decoAdapter = DecorationItemsAdapter(context, decoList) { view, item, action ->
         MainActivity.instance?.let { activity ->
             showDialog(PopupOptionDialog(activity,
-                    arrayOf(PopupOptionDialog.Item(str(R.string.edit), R.drawable.pen, AppTheme.primaryText),
+                    arrayOf(PopupOptionDialog.Item(str(R.string.edit), R.drawable.pen, AppTheme.secondaryText),
                             PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)), view, false) { index ->
                 val record = Record().apply { copy(item) }
                 when(index) {

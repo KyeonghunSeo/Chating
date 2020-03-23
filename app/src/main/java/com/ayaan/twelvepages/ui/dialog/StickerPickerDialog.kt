@@ -28,6 +28,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.dialog_sticker_picker.*
 import kotlinx.android.synthetic.main.dialog_sticker_picker.view.*
 import kotlinx.android.synthetic.main.list_item_sticker_picker_tab.view.*
+import kotlinx.android.synthetic.main.pager_item_sticker_picker.*
 import kotlinx.android.synthetic.main.pager_item_sticker_picker.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -90,6 +91,12 @@ class StickerPickerDialog(private var stickerPosition: Int = 0,
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
+                if(root.viewPager.adapter?.count == 2 || root.viewPager.adapter?.count == 1) {
+                    root.viewPager.getChildAt(0)?.findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = false
+                    root.viewPager.getChildAt(1)?.findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = false
+                    root.viewPager.getChildAt(position)?.findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = true
+                }
+
                 currentPack = if(position == 0) {
                     null
                 }else {
@@ -97,11 +104,6 @@ class StickerPickerDialog(private var stickerPosition: Int = 0,
                 }
                 root.recyclerView.scrollToPosition(position)
                 root.recyclerView.adapter?.notifyDataSetChanged()
-
-                for (i in 0 until (root.viewPager.adapter?.count ?: 0)) {
-                    root.viewPager.getChildAt(i)?.findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = false
-                }
-                root.viewPager.getChildAt(position).findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = true
             }
         })
     }
@@ -162,10 +164,10 @@ class StickerPickerDialog(private var stickerPosition: Int = 0,
         override fun getCount(): Int = StickerManager.packs.size + 1
         override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
             super.setPrimaryItem(container, position, `object`)
-//            for (i in 0 until count) {
-//                container.getChildAt(i)?.findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = false
-//            }
-//            (`object` as View).findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = true
+            for (i in 0 until count) {
+                container.getChildAt(i)?.findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = false
+            }
+            (`object` as View).findViewById<NestedScrollView>(R.id.scrollView)?.isNestedScrollingEnabled = true
         }
     }
 

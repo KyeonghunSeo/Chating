@@ -69,9 +69,9 @@ class CustomListDialog(activity: Activity, private val title: String, private va
             v.titleText.text = item
 
             if(selectedItem?.equals(item) == true) {
-                v.titleText.setTextColor(AppTheme.primaryText)
+                v.titleText.setTextColor(AppTheme.secondaryText)
             }else {
-                v.titleText.setTextColor(AppTheme.primaryText)
+                v.titleText.setTextColor(AppTheme.secondaryText)
             }
 
             v.setOnClickListener {

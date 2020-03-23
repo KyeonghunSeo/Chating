@@ -67,7 +67,7 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
     private fun setDowDisplay() {
         if(AppStatus.isDowDisplay) {
             root.dowDisplayText.text = str(R.string.visible)
-            root.dowDisplayText.setTextColor(AppTheme.primaryText)
+            root.dowDisplayText.setTextColor(AppTheme.secondaryText)
         }else {
             root.dowDisplayText.text = str(R.string.unvisible)
             root.dowDisplayText.setTextColor(AppTheme.disableText)
@@ -121,7 +121,7 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
         if(AppStatus.holidayDisplay == 0) {
             root.holiDisplayText.setTextColor(AppTheme.disableText)
         }else {
-            root.holiDisplayText.setTextColor(AppTheme.primaryText)
+            root.holiDisplayText.setTextColor(AppTheme.secondaryText)
         }
         root.holiDisplayBtn.setOnClickListener {
             showDialog(CustomListDialog(activity,
@@ -142,7 +142,7 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
     private fun setLunarDisplay() {
         if(AppStatus.isLunarDisplay) {
             root.lunarDisplayText.text = str(R.string.visible)
-            root.lunarDisplayText.setTextColor(AppTheme.primaryText)
+            root.lunarDisplayText.setTextColor(AppTheme.secondaryText)
         }else {
             root.lunarDisplayText.text = str(R.string.unvisible)
             root.lunarDisplayText.setTextColor(AppTheme.disableText)
@@ -163,7 +163,7 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
             }
             0.3f -> {
                 root.outsideMonthText.text = str(R.string.visible)
-                root.outsideMonthText.setTextColor(AppTheme.primaryText)
+                root.outsideMonthText.setTextColor(AppTheme.secondaryText)
             }
         }
 
@@ -238,7 +238,7 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
     private fun setWeekNumDisplay() {
         if(AppStatus.isWeekNumDisplay) {
             root.weekNumDisplayText.text = str(R.string.visible)
-            root.weekNumDisplayText.setTextColor(AppTheme.primaryText)
+            root.weekNumDisplayText.setTextColor(AppTheme.secondaryText)
         }else {
             root.weekNumDisplayText.text = str(R.string.unvisible)
             root.weekNumDisplayText.setTextColor(AppTheme.disableText)

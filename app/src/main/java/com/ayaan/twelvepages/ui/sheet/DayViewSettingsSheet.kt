@@ -47,7 +47,7 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
     private fun setShowUpdateTime() {
         if(AppStatus.isDisplayUpdateTime) {
             root.updatedTimeText.text = str(R.string.visible)
-            root.updatedTimeText.setTextColor(AppTheme.primaryText)
+            root.updatedTimeText.setTextColor(AppTheme.secondaryText)
         }else {
             root.updatedTimeText.text = str(R.string.unvisible)
             root.updatedTimeText.setTextColor(AppTheme.disableText)
@@ -63,7 +63,7 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
     private fun setDisplayDayViewWeekNum() {
         if(AppStatus.isDisplayDayViewWeekNum) {
             root.weekNumDisplayText.text = str(R.string.visible)
-            root.weekNumDisplayText.setTextColor(AppTheme.primaryText)
+            root.weekNumDisplayText.setTextColor(AppTheme.secondaryText)
         }else {
             root.weekNumDisplayText.text = str(R.string.unvisible)
             root.weekNumDisplayText.setTextColor(AppTheme.disableText)
@@ -102,7 +102,7 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
             root.rememberPhotoText.setTextColor(AppTheme.disableText)
         }else {
             root.rememberPhotoText.text = str(R.string.use)
-            root.rememberPhotoText.setTextColor(AppTheme.primaryText)
+            root.rememberPhotoText.setTextColor(AppTheme.secondaryText)
         }
         root.rememberPhotoBtn.setOnClickListener {
             if (ActivityCompat.checkSelfPermission(context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -137,7 +137,7 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
             root.rememberBeforeYearText.setTextColor(AppTheme.disableText)
         }else {
             root.rememberBeforeYearText.text = str(R.string.use)
-            root.rememberBeforeYearText.setTextColor(AppTheme.primaryText)
+            root.rememberBeforeYearText.setTextColor(AppTheme.secondaryText)
         }
         root.rememberBeforeYearBtn.setOnClickListener {
             AppStatus.rememberBeforeYear = if(AppStatus.rememberBeforeYear == NONE || AppStatus.rememberBeforeYear == NO) YES else NO
@@ -155,7 +155,7 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
             }
             else -> {
                 root.recordDividerText.text = str(R.string.visible)
-                root.recordDividerText.setTextColor(AppTheme.primaryText)
+                root.recordDividerText.setTextColor(AppTheme.secondaryText)
             }
         }
         root.recordDividerBtn.setOnClickListener {

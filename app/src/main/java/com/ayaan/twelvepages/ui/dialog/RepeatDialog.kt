@@ -174,7 +174,7 @@ class RepeatDialog(private val activity: Activity, record: Record,
             untilCheck.setImageResource(R.drawable.done)
             untilCheck.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
             untilDateText.visibility = View.VISIBLE
-            untilText.setTextColor(AppTheme.primaryText)
+            untilText.setTextColor(AppTheme.secondaryText)
             untilDateText.text = AppDateFormat.ymd.format(Date(dtUntil))
         }
     }
@@ -183,7 +183,7 @@ class RepeatDialog(private val activity: Activity, record: Record,
         if(monthOption == 0) {
             monthlyCheck.setImageResource(R.drawable.done)
             monthlyCheck.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
-            monthlyText.setTextColor(AppTheme.primaryText)
+            monthlyText.setTextColor(AppTheme.secondaryText)
 
             monthlyWCheck.setImageResource(R.color.transparent)
             monthlyWCheck.setBackgroundResource(R.drawable.normal_rect_stroke)
@@ -195,7 +195,7 @@ class RepeatDialog(private val activity: Activity, record: Record,
 
             monthlyWCheck.setImageResource(R.drawable.done)
             monthlyWCheck.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
-            monthlyWText.setTextColor(AppTheme.primaryText)
+            monthlyWText.setTextColor(AppTheme.secondaryText)
         }
     }
 
@@ -205,7 +205,7 @@ class RepeatDialog(private val activity: Activity, record: Record,
             intervalEdit.setTextColor(Color.WHITE)
             intervalEdit.setBackgroundResource(R.drawable.primary_rect_fill_radius_1)
             intervalEdit.typeface = AppTheme.regularFont
-            intervalText.setTextColor(AppTheme.primaryText)
+            intervalText.setTextColor(AppTheme.secondaryText)
         }else {
             interval = 0
             intervalEdit.setTextColor(AppTheme.secondaryText)

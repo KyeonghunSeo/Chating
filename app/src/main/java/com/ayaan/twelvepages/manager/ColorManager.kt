@@ -44,12 +44,16 @@ object ColorManager {
                 resource.getStringArray(R.array.colors_winter).map { Color.parseColor(it) }.toTypedArray()),
         GALAXY(R.string.galaxy, R.drawable.color_palette_5,
                 resource.getStringArray(R.array.colors_galaxy).map { Color.parseColor(it) }.toTypedArray()),
-        OCEAN(R.string.ocean, R.drawable.color_palette_5,
-                resource.getStringArray(R.array.colors_ocean).map { Color.parseColor(it) }.toTypedArray())
+        OCEAN(R.string.ocean, R.drawable.color_palette_ocean,
+                resource.getStringArray(R.array.colors_ocean).map { Color.parseColor(it) }.toTypedArray()),
+        MIRRORED_SEA(R.string.mirror_sea, R.drawable.color_palette_mirro_sea,
+                resource.getStringArray(R.array.colors_mirror_sea).map { Color.parseColor(it) }.toTypedArray()),
+        FLOOD_NIGHT(R.string.flood_night, R.drawable.color_palette_pastel,
+                resource.getStringArray(R.array.colors_flood_night).map { Color.parseColor(it) }.toTypedArray())
     }
 
     fun getColor(colorKey: Int) = ColorPack.values()[colorKey / colorPaletteSize].items[colorKey % colorPaletteSize]
-    fun getFontColor(color: Int) = if(ColorUtils.calculateLuminance(color) < 0.7f) AppTheme.background else AppTheme.primaryText
+    fun getFontColor(color: Int) = if(ColorUtils.calculateLuminance(color) < 0.7f) AppTheme.background else AppTheme.secondaryText
     fun getColorKey(color: Int): Int {
         val colors = primaryColorPack.items
         var colorKey = 0

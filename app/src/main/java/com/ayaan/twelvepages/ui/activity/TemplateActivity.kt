@@ -97,7 +97,7 @@ class TemplateActivity : BaseActivity() {
             symbalImg.setColorFilter(AppTheme.disableText)
             symbalImg.setBackgroundResource(R.drawable.circle_stroke_dash)
         }else {
-            symbalImg.setColorFilter(AppTheme.primaryText)
+            symbalImg.setColorFilter(AppTheme.secondaryText)
             symbalImg.setBackgroundResource(R.drawable.blank)
         }
         symbalImg.setImageResource(symbolRes)
@@ -137,7 +137,7 @@ class TemplateActivity : BaseActivity() {
 
     private fun updateTitleUI() {
         if(template.isSetTitle()) {
-            titleText.setTextColor(AppTheme.primaryText)
+            titleText.setTextColor(AppTheme.secondaryText)
             titleText.text = getString(R.string.use)
             initTitleLy.visibility = View.VISIBLE
             val title = template.recordTitle ?: ""
@@ -164,7 +164,7 @@ class TemplateActivity : BaseActivity() {
 
     private fun updateMemoUI() {
         if(template.isSetMemo()) {
-            memoText.setTextColor(AppTheme.primaryText)
+            memoText.setTextColor(AppTheme.secondaryText)
             memoText.text = getString(R.string.use)
             initMemoLy.visibility = View.VISIBLE
             val memo = template.recordMemo ?: ""
@@ -198,7 +198,7 @@ class TemplateActivity : BaseActivity() {
 
     private fun updateTimeUI() {
         if(template.isSetTime()) {
-            timeText.setTextColor(AppTheme.primaryText)
+            timeText.setTextColor(AppTheme.secondaryText)
             timeText.text = getString(R.string.use)
         }else {
             timeText.setTextColor(AppTheme.disableText)
@@ -213,7 +213,7 @@ class TemplateActivity : BaseActivity() {
 
     private fun updateAlarmUI() {
         if(template.alarmDayOffset != Int.MIN_VALUE) {
-            alarmText.setTextColor(AppTheme.primaryText)
+            alarmText.setTextColor(AppTheme.secondaryText)
         }else {
             alarmText.setTextColor(AppTheme.disableText)
         }
@@ -233,7 +233,7 @@ class TemplateActivity : BaseActivity() {
 
     private fun updateCheckBoxUI() {
         if(template.isSetCheckBox()) {
-            checkBoxText.setTextColor(AppTheme.primaryText)
+            checkBoxText.setTextColor(AppTheme.secondaryText)
             checkBoxText.text = getString(R.string.use)
         }else {
             checkBoxText.setTextColor(AppTheme.disableText)

@@ -35,7 +35,7 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>)
     val itemWidth = dpToPx(40)
     val maxTextWidth = dpToPx(220)
     val edgeSize = dpToPx(3f)
-    val backTextColor = AppTheme.primaryText
+    val backTextColor = AppTheme.secondaryText
     var itemTouchHelper: ItemTouchHelper? = null
     val viewHolders = ArrayList<ViewHolder>()
 
@@ -134,8 +134,8 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>)
     private fun setFolderViews(v: View, selected: Boolean) {
         if(selected) {
             v.contentLy.setBackgroundColor(AppTheme.background)
-            v.iconImg.setColorFilter(AppTheme.primaryText)
-            v.titleText.setTextColor(AppTheme.primaryText)
+            v.iconImg.setColorFilter(AppTheme.secondaryText)
+            v.titleText.setTextColor(AppTheme.secondaryText)
             v.contentLy.alpha = 1f
             v.edgeTop.visibility = View.VISIBLE
             v.edgeBottom.visibility = View.VISIBLE

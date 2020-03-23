@@ -38,9 +38,9 @@ class NoteView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private val adapter = RecordListAdapter(context, items, Calendar.getInstance(), true) { view, item, action ->
         MainActivity.instance?.let { activity ->
             showDialog(PopupOptionDialog(activity,
-                    arrayOf(PopupOptionDialog.Item(str(R.string.copy), R.drawable.copy, AppTheme.primaryText),
-                            PopupOptionDialog.Item(str(R.string.cut), R.drawable.cut, AppTheme.primaryText),
-                            PopupOptionDialog.Item(str(R.string.move_to_calendar), R.drawable.calendar, AppTheme.primaryText),
+                    arrayOf(PopupOptionDialog.Item(str(R.string.copy), R.drawable.copy, AppTheme.secondaryText),
+                            PopupOptionDialog.Item(str(R.string.cut), R.drawable.cut, AppTheme.secondaryText),
+                            PopupOptionDialog.Item(str(R.string.move_to_calendar), R.drawable.calendar, AppTheme.secondaryText),
                             PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)), view, false) { index ->
                 val record = Record().apply { copy(item) }
                 when(index) {

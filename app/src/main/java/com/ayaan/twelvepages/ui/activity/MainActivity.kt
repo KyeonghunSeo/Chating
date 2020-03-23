@@ -188,6 +188,7 @@ class MainActivity : BaseActivity() {
         }
 
         profileBtn.setOnLongClickListener {
+            AppStatus.isPremium = true
 //            val cal = Calendar.getInstance()
 //            cal.set(2019, 9, 1)
 //            var s = cal.timeInMillis

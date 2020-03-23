@@ -137,7 +137,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             rightMargin = calendarPadding
         }
 
-        //bottomDivider.setBackgroundColor(AppTheme.primaryText)
+        //bottomDivider.setBackgroundColor(AppTheme.secondaryText)
         bottomDivider.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt()).apply {
             gravity = Gravity.BOTTOM
         }
@@ -152,7 +152,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         columnDividers.forEachIndexed { index, view ->
             view.layoutParams = LayoutParams(lineWidth.toInt(), 0)
-            view.setBackgroundColor(AppTheme.primaryText)
+            view.setBackgroundColor(AppTheme.secondaryText)
         }
 
         for(i in 0..5) {

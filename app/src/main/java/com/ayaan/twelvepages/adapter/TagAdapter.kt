@@ -29,7 +29,7 @@ class TagAdapter(data: OrderedRealmCollection<Tag>, private val checkedItems: Ar
         getItem(position)?.let { tag ->
             v.tagText.text = tag.id
             if(checkedItems.any{it.id == tag.id}) {
-                v.tagText.setTextColor(AppTheme.primaryText)
+                v.tagText.setTextColor(AppTheme.secondaryText)
                 v.tagText.typeface = AppTheme.boldFont
             }else {
                 v.tagText.setTextColor(AppTheme.disableText)

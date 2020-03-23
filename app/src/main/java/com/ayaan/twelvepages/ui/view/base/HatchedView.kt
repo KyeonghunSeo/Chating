@@ -25,7 +25,7 @@ class HatchedView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             when(style) {
                 "normal" -> {
                     paint.strokeWidth = strokeWidth
-                    paint.color = AppTheme.primaryText
+                    paint.color = AppTheme.secondaryText
                 }
                 "white" -> {
                     paint.strokeWidth = strokeWidth

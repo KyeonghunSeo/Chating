@@ -25,7 +25,7 @@ class PopupOptionDialog(activity: Activity, private val items: Array<Item>, priv
                         private val isFitTargetView: Boolean, private val onResult: (Int) -> Unit) : Dialog(activity) {
     private val buttonSize = dpToPx(45)
 
-    class Item(val title: String, val icon: Int = Int.MIN_VALUE, val color: Int = AppTheme.primaryText,
+    class Item(val title: String, val icon: Int = Int.MIN_VALUE, val color: Int = AppTheme.secondaryText,
                val subText: String = "", var isActive: Boolean = true)
 
     override fun onCreate(savedInstanceState: Bundle?) {

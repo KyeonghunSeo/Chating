@@ -156,4 +156,42 @@
         <item>#00243D</item>
     </string-array>
 
+    <string-array name="colors_flood_night">
+        <item>#b5a3f6</item>
+        <item>#c1b8d9</item>
+        <item>#cbcbc5</item>
+        <item>#d7e2a6</item>
+        <item>#dcf98f</item>
+        <item>#c5ffd1</item>
+        <item>#afefdf</item>
+        <item>#cbc5c8</item>
+        <item>#e2a6b8</item>
+        <item>#f98fa6</item>
+    </string-array>
+
+    <string-array name="colors_anim">
+        <item>#ffeeb2</item>
+        <item>#ffca9e</item>
+        <item>#ff8c89</item>
+        <item>#756585</item>
+        <item>#09a7b4</item>
+        <item>#43d99a</item>
+        <item>#67db83</item>
+        <item>#8ffa85</item>
+        <item>#a6e59c</item>
+        <item>#e4f6cd</item>
+    </string-array>
+
+    <string-array name="colors_mirror_sea">
+        <item>#e79688</item>
+        <item>#d18370</item>
+        <item>#a16378</item>
+        <item>#866479</item>
+        <item>#6b647c</item>
+        <item>#6c64ad</item>
+        <item>#6a77c5</item>
+        <item>#6888da</item>
+        <item>#95b2ff</item>
+        <item>#add1fb</item>
+    </string-array>
 </resources>

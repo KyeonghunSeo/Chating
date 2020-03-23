@@ -156,6 +156,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipChildren="false"
         android:background="@color/background">
 
         <androidx.viewpager.widget.ViewPager
@@ -175,6 +176,8 @@
         <FrameLayout
             android:layout_width="45dp"
             android:layout_height="40dp"
+            android:elevation="2dp"
+            android:background="@color/background"
             android:layout_gravity="right|bottom">
 
             <ImageView
@@ -199,6 +202,7 @@
             android:layout_height="40dp"
             android:layout_marginRight="45dp"
             android:layout_gravity="bottom"
+            android:elevation="1dp"
             android:clipChildren="false">
         </androidx.recyclerview.widget.RecyclerView>
 

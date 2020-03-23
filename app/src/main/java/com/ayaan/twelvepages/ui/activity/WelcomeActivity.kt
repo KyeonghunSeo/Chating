@@ -461,7 +461,7 @@ class WelcomeActivity : BaseActivity() {
                 osCalendarText.setTextColor(AppTheme.disableText)
                 ""
             } else {
-                osCalendarText.setTextColor(AppTheme.primaryText)
+                osCalendarText.setTextColor(AppTheme.secondaryText)
                 String.format(str(R.string.referencing), size)
             }
         }}, true, true, true, false)

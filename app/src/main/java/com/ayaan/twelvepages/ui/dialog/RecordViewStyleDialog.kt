@@ -103,7 +103,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
             symbalImg.setColorFilter(AppTheme.disableText)
             symbalImg.setBackgroundResource(R.drawable.circle_stroke_dash)
         }else {
-            symbalImg.setColorFilter(AppTheme.primaryText)
+            symbalImg.setColorFilter(AppTheme.secondaryText)
             symbalImg.setBackgroundResource(R.drawable.blank)
         }
         symbalImg.setImageResource(symbolRes)
@@ -115,7 +115,7 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
                     symbalImg.setColorFilter(AppTheme.disableText)
                     symbalImg.setBackgroundResource(R.drawable.circle_stroke_dash)
                 }else {
-                    symbalImg.setColorFilter(AppTheme.primaryText)
+                    symbalImg.setColorFilter(AppTheme.secondaryText)
                     symbalImg.setBackgroundResource(R.drawable.blank)
                 }
                 symbalImg.setImageResource(symbolRes)

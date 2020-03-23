@@ -460,7 +460,7 @@ fun setGlobalTheme(view: View?) {
                             2 -> v.setBackgroundColor(AppTheme.disableText)
                             3 -> v.setBackgroundColor(AppTheme.line)
                             4 -> v.setBackgroundColor(AppTheme.lightLine)
-                            else -> v.setBackgroundColor(AppTheme.primaryText)
+                            else -> v.setBackgroundColor(AppTheme.secondaryText)
                         }
                     }
                 }
