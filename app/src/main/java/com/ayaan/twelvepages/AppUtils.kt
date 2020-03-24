@@ -594,7 +594,7 @@ fun makeTextContentsByRecord(record: Record) : String {
     return result.toString().trim()
 }
 
-fun getPhotosByDate(context: Context, calendar: Calendar): ArrayList<Photo> {
+fun getPhotosByDate(context: Context, range: Array<String>): ArrayList<Photo> {
     val selection = "(${MediaStore.Files.FileColumns.MEDIA_TYPE} = ${MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE}" +
             " OR ${MediaStore.Files.FileColumns.MEDIA_TYPE} = ${MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO})" +
             " AND (${MediaStore.MediaColumns.DATE_ADDED} >= ? AND ${MediaStore.MediaColumns.DATE_ADDED} < ?)"
@@ -605,9 +605,7 @@ fun getPhotosByDate(context: Context, calendar: Calendar): ArrayList<Photo> {
 
     val projection = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.Files.FileColumns.MEDIA_TYPE, MediaStore.Video.VideoColumns.DURATION)
 
-    cursor = context.contentResolver.query(queryUri, projection, selection,
-            arrayOf((calendar.timeInMillis / 1000).toString(), ((calendar.timeInMillis + DAY_MILL) / 1000).toString()),
-            MediaStore.MediaColumns.DATE_MODIFIED + " desc")
+    cursor = context.contentResolver.query(queryUri, projection, selection, range, MediaStore.MediaColumns.DATE_MODIFIED + " desc")
 
     while (cursor!!.moveToNext()) {
         listOfAllImages.add(Photo(cursor.getInt(1) == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO, cursor.getString(0), cursor.getLong(2)))

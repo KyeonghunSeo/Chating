@@ -27,7 +27,6 @@ import kotlin.math.min
 
 class MonthlyCalendarWidget : AppWidgetProvider() {
     private var context = App.context
-    private var calendarView: CalendarView? = null
     private val rowIds = arrayOf(
             R.id.row0, R.id.row1, R.id.row2, R.id.row3, R.id.row4, R.id.row5)
     private val dowIds = arrayOf(
@@ -102,13 +101,12 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             val maxHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
             l("$minWidth x $minHeight $maxWidth x $maxHeight")
         }
-        if(calendarView == null) calendarView = CalendarView(context)
-        calendarView?.drawInWidget(rv, System.currentTimeMillis(), dowIds, dateIds)
         rv.setOnClickPendingIntent(R.id.rootLy, makeAppStartPendingIntent(context))
         rv.setInt(R.id.backgroundView, "setAlpha", 255)
         setCalendarView(rv)
         setRecordView(rv)
         appWidgetManager.updateAppWidget(appWidgetId, rv)
+        l("[위젯 업데이트 끝]")
     }
 
     private val viewHolderList = ArrayList<RecordCalendarAdapter.RecordViewHolder>()

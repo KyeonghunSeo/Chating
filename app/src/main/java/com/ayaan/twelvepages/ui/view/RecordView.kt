@@ -107,10 +107,10 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 //            else -> {}
 //        }
 
-        typeface = if(AppStatus.calRecordFontWidth == 0) {
-            AppTheme.regularFont
-        }else {
-            AppTheme.boldFont
+        typeface = when(AppStatus.calRecordFontWidth)  {
+            -1 -> AppTheme.thinFont
+            0 -> AppTheme.regularFont
+            else -> AppTheme.boldFont
         }
 
         when(formula) {

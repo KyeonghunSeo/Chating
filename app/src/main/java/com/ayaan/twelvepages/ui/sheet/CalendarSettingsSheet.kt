@@ -203,13 +203,15 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
 
     private fun setCalFontWidth() {
         when(AppStatus.calRecordFontWidth) {
+            -1 -> root.calFontWidthText.text = str(R.string.thin)
             0 -> root.calFontWidthText.text = str(R.string.normal)
             1 -> root.calFontWidthText.text = str(R.string.bold)
         }
         root.calFontWidthBtn.setOnClickListener {
             when(AppStatus.calRecordFontWidth) {
+                -1 -> AppStatus.calRecordFontWidth = 0
                 0 -> AppStatus.calRecordFontWidth = 1
-                1 -> AppStatus.calRecordFontWidth = 0
+                1 -> AppStatus.calRecordFontWidth = -1
             }
             Prefs.putInt("calRecordFontWidth", AppStatus.calRecordFontWidth)
             setCalFontWidth()

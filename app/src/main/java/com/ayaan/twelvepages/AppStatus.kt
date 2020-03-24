@@ -18,7 +18,7 @@ object AppStatus {
     var rememberPhoto = 0
     var rememberBeforeYear = 0
     var isDisplayUpdateTime = true
-    var displayRecordDivider = 1
+    var displayRecordDivider = 0
     var isDisplayDayViewWeekNum = false
     var premiumTime = Long.MIN_VALUE
     var calRecordFontWidth = 0
@@ -39,7 +39,7 @@ object AppStatus {
         rememberPhoto = Prefs.getInt("rememberPhoto", 0)
         rememberBeforeYear = Prefs.getInt("rememberBeforeYear", 0)
         isDisplayUpdateTime = Prefs.getBoolean("isDisplayUpdateTime", true)
-        displayRecordDivider = Prefs.getInt("displayRecordDivider", 1)
+        displayRecordDivider = Prefs.getInt("displayRecordDivider", 0)
         isDisplayDayViewWeekNum = Prefs.getBoolean("isDisplayDayViewWeekNum", true)
         premiumTime = Prefs.getLong("premiumTime", Long.MIN_VALUE)
         calRecordFontWidth = Prefs.getInt("calRecordFontWidth", 0)

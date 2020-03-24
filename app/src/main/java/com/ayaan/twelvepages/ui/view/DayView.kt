@@ -301,12 +301,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun targeted() {
-        l("[데이뷰 타겟팅] : " + AppDateFormat.ymde.format(targetCal.time) )
-        postDelayed({
-            MainActivity.instance?.let { activity ->
-                setFooterView(activity)
-            }
-        }, 0)
+        l("[데이뷰 타겟팅] : " + AppDateFormat.ymdtkey.format(targetCal.time) )
+        MainActivity.instance?.let { activity -> setFooterView(activity) }
     }
 
     fun unTargeted() {
@@ -330,7 +326,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     YES -> {
                         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                 == PackageManager.PERMISSION_GRANTED) {
-                            getPhotosByDate(activity, targetCal)
+                            val startTime = getCalendarTime0(targetCal) / 1000
+                            val endTime = getCalendarTime23(targetCal) / 1000
+                            getPhotosByDate(activity, arrayOf(startTime.toString(), endTime.toString()))
                         }else {
                             null
                         }
@@ -351,7 +349,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                             .sort("dtStart", Sort.ASCENDING)
                             .findAll().map { realm.copyFromRealm(it) }
                 }
-
+l("!!!!!!!!!!"+photos?.size)
                 realm.close()
                 return null
             }

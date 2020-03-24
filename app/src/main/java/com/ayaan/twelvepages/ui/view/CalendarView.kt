@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator.REVERSE
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
@@ -17,6 +18,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.core.widget.NestedScrollView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
@@ -301,12 +303,24 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 it.start()
             }
             onViewEffect(cellNum)
-/*
-        if(todayStatus == 0) {
-            val startAnimation = AnimationUtils.loadAnimation(context, R.anim.blink)
-            dateCellHolders[cellNum].container.startAnimation(startAnimation)
-        }
-*/
+
+            if(isToday) {
+                val view = View(context)
+                view.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+                view.setBackgroundColor(AppTheme.lightLine)
+                v.addView(view, 1) // bar 위에
+                val anim = AnimatorSet()
+                anim.addListener(object : AnimatorListenerAdapter(){
+                    override fun onAnimationEnd(animation: Animator?) { v.removeView(view) }
+                    override fun onAnimationCancel(animation: Animator?) { v.removeView(view) }
+                })
+                val alpha = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
+                alpha.repeatCount = 1
+                alpha.repeatMode = REVERSE
+                anim.playTogether(alpha)
+                anim.start()
+            }
+
         }
 
         fun unTarget() {
@@ -645,39 +659,4 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑드래그 처리 부분↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-
-    fun drawInWidget(rv: RemoteViews, time: Long, dowIds: Array<Int>, dateIds: Array<Int>) {
-        drawCalendar(time)
-
-        rv.setTextViewText(R.id.monthlyText, AppDateFormat.monthEng.format(targetCal.time))
-        rv.setTextViewText(R.id.yearText, targetCal.get(Calendar.YEAR).toString())
-
-        dowIds.forEachIndexed { index, id ->
-            rv.setTextViewText(id, AppDateFormat.dowEng.format(Date(dateCellHolders[index].time)))
-            rv.setTextColor(id, dateCellHolders[index].color)
-        }
-
-        dateIds.forEachIndexed { index, id ->
-            rv.setTextViewText(id, dateCellHolders[index].v.dateText.text)
-            rv.setTextColor(id, dateCellHolders[index].color)
-            //rv.setInt(id, "setAlpha", if(dateCellHolders[index].isInMonth) 255 else (255 * AppStatus.outsideMonthAlpha).toInt())
-        }
-
-
-
-        when (rows) {
-            5 -> {
-                rv.setViewVisibility(R.id.row4, View.VISIBLE)
-                rv.setViewVisibility(R.id.row5, View.GONE)
-            }
-            6 -> {
-                rv.setViewVisibility(R.id.row4, View.VISIBLE)
-                rv.setViewVisibility(R.id.row5, View.VISIBLE)
-            }
-            else -> {
-                rv.setViewVisibility(R.id.row4, View.GONE)
-                rv.setViewVisibility(R.id.row5, View.GONE)
-            }
-        }
-    }
 }

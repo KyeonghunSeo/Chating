@@ -184,7 +184,7 @@ class WelcomeActivity : BaseActivity() {
 
                                 od++
                                 record.setFormula(RecordCalendarAdapter.Formula.SINGLE_TEXT)
-                                record.setShape(RecordView.Shape.COLOR_PEN)
+                                record.setShape(RecordView.Shape.RECT_FILL_BLUR)
                                 realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
                                     folder = f
                                     order = od
@@ -195,7 +195,7 @@ class WelcomeActivity : BaseActivity() {
 
                                 od++
                                 record.setFormula(RecordCalendarAdapter.Formula.SINGLE_TEXT)
-                                record.setShape(RecordView.Shape.COLOR_PEN)
+                                record.setShape(RecordView.Shape.UNDER_LINE)
                                 realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
                                     folder = f
                                     order = od
@@ -220,13 +220,13 @@ class WelcomeActivity : BaseActivity() {
 
                                 od++
                                 record.setFormula(RecordCalendarAdapter.Formula.SINGLE_TEXT)
-                                record.setShape(RecordView.Shape.NEON_PEN)
+                                record.setShape(RecordView.Shape.RECT_FILL_BLUR)
                                 realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
                                     folder = f
                                     order = od
                                     title = str(R.string.important_event)
                                     style = record.style
-                                    colorKey = 2
+                                    colorKey = 4
                                     alarmDayOffset = 0
                                     alarmTime = AlarmManager.defaultAlarmTime[0]
                                     importantTag?.let { tags.add(it) }
@@ -234,7 +234,7 @@ class WelcomeActivity : BaseActivity() {
 
                                 od++
                                 record.setFormula(RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT)
-                                record.setShape(RecordView.Shape.DASH_RANGE)
+                                record.setShape(RecordView.Shape.RANGE)
                                 realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
                                     folder = f
                                     order = od
@@ -315,7 +315,7 @@ class WelcomeActivity : BaseActivity() {
 
                                 od++
                                 record.setFormula(RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT)
-                                record.setShape(RecordView.Shape.DASH_RANGE)
+                                record.setShape(RecordView.Shape.RANGE)
                                 realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
                                     folder = f
                                     order = od
@@ -375,7 +375,7 @@ class WelcomeActivity : BaseActivity() {
 
                                 od++
                                 record.setFormula(RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT)
-                                record.setShape(RecordView.Shape.DASH_RANGE)
+                                record.setShape(RecordView.Shape.RANGE)
                                 realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
                                     folder = f
                                     order = od
