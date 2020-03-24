@@ -73,7 +73,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:src="@drawable/temp_logo"
+            android:src="@mipmap/ic_launcher"
             android:tint="@color/secondaryText"
             android:alpha="1.0"/>
 
@@ -200,7 +200,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="295dp">
+                android:layout_marginTop="305dp">
 
                 <View
                     android:layout_width="40dp"

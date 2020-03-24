@@ -56,7 +56,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
                 }
             }
         }else {
-            if(items.size >= 6 && !AppStatus.isPremium) {
+            if(items.size >= 6 && !AppStatus.isPremium()) {
                 showPremiumDialog(MainActivity.instance!!)
             }else {
                 MainActivity.instance?.let { it.startActivity(Intent(it, TemplateActivity::class.java)) }

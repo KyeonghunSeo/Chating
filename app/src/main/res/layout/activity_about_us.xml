@@ -63,7 +63,7 @@
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/temp_logo"
+                android:src="@mipmap/ic_launcher"
                 android:layout_gravity="center_horizontal"
                 android:tint="@color/secondaryText"/>
 
@@ -283,7 +283,7 @@
         android:textSize="10dp"
         android:textColor="@color/secondaryText"
         android:fontFamily="@font/thin_s"
-        android:text="Copyright © 2020 하루여담 Diary inc. All rights reserved."/>
+        android:text="Copyright © 2020 Moon Records Diary inc. All rights reserved."/>
 
     <com.ayaan.twelvepages.ui.view.LeafFallFrameLayout
         android:id="@+id/leafFallView"

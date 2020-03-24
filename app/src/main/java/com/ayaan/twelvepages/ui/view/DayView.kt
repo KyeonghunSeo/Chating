@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.DecorationItemsAdapter
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.adapter.RecordListAdapter
 import com.ayaan.twelvepages.adapter.util.ListDiffCallback
 import com.ayaan.twelvepages.adapter.util.RecordListComparator
@@ -65,6 +66,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     arrayOf(PopupOptionDialog.Item(str(R.string.copy), R.drawable.copy, AppTheme.secondaryText),
                             PopupOptionDialog.Item(str(R.string.cut), R.drawable.cut, AppTheme.secondaryText),
                             PopupOptionDialog.Item(str(R.string.move_date), R.drawable.schedule, AppTheme.secondaryText),
+                            PopupOptionDialog.Item(str(R.string.to_dot), R.drawable.dot, AppTheme.secondaryText),
                             PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)), view, false) { index ->
                 val record = Record().apply { copy(item) }
                 when(index) {
@@ -88,9 +90,18 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                         }, true, true, true, false)
                     }
                     3 -> {
-                        RecordManager.delete(context as Activity, record, Runnable { toast(R.string.deleted, R.drawable.delete) })
+                        record.setFormula(RecordCalendarAdapter.Formula.DOT)
+                        if(record.isRepeat()) {
+                            RepeatManager.save(activity, record, Runnable { toast(R.string.saved, R.drawable.dot) })
+                        }else {
+                            RecordManager.save(record)
+                            toast(R.string.saved, R.drawable.dot)
+                        }
                     }
                     4 -> {
+                        RecordManager.delete(context as Activity, record, Runnable { toast(R.string.deleted, R.drawable.delete) })
+                    }
+                    5 -> {
                         record.folder = MainActivity.getViewModel()?.getKeepFolder()
                         if(record.isRepeat()) {
                             RepeatManager.save(activity, record, Runnable { toast(R.string.moved, R.drawable.inbox) })

@@ -177,6 +177,12 @@ fun getTodayStartTime() : Long {
     return tempCal.timeInMillis
 }
 
+fun getTodayEndTime() : Long {
+    tempCal.timeInMillis = System.currentTimeMillis()
+    getCalendarTime23(tempCal)
+    return tempCal.timeInMillis
+}
+
 fun getOnlyTime(t: Long) : Long {
     tempCal.timeInMillis = t
     return tempCal.get(Calendar.HOUR_OF_DAY) * HOUR_MILL + tempCal.get(Calendar.MINUTE) * MIN_MILL

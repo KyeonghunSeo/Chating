@@ -151,8 +151,8 @@
     <string name="first_text_3">더 가치있다.</string>
     <string name="sign_in_with_google">시작하기</string>
     <string name="logo_text">캘린더 · 다이어리</string>
-    <string name="logo_text_2">일\n상\n을\n적\n는\n즐\n거\n움</string>
-    <string name="logo_text_w">일상을 적는 즐거움</string>
+    <string name="logo_text_2">기\n록\n하\n는\n즐\n거\n움</string>
+    <string name="logo_text_w">기록하는 즐거움</string>
     <string name="init_setting_script_0">반갑습니다! %1$s 님.\n어떤 다이어리가 필요하신가요?\n원하는 다이어리 구성을 선택해보세요.</string>
     <string name="select_os_calendar">외부캘린더 가져오기</string>
     <string name="search_tag">태그선택</string>
@@ -401,8 +401,8 @@
     <string name="photos_this_day">이 날의 사진</string>
     <string name="no_show_this_day">오늘하루 보지않기</string>
     <string name="very_small">매우작게</string>
-    <string name="premium_item_main_title">나만의 다이어리를 완성</string>
-    <string name="premium_item_main_sub">나만의 방식\n나만의 스타일로\n기록을 더 가치있게</string>
+    <string name="premium_item_main_title">오직 나만의 다이어리</string>
+    <string name="premium_item_main_sub">나만의 방식\n나만의 스타일로\n더 가치있게 기록해보세요.</string>
     <string name="premium_item_0_title">광고제거</string>
     <string name="premium_item_0_sub">광고를 제거하고\n더 쾌적하게 기록해보세요.</string>
     <string name="premium_item_1_title">사진첨부</string>
@@ -485,6 +485,10 @@
     <string name="scrap_text">텍스트 스트랩</string>
     <string name="mirror_sea">바다의거울</string>
     <string name="flood_night">파스텔</string>
+    <string name="to_dot">점으로표시</string>
+    <string name="you_are_premium">프리미엄 에디션 구독중</string>
+    <string name="thank_you_subscribe">프리미엄 에디션 구독완료</string>
+    <string name="thank_you_subscribe_sub">프리미엄을 구독해주셔서 감사합니다.\n이제 다양한 프리미엄 기능으로\n더 가치있는 기록을 남겨보세요.\n\n구독취소는 Google Play를 통하여 언제든지 가능합니다.\n</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

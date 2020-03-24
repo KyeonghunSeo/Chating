@@ -14,14 +14,14 @@
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="15dp"
         android:orientation="vertical" >
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="50dp">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -33,10 +33,9 @@
                     android:id="@+id/monthlyText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:text="12"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="@font/bold"
+                    android:fontFamily="@font/bold_s"
                     android:textSize="16dp" />
 
                 <TextView
@@ -44,9 +43,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="12"
+                    android:text="2020"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="@font/thin"
+                    android:fontFamily="@font/thin_s"
                     android:textSize="16dp" />
 
             </LinearLayout>
@@ -70,79 +69,82 @@
                 android:src="@drawable/setting"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:padding="6dp"
-                android:tint="@color/iconTint"/>
+                android:layout_marginRight="-7dp"
+                android:padding="7dp"
+                android:tint="@color/line"
+                android:visibility="gone"/>
 
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="18dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="3dp">
 
             <TextView
                 android:id="@+id/dowText0"
                 android:text="S"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
+                android:textSize="10.0dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/regular"/>
+                android:fontFamily="@font/bold_s"/>
 
             <TextView
                 android:id="@+id/dowText1"
                 android:text="S"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
+                android:textSize="10.0dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/regular"/>
+                android:fontFamily="@font/bold_s"/>
 
             <TextView
                 android:id="@+id/dowText2"
                 android:text="S"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
+                android:textSize="10.0dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/regular"/>
+                android:fontFamily="@font/bold_s"/>
 
             <TextView
                 android:id="@+id/dowText3"
                 android:text="S"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
+                android:textSize="10.0dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/regular"/>
+                android:fontFamily="@font/bold_s"/>
 
             <TextView
                 android:id="@+id/dowText4"
                 android:text="S"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
+                android:textSize="10.0dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/regular"/>
+                android:fontFamily="@font/bold_s"/>
 
             <TextView
                 android:id="@+id/dowText5"
                 android:text="S"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
+                android:textSize="10.0dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/regular"/>
+                android:fontFamily="@font/bold_s"/>
 
             <TextView
                 android:id="@+id/dowText6"
                 android:text="S"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
+                android:textSize="10.0dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/regular"/>
+                android:fontFamily="@font/bold_s"/>
         </LinearLayout>
 
         <FrameLayout
@@ -164,11 +166,11 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="2px"
-                        android:background="@color/light_line"
+                        android:layout_height="2dp"
                         android:layout_marginBottom="3dp"
-                        android:orientation="vertical" >
-                    </ImageView>
+                        android:background="@drawable/dashed_line"
+                        android:layout_gravity="center"
+                        android:layerType="software"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -182,14 +184,14 @@
 
                             <TextView
                                 android:id="@+id/dateText0"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -200,14 +202,14 @@
 
                             <TextView
                                 android:id="@+id/dateText1"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -218,14 +220,14 @@
 
                             <TextView
                                 android:id="@+id/dateText2"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -236,14 +238,14 @@
 
                             <TextView
                                 android:id="@+id/dateText3"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -254,14 +256,14 @@
 
                             <TextView
                                 android:id="@+id/dateText4"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -272,14 +274,14 @@
 
                             <TextView
                                 android:id="@+id/dateText5"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -290,14 +292,14 @@
 
                             <TextView
                                 android:id="@+id/dateText6"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -305,30 +307,151 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="18dp">
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <FrameLayout
+                                android:id="@+id/recordRow0"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp">
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:id="@+id/recordRow1"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:id="@+id/recordRow2"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp">
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:id="@+id/recordRow3"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:id="@+id/recordRow4"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom"
+                            android:orientation="horizontal" >
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker0"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker1"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker2"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker3"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker4"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker5"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker6"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                        </LinearLayout>
 
                     </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp" >
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp">
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp" >
-
-                    </FrameLayout>
+                    
                 </LinearLayout>
 
                 <LinearLayout
@@ -341,11 +464,11 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="2px"
-                        android:background="@color/light_line"
+                        android:layout_height="2dp"
                         android:layout_marginBottom="3dp"
-                        android:orientation="vertical" >
-                    </ImageView>
+                        android:background="@drawable/dashed_line"
+                        android:layout_gravity="center"
+                        android:layerType="software"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -359,14 +482,14 @@
 
                             <TextView
                                 android:id="@+id/dateText7"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -377,14 +500,14 @@
 
                             <TextView
                                 android:id="@+id/dateText8"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -395,14 +518,14 @@
 
                             <TextView
                                 android:id="@+id/dateText9"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -413,14 +536,14 @@
 
                             <TextView
                                 android:id="@+id/dateText10"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -431,14 +554,14 @@
 
                             <TextView
                                 android:id="@+id/dateText11"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -449,14 +572,14 @@
 
                             <TextView
                                 android:id="@+id/dateText12"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -467,14 +590,14 @@
 
                             <TextView
                                 android:id="@+id/dateText13"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -482,28 +605,148 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="18dp" >
+                        android:layout_height="wrap_content">
 
-                    </FrameLayout>
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp" >
+                            <FrameLayout
+                                android:id="@+id/recordRow5"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
 
-                    </FrameLayout>
+                            <FrameLayout
+                                android:id="@+id/recordRow6"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp">
+                            </FrameLayout>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp">
+                            <FrameLayout
+                                android:id="@+id/recordRow7"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
 
-                    </FrameLayout>
+                            <FrameLayout
+                                android:id="@+id/recordRow8"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp">
+                            </FrameLayout>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp" >
+                            <FrameLayout
+                                android:id="@+id/recordRow9"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom"
+                            android:orientation="horizontal" >
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker7"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker8"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker9"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker10"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker11"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker12"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker13"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                        </LinearLayout>
 
                     </FrameLayout>
                 </LinearLayout>
@@ -518,11 +761,11 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="2px"
-                        android:background="@color/light_line"
+                        android:layout_height="2dp"
                         android:layout_marginBottom="3dp"
-                        android:orientation="vertical" >
-                    </ImageView>
+                        android:background="@drawable/dashed_line"
+                        android:layout_gravity="center"
+                        android:layerType="software"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -536,14 +779,14 @@
 
                             <TextView
                                 android:id="@+id/dateText14"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -554,14 +797,14 @@
 
                             <TextView
                                 android:id="@+id/dateText15"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -572,14 +815,14 @@
 
                             <TextView
                                 android:id="@+id/dateText16"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -590,14 +833,14 @@
 
                             <TextView
                                 android:id="@+id/dateText17"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -608,14 +851,14 @@
 
                             <TextView
                                 android:id="@+id/dateText18"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -626,14 +869,14 @@
 
                             <TextView
                                 android:id="@+id/dateText19"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -644,14 +887,14 @@
 
                             <TextView
                                 android:id="@+id/dateText20"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -659,28 +902,148 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="18dp">
+                        android:layout_height="wrap_content">
 
-                    </FrameLayout>
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp" >
+                            <FrameLayout
+                                android:id="@+id/recordRow10"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
 
-                    </FrameLayout>
+                            <FrameLayout
+                                android:id="@+id/recordRow11"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp">
+                            </FrameLayout>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp">
+                            <FrameLayout
+                                android:id="@+id/recordRow12"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
 
-                    </FrameLayout>
+                            <FrameLayout
+                                android:id="@+id/recordRow13"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp">
+                            </FrameLayout>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp" >
+                            <FrameLayout
+                                android:id="@+id/recordRow14"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom"
+                            android:orientation="horizontal" >
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker14"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker15"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker16"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker17"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker18"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker19"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker20"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                        </LinearLayout>
 
                     </FrameLayout>
                 </LinearLayout>
@@ -695,11 +1058,11 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="2px"
-                        android:background="@color/light_line"
+                        android:layout_height="2dp"
                         android:layout_marginBottom="3dp"
-                        android:orientation="vertical" >
-                    </ImageView>
+                        android:background="@drawable/dashed_line"
+                        android:layout_gravity="center"
+                        android:layerType="software"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -713,14 +1076,14 @@
 
                             <TextView
                                 android:id="@+id/dateText21"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -731,14 +1094,14 @@
 
                             <TextView
                                 android:id="@+id/dateText22"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -749,14 +1112,14 @@
 
                             <TextView
                                 android:id="@+id/dateText23"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -767,14 +1130,14 @@
 
                             <TextView
                                 android:id="@+id/dateText24"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -785,14 +1148,14 @@
 
                             <TextView
                                 android:id="@+id/dateText25"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -803,14 +1166,14 @@
 
                             <TextView
                                 android:id="@+id/dateText26"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -821,14 +1184,14 @@
 
                             <TextView
                                 android:id="@+id/dateText27"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -836,28 +1199,148 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="18dp" >
+                        android:layout_height="wrap_content">
 
-                    </FrameLayout>
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp">
+                            <FrameLayout
+                                android:id="@+id/recordRow15"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
 
-                    </FrameLayout>
+                            <FrameLayout
+                                android:id="@+id/recordRow16"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp">
+                            </FrameLayout>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp">
+                            <FrameLayout
+                                android:id="@+id/recordRow17"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
 
-                    </FrameLayout>
+                            <FrameLayout
+                                android:id="@+id/recordRow18"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp">
+                            </FrameLayout>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp" >
+                            <FrameLayout
+                                android:id="@+id/recordRow19"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom"
+                            android:orientation="horizontal" >
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker21"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker22"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker23"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker24"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker25"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker26"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker27"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                        </LinearLayout>
 
                     </FrameLayout>
                 </LinearLayout>
@@ -872,11 +1355,11 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="2px"
-                        android:background="@color/light_line"
+                        android:layout_height="2dp"
                         android:layout_marginBottom="3dp"
-                        android:orientation="vertical" >
-                    </ImageView>
+                        android:background="@drawable/dashed_line"
+                        android:layout_gravity="center"
+                        android:layerType="software"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -890,14 +1373,14 @@
 
                             <TextView
                                 android:id="@+id/dateText28"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -908,14 +1391,14 @@
 
                             <TextView
                                 android:id="@+id/dateText29"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -926,14 +1409,14 @@
 
                             <TextView
                                 android:id="@+id/dateText30"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -944,14 +1427,14 @@
 
                             <TextView
                                 android:id="@+id/dateText31"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -962,14 +1445,14 @@
 
                             <TextView
                                 android:id="@+id/dateText32"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -980,14 +1463,14 @@
 
                             <TextView
                                 android:id="@+id/dateText33"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -998,14 +1481,14 @@
 
                             <TextView
                                 android:id="@+id/dateText34"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1013,28 +1496,148 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="18dp">
+                        android:layout_height="wrap_content">
 
-                    </FrameLayout>
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp">
+                            <FrameLayout
+                                android:id="@+id/recordRow20"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
 
-                    </FrameLayout>
+                            <FrameLayout
+                                android:id="@+id/recordRow21"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp">
+                            </FrameLayout>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp">
+                            <FrameLayout
+                                android:id="@+id/recordRow22"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
 
-                    </FrameLayout>
+                            <FrameLayout
+                                android:id="@+id/recordRow23"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp">
+                            </FrameLayout>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp" >
+                            <FrameLayout
+                                android:id="@+id/recordRow24"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom"
+                            android:orientation="horizontal" >
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker28"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker29"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker30"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker31"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker32"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker33"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker34"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                        </LinearLayout>
 
                     </FrameLayout>
                 </LinearLayout>
@@ -1049,11 +1652,11 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="2px"
-                        android:background="@color/light_line"
+                        android:layout_height="2dp"
                         android:layout_marginBottom="3dp"
-                        android:orientation="vertical" >
-                    </ImageView>
+                        android:background="@drawable/dashed_line"
+                        android:layout_gravity="center"
+                        android:layerType="software"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -1067,14 +1670,14 @@
 
                             <TextView
                                 android:id="@+id/dateText35"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1085,14 +1688,14 @@
 
                             <TextView
                                 android:id="@+id/dateText36"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1103,14 +1706,14 @@
 
                             <TextView
                                 android:id="@+id/dateText37"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1121,14 +1724,14 @@
 
                             <TextView
                                 android:id="@+id/dateText38"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1139,14 +1742,14 @@
 
                             <TextView
                                 android:id="@+id/dateText39"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1157,14 +1760,14 @@
 
                             <TextView
                                 android:id="@+id/dateText40"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1175,14 +1778,14 @@
 
                             <TextView
                                 android:id="@+id/dateText41"
-                                android:textSize="12dp"
+                                android:textSize="12.0dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="18dp"
                                 android:minWidth="18dp"
                                 android:lines="1"
                                 android:singleLine="true"
                                 android:typeface="normal"
-                                android:fontFamily="@font/regular"/>
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1190,28 +1793,149 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="18dp" >
+                        android:layout_height="wrap_content">
 
-                    </FrameLayout>
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp">
+                            <FrameLayout
+                                android:id="@+id/recordRow25"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
 
-                    </FrameLayout>
+                            <FrameLayout
+                                android:id="@+id/recordRow26"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp">
+                            </FrameLayout>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp">
+                            <FrameLayout
+                                android:id="@+id/recordRow27"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
 
-                    </FrameLayout>
+                            <FrameLayout
+                                android:id="@+id/recordRow28"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp">
+                            </FrameLayout>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp" >
+                            <FrameLayout
+                                android:id="@+id/recordRow29"
+                                android:layout_width="match_parent"
+                                android:layout_height="12.0dp"
+                                android:layout_marginTop="1dp" >
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom"
+                            android:orientation="horizontal" >
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker35"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker36"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker37"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker38"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker39"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker40"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/sticker41"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="right"/>
+
+                            </FrameLayout>
+
+                        </LinearLayout>
+
                     </FrameLayout>
                 </LinearLayout>
             </LinearLayout>

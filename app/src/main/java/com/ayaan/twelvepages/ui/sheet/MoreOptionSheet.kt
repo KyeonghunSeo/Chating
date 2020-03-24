@@ -166,7 +166,7 @@ class MoreOptionSheet(private val record: Record,
         }
 
         root.photoBtn.setOnClickListener {
-            if(AppStatus.isPremium) {
+            if(AppStatus.isPremium()) {
                 recordActivity.showImagePicker()
                 dismiss()
             }else {

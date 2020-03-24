@@ -24,17 +24,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
-import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
 import com.ayaan.twelvepages.manager.CalendarManager
-import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
-import com.ayaan.twelvepages.ui.dialog.*
+import com.ayaan.twelvepages.ui.dialog.CountdownListDialog
+import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
+import com.ayaan.twelvepages.ui.dialog.UndoneListDialog
 import com.ayaan.twelvepages.ui.sheet.CalendarSettingsSheet
 import com.ayaan.twelvepages.ui.sheet.DayViewSettingsSheet
 import com.ayaan.twelvepages.ui.sheet.TemplateSheet
 import com.ayaan.twelvepages.viewmodel.MainViewModel
+import com.ayaan.twelvepages.widget.MonthlyCalendarWidget
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
@@ -188,7 +189,7 @@ class MainActivity : BaseActivity() {
         }
 
         profileBtn.setOnLongClickListener {
-            AppStatus.isPremium = true
+            AppStatus.premiumTime = System.currentTimeMillis() + DAY_MILL
 //            val cal = Calendar.getInstance()
 //            cal.set(2019, 9, 1)
 //            var s = cal.timeInMillis
@@ -620,13 +621,21 @@ class MainActivity : BaseActivity() {
     override fun onStop() {
         super.onStop()
         isShowing = false
+
+        val intent = Intent(this, MonthlyCalendarWidget::class.java)
+        intent.action = "android.appwidget.action.APPWIDGET_UPDATE"
+        sendBroadcast(intent)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         val lastBackupTime = Prefs.getLong("last_backup_time", 0L)
-        if(AppStatus.isPremium || lastBackupTime < System.currentTimeMillis() - DAY_MILL * 7) {
+        if(AppStatus.isPremium() || lastBackupTime < System.currentTimeMillis() - DAY_MILL * 7) {
             backupDB(null, null)
         }
+    }
+
+    fun setPremium() {
+        viewModel.appUser.value?.let { profileView.updateUserUI(it) }
     }
 }

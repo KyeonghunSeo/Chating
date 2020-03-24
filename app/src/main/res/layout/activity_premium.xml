@@ -160,6 +160,7 @@
         </androidx.viewpager.widget.ViewPager>
 
         <FrameLayout
+            android:id="@+id/payLy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
@@ -190,6 +191,7 @@
                     android:src="@drawable/premium_mark"/>
 
                 <TextView
+                    android:id="@+id/payText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"

@@ -254,8 +254,8 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             DateInfoManager.getHoliday(dateInfo, cal)
             val alpha = if(isInMonth) 1f else AppStatus.outsideMonthAlpha
             v.dateLy.alpha = alpha
-            v.dateText.text = String.format("%02d", tempCal.get(Calendar.DATE))
-            v.dowText.tag = AppDateFormat.simpleDow.format(tempCal.time)
+            v.dateText.text = String.format("%02d", cal.get(Calendar.DATE))
+            v.dowText.tag = AppDateFormat.simpleDow.format(cal.time)
             v.bar.scaleX = 0.95f
             v.bar.scaleY = 0.95f
             v.bar.alpha = 0f

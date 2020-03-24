@@ -43,7 +43,7 @@ class AboutUsActivity : BaseActivity() {
 
         emailBtn.setOnClickListener {
             val sendIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto", "bluelemonade@gmail.com", null))
+                    "mailto", "thetwelvepages@gmail.com", null))
             sendIntent.putExtra(Intent.EXTRA_SUBJECT, "[${getString(R.string.help)}]")
             sendIntent.putExtra(Intent.EXTRA_TEXT, "\n\n[Device information]\n" +
                     "Language : ${Locale.getDefault().language}\n" +

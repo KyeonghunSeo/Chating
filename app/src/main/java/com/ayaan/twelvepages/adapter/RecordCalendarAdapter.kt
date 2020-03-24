@@ -115,7 +115,9 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
             endCellNum = maxCellNum - 1
             rOpen = true
         }
+
         var formula = record.getFormula()
+        //var formula = DOT
 
         if(formula == MULTI_TEXT && endCellNum != startCellNum) { // 하루짜리가 아닐때 예외
             formula = SINGLE_TEXT
@@ -336,8 +338,8 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         return viewHolderList.filter { cellNum in it.startCellNum..it.endCellNum }
     }
 
-    inner class RecordViewHolder(val formula: Formula, val record: Record,
-                                 val startCellNum: Int, val endCellNum: Int) {
+    class RecordViewHolder(val formula: Formula, val record: Record,
+                           val startCellNum: Int, val endCellNum: Int) {
         val items = ArrayList<RecordView>()
     }
 

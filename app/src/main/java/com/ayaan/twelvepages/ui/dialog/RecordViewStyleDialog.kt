@@ -21,8 +21,10 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
     private val recordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.SINGLE_TEXT, 0, 0)
     private val subRecordView = RecordView(context, Record(), RecordCalendarAdapter.Formula.SINGLE_TEXT, 0, 0)
     private var noColor = false
+    private var calTitle: String? = null
 
     init {
+        record?.getTitleInCalendar()?.let { calTitle = it }
         recordView.childList = ArrayList()
         recordView.childList?.add(recordView.record)
         recordView.childList?.add(recordView.record)
@@ -151,21 +153,25 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
     private val dateWidth = dpToPx(60f)
 
     private fun drawRecord() {
-
-        when(recordView.formula) {
-            RecordCalendarAdapter.Formula.SINGLE_TEXT -> {
-                recordView.record.title = getRandomText(R.array.singleline_texts)
-                subRecordView.record.title = getRandomText(R.array.singleline_texts)
+        if(calTitle.isNullOrEmpty()) {
+            when(recordView.formula) {
+                RecordCalendarAdapter.Formula.SINGLE_TEXT -> {
+                    recordView.record.title = getRandomText(R.array.singleline_texts)
+                    subRecordView.record.title = getRandomText(R.array.singleline_texts)
+                }
+                RecordCalendarAdapter.Formula.MULTI_TEXT -> {
+                    recordView.record.title = getRandomText(R.array.multiline_texts)
+                    subRecordView.record.title = getRandomText(R.array.multiline_texts)
+                }
+                RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT -> {
+                    recordView.record.title = getRandomText(R.array.range_texts)
+                    subRecordView.record.title = getRandomText(R.array.range_texts)
+                }
+                else -> {}
             }
-            RecordCalendarAdapter.Formula.MULTI_TEXT -> {
-                recordView.record.title = getRandomText(R.array.multiline_texts)
-                subRecordView.record.title = getRandomText(R.array.multiline_texts)
-            }
-            RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT -> {
-                recordView.record.title = getRandomText(R.array.range_texts)
-                subRecordView.record.title = getRandomText(R.array.range_texts)
-            }
-            else -> {}
+        }else {
+            recordView.record.title = calTitle
+            subRecordView.record.title = calTitle
         }
 
         recordView.setStyle()

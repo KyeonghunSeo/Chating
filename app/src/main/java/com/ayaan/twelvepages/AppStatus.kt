@@ -20,7 +20,7 @@ object AppStatus {
     var isDisplayUpdateTime = true
     var displayRecordDivider = 1
     var isDisplayDayViewWeekNum = false
-    var isPremium = false
+    var premiumTime = Long.MIN_VALUE
     var calRecordFontWidth = 0
 
     var screenWidth = 0
@@ -41,11 +41,13 @@ object AppStatus {
         isDisplayUpdateTime = Prefs.getBoolean("isDisplayUpdateTime", true)
         displayRecordDivider = Prefs.getInt("displayRecordDivider", 1)
         isDisplayDayViewWeekNum = Prefs.getBoolean("isDisplayDayViewWeekNum", true)
-        isPremium = Prefs.getBoolean("isPremium", false)
+        premiumTime = Prefs.getLong("premiumTime", Long.MIN_VALUE)
         calRecordFontWidth = Prefs.getInt("calRecordFontWidth", 0)
 
         val screenSize = getScreenSize(context)
         screenWidth = screenSize[0]
         screenHeight = screenSize[1]
     }
+
+    fun isPremium() = premiumTime > System.currentTimeMillis()
 }

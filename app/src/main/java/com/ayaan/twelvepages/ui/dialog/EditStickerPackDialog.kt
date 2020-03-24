@@ -67,7 +67,7 @@ class EditStickerPackDialog(val activity: BaseActivity, val onResult: (Boolean) 
                 if(selectedItems.contains(stickerPack)) {
                     selectedItems.remove(stickerPack)
                 }else {
-                    if(stickerPack != StickerManager.StickerPack.BASIC && !AppStatus.isPremium){
+                    if(stickerPack != StickerManager.StickerPack.BASIC && !AppStatus.isPremium()){
                         showPremiumDialog(activity)
                     }else {
                         selectedItems.add(stickerPack)

@@ -9,11 +9,14 @@ import androidx.viewpager.widget.PagerAdapter
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.TransactionDetails
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.ui.dialog.CustomDialog
 import com.bumptech.glide.Glide
+import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_premium.*
 import kotlinx.android.synthetic.main.activity_premium.backBtn
 import kotlinx.android.synthetic.main.activity_premium.rootLy
 import kotlinx.android.synthetic.main.pager_item_premium.view.*
+import java.util.*
 
 class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
     private var bp: BillingProcessor? = null
@@ -24,12 +27,7 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
         bp = BillingProcessor(this, str(R.string.in_app_license), this)
         initTheme(rootLy)
         initLayout()
-        payBtn.setOnClickListener { subscribe() }
         callAfterViewDrawed(rootLy, Runnable{ leafFallView.start() })
-    }
-
-    private fun subscribe() {
-        bp?.subscribe(this, "premium")
     }
 
     @SuppressLint("SetTextI18n")
@@ -38,6 +36,7 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
         viewPager.adapter = Adapter()
         viewPager.offscreenPageLimit = 2
         viewPager.pageMargin = -dpToPx(80)
+        setPayLy()
     }
 
     inner class Adapter : PagerAdapter() {
@@ -86,18 +85,44 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
         override fun getCount(): Int = 6
     }
 
-    override fun onBillingInitialized() {
-        l("[onBillingInitialized]")
+    private fun setPayLy() {
+        if(AppStatus.isPremium()) {
+            payLy.alpha = 0.3f
+            payText.text = str(R.string.you_are_premium)
+            payBtn.setOnClickListener {}
+        }else {
+            payLy.alpha = 1f
+            payText.text = str(R.string.upgrade_premium)
+            payBtn.setOnClickListener { subscribe() }
+        }
     }
 
-    override fun onPurchaseHistoryRestored() {
-    }
-
+    override fun onBillingInitialized() {}
+    override fun onPurchaseHistoryRestored() {}
     override fun onProductPurchased(productId: String, details: TransactionDetails?) {
         //details?.purchaseInfo?.purchaseData?
+        if(productId == "premium") {
+            purchased()
+        }
+    }
+    override fun onBillingError(errorCode: Int, error: Throwable?) {}
+
+    private fun subscribe() {
+        bp?.subscribe(this, "premium")
     }
 
-    override fun onBillingError(errorCode: Int, error: Throwable?) {
+    private fun purchased() {
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.YEAR, 1)
+        AppStatus.premiumTime = cal.timeInMillis
+        Prefs.putLong("premiumTime", AppStatus.premiumTime)
+        setPayLy()
+        MainActivity.instance?.setPremium()
+        val dialog = CustomDialog(this, getString(R.string.thank_you_subscribe),
+                getString(R.string.thank_you_subscribe_sub), null, R.drawable.crown) { result, _, _ ->
+        }
+        showDialog(dialog, true, true, true, false)
+        dialog.hideBottomBtnsLy()
     }
 
     override fun onStop() {

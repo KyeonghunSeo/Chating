@@ -94,7 +94,19 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     fun setStyle() {
         var sPadding = defaultPadding
         var textPadding = 0
+
         shape = record.getShape()
+
+        //조작부분
+//        when(formula) {
+//            SINGLE_TEXT, BOTTOM_SINGLE_TEXT -> {
+//            }
+//            MULTI_TEXT -> {
+//
+//            }
+//            else -> {}
+//        }
+
         typeface = if(AppStatus.calRecordFontWidth == 0) {
             AppTheme.regularFont
         }else {

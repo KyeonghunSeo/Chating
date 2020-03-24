@@ -246,7 +246,7 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/temp_logo"
+            android:src="@mipmap/ic_launcher"
             android:tint="@color/secondaryText"/>
 
         <TextView
