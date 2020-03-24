@@ -236,6 +236,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                                 val title = view.record.getTitleInCalendar()
                                 val recordRv = RemoteViews(context.packageName, recordRvs[view.length - 1][view.cellNum % columns])
                                 if (view.record.isSetCheckBox) {
+                                    recordRv.setInt(R.id.checkImg, "setAlpha", lastAlpha)
                                     if(view.shape.fontColor) {
                                         recordRv.setInt(R.id.checkImg, "setColorFilter", color)
                                     }else {
@@ -380,12 +381,6 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
         }
     }
 
-    private fun makeAppStartPendingIntent(context: Context): PendingIntent {
-        val intent = Intent(context, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-    }
-
     private fun isDateInMonth(cellNum: Int, length: Int) = cellNum in startCellNum..endCellNum
             || cellNum + length - 1 in startCellNum..endCellNum
 
@@ -443,6 +438,15 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
 
     inner class ViewLevelStatus {
         var status = Array(42){ "0" }
+    }
+
+    private fun makeAppStartPendingIntent(context: Context): PendingIntent? {
+        context.packageManager.getLaunchIntentForPackage(context.packageName)?.let { intent ->
+            intent.addCategory(Intent.CATEGORY_LAUNCHER)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+        return null
     }
 }
 

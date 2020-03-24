@@ -205,11 +205,11 @@ object AlarmManager {
                         val diffToday = getDiffToday(dtStart)
                         when (diffToday) {
                             0 -> App.context.getString(R.string.today)
-                            -1 -> App.context.getString(R.string.yesterday)
-                            1 -> App.context.getString(R.string.tomorrow)
+                            -1 -> App.context.getString(R.string.tomorrow)
+                            1 -> App.context.getString(R.string.yesterday)
                             else -> {
                                 if(diffToday < 0)  String.format(App.context.getString(R.string.date_before), diffToday)
-                                else String.format(App.context.getString(R.string.date_after), diffToday)
+                                else String.format(App.context.getString(R.string.date_over), diffToday)
                             }
                         }
                     }

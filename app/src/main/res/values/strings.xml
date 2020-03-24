@@ -255,10 +255,11 @@
     <string name="min_before">%1$s분 전</string>
     <string name="hour_before">%1$s시간 전</string>
     <string name="date_before">%1$s일 전</string>
-    <string name="min_after">%1$s분 후</string>
+    <string name="min_after">%1$s분 지남</string>
     <string name="hour_after">%1$s시간 후</string>
-    <string name="hour_min_after">%1$s시간 %2$s분 후</string>
-    <string name="hour_min_before">%1$s시간 %2$s분 후</string>
+    <string name="hour_min_after">%1$s시간 %2$s분 지남</string>
+    <string name="hour_min_before">%1$s시간 %2$s분 지남</string>
+    <string name="date_over">%1$s일 지남</string>
     <string name="date_after">%1$s일 후</string>
     <string name="color_c">COLOR</string>
     <string name="new_template">새 템플릿</string>

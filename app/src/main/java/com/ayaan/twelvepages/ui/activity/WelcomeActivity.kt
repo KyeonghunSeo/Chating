@@ -59,8 +59,8 @@ class WelcomeActivity : BaseActivity() {
             if(FirebaseAuth.getInstance().currentUser == null) {
                 startShow()
             }else {
-                //startMainActivity()
-                startCustomSettings()
+                startMainActivity()
+                //startCustomSettings()
                 //startShow()
             }
         })
