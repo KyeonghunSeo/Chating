@@ -64,9 +64,9 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             arrayOf(R.layout.widget_block_7_6_1, R.layout.widget_block_7_6_2),
             arrayOf(R.layout.widget_block_full)
     )
+    private var maxLine = 4
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        l("[onReceive]")
         context?.let { ctx ->
             val appWidgetManager = AppWidgetManager.getInstance(ctx)
             val thisAppWidget = ComponentName(ctx.packageName, MonthlyCalendarWidget::class.java.name)
@@ -84,14 +84,12 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-        l("[onUpdate]")
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
     }
 
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
-        l("[위젯 업데이트]")
         this.context = context
         val rv = RemoteViews(context.packageName, R.layout.widget_monthly_calendar)
         appWidgetManager.getAppWidgetOptions(appWidgetId)?.let {
@@ -100,13 +98,17 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             val minHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
             val maxHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
             l("$minWidth x $minHeight $maxWidth x $maxHeight")
+            if(minHeight == maxHeight) {
+                maxLine = 3
+            }else {
+                maxLine = 4
+            }
         }
         rv.setOnClickPendingIntent(R.id.rootLy, makeAppStartPendingIntent(context))
         rv.setInt(R.id.backgroundView, "setAlpha", 255)
         setCalendarView(rv)
         setRecordView(rv)
         appWidgetManager.updateAppWidget(appWidgetId, rv)
-        l("[위젯 업데이트 끝]")
     }
 
     private val viewHolderList = ArrayList<RecordCalendarAdapter.RecordViewHolder>()
@@ -175,6 +177,12 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                         rv.setTextColor(dateIds[cellNum], Color.TRANSPARENT)
                     }else {
                         rv.setTextColor(dateIds[cellNum], color)
+                    }
+
+                    if(isToday(tempCal)) {
+                        rv.setInt(dateIds[cellNum], "setBackgroundColor", AppTheme.disableText)
+                    }else {
+                        rv.setInt(dateIds[cellNum], "setBackgroundResource", R.drawable.blank)
                     }
 
                     tempCal.add(Calendar.DATE, 1)

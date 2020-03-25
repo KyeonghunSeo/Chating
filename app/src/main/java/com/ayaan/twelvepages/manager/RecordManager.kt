@@ -15,6 +15,7 @@ import java.util.*
 
 @SuppressLint("StaticFieldLeak")
 object RecordManager {
+    var isChanged = false
 
     fun getRecordList(startTime: Long, endTime: Long, folder: Folder) : RealmResults<Record> {
         val realm = Realm.getDefaultInstance()
@@ -139,6 +140,7 @@ object RecordManager {
     }
 
     fun save(record: Record) {
+        isChanged = true
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction{
             commonSave(realm, record)
@@ -149,6 +151,7 @@ object RecordManager {
 
 
     fun save(records: List<Record>) {
+        isChanged = true
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction{
             records.forEach {
@@ -174,6 +177,7 @@ object RecordManager {
     }
 
     fun done(record: Record) {
+        isChanged = true
         val realm = Realm.getDefaultInstance()
         val id = record.id
         if(record.isRepeat()) {
@@ -212,6 +216,7 @@ object RecordManager {
     }
 
     fun deleteOnly(record: Record) {
+        isChanged = true
         val realm = Realm.getDefaultInstance()
         record.id?.let { id ->
             record.repeatKey?.let { ymdKey ->
@@ -227,6 +232,7 @@ object RecordManager {
     }
 
     fun deleteAfter(record: Record) {
+        isChanged = true
         val realm = Realm.getDefaultInstance()
         val id = record.id
         val cal = Calendar.getInstance()
@@ -248,6 +254,7 @@ object RecordManager {
     }
 
     fun delete(activity: Activity, record: Record, callback: Runnable) {
+        isChanged = true
         if(record.isRepeat()) {
             RepeatManager.delete(activity, record, callback)
         }else {
@@ -257,6 +264,7 @@ object RecordManager {
     }
 
     fun delete(record: Record) {
+        isChanged = true
         val realm = Realm.getDefaultInstance()
         val id = record.id
         realm.executeTransaction{
@@ -287,6 +295,7 @@ object RecordManager {
     }
 
     fun reorder(list: List<Record>) {
+        isChanged = true
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction{
             list.forEachIndexed { index, timeObject ->

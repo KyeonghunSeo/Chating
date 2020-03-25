@@ -26,6 +26,7 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
 import com.ayaan.twelvepages.manager.CalendarManager
+import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.CountdownListDialog
@@ -446,7 +447,6 @@ class MainActivity : BaseActivity() {
                 animSet.start()
                 todayBtn.setOnClickListener {
                     selectDate(getTodayStartTime())
-                    toast(R.string.moved, R.drawable.schedule)
                 }
                 todayBtn.isEnabled = true
             }
@@ -630,7 +630,8 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         val lastBackupTime = Prefs.getLong("last_backup_time", 0L)
-        if(AppStatus.isPremium() || lastBackupTime < System.currentTimeMillis() - DAY_MILL * 7) {
+        if(RecordManager.isChanged && (AppStatus.isPremium() || lastBackupTime < System.currentTimeMillis() - DAY_MILL * 7)) {
+            RecordManager.isChanged = false
             backupDB(null, null)
         }
     }
