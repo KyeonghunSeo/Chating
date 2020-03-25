@@ -19,6 +19,7 @@ import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.view.CalendarView
 import com.ayaan.twelvepages.ui.view.RecordView
+import com.pixplicity.easyprefs.library.Prefs
 import io.realm.Realm
 import java.util.*
 import kotlin.collections.ArrayList
@@ -64,7 +65,6 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             arrayOf(R.layout.widget_block_7_6_1, R.layout.widget_block_7_6_2),
             arrayOf(R.layout.widget_block_full)
     )
-    private var maxLine = 4
 
     override fun onReceive(context: Context?, intent: Intent?) {
         context?.let { ctx ->
@@ -93,16 +93,10 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
         this.context = context
         val rv = RemoteViews(context.packageName, R.layout.widget_monthly_calendar)
         appWidgetManager.getAppWidgetOptions(appWidgetId)?.let {
-            val minWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
-            val maxWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
+//            val minWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
+//            val maxWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
             val minHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
             val maxHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
-            l("$minWidth x $minHeight $maxWidth x $maxHeight")
-            if(minHeight == maxHeight) {
-                maxLine = 3
-            }else {
-                maxLine = 4
-            }
         }
         rv.setOnClickPendingIntent(R.id.rootLy, makeAppStartPendingIntent(context))
         rv.setInt(R.id.backgroundView, "setAlpha", 255)
@@ -180,7 +174,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                     }
 
                     if(isToday(tempCal)) {
-                        rv.setInt(dateIds[cellNum], "setBackgroundColor", AppTheme.disableText)
+                        rv.setInt(dateIds[cellNum], "setBackgroundResource", R.drawable.today_indi)
                     }else {
                         rv.setInt(dateIds[cellNum], "setBackgroundResource", R.drawable.blank)
                     }

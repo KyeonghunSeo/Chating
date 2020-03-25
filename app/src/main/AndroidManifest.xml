@@ -26,6 +26,10 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDqEQrjmuHV6uM26UDGvjIn05_sLBoZ4wk" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
+<!--        /*개발 ca-app-pub-3940256099942544~3347511713*/ /*운영 ca-app-pub-6927758618180863~9253162897*/-->
 
         <activity android:name="com.ayaan.twelvepages.ui.activity.WelcomeActivity">
             <intent-filter>

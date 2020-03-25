@@ -349,7 +349,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                             .sort("dtStart", Sort.ASCENDING)
                             .findAll().map { realm.copyFromRealm(it) }
                 }
-l("!!!!!!!!!!"+photos?.size)
                 realm.close()
                 return null
             }

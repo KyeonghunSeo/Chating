@@ -13,7 +13,7 @@ object AppStatus {
     var outsideMonthAlpha = 0f
     var calTextSize = 0
     var weekLine = 0f
-    var isWeekNumDisplay = true
+    var isWeekNumDisplay = false
     var checkedRecordDisplay = 0
     var rememberPhoto = 0
     var rememberBeforeYear = 0
@@ -34,7 +34,7 @@ object AppStatus {
         outsideMonthAlpha = Prefs.getFloat("outsideMonthAlpha", 0f)
         calTextSize = Prefs.getInt("calTextSize", 0)
         weekLine = Prefs.getFloat("weekLine", 0f)
-        isWeekNumDisplay = Prefs.getBoolean("isWeekNumDisplay", true)
+        isWeekNumDisplay = Prefs.getBoolean("isWeekNumDisplay", false)
         checkedRecordDisplay = Prefs.getInt("checkedRecordDisplay", 0)
         rememberPhoto = Prefs.getInt("rememberPhoto", 0)
         rememberBeforeYear = Prefs.getInt("rememberBeforeYear", 0)

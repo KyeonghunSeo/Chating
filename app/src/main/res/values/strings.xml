@@ -403,9 +403,9 @@
     <string name="no_show_this_day">오늘하루 보지않기</string>
     <string name="very_small">매우작게</string>
     <string name="premium_item_main_title">오직 나만의 다이어리</string>
-    <string name="premium_item_main_sub">나만의 방식\n나만의 스타일로\n더 가치있게 기록해보세요.</string>
+    <string name="premium_item_main_sub">나만의 감성\n나만의 스타일로\n더 가치있게 기록해보세요.</string>
     <string name="premium_item_0_title">광고제거</string>
-    <string name="premium_item_0_sub">광고를 제거하고\n더 쾌적하게 기록해보세요.</string>
+    <string name="premium_item_0_sub">광고없이 더 쾌적하게 기록해보세요.</string>
     <string name="premium_item_1_title">사진첨부</string>
     <string name="premium_item_1_sub">기록에 사진을 첨부해보세요.\n기록이 더욱 풍성해집니다.</string>
     <string name="premium_item_2_title">데이터 자동백업</string>
@@ -413,7 +413,7 @@
     <string name="premium_item_3_title">무제한 템플릿</string>
     <string name="premium_item_3_sub">템플릿을 자유롭게 만들고\n나만의 시스템을 만들어보세요.</string>
     <string name="premium_item_4_title">프리미엄 스티커</string>
-    <string name="premium_item_4_sub">다양한 스티커로\n더 멋지게 꾸며보세요.\n프리미엄 스티커는 지속적으로 추가됩니다.</string>
+    <string name="premium_item_4_sub">500개가 넘는 다양한 스티커로\n더 멋지게 꾸며보세요.\n프리미엄 스티커는 계속해서 추가됩니다.</string>
     <string name="premium_item_5_title">그 외 모든기능 해제</string>
     <string name="premium_item_5_sub">다양한 모양으로 캘린더를 꾸미고\n디데이를 설정해서 기념일을 챙길수도 있습니다.\n모든 기능을 활용하여 나만의 다이어리를 완성해보세요.</string>
     <string name="login_backup_text">모든 기록은 선택한 계정에 안전하게 보관됩니다.</string>

@@ -30,6 +30,7 @@ import com.ayaan.twelvepages.ui.activity.TemplateActivity
 import com.ayaan.twelvepages.ui.dialog.BottomSheetDialog
 import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
+import com.google.android.gms.ads.AdRequest
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.sheet_template.*
 import kotlinx.android.synthetic.main.sheet_template.view.*
@@ -89,6 +90,13 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
         root.datePointBtn.setOnClickListener { addDatePoint() }
         setDate()
         initViews()
+        if(true) {
+            root.adView.visibility = View.GONE
+        }else {
+            root.adView.visibility = View.VISIBLE
+            val adRequest = AdRequest.Builder().build()
+            root.adView.loadAd(adRequest)
+        }
     }
 
     private fun addSticker() {

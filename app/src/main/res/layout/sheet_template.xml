@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     android:id="@+id/rootLy"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bottom_sheet_bg"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="50dp"
-        android:layout_height="2dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        app:cardBackgroundColor="@color/line"
-        app:cardElevation="0dp"
-        app:cardCornerRadius="1dp">
-    </androidx.cardview.widget.CardView>
+        android:layout_margin="10dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
+
+    <!--개발    ca-app-pub-3940256099942544/6300978111-->
+    <!--운영    ca-app-pub-6927758618180863/1522012531-->
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bottom_sheet_bg"
         android:paddingBottom="30dp"
         android:clipToPadding="false"
         android:clipChildren="false">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="50dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_gravity="center_horizontal"
+            app:cardBackgroundColor="@color/line"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="1dp">
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:orientation="vertical"
@@ -164,4 +179,4 @@
 
     </FrameLayout>
 
-</FrameLayout>
+</LinearLayout>
