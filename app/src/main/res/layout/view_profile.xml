@@ -28,6 +28,8 @@
                     android:id="@+id/profileImg"
                     android:layout_width="150dp"
                     android:layout_height="200dp"
+                    android:background="@color/light_line"
+                    android:scaleType="centerCrop"
                     android:foreground="?android:attr/selectableItemBackground" />
 
             </androidx.cardview.widget.CardView>
