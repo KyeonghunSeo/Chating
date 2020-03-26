@@ -1,6 +1,5 @@
 package com.ayaan.twelvepages.ui.dialog
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -63,7 +62,7 @@ class EditStickerPackDialog(val activity: BaseActivity, val onResult: (Boolean) 
                 v.checkImg.setImageResource(R.drawable.uncheck)
             }
 
-            v.setOnClickListener {
+            v.checkImg.setOnClickListener {
                 if(selectedItems.contains(stickerPack)) {
                     selectedItems.remove(stickerPack)
                 }else {
@@ -74,6 +73,11 @@ class EditStickerPackDialog(val activity: BaseActivity, val onResult: (Boolean) 
                     }
                 }
                 notifyItemChanged(position)
+            }
+
+            v.setOnClickListener {
+                showDialog(StickerSampleDialog(activity, stickerPack),
+                        true, true, true, false)
             }
         }
     }

@@ -86,10 +86,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
                 v.alarmImg.visibility = View.GONE
             }
 
-            v.setOnClickListener {
-                adapterInterface.invoke(template, mode)
-                if(mode == 1) endEditMode()
-            }
+            v.setOnClickListener { adapterInterface.invoke(template, mode) }
             v.setOnLongClickListener {
                 if(mode == 0) {
                 }else {
@@ -109,14 +106,14 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             v.contentLy.alpha = 0.5f
             if(mode == 0) {
                 v.contentLy.setBackgroundResource(R.drawable.blank)
-                v.colorImg.setImageResource(R.drawable.setting)
+                v.colorImg.setImageResource(R.drawable.blank)
                 v.titleText.text = context.getString(R.string.edit_template)
             }else {
                 v.contentLy.setBackgroundResource(R.drawable.edit_mode_background_dash)
                 v.colorImg.setImageResource(R.drawable.add)
                 v.titleText.text = context.getString(R.string.new_template)
             }
-            v.colorBtn.setCardBackgroundColor(Color.TRANSPARENT)
+            v.colorBtn.setCardBackgroundColor(AppTheme.secondaryText)
             v.colorImg.setColorFilter(AppTheme.secondaryText)
             v.setOnClickListener {
                 if(mode == 0) {
@@ -127,7 +124,6 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
                 }
             }
             v.setOnLongClickListener {
-                endEditMode()
                 return@setOnLongClickListener true
             }
         }
@@ -139,7 +135,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         toast(R.string.long_tab_to_move)
     }
 
-    private fun endEditMode() {
+    fun endEditMode() {
         mode = 0
         notifyDataSetChanged()
     }

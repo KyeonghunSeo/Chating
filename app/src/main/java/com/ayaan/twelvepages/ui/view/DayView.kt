@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Paint
 import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
@@ -150,6 +151,8 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.pivotY = 0f
         holiText.pivotX = 0f
         holiText.pivotY = 0f
+        bar.translationX = 0f
+        bar.translationY = 0f
         (diffText.layoutParams as LayoutParams).gravity = Gravity.NO_GRAVITY
         (dateLy.layoutParams as LayoutParams).gravity = Gravity.NO_GRAVITY
         dowText.layoutParams.height = dpToPx(28)
@@ -248,10 +251,21 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         decoAdapter.notifyDataSetChanged()
         Thread {
             val diffResult = DiffUtil.calculateDiff(ListDiffCallback(o, n))
+            var scrollPos = -1
+            n.maxBy { it.dtUpdated }?.let { latestRecord ->
+                if(!o.any { it.id == latestRecord.id }) { // 생성된것만 취급
+                    scrollPos = n.indexOf(latestRecord)
+                }
+            }
             Handler(Looper.getMainLooper()).post{
                 o.clear()
                 o.addAll(n)
                 diffResult.dispatchUpdatesTo(adapter)
+                if(scrollPos >= 0) {
+                    recordListView.post {
+                        recordListView.smoothScrollToPosition(scrollPos)
+                    }
+                }
             }
         }.start()
     }
@@ -272,6 +286,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     @SuppressLint("SetTextI18n")
     fun setHeaderLy() {
         dateText.text = String.format("%02d", targetCal.get(Calendar.DATE))
+//        if(isToday(targetCal)) {
+//            dateText.paintFlags = dateText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+//        }else {
+//            dateText.paintFlags = dateText.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+//        }
+
         DateInfoManager.getHoliday(dateInfo, targetCal)
         color = if(dateInfo.holiday?.isHoli == true || targetCal.get(Calendar.DAY_OF_WEEK) == SUNDAY) {
             CalendarManager.sundayColor
@@ -308,7 +328,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     fun unTargeted() {
         footerTask?.cancel(true)
         footerTask = null
-        adapter.clearFooterView()
     }
 
     var footerTask: AsyncTask<String, String, String?>? = null
@@ -316,26 +335,18 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     @SuppressLint("StaticFieldLeak")
     private fun setFooterView(activity: Activity) {
         footerTask = object : AsyncTask<String, String, String?>() {
+            var key: String? = null
             var photos: ArrayList<Photo>? = null
             var beforeYearRecords: List<Record>? = null
 
             override fun doInBackground(vararg args: String): String? {
                 val realm = Realm.getDefaultInstance()
 
-                photos = when(AppStatus.rememberPhoto) {
-                    YES -> {
-                        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                == PackageManager.PERMISSION_GRANTED) {
-                            val startTime = getCalendarTime0(targetCal) / 1000
-                            val endTime = getCalendarTime23(targetCal) / 1000
-                            getPhotosByDate(activity, arrayOf(startTime.toString(), endTime.toString()))
-                        }else {
-                            null
-                        }
-                    }
-                    NO -> ArrayList()
-                    else -> null
-                }
+                photos = if(AppStatus.rememberPhoto == YES && AppStatus.permissionStorage) {
+                    val startTime = getCalendarTime0(targetCal) / 1000
+                    val endTime = getCalendarTime23(targetCal) / 1000
+                    getPhotosByDate(activity, arrayOf(startTime.toString(), endTime.toString()))
+                }else null
 
                 if(AppStatus.rememberBeforeYear == YES) {
                     tempCal.timeInMillis = targetCal.timeInMillis
@@ -350,13 +361,20 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                             .findAll().map { realm.copyFromRealm(it) }
                 }
                 realm.close()
+
+                Thread.sleep(300)
                 return null
             }
 
-            override fun onPreExecute() { adapter.readyFooterView() }
+            override fun onPreExecute() {
+                key = AppDateFormat.ymdkey.format(targetCal.time)
+                adapter.readyFooterView()
+            }
             override fun onProgressUpdate(vararg text: String) {}
             override fun onPostExecute(result: String?) {
-                if(MainActivity.getDayPager()?.isOpened() == true) {
+                l("[데이뷰 하단 : $key] : "+photos?.size)
+                if(MainActivity.getDayPager()?.isOpened() == true
+                        && key == AppDateFormat.ymdkey.format(targetCal.time)) {
                     if(!(photos.isNullOrEmpty() && beforeYearRecords.isNullOrEmpty())) {
                         emptyLy.visibility = View.GONE
                     }
@@ -402,7 +420,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     }
 
     fun hide(dataSize: Int) {
-        contentLy.visibility = View.GONE
+        adapter.clear()
         diffText.translationX = MainActivity.getTargetCalendarView()?.targetDateHolder?.getDiffTextLeft()?.toFloat()?:0f
         val animSet = AnimatorSet()
         animSet.playTogether(

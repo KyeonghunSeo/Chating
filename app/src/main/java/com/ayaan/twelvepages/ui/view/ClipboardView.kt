@@ -49,7 +49,6 @@ class ClipboardView @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     fun clip(record: Record?) {
-        vibrate(context)
         if(record == null) {
             collapse()
         }else {

@@ -80,7 +80,7 @@
                         android:outlineSpotShadowColor="@color/secondaryText"
                         android:outlineAmbientShadowColor="@color/secondaryText"
                         app:cardElevation="1dp"
-                        app:cardCornerRadius="0dp">
+                        app:cardCornerRadius="1.0dp">
 
                         <View
                             android:layout_width="6dp"

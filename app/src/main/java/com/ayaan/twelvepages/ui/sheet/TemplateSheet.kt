@@ -76,9 +76,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
         setLayout()
         val mainViewModel: MainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
         mainViewModel.templateList.observe(this, androidx.lifecycle.Observer { notifyListChanged() })
-        dialog.setOnShowListener {
-            vibrate(requireContext())
-        }
+        dialog.setOnShowListener {}
     }
 
     private fun setLayout() {
@@ -164,7 +162,11 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
         }else {
             root.decoBtns.visibility = View.GONE
         }
-        adapter.notifyDataSetChanged()
+        root.rootLy.setOnClickListener {
+            if(adapter.mode == 1) {
+                adapter.endEditMode()
+            }
+        }
     }
 
 
@@ -178,17 +180,26 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
         MainActivity.getViewModel()?.targetTemplate?.value = template
     }
 
+    var isInit = true
+
     private fun notifyListChanged() {
         val newItems = ArrayList<Template>()
         filterCurrentFolder(newItems)
-        Thread {
-            val diffResult = DiffUtil.calculateDiff(TemplateDiffCallback(items, newItems))
-            Handler(Looper.getMainLooper()).post{
-                items.clear()
-                items.addAll(newItems)
-                diffResult.dispatchUpdatesTo(adapter)
-            }
-        }.start()
+        if(isInit) {
+            items.clear()
+            items.addAll(newItems)
+            adapter.notifyDataSetChanged()
+            isInit = false
+        }else {
+            Thread {
+                val diffResult = DiffUtil.calculateDiff(TemplateDiffCallback(items, newItems))
+                Handler(Looper.getMainLooper()).post{
+                    items.clear()
+                    items.addAll(newItems)
+                    diffResult.dispatchUpdatesTo(adapter)
+                }
+            }.start()
+        }
     }
 
     private fun filterCurrentFolder(result: ArrayList<Template>) {

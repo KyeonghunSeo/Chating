@@ -198,7 +198,7 @@
                 android:gravity="center"
                 android:textSize="10dp"
                 android:layout_marginTop="30dp"
-                android:textColor="@color/disableText"
+                android:textColor="@color/semiPrimaryText"
                 android:fontFamily="@font/thin_s"
                 android:text="@string/evaluate_text"/>
 
@@ -207,7 +207,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="5dp"
-                app:cornerRadius="1dp"
+                app:cornerRadius="1.0dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:background="?android:attr/selectableItemBackground"
@@ -222,7 +222,7 @@
                 android:gravity="center"
                 android:textSize="10dp"
                 android:layout_marginTop="20dp"
-                android:textColor="@color/disableText"
+                android:textColor="@color/semiPrimaryText"
                 android:fontFamily="@font/thin_s"
                 android:text="@string/email_text"/>
 
@@ -231,7 +231,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="5dp"
-                app:cornerRadius="1dp"
+                app:cornerRadius="1.0dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:background="?android:attr/selectableItemBackground"
@@ -245,7 +245,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:layout_marginTop="20dp"
-                android:textColor="@color/disableText"
+                android:textColor="@color/semiPrimaryText"
                 android:gravity="center"
                 android:fontFamily="@font/thin_s"
                 android:text="@string/vote_text"/>
@@ -255,7 +255,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="5dp"
-                app:cornerRadius="1dp"
+                app:cornerRadius="1.0dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:background="?android:attr/selectableItemBackground"
@@ -280,8 +280,8 @@
         android:layout_height="30dp"
         android:layout_gravity="bottom"
         android:gravity="center"
-        android:textSize="10dp"
-        android:textColor="@color/secondaryText"
+        android:textSize="9dp"
+        android:textColor="@color/semiPrimaryText"
         android:fontFamily="@font/thin_s"
         android:text="Copyright © 2020 Moon Records Diary inc. All rights reserved."/>
 

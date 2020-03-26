@@ -122,13 +122,16 @@ class MainActivity : BaseActivity() {
     }
 
     fun playAction(action: Int, bundle: Bundle?) {
-        when(action) {
-            2 -> {
-                bundle?.let {
-                    viewModel.setTargetTimeObjectById(bundle.getString("recordId"), bundle.getLong("dtStart", Long.MIN_VALUE))
+        rootLy.postDelayed({
+            when(action) {
+                2 -> {
+                    bundle?.let {
+                        viewModel.setTargetTimeObjectById(bundle.getString("recordId"),
+                                bundle.getLong("dtStart", Long.MIN_VALUE))
+                    }
                 }
             }
-        }
+        }, 50)
     }
 
     private fun initLayout() {
@@ -165,7 +168,6 @@ class MainActivity : BaseActivity() {
         folderListView.adapter = folderAdapter
         folderAdapter.itemTouchHelper?.attachToRecyclerView(folderListView)
         folderBtn.setOnClickListener {
-            vibrate(this)
             viewModel.openFolder.value = viewModel.openFolder.value != true
         }
     }
@@ -612,12 +614,12 @@ class MainActivity : BaseActivity() {
         super.onResume()
         isShowing = true
         playIntentAction()
-        //briefingHander.sendEmptyMessage(0)
     }
 
-    override fun onPause() {
-        super.onPause()
-        //briefingHander.removeMessages(0)
+    override fun onStart() {
+        super.onStart()
+        AppStatus.permissionStorage = ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onStop() {

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:translationY="-4dp"
-            app:cardCornerRadius="0dp"
+            app:cardCornerRadius="1.0dp"
             app:cardElevation="5dp"
             app:cardBackgroundColor="@color/white">
         </androidx.cardview.widget.CardView>
@@ -28,7 +28,7 @@
             android:layout_height="4dp"
             android:layout_gravity="right"
             android:outlineSpotShadowColor="@color/transparent"
-            app:cardCornerRadius="0dp"
+            app:cardCornerRadius="1.0dp"
             app:cardElevation="5dp"
             app:cardBackgroundColor="@color/white">
         </androidx.cardview.widget.CardView>
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:translationY="4dp"
-            app:cardCornerRadius="0dp"
+            app:cardCornerRadius="1.0dp"
             app:cardElevation="5dp"
             app:cardBackgroundColor="@color/white">
         </androidx.cardview.widget.CardView>
@@ -65,7 +65,7 @@
             android:layout_height="4dp"
             android:layout_gravity="right|bottom"
             android:outlineSpotShadowColor="@color/transparent"
-            app:cardCornerRadius="0dp"
+            app:cardCornerRadius="1.0dp"
             app:cardElevation="5dp"
             app:cardBackgroundColor="@color/white">
         </androidx.cardview.widget.CardView>

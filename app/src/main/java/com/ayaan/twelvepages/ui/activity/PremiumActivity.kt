@@ -1,6 +1,8 @@
 package com.ayaan.twelvepages.ui.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +38,11 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
         viewPager.adapter = Adapter()
         viewPager.offscreenPageLimit = 2
         viewPager.pageMargin = -dpToPx(80)
+        unSubscribeText.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://support.google.com/googleplay/answer/7018481?co=GENIE.Platform%3DAndroid&hl=" + Locale.getDefault().language)
+            startActivity(intent)
+        }
         setPayLy()
     }
 

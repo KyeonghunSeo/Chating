@@ -52,14 +52,14 @@
     <color name="transparent">#00000000</color>
 
     <string-array name="colors">
-        <item>#212121</item>
         <item>#606066</item>
+        <item>#909099</item>
         <item>#47b2f7</item>
         <item>#7dc9e7</item>
         <item>#f95a37</item>
         <item>#f35f8c</item>
-        <item>#00a388</item>
         <item>#36722E</item>
+        <item>#00a388</item>
         <item>#fdc02d</item>
         <item>#b38bdc</item>
     </string-array>

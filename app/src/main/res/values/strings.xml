@@ -256,9 +256,9 @@
     <string name="hour_before">%1$s시간 전</string>
     <string name="date_before">%1$s일 전</string>
     <string name="min_after">%1$s분 지남</string>
-    <string name="hour_after">%1$s시간 후</string>
+    <string name="hour_after">%1$s시간 지남</string>
     <string name="hour_min_after">%1$s시간 %2$s분 지남</string>
-    <string name="hour_min_before">%1$s시간 %2$s분 지남</string>
+    <string name="hour_min_before">%1$s시간 %2$s분 전</string>
     <string name="date_over">%1$s일 지남</string>
     <string name="date_after">%1$s일 후</string>
     <string name="color_c">COLOR</string>
@@ -377,7 +377,7 @@
     <string name="init_setting_script_1">이미 사용중이던 OS 캘린더가 있으신가요?\n필요하다면 캘린더 접근 권한을 획득 후,\n참조할 캘린더를 선택해보세요.</string>
     <string name="last_setting_script">이제 마지막 입니다!\n좌우명이나 목표가 있다면 적어보세요.</string>
     <string name="init_loading_text">다이어리를 구성중 입니다.\n잠시만 기다려주세요…</string>
-    <string name="upgrade_premium">프리미엄 구독하기</string>
+    <string name="upgrade_premium">구 독 하 기</string>
     <string name="total_records">지금까지의 기록 : 총 %1$s개</string>
     <string name="symbol">심볼</string>
     <string name="very_big">매우크게</string>
@@ -490,6 +490,8 @@
     <string name="you_are_premium">프리미엄 에디션 구독중</string>
     <string name="thank_you_subscribe">프리미엄 에디션 구독완료</string>
     <string name="thank_you_subscribe_sub">프리미엄을 구독해주셔서 감사합니다.\n이제 다양한 프리미엄 기능으로\n더 가치있는 기록을 남겨보세요.\n\n구독취소는 Google Play를 통하여 언제든지 가능합니다.\n</string>
+    <string name="upgrade_premium_sub">첫 달 무료 이후 월 ₩1,000 [연간청구]</string>
+    <string name="upgrade_premium_sub_sub">구독은 언제든지 취소할 수 있습니다. <font fgcolor='#47b2f7'>[취소방법링크]</font></string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

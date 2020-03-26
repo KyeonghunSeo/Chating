@@ -150,7 +150,7 @@ class StickerPickerDialog(private var stickerPosition: Int = 0,
             override fun onBindViewHolder(holder: ViewHolder, position: Int) {
                 val sticker = items[position]
                 val v = holder.itemView
-                Glide.with(context!!).load(sticker.resId).into(v.findViewById<ImageView>(R.id.imageView))
+                Glide.with(context!!).load(sticker.resId).into(v.findViewById(R.id.imageView))
                 v.setOnClickListener {
                     StickerManager.updateRecentSticker(sticker)
                     onResult.invoke(sticker, stickerPosition)

@@ -12,7 +12,7 @@
         android:layout_height="106dp"
         android:layout_marginTop="240dp"
         app:cardElevation="0dp"
-        app:cardCornerRadius="0dp">
+        app:cardCornerRadius="1.0dp">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"

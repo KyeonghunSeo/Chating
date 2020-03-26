@@ -7,17 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.dpToPx
+import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.ColorManager
-import com.ayaan.twelvepages.setGlobalTheme
-import com.ayaan.twelvepages.str
 import kotlinx.android.synthetic.main.container_normal_list_dlg.*
 import kotlinx.android.synthetic.main.dialog_base.*
 import kotlinx.android.synthetic.main.list_item_color_pack_setting.view.*
 
 
-class EditColorPackDialog(activity: Activity, val onResult: (Boolean) -> Unit) : BaseDialog(activity) {
+class EditColorPackDialog(val activity: Activity, val onResult: (Boolean) -> Unit) : BaseDialog(activity) {
     private val selectedItems = ColorManager.packs
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,13 +65,18 @@ class EditColorPackDialog(activity: Activity, val onResult: (Boolean) -> Unit) :
                 v.checkImg.setImageResource(R.drawable.uncheck)
             }
 
-            v.setOnClickListener {
+            v.checkImg.setOnClickListener {
                 if(selectedItems.contains(colorPack)) {
                     selectedItems.remove(colorPack)
                 }else {
                     selectedItems.add(colorPack)
                 }
                 notifyItemChanged(position)
+            }
+
+            v.setOnClickListener {
+                showDialog(ColorSampleDialog(activity, colorPack),
+                        true, true, true, false)
             }
         }
     }

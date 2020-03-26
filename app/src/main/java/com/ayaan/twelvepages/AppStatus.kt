@@ -5,6 +5,7 @@ import com.pixplicity.easyprefs.library.Prefs
 import java.util.*
 
 object AppStatus {
+    var permissionStorage = false
     var statusBarHeight = 0
     var startDayOfWeek = Calendar.SUNDAY
     var isDowDisplay = true

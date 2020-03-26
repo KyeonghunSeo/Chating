@@ -221,7 +221,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     fun show() {
-        vibrate(context)
         startAnalytics()
         versionCheck()
         val animSet = AnimatorSet()

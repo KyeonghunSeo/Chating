@@ -15,7 +15,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:outlineSpotShadowColor="@color/semiPrimaryText"
         android:outlineAmbientShadowColor="@color/semiPrimaryText"
-        app:cardCornerRadius="0dp"
+        app:cardCornerRadius="1.0dp"
         app:cardBackgroundColor="@color/background"
         app:cardElevation="10dp">
 
@@ -56,15 +56,9 @@
                 android:layout_width="13dp"
                 android:layout_height="2dp"
                 app:cardBackgroundColor="@color/secondaryText"
-                app:cardCornerRadius="0dp"
+                app:cardCornerRadius="1.0dp"
                 app:cardElevation="0dp">
             </androidx.cardview.widget.CardView>
-
-            <ImageView
-                android:id="@+id/colorImg"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/titleText"
@@ -77,6 +71,13 @@
                 android:textColor="@color/secondaryText"
                 android:fontFamily="@font/bold_s"
                 android:text="새 할일"/>
+
+            <ImageView
+                android:id="@+id/colorImg"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginTop="4dp"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/tagText"

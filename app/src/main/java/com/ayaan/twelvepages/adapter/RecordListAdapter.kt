@@ -39,7 +39,7 @@ import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class RecordListAdapter(val context: Context, val items: List<Record>, val currentCal: Calendar,
+class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val currentCal: Calendar,
                         val showFooter: Boolean, val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -89,6 +89,7 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(position == items.size) {
             footerHolder = holder as FooterViewHolder
+            setFooterView()
             return
         }
 
@@ -421,7 +422,16 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         }
     }
 
+    var photoList: ArrayList<Photo>? = null
+    var pastRecordsList: List<Record>? = null
+
     fun setFooterView(photos: ArrayList<Photo>?, pastRecords: List<Record>?) {
+        photoList = photos
+        pastRecordsList = pastRecords
+        notifyItemChanged(items.size)
+    }
+
+    private fun setFooterView() {
         footerHolder?.let { holder ->
             val v = holder.itemView
             //TransitionManager.beginDelayedTransition(holder.itemView.footerRootLy, makeFromBottomSlideTransition())
@@ -430,26 +440,32 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
             v.photoLy.visibility = View.GONE
             v.beforeYearLy.visibility = View.GONE
 
-            if(photos != null) {
-                v.photoEmptyLy.visibility = View.GONE
-                if(photos.isNotEmpty()) {
-                    v.photoLy.visibility = View.VISIBLE
-                    v.photoListView.visibility = View.VISIBLE
-                    v.photoListView.setList(photos)
-                }else {
+            when(AppStatus.rememberPhoto) {
+                YES -> {
+                    v.photoEmptyLy.visibility = View.GONE
+                    if(photoList?.isNotEmpty() == true) {
+                        v.photoLy.visibility = View.VISIBLE
+                        v.photoListView.visibility = View.VISIBLE
+                        v.photoListView.setList(photoList!!)
+                    }else {
+                        v.photoLy.visibility = View.GONE
+                    }
+                }
+                NO -> {
                     v.photoLy.visibility = View.GONE
                 }
-            }else {
-                v.photoLy.visibility = View.VISIBLE
-                v.photoEmptyLy.visibility = View.VISIBLE
-                v.photoListView.visibility = View.GONE
-                v.photoEmptyLy.setOnClickListener {
-                    ActivityCompat.requestPermissions(MainActivity.instance!!,
-                            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), RC_PHOTO_ON_DAYVIEW)
+                else ->{
+                    v.photoLy.visibility = View.VISIBLE
+                    v.photoEmptyLy.visibility = View.VISIBLE
+                    v.photoListView.visibility = View.GONE
+                    v.photoEmptyLy.setOnClickListener {
+                        ActivityCompat.requestPermissions(MainActivity.instance!!,
+                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), RC_PHOTO_ON_DAYVIEW)
+                    }
                 }
             }
 
-            pastRecords?.let { list ->
+            pastRecordsList?.let { list ->
                 list.firstOrNull()?.let { record ->
                     v.beforeYearLy.visibility = View.VISIBLE
                     v.beforeYearText.text = record.getTitleInCalendar()
@@ -462,11 +478,11 @@ class RecordListAdapter(val context: Context, val items: List<Record>, val curre
         }
     }
 
-    fun clearFooterView() {
-        footerHolder?.let { holder ->
-            holder.itemView.footerProgress.visibility = View.GONE
-            holder.itemView.footerContentLy.visibility = View.GONE
-        }
+    fun clear() {
+        items.clear()
+        photoList = null
+        pastRecordsList = null
+        notifyDataSetChanged()
     }
 
     inner class SimpleItemTouchHelperCallback(private val mAdapter: RecordListAdapter) : ItemTouchHelper.Callback() {

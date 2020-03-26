@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator.REVERSE
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Handler
 import android.os.Message
@@ -182,7 +183,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         if (targetDateHolder == dateInfoViewHolder) {
                             onSelectedDate?.invoke(dateInfoViewHolder, true)
                         } else {
-                            vibrate(context)
                             selectDate(dateInfoViewHolder, weekLys[cellNum / columns].top < scrollView.scrollY)
                         }
                         calendarLy.clearDragPoint()
@@ -273,7 +273,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             color = getDateTextColor(cellNum, dateInfo.holiday?.isHoli == true, true)
             v.dateText.setTextColor(color)
             v.holiText.setTextColor(color)
-            v.diffText.setTextColor(color)
 
             val weekHolder = weekViewHolders[cellNum / columns]
             if(targetWeekHolder != weekHolder) {
@@ -304,7 +303,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
             onViewEffect(cellNum)
 
-            if(isToday) {
+            if(true) {
                 val view = View(context)
                 view.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
                 view.setBackgroundColor(AppTheme.lightLine)
@@ -353,11 +352,16 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             v.dowText.visibility = View.GONE
             v.dateText.setTextColor(color)
             v.holiText.setTextColor(color)
-            v.diffText.setTextColor(color)
+            v.diffText.setTextColor(CalendarManager.dateColor)
             v.holiText.alpha = 1f
             v.diffText.alpha = 1f
             v.holiText.text = dateInfo.getUnSelectedString()
             v.diffText.text = ""
+            if(isToday) {
+                v.dateText.paintFlags = v.dateText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+            }else {
+                v.dateText.paintFlags = v.dateText.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+            }
         }
 
         fun getDowText(): String = v.dowText?.tag as String? ?:""

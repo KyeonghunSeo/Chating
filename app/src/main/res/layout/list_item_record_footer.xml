@@ -14,7 +14,7 @@
        android:layout_width="20dp"
        android:layout_height="20dp"
        android:layout_gravity="center"
-       android:indeterminateTint="@color/secondaryText"
+       android:indeterminateTint="@color/disableText"
        android:layout_margin="25dp" />
 
    <LinearLayout
@@ -33,16 +33,6 @@
           android:layout_marginBottom="15dp"
           android:foreground="@drawable/edit_mode_background_dash"
           android:background="@color/backgroundDark">
-
-         <ImageView
-             android:layout_width="20dp"
-             android:layout_height="25dp"
-             android:src="@drawable/bookmark_fill"
-             android:layout_gravity="right"
-             android:layout_marginRight="10dp"
-             android:layout_marginTop="-3dp"
-             android:scaleType="fitXY"
-             android:tint="@color/light_line"/>
 
          <LinearLayout
              android:orientation="vertical"
@@ -76,7 +66,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:visibility="gone">
 
                <ImageView
                    android:layout_width="70dp"
@@ -108,16 +99,6 @@
           android:layout_marginBottom="15dp"
           android:foreground="@drawable/edit_mode_background_dash"
           android:background="@color/backgroundDark">
-
-         <ImageView
-             android:layout_width="20dp"
-             android:layout_height="25dp"
-             android:src="@drawable/bookmark_fill"
-             android:layout_gravity="right"
-             android:layout_marginRight="10dp"
-             android:layout_marginTop="-3dp"
-             android:scaleType="fitXY"
-             android:tint="@color/light_line"/>
 
          <LinearLayout
              android:orientation="vertical"

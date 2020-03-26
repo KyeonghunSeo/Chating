@@ -169,39 +169,65 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/payBtn"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="65dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="40dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                app:cornerRadius="0dp"/>
+                app:cornerRadius="1.0dp"/>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:layout_gravity="center"
                 android:elevation="10dp"
                 android:gravity="center_vertical">
 
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/premium_mark"/>
-
-                <TextView
-                    android:id="@+id/payText"
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:text="@string/upgrade_premium"
-                    android:textSize="13dp"
-                    android:textColor="@color/background"
-                    android:fontFamily="@font/bold_s"/>
+                    android:layout_marginRight="15dp">
+
+                    <TextView
+                        android:id="@+id/payText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/upgrade_premium"
+                        android:textSize="14dp"
+                        android:textColor="@color/background"
+                        android:fontFamily="@font/bold_s"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/upgrade_premium_sub"
+                        android:textSize="8dp"
+                        android:textColor="@color/background"
+                        android:fontFamily="@font/regular_s"/>
+
+                </LinearLayout>
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/unSubscribeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_gravity="bottom|center_horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/upgrade_premium_sub_sub"
+                android:textSize="9dp"
+                android:textColor="@color/disableText"
+                android:fontFamily="@font/regular_s"/>
 
         </FrameLayout>
 

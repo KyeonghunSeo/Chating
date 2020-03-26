@@ -17,7 +17,7 @@
         android:outlineSpotShadowColor="@color/semiPrimaryText"
         android:outlineAmbientShadowColor="@color/semiPrimaryText"
         app:cardElevation="20dp"
-        app:cardCornerRadius="0dp"
+        app:cardCornerRadius="1.0dp"
         app:cardBackgroundColor="@color/background">
 
         <androidx.cardview.widget.CardView

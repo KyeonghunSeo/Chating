@@ -110,7 +110,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         dayViews[(startPosition - 1) % viewCount].initTime(time - DAY_MILL)
         dayViews[(startPosition) % viewCount].initTime(time)
         dayViews[(startPosition + 1) % viewCount].initTime(time + DAY_MILL)
-        dayViews.forEach { restoreView(it) }
+        restoreViews()
     }
 
     private fun restoreViews() {
@@ -139,7 +139,6 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     fun show() {
-        vibrate(context)
         viewMode = ViewMode.ANIMATING
         visibility = View.VISIBLE
         initTime(MainActivity.getTargetCal()?.timeInMillis ?: System.currentTimeMillis())
@@ -217,8 +216,8 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 override fun onTransitionStart(transition: Transition) {
                     onVisibility?.invoke(false)
                     restoreViews()
-                    targetDayView.hide(dataSize)
                     targetDayView.unTargeted()
+                    targetDayView.hide(dataSize)
                 }
             })
             TransitionManager.beginDelayedTransition(this, transiion)

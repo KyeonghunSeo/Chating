@@ -16,7 +16,7 @@ object StickerManager {
     val resource = App.resource
 
     init {
-        Prefs.getString("stickerPacks", StickerPack.BASIC.name)
+        Prefs.getString("stickerPacks", "${StickerPack.BASIC.name},${StickerPack.SCHOOL.name},${StickerPack.WORK.name}")
                 .split(",")
                 .mapTo(packs) {
                     try{

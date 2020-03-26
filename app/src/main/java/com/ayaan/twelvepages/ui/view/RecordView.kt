@@ -34,7 +34,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val stickerLeft = -dpToPx(1)
         val normalStickerSize = dpToPx(20)
         val datePointSize = dpToPx(30)
-        val rectRadius = dpToPx(0.0f)
+        val rectRadius = dpToPx(0.5f)
         val dotSize = dpToPx(3)
         val checkboxSize = dpToPx(10)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
@@ -50,23 +50,24 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         }
     }
 
-    enum class Shape(val nameId: Int, val fontColor: Boolean, val isFillColor: Boolean, val isRange: Boolean) {
-        BLANK(R.string.shape_blank, false, false, false),
-        RECT_FILL_BLUR(R.string.shape_rect_fill_blur, false, false, false),
-        RECT_FILL(R.string.shape_rect_fill, true, true, false),
-        RECT_STROKE(R.string.shape_rect_stroke, true, false, false),
-        ROUND_FILL(R.string.shape_round_fill, true, true, true),
-        ROUND_STROKE(R.string.shape_round_stroke, true, false, true),
-        BOLD_HATCHED(R.string.shape_bold_hatched, true, true, false),
-        THIN_HATCHED(R.string.shape_thin_hatched, true, false, false),
-        UPPER_LINE(R.string.shape_upper_line, true, false, false),
-        UNDER_LINE(R.string.shape_under_line, true, false, false),
-        NEON_PEN(R.string.shape_neon_pen, false, false, false),
-        RANGE(R.string.shape_range, true, false, true),
-        DASH_RANGE(R.string.shape_dash_range, true, false, true),
-        ARROW(R.string.shape_arrow, true, false, true),
-        DASH_ARROW(R.string.shape_dash_arrow, true, false, true),
-        COLOR_PEN(R.string.shape_color_pen, true, false, false);
+    enum class Shape(val nameId: Int, val fontColor: Boolean, val isFillColor: Boolean, val isRange: Boolean,
+                     val isBold: Boolean) {
+        BLANK(R.string.shape_blank, false, false, false, false),
+        RECT_FILL_BLUR(R.string.shape_rect_fill_blur, false, false, false, false),
+        RECT_FILL(R.string.shape_rect_fill, true, true, false, false),
+        RECT_STROKE(R.string.shape_rect_stroke, true, false, false, false),
+        ROUND_FILL(R.string.shape_round_fill, true, true, true, false),
+        ROUND_STROKE(R.string.shape_round_stroke, true, false, true, false),
+        BOLD_HATCHED(R.string.shape_bold_hatched, true, true, false, true),
+        THIN_HATCHED(R.string.shape_thin_hatched, true, false, false, false),
+        UPPER_LINE(R.string.shape_upper_line, true, false, false, false),
+        UNDER_LINE(R.string.shape_under_line, true, false, false, false),
+        NEON_PEN(R.string.shape_neon_pen, false, false, false, false),
+        RANGE(R.string.shape_range, true, false, true, true),
+        DASH_RANGE(R.string.shape_dash_range, true, false, true, true),
+        ARROW(R.string.shape_arrow, true, false, true, true),
+        DASH_ARROW(R.string.shape_dash_arrow, true, false, true, true),
+        COLOR_PEN(R.string.shape_color_pen, true, false, false, false);
 
         companion object {
             fun styleToShape(style: Int) = values()[style % 10000 / 100]
@@ -107,10 +108,14 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 //            else -> {}
 //        }
 
-        typeface = when(AppStatus.calRecordFontWidth)  {
-            -1 -> AppTheme.thinFont
-            0 -> AppTheme.regularFont
-            else -> AppTheme.boldFont
+        typeface = if(shape.isBold) {
+            AppTheme.boldFont
+        }else {
+            when(AppStatus.calRecordFontWidth)  {
+                -1 -> AppTheme.thinFont
+                0 -> AppTheme.regularFont
+                else -> AppTheme.boldFont
+            }
         }
 
         when(formula) {
@@ -365,7 +370,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 paint.style = Paint.Style.FILL
             }
             else -> {
-                val periodLine = strokeWidth * 1.0f
+                val periodLine = strokeWidth * 1.5f
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = periodLine
                 if(shape == Shape.DASH_RANGE || shape == Shape.DASH_ARROW) {
@@ -383,9 +388,9 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                     drawArrow(canvas, 0, height / 2, arrowWidth, height / 2 - arrowSize, arrowWidth, height / 2  + arrowSize + periodLine.toInt())
                     drawArrow(canvas, width, height / 2, width - arrowWidth, height / 2 - arrowSize, width - arrowWidth, height / 2  + arrowSize + periodLine.toInt())
                 }else {
-                    val dividerSize = periodLine * 7.0f
-                    canvas.drawRect(0f, height / 2f - dividerSize, periodLine, height / 2f + dividerSize, paint)
-                    canvas.drawRect(width - periodLine, height / 2f - dividerSize, width.toFloat(), height / 2f + dividerSize, paint)
+                    val dividerSize = periodLine * 5.0f
+                    canvas.drawRect(0f, height / 2f - dividerSize, periodLine + strokeWidth, height / 2f + dividerSize, paint)
+                    canvas.drawRect(width - periodLine - strokeWidth, height / 2f - dividerSize, width.toFloat(), height / 2f + dividerSize, paint)
                 }
                 /*
                 val lineY = (periodLine * 1.5f).toInt()

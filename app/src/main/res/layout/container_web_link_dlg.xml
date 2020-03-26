@@ -41,7 +41,7 @@
         android:outlineSpotShadowColor="@color/disableText"
         android:outlineAmbientShadowColor="@color/disableText"
         app:cardElevation="5dp"
-        app:cardCornerRadius="0dp"
+        app:cardCornerRadius="1.0dp"
         android:visibility="visible">
 
         <ImageView
