@@ -178,12 +178,14 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
                 android:elevation="10dp"
-                android:gravity="center_vertical">
+                android:gravity="center">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -197,7 +199,6 @@
                         android:id="@+id/payText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
                         android:text="@string/upgrade_premium"
                         android:textSize="14dp"
                         android:textColor="@color/background"
@@ -206,8 +207,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
                         android:text="@string/upgrade_premium_sub"
-                        android:textSize="8dp"
+                        android:textSize="10dp"
                         android:textColor="@color/background"
                         android:fontFamily="@font/regular_s"/>
 
@@ -226,7 +228,7 @@
                 android:layout_marginBottom="20dp"
                 android:text="@string/upgrade_premium_sub_sub"
                 android:textSize="9dp"
-                android:textColor="@color/disableText"
+                android:textColor="@color/semiPrimaryText"
                 android:fontFamily="@font/regular_s"/>
 
         </FrameLayout>

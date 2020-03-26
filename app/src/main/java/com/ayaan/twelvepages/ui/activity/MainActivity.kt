@@ -507,6 +507,7 @@ class MainActivity : BaseActivity() {
                         .filter { permissions[it] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[it] == PackageManager.PERMISSION_GRANTED }
                         .forEach { _ ->
                             AppStatus.rememberPhoto = YES
+                            AppStatus.permissionStorage = true
                             Prefs.putInt("rememberPhoto", AppStatus.rememberPhoto)
                             dayPager.redraw()
                         }

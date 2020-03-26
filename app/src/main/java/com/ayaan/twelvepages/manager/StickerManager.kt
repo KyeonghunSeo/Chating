@@ -38,23 +38,23 @@ object StickerManager {
         }
     }
 
-    enum class StickerPack(val titleId: Int, val type: Int, val items: Array<Sticker>) {
-        BASIC(R.string.s_basic, 0, Array(100) { i -> Sticker(resource.getIdentifier("s_basic_$i", "drawable", packageName), 0) } ),
-        SCHOOL(R.string.s_school, 0, Array(36) { i -> Sticker(resource.getIdentifier("s_school_$i", "drawable", packageName), 1) } ),
-        WORK(R.string.s_work, 0, Array(50){ i -> Sticker(resource.getIdentifier("s_buisiness_$i", "drawable", packageName), 2) } ),
-        CALIGRAPHY(R.string.s_caligraphy, 0, Array(16){ i -> Sticker(resource.getIdentifier("s_cali_$i", "drawable", packageName), 3) } ),
-        BODY(R.string.s_body, 0, Array(25){ i -> Sticker(resource.getIdentifier("s_body_$i", "drawable", packageName), 4) } ),
-        FOOD(R.string.s_food, 0, Array(35){ i -> Sticker(resource.getIdentifier("s_food_$i", "drawable", packageName), 5) } ),
-        WEATHER(R.string.s_weather, 0, Array(24) { i -> Sticker(resource.getIdentifier("s_weather_$i", "drawable", packageName), 6) } ),
-        DOGS(R.string.s_dogs, 0, Array(30) { i -> Sticker(resource.getIdentifier("s_dog_$i", "drawable", packageName), 7) } ),
-        PEOPLE(R.string.s_peaple, 0, Array(20) { i -> Sticker(resource.getIdentifier("s_people_$i", "drawable", packageName), 8) } ),
-        PET(R.string.s_pet, 0, Array(50) { i -> Sticker(resource.getIdentifier("s_pet_$i", "drawable", packageName), 9) } ),
-        AGRI(R.string.s_agri, 0, Array(80) { i -> Sticker(resource.getIdentifier("s_agri_$i", "drawable", packageName), 10) } ),
-        OFFICE(R.string.s_office, 0, Array(30) { i -> Sticker(resource.getIdentifier("s_office_$i", "drawable", packageName), 11) } ),
-        BAKERY(R.string.s_bakery, 0, Array(36) { i -> Sticker(resource.getIdentifier("s_bakery_$i", "drawable", packageName), 12) } ),
-        MENTAL(R.string.s_mental, 0, Array(36) { i -> Sticker(resource.getIdentifier("s_mental_$i", "drawable", packageName), 13) } ),
-        OPERATION(R.string.s_operation, 0, Array(30) { i -> Sticker(resource.getIdentifier("s_operation_$i", "drawable", packageName), 14) } ),
-        CLOTH(R.string.s_cloth, 0, Array(100) { i -> Sticker(resource.getIdentifier("s_cloth_$i", "drawable", packageName), 15) } )
+    enum class StickerPack(val titleId: Int, val isPremium: Boolean, val items: Array<Sticker>) {
+        BASIC(R.string.s_basic, false, Array(100) { i -> Sticker(resource.getIdentifier("s_basic_$i", "drawable", packageName), 0) } ),
+        SCHOOL(R.string.s_school, false, Array(36) { i -> Sticker(resource.getIdentifier("s_school_$i", "drawable", packageName), 1) } ),
+        WORK(R.string.s_work, false, Array(50){ i -> Sticker(resource.getIdentifier("s_buisiness_$i", "drawable", packageName), 2) } ),
+        CALIGRAPHY(R.string.s_caligraphy, true, Array(16){ i -> Sticker(resource.getIdentifier("s_cali_$i", "drawable", packageName), 3) } ),
+        BODY(R.string.s_body, true, Array(25){ i -> Sticker(resource.getIdentifier("s_body_$i", "drawable", packageName), 4) } ),
+        FOOD(R.string.s_food, true, Array(35){ i -> Sticker(resource.getIdentifier("s_food_$i", "drawable", packageName), 5) } ),
+        WEATHER(R.string.s_weather, true, Array(24) { i -> Sticker(resource.getIdentifier("s_weather_$i", "drawable", packageName), 6) } ),
+        DOGS(R.string.s_dogs, true, Array(30) { i -> Sticker(resource.getIdentifier("s_dog_$i", "drawable", packageName), 7) } ),
+        PEOPLE(R.string.s_peaple, true, Array(20) { i -> Sticker(resource.getIdentifier("s_people_$i", "drawable", packageName), 8) } ),
+        PET(R.string.s_pet, true, Array(50) { i -> Sticker(resource.getIdentifier("s_pet_$i", "drawable", packageName), 9) } ),
+        AGRI(R.string.s_agri, true, Array(80) { i -> Sticker(resource.getIdentifier("s_agri_$i", "drawable", packageName), 10) } ),
+        OFFICE(R.string.s_office, true, Array(30) { i -> Sticker(resource.getIdentifier("s_office_$i", "drawable", packageName), 11) } ),
+        BAKERY(R.string.s_bakery, true, Array(36) { i -> Sticker(resource.getIdentifier("s_bakery_$i", "drawable", packageName), 12) } ),
+        MENTAL(R.string.s_mental, true, Array(36) { i -> Sticker(resource.getIdentifier("s_mental_$i", "drawable", packageName), 13) } ),
+        OPERATION(R.string.s_operation, true, Array(30) { i -> Sticker(resource.getIdentifier("s_operation_$i", "drawable", packageName), 14) } ),
+        CLOTH(R.string.s_cloth, true, Array(100) { i -> Sticker(resource.getIdentifier("s_cloth_$i", "drawable", packageName), 15) } )
     }
 
     fun getSticker(stickerKey: Int) = try {

@@ -1,5 +1,6 @@
 package com.ayaan.twelvepages.ui.dialog
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,11 +50,12 @@ class EditStickerPackDialog(val activity: BaseActivity, val onResult: (Boolean) 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int)
                 = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_sticker_pack_setting, parent, false))
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val stickerPack = items[position]
             val v = holder.itemView
 
-            v.titleText.text = str(stickerPack.titleId)
+            v.titleText.text = str(stickerPack.titleId) + if(stickerPack.isPremium) "*" else ""
             v.imageView.setImageResource(stickerPack.items[0].resId)
 
             if(selectedItems.contains(stickerPack)) {
@@ -66,7 +68,9 @@ class EditStickerPackDialog(val activity: BaseActivity, val onResult: (Boolean) 
                 if(selectedItems.contains(stickerPack)) {
                     selectedItems.remove(stickerPack)
                 }else {
-                    if(stickerPack != StickerManager.StickerPack.BASIC && !AppStatus.isPremium()){
+                    if((stickerPack != StickerManager.StickerPack.BASIC
+                                    && stickerPack != StickerManager.StickerPack.SCHOOL
+                                    && stickerPack != StickerManager.StickerPack.WORK) && !AppStatus.isPremium()){
                         showPremiumDialog(activity)
                     }else {
                         selectedItems.add(stickerPack)

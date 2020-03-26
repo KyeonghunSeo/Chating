@@ -44,17 +44,16 @@ class WelcomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
         initTheme(rootLy)
-        loginBtn.setOnClickListener { signInWithGoogle() }
         callAfterViewDrawed(rootLy, Runnable{
             val rectangle = Rect()
             window.decorView.getWindowVisibleDisplayFrame(rectangle)
             val statusBarHeight = rectangle.top
-            val contentViewTop = window.findViewById<View>(Window.ID_ANDROID_CONTENT).getTop()
+            val contentViewTop = window.findViewById<View>(Window.ID_ANDROID_CONTENT).top
             val titleBarHeight = contentViewTop - statusBarHeight
             val location = IntArray(2)
             rootLy.getLocationInWindow(location)
             AppStatus.statusBarHeight = location[1]
-            l("StatusBar Height= " + statusBarHeight + " , TitleBar Height = " + titleBarHeight + " , AppStatus.statusBarHeight = " + AppStatus.statusBarHeight)
+            //l("StatusBar Height= " + statusBarHeight + " , TitleBar Height = " + titleBarHeight + " , AppStatus.statusBarHeight = " + AppStatus.statusBarHeight)
 
             if(FirebaseAuth.getInstance().currentUser == null) {
                 startShow()
@@ -67,6 +66,7 @@ class WelcomeActivity : BaseActivity() {
     }
 
     private fun startShow() {
+        loginBtn.setOnClickListener { signInWithGoogle() }
         val handler =  Handler()
         handler.postDelayed({
             leafFallView.start()

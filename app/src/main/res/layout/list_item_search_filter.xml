@@ -14,7 +14,7 @@
         android:layout_marginRight="15dp"
         android:outlineSpotShadowColor="@color/secondaryText"
         android:outlineAmbientShadowColor="@color/secondaryText"
-        app:cardElevation="2dp"
+        app:cardElevation="4dp"
         app:cardCornerRadius="1.0dp"
         android:foreground="?android:attr/selectableItemBackground">
 
@@ -92,22 +92,22 @@
 
                     <ImageView
                         android:id="@+id/colorImg"
-                        android:layout_width="12dp"
+                        android:layout_width="14dp"
                         android:layout_height="4dp"
                         android:layout_marginRight="5dp"/>
 
                     <ImageView
                         android:id="@+id/checkImg"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:layout_marginRight="5dp"
                         android:src="@drawable/check"
                         android:tint="@color/semiPrimaryText"/>
 
                     <ImageView
                         android:id="@+id/photoImg"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:layout_marginRight="5dp"
                         android:src="@drawable/photo"
                         android:tint="@color/semiPrimaryText"/>

@@ -12,6 +12,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.text.method.LinkMovementMethod
+import android.text.method.MovementMethod
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -167,6 +169,7 @@ class RecordActivity : BaseActivity() {
             }
             override fun afterTextChanged(p0: Editable?) {}
         })
+        memoInput.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun initMap() {

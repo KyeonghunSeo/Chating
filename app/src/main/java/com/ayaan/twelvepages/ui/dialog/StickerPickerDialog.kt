@@ -80,7 +80,7 @@ class StickerPickerDialog(private var stickerPosition: Int = 0,
             if(index == stickerPosition) {
                 btn?.alpha = 1f
             }else {
-                btn?.alpha = 0.35f
+                btn?.alpha = 0.15f
             }
         }
     }

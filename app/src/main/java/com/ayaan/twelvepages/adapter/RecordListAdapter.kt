@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Link
@@ -113,8 +114,6 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
         }
 
         val color = record.getColor()
-        v.colorBg.setBackgroundColor(color)
-        v.symbolImg.setColorFilter(color)
 
         if(AppStatus.isDisplayUpdateTime) {
             v.updatedText.visibility = View.VISIBLE
@@ -128,9 +127,9 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
         }else {
             v.titleText.visibility = View.VISIBLE
             if(!query.isNullOrEmpty()){
-                highlightQuery(v.titleText, record.title!!)
+                highlightQuery(v.titleText, "　   ${record.title?.trim() ?: ""}")
             }else {
-                v.titleText.text = record.title?.trim()
+                v.titleText.text = "　   ${record.title?.trim() ?: ""}"
             }
         }
 
@@ -157,16 +156,14 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
         }
 
         if(record.isSetCheckBox) {
-            v.checkBox.visibility = View.VISIBLE
+            v.checkBox.setColorFilter(color)
             v.checkArea.visibility = View.VISIBLE
             if(v.titleText.text.isEmpty()) {
-                v.titleText.text = "　　${str(R.string.todo)}"
-            }else {
-                v.titleText.text = "　　${v.titleText.text}"
+                v.titleText.text = "　   ${str(R.string.todo)}"
             }
 
             if(record.isDone()) {
-                v.checkBox.setImageResource(R.drawable.check)
+                v.checkBox.setImageResource(R.drawable.checked_fill)
                 if(AppStatus.checkedRecordDisplay == 2 || AppStatus.checkedRecordDisplay == 3) {
                     v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }else {
@@ -187,15 +184,16 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
                 RecordManager.done(record)
             }
         }else {
-            v.checkBox.visibility = View.GONE
+            v.checkBox.setImageResource(R.drawable.normal_rect_radius)
+            v.checkBox.setColorFilter(color)
             v.checkArea.visibility = View.GONE
             v.titleLy.alpha = 1f
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 
         if(record.isScheduled()) {
-            v.symbolImg.visibility = View.VISIBLE
             v.timeLy.visibility = View.VISIBLE
+            v.timeImg.setImageResource(if(record.isSetTime) R.drawable.time else R.drawable.calendar)
             val totalDate = getDiffDate(record.dtStart, record.dtEnd) + 1
             if(totalDate == 1) {
                 if(record.isSetTime) {
@@ -207,6 +205,7 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
                     }
                 }else {
                     v.timeText.text = ""
+                    v.timeLy.visibility = View.GONE
                 }
 
                 if(isSearchListMode) {
@@ -239,7 +238,6 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
                 }
             }
         }else {
-            v.symbolImg.visibility = View.GONE
             v.timeLy.visibility = View.GONE
         }
 
