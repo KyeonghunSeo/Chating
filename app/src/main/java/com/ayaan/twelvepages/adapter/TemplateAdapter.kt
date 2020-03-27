@@ -53,13 +53,12 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
                 v.contentLy.setBackgroundResource(R.drawable.edit_mode_background_dash)
             }
             v.backgroundLy.visibility = View.VISIBLE
-            v.colorImg.visibility = View.GONE
+            v.symbolImg.visibility = View.GONE
             v.cardView.setCardBackgroundColor(AppTheme.background)
             v.cardView.cardElevation = dpToPx(10f)
             v.titleText.text = template.title
             val color = ColorManager.getColor(template.colorKey)
-            v.colorImg.setImageBitmap(null)
-            v.colorBtn.setCardBackgroundColor(color)
+            v.colorBtn.setColorFilter(color)
 
             if(template.tags.isNotEmpty()) {
                 v.tagText.visibility = View.VISIBLE
@@ -96,7 +95,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             }
         }else {
             v.backgroundLy.visibility = View.GONE
-            v.colorImg.visibility = View.VISIBLE
+            v.symbolImg.visibility = View.VISIBLE
             v.tagText.visibility = View.GONE
             v.checkImg.visibility = View.GONE
             v.timeImg.visibility = View.GONE
@@ -106,15 +105,15 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             v.contentLy.alpha = 0.5f
             if(mode == 0) {
                 v.contentLy.setBackgroundResource(R.drawable.blank)
-                v.colorImg.setImageResource(R.drawable.blank)
+                v.symbolImg.setImageResource(R.drawable.blank)
                 v.titleText.text = context.getString(R.string.edit_template)
             }else {
                 v.contentLy.setBackgroundResource(R.drawable.edit_mode_background_dash)
-                v.colorImg.setImageResource(R.drawable.add)
+                v.symbolImg.setImageResource(R.drawable.add)
                 v.titleText.text = context.getString(R.string.new_template)
             }
-            v.colorBtn.setCardBackgroundColor(AppTheme.secondaryText)
-            v.colorImg.setColorFilter(AppTheme.secondaryText)
+            v.colorBtn.setColorFilter(AppTheme.secondaryText)
+            v.symbolImg.setColorFilter(AppTheme.secondaryText)
             v.setOnClickListener {
                 if(mode == 0) {
                     startEditMode()

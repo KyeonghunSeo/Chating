@@ -9,11 +9,8 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.app.ActivityCompat
 import com.ayaan.twelvepages.*
-import com.ayaan.twelvepages.manager.CalendarManager
-import com.ayaan.twelvepages.manager.DateInfoManager
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.dialog.BottomSheetDialog
-import com.ayaan.twelvepages.ui.dialog.CustomListDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.sheet_dayview_settings.view.*
@@ -36,7 +33,8 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
     }
 
     private fun setLayout() {
-        setShowUpdateTime()
+        setDisplayUpdateTime()
+        setDisplayRecordViewStyle()
         setDisplayDayViewWeekNum()
         setCheckedRecordDisplay()
         setRememberPhoto()
@@ -44,7 +42,7 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
         setDisplayRecordDivider()
     }
 
-    private fun setShowUpdateTime() {
+    private fun setDisplayUpdateTime() {
         if(AppStatus.isDisplayUpdateTime) {
             root.updatedTimeText.text = str(R.string.visible)
             root.updatedTimeText.setTextColor(AppTheme.secondaryText)
@@ -55,7 +53,23 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
         root.updatedTimeBtn.setOnClickListener {
             AppStatus.isDisplayUpdateTime = !AppStatus.isDisplayUpdateTime
             Prefs.putBoolean("isDisplayUpdateTime", AppStatus.isDisplayUpdateTime)
-            setShowUpdateTime()
+            setDisplayUpdateTime()
+            MainActivity.getDayPager()?.redraw()
+        }
+    }
+
+    private fun setDisplayRecordViewStyle() {
+        if(AppStatus.isDisplayRecordViewStyle) {
+            root.recordViewStyleText.text = str(R.string.visible)
+            root.recordViewStyleText.setTextColor(AppTheme.secondaryText)
+        }else {
+            root.recordViewStyleText.text = str(R.string.unvisible)
+            root.recordViewStyleText.setTextColor(AppTheme.disableText)
+        }
+        root.recordViewStyleBtn.setOnClickListener {
+            AppStatus.isDisplayRecordViewStyle = !AppStatus.isDisplayRecordViewStyle
+            Prefs.putBoolean("isDisplayRecordViewStyle", AppStatus.isDisplayRecordViewStyle)
+            setDisplayRecordViewStyle()
             MainActivity.getDayPager()?.redraw()
         }
     }

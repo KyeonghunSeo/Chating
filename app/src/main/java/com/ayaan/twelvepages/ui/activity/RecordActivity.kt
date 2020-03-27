@@ -258,8 +258,8 @@ class RecordActivity : BaseActivity() {
         }
 
         colorBg.setCardBackgroundColor(color)
-        colorImg.setBackgroundColor(color)
-        colorBtn.setOnClickListener {
+        colorImg.setColorFilter(color)
+        colorImg.setOnClickListener {
             ColorPickerDialog(record.colorKey){ colorKey ->
                 record.colorKey = colorKey
                 updateFolderUI()

@@ -43,7 +43,7 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
     private fun setLayout() {
         setViewPager()
         setTab()
-        //root.viewPager.setCurrentItem(ColorManager.getPackIndex(selectedColorKey), false)
+        root.viewPager.setCurrentItem(ColorManager.getPackIndex(selectedColorKey), false)
         root.rootLy.setOnClickListener { dismiss() }
         root.settingBtn.setOnClickListener {
             showDialog(EditColorPackDialog(activity as Activity) { result ->

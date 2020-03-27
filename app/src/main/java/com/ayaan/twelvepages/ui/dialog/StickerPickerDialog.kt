@@ -2,6 +2,7 @@ package com.ayaan.twelvepages.ui.dialog
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Parcelable
@@ -22,6 +23,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.StickerManager
+import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.BaseActivity
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -34,9 +36,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class StickerPickerDialog(private var stickerPosition: Int = 0,
+class StickerPickerDialog(private val record: Record? = null,
                           private val onResult: (StickerManager.Sticker, Int) -> Unit) : BottomSheetDialog() {
     var currentPack: StickerManager.StickerPack? = null
+    var stickerPosition = record?.getStickerLink()?.intParam1 ?: 0
+    var isConfirm = record != null
 
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style, R.layout.dialog_sticker_picker)
@@ -46,10 +50,20 @@ class StickerPickerDialog(private var stickerPosition: Int = 0,
         dialog.setOnShowListener {}
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        if(isConfirm) {
+            record?.getSticker()?.let { onResult.invoke(it, stickerPosition) }
+        }
+    }
+
     private fun setLayout() {
         initPositionBtns()
         setViewPager()
         setTab()
+        record?.getStickerLink()?.let {
+            root.viewPager.setCurrentItem(StickerManager.getPackIndex(it.intParam0), false)
+        }
         root.rootLy.setOnClickListener { dismiss() }
         root.positionLy.setOnClickListener {}
         root.settingBtn.setOnClickListener {
@@ -153,6 +167,7 @@ class StickerPickerDialog(private var stickerPosition: Int = 0,
                 Glide.with(context!!).load(sticker.resId).into(v.findViewById(R.id.imageView))
                 v.setOnClickListener {
                     StickerManager.updateRecentSticker(sticker)
+                    isConfirm = false
                     onResult.invoke(sticker, stickerPosition)
                     dismiss()
                 }

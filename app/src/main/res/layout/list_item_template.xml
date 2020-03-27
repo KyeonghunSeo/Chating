@@ -51,14 +51,13 @@
             android:paddingRight="12dp"
             android:clipToPadding="false">
 
-            <androidx.cardview.widget.CardView
+            <ImageView
                 android:id="@+id/colorBtn"
-                android:layout_width="13dp"
-                android:layout_height="2dp"
-                app:cardBackgroundColor="@color/secondaryText"
-                app:cardCornerRadius="1.0dp"
-                app:cardElevation="0dp">
-            </androidx.cardview.widget.CardView>
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/color_bg"
+                android:tint="@color/semiPrimaryText"/>
 
             <TextView
                 android:id="@+id/titleText"
@@ -73,7 +72,7 @@
                 android:text="새 할일"/>
 
             <ImageView
-                android:id="@+id/colorImg"
+                android:id="@+id/symbolImg"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_marginTop="4dp"

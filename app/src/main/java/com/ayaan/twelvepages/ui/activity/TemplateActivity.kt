@@ -110,7 +110,7 @@ class TemplateActivity : BaseActivity() {
     }
 
     private fun updateColorUI() {
-        colorBg.setColorFilter(ColorManager.getColor(template.colorKey))
+        colorImg.setColorFilter(ColorManager.getColor(template.colorKey))
         colorBtn.setOnClickListener {
             ColorPickerDialog(template.colorKey){ colorKey ->
                 template.colorKey = colorKey

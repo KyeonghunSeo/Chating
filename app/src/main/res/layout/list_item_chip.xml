@@ -8,7 +8,7 @@
        android:id="@+id/contentLy"
        android:orientation="horizontal"
        android:layout_width="wrap_content"
-       android:layout_height="30dp"
+       android:layout_height="28dp"
        android:layout_margin="5dp"
        android:paddingLeft="15dp"
        android:paddingRight="15dp"
@@ -29,9 +29,9 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           android:includeFontPadding="false"
-          android:textSize="12dp"
+          android:textSize="11dp"
           android:textColor="@color/white"
-          android:fontFamily="@font/bold"
+          android:fontFamily="@font/bold_s"
           android:text="자동"/>
 
    </LinearLayout>

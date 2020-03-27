@@ -492,6 +492,7 @@
     <string name="thank_you_subscribe_sub">프리미엄을 구독해주셔서 감사합니다.\n이제 다양한 프리미엄 기능으로\n더 가치있는 기록을 남겨보세요.\n\n구독취소는 Google Play를 통하여 언제든지 가능합니다.\n</string>
     <string name="upgrade_premium_sub">첫 달 무료 이후 월 ₩1,000 [연간청구]</string>
     <string name="upgrade_premium_sub_sub">구독은 언제든지 취소할 수 있습니다. <font fgcolor='#47b2f7'>[취소방법]</font></string>
+    <string name="show_record_view_style">모양 표시</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

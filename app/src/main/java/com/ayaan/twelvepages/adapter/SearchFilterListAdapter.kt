@@ -71,7 +71,7 @@ class SearchFilterListAdapter(private val context: Context, private val items: A
 
             if(colorKey != Int.MIN_VALUE) {
                 v.colorImg.visibility = View.VISIBLE
-                v.colorImg.setBackgroundColor(ColorManager.getColor(colorKey))
+                v.colorImg.setColorFilter(ColorManager.getColor(colorKey))
             }else {
                 v.colorImg.visibility = View.GONE
             }

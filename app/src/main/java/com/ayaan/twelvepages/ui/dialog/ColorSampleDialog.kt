@@ -41,20 +41,4 @@ class ColorSampleDialog(val activity: Activity, private val colorPack: ColorMana
         hideBottomBtnsLy()
     }
 
-    inner class StickerAdapter(val items: Array<StickerManager.Sticker>) : RecyclerView.Adapter<StickerAdapter.ViewHolder>() {
-
-        override fun getItemCount(): Int = items.size
-
-        inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container)
-
-        override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_sticker, parent, false))
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val sticker = items[position]
-            val v = holder.itemView
-            Glide.with(activity).load(sticker.resId).into(v.findViewById(R.id.imageView))
-        }
-    }
-
 }

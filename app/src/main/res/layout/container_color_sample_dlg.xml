@@ -34,11 +34,10 @@
             android:gravity="center_vertical">
 
             <ImageView
-                android:layout_width="17.0dp"
-                android:layout_height="36.0dp"
+                android:layout_width="20.0dp"
+                android:layout_height="20.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="1dp"
                 android:id="@+id/colorImg0" />
 
             <View
@@ -47,11 +46,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="17.0dp"
-                android:layout_height="36.0dp"
+                android:layout_width="20.0dp"
+                android:layout_height="20.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="1dp"
                 android:id="@+id/colorImg1" />
 
             <View
@@ -60,11 +58,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="17.0dp"
-                android:layout_height="36.0dp"
+                android:layout_width="20.0dp"
+                android:layout_height="20.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="1dp"
                 android:id="@+id/colorImg2" />
 
             <View
@@ -73,11 +70,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="17.0dp"
-                android:layout_height="36.0dp"
+                android:layout_width="20.0dp"
+                android:layout_height="20.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="1dp"
                 android:id="@+id/colorImg3" />
 
             <View
@@ -86,11 +82,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="17.0dp"
-                android:layout_height="36.0dp"
+                android:layout_width="20.0dp"
+                android:layout_height="20.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="1dp"
                 android:id="@+id/colorImg4" />
 
             <View
@@ -99,11 +94,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="17.0dp"
-                android:layout_height="36.0dp"
+                android:layout_width="20.0dp"
+                android:layout_height="20.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="1dp"
                 android:id="@+id/colorImg5" />
 
             <View
@@ -112,11 +106,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="17.0dp"
-                android:layout_height="36.0dp"
+                android:layout_width="20.0dp"
+                android:layout_height="20.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="1dp"
                 android:id="@+id/colorImg6" />
 
             <View
@@ -125,11 +118,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="17.0dp"
-                android:layout_height="36.0dp"
+                android:layout_width="20.0dp"
+                android:layout_height="20.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="1dp"
                 android:id="@+id/colorImg7" />
 
             <View
@@ -138,11 +130,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="17.0dp"
-                android:layout_height="36.0dp"
+                android:layout_width="20.0dp"
+                android:layout_height="20.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="1dp"
                 android:id="@+id/colorImg8" />
 
             <View
@@ -151,11 +142,10 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="17.0dp"
-                android:layout_height="36.0dp"
+                android:layout_width="20.0dp"
+                android:layout_height="20.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="1dp"
                 android:id="@+id/colorImg9" />
 
         </LinearLayout>

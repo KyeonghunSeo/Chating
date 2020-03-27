@@ -84,6 +84,12 @@ object StickerManager {
         Prefs.putString("stickerPacks", packs.joinToString(","){it.name})
     }
 
+    fun getPackIndex(stickerKey: Int): Int = try {
+        packs.indexOf(StickerPack.values()[stickerKey / 10000]) + 1
+    }catch (e: Exception){
+        0
+    }
+
     fun deletePack(pack: StickerPack) {
         packs.remove(pack)
         saveCurrentPack()

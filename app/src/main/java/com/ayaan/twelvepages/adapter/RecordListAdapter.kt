@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ayaan.twelvepages.*
-import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Link
@@ -30,6 +29,7 @@ import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.sheet.TagRecordSheet
+import com.ayaan.twelvepages.ui.view.RecordView
 import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.list_item_record.view.*
 import kotlinx.android.synthetic.main.list_item_record_footer.view.*
@@ -122,14 +122,18 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
             v.updatedText.visibility = View.GONE
         }
 
-        if(record.title.isNullOrBlank()) {
-            v.titleText.visibility = View.GONE
+        if(AppStatus.isDisplayRecordViewStyle) {
+            v.recordViewStyleText.visibility = View.VISIBLE
+            v.recordViewStyleText.text = RecordView.getStyleText(record.style)
         }else {
-            v.titleText.visibility = View.VISIBLE
+            v.recordViewStyleText.visibility = View.GONE
+        }
+
+        if(!record.title.isNullOrBlank()) {
             if(!query.isNullOrEmpty()){
-                highlightQuery(v.titleText, "　   ${record.title?.trim() ?: ""}")
+                highlightQuery(v.titleText, record.title?.trim() ?: "")
             }else {
-                v.titleText.text = "　   ${record.title?.trim() ?: ""}"
+                v.titleText.text = record.title?.trim() ?: ""
             }
         }
 
@@ -144,22 +148,11 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
             }
         }
 
-        if(record.tags.isNotEmpty()) {
-            v.tagView.visibility = View.VISIBLE
-            v.tagView.isSmallTag = true
-            v.tagView.post { v.tagView.setItems(record.tags, null) }
-            v.tagView.onSelected = { tag, _ ->
-                tag?.let { TagRecordSheet(it, record).show(MainActivity.instance!!.supportFragmentManager, null) }
-            }
-        }else {
-            v.tagView.visibility = View.GONE
-        }
-
         if(record.isSetCheckBox) {
             v.checkBox.setColorFilter(color)
             v.checkArea.visibility = View.VISIBLE
-            if(v.titleText.text.isEmpty()) {
-                v.titleText.text = "　   ${str(R.string.todo)}"
+            if(record.title.isNullOrBlank()) {
+                v.titleText.text = str(R.string.todo)
             }
 
             if(record.isDone()) {
@@ -184,11 +177,22 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
                 RecordManager.done(record)
             }
         }else {
-            v.checkBox.setImageResource(R.drawable.normal_rect_radius)
+            v.checkBox.setImageResource(R.drawable.color_bg)
             v.checkBox.setColorFilter(color)
             v.checkArea.visibility = View.GONE
             v.titleLy.alpha = 1f
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
+        }
+
+        if(record.tags.isNotEmpty()) {
+            v.tagView.visibility = View.VISIBLE
+            v.tagView.isSmallTag = true
+            v.tagView.post { v.tagView.setItems(record.tags, null) }
+            v.tagView.onSelected = { tag, _ ->
+                tag?.let { TagRecordSheet(it, record).show(MainActivity.instance!!.supportFragmentManager, null) }
+            }
+        }else {
+            v.tagView.visibility = View.GONE
         }
 
         if(record.isScheduled()) {

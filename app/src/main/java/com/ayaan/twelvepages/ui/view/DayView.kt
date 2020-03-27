@@ -124,7 +124,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 val record = Record().apply { copy(item) }
                 when(index) {
                     0 -> {
-                        StickerPickerDialog(record.getStickerLink()?.intParam1 ?: 0){ sticker, position ->
+                        StickerPickerDialog(record){ sticker, position ->
                             record.setSticker(sticker, position)
                             RecordManager.save(record)
                             toast(R.string.saved, R.drawable.done)

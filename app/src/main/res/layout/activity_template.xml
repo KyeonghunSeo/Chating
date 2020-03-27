@@ -84,6 +84,7 @@
                     android:maxLines="3"
                     android:textSize="24dp"
                     android:hint="@string/template_title"
+                    android:textColor="@color/secondaryText"
                     android:textColorHint="@color/disableText"
                     android:background="@drawable/blank"
                     android:fontFamily="@font/bold_s"/>
@@ -223,21 +224,15 @@
 
                 </LinearLayout>
 
-                <androidx.cardview.widget.CardView
+                <ImageView
+                    android:id="@+id/colorImg"
                     android:layout_width="40dp"
-                    android:layout_height="10dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="right|center_vertical"
-                    app:cardCornerRadius="1.0dp"
-                    app:cardElevation="0dp">
-
-                    <ImageView
-                        android:id="@+id/colorBg"
-                        android:layout_width="50dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/normal_rect_fill"
-                        android:tint="@color/light_line"/>
-
-                </androidx.cardview.widget.CardView>
+                    android:padding="11dp"
+                    android:layout_marginRight="-12dp"
+                    android:src="@drawable/color_bg">
+                </ImageView>
 
             </FrameLayout>
 

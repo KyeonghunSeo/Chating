@@ -19,6 +19,7 @@ object AppStatus {
     var rememberPhoto = 0
     var rememberBeforeYear = 0
     var isDisplayUpdateTime = true
+    var isDisplayRecordViewStyle = false
     var displayRecordDivider = 0
     var isDisplayDayViewWeekNum = false
     var premiumTime = Long.MIN_VALUE
@@ -40,6 +41,7 @@ object AppStatus {
         rememberPhoto = Prefs.getInt("rememberPhoto", 0)
         rememberBeforeYear = Prefs.getInt("rememberBeforeYear", 0)
         isDisplayUpdateTime = Prefs.getBoolean("isDisplayUpdateTime", true)
+        isDisplayRecordViewStyle = Prefs.getBoolean("isDisplayRecordViewStyle", false)
         displayRecordDivider = Prefs.getInt("displayRecordDivider", 0)
         isDisplayDayViewWeekNum = Prefs.getBoolean("isDisplayDayViewWeekNum", true)
         premiumTime = Prefs.getLong("premiumTime", Long.MIN_VALUE)

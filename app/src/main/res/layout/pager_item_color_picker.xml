@@ -57,10 +57,9 @@
 
             <ImageView
                 android:layout_width="30.0dp"
-                android:layout_height="36.0dp"
+                android:layout_height="30.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="6dp"
                 android:id="@+id/colorImg0" />
 
             <View
@@ -70,10 +69,9 @@
 
             <ImageView
                 android:layout_width="30.0dp"
-                android:layout_height="36.0dp"
+                android:layout_height="30.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="6dp"
                 android:id="@+id/colorImg1" />
 
             <View
@@ -83,10 +81,9 @@
 
             <ImageView
                 android:layout_width="30.0dp"
-                android:layout_height="36.0dp"
+                android:layout_height="30.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="6dp"
                 android:id="@+id/colorImg2" />
 
             <View
@@ -96,10 +93,9 @@
 
             <ImageView
                 android:layout_width="30.0dp"
-                android:layout_height="36.0dp"
+                android:layout_height="30.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="6dp"
                 android:id="@+id/colorImg3" />
 
             <View
@@ -109,10 +105,9 @@
 
             <ImageView
                 android:layout_width="30.0dp"
-                android:layout_height="36.0dp"
+                android:layout_height="30.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="6dp"
                 android:id="@+id/colorImg4" />
 
             <View
@@ -122,10 +117,9 @@
 
             <ImageView
                 android:layout_width="30.0dp"
-                android:layout_height="36.0dp"
+                android:layout_height="30.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="6dp"
                 android:id="@+id/colorImg5" />
 
             <View
@@ -135,10 +129,9 @@
 
             <ImageView
                 android:layout_width="30.0dp"
-                android:layout_height="36.0dp"
+                android:layout_height="30.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="6dp"
                 android:id="@+id/colorImg6" />
 
             <View
@@ -148,10 +141,9 @@
 
             <ImageView
                 android:layout_width="30.0dp"
-                android:layout_height="36.0dp"
+                android:layout_height="30.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="6dp"
                 android:id="@+id/colorImg7" />
 
             <View
@@ -161,10 +153,9 @@
 
             <ImageView
                 android:layout_width="30.0dp"
-                android:layout_height="36.0dp"
+                android:layout_height="30.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="6dp"
                 android:id="@+id/colorImg8" />
 
             <View
@@ -174,10 +165,9 @@
 
             <ImageView
                 android:layout_width="30.0dp"
-                android:layout_height="36.0dp"
+                android:layout_height="30.0dp"
                 android:src="@drawable/normal_rect_fill"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="6dp"
                 android:id="@+id/colorImg9" />
 
         </LinearLayout>

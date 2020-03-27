@@ -1,17 +1,12 @@
 package com.ayaan.twelvepages.ui.sheet
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,18 +16,15 @@ import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.adapter.TemplateAdapter
 import com.ayaan.twelvepages.adapter.util.TemplateDiffCallback
 import com.ayaan.twelvepages.manager.RecordManager
-import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
-import com.ayaan.twelvepages.ui.activity.RecordActivity
 import com.ayaan.twelvepages.ui.activity.TemplateActivity
 import com.ayaan.twelvepages.ui.dialog.BottomSheetDialog
 import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.android.synthetic.main.sheet_template.*
 import kotlinx.android.synthetic.main.sheet_template.view.*
 import java.util.*
 import kotlin.collections.ArrayList

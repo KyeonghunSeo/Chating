@@ -29,20 +29,15 @@
             android:gravity="center_vertical"
             android:layout_marginRight="45dp">
 
-            <FrameLayout
-                android:id="@+id/colorBtn"
+            <ImageView
+                android:id="@+id/colorImg"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginRight="5dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <ImageView
-                    android:id="@+id/colorImg"
-                    android:layout_gravity="center"
-                    android:layout_width="32dp"
-                    android:layout_height="6dp"/>
-
-            </FrameLayout>
+                android:layout_marginRight="-2dp"
+                android:padding="11dp"
+                android:src="@drawable/color_bg"
+                android:foreground="?android:attr/selectableItemBackground">
+            </ImageView>
 
             <LinearLayout
                 android:id="@+id/recordViewStyleBtn"
