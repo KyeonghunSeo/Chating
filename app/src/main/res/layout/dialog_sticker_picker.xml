@@ -6,6 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
+
+    <!--개발    ca-app-pub-3940256099942544/6300978111-->
+    <!--운영    ca-app-pub-6927758618180863/1522012531-->
+
     <LinearLayout
         android:id="@+id/positionLy"
         android:orientation="vertical"

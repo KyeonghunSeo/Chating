@@ -48,6 +48,7 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
     var query: String? = null
     var isSearchListMode = false
     private var footerHolder: FooterViewHolder? = null
+    private val memoTopPadding = dpToPx(1)
     private val photoSideMargin = dpToPx(30)
     private val photoSize: Int = AppStatus.screenWidth / 2
     private val photoPagerMargin = -(AppStatus.screenWidth - photoSize) + dpToPx(10)
@@ -129,7 +130,12 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
             v.recordViewStyleText.visibility = View.GONE
         }
 
-        if(!record.title.isNullOrBlank()) {
+        if(record.title.isNullOrBlank()) {
+            v.titleText.visibility = View.GONE
+            v.memoText.setPadding(0, memoTopPadding, 0, 0)
+        }else {
+            v.titleText.visibility = View.VISIBLE
+            v.memoText.setPadding(0, 0, 0, 0)
             if(!query.isNullOrEmpty()){
                 highlightQuery(v.titleText, record.title?.trim() ?: "")
             }else {
@@ -163,13 +169,16 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
                     v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
                 }
                 if(AppStatus.checkedRecordDisplay == 1 || AppStatus.checkedRecordDisplay == 3) {
-                    v.titleLy.alpha = 0.4f
+                    v.titleText.alpha = 0.4f
+                    v.checkBox.alpha = 0.4f
                 }else {
-                    v.titleLy.alpha = 1f
+                    v.titleText.alpha = 1f
+                    v.checkBox.alpha = 1f
                 }
             }else {
                 v.checkBox.setImageResource(R.drawable.uncheck)
-                v.titleLy.alpha = 1f
+                v.titleText.alpha = 1f
+                v.checkBox.alpha = 1f
                 v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
             }
             v.checkArea.setOnClickListener {
@@ -177,10 +186,15 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
                 RecordManager.done(record)
             }
         }else {
-            v.checkBox.setImageResource(R.drawable.color_bg)
+            if(record.description.isNullOrBlank()) {
+                v.checkBox.setImageResource(R.drawable.color_bg)
+            }else {
+                v.checkBox.setImageResource(R.drawable.symbol_memo)
+            }
             v.checkBox.setColorFilter(color)
             v.checkArea.visibility = View.GONE
-            v.titleLy.alpha = 1f
+            v.titleText.alpha = 1f
+            v.checkBox.alpha = 1f
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 

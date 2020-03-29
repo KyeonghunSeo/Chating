@@ -25,18 +25,11 @@
             android:layout_height="match_parent">
 
             <View
-                android:layout_width="18dp"
+                android:id="@+id/backColorView"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@color/backgroundDark"/>
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/bookmark"
-                android:tint="@color/backgroundDark"
-                android:layout_gravity="right"
-                android:layout_marginRight="2dp"
-                android:layout_marginTop="-5dp"/>
+                android:background="@color/colorPrimary"
+                android:alpha="0.05"/>
 
         </FrameLayout>
 
@@ -45,10 +38,10 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp"
             android:clipToPadding="false">
 
             <ImageView
@@ -63,7 +56,7 @@
                 android:id="@+id/titleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="3dp"
                 android:textSize="11dp"
                 android:maxLines="2"
                 android:ellipsize="end"

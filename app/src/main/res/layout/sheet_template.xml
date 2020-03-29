@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="30dp"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
     </com.google.android.gms.ads.AdView>
@@ -79,19 +79,15 @@
                         android:layout_height="28dp"
                         android:outlineSpotShadowColor="@color/secondaryText"
                         android:outlineAmbientShadowColor="@color/secondaryText"
-                        app:cardElevation="1dp"
+                        app:cardBackgroundColor="@color/background"
+                        app:cardElevation="2dp"
                         app:cardCornerRadius="1.0dp">
-
-                        <View
-                            android:layout_width="6dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/backgroundDark"/>
 
                         <LinearLayout
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:paddingRight="10dp"
+                            android:paddingRight="12dp"
                             android:paddingLeft="10dp"
                             android:gravity="center_vertical"
                             android:background="?android:attr/selectableItemBackground">

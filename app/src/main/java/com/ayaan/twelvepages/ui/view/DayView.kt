@@ -348,7 +348,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     getPhotosByDate(activity, arrayOf(startTime.toString(), endTime.toString()))
                 }else null
 
-                if(AppStatus.rememberBeforeYear == YES) {
+                if(isToday(targetCal) && AppStatus.rememberBeforeYear == YES) {
                     tempCal.timeInMillis = targetCal.timeInMillis
                     tempCal.add(Calendar.YEAR, -1)
                     val startTime = getCalendarTime0(tempCal)

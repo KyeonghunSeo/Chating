@@ -56,12 +56,14 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             v.symbolImg.visibility = View.GONE
             v.cardView.setCardBackgroundColor(AppTheme.background)
             v.cardView.cardElevation = dpToPx(10f)
+            v.colorBtn.setImageResource(R.drawable.color_bg)
             v.titleText.text = template.title
             val color = ColorManager.getColor(template.colorKey)
             v.colorBtn.setColorFilter(color)
+            v.backColorView.setBackgroundColor(color)
 
             if(template.tags.isNotEmpty()) {
-                v.tagText.visibility = View.VISIBLE
+                v.tagText.visibility = View.GONE
                 v.tagText.text = template.tags.joinToString(prefix = "#", separator = "#", transform = { it.title.toString() })
             }else {
                 v.tagText.visibility = View.GONE
@@ -94,24 +96,26 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
                 return@setOnLongClickListener true
             }
         }else {
-            v.backgroundLy.visibility = View.GONE
-            v.symbolImg.visibility = View.VISIBLE
+            v.backgroundLy.visibility = View.VISIBLE
+            v.symbolImg.visibility = View.GONE
             v.tagText.visibility = View.GONE
             v.checkImg.visibility = View.GONE
             v.timeImg.visibility = View.GONE
             v.alarmImg.visibility = View.GONE
             v.cardView.setCardBackgroundColor(AppTheme.background)
-            v.cardView.cardElevation = 0f
+            v.cardView.cardElevation = dpToPx(1f)
             v.contentLy.alpha = 0.5f
             if(mode == 0) {
                 v.contentLy.setBackgroundResource(R.drawable.blank)
+                v.colorBtn.setImageResource(R.drawable.setting)
                 v.symbolImg.setImageResource(R.drawable.blank)
                 v.titleText.text = context.getString(R.string.edit_template)
             }else {
                 v.contentLy.setBackgroundResource(R.drawable.edit_mode_background_dash)
-                v.symbolImg.setImageResource(R.drawable.add)
+                v.colorBtn.setImageResource(R.drawable.add_rect)
                 v.titleText.text = context.getString(R.string.new_template)
             }
+            v.backColorView.setBackgroundColor(AppTheme.secondaryText)
             v.colorBtn.setColorFilter(AppTheme.secondaryText)
             v.symbolImg.setColorFilter(AppTheme.secondaryText)
             v.setOnClickListener {

@@ -26,6 +26,7 @@ import com.ayaan.twelvepages.manager.StickerManager
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.BaseActivity
 import com.bumptech.glide.Glide
+import com.google.android.gms.ads.AdRequest
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.dialog_sticker_picker.*
 import kotlinx.android.synthetic.main.dialog_sticker_picker.view.*
@@ -47,7 +48,15 @@ class StickerPickerDialog(private val record: Record? = null,
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         sheetBehavior.isHideable = false
         setLayout()
-        dialog.setOnShowListener {}
+        dialog.setOnShowListener {
+            if(AppStatus.isPremium()) {
+                root.adView.visibility = View.GONE
+            }else {
+                root.adView.visibility = View.VISIBLE
+                val adRequest = AdRequest.Builder().build()
+                root.adView.loadAd(adRequest)
+            }
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
