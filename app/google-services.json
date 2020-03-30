@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "358462425934-94bvi3rcgoh76q3eacs9aml2gg7ps368.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ayaan.twelvepages",
+            "certificate_hash": "d00f187c096c490bedfdbba67ca572325c4f0ca9"
+          }
+        },
+        {
           "client_id": "358462425934-hfbmmrupsq5m1ipf9rh93u2rn98c54g8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

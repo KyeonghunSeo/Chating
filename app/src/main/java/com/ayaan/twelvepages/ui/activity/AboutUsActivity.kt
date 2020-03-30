@@ -56,7 +56,7 @@ class AboutUsActivity : BaseActivity() {
 
         voteBtn.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("http://google.com")
+            intent.data = Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSeiXv4Ng9lrgD44oCNXHOYuv5FC1dJwZ3ZRKYXnmLO3aFSA3g/viewform?usp=sf_link")
             startActivity(intent)
         }
 

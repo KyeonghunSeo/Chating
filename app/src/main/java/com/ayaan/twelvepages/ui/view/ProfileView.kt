@@ -81,6 +81,12 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             mottoText.typeface = ResourcesCompat.getFont(context, R.font.regular_s)
             mottoText.text = appUser.motto
         }
+
+        if(AppStatus.isPremium()) {
+            premiumImg.clearColorFilter()
+        }else {
+            setImageViewGrayFilter(premiumImg)
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -218,12 +224,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     fun show() {
         startAnalytics()
         versionCheck()
-
-        if(AppStatus.isPremium()) {
-            premiumImg.clearColorFilter()
-        }else {
-            setImageViewGrayFilter(premiumImg)
-        }
 
         val animSet = AnimatorSet()
         val animList = ArrayList<Animator>()

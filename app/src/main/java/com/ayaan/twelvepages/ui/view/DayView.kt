@@ -437,6 +437,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     fun hide(dataSize: Int) {
         adapter.clear()
+        contentLy.visibility = View.GONE
         diffText.translationX = MainActivity.getTargetCalendarView()?.targetDateHolder?.getDiffTextLeft()?.toFloat()?:0f
         val animSet = AnimatorSet()
         animSet.playTogether(

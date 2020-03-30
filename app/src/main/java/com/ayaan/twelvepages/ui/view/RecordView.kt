@@ -83,7 +83,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     var textSpaceWidth = 0f
     var childList: ArrayList<Record>? = null
     var paintColor = AppTheme.background
-    var fontColor = AppTheme.primaryText
+    var fontColor = AppTheme.secondaryText
     var shape = Shape.RECT_FILL_BLUR
 
     init {
@@ -155,7 +155,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
         paintColor = ColorManager.getColor(record.colorKey)
         fontColor = if(!shape.fontColor) {
-            AppTheme.primaryText
+            AppTheme.secondaryText
         }else {
             if(shape.isFillColor) ColorManager.getFontColor(paintColor) else paintColor
         }
@@ -330,7 +330,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             if(AppStatus.checkedRecordDisplay in 2..3) {
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
-            val check = resource.getDrawable(R.drawable.checked_fill)
+            val check = resource.getDrawable(R.drawable.check)
             check.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
             check.setBounds(xOffset, (centerY - radius).toInt(),
                     xOffset + checkboxSize, (centerY + radius).toInt())

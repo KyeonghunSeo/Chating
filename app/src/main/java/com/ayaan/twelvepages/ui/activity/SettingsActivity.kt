@@ -142,7 +142,7 @@ class SettingsActivity : BaseActivity() {
             if(AppStatus.isPremium() || lastBackupTime < System.currentTimeMillis() - MIN_MILL) {
                 backupDB(this, Runnable{
                     setBackupTimeText()
-                    toast(R.string.success_backup, R.drawable.done)
+                    toast(R.string.success_backup, R.drawable.download_cloud)
                 })
             }else {
                 toast(R.string.try_again_after_min, R.drawable.info)

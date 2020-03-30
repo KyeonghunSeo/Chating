@@ -494,6 +494,7 @@
     <string name="upgrade_premium_sub">첫 달 무료 이후 월 ₩1,000 [연간청구]</string>
     <string name="upgrade_premium_sub_sub">구독은 언제든지 취소할 수 있습니다. <font fgcolor='#47b2f7'>[취소방법]</font></string>
     <string name="show_record_view_style">모양 표시</string>
+    <string name="s_emoji">이모지</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

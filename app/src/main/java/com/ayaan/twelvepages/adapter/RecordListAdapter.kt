@@ -124,11 +124,13 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
         v.symbolImg.setColorFilter(fontColor)
         v.symbolImg.setImageResource(R.drawable.blank)
 
-        if(formular == RecordCalendarAdapter.Formula.DOT) {
-            v.symbolImg.setImageResource(R.drawable.dot)
-        }else if(formular == RecordCalendarAdapter.Formula.MULTI_TEXT) {
-            v.symbolImg.setImageResource(R.drawable.menu)
-        }
+//        if(formular == RecordCalendarAdapter.Formula.DOT) {
+//            v.symbolImg.setImageResource(R.drawable.dot)
+//        }else if(formular == RecordCalendarAdapter.Formula.MULTI_TEXT) {
+//            v.symbolImg.setImageResource(R.drawable.menu)
+//        }else if(shape.isRange) {
+//            v.symbolImg.setImageResource(R.drawable.range)
+//        }
 
         if(AppStatus.isDisplayUpdateTime) {
             v.updatedText.visibility = View.VISIBLE
@@ -175,8 +177,7 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
             }
 
             if(record.isDone()) {
-                v.colorImg.setImageResource(R.drawable.color_bg)
-                v.symbolImg.setImageResource(R.drawable.done)
+                v.colorImg.setImageResource(R.drawable.checked_fill)
                 if(AppStatus.checkedRecordDisplay == 2 || AppStatus.checkedRecordDisplay == 3) {
                     v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }else {
