@@ -330,7 +330,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             if(AppStatus.checkedRecordDisplay in 2..3) {
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
-            val check = resource.getDrawable(R.drawable.check)
+            val check = resource.getDrawable(R.drawable.checked_fill)
             check.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
             check.setBounds(xOffset, (centerY - radius).toInt(),
                     xOffset + checkboxSize, (centerY + radius).toInt())
