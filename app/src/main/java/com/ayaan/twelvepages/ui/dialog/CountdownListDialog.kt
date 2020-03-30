@@ -11,7 +11,7 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.container_normal_list_dlg.*
 import kotlinx.android.synthetic.main.dialog_base.*
-import kotlinx.android.synthetic.main.list_item_countdown.view.*
+import kotlinx.android.synthetic.main.list_item_simple_record.view.*
 import java.util.*
 
 
@@ -44,18 +44,20 @@ class CountdownListDialog(activity: Activity, val onResult: (Boolean) -> Unit) :
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {
                 setGlobalTheme(container)
+                container.checkBtn.visibility = View.GONE
+                container.countdownText.visibility = View.VISIBLE
             }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_countdown, parent, false))
+                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_simple_record, parent, false))
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             items?.get(position)?.let { record ->
                 val v = holder.itemView
-                v.colorBar.setCardBackgroundColor(record.getColor())
+                v.checkBox.setColorFilter(record.getColor())
                 v.titleText.text = record.getTitleInCalendar()
-                v.subText.text = AppDateFormat.ymde.format(Date(record.dtStart))
+                v.memoText.text = AppDateFormat.ymde.format(Date(record.dtStart))
                 v.countdownText.text = record.getCountdownText(System.currentTimeMillis())
                 v.setOnClickListener {
                     MainActivity.instance?.selectDate(record.dtStart)

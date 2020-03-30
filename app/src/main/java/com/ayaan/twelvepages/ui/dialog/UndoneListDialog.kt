@@ -13,7 +13,7 @@ import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.container_normal_list_dlg.*
 import kotlinx.android.synthetic.main.dialog_base.*
-import kotlinx.android.synthetic.main.list_item_undone.view.*
+import kotlinx.android.synthetic.main.list_item_simple_record.view.*
 import java.util.*
 
 
@@ -46,28 +46,31 @@ class UndoneListDialog(activity: Activity, val onResult: (Boolean) -> Unit) : Ba
         inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
             init {
                 setGlobalTheme(container)
+                container.checkBtn.visibility = View.VISIBLE
+                container.countdownText.visibility = View.GONE
             }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_undone, parent, false))
+                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_simple_record, parent, false))
 
         @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             items?.get(position)?.let { record ->
                 val v = holder.itemView
-                v.colorBar.setCardBackgroundColor(record.getColor())
+                v.checkBox.setColorFilter(record.getColor())
                 v.titleText.text = record.getTitleInCalendar()
-                v.subText.text = "${AppDateFormat.ymde.format(Date(record.dtEnd))} (${record.getDueText(System.currentTimeMillis())})"
-
+                v.memoText.text = "${AppDateFormat.ymde.format(Date(record.dtEnd))} (${record.getDueText(System.currentTimeMillis())})"
                 v.checkBtn.setOnClickListener {
-                    if(items.size == 1) {
-                        dismiss()
-                    }
+                    val pos = items.indexOf(record)
                     RecordManager.done(record)
-                    notifyItemRemoved(position)
+                    if(items.size == 0) {
+                        dismiss()
+                        toast(R.string.all_doned, R.drawable.all_done)
+                    }else{
+                        notifyItemRemoved(pos)
+                    }
                 }
-
                 v.setOnClickListener {
                     MainActivity.instance?.selectDate(record.dtEnd)
                     toast(R.string.moved, R.drawable.schedule)

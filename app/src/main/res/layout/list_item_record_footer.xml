@@ -5,10 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-   <View
-       android:layout_width="match_parent"
-       android:layout_height="1dp"/> <!-- 리사이클러뷰 아이템 생성 -->
-
    <ProgressBar
        android:id="@+id/footerProgress"
        android:layout_width="20dp"
@@ -87,6 +83,46 @@
                    android:text="@string/rc_photo_this_day"/>
 
             </LinearLayout>
+
+         </LinearLayout>
+
+      </FrameLayout>
+
+      <FrameLayout
+          android:id="@+id/beforeMonthLy"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="15dp"
+          android:foreground="@drawable/edit_mode_background_dash_light"
+          android:background="@color/backgroundDark">
+
+         <LinearLayout
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="-5dp"
+                android:textSize="12dp"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/bold_s"
+                android:text="@string/before_month_records"/>
+
+            <TextView
+                android:id="@+id/beforeMonthText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:gravity="center_vertical"
+                android:textSize="12dp"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/regular_s"/>
 
          </LinearLayout>
 

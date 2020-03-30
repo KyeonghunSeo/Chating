@@ -11,6 +11,7 @@ import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.getDiffTodayText
 import com.ayaan.twelvepages.model.AppUser
 import com.ayaan.twelvepages.model.Record
+import com.ayaan.twelvepages.setGlobalTheme
 import kotlinx.android.synthetic.main.list_item_simple_record.view.*
 import java.util.*
 
@@ -19,7 +20,13 @@ class SimpleRecordListAdapter(val context: Context, val items: List<Record>, pri
 
     override fun getItemCount(): Int = items.size
 
-    inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container)
+    inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container) {
+        init {
+            setGlobalTheme(container)
+            container.checkBtn.visibility = View.GONE
+            container.countdownText.visibility = View.GONE
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_simple_record, parent, false))
@@ -28,9 +35,9 @@ class SimpleRecordListAdapter(val context: Context, val items: List<Record>, pri
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val record = items[position]
         val v = holder.itemView
-        v.colorBar.setCardBackgroundColor(record.getColor())
+        v.checkBox.setColorFilter(record.getColor())
         v.titleText.text = record.getTitleInCalendar()
-        v.subText.text = "${AppDateFormat.ymde.format(Date(record.dtEnd))} [${getDiffTodayText(record.dtStart)}]"
+        v.memoText.text = "${AppDateFormat.ymde.format(Date(record.dtEnd))} [${getDiffTodayText(record.dtStart)}]"
         v.setOnClickListener { adapterInterface.invoke(record) }
     }
 }

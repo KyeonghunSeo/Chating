@@ -431,7 +431,8 @@
     <string name="show_more">더 보기..</string>
     <string name="empty_records">이 날의 기록이 없습니다..</string>
     <string name="rememer_this_day">추억</string>
-    <string name="before_year_records">1년전 이 날의 기록</string>
+    <string name="before_month_records">한달 전 오늘의 기록</string>
+    <string name="before_year_records">1년 전 오늘의 기록</string>
     <string name="todo">할일</string>
     <string name="select_color">색깔선택</string>
     <string name="filter_checkbox">체크박스여부</string>

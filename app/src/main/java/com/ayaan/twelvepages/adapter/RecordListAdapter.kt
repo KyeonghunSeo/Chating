@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Link
@@ -115,6 +116,19 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
         }
 
         val color = record.getColor()
+        val fontColor = ColorManager.getFontColor(color)
+        val formular = record.getFormula()
+        val shape = record.getShape()
+        v.colorImg.setImageResource(R.drawable.color_bg)
+        v.colorImg.setColorFilter(color)
+        v.symbolImg.setColorFilter(fontColor)
+        v.symbolImg.setImageResource(R.drawable.blank)
+
+        if(formular == RecordCalendarAdapter.Formula.DOT) {
+            v.symbolImg.setImageResource(R.drawable.dot)
+        }else if(formular == RecordCalendarAdapter.Formula.MULTI_TEXT) {
+            v.symbolImg.setImageResource(R.drawable.menu)
+        }
 
         if(AppStatus.isDisplayUpdateTime) {
             v.updatedText.visibility = View.VISIBLE
@@ -155,14 +169,14 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
         }
 
         if(record.isSetCheckBox) {
-            v.checkBox.setColorFilter(color)
             v.checkArea.visibility = View.VISIBLE
             if(record.title.isNullOrBlank()) {
                 v.titleText.text = str(R.string.todo)
             }
 
             if(record.isDone()) {
-                v.checkBox.setImageResource(R.drawable.checked_fill)
+                v.colorImg.setImageResource(R.drawable.color_bg)
+                v.symbolImg.setImageResource(R.drawable.done)
                 if(AppStatus.checkedRecordDisplay == 2 || AppStatus.checkedRecordDisplay == 3) {
                     v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }else {
@@ -170,15 +184,12 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
                 }
                 if(AppStatus.checkedRecordDisplay == 1 || AppStatus.checkedRecordDisplay == 3) {
                     v.titleText.alpha = 0.4f
-                    v.checkBox.alpha = 0.4f
                 }else {
                     v.titleText.alpha = 1f
-                    v.checkBox.alpha = 1f
                 }
             }else {
-                v.checkBox.setImageResource(R.drawable.uncheck)
+                v.colorImg.setImageResource(R.drawable.uncheck)
                 v.titleText.alpha = 1f
-                v.checkBox.alpha = 1f
                 v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
             }
             v.checkArea.setOnClickListener {
@@ -186,15 +197,8 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
                 RecordManager.done(record)
             }
         }else {
-            if(record.description.isNullOrBlank()) {
-                v.checkBox.setImageResource(R.drawable.color_bg)
-            }else {
-                v.checkBox.setImageResource(R.drawable.symbol_memo)
-            }
-            v.checkBox.setColorFilter(color)
             v.checkArea.visibility = View.GONE
             v.titleText.alpha = 1f
-            v.checkBox.alpha = 1f
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
         }
 
@@ -209,26 +213,26 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
             v.tagView.visibility = View.GONE
         }
 
-        if(record.isScheduled()) {
+        if(record.isScheduled() || isSearchListMode) {
             v.timeLy.visibility = View.VISIBLE
             v.timeImg.setImageResource(if(record.isSetTime) R.drawable.time else R.drawable.calendar)
             val totalDate = getDiffDate(record.dtStart, record.dtEnd) + 1
             if(totalDate == 1) {
-                if(record.isSetTime) {
+                if(isSearchListMode || record.isSetTime) {
                     if(record.dtStart == record.dtEnd) {
                         v.timeText.text = AppDateFormat.time.format(Date(record.dtStart))
                     }else {
                         v.timeText.text = "${AppDateFormat.time.format(Date(record.dtStart))} ~ " +
                                 AppDateFormat.time.format(Date(record.dtEnd))
                     }
+
+                    if(isSearchListMode) {
+                        v.timeText.text = AppDateFormat.ymde.format(Date(record.dtStart)) +
+                                " ${v.timeText.text} [${getDiffTodayText(record.dtStart)}]"
+                    }
                 }else {
                     v.timeText.text = ""
                     v.timeLy.visibility = View.GONE
-                }
-
-                if(isSearchListMode) {
-                    v.timeText.text = AppDateFormat.ymde.format(Date(record.dtStart)) +
-                            " ${v.timeText.text} [${getDiffTodayText(record.dtStart)}]"
                 }
             }else {
                 if(isSearchListMode) {
@@ -439,14 +443,17 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
     }
 
     var photoList: ArrayList<Photo>? = null
-    var pastRecordsList: List<Record>? = null
+    var beforeMonthRecords: List<Record>? = null
+    var beforeYearRecords: List<Record>? = null
 
-    fun setFooterView(photos: ArrayList<Photo>?, pastRecords: List<Record>?) {
+    fun setFooterView(photos: ArrayList<Photo>?, bmr: List<Record>?, byr: List<Record>?) {
         photoList = photos
-        pastRecordsList = pastRecords
+        beforeMonthRecords = bmr
+        beforeYearRecords = byr
         notifyItemChanged(items.size)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setFooterView() {
         footerHolder?.let { holder ->
             val v = holder.itemView
@@ -454,6 +461,7 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
             v.footerProgress.visibility = View.GONE
             v.footerContentLy.visibility = View.VISIBLE
             v.photoLy.visibility = View.GONE
+            v.beforeMonthLy.visibility = View.GONE
             v.beforeYearLy.visibility = View.GONE
 
             when(AppStatus.rememberPhoto) {
@@ -481,12 +489,31 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
                 }
             }
 
-            pastRecordsList?.let { list ->
+            beforeMonthRecords?.let { list ->
                 list.firstOrNull()?.let { record ->
+                    var tail = if (list.size > 1) " " + String.format(str(R.string.and_others), list.size - 1) else ""
+                    if (tail.contains("other") && list.size > 2) tail = tail.replace("other", "others")
+                    v.beforeMonthLy.visibility = View.VISIBLE
+                    v.beforeMonthText.text = "${record.getTitleInCalendar()}$tail"
+                    v.beforeMonthLy.setOnClickListener {
+                        tempCal.timeInMillis = currentCal.timeInMillis
+                        tempCal.add(Calendar.MONTH, -1)
+                        MainActivity.instance?.selectDate(getCalendarTime0(tempCal))
+                        toast(R.string.moved, R.drawable.schedule)
+                    }
+                }
+            }
+
+            beforeYearRecords?.let { list ->
+                list.firstOrNull()?.let { record ->
+                    var tail = if (list.size > 1) " " + String.format(str(R.string.and_others), list.size - 1) else ""
+                    if (tail.contains("other") && list.size > 2) tail = tail.replace("other", "others")
                     v.beforeYearLy.visibility = View.VISIBLE
-                    v.beforeYearText.text = record.getTitleInCalendar()
+                    v.beforeYearText.text = "${record.getTitleInCalendar()}$tail"
                     v.beforeYearLy.setOnClickListener {
-                        MainActivity.instance?.selectDate(getCalendarTime0(record.dtStart))
+                        tempCal.timeInMillis = currentCal.timeInMillis
+                        tempCal.add(Calendar.YEAR, -1)
+                        MainActivity.instance?.selectDate(getCalendarTime0(tempCal))
                         toast(R.string.moved, R.drawable.schedule)
                     }
                 }
@@ -497,7 +524,8 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
     fun clear() {
         items.clear()
         photoList = null
-        pastRecordsList = null
+        beforeMonthRecords = null
+        beforeYearRecords = null
         notifyDataSetChanged()
     }
 

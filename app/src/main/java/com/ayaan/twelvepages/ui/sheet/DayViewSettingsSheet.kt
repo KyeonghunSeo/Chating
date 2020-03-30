@@ -38,6 +38,7 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
         setDisplayDayViewWeekNum()
         setCheckedRecordDisplay()
         setRememberPhoto()
+        setRememberBeforeMonth()
         setRememberBeforeYear()
         setDisplayRecordDivider()
     }
@@ -142,6 +143,22 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
                         .forEach { _ -> setRememberPhotoData() }
                 return
             }
+        }
+    }
+
+    private fun setRememberBeforeMonth() {
+        if(AppStatus.rememberBeforeMonth == NONE || AppStatus.rememberBeforeMonth == NO) {
+            root.rememberBeforeMonthText.text = str(R.string.unuse)
+            root.rememberBeforeMonthText.setTextColor(AppTheme.disableText)
+        }else {
+            root.rememberBeforeMonthText.text = str(R.string.use)
+            root.rememberBeforeMonthText.setTextColor(AppTheme.secondaryText)
+        }
+        root.rememberBeforeMonthBtn.setOnClickListener {
+            AppStatus.rememberBeforeMonth = if(AppStatus.rememberBeforeMonth == NONE || AppStatus.rememberBeforeMonth == NO) YES else NO
+            Prefs.putInt("rememberBeforeMonth", AppStatus.rememberBeforeMonth)
+            setRememberBeforeMonth()
+            MainActivity.getDayPager()?.redraw()
         }
     }
 

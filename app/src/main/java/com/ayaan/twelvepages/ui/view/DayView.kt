@@ -337,6 +337,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         footerTask = object : AsyncTask<String, String, String?>() {
             var key: String? = null
             var photos: ArrayList<Photo>? = null
+            var beforeMonthRecords: List<Record>? = null
             var beforeYearRecords: List<Record>? = null
 
             override fun doInBackground(vararg args: String): String? {
@@ -347,6 +348,19 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     val endTime = getCalendarTime23(targetCal) / 1000
                     getPhotosByDate(activity, arrayOf(startTime.toString(), endTime.toString()))
                 }else null
+
+                if(isToday(targetCal) && AppStatus.rememberBeforeMonth == YES) {
+                    tempCal.timeInMillis = targetCal.timeInMillis
+                    tempCal.add(Calendar.MONTH, -1)
+                    val startTime = getCalendarTime0(tempCal)
+                    val endTime = getCalendarTime23(tempCal)
+                    beforeMonthRecords = realm.where(Record::class.java)
+                            .notEqualTo("dtCreated", -1L)
+                            .greaterThanOrEqualTo("dtEnd", startTime)
+                            .lessThanOrEqualTo("dtStart", endTime)
+                            .sort("dtStart", Sort.ASCENDING)
+                            .findAll().map { realm.copyFromRealm(it) }
+                }
 
                 if(isToday(targetCal) && AppStatus.rememberBeforeYear == YES) {
                     tempCal.timeInMillis = targetCal.timeInMillis
@@ -375,10 +389,12 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 l("[데이뷰 하단 : $key] : "+photos?.size)
                 if(MainActivity.getDayPager()?.isOpened() == true
                         && key == AppDateFormat.ymdkey.format(targetCal.time)) {
-                    if(!(photos.isNullOrEmpty() && beforeYearRecords.isNullOrEmpty())) {
+                    if(!(photos.isNullOrEmpty()
+                                    && beforeMonthRecords.isNullOrEmpty()
+                                    && beforeYearRecords.isNullOrEmpty())) {
                         emptyLy.visibility = View.GONE
                     }
-                    adapter.setFooterView(photos, beforeYearRecords)
+                    adapter.setFooterView(photos, beforeMonthRecords, beforeYearRecords)
                 }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)

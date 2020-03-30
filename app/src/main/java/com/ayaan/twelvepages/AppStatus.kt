@@ -17,8 +17,9 @@ object AppStatus {
     var isWeekNumDisplay = false
     var checkedRecordDisplay = 0
     var rememberPhoto = 0
+    var rememberBeforeMonth = 0
     var rememberBeforeYear = 0
-    var isDisplayUpdateTime = true
+    var isDisplayUpdateTime = false
     var isDisplayRecordViewStyle = false
     var displayRecordDivider = 0
     var isDisplayDayViewWeekNum = false
@@ -39,8 +40,9 @@ object AppStatus {
         isWeekNumDisplay = Prefs.getBoolean("isWeekNumDisplay", false)
         checkedRecordDisplay = Prefs.getInt("checkedRecordDisplay", 0)
         rememberPhoto = Prefs.getInt("rememberPhoto", 0)
+        rememberBeforeMonth = Prefs.getInt("rememberBeforeMonth", 0)
         rememberBeforeYear = Prefs.getInt("rememberBeforeYear", 0)
-        isDisplayUpdateTime = Prefs.getBoolean("isDisplayUpdateTime", true)
+        isDisplayUpdateTime = Prefs.getBoolean("isDisplayUpdateTime", false)
         isDisplayRecordViewStyle = Prefs.getBoolean("isDisplayRecordViewStyle", false)
         displayRecordDivider = Prefs.getInt("displayRecordDivider", 0)
         isDisplayDayViewWeekNum = Prefs.getBoolean("isDisplayDayViewWeekNum", true)
