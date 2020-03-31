@@ -218,19 +218,30 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     fun isSetCountdown(): Boolean = links.any { it.type == Link.Type.COUNTDOWN.ordinal }
-    fun clearCountdown() { links.first{ it.type == Link.Type.COUNTDOWN.ordinal }?.let { links.remove(it) } }
-    fun setCountdown() {
-        if(!isSetCountdown()) {
-            links.add(Link(type = Link.Type.COUNTDOWN.ordinal))
-        }
+    fun clearCountdown() { links.firstOrNull{ it.type == Link.Type.COUNTDOWN.ordinal }?.let { links.remove(it) } }
+    fun setCountdown(countdown: Link) {
+        clearCountdown()
+        links.add(countdown)
     }
+    fun getCountdown(): Link? = links.firstOrNull{ it.type == Link.Type.COUNTDOWN.ordinal }
     fun getCountdownText(time: Long): String {
-        val str = StringBuilder("D")
-        val diffDate = getDiffDate(dtStart, time)
-        when {
-            diffDate > 0 -> str.append("+$diffDate")
-            diffDate < 0 -> str.append(diffDate.toString())
-            else -> str.append("-day")
+        val str = StringBuilder("")
+        getCountdown()?.let {
+            if(it.intParam0 == 0) {
+                str.append("D")
+                val diffDate = getDiffDate(dtStart, time)
+                when {
+                    diffDate > 0 -> str.append("+$diffDate")
+                    diffDate < 0 -> str.append(diffDate.toString())
+                    else -> str.append("-day")
+                }
+            }else {
+                val diffDate = getDiffDate(dtStart, time)
+                when {
+                    diffDate >= 0 -> str.append(String.format(str(R.string.some_date), diffDate + 1))
+                    else -> str.append(String.format(str(R.string.date_before), diffDate))
+                }
+            }
         }
         return str.toString()
     }
@@ -283,6 +294,11 @@ open class Record(@PrimaryKey var id: String? = null,
     fun getTitleInCalendar() = if(!title.isNullOrBlank())
         title?.replace(System.getProperty("line.separator") ?: "\n", " ")
     else if(!description.isNullOrBlank())
+        description?.replace(System.getProperty("line.separator") ?: "\n", " ")
+    else
+        ""
+
+    fun getDescriptionInCalendar() = if(!description.isNullOrBlank())
         description?.replace(System.getProperty("line.separator") ?: "\n", " ")
     else
         ""

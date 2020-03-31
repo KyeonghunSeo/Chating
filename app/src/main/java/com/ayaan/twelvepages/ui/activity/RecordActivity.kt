@@ -354,16 +354,7 @@ class RecordActivity : BaseActivity() {
         if(record.isSetCountdown()) {
             ddayLy.visibility = View.VISIBLE
             ddayText.text = record.getCountdownText(System.currentTimeMillis())
-            ddayLy.setOnLongClickListener {
-                showDialog(CustomDialog(this, getString(R.string.delete),
-                        getString(R.string.delete_dday_sub), null, R.drawable.delete) { result, _, _ ->
-                    if(result) {
-                        record.clearCountdown()
-                        updateDdayUI()
-                    }
-                }, true, true, true, false)
-                return@setOnLongClickListener true
-            }
+            ddayLy.setOnClickListener { showCountDownDialog() }
         }else {
             ddayLy.visibility = View.GONE
         }
@@ -397,8 +388,8 @@ class RecordActivity : BaseActivity() {
                 updateCheckBoxUI()
             }
             checkBoxLy.setOnLongClickListener {
-                showDialog(CustomDialog(this, getString(R.string.delete),
-                        getString(R.string.delete_checkbox_sub), null, R.drawable.delete) { result, _, _ ->
+                showDialog(CustomDialog(this, getString(R.string.delete), getString(R.string.delete_checkbox_sub),
+                        null, R.drawable.delete) { result, _, _ ->
                     if(result) {
                         record.isSetCheckBox = false
                         updateCheckBoxUI()
@@ -726,6 +717,17 @@ class RecordActivity : BaseActivity() {
                 updateAlarmUI()
             }, true, true, true, false)
         }
+    }
+
+    fun showCountDownDialog() {
+        showDialog(CountdownDialog(this, record.getCountdown()) { result, countdown ->
+            if (result) {
+                record.setCountdown(countdown)
+            } else {
+                record.clearCountdown()
+            }
+            updateDdayUI()
+        }, true, true, true, false)
     }
 
     fun showEditWebsiteDialog() {

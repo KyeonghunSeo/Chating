@@ -62,7 +62,7 @@ class MoreOptionSheet(private val record: Record,
         }else {
             root.ddayBtn.alpha = 1f
             root.ddayBtn.setOnClickListener {
-                record.setCountdown()
+                recordActivity.showCountDownDialog()
                 recordActivity.updateDdayUI()
                 dismiss()
             }

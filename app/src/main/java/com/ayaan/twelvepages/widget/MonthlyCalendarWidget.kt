@@ -16,8 +16,7 @@ import com.ayaan.twelvepages.adapter.util.RecordCalendarComparator
 import com.ayaan.twelvepages.manager.*
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
-import com.ayaan.twelvepages.ui.activity.MainActivity
-import com.ayaan.twelvepages.ui.view.CalendarView
+import com.ayaan.twelvepages.ui.activity.WidgetSettingActivity
 import com.ayaan.twelvepages.ui.view.RecordView
 import com.pixplicity.easyprefs.library.Prefs
 import io.realm.Realm
@@ -98,8 +97,10 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             val minHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
             val maxHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
         }
+        val alpha = Prefs.getInt("monthlyWidgetTransparency", 100) * 255 / 100
         rv.setOnClickPendingIntent(R.id.rootLy, makeAppStartPendingIntent(context))
-        rv.setInt(R.id.backgroundView, "setAlpha", 255)
+        rv.setOnClickPendingIntent(R.id.settingBtn, buildSettingPendingIntent(context))
+        rv.setInt(R.id.backgroundView, "setAlpha", alpha)
         setCalendarView(rv)
         setRecordView(rv)
         appWidgetManager.updateAppWidget(appWidgetId, rv)
@@ -447,6 +448,13 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         }
         return null
+    }
+
+
+    private fun buildSettingPendingIntent(context: Context): PendingIntent? {
+        val intent = Intent(context, WidgetSettingActivity::class.java)
+        //intent.data = Uri.parse(WidgetSettingsActivity.Companion.getKEY_WIDGET_MONTHLY())
+        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 }
 

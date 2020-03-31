@@ -626,7 +626,6 @@ class MainActivity : BaseActivity() {
     override fun onStop() {
         super.onStop()
         isShowing = false
-
         val intent = Intent(this, MonthlyCalendarWidget::class.java)
         intent.action = "android.appwidget.action.APPWIDGET_UPDATE"
         sendBroadcast(intent)

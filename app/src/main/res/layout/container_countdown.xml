@@ -8,22 +8,22 @@
     android:paddingRight="25dp">
 
     <FrameLayout
-        android:id="@+id/dateBtn"
+        android:id="@+id/countdownTypeBtn"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="?android:attr/selectableItemBackground">
 
         <TextView
-            android:id="@+id/dateOffsetText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/bold_s"
             android:textColor="@color/secondaryText"
+            android:text="@string/countdown_type"
             android:textSize="13dp"/>
 
         <TextView
-            android:id="@+id/dateText"
+            android:id="@+id/countdownTypeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
@@ -33,22 +33,22 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/timeBtn"
+        android:id="@+id/countdownFunBtn"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="?android:attr/selectableItemBackground">
 
         <TextView
-            android:id="@+id/timeOffsetText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/bold_s"
             android:textColor="@color/secondaryText"
+            android:text="@string/countdown_fun"
             android:textSize="13dp"/>
 
         <TextView
-            android:id="@+id/timeText"
+            android:id="@+id/countdownFunText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"

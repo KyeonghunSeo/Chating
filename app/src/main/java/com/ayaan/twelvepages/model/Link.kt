@@ -20,7 +20,7 @@ open class Link(@PrimaryKey var id: String? = UUID.randomUUID().toString(),
     enum class Type { WEB, IMAGE, VOICE, COUNTDOWN, CHECKLIST, PERCENTAGE, STICKER }
 
     override fun toString(): String {
-        return "Link(id=$id, type=$type, title=$title, properties=$properties)"
+        return "Link(id=$id, type=$type, title=$title, properties=$properties, intParam1=$intParam1)"
     }
 
 }

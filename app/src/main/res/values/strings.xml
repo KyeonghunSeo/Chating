@@ -181,7 +181,6 @@
     <string name="countdown">카운트다운</string>
     <string name="planning">계획하기</string>
     <string name="write_everything">무엇을 기록할까요?</string>
-    <string name="delete_dday_sub">카운트다운 정보를 삭제하시겠습니까?</string>
     <string name="clear_time">시간설정 해제</string>
     <string name="one_day">하루</string>
     <string name="duration_day">총 %1$s일</string>
@@ -495,6 +494,17 @@
     <string name="upgrade_premium_sub_sub">구독은 언제든지 취소할 수 있습니다. <font fgcolor='#47b2f7'>[취소방법]</font></string>
     <string name="show_record_view_style">모양 표시</string>
     <string name="s_emoji">이모지</string>
+    <string name="delete_countdown">카운트다운 제거</string>
+    <string name="countdown_type">카운트다운 타입</string>
+    <string name="countdown_fun">지난날짜 카운트하기</string>
+    <string name="anniversary">기념일</string>
+    <string name="dday">디데이</string>
+    <string name="dday_sub">당일을 D-day로 표시</string>
+    <string name="anniversary_sub">당일을 1일로 표시</string>
+    <string name="count">카운트</string>
+    <string name="no_count">카운트 안함</string>
+    <string name="widget_setting">위젯설정</string>
+    <string name="transparency">투명도</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

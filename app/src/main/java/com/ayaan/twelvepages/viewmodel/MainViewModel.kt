@@ -113,12 +113,19 @@ class MainViewModel : ViewModel() {
 
     private fun loadData() {
         realm.value?.let { realm ->
+            val start = getTodayStartTime()
             countdownRecords.value = realm.where(Record::class.java)
                     .equalTo("links.type", Link.Type.COUNTDOWN.ordinal)
                     .notEqualTo("dtCreated", -1L)
+                    .not()
+                    .beginGroup()
+                    .equalTo("links.intParam1", Integer.valueOf("1"))
+                    .lessThan("dtStart", getTodayStartTime())
+                    .endGroup()
                     .sort("dtStart", Sort.ASCENDING)
                     .findAllAsync()
             countdownRecords.value?.addChangeListener { result, _ ->
+                result.forEach { l("$start!!$it") }
                 countdownRecords.postValue(result)
             }
 

@@ -91,7 +91,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         setStyle()
     }
 
-    @SuppressLint("RtlHardcoded")
+    @SuppressLint("RtlHardcoded", "SetTextI18n")
     fun setStyle() {
         var sPadding = defaultPadding
         var textPadding = 0
@@ -136,6 +136,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             MULTI_TEXT -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize - 1)
                 text = record.getTitleInCalendar()
+                val description = record.getDescriptionInCalendar()
+                description?.let { text = "$text - $it" }
                 gravity = Gravity.CENTER_VERTICAL
                 setSingleLine(false)
                 setHorizontallyScrolling(false)
