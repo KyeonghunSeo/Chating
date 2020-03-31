@@ -209,7 +209,7 @@ class RecordActivity : BaseActivity() {
 
         moreBtn.setOnClickListener {
             showDialog(PopupOptionDialog(this,
-                    arrayOf(PopupOptionDialog.Item(str(R.string.share), R.drawable.share, AppTheme.secondaryText),
+                    arrayOf(PopupOptionDialog.Item(str(R.string.share), R.drawable.export, AppTheme.secondaryText),
                             PopupOptionDialog.Item(str(R.string.delete), R.drawable.delete, AppTheme.red)),
                     moreBtn, false) { index ->
                 when(index) {

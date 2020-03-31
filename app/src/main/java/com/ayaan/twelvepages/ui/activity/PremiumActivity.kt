@@ -65,12 +65,12 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
                 2 -> {
                     v.titleText.text = str(R.string.premium_item_1_title)
                     v.subText.text = str(R.string.premium_item_1_sub)
-                    Glide.with(this@PremiumActivity).load(R.drawable.premium_photo).into(v.imageView)
+                    Glide.with(this@PremiumActivity).load(R.drawable.photo_sample).into(v.imageView)
                 }
                 3 -> {
                     v.titleText.text = str(R.string.premium_item_2_title)
                     v.subText.text = str(R.string.premium_item_2_sub)
-                    Glide.with(this@PremiumActivity).load(R.drawable.premium_backup).into(v.imageView)
+                    Glide.with(this@PremiumActivity).load(R.drawable.backup_sample).into(v.imageView)
                 }
                 4 -> {
                     v.titleText.text = str(R.string.premium_item_3_title)

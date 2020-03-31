@@ -2,6 +2,7 @@ package com.ayaan.twelvepages.model
 
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.MULTI_TEXT
 import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.ui.view.RecordView
 import io.realm.RealmList
@@ -291,17 +292,23 @@ open class Record(@PrimaryKey var id: String? = null,
     fun isSetPhoto(): Boolean = links.any { it.type == Link.Type.IMAGE.ordinal }
     fun isSetLink(): Boolean = links.any { it.type == Link.Type.WEB.ordinal }
 
-    fun getTitleInCalendar() = if(!title.isNullOrBlank())
-        title?.replace(System.getProperty("line.separator") ?: "\n", " ")
-    else if(!description.isNullOrBlank())
-        description?.replace(System.getProperty("line.separator") ?: "\n", " ")
-    else
-        ""
+    fun getTitleInCalendar() = if(getFormula() == MULTI_TEXT) {
+        if(!title.isNullOrBlank())
+            title?.take(30)?.replace(System.getProperty("line.separator") ?: "\n", " ") + if(!description.isNullOrBlank())
+                " - ${description?.take(30)?.replace(System.getProperty("line.separator") ?: "\n", " ")}" else ""
+        else if(!description.isNullOrBlank())
+            description?.take(30)?.replace(System.getProperty("line.separator") ?: "\n", " ")
+        else
+            ""
+    }else {
+        if(!title.isNullOrBlank())
+            title?.take(30)?.replace(System.getProperty("line.separator") ?: "\n", " ")
+        else if(!description.isNullOrBlank())
+            description?.take(30)?.replace(System.getProperty("line.separator") ?: "\n", " ")
+        else
+            ""
+    }
 
-    fun getDescriptionInCalendar() = if(!description.isNullOrBlank())
-        description?.replace(System.getProperty("line.separator") ?: "\n", " ")
-    else
-        ""
 
     fun getShortTilte(): String {
         getTitleInCalendar()?.let {

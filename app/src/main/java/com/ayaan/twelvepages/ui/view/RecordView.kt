@@ -63,10 +63,10 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         UPPER_LINE(R.string.shape_upper_line, true, false, false, false),
         UNDER_LINE(R.string.shape_under_line, true, false, false, false),
         NEON_PEN(R.string.shape_neon_pen, false, false, false, false),
-        RANGE(R.string.shape_range, true, false, true, true),
-        DASH_RANGE(R.string.shape_dash_range, true, false, true, true),
-        ARROW(R.string.shape_arrow, true, false, true, true),
-        DASH_ARROW(R.string.shape_dash_arrow, true, false, true, true),
+        RANGE(R.string.shape_range, true, false, true, false),
+        DASH_RANGE(R.string.shape_dash_range, true, false, true, false),
+        ARROW(R.string.shape_arrow, true, false, true, false),
+        DASH_ARROW(R.string.shape_dash_arrow, true, false, true, false),
         COLOR_PEN(R.string.shape_color_pen, true, false, false, false);
 
         companion object {
@@ -136,8 +136,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             MULTI_TEXT -> {
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize - 1)
                 text = record.getTitleInCalendar()
-                val description = record.getDescriptionInCalendar()
-                description?.let { text = "$text - $it" }
                 gravity = Gravity.CENTER_VERTICAL
                 setSingleLine(false)
                 setHorizontallyScrolling(false)
@@ -372,7 +370,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 paint.style = Paint.Style.FILL
             }
             else -> {
-                val periodLine = strokeWidth * 1.5f
+                val periodLine = strokeWidth * 1.0f
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = periodLine
                 if(shape == Shape.DASH_RANGE || shape == Shape.DASH_ARROW) {

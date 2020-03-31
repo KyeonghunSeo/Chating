@@ -332,7 +332,7 @@
     <string name="reference_os_calendar">OS 캘린더 참조하기</string>
     <string name="no_reference">참조안함</string>
     <string name="referencing">%1$s개 캘린더 참조중</string>
-    <string name="share">공유</string>
+    <string name="share">내보내기</string>
     <string name="date_time">일시</string>
     <string name="time">시간</string>
     <string name="copy">복사</string>
@@ -366,7 +366,7 @@
     <string name="diary_set_0_title">기본</string>
     <string name="diary_set_0_sub">일정과 할일을 관리하고\n중요한 것들을 메모합니다.\n처음 구성으로 시작하기에 좋습니다.</string>
     <string name="diary_set_1_title">플래너</string>
-    <string name="diary_set_1_sub">일정을 시간별로 철저히 관리하고.\n할일은 중요도에 따라 달리 표시합니다.\n긴 일정이나 프로젝트는\n따로 구분하여 강조해서 표시합니다.\n바쁜 스케쥴 관리가 필요하신 분들에게\n좋은 구성입니다.</string>
+    <string name="diary_set_1_sub">일정을 시간별로 관리하고.\n할일은 중요도에 따라 달리 표시합니다.\n긴 일정이나 프로젝트는 따로 구분하여\n강조해서 표시합니다.\n바쁜 스케쥴 관리가 필요하신 분들에게\n좋은 구성입니다.</string>
     <string name="diary_set_2_title">일기장</string>
     <string name="diary_set_2_sub">소소한 일상, 떠오르는 생각들을 기록하고,\n그날 그날의 감정을 스티커로 표시합니다.\n일기장이나 날짜노트가 필요하신 분들에게\n좋은 구성입니다.</string>
     <string name="diary_set_3_title">나만의 다이어리</string>

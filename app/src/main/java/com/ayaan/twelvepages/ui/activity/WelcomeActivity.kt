@@ -29,6 +29,7 @@ import com.ayaan.twelvepages.manager.OsCalendarManager
 import com.ayaan.twelvepages.model.*
 import com.ayaan.twelvepages.ui.dialog.OsCalendarDialog
 import com.ayaan.twelvepages.ui.view.RecordView
+import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.pixplicity.easyprefs.library.Prefs
 import io.realm.*
@@ -150,6 +151,10 @@ class WelcomeActivity : BaseActivity() {
         val user = FirebaseAuth.getInstance().currentUser
         optionTitleText.text = String.format(getString(R.string.init_setting_script_0), user?.displayName)
         diaryLy.visibility = View.VISIBLE
+        Glide.with(this).load(R.drawable.basic_sample).into(diarySelector0)
+        Glide.with(this).load(R.drawable.planner_sample).into(diarySelector1)
+        Glide.with(this).load(R.drawable.diary_sample).into(diarySelector2)
+        Glide.with(this).load(R.drawable.free_sample).into(diarySelector3)
         prevBtn.visibility = View.GONE
         nextBtn.setOnClickListener {
             if(doubleTabFlag) {
@@ -195,7 +200,7 @@ class WelcomeActivity : BaseActivity() {
 
                                 od++
                                 record.setFormula(RecordCalendarAdapter.Formula.SINGLE_TEXT)
-                                record.setShape(RecordView.Shape.UNDER_LINE)
+                                record.setShape(RecordView.Shape.COLOR_PEN)
                                 realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
                                     folder = f
                                     order = od
@@ -220,7 +225,7 @@ class WelcomeActivity : BaseActivity() {
 
                                 od++
                                 record.setFormula(RecordCalendarAdapter.Formula.SINGLE_TEXT)
-                                record.setShape(RecordView.Shape.RECT_FILL_BLUR)
+                                record.setShape(RecordView.Shape.RECT_FILL)
                                 realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
                                     folder = f
                                     order = od
@@ -300,12 +305,13 @@ class WelcomeActivity : BaseActivity() {
 
                                 od++
                                 record.setFormula(RecordCalendarAdapter.Formula.SINGLE_TEXT)
-                                record.setShape(RecordView.Shape.UNDER_LINE)
+                                record.setShape(RecordView.Shape.COLOR_PEN)
                                 realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
                                     folder = f
                                     order = od
                                     title = str(R.string.important_todo)
                                     style = record.style
+
                                     colorKey = 0
                                     alarmDayOffset = 0
                                     alarmTime = AlarmManager.defaultAlarmTime[0]
@@ -349,7 +355,7 @@ class WelcomeActivity : BaseActivity() {
 
                                 od++
                                 record.setFormula(RecordCalendarAdapter.Formula.MULTI_TEXT)
-                                record.setShape(RecordView.Shape.UPPER_LINE)
+                                record.setShape(RecordView.Shape.COLOR_PEN)
                                 realm.createObject(Template::class.java, UUID.randomUUID().toString())?.apply {
                                     folder = f
                                     order = od
@@ -415,7 +421,6 @@ class WelcomeActivity : BaseActivity() {
             btn.setOnClickListener {
                 diaryNum = index
                 selectors.forEachIndexed { i, imageView ->
-                    imageView.visibility = if(index == i) View.VISIBLE else View.GONE
                     ObjectAnimator.ofFloat(btns[i], "cardElevation", if(index == i) dpToPx(30f) else dpToPx(1f)).start()
                     ObjectAnimator.ofFloat(btns[i], "alpha", if(index == i) 1f else 0.5f).start()
                 }

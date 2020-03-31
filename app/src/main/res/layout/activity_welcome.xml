@@ -329,41 +329,47 @@
                         android:id="@+id/diaryBtn0"
                         android:layout_width="300dp"
                         android:layout_height="match_parent"
+                        android:foreground="?android:attr/selectableItemBackground"
                         app:cardElevation="30dp"
                         app:cardCornerRadius="2dp">
 
                         <LinearLayout
                             android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?android:attr/selectableItemBackground">
+                            android:layout_height="match_parent">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="25dp"
                                 android:textColor="@color/secondaryText"
-                                android:textSize="20dp"
+                                android:textSize="18dp"
                                 android:text="@string/diary_set_0_title"
                                 android:fontFamily="@font/bold_s"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
                                 android:layout_marginLeft="25dp"
                                 android:textColor="@color/secondaryText"
                                 android:lineSpacingExtra="3dp"
                                 android:textSize="12dp"
                                 android:text="@string/diary_set_0_sub"
                                 android:fontFamily="@font/regular_s"/>
-                        </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/diarySelector0"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/big_card_selector"/>
+                            <ImageView
+                                android:id="@+id/diarySelector0"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/big_card_selector"
+                                android:layout_gravity="bottom"
+                                android:alpha="0.9"
+                                android:layout_marginLeft="25dp"
+                                android:layout_marginRight="25dp"
+                                android:layout_marginTop="10dp"
+                                android:visibility="visible"/>
+                        </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
@@ -372,6 +378,7 @@
                         android:layout_width="300dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="30dp"
+                        android:foreground="?android:attr/selectableItemBackground"
                         app:cardElevation="1dp"
                         app:cardCornerRadius="2dp"
                         android:alpha="0.5">
@@ -379,36 +386,40 @@
                         <LinearLayout
                             android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?android:attr/selectableItemBackground">
+                            android:layout_height="match_parent">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="25dp"
                                 android:textColor="@color/secondaryText"
-                                android:textSize="20dp"
+                                android:textSize="18dp"
                                 android:text="@string/diary_set_1_title"
                                 android:fontFamily="@font/bold_s"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
                                 android:layout_marginLeft="25dp"
                                 android:textColor="@color/secondaryText"
                                 android:lineSpacingExtra="3dp"
                                 android:textSize="12dp"
                                 android:text="@string/diary_set_1_sub"
                                 android:fontFamily="@font/regular_s"/>
-                        </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/diarySelector1"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/big_card_selector"
-                            android:visibility="gone"/>
+                            <ImageView
+                                android:id="@+id/diarySelector1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/big_card_selector"
+                                android:layout_gravity="bottom"
+                                android:alpha="0.9"
+                                android:layout_marginLeft="25dp"
+                                android:layout_marginRight="25dp"
+                                android:layout_marginTop="10dp"
+                                android:visibility="visible"/>
+                        </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
@@ -417,6 +428,7 @@
                         android:layout_width="300dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="30dp"
+                        android:foreground="?android:attr/selectableItemBackground"
                         app:cardElevation="1dp"
                         app:cardCornerRadius="2dp"
                         android:alpha="0.5">
@@ -424,22 +436,20 @@
                         <LinearLayout
                             android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?android:attr/selectableItemBackground">
+                            android:layout_height="match_parent">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="25dp"
                                 android:textColor="@color/secondaryText"
-                                android:textSize="20dp"
+                                android:textSize="18dp"
                                 android:text="@string/diary_set_2_title"
                                 android:fontFamily="@font/bold_s"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
                                 android:layout_marginLeft="25dp"
                                 android:textColor="@color/secondaryText"
                                 android:lineSpacingExtra="3dp"
@@ -447,14 +457,20 @@
                                 android:text="@string/diary_set_2_sub"
                                 android:fontFamily="@font/regular_s"/>
 
-                        </LinearLayout>
+                            <ImageView
+                                android:id="@+id/diarySelector2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/big_card_selector"
+                                android:layout_gravity="bottom"
+                                android:alpha="0.9"
+                                android:layout_marginLeft="25dp"
+                                android:layout_marginRight="25dp"
+                                android:layout_marginTop="10dp"
+                                android:visibility="visible"/>
 
-                        <ImageView
-                            android:id="@+id/diarySelector2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/big_card_selector"
-                            android:visibility="gone"/>
+                        </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
@@ -463,6 +479,7 @@
                         android:layout_width="300dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="30dp"
+                        android:foreground="?android:attr/selectableItemBackground"
                         app:cardElevation="1dp"
                         app:cardCornerRadius="2dp"
                         android:alpha="0.5">
@@ -470,22 +487,20 @@
                         <LinearLayout
                             android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?android:attr/selectableItemBackground">
+                            android:layout_height="match_parent">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="25dp"
                                 android:textColor="@color/secondaryText"
-                                android:textSize="20dp"
+                                android:textSize="18dp"
                                 android:text="@string/diary_set_3_title"
                                 android:fontFamily="@font/bold_s"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
                                 android:layout_marginLeft="25dp"
                                 android:textColor="@color/secondaryText"
                                 android:lineSpacingExtra="3dp"
@@ -493,14 +508,20 @@
                                 android:text="@string/diary_set_3_sub"
                                 android:fontFamily="@font/regular_s"/>
 
-                        </LinearLayout>
+                            <ImageView
+                                android:id="@+id/diarySelector3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/big_card_selector"
+                                android:layout_gravity="bottom"
+                                android:alpha="0.9"
+                                android:layout_marginLeft="25dp"
+                                android:layout_marginRight="25dp"
+                                android:layout_marginTop="10dp"
+                                android:visibility="visible"/>
 
-                        <ImageView
-                            android:id="@+id/diarySelector3"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/big_card_selector"
-                            android:visibility="gone"/>
+                        </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
