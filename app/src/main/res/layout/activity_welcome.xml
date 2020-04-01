@@ -69,12 +69,12 @@
         android:alpha="0">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:src="@mipmap/ic_launcher"
-            android:tint="@color/secondaryText"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/logo"
+            android:tint="@color/semiPrimaryText"
             android:alpha="1.0"/>
 
         <FrameLayout
@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/secondary_rect_stroke">
 
                 <TextView
@@ -175,6 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
                 android:layout_marginRight="38dp">
 
                 <TextView
@@ -200,7 +201,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="305dp">
+                android:layout_marginTop="325dp">
 
                 <View
                     android:layout_width="40dp"

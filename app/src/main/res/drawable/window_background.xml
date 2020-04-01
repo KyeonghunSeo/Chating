@@ -5,8 +5,8 @@
 	<item android:drawable="@color/background"/>
 	<item>
 		<bitmap
-			android:alpha="0"
+			android:alpha="0.4"
 			android:gravity="center"
-			android:src="@drawable/temp_logo"/>
+			android:src="@drawable/background_logo"/>
 	</item>
 </layer-list>

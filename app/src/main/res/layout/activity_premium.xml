@@ -10,7 +10,6 @@
         android:layout_width="110dp"
         android:layout_height="80dp"
         android:layout_marginTop="17dp"
-        android:src="@drawable/premium_deco"
         android:layout_gravity="center_horizontal"
         android:tint="@color/iconTint"
         android:alpha="0.9"/>
@@ -41,7 +40,7 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/temp_logo"
+            android:src="@drawable/logo"
             android:layout_gravity="center_horizontal"
             android:tint="@color/secondaryText"/>
 

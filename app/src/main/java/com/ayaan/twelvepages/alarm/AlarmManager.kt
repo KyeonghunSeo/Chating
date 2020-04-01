@@ -180,14 +180,14 @@ object AlarmManager {
         return when (diffTime) {
             0L -> App.context.getString(R.string.now)
             else -> {
-                val diffMin = Math.abs(diffTime / MIN_MILL)
+                val diffMin = abs(diffTime / MIN_MILL)
                 when{
                     diffMin < 60 -> {
-                        if(diffTime < 0) String.format(App.context.getString(R.string.min_before), Math.abs(diffMin))
-                        else String.format(App.context.getString(R.string.min_after), Math.abs(diffMin))
+                        if(diffTime < 0) String.format(App.context.getString(R.string.min_before), abs(diffMin))
+                        else String.format(App.context.getString(R.string.min_after), abs(diffMin))
                     }
                     diffMin < 60 * 24 -> {
-                        val diffHour = Math.abs(diffTime / HOUR_MILL)
+                        val diffHour = abs(diffTime / HOUR_MILL)
                         val diffMinHour = diffMin % 60
                         if(diffTime < 0) {
                             when (diffMinHour) {
@@ -208,8 +208,8 @@ object AlarmManager {
                             -1 -> App.context.getString(R.string.tomorrow)
                             1 -> App.context.getString(R.string.yesterday)
                             else -> {
-                                if(diffToday < 0)  String.format(App.context.getString(R.string.date_before), diffToday)
-                                else String.format(App.context.getString(R.string.date_over), diffToday)
+                                if(diffToday < 0)  String.format(App.context.getString(R.string.date_before), abs(diffToday))
+                                else String.format(App.context.getString(R.string.date_over), abs(diffToday))
                             }
                         }
                     }
