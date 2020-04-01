@@ -55,12 +55,12 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
                 0 -> {
                     v.titleText.text = str(R.string.premium_item_main_title)
                     v.subText.text = str(R.string.premium_item_main_sub)
-                    Glide.with(this@PremiumActivity).load(R.drawable.premium_system).into(v.imageView)
+                    Glide.with(this@PremiumActivity).load(R.drawable.premium_template).into(v.imageView)
                 }
                 1 -> {
                     v.titleText.text = str(R.string.premium_item_0_title)
                     v.subText.text = str(R.string.premium_item_0_sub)
-                    Glide.with(this@PremiumActivity).load(R.drawable.premium_ad).into(v.imageView)
+                    Glide.with(this@PremiumActivity).load(R.drawable.ad_sample).into(v.imageView)
                 }
                 2 -> {
                     v.titleText.text = str(R.string.premium_item_1_title)
@@ -75,12 +75,12 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
                 4 -> {
                     v.titleText.text = str(R.string.premium_item_3_title)
                     v.subText.text = str(R.string.premium_item_3_sub)
-                    Glide.with(this@PremiumActivity).load(R.drawable.premium_template).into(v.imageView)
+                    Glide.with(this@PremiumActivity).load(R.drawable.template_sample).into(v.imageView)
                 }
                 else -> {
                     v.titleText.text = str(R.string.premium_item_4_title)
                     v.subText.text = str(R.string.premium_item_4_sub)
-                    Glide.with(this@PremiumActivity).load(R.drawable.premium_ad).into(v.imageView)
+                    Glide.with(this@PremiumActivity).load(R.drawable.sticker_sample).into(v.imageView)
                 }
             }
 
