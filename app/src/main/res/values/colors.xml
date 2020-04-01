@@ -29,6 +29,7 @@
 
     -->
     <color name="background">#fefefe</color>
+    <color name="backgroundLightDark">#fcfcfc</color>
     <color name="backgroundDark">#fbfbfb</color>
     <color name="whiteAlpha">#ddffffff</color>
     <color name="dim">#90212121</color>

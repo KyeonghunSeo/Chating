@@ -27,14 +27,14 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     companion object {
         var standardTextSize = 8f
         val baseSize = dpToPx(0.5f)
-        val strokeWidth = baseSize // 선
+        val strokeWidth = dpToPx(0.7f) // 선
         val blockTypeSize = dpToPx(15) // 블록 크기
         val defaulMargin = baseSize * 3 // 뷰간 간격
         val defaultPadding = dpToPx(2)
         val stickerLeft = -dpToPx(1)
         val normalStickerSize = dpToPx(20)
         val datePointSize = dpToPx(30)
-        val rectRadius = dpToPx(0.5f)
+        val rectRadius = dpToPx(1.0f)
         val dotSize = dpToPx(3)
         val checkboxSize = dpToPx(10)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
@@ -389,8 +389,8 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                     drawArrow(canvas, width, height / 2, width - arrowWidth, height / 2 - arrowSize, width - arrowWidth, height / 2  + arrowSize + periodLine.toInt())
                 }else {
                     val dividerSize = periodLine * 5.0f
-                    canvas.drawRect(0f, height / 2f - dividerSize, periodLine + strokeWidth, height / 2f + dividerSize, paint)
-                    canvas.drawRect(width - periodLine - strokeWidth, height / 2f - dividerSize, width.toFloat(), height / 2f + dividerSize, paint)
+                    canvas.drawRect(0f, height / 2f - dividerSize, periodLine + 1, height / 2f + dividerSize, paint)
+                    canvas.drawRect(width - periodLine - 1, height / 2f - dividerSize, width.toFloat(), height / 2f + dividerSize, paint)
                 }
                 /*
                 val lineY = (periodLine * 1.5f).toInt()
