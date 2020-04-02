@@ -88,8 +88,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="fbfbfb" />
-                                      <entry key="foregroundImage" value="C:\Users\hellowo\Desktop\Moon01.png" />
+                                      <entry key="backgroundColor" value="eeeeee" />
+                                      <entry key="foregroundImage" value="C:\Users\hellowo\Desktop\logo.png" />
                                     </map>
                                   </option>
                                 </PersistentState>

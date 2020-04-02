@@ -23,7 +23,7 @@ import java.util.*
 
 class CalendarPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
-    private val headerHeight = dpToPx(90)
+    private val headerHeight = dpToPx(95)
     private val dowHeight = dpToPx(18)
     private val startPosition = 1000
     private val viewCount = 3

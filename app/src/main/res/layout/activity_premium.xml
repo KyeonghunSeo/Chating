@@ -41,8 +41,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@drawable/logo"
-            android:layout_gravity="center_horizontal"
-            android:tint="@color/secondaryText"/>
+            android:layout_gravity="center_horizontal"/>
 
         <LinearLayout
             android:orientation="horizontal"

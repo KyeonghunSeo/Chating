@@ -150,8 +150,9 @@
     <string name="first_text_2">또렷한 기억보다</string>
     <string name="first_text_3">더 가치있다.</string>
     <string name="sign_in_with_google">시작하기</string>
-    <string name="logo_text">캘린더 · 다이어리</string>
+    <string name="logo_text">다이어리</string>
     <string name="logo_text_2">기\n록\n하\n는\n즐\n거\n움</string>
+    <string name="logo_text_3">다\n이\n어\n리</string>
     <string name="logo_text_w">기록하는 즐거움</string>
     <string name="init_setting_script_0">반갑습니다! %1$s 님.\n어떤 다이어리가 필요하신가요?\n원하는 다이어리 구성을 선택해보세요.</string>
     <string name="select_os_calendar">외부캘린더 가져오기</string>
@@ -410,7 +411,7 @@
     <string name="premium_item_2_title">데이터 자동백업</string>
     <string name="premium_item_2_sub">자동으로 데이터를 백업하고\n더 안전하게 데이터를 관리합니다.</string>
     <string name="premium_item_3_title">무제한 템플릿</string>
-    <string name="premium_item_3_sub">템플릿을 자유롭게 만들고\n나만의 시스템을 만들어보세요.</string>
+    <string name="premium_item_3_sub">템플릿을 자유롭게 만들고\n나만의 다이어리를 만들어보세요.</string>
     <string name="premium_item_4_title">프리미엄 스티커</string>
     <string name="premium_item_4_sub">500개가 넘는 다양한 스티커로\n더 멋지게 꾸며보세요.\n프리미엄 스티커는 계속해서 추가됩니다.</string>
     <string name="premium_item_5_title">그 외 모든기능 해제</string>

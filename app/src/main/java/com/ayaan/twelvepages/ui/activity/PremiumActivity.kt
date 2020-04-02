@@ -53,34 +53,29 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
 
             when(position) {
                 0 -> {
-                    v.titleText.text = str(R.string.premium_item_main_title)
-                    v.subText.text = str(R.string.premium_item_main_sub)
-                    Glide.with(this@PremiumActivity).load(R.drawable.premium_template).into(v.imageView)
-                }
-                1 -> {
-                    v.titleText.text = str(R.string.premium_item_0_title)
-                    v.subText.text = str(R.string.premium_item_0_sub)
-                    Glide.with(this@PremiumActivity).load(R.drawable.ad_sample).into(v.imageView)
-                }
-                2 -> {
                     v.titleText.text = str(R.string.premium_item_1_title)
                     v.subText.text = str(R.string.premium_item_1_sub)
                     Glide.with(this@PremiumActivity).load(R.drawable.photo_sample).into(v.imageView)
                 }
-                3 -> {
-                    v.titleText.text = str(R.string.premium_item_2_title)
-                    v.subText.text = str(R.string.premium_item_2_sub)
-                    Glide.with(this@PremiumActivity).load(R.drawable.backup_sample).into(v.imageView)
+                1 -> {
+                    v.titleText.text = str(R.string.premium_item_4_title)
+                    v.subText.text = str(R.string.premium_item_4_sub)
+                    Glide.with(this@PremiumActivity).load(R.drawable.sticker_sample).into(v.imageView)
                 }
-                4 -> {
+                2 -> {
                     v.titleText.text = str(R.string.premium_item_3_title)
                     v.subText.text = str(R.string.premium_item_3_sub)
                     Glide.with(this@PremiumActivity).load(R.drawable.template_sample).into(v.imageView)
                 }
+                3 -> {
+                    v.titleText.text = str(R.string.premium_item_0_title)
+                    v.subText.text = str(R.string.premium_item_0_sub)
+                    Glide.with(this@PremiumActivity).load(R.drawable.ad_sample).into(v.imageView)
+                }
                 else -> {
-                    v.titleText.text = str(R.string.premium_item_4_title)
-                    v.subText.text = str(R.string.premium_item_4_sub)
-                    Glide.with(this@PremiumActivity).load(R.drawable.sticker_sample).into(v.imageView)
+                    v.titleText.text = str(R.string.premium_item_2_title)
+                    v.subText.text = str(R.string.premium_item_2_sub)
+                    Glide.with(this@PremiumActivity).load(R.drawable.backup_sample).into(v.imageView)
                 }
             }
 
@@ -89,7 +84,7 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
         }
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) { container.removeView(`object` as View) }
         override fun isViewFromObject(view: View, `object`: Any): Boolean = view == `object`
-        override fun getCount(): Int = 6
+        override fun getCount(): Int = 5
     }
 
     private fun setPayLy() {

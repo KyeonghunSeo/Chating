@@ -64,8 +64,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/logo"
-                android:layout_gravity="center_horizontal"
-                android:tint="@color/secondaryText"/>
+                android:layout_gravity="center_horizontal"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -178,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/secondaryText"
-                android:textSize="8dp"
+                android:textSize="10dp"
                 android:text="@string/logo_text"
                 android:fontFamily="@font/regular_s"/>
 

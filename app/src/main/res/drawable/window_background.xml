@@ -5,7 +5,7 @@
 	<item android:drawable="@color/background"/>
 	<item>
 		<bitmap
-			android:alpha="0.4"
+			android:alpha="0.8"
 			android:gravity="center"
 			android:src="@drawable/background_logo"/>
 	</item>
