@@ -88,7 +88,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         l("[MainActivity onCreate]")
-        //MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713") /*개발 ca-app-pub-3940256099942544~3347511713*/ /*운영 ca-app-pub-6927758618180863~9253162897*/
+        MobileAds.initialize(this, "ca-app-pub-6927758618180863~9253162897") /*개발 ca-app-pub-3940256099942544~3347511713*/ /*운영 ca-app-pub-6927758618180863~9253162897*/
         instance = this
         //viewModel = ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
@@ -194,7 +194,7 @@ class MainActivity : BaseActivity() {
         }
 
         profileBtn.setOnLongClickListener {
-            AppStatus.premiumTime = System.currentTimeMillis() + DAY_MILL
+
 //            val cal = Calendar.getInstance()
 //            cal.set(2019, 9, 1)
 //            var s = cal.timeInMillis

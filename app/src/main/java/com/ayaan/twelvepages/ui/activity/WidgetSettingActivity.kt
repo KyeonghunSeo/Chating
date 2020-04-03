@@ -14,7 +14,7 @@ class WidgetSettingActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_widget_setting)
         initTheme(rootLy)
-
+        backBtn.setOnClickListener { finish() }
         val progress = Prefs.getInt("monthlyWidgetTransparency", 100)
         transparencySeekBar.progress = progress
         transparencyText.text = progress.toString()

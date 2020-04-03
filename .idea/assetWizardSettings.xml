@@ -88,7 +88,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="eeeeee" />
+                                      <entry key="backgroundColor" value="fcfcfc" />
                                       <entry key="foregroundImage" value="C:\Users\hellowo\Desktop\logo.png" />
                                     </map>
                                   </option>
@@ -145,6 +145,11 @@
                 </map>
               </option>
             </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState />
           </value>
         </entry>
       </map>
