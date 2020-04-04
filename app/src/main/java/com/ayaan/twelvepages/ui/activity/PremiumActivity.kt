@@ -123,6 +123,7 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
         val dialog = CustomDialog(this, getString(R.string.thank_you_subscribe),
                 getString(R.string.thank_you_subscribe_sub), null, R.drawable.crown) { result, _, _ ->
         }
+
         showDialog(dialog, true, true, true, false)
         dialog.hideBottomBtnsLy()
     }
