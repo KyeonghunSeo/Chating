@@ -99,18 +99,32 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
         }
     }
 
-    override fun onBillingInitialized() {}
-    override fun onPurchaseHistoryRestored() {}
+    override fun onBillingInitialized() {
+        l("[onBillingInitialized]")
+    }
+    override fun onPurchaseHistoryRestored() {
+        l("[onPurchaseHistoryRestored]")
+    }
     override fun onProductPurchased(productId: String, details: TransactionDetails?) {
+        l("[onProductPurchased] : $productId")
         //details?.purchaseInfo?.purchaseData?
         if(productId == "premium") {
             purchased()
         }
     }
-    override fun onBillingError(errorCode: Int, error: Throwable?) {}
+    override fun onBillingError(errorCode: Int, error: Throwable?) {
+        l("[onBillingError] : $errorCode")
+        if(errorCode == 7) {
+            purchased()
+        }
+    }
 
     private fun subscribe() {
-        bp?.subscribe(this, "premium")
+        if(bp?.getSubscriptionListingDetails("premium")?.isSubscription == true) {
+            purchased()
+        }else {
+            bp?.subscribe(this, "premium")
+        }
     }
 
     private fun purchased() {
@@ -123,7 +137,6 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
         val dialog = CustomDialog(this, getString(R.string.thank_you_subscribe),
                 getString(R.string.thank_you_subscribe_sub), null, R.drawable.crown) { result, _, _ ->
         }
-
         showDialog(dialog, true, true, true, false)
         dialog.hideBottomBtnsLy()
     }
