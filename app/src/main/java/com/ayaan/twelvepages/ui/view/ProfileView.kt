@@ -66,13 +66,16 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     fun updateUserUI(appUser: AppUser) {
-        l("[프로필 뷰 갱신]" + appUser.id)
+        l("[프로필 뷰 갱신]")
+        val photoUrl = FirebaseAuth.getInstance().currentUser?.photoUrl
         when {
-            FirebaseAuth.getInstance().currentUser?.photoUrl != null ->
-                Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl)
+            photoUrl != null && photoUrl.toString().startsWith("https://firebasestorage.googleapis.com") ->
+                Glide.with(this).load(photoUrl)
                         .apply(RequestOptions().override(dpToPx(150)))
                         .into(profileImg)
-            else -> profileImg.setImageResource(R.drawable.profile)
+            else -> Glide.with(this).load(R.drawable.default_profile)
+                    .apply(RequestOptions().override(dpToPx(150)))
+                    .into(profileImg)
         }
 
         nameText.text = FirebaseAuth.getInstance().currentUser?.displayName
@@ -83,9 +86,11 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         }
 
         if(AppStatus.isPremium()) {
-            premiumImg.clearColorFilter()
+            premiumText.visibility = View.VISIBLE
+            premiumImg.alpha = 1f
         }else {
-            setImageViewGrayFilter(premiumImg)
+            premiumText.visibility = View.GONE
+            premiumImg.alpha = 0.3f
         }
     }
 

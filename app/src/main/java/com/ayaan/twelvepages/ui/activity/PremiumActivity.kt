@@ -15,10 +15,9 @@ import com.ayaan.twelvepages.ui.dialog.CustomDialog
 import com.bumptech.glide.Glide
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_premium.*
-import kotlinx.android.synthetic.main.activity_premium.backBtn
-import kotlinx.android.synthetic.main.activity_premium.rootLy
 import kotlinx.android.synthetic.main.pager_item_premium.view.*
 import java.util.*
+
 
 class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
     private var bp: BillingProcessor? = null
@@ -120,11 +119,7 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
     }
 
     private fun subscribe() {
-        if(bp?.getSubscriptionListingDetails("premium")?.isSubscription == true) {
-            purchased()
-        }else {
-            bp?.subscribe(this, "premium")
-        }
+        bp?.subscribe(this, "premium")
     }
 
     private fun purchased() {
@@ -149,5 +144,9 @@ class PremiumActivity : BaseActivity(), BillingProcessor.IBillingHandler {
     public override fun onDestroy() {
         bp?.release()
         super.onDestroy()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (!bp!!.handleActivityResult(requestCode, resultCode, data)) super.onActivityResult(requestCode, resultCode, data)
     }
 }

@@ -32,6 +32,16 @@
                     android:scaleType="centerCrop"
                     android:foreground="?android:attr/selectableItemBackground" />
 
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/photo"
+                    android:tint="@color/background"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="bottom|right"
+                    android:alpha="0.5"/>
+
             </androidx.cardview.widget.CardView>
 
             <FrameLayout
@@ -82,8 +92,9 @@
                     android:id="@+id/premiumImg"
                     android:layout_width="17dp"
                     android:layout_height="17dp"
-                    android:src="@drawable/premium_mark"
+                    android:src="@drawable/crown"
                     android:layout_gravity="right|center_vertical"
+                    android:tint="@color/background"
                     android:layout_marginRight="10dp"/>
 
             </FrameLayout>
@@ -239,16 +250,30 @@
     <LinearLayout
         android:id="@+id/aboutUsBtn"
         android:orientation="horizontal"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:background="?android:attr/selectableItemBackground"
         android:gravity="center">
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/logo"/>
+
+        <TextView
+            android:id="@+id/premiumText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondaryText"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="15dp"
+            android:text="@string/premium"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/bold_s"/>
 
     </LinearLayout>
 
