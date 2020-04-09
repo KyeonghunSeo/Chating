@@ -260,6 +260,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/logo"/>
 
         <TextView
@@ -267,12 +268,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/secondaryText"
-            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textSize="15dp"
             android:text="@string/premium"
-            android:maxLines="1"
-            android:ellipsize="end"
             android:fontFamily="@font/bold_s"/>
 
     </LinearLayout>

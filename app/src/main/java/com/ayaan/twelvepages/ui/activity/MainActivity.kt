@@ -8,6 +8,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
@@ -50,6 +51,7 @@ import io.realm.RealmResults
 import io.realm.SyncUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -194,6 +196,17 @@ class MainActivity : BaseActivity() {
         }
 
         profileBtn.setOnLongClickListener {
+
+val fontPath = "/system/fonts"
+val fontFiles = File(fontPath)
+val fontFileArray = fontFiles.listFiles()
+var fontPathString = ""
+            fontFileArray.forEach {
+                fontPathString += it.toString()
+                fontPathString += "\n"
+            }
+l("!!!!!!!font : $fontPathString")
+
 
 //            val cal = Calendar.getInstance()
 //            cal.set(2019, 9, 1)

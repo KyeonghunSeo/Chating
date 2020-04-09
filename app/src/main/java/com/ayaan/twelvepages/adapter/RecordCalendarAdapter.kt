@@ -33,22 +33,22 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
     private val cellBottomArray = Array(42){ drawStartYOffset }
     private val rowHeightArray = Array(6){ drawStartYOffset }
 
-    enum class Formula(val nameId: Int, val shapes: Array<RecordView.Shape>) {
-        BACKGROUND(R.string.formula_background, arrayOf(BLANK)),
-        SINGLE_TEXT(R.string.formula_single_text,
+    enum class Formula(val nameId: Int, val order: Int, val shapes: Array<RecordView.Shape>) {
+        BACKGROUND(R.string.formula_background, 0, arrayOf(BLANK)),
+        SINGLE_TEXT(R.string.formula_single_text, 2,
                 arrayOf(COLOR_PEN, RECT_FILL_BLUR, RECT_FILL, RECT_STROKE, ROUND_FILL, ROUND_STROKE,
                         THIN_HATCHED, BOLD_HATCHED, NEON_PEN, UNDER_LINE, UPPER_LINE, RANGE,
                         DASH_RANGE, ARROW, DASH_ARROW)),
-        MULTI_TEXT(R.string.formula_multi_line_text, arrayOf(COLOR_PEN, RECT_FILL_BLUR, RECT_FILL, RECT_STROKE,
+        MULTI_TEXT(R.string.formula_multi_line_text, 3, arrayOf(COLOR_PEN, RECT_FILL_BLUR, RECT_FILL, RECT_STROKE,
                 THIN_HATCHED, BOLD_HATCHED, UNDER_LINE, UPPER_LINE)),
-        SYMBOL(R.string.formula_symbol, arrayOf(BLANK)),
-        DOT(R.string.formula_dot, arrayOf(BLANK)),
-        BOTTOM_SINGLE_TEXT(R.string.formula_bottom_single_text,
+        SYMBOL(R.string.formula_symbol, 4, arrayOf(BLANK)),
+        DOT(R.string.formula_dot, 5, arrayOf(BLANK)),
+        BOTTOM_SINGLE_TEXT(R.string.formula_bottom_single_text, 6,
                 arrayOf(COLOR_PEN, RECT_FILL_BLUR, RECT_FILL, RECT_STROKE, ROUND_FILL, ROUND_STROKE,
                         THIN_HATCHED, BOLD_HATCHED, NEON_PEN, UNDER_LINE, UPPER_LINE, RANGE,
                         DASH_RANGE, ARROW, DASH_ARROW)),
-        STICKER(R.string.formula_sticker, arrayOf(BLANK)),
-        DATE_POINT(R.string.formula_date_point, arrayOf(BLANK));
+        STICKER(R.string.formula_sticker, 7, arrayOf(BLANK)),
+        BACKGROUND_TEXT(R.string.formula_background_text, 1, arrayOf(COLOR_PEN));
 
         companion object {
             fun styleToFormula(style: Int) = values()[style % 100]
@@ -124,7 +124,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         }
 
         when(formula){
-            SYMBOL, DOT, STICKER, DATE_POINT -> {
+            SYMBOL, DOT, STICKER -> {
                 (startCellNum .. endCellNum).forEach { cellnum ->
                     val holder =
                             viewHolderList.firstOrNull{ it.formula == formula && it.startCellNum == cellnum }

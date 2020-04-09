@@ -19,7 +19,7 @@ import com.ayaan.twelvepages.adapter.RecordCalendarAdapter.Formula.*
 class FormulaPicker @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : RecyclerView(context, attrs, defStyleAttr) {
 
-    private val formulas = arrayOf(SINGLE_TEXT, MULTI_TEXT, BOTTOM_SINGLE_TEXT, DOT)
+    private val formulas = arrayOf(SINGLE_TEXT, MULTI_TEXT, BOTTOM_SINGLE_TEXT, DOT, BACKGROUND_TEXT)
 
     var onSelected : ((RecordCalendarAdapter.Formula) -> Unit)? = null
     var formula = SINGLE_TEXT

@@ -143,6 +143,20 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 ellipsize = TextUtils.TruncateAt.END
                 textPadding = defaultPadding
             }
+            BACKGROUND_TEXT -> {
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
+                text = record.getTitleInCalendar()
+                setSingleLine(true)
+                setHorizontallyScrolling(true)
+                maxLines = 1
+                ellipsize = null
+                if(shape.isRange) {
+                    sPadding *= 4
+                    gravity = Gravity.CENTER
+                }else {
+                    gravity = Gravity.CENTER_VERTICAL
+                }
+            }
             else -> {}
         }
 
@@ -173,18 +187,10 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                     }
                     super.onDraw(canvas)
                 }
-                SYMBOL -> {
-                    drawStamp(canvas)
-                }
-                DOT -> {
-                    drawDot(canvas)
-                }
-                STICKER -> {
-                    drawSticker(canvas)
-                }
-                DATE_POINT -> {
-                    drawDatePoint(canvas)
-                }
+                SYMBOL -> drawStamp(canvas)
+                DOT -> drawDot(canvas)
+                STICKER -> drawSticker(canvas)
+                BACKGROUND_TEXT -> drawBasicShape(canvas)
                 else -> {}
             }
         }
@@ -235,10 +241,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         when(formula) {
             STICKER -> layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
                 leftMargin = stickerLeft
-            }
-            DATE_POINT -> layoutParams = FrameLayout.LayoutParams(datePointSize, datePointSize).apply {
-                topMargin = (datePointSize * -0.2f).toInt()
-                leftMargin = (datePointSize * -0.2f).toInt()
             }
             else -> {
                 layoutParams = FrameLayout.LayoutParams((mRight - mLeft - defaulMargin).toInt(),

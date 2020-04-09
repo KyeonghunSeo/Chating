@@ -335,8 +335,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
         when(formula){
             RecordCalendarAdapter.Formula.SYMBOL,
             RecordCalendarAdapter.Formula.DOT,
-            RecordCalendarAdapter.Formula.STICKER,
-            RecordCalendarAdapter.Formula.DATE_POINT -> {
+            RecordCalendarAdapter.Formula.STICKER -> {
                 (startCellNum .. endCellNum).forEach { cellnum ->
                     val holder =
                             viewHolderList.firstOrNull{ it.formula == formula && it.startCellNum == cellnum }

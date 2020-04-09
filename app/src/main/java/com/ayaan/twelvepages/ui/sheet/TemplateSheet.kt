@@ -113,23 +113,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
 
     private fun addDatePoint() {
         MainActivity.instance?.let {
-            StickerPickerDialog{ sticker, position ->
-                val records = ArrayList<Record>()
-                while (startCal <= endCal) {
-                    val dtStart = getCalendarTime0(startCal)
-                    val dtEnd = getCalendarTime23(startCal)
-                    records.add(RecordManager.makeNewRecord(dtStart, dtEnd).apply {
-                        id = "sticker_${UUID.randomUUID()}"
-                        dtCreated = System.currentTimeMillis()
-                        setFormula(RecordCalendarAdapter.Formula.DATE_POINT)
-                        setSticker(sticker, position)
-                    })
-                    startCal.add(Calendar.DATE, 1)
-                }
-                RecordManager.save(records)
-                toast(R.string.saved, R.drawable.done)
-                dismiss()
-            }.show(it.supportFragmentManager, null)
+
         }
     }
 

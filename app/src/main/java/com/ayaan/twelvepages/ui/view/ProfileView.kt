@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.AsyncTask
 import android.util.AttributeSet
@@ -41,7 +42,6 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private val scale = 0.7f
     private val animDur = 300L
-    private val zOffset = dpToPx(30f)
     private val panelOffset = dpToPx(170f)
     var viewMode = ViewMode.CLOSED
 

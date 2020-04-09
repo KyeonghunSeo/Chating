@@ -109,7 +109,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             val isTop = scrollY == 0
             if(isTop) {
                 topDivider.alpha = AppStatus.weekLine
-                (topDivider.layoutParams as FrameLayout.LayoutParams).let {
+                (topDivider.layoutParams as LayoutParams).let {
                     it.leftMargin = calendarPadding
                     it.rightMargin = calendarPadding
                 }
@@ -119,7 +119,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }else {
                     topDivider.alpha = AppStatus.weekLine
                 }
-                (topDivider.layoutParams as FrameLayout.LayoutParams).let {
+                (topDivider.layoutParams as LayoutParams).let {
                     it.leftMargin = calendarPadding
                     it.rightMargin = calendarPadding
                 }

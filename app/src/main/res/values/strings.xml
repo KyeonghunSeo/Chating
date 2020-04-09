@@ -301,6 +301,7 @@
     <string name="formula_dot">점</string>
     <string name="formula_bottom_single_text">하단 한줄 텍스트</string>
     <string name="formula_sticker">스티커</string>
+    <string name="formula_background_text">배경 텍스트</string>
 
     <string name="shape_blank">공백</string>
     <string name="shape_text">글씨</string>

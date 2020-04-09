@@ -5,8 +5,8 @@ import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 class RecordCalendarComparator : Comparator<RecordCalendarAdapter.RecordViewHolder> {
     override fun compare(l: RecordCalendarAdapter.RecordViewHolder, r: RecordCalendarAdapter.RecordViewHolder): Int {
         return when{
-            l.formula < r.formula -> -1
-            l.formula > r.formula -> 1
+            l.formula.order < r.formula.order -> -1
+            l.formula.order > r.formula.order -> 1
             else -> {
                 if(l.formula == RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT) {
                     when{
