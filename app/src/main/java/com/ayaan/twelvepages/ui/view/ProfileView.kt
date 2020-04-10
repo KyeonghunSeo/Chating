@@ -26,14 +26,17 @@ import com.ayaan.twelvepages.ui.activity.AboutUsActivity
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.activity.PremiumActivity
 import com.ayaan.twelvepages.ui.activity.SettingsActivity
+import com.ayaan.twelvepages.ui.dialog.CustomDialog
 import com.ayaan.twelvepages.ui.dialog.InputDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import io.realm.Realm
 import io.realm.Sort
 import kotlinx.android.synthetic.main.view_profile.view.*
 import kotlinx.android.synthetic.main.view_saerch.view.*
+import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -63,6 +66,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             it.startActivityForResult(Intent(it, SettingsActivity::class.java), RC_SETTING) } }
         premiumTag.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, PremiumActivity::class.java)) } }
         aboutUsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, AboutUsActivity::class.java)) } }
+        syncBtn.setOnClickListener { sync() }
     }
 
     fun updateUserUI(appUser: AppUser) {
@@ -91,6 +95,37 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         }else {
             premiumText.visibility = View.GONE
             premiumImg.alpha = 0.3f
+        }
+    }
+
+    private fun sync() {
+        MainActivity.instance?.let { activity ->
+            activity.showProgressDialog()
+            val mAuth = FirebaseAuth.getInstance()
+            val user = mAuth.currentUser
+            val ref = FirebaseStorage.getInstance().reference
+                    .child("${user?.uid}/db")
+//        val realm = Realm.getDefaultInstance()
+            ref.metadata.addOnSuccessListener {
+                activity.hideProgressDialog()
+                val dialog = CustomDialog(activity, activity.getString(R.string.sync),
+                        AppDateFormat.ymdkey.format(Date(it.updatedTimeMillis)), null,
+                        R.drawable.download_cloud) { result, _, _ ->
+                    if(result) {
+
+                    }
+                }
+                showDialog(dialog, true, true, true, false)
+            }.addOnFailureListener {
+                activity.hideProgressDialog()
+                toast(R.string.no_cloud_data)
+            }
+//        ref.getFile(File(realm.path)).addOnSuccessListener {
+//            realm.close()
+//        }.addOnFailureListener {
+//            MainActivity.instance?.hideProgressDialog()
+//            realm.close()
+//        }
         }
     }
 

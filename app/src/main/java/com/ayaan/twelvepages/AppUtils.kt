@@ -476,6 +476,37 @@ fun setGlobalTheme(view: View?) {
     }
 }
 
+fun setOsFont(view: View?) {
+    if (view != null) {
+        if (view is ViewGroup) {
+            val vg = view as ViewGroup?
+            val vgCnt = vg!!.childCount
+            for (i in 0 until vgCnt) {
+                val v = vg.getChildAt(i)
+                when (v) {
+                    is TextView -> {
+                        when(v.typeface) {
+                            AppTheme.brandFont -> v.typeface = AppTheme.brandFont
+                            AppTheme.boldFont -> v.typeface = Typeface.DEFAULT_BOLD
+                            AppTheme.thinFont -> v.typeface = Typeface.DEFAULT
+                            else -> v.typeface = Typeface.DEFAULT
+                        }
+                    }
+                    is Button -> {
+                        when(v.typeface) {
+                            AppTheme.brandFont -> v.typeface = AppTheme.brandFont
+                            AppTheme.boldFont -> v.typeface = Typeface.DEFAULT_BOLD
+                            AppTheme.thinFont -> v.typeface = Typeface.DEFAULT
+                            else -> v.typeface = Typeface.DEFAULT
+                        }
+                    }
+                }
+                setOsFont(v)
+            }
+        }
+    }
+}
+
 fun toast(strId: Int) {
     Toasty.custom(App.context, strId, R.drawable.info, R.color.dim, Toast.LENGTH_SHORT, false, true).show()
 }

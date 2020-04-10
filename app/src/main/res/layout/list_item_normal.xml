@@ -12,11 +12,11 @@
 
       <ImageView
           android:id="@+id/iconImg"
-          android:layout_width="20dp"
-          android:layout_height="20dp"
+          android:layout_width="17dp"
+          android:layout_height="17dp"
           android:layout_marginLeft="15dp"
           android:layout_gravity="center_vertical"
-          android:src="@drawable/circle_fill"
+          android:src="@drawable/color_bg"
           android:tint="@color/primaryText"/>
 
       <LinearLayout

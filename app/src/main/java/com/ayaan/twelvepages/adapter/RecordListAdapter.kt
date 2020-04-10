@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.provider.CalendarContract
 import android.provider.CalendarContract.EXTRA_EVENT_BEGIN_TIME
 import android.provider.CalendarContract.EXTRA_EVENT_END_TIME
@@ -60,9 +61,6 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
     }
 
     class RecordViewHolder(container: View) : RecyclerView.ViewHolder(container) {
-        init {
-            setGlobalTheme(container)
-        }
         fun onItemSelected() {}
         fun onItemClear() {}
     }
@@ -98,6 +96,32 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
 
         val record = items[position]
         val v = holder.itemView
+
+        if(AppStatus.recordListFont == 0) {
+            v.titleText.typeface = AppTheme.boldFont
+            v.memoText.typeface = AppTheme.regularFont
+            v.timeText.typeface = AppTheme.regularFont
+            v.alarmText.typeface = AppTheme.regularFont
+            v.repeatText.typeface = AppTheme.regularFont
+            v.ddayText.typeface = AppTheme.regularFont
+            v.checkListText.typeface = AppTheme.regularFont
+            v.locationText.typeface = AppTheme.regularFont
+            v.subImageText.typeface = AppTheme.regularFont
+            v.recordViewStyleText.typeface = AppTheme.regularFont
+            v.updatedText.typeface = AppTheme.regularFont
+        }else {
+            v.titleText.typeface = Typeface.DEFAULT_BOLD
+            v.memoText.typeface = Typeface.DEFAULT
+            v.timeText.typeface = Typeface.DEFAULT
+            v.alarmText.typeface = Typeface.DEFAULT
+            v.repeatText.typeface = Typeface.DEFAULT
+            v.ddayText.typeface = Typeface.DEFAULT
+            v.checkListText.typeface = Typeface.DEFAULT
+            v.locationText.typeface = Typeface.DEFAULT
+            v.subImageText.typeface = Typeface.DEFAULT
+            v.recordViewStyleText.typeface = Typeface.DEFAULT
+            v.updatedText.typeface = Typeface.DEFAULT
+        }
 
         v.setOnClickListener { onItemClick(record) }
         v.setOnLongClickListener {
@@ -458,6 +482,11 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
     private fun setFooterView() {
         footerHolder?.let { holder ->
             val v = holder.itemView
+            if(AppStatus.recordListFont == 0) {
+                setGlobalTheme(v)
+            }else {
+                setOsFont(v)
+            }
             //TransitionManager.beginDelayedTransition(holder.itemView.footerRootLy, makeFromBottomSlideTransition())
             v.footerProgress.visibility = View.GONE
             v.footerContentLy.visibility = View.VISIBLE

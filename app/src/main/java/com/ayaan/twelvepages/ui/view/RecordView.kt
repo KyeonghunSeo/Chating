@@ -36,7 +36,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         val datePointSize = dpToPx(30)
         val rectRadius = dpToPx(1.0f)
         val dotSize = dpToPx(3)
-        val checkboxSize = dpToPx(10)
+        val checkboxSize = dpToPx(9)
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         val dashPath = DashPathEffect(floatArrayOf(dpToPx(2.0f), dpToPx(2.0f)), 2f)
         fun getStyleText(style: Int) : String{
@@ -95,9 +95,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     fun setStyle() {
         var sPadding = defaultPadding
         var textPadding = 0
-
         shape = record.getShape()
-
         //조작부분
 //        when(formula) {
 //            SINGLE_TEXT, BOTTOM_SINGLE_TEXT -> {
@@ -107,16 +105,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 //            }
 //            else -> {}
 //        }
-
-        typeface = if(shape.isBold) {
-            AppTheme.boldFont
-        }else {
-            when(AppStatus.calRecordFontWidth)  {
-                -1 -> AppTheme.thinFont
-                0 -> AppTheme.regularFont
-                else -> AppTheme.boldFont
-            }
-        }
 
         when(formula) {
             SINGLE_TEXT, BOTTOM_SINGLE_TEXT -> {
@@ -144,22 +132,17 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 textPadding = defaultPadding
             }
             BACKGROUND_TEXT -> {
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize)
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, standardTextSize + AppStatus.calTextSize + 30)
                 text = record.getTitleInCalendar()
-                setSingleLine(true)
-                setHorizontallyScrolling(true)
-                maxLines = 1
-                ellipsize = null
-                if(shape.isRange) {
-                    sPadding *= 4
-                    gravity = Gravity.CENTER
-                }else {
-                    gravity = Gravity.CENTER_VERTICAL
-                }
+                setSingleLine(false)
+                setHorizontallyScrolling(false)
+                maxLines = 2
+                ellipsize = TextUtils.TruncateAt.END
+                gravity = Gravity.CENTER
+                sPadding *= 4
             }
             else -> {}
         }
-
         val leftPadding = if(record.isSetCheckBox) {
             sPadding + checkboxSize
         }else {
@@ -174,6 +157,32 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             if(shape.isFillColor) ColorManager.getFontColor(paintColor) else paintColor
         }
         setTextColor(fontColor)
+        setFont()
+    }
+
+    private fun setFont() {
+        if(AppStatus.calFont == 0) {
+            typeface = if(shape.isBold) {
+                AppTheme.boldFont
+            }else {
+                when(AppStatus.calRecordFontWidth)  {
+                    -1 -> AppTheme.thinFont
+                    0 -> AppTheme.regularFont
+                    else -> AppTheme.boldFont
+                }
+            }
+        }else {
+            typeface = if(shape.isBold) {
+                Typeface.DEFAULT_BOLD
+            }else {
+                when(AppStatus.calRecordFontWidth)  {
+                    -1 -> Typeface.DEFAULT
+                    0 -> Typeface.DEFAULT
+                    else -> Typeface.DEFAULT_BOLD
+                }
+            }
+        }
+
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -190,7 +199,10 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                 SYMBOL -> drawStamp(canvas)
                 DOT -> drawDot(canvas)
                 STICKER -> drawSticker(canvas)
-                BACKGROUND_TEXT -> drawBasicShape(canvas)
+                BACKGROUND_TEXT -> {
+                    drawBackgroundText(canvas)
+                    super.onDraw(canvas)
+                }
                 else -> {}
             }
         }
@@ -325,25 +337,106 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         }
     }
 
+    private fun drawBackgroundText(canvas: Canvas) {
+        paint.color = paintColor
+        paint.pathEffect = null
+        when(shape){
+            Shape.RECT_FILL_BLUR -> {
+                paint.alpha = 17
+                canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
+                paint.alpha = 255
+            }
+            Shape.RECT_FILL -> {
+                canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), rectRadius, rectRadius, paint)
+                paint.color = fontColor
+            }
+            Shape.RECT_STROKE -> {
+                paint.style = Paint.Style.STROKE
+                paint.strokeWidth = strokeWidth * 1f
+                canvas.drawRect(strokeWidth / 2, strokeWidth / 2,
+                        width.toFloat() - strokeWidth / 2, height.toFloat() - strokeWidth / 2, paint)
+                paint.style = Paint.Style.FILL
+            }
+            Shape.BOLD_HATCHED -> {
+                canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), rectRadius, rectRadius, paint)
+                val dashWidth = strokeWidth * 6
+                paint.strokeWidth = strokeWidth * 5
+                paint.color = Color.parseColor("#40FFFFFF")
+                var x = 0f
+                while (x < width + height) {
+                    canvas.drawLine(x, -defaulMargin, x - height, height + defaulMargin, paint)
+                    x += dashWidth * 2
+                }
+                paint.color = fontColor
+            }
+            Shape.THIN_HATCHED -> {
+                paint.style = Paint.Style.STROKE
+                paint.strokeWidth = strokeWidth * 2
+                //canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+
+                paint.strokeWidth = strokeWidth * 1.5f
+                val dashWidth = strokeWidth * 3
+                var x = 0f
+                paint.alpha = 50
+                while (x < width + height) {
+                    canvas.drawLine(x, -defaulMargin, x - height, height + defaulMargin, paint)
+                    x += dashWidth * 2
+                }
+                paint.alpha = 255
+                paint.style = Paint.Style.FILL
+            }
+            Shape.UPPER_LINE -> {
+                canvas.drawRect(0f, 0f, width.toFloat(), strokeWidth, paint)
+            }
+            Shape.UNDER_LINE -> {
+                canvas.drawRect(0f, height.toFloat() - strokeWidth, width.toFloat(), height.toFloat(), paint)
+            }
+            Shape.NEON_PEN -> {
+                paint.alpha = 70
+                canvas.drawRoundRect(0f, height / 2f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
+                paint.alpha = 255
+            }
+            else -> {
+                if(leftOpen || rightOpen || length > 1) {
+                    paint.alpha = 17
+                    canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
+                    paint.alpha = 125
+                }
+            }
+        }
+    }
+
     private fun drawCheckBox(canvas: Canvas, xOffset: Int) {
-        val radius = checkboxSize / 2f
+        paint.style = Paint.Style.STROKE
+        paint.color = fontColor
+        paint.strokeWidth = strokeWidth * 0.9f
+        val startX = xOffset + baseSize * 3
+        val boxSize = checkboxSize - baseSize * 6
+        val radius = boxSize / 2f
+        val checkSize = boxSize * 0.6f
+        val centerX = xOffset + checkboxSize / 2f
         val centerY = (blockTypeSize - defaulMargin) / 2f
         if(record.isDone()) {
             if(AppStatus.checkedRecordDisplay in 2..3) {
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
-            val check = resource.getDrawable(R.drawable.check)
-            check.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
-            check.setBounds(xOffset, (centerY - radius).toInt(),
-                    xOffset + checkboxSize, (centerY + radius).toInt())
-            check.draw(canvas)
+            canvas.drawRect(
+                    startX,
+                    centerY - radius,
+                    startX + boxSize,
+                    centerY + radius,
+                    paint)
+            canvas.drawLine(centerX - checkSize/2, centerY,
+                    centerX - checkSize/8, centerY + checkSize/2 - baseSize, paint)
+            canvas.drawLine(centerX - checkSize/8, centerY + checkSize/2 - baseSize,
+                    centerX + checkSize/2, centerY - checkSize/2 + baseSize, paint)
         }else {
-            paint.style = Paint.Style.STROKE
-            val check = resource.getDrawable(R.drawable.uncheck)
-            check.setColorFilter(fontColor, PorterDuff.Mode.SRC_ATOP)
-            check.setBounds(xOffset, (centerY - radius).toInt(),
-                    xOffset + checkboxSize, (centerY + radius).toInt())
-            check.draw(canvas)
+            canvas.drawRect(
+                    startX,
+                    centerY - radius,
+                    startX + boxSize,
+                    centerY + radius,
+                    paint)
         }
         paint.style = Paint.Style.FILL
     }

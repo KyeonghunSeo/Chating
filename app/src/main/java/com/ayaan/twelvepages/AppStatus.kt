@@ -25,6 +25,8 @@ object AppStatus {
     var isDisplayDayViewWeekNum = false
     var premiumTime = Long.MIN_VALUE
     var calRecordFontWidth = 0
+    var calFont = 0
+    var recordListFont = 0
 
     var screenWidth = 0
     var screenHeight = 0
@@ -48,6 +50,8 @@ object AppStatus {
         isDisplayDayViewWeekNum = Prefs.getBoolean("isDisplayDayViewWeekNum", true)
         premiumTime = Prefs.getLong("premiumTime", Long.MIN_VALUE)
         calRecordFontWidth = Prefs.getInt("calRecordFontWidth", 0)
+        calFont = Prefs.getInt("calFont", 0)
+        recordListFont = Prefs.getInt("recordListFont", 0)
 
         val screenSize = getScreenSize(context)
         screenWidth = screenSize[0]

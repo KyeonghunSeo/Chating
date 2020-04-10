@@ -54,7 +54,7 @@
             android:textSize="12dp"
             android:textColor="@color/primaryText"
             android:gravity="center"
-            android:background="@drawable/normal_rect_stroke_white"/>
+            android:background="@drawable/normal_rect_stroke"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -63,7 +63,7 @@
             android:textSize="12dp"
             android:textColor="@color/primaryText"
             android:gravity="center"
-            android:background="@drawable/normal_rect_stroke_white"/>
+            android:background="@drawable/normal_rect_stroke"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -72,7 +72,7 @@
             android:textSize="12dp"
             android:textColor="@color/primaryText"
             android:gravity="center"
-            android:background="@drawable/normal_rect_stroke_white"/>
+            android:background="@drawable/normal_rect_stroke"/>
 
     </LinearLayout>
 

@@ -36,6 +36,7 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
         setDisplayUpdateTime()
         setDisplayRecordViewStyle()
         setDisplayDayViewWeekNum()
+        setFont()
         setCheckedRecordDisplay()
         setRememberPhoto()
         setRememberBeforeMonth()
@@ -87,6 +88,22 @@ class DayViewSettingsSheet(private val activity: Activity) : BottomSheetDialog()
             AppStatus.isDisplayDayViewWeekNum = !AppStatus.isDisplayDayViewWeekNum
             Prefs.putBoolean("isDisplayDayViewWeekNum", AppStatus.isDisplayDayViewWeekNum)
             setDisplayDayViewWeekNum()
+            MainActivity.getDayPager()?.redraw()
+        }
+    }
+
+    private fun setFont() {
+        when(AppStatus.recordListFont) {
+            0 -> root.fontText.text = str(R.string.moon_record_font)
+            1 -> root.fontText.text = str(R.string.os_font)
+        }
+        root.fontBtn.setOnClickListener {
+            when(AppStatus.recordListFont) {
+                0 -> AppStatus.recordListFont = 1
+                1 -> AppStatus.recordListFont = 0
+            }
+            Prefs.putInt("recordListFont", AppStatus.recordListFont)
+            setFont()
             MainActivity.getDayPager()?.redraw()
         }
     }

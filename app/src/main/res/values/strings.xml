@@ -176,7 +176,7 @@
     <string name="kr">대한민국</string>
     <string name="jp">일본</string>
     <string name="holi_display_sub">공휴일을 표시 할 국가를 설정합니다</string>
-    <string name="cal_text_size">글씨 크기</string>
+    <string name="cal_text_size">폰트 크기</string>
     <string name="outside_month">이전, 다음달 표시</string>
     <string name="connect_os_calendar">OS 캘린더 참조</string>
     <string name="countdown">카운트다운</string>
@@ -507,6 +507,11 @@
     <string name="no_count">카운트 안함</string>
     <string name="widget_setting">위젯설정</string>
     <string name="transparency">투명도</string>
+    <string name="no_cloud_data">동기화 활 데이터가 없습니다.</string>
+    <string name="sync">동기화</string>
+    <string name="font">폰트</string>
+    <string name="os_font">핸드폰 기본 폰트</string>
+    <string name="moon_record_font">달의기록 폰트</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

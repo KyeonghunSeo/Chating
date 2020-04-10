@@ -38,7 +38,7 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun showProgressDialog(msg: String?, sub: String? = null) {
+    fun showProgressDialog(msg: String? = null, sub: String? = null) {
         hideProgressDialog()
         progressDialog = LoadingDialog(this, if(msg.isNullOrEmpty()) getString(R.string.plz_wait) else msg, sub).apply {
             com.ayaan.twelvepages.showDialog(this, false, true, true, false)

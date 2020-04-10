@@ -117,7 +117,6 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         }
 
         var formula = record.getFormula()
-        //var formula = DOT
 
         if(formula == MULTI_TEXT && endCellNum != startCellNum) { // 하루짜리가 아닐때 예외
             formula = SINGLE_TEXT
@@ -194,8 +193,12 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                 viewHolder.items.forEach {
                     it.mLeft = (minWidth * (it.cellNum % columns)) + CalendarView.calendarPadding
                     it.mRight = it.mLeft + (minWidth * it.length).toInt()
-                    val viewHeight = it.getViewHeight()
+                    var viewHeight = it.getViewHeight()
                     when(formula) {
+                        BACKGROUND_TEXT -> {
+                            viewHeight = minHeight.toInt()
+                            it.mTop = 0f
+                        }
                         SINGLE_TEXT, BOTTOM_SINGLE_TEXT -> {
                             it.mTop = computeOrder(it, status) * viewHeight + rowHeightArray[it.cellNum / columns]
                         }
@@ -207,8 +210,10 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                         }
                     }
                     it.mBottom = it.mTop + viewHeight
-                    (it.cellNum until it.cellNum + it.length).forEach{ index ->
-                        cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom)
+                    if(formula != BACKGROUND_TEXT) {
+                        (it.cellNum until it.cellNum + it.length).forEach{ index ->
+                            cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom)
+                        }
                     }
                     it.setLayout()
                 }

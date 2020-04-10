@@ -40,12 +40,12 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
         setHoliDisplay()
         setLunarDisplay()
         setOutsideMonth()
+        setFont()
         setCalTextSize()
         setCalFontWidth()
         setWeekLine()
         setCheckedRecordDisplay()
     }
-
     private fun setStartDow() {
         val dowList = resources.getStringArray(R.array.day_of_weeks).toList()
         root.startdowText.text = dowList[AppStatus.startDayOfWeek - 1]
@@ -174,6 +174,22 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
             }
             Prefs.putFloat("outsideMonthAlpha", AppStatus.outsideMonthAlpha)
             setOutsideMonth()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
+        }
+    }
+
+    private fun setFont() {
+        when(AppStatus.calFont) {
+            0 -> root.calFontText.text = str(R.string.moon_record_font)
+            1 -> root.calFontText.text = str(R.string.os_font)
+        }
+        root.calFontBtn.setOnClickListener {
+            when(AppStatus.calFont) {
+                0 -> AppStatus.calFont = 1
+                1 -> AppStatus.calFont = 0
+            }
+            Prefs.putInt("calFont", AppStatus.calFont)
+            setFont()
             MainActivity.getCalendarPager()?.redrawAndSelect()
         }
     }
