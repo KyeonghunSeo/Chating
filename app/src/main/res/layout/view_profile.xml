@@ -302,6 +302,37 @@
             android:tint="@color/iconTint"
             android:visibility="gone"/>
 
+        <LinearLayout
+            android:id="@+id/giftLy"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_marginLeft="-10dp">
+
+            <ImageView
+                android:id="@+id/giftBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="16dp"
+                android:src="@drawable/gift"
+                android:tint="@color/iconTint"/>
+
+            <TextView
+                android:id="@+id/giftText"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="-5dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="bottom|right"
+                android:textColor="@color/secondaryText"
+                android:textSize="9dp"
+                android:text="@string/app_share_btn"
+                android:fontFamily="@font/regular_s"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <TextView

@@ -32,6 +32,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.pixplicity.easyprefs.library.Prefs
 import io.realm.Realm
 import io.realm.Sort
 import kotlinx.android.synthetic.main.view_profile.view.*
@@ -261,9 +262,27 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         }
     }
 
+    private fun setGift() {
+        if(!AppStatus.isPremium() && !Prefs.getBoolean("isTakeShareGift", false)) {
+            giftLy.visibility = View.GONE
+            giftLy.setOnClickListener {
+                MainActivity.instance?.let {
+                    val shareIntent = Intent(Intent.ACTION_SEND)
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, str(R.string.app_share_text))
+                    shareIntent.type = "text/plain"
+                    val chooser = Intent.createChooser(shareIntent, str(R.string.app_name))
+                    it.startActivityForResult(chooser, RC_APP_SHARE)
+                }
+            }
+        }else {
+            giftLy.visibility = View.GONE
+        }
+    }
+
     fun show() {
         startAnalytics()
         versionCheck()
+        setGift()
 
         val animSet = AnimatorSet()
         val animList = ArrayList<Animator>()

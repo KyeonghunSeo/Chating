@@ -13,6 +13,7 @@ import com.ayaan.twelvepages.manager.StickerManager
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Ignore
 import java.util.*
+import kotlin.math.abs
 
 
 open class Record(@PrimaryKey var id: String? = null,
@@ -182,8 +183,8 @@ open class Record(@PrimaryKey var id: String? = null,
             val diffDate = getDiffDate(dtStart, time)
             return if(isSetTime && diffDate == 0) {
                 val diff = dtStart - time
-                val diffMin = Math.abs(diff / MIN_MILL)
-                val diffHour = Math.abs(diff / HOUR_MILL)
+                val diffMin = abs(diff / MIN_MILL)
+                val diffHour = abs(diff / HOUR_MILL)
                 val diffMinHour = diffMin % 60
                 if(diff < 0) {
                     if(diffMin < 60) {
@@ -210,8 +211,8 @@ open class Record(@PrimaryKey var id: String? = null,
                 }
             }else {
                 when {
-                    diffDate > 0 -> String.format(str(R.string.overdue), String.format(str(R.string.some_date), diffDate.toString()))
-                    diffDate < 0 -> String.format(str(R.string.due), String.format(str(R.string.some_date), diffDate.toString()))
+                    diffDate > 0 -> String.format(str(R.string.overdue), String.format(str(R.string.some_date), abs(diffDate).toString()))
+                    diffDate < 0 -> String.format(str(R.string.due), String.format(str(R.string.some_date), abs(diffDate).toString()))
                     else -> str(R.string.today)
                 }
             }

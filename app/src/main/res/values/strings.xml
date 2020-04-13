@@ -512,6 +512,8 @@
     <string name="font">폰트</string>
     <string name="os_font">핸드폰 기본 폰트</string>
     <string name="moon_record_font">달의기록 폰트</string>
+    <string name="app_share_text">달의기록 - 일상을 기록하는 즐거움\n\nhttp://play.google.com/store/apps/details?id=com.ayaan.twelvepages</string>
+    <string name="app_share_btn">공유하고 예쁜 날씨스티커 받기</string>
 
     <string-array name="singleline_texts">
         <item>저녁약속</item>

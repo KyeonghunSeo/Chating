@@ -29,6 +29,7 @@ const val RC_OS_CALENDAR = 9092
 const val RC_IMAGE_ATTACHMENT = 9093
 const val RC_SETTING = 9094
 const val RC_SHARE = 9095
+const val RC_APP_SHARE = 9096
 const val RC_EXPORT_PERMISSION = 9096
 const val RC_PHOTO_ON_DAYVIEW = 9097
 

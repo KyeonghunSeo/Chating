@@ -5,6 +5,7 @@ import android.animation.AnimatorSet
 import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -621,6 +622,8 @@ l("!!!!!!!font : $fontPathString")
         }else if(requestCode == RC_SETTING && resultCode == RC_LOGOUT) {
             finish()
             startActivity(Intent(this, WelcomeActivity::class.java))
+        }else if(requestCode == RC_APP_SHARE) {
+            Prefs.putBoolean("isTakeShareGift", false)
         }
     }
 
