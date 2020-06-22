@@ -462,6 +462,8 @@
     <string name="app_share_text">MoonRecords - 일상을 기록하는 즐거움\n\nhttp://play.google.com/store/apps/details?id=com.ayaan.twelvepages</string>
     <string name="app_share_btn">공유하고 예쁜 날씨스티커 받기</string>
     <string name="daydivider_display">일간 경계선 표시</string>
+    <string name="s_weather_2">Wearher 2</string>
+    <string name="s_food_water"><![CDATA[Food & Water]]></string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

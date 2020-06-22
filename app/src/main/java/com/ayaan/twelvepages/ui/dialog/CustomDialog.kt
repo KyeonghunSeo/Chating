@@ -90,8 +90,11 @@ class CustomDialog(activity: Activity, private val title: String, private val su
         confirmBtn.text = text
     }
 
-    fun setCancleBtn(text: String) {
+    fun setCancelBtn(text: String) {
         cancelBtn.text = text
     }
 
+    fun hideCancelBtn() {
+        cancelBtn.visibility = View.GONE
+    }
 }

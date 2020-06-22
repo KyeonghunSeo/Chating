@@ -25,7 +25,6 @@ import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.transition.ChangeBounds
 import androidx.transition.Fade
@@ -673,7 +672,7 @@ fun showPremiumDialog(activity: BaseActivity) {
     }
     showDialog(dialog, true, true, true, false)
     dialog.setConfirmBtn(str(R.string.show_now))
-    dialog.setCancleBtn(str(R.string.later))
+    dialog.setCancelBtn(str(R.string.later))
 }
 
 fun dimStatusBar(window: Window) {
