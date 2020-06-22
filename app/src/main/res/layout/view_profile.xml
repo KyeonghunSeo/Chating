@@ -46,12 +46,11 @@
 
             <FrameLayout
                 android:id="@+id/premiumTag"
-                android:layout_width="match_parent"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
                 android:layout_marginRight="30dp"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:background="@color/colorPrimary"
+                android:background="@color/backgroundDark"
                 android:layout_gravity="bottom">
 
                 <LinearLayout
@@ -59,13 +58,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="35dp"
-                    android:padding="5dp">
+                    android:padding="7dp">
 
                     <TextView
                         android:id="@+id/nameText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/background"
+                        android:textColor="@color/secondaryText"
                         android:layout_marginLeft="5dp"
                         android:textSize="10dp"
                         android:text="name"
@@ -82,8 +81,8 @@
                         android:layout_marginBottom="2dp"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:textColor="@color/background"
-                        android:textSize="8dp"
+                        android:textColor="@color/secondaryText"
+                        android:textSize="7dp"
                         android:text="email"/>
 
                 </LinearLayout>
@@ -94,7 +93,7 @@
                     android:layout_height="17dp"
                     android:src="@drawable/crown"
                     android:layout_gravity="right|center_vertical"
-                    android:tint="@color/background"
+                    android:tint="@color/secondaryText"
                     android:layout_marginRight="10dp"/>
 
             </FrameLayout>

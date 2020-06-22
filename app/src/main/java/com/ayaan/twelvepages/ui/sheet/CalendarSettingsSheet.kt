@@ -44,6 +44,7 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
         setCalTextSize()
         setCalFontWidth()
         setWeekLine()
+        setDayDivider()
         setCheckedRecordDisplay()
     }
     private fun setStartDow() {
@@ -249,6 +250,24 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
             }
             Prefs.putFloat("weekLine", AppStatus.weekLine)
             setWeekLine()
+            MainActivity.getCalendarPager()?.redrawAndSelect()
+        }
+    }
+
+    private fun setDayDivider() {
+        when(AppStatus.dayDivider) {
+            0f -> root.dayDividerText.text = str(R.string.unvisible)
+            0.1f -> root.dayDividerText.text = str(R.string.thin)
+            else -> root.dayDividerText.text = str(R.string.bold)
+        }
+        root.dayDividerBtn.setOnClickListener {
+            when(AppStatus.dayDivider) {
+                0f -> AppStatus.dayDivider = 0.1f
+                0.1f -> AppStatus.dayDivider = 0.5f
+                else -> AppStatus.dayDivider = 0f
+            }
+            Prefs.putFloat("dayDivider", AppStatus.dayDivider)
+            setDayDivider()
             MainActivity.getCalendarPager()?.redrawAndSelect()
         }
     }

@@ -335,7 +335,7 @@ class RecordActivity : BaseActivity() {
     }
 
     fun updateTitleUI() {
-        if(record.title == null) {
+        if(originalData?.title == null && record.title == null) {
             titleInput.setText("")
             titleInput.visibility = View.GONE
         }else {

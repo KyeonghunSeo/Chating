@@ -226,7 +226,7 @@
             android:id="@+id/loginBtn"
             android:layout_width="250dp"
             android:layout_height="50dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="100dp"
             android:layout_gravity="center"
             app:cornerRadius="1.0dp"
             app:backgroundTint="@color/secondaryText"

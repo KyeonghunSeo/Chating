@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator.REVERSE
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Handler
@@ -45,7 +46,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val dragStartYPos = dpToPx(0f)
         val calendarPadding = dpToPx(15)
         val calendarTopPadding = dpToPx(2)
-        val calendarBottomPadding = dpToPx(42)
+        val calendarBottomPadding = dpToPx(0)
         val autoScrollThreshold = dpToPx(70)
         val autoScrollOffset = dpToPx(5)
         val lineWidth = dpToPx(0.5f)
@@ -55,7 +56,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val scrollView = NestedScrollView(context)
     val calendarLy = CalendarBackground(context)
     val weekLys = Array(6) { FrameLayout(context) }
-    private val columnDividers = Array(maxCellNum) { View(context) }
+    private val columnDividers = Array(maxCellNum) { ImageView(context) }
     private val topDivider = View(context)
     private val bottomDivider = View(context)
     private val rowDividers = Array(5) { View(context) }
@@ -154,8 +155,9 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         columnDividers.forEachIndexed { index, view ->
-            view.layoutParams = LayoutParams(lineWidth.toInt(), 0)
-            view.setBackgroundColor(AppTheme.secondaryText)
+            view.layoutParams = LayoutParams(lineWidth.toInt() * 3, MATCH_PARENT)
+            view.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+            view.setBackgroundResource(R.drawable.vertical_dashed_line_bold)
         }
 
         for(i in 0..5) {
@@ -443,7 +445,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         calendarEndTime = tempCal.timeInMillis
                     }
 
-                    columnDividers[cellNum].alpha = AppStatus.weekLine
+                    columnDividers[cellNum].alpha = AppStatus.dayDivider
                     columnDividers[cellNum].translationX = minWidth * j - lineWidth + calendarPadding
                     weekViewHolders[i].weeknumText.text = String.format(str(R.string.weekNum), tempCal.get(Calendar.WEEK_OF_YEAR))
                             //.toList().joinToString("")

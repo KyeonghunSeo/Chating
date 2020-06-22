@@ -458,6 +458,7 @@
     <string name="moon_record_font">달의기록 폰트</string>
     <string name="app_share_text">달의기록 - 일상을 기록하는 즐거움\n\nhttp://play.google.com/store/apps/details?id=com.ayaan.twelvepages</string>
     <string name="app_share_btn">공유하고 예쁜 날씨스티커 받기</string>
+    <string name="daydivider_display">일간경계선 표시</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>
