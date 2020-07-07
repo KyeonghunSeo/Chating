@@ -55,7 +55,9 @@ object StickerManager {
         MENTAL(R.string.s_mental, true, Array(36) { i -> Sticker(resource.getIdentifier("s_mental_$i", "drawable", packageName), 13) } ),
         OPERATION(R.string.s_operation, true, Array(30) { i -> Sticker(resource.getIdentifier("s_operation_$i", "drawable", packageName), 14) } ),
         CLOTH(R.string.s_cloth, true, Array(100) { i -> Sticker(resource.getIdentifier("s_cloth_$i", "drawable", packageName), 15) } ),
-        EMOJI(R.string.s_emoji, true, Array(30) { i -> Sticker(resource.getIdentifier("s_emoji_$i", "drawable", packageName), 16) } )
+        EMOJI(R.string.s_emoji, true, Array(30) { i -> Sticker(resource.getIdentifier("s_emoji_$i", "drawable", packageName), 16) } ),
+        WHEATHER2(R.string.s_weather_2, false, Array(18) { i -> Sticker(resource.getIdentifier("s_weather2_$i", "drawable", packageName), 17) } ),
+        FOODWATER(R.string.s_food_water, false, Array(100) { i -> Sticker(resource.getIdentifier("s_food_water_$i", "drawable", packageName), 18) } )
     }
 
     fun getSticker(stickerKey: Int) = try {

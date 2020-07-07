@@ -32,6 +32,7 @@ import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.CountdownListDialog
+import com.ayaan.twelvepages.ui.dialog.CustomDialog
 import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
 import com.ayaan.twelvepages.ui.dialog.UndoneListDialog
 import com.ayaan.twelvepages.ui.sheet.CalendarSettingsSheet
@@ -102,6 +103,22 @@ class MainActivity : BaseActivity() {
 
         }else {
             viewModel.initRealm(SyncUser.current())
+        }
+
+        val ver = packageManager.getPackageInfo(App.context.packageName, 0).versionName
+        if(Prefs.getString("last_patch_note_ver", "") != ver) {
+            val dialog = CustomDialog(this@MainActivity, "$ver 패치노트",
+                    """
+                        1. 캘린더 설정에서 세로선을 표시 할 수 있습니다.
+                        
+                        2. 스티커 팩 2종이 추가되었습니다 (날씨, 음식과음료)
+                        
+                        3. 날짜 변경시 제목입력이 안되는 버그가 수정되었습니다.
+                    """.trimIndent(), null, R.drawable.info) { result, _, _ ->
+            }
+            showDialog(dialog, true, true, true, false)
+            dialog.hideCancelBtn()
+            Prefs.putString("last_patch_note_ver", ver)
         }
     }
 
