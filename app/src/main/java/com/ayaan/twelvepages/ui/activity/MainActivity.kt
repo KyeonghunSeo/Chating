@@ -82,7 +82,7 @@ class MainActivity : BaseActivity() {
     private var reservedIntentAction: Runnable? = null
     private val briefingHander = @SuppressLint("HandlerLeak")
     object : Handler() {
-        override fun handleMessage(msg: Message?) {
+        override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             sendEmptyMessageDelayed(0, 5000)
         }

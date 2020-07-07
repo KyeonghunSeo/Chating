@@ -30,7 +30,7 @@ class RecordAlarmReceiver : BroadcastReceiver() {
             })
             */
             checkVaildAlarm(context, Realm.getDefaultInstance(),
-                    intent.getStringExtra("recordId"), intent.getLongExtra("dtStart", Long.MIN_VALUE))
+                    intent.getStringExtra("recordId") ?: "", intent.getLongExtra("dtStart", Long.MIN_VALUE))
         }catch (e: Exception){
             e.printStackTrace()
         }

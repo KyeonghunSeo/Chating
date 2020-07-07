@@ -27,12 +27,13 @@ class NotiService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    fun appOpen(action: Int, bundle: Bundle) {
+    private fun appOpen(action: Int, bundle: Bundle) {
         val manager = packageManager
-        val intent = manager.getLaunchIntentForPackage(packageName)
-        intent.putExtra("action", action)
-        intent.putExtra("bundle", bundle)
-        intent.addCategory(Intent.CATEGORY_LAUNCHER)
-        startActivity(intent)
+        manager.getLaunchIntentForPackage(packageName)?.let { intent ->
+            intent.putExtra("action", action)
+            intent.putExtra("bundle", bundle)
+            intent.addCategory(Intent.CATEGORY_LAUNCHER)
+            startActivity(intent)
+        }
     }
 }
