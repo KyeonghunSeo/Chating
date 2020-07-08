@@ -15,7 +15,7 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
     : LinearLayout(context, attrs, defStyleAttr) {
     private val paint = Paint()
     private val strokeWidth = dpToPx(0f)
-    private val dashEffect = DashPathEffect(floatArrayOf(dpToPx(2.0f), dpToPx(2.0f)), 2f)
+    private val dashEffect = DashPathEffect(floatArrayOf(dpToPx(4.0f), dpToPx(0.0f)), 2f)
 
     init {
         paint.color = AppTheme.line
@@ -315,17 +315,17 @@ class CalendarBackground @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     private fun drawPoints(list: ArrayList<Point>, canvas: Canvas?) {
-        val lineWidth = dpToPx(1.0f)
+        val lineWidth = dpToPx(0.5f)
         paint.style = Paint.Style.STROKE
-        paint.strokeWidth = lineWidth
+        paint.strokeWidth = lineWidth * 3
         paint.pathEffect = dashEffect
         val path = Path()
         list.forEachIndexed { index, p ->
             if(index == 0) {
-                path.moveTo(p.x.toFloat() + CalendarView.calendarPadding + lineWidth /* 한포인트 옆으로 이동 */,
+                path.moveTo(p.x.toFloat() + CalendarView.calendarPadding + lineWidth * 1 /* 보정값 */,
                         p.y.toFloat() + CalendarView.calendarTopPadding)
             }else {
-                path.lineTo(p.x.toFloat() + CalendarView.calendarPadding + lineWidth,
+                path.lineTo(p.x.toFloat() + CalendarView.calendarPadding + lineWidth * 1,
                         p.y.toFloat() + CalendarView.calendarTopPadding)
             }
         }

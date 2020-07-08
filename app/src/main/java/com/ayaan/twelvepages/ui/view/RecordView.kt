@@ -188,6 +188,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     override fun onDraw(canvas: Canvas?) {
         canvas?.let {
             when(formula) {
+                BACKGROUND -> drawBackground(canvas)
                 SINGLE_TEXT, MULTI_TEXT, BOTTOM_SINGLE_TEXT -> {
                     if(shape.isRange) {
                         drawRange(canvas)
@@ -242,6 +243,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
                     (measuredHeight + defaulMargin).toInt()
                 }
             }
+            STICKER, BACKGROUND -> 0
             else -> {
                 textSpaceWidth = paint.measureText(text.toString())
                 blockTypeSize
@@ -251,6 +253,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     fun setLayout() {
         when(formula) {
+            BACKGROUND -> layoutParams = FrameLayout.LayoutParams((mRight - mLeft).toInt(), MATCH_PARENT)
             STICKER -> layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
                 leftMargin = stickerLeft
             }
@@ -568,6 +571,19 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             if(left + size >= right) {
                 top += size + margin
                 left = defaultPadding
+            }
+        }
+    }
+
+    private fun drawBackground(canvas: Canvas) {
+        record.getBgLink()?.let { link ->
+            when(link.intParam0) {
+                0 -> {
+                    paint.color = paintColor
+                    paint.alpha = 100
+                    canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
+                    paint.alpha = 255
+                }
             }
         }
     }

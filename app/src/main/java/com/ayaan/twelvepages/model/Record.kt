@@ -249,7 +249,6 @@ open class Record(@PrimaryKey var id: String? = null,
     }
 
     fun isSetSticker(): Boolean = links.any { it.type == Link.Type.STICKER.ordinal }
-    fun clearSticker() { links.firstOrNull{ it.type == Link.Type.STICKER.ordinal }?.let { links.remove(it) } }
     fun setSticker(sticker: StickerManager.Sticker, position: Int) {
         if(isSetSticker()) {
             links.firstOrNull{ it.type == Link.Type.STICKER.ordinal }?.let {
@@ -268,6 +267,18 @@ open class Record(@PrimaryKey var id: String? = null,
         }
         return null
     }
+
+    fun isSetBg(): Boolean = links.any { it.type == Link.Type.BACKGROUND.ordinal }
+    fun setBg(type: Int) {
+        if(isSetSticker()) {
+            links.firstOrNull{ it.type == Link.Type.BACKGROUND.ordinal }?.let {
+                it.intParam0 = type
+            }
+        }else {
+            links.add(Link(UUID.randomUUID().toString(), Link.Type.BACKGROUND.ordinal, intParam0 = type))
+        }
+    }
+    fun getBgLink(): Link? = links.firstOrNull{ it.type == Link.Type.BACKGROUND.ordinal }
 
     fun isSetCheckList(): Boolean = links.any { it.type == Link.Type.CHECKLIST.ordinal }
     fun clearCheckList() { links.firstOrNull{ it.type == Link.Type.CHECKLIST.ordinal }?.let { links.remove(it) } }
@@ -349,5 +360,8 @@ open class Record(@PrimaryKey var id: String? = null,
     fun isSetTitle() = title != null
     fun isSetSymbol() = symbol != null
     fun isBlankText(): Boolean = title.isNullOrBlank() && description.isNullOrBlank()
+    fun isSticker(): Boolean = id?.startsWith("sticker_") == true
+    fun isBg(): Boolean = id?.startsWith("bg_") == true
+    fun isDecoraion(): Boolean = isSticker() || isBg()
 
 }

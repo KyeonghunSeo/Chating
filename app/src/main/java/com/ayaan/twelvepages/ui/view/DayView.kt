@@ -32,10 +32,7 @@ import com.ayaan.twelvepages.manager.*
 import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
-import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
-import com.ayaan.twelvepages.ui.dialog.PopupOptionDialog
-import com.ayaan.twelvepages.ui.dialog.SchedulingDialog
-import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
+import com.ayaan.twelvepages.ui.dialog.*
 import io.realm.OrderedCollectionChangeSet
 import io.realm.Realm
 import io.realm.RealmResults
@@ -124,11 +121,19 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 val record = Record().apply { copy(item) }
                 when(index) {
                     0 -> {
-                        StickerPickerDialog(record){ sticker, position ->
-                            record.setSticker(sticker, position)
-                            RecordManager.save(record)
-                            toast(R.string.saved, R.drawable.done)
-                        }.show(activity.supportFragmentManager, null)
+                        if(record.isSticker()) {
+                            StickerPickerDialog(record){ sticker, position ->
+                                record.setSticker(sticker, position)
+                                RecordManager.save(record)
+                                toast(R.string.saved, R.drawable.done)
+                            }.show(activity.supportFragmentManager, null)
+                        }else {
+                            ColorPickerDialog(0){
+                                record.colorKey = it
+                                RecordManager.save(record)
+                                toast(R.string.saved, R.drawable.done)
+                            }.show(activity.supportFragmentManager, null)
+                        }
                     }
                     1 -> {
                         RecordManager.delete(context as Activity, record, Runnable { toast(R.string.deleted, R.drawable.delete) })
@@ -233,7 +238,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     private fun collocateData(data: RealmResults<Record>, e: ArrayList<Record>) {
         data.forEach { timeObject ->
             try{
-                if(timeObject.id?.startsWith("sticker_") == true) {
+                if(timeObject.isDecoraion()) {
                     decoList.add(timeObject.makeCopyObject())
                 }else {
                     if(timeObject.repeat.isNullOrEmpty()) {

@@ -94,7 +94,6 @@ class MainActivity : BaseActivity() {
         l("[MainActivity onCreate]")
         MobileAds.initialize(this, "ca-app-pub-6927758618180863~9253162897") /*개발 ca-app-pub-3940256099942544~3347511713*/ /*운영 ca-app-pub-6927758618180863~9253162897*/
         instance = this
-        //viewModel = ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         setContentView(R.layout.activity_main)
         initTheme(rootLy)
@@ -109,11 +108,17 @@ class MainActivity : BaseActivity() {
         if(Prefs.getString("last_patch_note_ver", "") != ver) {
             val dialog = CustomDialog(this@MainActivity, "$ver 패치노트",
                     """
-                        1. 캘린더 설정에서 세로선을 표시 할 수 있습니다.
+                        1. 날짜에 배경색을 지정 할 수 있습니다.
                         
-                        2. 스티커 팩 2종이 추가되었습니다 (날씨, 음식과음료)
+                        가이드
                         
-                        3. 날짜 변경시 제목입력이 안되는 버그가 수정되었습니다.
+                        1. 많은 분들이 일간 -> 월간 전환하는 방법에 대해서 문의를 주셨습니다.
+                        버튼을 넣어볼까 했지만 아무래도 최소한의 버튼만 메인에 두는것이 좋다는 판단하에
+                        하단 메뉴바의 빈 공간을 탭하는 방식으로 가능하도록 해두었습니다.
+                        
+                        2. 설정 -> 일간화면 및 목록 스타일 설정에서 이 날의 사진을 끌 수 있습니다.
+                        
+                        3. 날짜를 길게 눌러 드래그하면 긴 구간을 한번에 입력 할 수 있습니다.
                     """.trimIndent(), null, R.drawable.info) { result, _, _ ->
             }
             showDialog(dialog, true, true, true, false)

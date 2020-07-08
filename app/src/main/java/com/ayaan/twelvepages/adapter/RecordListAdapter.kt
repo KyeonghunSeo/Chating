@@ -54,6 +54,7 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
     private val photoSideMargin = dpToPx(30)
     private val photoSize: Int = AppStatus.screenWidth / 2
     private val photoPagerMargin = -(AppStatus.screenWidth - photoSize) + dpToPx(10)
+    private val normalScale = 0.7f
 
     init {
         val callback = SimpleItemTouchHelperCallback(this)
@@ -195,6 +196,8 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
         }
 
         if(record.isSetCheckBox) {
+            v.colorImg.scaleX = 1f
+            v.colorImg.scaleY = 1f
             v.checkArea.visibility = View.VISIBLE
             if(record.title.isNullOrBlank()) {
                 v.titleText.text = str(R.string.todo)
@@ -222,6 +225,8 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
                 RecordManager.done(record)
             }
         }else {
+            v.colorImg.scaleX = normalScale
+            v.colorImg.scaleY = normalScale
             v.checkArea.visibility = View.GONE
             v.titleText.alpha = 1f
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())

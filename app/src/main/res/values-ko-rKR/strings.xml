@@ -384,7 +384,7 @@
     <string name="filter_photo">사진여부</string>
     <string name="no_keyword">키워드없음</string>
     <string name="whole_range">전체기간</string>
-    <string name="dayview_settings">일간화면 및 기록목록 설정</string>
+    <string name="dayview_settings">일간화면 및 목록 스타일 설정</string>
     <string name="show_updated_time">마지막 수정시간 표시</string>
     <string name="rc_photo_this_day">이 날에 찍은 사진들을\n함께 표시해보세요.</string>
     <string name="record_list">기록목록</string>
@@ -461,6 +461,7 @@
     <string name="daydivider_display">일간경계선 표시</string>
     <string name="s_weather_2">날씨(손그림)</string>
     <string name="s_food_water">음식과 음료</string>
+    <string name="formula_date_bg">날짜배경</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

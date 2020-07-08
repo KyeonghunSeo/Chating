@@ -17,7 +17,7 @@ open class Link(@PrimaryKey var id: String? = UUID.randomUUID().toString(),
     constructor(link: Link) : this(link.id, link.type, link.title, link.strParam0, link.strParam1,
             link.strParam2, link.intParam0, link.intParam1, link.intParam2, link.properties)
 
-    enum class Type { WEB, IMAGE, VOICE, COUNTDOWN, CHECKLIST, PERCENTAGE, STICKER }
+    enum class Type { WEB, IMAGE, VOICE, COUNTDOWN, CHECKLIST, PERCENTAGE, STICKER, BACKGROUND }
 
     override fun toString(): String {
         return "Link(id=$id, type=$type, title=$title, properties=$properties, intParam1=$intParam1)"

@@ -97,6 +97,13 @@
             android:clipToPadding="false">
         </androidx.recyclerview.widget.RecyclerView>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/dashed_line"
+            android:layerType="software"/>
+
     </FrameLayout>
 
     <include layout="@layout/view_date_cell_header" />

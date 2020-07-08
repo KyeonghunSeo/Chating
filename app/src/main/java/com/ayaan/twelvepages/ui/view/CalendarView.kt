@@ -65,6 +65,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     val dateCellHolders = Array(maxCellNum) { index -> DateInfoViewHolder(index,
             LayoutInflater.from(context).inflate(R.layout.view_date_cell_header, null, false) as FrameLayout,
             DateInfoManager.DateInfo()) }
+    val bgViews = Array(maxCellNum) { FrameLayout(context) }
     val recordsViews = Array(maxCellNum) { FrameLayout(context) }
 
     private var lastSelectDateAnimSet: AnimatorSet? = null
@@ -100,7 +101,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         addView(scrollView)
         scrollView.addView(calendarLy)
         addView(topDivider)
-        //addView(bottomDivider)
+        addView(bottomDivider)
     }
 
     private fun setLayout() {
@@ -150,6 +151,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             view.layoutParams = LayoutParams(MATCH_PARENT, lineWidth.toInt() * 3).apply {
                 leftMargin = calendarPadding
                 rightMargin = calendarPadding
+                topMargin = -(lineWidth).toInt()
             }
             view.setBackgroundResource(R.drawable.dashed_line_bold)
         }
@@ -163,6 +165,13 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
         for(i in 0..5) {
             val weekLy = weekLys[i]
             weekLy.clipChildren = false
+
+            for (j in 0..6) { // 기록 홀더 추가
+                bgViews[i * 7 + j].let {
+                    it.layoutParams = LinearLayout.LayoutParams(0, MATCH_PARENT)
+                    weekLy.addView(it)
+                }
+            }
 
             if(i > 0) {
                 weekLy.addView(rowDividers[i - 1]) // 로우 디바이더 추가
@@ -308,7 +317,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             if(true) {
                 val view = View(context)
                 view.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-                view.setBackgroundColor(AppTheme.lightLine)
+                view.setBackgroundColor(Color.parseColor("#30000000"))
                 v.addView(view, 1) // bar 위에
                 val anim = AnimatorSet()
                 anim.addListener(object : AnimatorListenerAdapter(){
@@ -454,6 +463,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
                         it.setDate(tempCal)
                         it.v.translationX = minWidth * j + calendarPadding
                         it.v.layoutParams.width = minWidth.toInt() + 1 /* 나누기 유격 커버 */
+                    }
+                    bgViews[cellNum].let {
+                        it.translationX = minWidth * j + calendarPadding
+                        it.layoutParams.width = minWidth.toInt()
                     }
                     recordsViews[cellNum].let {
                         it.translationX = minWidth * j + calendarPadding

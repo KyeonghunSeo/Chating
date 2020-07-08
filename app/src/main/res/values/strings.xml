@@ -464,6 +464,7 @@
     <string name="daydivider_display">일간 경계선 표시</string>
     <string name="s_weather_2">Wearher 2</string>
     <string name="s_food_water"><![CDATA[Food & Water]]></string>
+    <string name="formula_date_bg">날짜배경</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

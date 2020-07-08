@@ -105,7 +105,7 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     fun notifyDataChanged() {
         if(isSetFilters()) {
             recordList?.removeAllChangeListeners()
-            recordList = RecordManager.getRecordList(searchInput.text.toString(),
+            recordList = RecordManager.getRecordList(searchInput.text.toString(), // 데코레이션 타입은 타이틀이 없어서 검색안됨
                     tagTitles,
                     startTime,
                     endTime,
@@ -120,7 +120,10 @@ class SearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
                 if(changeSet.state == OrderedCollectionChangeSet.State.INITIAL) {
                     items.clear()
-                    result.forEach { items.add(it.makeCopyObject()) }
+                    result.forEach {
+                        l(it.toString())
+                        items.add(it.makeCopyObject())
+                    }
                     if(tagTitles.isEmpty()) {
                         OsCalendarManager.searchEvents(context, searchInput.text.toString()).forEach { items.add(it) }
                     }

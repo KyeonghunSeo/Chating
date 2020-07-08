@@ -21,6 +21,7 @@ import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.activity.TemplateActivity
 import com.ayaan.twelvepages.ui.dialog.BottomSheetDialog
+import com.ayaan.twelvepages.ui.dialog.ColorPickerDialog
 import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.google.android.gms.ads.AdRequest
@@ -77,7 +78,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
         root.recyclerView.post { root.recyclerView.scrollToPosition(0) }
         adapter.itemTouchHelper?.attachToRecyclerView(root.recyclerView)
         root.stickerBtn.setOnClickListener { addSticker() }
-        root.datePointBtn.setOnClickListener { addDatePoint() }
+        root.dateBgBtn.setOnClickListener { addDatePoint() }
         setDate()
         initViews()
         if(true) {
@@ -113,7 +114,18 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
 
     private fun addDatePoint() {
         MainActivity.instance?.let {
-
+            ColorPickerDialog(0){
+                val record = RecordManager.makeNewRecord(getCalendarTime0(startCal), getCalendarTime23(endCal)).apply {
+                    id = "bg_${UUID.randomUUID()}"
+                    dtCreated = System.currentTimeMillis()
+                    setFormula(RecordCalendarAdapter.Formula.BACKGROUND)
+                    setBg(0)
+                    colorKey = it
+                }
+                RecordManager.save(record)
+                toast(R.string.saved, R.drawable.done)
+                dismiss()
+            }.show(it.supportFragmentManager, null)
         }
     }
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.dpToPx
 import com.ayaan.twelvepages.model.Record
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.list_item_date_decoration.view.*
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.list_item_date_decoration.view.*
 class DecorationItemsAdapter(val context: Context, val items: List<Record>,
                              val adapterInterface: (view: View, record: Record, action: Int) -> Unit)
     : RecyclerView.Adapter<DecorationItemsAdapter.ViewHolder>() {
+    private val bgMargin = dpToPx(7)
 
     override fun getItemCount(): Int = items.size
 
@@ -25,8 +27,16 @@ class DecorationItemsAdapter(val context: Context, val items: List<Record>,
         val record = items[position]
         val v = holder.itemView
 
-        record.getSticker()?.let {
-            Glide.with(context).load(it.resId).into(v.iconImg)
+        if(record.isSticker()) {
+            v.iconImg.setPadding(0, 0, 0, 0)
+            v.iconImg.clearColorFilter()
+            record.getSticker()?.let {
+                Glide.with(context).load(it.resId).into(v.iconImg)
+            }
+        }else {
+            v.iconImg.setPadding(bgMargin, bgMargin, bgMargin, bgMargin)
+            v.iconImg.setImageResource(R.drawable.grey_rect_fill_radius_2)
+            v.iconImg.setColorFilter(record.getColor())
         }
 
         v.setOnClickListener { adapterInterface.invoke(v, record, 0) }

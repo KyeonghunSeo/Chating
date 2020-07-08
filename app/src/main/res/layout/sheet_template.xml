@@ -115,27 +115,27 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/datePointBtn"
+                        android:id="@+id/dateBgBtn"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_height="28dp"
+                        android:outlineSpotShadowColor="@color/secondaryText"
+                        android:outlineAmbientShadowColor="@color/secondaryText"
                         app:cardBackgroundColor="@color/background"
-                        app:cardCornerRadius="1dp"
-                        app:cardElevation="0dp"
-                        android:visibility="gone">
+                        app:cardElevation="2dp"
+                        app:cardCornerRadius="1.0dp">
 
                         <LinearLayout
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:paddingRight="10dp"
+                            android:paddingRight="12dp"
                             android:paddingLeft="10dp"
                             android:gravity="center_vertical"
                             android:background="?android:attr/selectableItemBackground">
 
                             <ImageView
-                                android:layout_width="13dp"
-                                android:layout_height="13dp"
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
                                 android:src="@drawable/calendar_check"
                                 android:tint="@color/iconTint"/>
 
@@ -144,12 +144,12 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center_vertical"
                                 android:layout_marginLeft="3dp"
-                                android:textSize="12dp"
+                                android:textSize="11dp"
                                 android:maxLines="1"
                                 android:ellipsize="end"
                                 android:textColor="@color/secondaryText"
                                 android:fontFamily="@font/bold_s"
-                                android:text="@string/formula_date_point"/>
+                                android:text="@string/formula_date_bg"/>
 
                         </LinearLayout>
 

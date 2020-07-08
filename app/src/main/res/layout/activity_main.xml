@@ -320,14 +320,6 @@
             android:layout_height="50dp"
             android:layout_gravity="bottom">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:background="@drawable/dashed_line"
-                android:layerType="software"/>
-
             <ImageView
                 android:id="@+id/addBtn"
                 android:layout_width="50dp"
