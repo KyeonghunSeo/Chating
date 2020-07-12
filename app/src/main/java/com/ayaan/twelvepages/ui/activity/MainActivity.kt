@@ -110,6 +110,8 @@ class MainActivity : BaseActivity() {
                     """
                         1. 날짜에 배경색을 지정 할 수 있습니다.
                         
+                        2. 친구에게 달의기록 앱을 공유하고 스티커 팩을 받아보세요! 좌측 하단 메뉴버튼을 클릭하시면 공유가 가능합니다.
+                        
                         가이드
                         
                         1. 많은 분들이 일간 -> 월간 전환하는 방법에 대해서 문의를 주셨습니다.
@@ -275,7 +277,25 @@ l("!!!!!!!font : $fontPathString")
 //            list.add(RecordManager.makeNewRecord(s+DAY_MILL*22, s+DAY_MILL*23).apply {
 //                title = "오후미팅"
 //                type = 1
-//                colorKey = c + Random().nextInt(10)
+//                colorKey = c + Random().nextInt(10)val dialog = CustomDialog(this@MainActivity, "$ver 패치노트",
+//                    """
+//                        1. 날짜에 배경색을 지정 할 수 있습니다.
+//
+//                        2. 친구에게 달의기록 앱을 공유하고 스티커 팩을 받아보세요! 좌측 하단 메뉴버튼을 클릭하시면 공유가 가능합니다.
+//
+//                        가이드
+//
+//                        1. 많은 분들이 일간 -> 월간 전환하는 방법에 대해서 문의를 주셨습니다.
+//                        버튼을 넣어볼까 했지만 아무래도 최소한의 버튼만 메인에 두는것이 좋다는 판단하에
+//                        하단 메뉴바의 빈 공간을 탭하는 방식으로 가능하도록 해두었습니다.
+//
+//                        2. 설정 -> 일간화면 및 목록 스타일 설정에서 이 날의 사진을 끌 수 있습니다.
+//
+//                        3. 날짜를 길게 눌러 드래그하면 긴 구간을 한번에 입력 할 수 있습니다.
+//                    """.trimIndent(), null, R.drawable.info) { result, _, _ ->
+//            }
+//            showDialog(dialog, true, true, true, false)
+//            dialog.hideCancelBtn()
 //            })
 //            list.add(RecordManager.makeNewRecord(s+DAY_MILL*27, s+DAY_MILL*30).apply {
 //                title = "헬스장"
@@ -646,6 +666,16 @@ l("!!!!!!!font : $fontPathString")
             startActivity(Intent(this, WelcomeActivity::class.java))
         }else if(requestCode == RC_APP_SHARE) {
             Prefs.putBoolean("isTakeShareGift", false)
+            l("!!!!!!")
+
+            val dialog = CustomDialog(this@MainActivity, "감사합니다!",
+                    """
+                        친구에게 잘
+                        스티커 팩이 지급되었습니다.
+                    """.trimIndent(), null, R.drawable.info) { result, _, _ ->
+            }
+            showDialog(dialog, true, true, true, false)
+            dialog.hideCancelBtn()
         }
     }
 

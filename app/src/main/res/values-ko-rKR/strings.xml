@@ -462,6 +462,8 @@
     <string name="s_weather_2">날씨(손그림)</string>
     <string name="s_food_water">음식과 음료</string>
     <string name="formula_date_bg">날짜배경</string>
+    <string name="decoration">꾸미기</string>
+    <string name="recording">기록하기</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>
