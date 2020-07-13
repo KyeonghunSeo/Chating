@@ -27,7 +27,7 @@
             android:layout_margin="-40dp"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:background="@color/disableText">
+            android:background="@color/light_line">
         </androidx.recyclerview.widget.RecyclerView>
 
         <FrameLayout

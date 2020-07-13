@@ -107,7 +107,7 @@
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/bold"
+            android:fontFamily="@font/bold_s"
             android:background="?android:attr/selectableItemBackground"
             android:layout_gravity="center"
             android:gravity="center"

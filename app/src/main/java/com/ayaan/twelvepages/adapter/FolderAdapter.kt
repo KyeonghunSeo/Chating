@@ -184,6 +184,13 @@ class FolderAdapter(val context: Context, private var items: ArrayList<Folder>)
         }
     }
 
+    fun setNewItems(list: RealmResults<Folder>) {
+        val newItems = ArrayList<Folder>()
+        list.mapTo(newItems) { Folder(it) }
+        items = newItems
+        notifyDataSetChanged()
+    }
+
     private var selectedItemId : String? = null
 
     fun setTargetFolder(newSelectedFolder: Folder, recyclerView: RecyclerView, panel: FrameLayout) {

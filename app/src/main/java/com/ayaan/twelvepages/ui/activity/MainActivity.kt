@@ -29,6 +29,7 @@ import com.ayaan.twelvepages.adapter.FolderAdapter
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
 import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.manager.RecordManager
+import com.ayaan.twelvepages.manager.StickerManager
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.CountdownListDialog
@@ -230,8 +231,6 @@ var fontPathString = ""
                 fontPathString += it.toString()
                 fontPathString += "\n"
             }
-l("!!!!!!!font : $fontPathString")
-
 
 //            val cal = Calendar.getInstance()
 //            cal.set(2019, 9, 1)
@@ -411,6 +410,14 @@ l("!!!!!!!font : $fontPathString")
                 it.rightMargin = -tabSize
                 it.leftMargin = tabSize
             }
+            (bottomBar.layoutParams as FrameLayout.LayoutParams).let {
+                it.rightMargin = -tabSize
+                it.leftMargin = tabSize
+            }
+            (clipboardView.layoutParams as FrameLayout.LayoutParams).let {
+                it.rightMargin = -tabSize
+                it.leftMargin = tabSize
+            }
             (folderBtn.layoutParams as FrameLayout.LayoutParams).let {
                 it.width = dpToPx(60)
                 it.leftMargin = dpToPx(10)
@@ -420,6 +427,14 @@ l("!!!!!!!font : $fontPathString")
         }else {
             (folderListView.layoutParams as FrameLayout.LayoutParams).leftMargin = -tabSize
             (contentLy.layoutParams as FrameLayout.LayoutParams).let {
+                it.rightMargin = 0
+                it.leftMargin = 0
+            }
+            (bottomBar.layoutParams as FrameLayout.LayoutParams).let {
+                it.rightMargin = 0
+                it.leftMargin = 0
+            }
+            (clipboardView.layoutParams as FrameLayout.LayoutParams).let {
                 it.rightMargin = 0
                 it.leftMargin = 0
             }
@@ -665,13 +680,13 @@ l("!!!!!!!font : $fontPathString")
             finish()
             startActivity(Intent(this, WelcomeActivity::class.java))
         }else if(requestCode == RC_APP_SHARE) {
-            Prefs.putBoolean("isTakeShareGift", false)
-            l("!!!!!!")
-
-            val dialog = CustomDialog(this@MainActivity, "감사합니다!",
+            Prefs.putBoolean("isTakeShareGift", true)
+            StickerManager.packs.add(StickerManager.StickerPack.EMOJI)
+            StickerManager.saveCurrentPack()
+            val dialog = CustomDialog(this@MainActivity, "스티커 팩이 지급되었습니다",
                     """
-                        친구에게 잘
-                        스티커 팩이 지급되었습니다.
+                        앱을 공유해 주셔서 진심으로 감사드립니다.
+                        앞으로 더욱 발전하는 달의기록이 되도록 하겠습니다.
                     """.trimIndent(), null, R.drawable.info) { result, _, _ ->
             }
             showDialog(dialog, true, true, true, false)
@@ -710,5 +725,16 @@ l("!!!!!!!font : $fontPathString")
 
     fun setPremium() {
         viewModel.appUser.value?.let { profileView.updateUserUI(it) }
+    }
+
+    fun openFolder() {
+        viewModel.openFolder.value = true
+        viewModel.folderList.value?.let {
+            folderAdapter.setNewItems(it)
+        }
+    }
+
+    fun hideFolder() {
+        viewModel.openFolder.value = false
     }
 }

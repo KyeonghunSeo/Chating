@@ -263,7 +263,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     private fun setGift() {
-        if(!AppStatus.isPremium() && !Prefs.getBoolean("isTakeShareGift", false)) {
+        if(Prefs.getBoolean("isTakeShareGift", false)) {
             giftLy.visibility = View.VISIBLE
             giftLy.setOnClickListener {
                 MainActivity.instance?.let {
