@@ -107,7 +107,7 @@
                         <ImageView
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:src="@drawable/star"
+                            android:src="@drawable/sticker"
                             android:tint="@color/iconTint"/>
 
                         <TextView
@@ -149,7 +149,7 @@
                         <ImageView
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:src="@drawable/calendar_check"
+                            android:src="@drawable/event"
                             android:tint="@color/iconTint"/>
 
                         <TextView
