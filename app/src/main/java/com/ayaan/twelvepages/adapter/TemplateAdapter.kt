@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.list_item_template.view.*
 import java.util.*
 
 class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
+                      private val layoutId: Int = R.layout.list_item_template,
                       private val adapterInterface: (template: Template?, mode: Int) -> Unit)
     : RecyclerView.Adapter<TemplateAdapter.ViewHolder>() {
 
@@ -39,7 +40,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-            = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_template, parent, false))
+            = ViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val v = holder.itemView
@@ -160,7 +161,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
         override fun isItemViewSwipeEnabled(): Boolean = false
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-            val dragFlags = ItemTouchHelper.START or ItemTouchHelper.END
+            val dragFlags = ItemTouchHelper.START or ItemTouchHelper.END or ItemTouchHelper.UP or ItemTouchHelper.DOWN
             val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
             return makeMovementFlags(dragFlags, swipeFlags)
         }

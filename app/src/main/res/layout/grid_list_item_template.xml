@@ -1,0 +1,128 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:outlineSpotShadowColor="@color/semiPrimaryText"
+        android:outlineAmbientShadowColor="@color/semiPrimaryText"
+        app:cardCornerRadius="1.0dp"
+        app:cardBackgroundColor="@color/background"
+        app:cardElevation="10dp">
+
+        <FrameLayout
+            android:id="@+id/backgroundLy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/backColorView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:alpha="0.05"/>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/contentLy"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:clipToPadding="false">
+
+            <ImageView
+                android:id="@+id/colorBtn"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/color_bg"
+                android:tint="@color/semiPrimaryText"/>
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="9dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/bold_s"
+                android:text="새 할일"/>
+
+            <ImageView
+                android:id="@+id/symbolImg"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginTop="4dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tagText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="2dp"
+                android:textSize="8dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/regular_s"
+                android:text="#"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginRight="-3dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right">
+
+                    <ImageView
+                        android:id="@+id/alarmImg"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/alarm"
+                        android:tint="@color/semiPrimaryText" />
+
+                    <ImageView
+                        android:id="@+id/checkImg"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/check"
+                        android:tint="@color/semiPrimaryText"/>
+
+                    <ImageView
+                        android:id="@+id/timeImg"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/time"
+                        android:tint="@color/semiPrimaryText"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

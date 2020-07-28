@@ -9,8 +9,12 @@ import android.os.Looper
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.adapter.TemplateAdapter
@@ -26,6 +30,7 @@ import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.sheet_template.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -36,7 +41,10 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
     private val endCal = Calendar.getInstance()
     private val items = ArrayList<Template>()
     private var selectedPosition = 0
-    private val adapter = TemplateAdapter(App.context, items) { template, mode ->
+    private var layoutMode = 0
+    private lateinit var adapter : TemplateAdapter
+
+    private fun makeTemplateAdapter(layout: Int) = TemplateAdapter(App.context, items, layout) { template, mode ->
         if(template != null) {
             if(mode == 0) {
                 selectItem(template)
@@ -59,6 +67,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
     }
 
     init {
+        layoutMode = Prefs.getInt("templateLayoutMode", 0)
         startCal.timeInMillis = dtStart
         endCal.timeInMillis = dtEnd
     }
@@ -73,12 +82,10 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
     }
 
     private fun setLayout() {
-        root.recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        root.recyclerView.adapter = adapter
-        root.recyclerView.post { root.recyclerView.scrollToPosition(0) }
-        adapter.itemTouchHelper?.attachToRecyclerView(root.recyclerView)
+        setTemplateListView()
         root.stickerBtn.setOnClickListener { addSticker() }
         root.dateBgBtn.setOnClickListener { addDatePoint() }
+        root.layoutBtn.setOnClickListener { changeLayout() }
         setDate()
         initViews()
         if(true) {
@@ -88,6 +95,22 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
             val adRequest = AdRequest.Builder().build()
             root.adView.loadAd(adRequest)
         }
+    }
+
+    private fun changeLayout() {
+        TransitionManager.beginDelayedTransition(root.listLy, makeFromBottomSlideTransition())
+        layoutMode = if(layoutMode == 0) 1 else 0
+        Prefs.putInt("templateLayoutMode", layoutMode)
+        setTemplateListView()
+    }
+
+    private fun setTemplateListView() {
+        adapter = makeTemplateAdapter(if(layoutMode == 0) R.layout.list_item_template else R.layout.grid_list_item_template)
+        root.recyclerView.layoutManager = if(layoutMode == 0) LinearLayoutManager(context, HORIZONTAL, false)
+        else GridLayoutManager(context, 3)
+        root.recyclerView.adapter = adapter
+        root.recyclerView.post { root.recyclerView.scrollToPosition(0) }
+        adapter.itemTouchHelper?.attachToRecyclerView(root.recyclerView)
     }
 
     private fun addSticker() {
@@ -150,7 +173,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
         }else {
             root.decoBtns.visibility = View.GONE
         }
-        root.rootLy.setOnClickListener {
+        root.contentLy.setOnClickListener {
             if(adapter.mode == 1) {
                 adapter.endEditMode()
             }
