@@ -109,6 +109,8 @@ class MainActivity : BaseActivity() {
         if(Prefs.getString("last_patch_note_ver", "") != ver) {
             val dialog = CustomDialog(this@MainActivity, "$ver 패치노트",
                     """
+                        변경사항
+                        
                         1. 날짜에 배경색을 지정 할 수 있습니다.
                         
                         2. 친구에게 달의기록 앱을 공유하고 스티커 팩을 받아보세요! 좌측 하단 메뉴버튼을 클릭하시면 공유가 가능합니다.
@@ -681,12 +683,14 @@ var fontPathString = ""
             startActivity(Intent(this, WelcomeActivity::class.java))
         }else if(requestCode == RC_APP_SHARE) {
             Prefs.putBoolean("isTakeShareGift", true)
-            StickerManager.packs.add(StickerManager.StickerPack.EMOJI)
-            StickerManager.saveCurrentPack()
-            val dialog = CustomDialog(this@MainActivity, "스티커 팩이 지급되었습니다",
+            if(!StickerManager.packs.contains(StickerManager.StickerPack.EMOJI2)) {
+                StickerManager.packs.add(StickerManager.StickerPack.EMOJI2)
+                StickerManager.saveCurrentPack()
+            }
+            val dialog = CustomDialog(this@MainActivity, "이모지 스티커 지급 완료",
                     """
-                        앱을 공유해 주셔서 진심으로 감사드립니다.
-                        앞으로 더욱 발전하는 달의기록이 되도록 하겠습니다.
+                        스티커팩이 지급되었습니다.
+                        공유해 주셔서 진심으로 감사드립니다!
                     """.trimIndent(), null, R.drawable.info) { result, _, _ ->
             }
             showDialog(dialog, true, true, true, false)
