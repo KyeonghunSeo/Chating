@@ -22,6 +22,7 @@
     <!--운영    ca-app-pub-6927758618180863/1522012531-->
 
     <FrameLayout
+        android:id="@+id/bottomLy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_sheet_bg">
@@ -83,18 +84,21 @@
                 <LinearLayout
                     android:id="@+id/decoBtns"
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
                     android:clipChildren="false">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/stickerBtn"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="35dp"
-                        android:outlineSpotShadowColor="@color/secondaryText"
-                        android:outlineAmbientShadowColor="@color/secondaryText"
+                        android:layout_weight="1"
+                        android:layout_marginRight="15dp"
+                        android:outlineSpotShadowColor="@color/semiPrimaryText"
+                        android:outlineAmbientShadowColor="@color/semiPrimaryText"
                         app:cardBackgroundColor="@color/background"
                         app:cardElevation="10dp"
                         app:cardCornerRadius="1.0dp">
@@ -103,14 +107,14 @@
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:paddingRight="22dp"
-                            android:paddingLeft="20dp"
+                            android:paddingRight="13dp"
+                            android:paddingLeft="13dp"
                             android:gravity="center_vertical"
                             android:background="?android:attr/selectableItemBackground">
 
                             <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
+                                android:layout_width="13dp"
+                                android:layout_height="13dp"
                                 android:src="@drawable/star"
                                 android:tint="@color/iconTint"/>
 
@@ -119,7 +123,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center_vertical"
                                 android:layout_marginLeft="7dp"
-                                android:textSize="11dp"
+                                android:textSize="10dp"
                                 android:maxLines="1"
                                 android:ellipsize="end"
                                 android:textColor="@color/secondaryText"
@@ -132,11 +136,12 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/dateBgBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="15dp"
-                        android:outlineSpotShadowColor="@color/secondaryText"
-                        android:outlineAmbientShadowColor="@color/secondaryText"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:layout_marginRight="15dp"
+                        android:outlineSpotShadowColor="@color/semiPrimaryText"
+                        android:outlineAmbientShadowColor="@color/semiPrimaryText"
                         app:cardBackgroundColor="@color/background"
                         app:cardElevation="10dp"
                         app:cardCornerRadius="1.0dp">
@@ -145,14 +150,14 @@
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:paddingRight="22dp"
-                            android:paddingLeft="20dp"
+                            android:paddingRight="13dp"
+                            android:paddingLeft="13dp"
                             android:gravity="center_vertical"
                             android:background="?android:attr/selectableItemBackground">
 
                             <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
+                                android:layout_width="13dp"
+                                android:layout_height="13dp"
                                 android:src="@drawable/calendar_check"
                                 android:tint="@color/iconTint"/>
 
@@ -161,7 +166,50 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center_vertical"
                                 android:layout_marginLeft="7dp"
-                                android:textSize="11dp"
+                                android:textSize="10dp"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:textColor="@color/secondaryText"
+                                android:fontFamily="@font/bold_s"
+                                android:text="@string/formula_date_bg"/>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:layout_marginRight="15dp"
+                        android:outlineSpotShadowColor="@color/semiPrimaryText"
+                        android:outlineAmbientShadowColor="@color/semiPrimaryText"
+                        android:visibility="invisible"
+                        app:cardBackgroundColor="@color/background"
+                        app:cardElevation="10dp"
+                        app:cardCornerRadius="1.0dp">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingRight="13dp"
+                            android:paddingLeft="13dp"
+                            android:gravity="center_vertical"
+                            android:background="?android:attr/selectableItemBackground">
+
+                            <ImageView
+                                android:layout_width="13dp"
+                                android:layout_height="13dp"
+                                android:src="@drawable/calendar_check"
+                                android:tint="@color/iconTint"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginLeft="7dp"
+                                android:textSize="10dp"
                                 android:maxLines="1"
                                 android:ellipsize="end"
                                 android:textColor="@color/secondaryText"
@@ -181,7 +229,7 @@
                     android:gravity="center_vertical"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="15dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -195,31 +243,24 @@
                         android:id="@+id/layoutBtn"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
-                        android:src="@drawable/list"
+                        android:padding="12dp"
+                        android:src="@drawable/column"
+                        android:tint="@color/iconTint"
                         android:background="?android:attr/selectableItemBackground"/>
 
                 </LinearLayout>
 
-                <FrameLayout
-                    android:id="@+id/listLy"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:nestedScrollingEnabled="false"
+                    android:clipToPadding="false"
                     android:clipChildren="false">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:overScrollMode="never"
-                        android:paddingLeft="25dp"
-                        android:paddingRight="25dp"
-                        android:nestedScrollingEnabled="false"
-                        android:clipToPadding="false"
-                        android:clipChildren="false">
-                    </androidx.recyclerview.widget.RecyclerView>
-
-                </FrameLayout>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
 

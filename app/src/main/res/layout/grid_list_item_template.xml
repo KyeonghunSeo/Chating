@@ -8,7 +8,7 @@
         android:id="@+id/cardView"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="40dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
         android:foreground="?android:attr/selectableItemBackground"
@@ -38,14 +38,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:padding="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:clipToPadding="false">
 
             <ImageView
                 android:id="@+id/colorBtn"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="7dp"
                 android:src="@drawable/color_bg"
                 android:tint="@color/semiPrimaryText"/>
 
@@ -53,7 +55,7 @@
                 android:id="@+id/titleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="9dp"
+                android:textSize="10dp"
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:textColor="@color/secondaryText"

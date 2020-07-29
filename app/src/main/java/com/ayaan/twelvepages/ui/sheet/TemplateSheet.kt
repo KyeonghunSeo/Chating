@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Transition
+import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
@@ -98,13 +99,13 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
     }
 
     private fun changeLayout() {
-        TransitionManager.beginDelayedTransition(root.listLy, makeFromBottomSlideTransition())
         layoutMode = if(layoutMode == 0) 1 else 0
         Prefs.putInt("templateLayoutMode", layoutMode)
         setTemplateListView()
     }
 
     private fun setTemplateListView() {
+        root.layoutBtn.setImageResource(if(layoutMode == 0) R.drawable.module else R.drawable.column)
         adapter = makeTemplateAdapter(if(layoutMode == 0) R.layout.list_item_template else R.layout.grid_list_item_template)
         root.recyclerView.layoutManager = if(layoutMode == 0) LinearLayoutManager(context, HORIZONTAL, false)
         else GridLayoutManager(context, 3)

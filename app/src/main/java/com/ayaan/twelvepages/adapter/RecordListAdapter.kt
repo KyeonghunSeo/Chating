@@ -54,7 +54,7 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
     private val photoSideMargin = dpToPx(30)
     private val photoSize: Int = AppStatus.screenWidth / 2
     private val photoPagerMargin = -(AppStatus.screenWidth - photoSize) + dpToPx(10)
-    private val normalScale = 0.7f
+    private val normalScale = 0.9f
 
     init {
         val callback = SimpleItemTouchHelperCallback(this)

@@ -27,6 +27,7 @@
              android:layout_height="17dp"
              android:scaleType="centerInside"
              android:src="@drawable/color_bg"
+             android:padding="2dp"
              android:tint="@color/secondaryText"/>
 
          <ImageView
