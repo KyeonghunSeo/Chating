@@ -12,10 +12,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
-import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Transition
-import androidx.transition.TransitionListenerAdapter
-import androidx.transition.TransitionManager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.adapter.TemplateAdapter
@@ -26,7 +22,6 @@ import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.activity.TemplateActivity
 import com.ayaan.twelvepages.ui.dialog.BottomSheetDialog
-import com.ayaan.twelvepages.ui.dialog.ColorPickerDialog
 import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.google.android.gms.ads.AdRequest
@@ -138,14 +133,13 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
 
     private fun addDatePoint() {
         MainActivity.instance?.let {
-            ColorPickerDialog(0){
-                val record = RecordManager.makeNewRecord(getCalendarTime0(startCal), getCalendarTime23(endCal)).apply {
-                    id = "bg_${UUID.randomUUID()}"
-                    dtCreated = System.currentTimeMillis()
-                    setFormula(RecordCalendarAdapter.Formula.BACKGROUND)
-                    setBg(0)
-                    colorKey = it
-                }
+            val record = RecordManager.makeNewRecord(getCalendarTime0(startCal), getCalendarTime23(endCal)).apply {
+                id = "bg_${UUID.randomUUID()}"
+                dtCreated = System.currentTimeMillis()
+                setFormula(RecordCalendarAdapter.Formula.BACKGROUND)
+                setBg(0)
+            }
+            EditDateBgSheet(record) { result ->
                 RecordManager.save(record)
                 toast(R.string.saved, R.drawable.done)
                 dismiss()
@@ -180,7 +174,6 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
             }
         }
     }
-
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)

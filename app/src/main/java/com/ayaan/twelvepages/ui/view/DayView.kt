@@ -33,6 +33,7 @@ import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.dialog.*
+import com.ayaan.twelvepages.ui.sheet.EditDateBgSheet
 import io.realm.OrderedCollectionChangeSet
 import io.realm.Realm
 import io.realm.RealmResults
@@ -128,8 +129,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                                 toast(R.string.saved, R.drawable.done)
                             }.show(activity.supportFragmentManager, null)
                         }else {
-                            ColorPickerDialog(0){
-                                record.colorKey = it
+                            EditDateBgSheet(record) { result ->
                                 RecordManager.save(record)
                                 toast(R.string.saved, R.drawable.done)
                             }.show(activity.supportFragmentManager, null)

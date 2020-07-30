@@ -58,7 +58,8 @@ object StickerManager {
         EMOJI(R.string.s_emoji, false, Array(30) { i -> Sticker(resource.getIdentifier("s_emoji_$i", "drawable", packageName), 16) } ),
         WHEATHER2(R.string.s_weather_2, false, Array(18) { i -> Sticker(resource.getIdentifier("s_weather2_$i", "drawable", packageName), 17) } ),
         FOODWATER(R.string.s_food_water, false, Array(100) { i -> Sticker(resource.getIdentifier("s_food_water_$i", "drawable", packageName), 18) }),
-        EMOJI2(R.string.s_emoji, true, Array(100) { i -> Sticker(resource.getIdentifier("s_emo_$i", "drawable", packageName), 19) } )
+        EMOJI2(R.string.s_emoji, true, Array(100) { i -> Sticker(resource.getIdentifier("s_emo_$i", "drawable", packageName), 19) } ),
+        MEDICAL(R.string.s_emoji, false, Array(100) { i -> Sticker(resource.getIdentifier("s_emo_$i", "drawable", packageName), 20) } )
     }
 
     fun getSticker(stickerKey: Int) = try {

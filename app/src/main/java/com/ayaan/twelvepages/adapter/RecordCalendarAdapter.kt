@@ -48,7 +48,10 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                         THIN_HATCHED, BOLD_HATCHED, NEON_PEN, UNDER_LINE, UPPER_LINE, RANGE,
                         DASH_RANGE, ARROW, DASH_ARROW)),
         STICKER(R.string.formula_sticker, 7, arrayOf(BLANK)),
-        BACKGROUND_TEXT(R.string.formula_background_text, 1, arrayOf(COLOR_PEN));
+        BACKGROUND_TEXT(R.string.formula_background_text, 1,
+                arrayOf(COLOR_PEN, RECT_FILL_BLUR, RECT_FILL, RECT_STROKE, ROUND_FILL, ROUND_STROKE,
+                THIN_HATCHED, BOLD_HATCHED, NEON_PEN, UNDER_LINE, UPPER_LINE, RANGE,
+                DASH_RANGE, ARROW, DASH_ARROW));
 
         companion object {
             fun styleToFormula(style: Int) = values()[style % 100]
@@ -195,10 +198,6 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                     it.mRight = it.mLeft + (minWidth * it.length).toInt()
                     var viewHeight = it.getViewHeight()
                     when(formula) {
-                        BACKGROUND_TEXT -> {
-                            viewHeight = minHeight.toInt()
-                            it.mTop = 0f
-                        }
                         SINGLE_TEXT, BOTTOM_SINGLE_TEXT -> {
                             it.mTop = computeOrder(it, status) * viewHeight + rowHeightArray[it.cellNum / columns]
                         }
@@ -210,10 +209,8 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
                         }
                     }
                     it.mBottom = it.mTop + viewHeight
-                    if(formula != BACKGROUND_TEXT) {
-                        (it.cellNum until it.cellNum + it.length).forEach{ index ->
-                            cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom)
-                        }
+                    (it.cellNum until it.cellNum + it.length).forEach{ index ->
+                        cellBottomArray[index] = Math.max(cellBottomArray[index], it.mBottom)
                     }
                     it.setLayout()
                 }
@@ -282,7 +279,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
     }
 
     private fun addRecordView(formula: Formula, view: RecordView) {
-        if(formula == BACKGROUND) calendarView.bgViews[view.cellNum].addView(view)
+        if(formula == BACKGROUND || formula == BACKGROUND_TEXT) calendarView.bgViews[view.cellNum].addView(view)
         else calendarView.recordsViews[view.cellNum].addView(view)
     }
 

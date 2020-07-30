@@ -167,7 +167,9 @@ class RecordViewStyleDialog(private val activity: FragmentActivity, record: Reco
                     recordView.record.title = getRandomText(R.array.range_texts)
                     subRecordView.record.title = getRandomText(R.array.range_texts)
                 }
-                else -> {}
+                else -> {
+
+                }
             }
         }else {
             recordView.record.title = calTitle

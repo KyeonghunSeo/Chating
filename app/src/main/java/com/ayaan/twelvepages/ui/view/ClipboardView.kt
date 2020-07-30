@@ -1,6 +1,7 @@
 package com.ayaan.twelvepages.ui.view
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.view_clipboard.view.*
 import java.util.*
 
+@SuppressLint("ClickableViewAccessibility")
 class ClipboardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
     private val startCal = Calendar.getInstance()
     private val endCal = Calendar.getInstance()
@@ -56,7 +58,7 @@ class ClipboardView @JvmOverloads constructor(context: Context, attrs: Attribute
             clipIconImg.setColorFilter(record.getColor())
             clipPasteBtn.setOnClickListener {
                 MainActivity.getTargetFolder().let { record.folder = Folder(it) }
-                record.setDate(MainActivity.getTargetTime() ?: Long.MIN_VALUE)
+                record.moveDate(MainActivity.getTargetCal())
                 if(record.id.isNullOrEmpty()) {
                     if(record.isRepeat()) {
                         record.clearRepeat()

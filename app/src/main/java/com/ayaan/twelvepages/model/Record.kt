@@ -59,6 +59,15 @@ open class Record(@PrimaryKey var id: String? = null,
 
     fun getDuration() = dtEnd - dtStart
 
+    fun moveDate(targetCal: Calendar?) {
+        targetCal?.let {
+            val cal = Calendar.getInstance()
+            cal.timeInMillis = dtStart
+            cal.set(it.get(Calendar.YEAR), it.get(Calendar.MONTH), it.get(Calendar.DATE))
+            setDateTime(isSetTime, cal.timeInMillis, cal.timeInMillis + getDuration())
+        }
+    }
+
     fun setDate(time: Long) {
         setDateTime(isSetTime, time, time + getDuration())
     }
@@ -270,7 +279,7 @@ open class Record(@PrimaryKey var id: String? = null,
 
     fun isSetBg(): Boolean = links.any { it.type == Link.Type.BACKGROUND.ordinal }
     fun setBg(type: Int) {
-        if(isSetSticker()) {
+        if(isSetBg()) {
             links.firstOrNull{ it.type == Link.Type.BACKGROUND.ordinal }?.let {
                 it.intParam0 = type
             }

@@ -19,6 +19,7 @@ import android.graphics.DashPathEffect
 import com.ayaan.twelvepages.adapter.util.RecordListComparator
 import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.StickerManager
+import com.ayaan.twelvepages.ui.view.base.DateBgSample
 
 
 @SuppressLint("ViewConstructor")
@@ -253,7 +254,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
 
     fun setLayout() {
         when(formula) {
-            BACKGROUND -> layoutParams = FrameLayout.LayoutParams((mRight - mLeft).toInt(), MATCH_PARENT)
+            BACKGROUND, BACKGROUND_TEXT -> layoutParams = FrameLayout.LayoutParams((mRight - mLeft).toInt(), MATCH_PARENT)
             STICKER -> layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
                 leftMargin = stickerLeft
             }
@@ -301,9 +302,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             }
             Shape.THIN_HATCHED -> {
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = strokeWidth * 2
-                //canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
-
                 paint.strokeWidth = strokeWidth * 1.5f
                 val dashWidth = strokeWidth * 3
                 var x = 0f
@@ -576,16 +574,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     }
 
     private fun drawBackground(canvas: Canvas) {
-        record.getBgLink()?.let { link ->
-            when(link.intParam0) {
-                0 -> {
-                    paint.color = paintColor
-                    paint.alpha = 100
-                    canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
-                    paint.alpha = 255
-                }
-            }
-        }
+        DateBgSample.draw(canvas, paint, record, width.toFloat(), height.toFloat())
     }
 
     private fun drawSticker(canvas: Canvas) {

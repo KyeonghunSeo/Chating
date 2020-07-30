@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLy"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_bg">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="50dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_gravity="center_horizontal"
+        app:cardBackgroundColor="@color/line"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="1dp">
+    </androidx.cardview.widget.CardView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="25dp">
+
+            <com.ayaan.twelvepages.ui.view.base.DateBgSample
+                android:id="@+id/dateBgSample"
+                android:layout_width="60dp"
+                android:layout_height="120dp"/>
+
+            <com.ayaan.twelvepages.ui.view.DateBgStylePicker
+                android:id="@+id/dateBgStylePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <FrameLayout
+                android:id="@+id/colorLy"
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="12dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold_s"
+                        android:text="@string/color"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/colorImg"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:padding="11dp"
+                    android:src="@drawable/color_bg"
+                    android:foreground="?android:attr/selectableItemBackground">
+                </ImageView>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/bottomBtnsLy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="15dp"
+                    android:paddingRight="13dp"
+                    android:clipToPadding="false"
+                    android:layout_gravity="right">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/cancelBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="44dp"
+                        app:cornerRadius="1.0dp"
+                        android:layout_marginRight="5dp"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:textSize="11dp"
+                        android:gravity="center"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/bold_s"
+                        android:text="@string/cancel"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/confirmBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="44dp"
+                        app:cornerRadius="1.0dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:textSize="11dp"
+                        android:gravity="center"
+                        android:backgroundTint="@color/secondaryText"
+                        android:fontFamily="@font/bold_s"
+                        android:text="@string/confirm"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>

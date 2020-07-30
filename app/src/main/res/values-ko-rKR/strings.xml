@@ -464,6 +464,10 @@
     <string name="formula_date_bg">날짜배경</string>
     <string name="decoration">꾸미기</string>
     <string name="recording">기록하기</string>
+    <string name="date_bg_color">배경색</string>
+    <string name="date_bg_hatched">사선</string>
+    <string name="date_bg_bold_hatched">굵은사선</string>
+    <string name="date_bg_circle_dot_pattern">땡땡이무늬</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>
