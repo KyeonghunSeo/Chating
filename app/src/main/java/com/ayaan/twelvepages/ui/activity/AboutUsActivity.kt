@@ -36,14 +36,12 @@ class AboutUsActivity : BaseActivity() {
             try {
                 startActivity(intent)
             } catch (e: ActivityNotFoundException) {
-                startActivity(Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://play.google.com/store/apps/details?id=com.ayaan.twelvepages")))
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.ayaan.twelvepages")))
             }
         }
 
         emailBtn.setOnClickListener {
-            val sendIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto", "thetwelvepages@gmail.com", null))
+            val sendIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "thetwelvepages@gmail.com", null))
             sendIntent.putExtra(Intent.EXTRA_SUBJECT, "[${getString(R.string.help)}]")
             sendIntent.putExtra(Intent.EXTRA_TEXT, "\n\n[Device information]\n" +
                     "Language : ${Locale.getDefault().language}\n" +

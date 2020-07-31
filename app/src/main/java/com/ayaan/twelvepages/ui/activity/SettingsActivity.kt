@@ -244,6 +244,10 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
+    fun setInstagram() {
+        //https://www.instagram.com/moon_records_diary/
+    }
+
     override fun onStop() {
         super.onStop()
         if(FirebaseAuth.getInstance().currentUser != null) {
