@@ -471,6 +471,7 @@
     <string name="text_color">글씨 색상</string>
     <string name="suggestion_instagram">Instagram을 팔로우하고 다양한 정보를 얻고 소통해보세요</string>
     <string name="go_insta">Instagram 둘러보기</string>
+    <string name="s_medical">의료</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>
