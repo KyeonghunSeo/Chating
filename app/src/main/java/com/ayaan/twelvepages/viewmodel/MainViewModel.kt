@@ -5,14 +5,13 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.alarm.AlarmManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.model.*
+import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.view.CalendarView
 import com.pixplicity.easyprefs.library.Prefs
 import io.realm.*
-import java.util.*
 
 class MainViewModel : ViewModel() {
     val realm = MutableLiveData<Realm>()
@@ -132,6 +131,7 @@ class MainViewModel : ViewModel() {
             undoneRecords.value = realm.where(Record::class.java)
                     .equalTo("isSetCheckBox", true)
                     .equalTo("dtDone", Long.MIN_VALUE)
+                    .isNull("repeat")
                     .lessThan("dtStart", getTodayStartTime())
                     .notEqualTo("dtCreated", -1L)
                     .sort("dtStart", Sort.ASCENDING)
@@ -214,13 +214,20 @@ class MainViewModel : ViewModel() {
         targetRecord.value = null
     }
 
-    fun makeNewTimeObject(startTime: Long, endTime: Long) {
+    fun startNewRecordSheet(template: Template, startTime: Long, endTime: Long) {
+        targetTemplate.value = template
         val folder = targetFolder.value
-        targetRecord.value = if(folder?.type == 0) makeTimeObjectByTatgetTemplate(folder, startTime, endTime)
-        else makeTimeObjectByTatgetTemplate(folder, Long.MIN_VALUE, Long.MIN_VALUE)
+        targetRecord.value = makeRecordByTatgetTemplate(folder, startTime, endTime)
     }
 
-    private fun makeTimeObjectByTatgetTemplate(targetFolder: Folder?, startTime: Long, endTime: Long) =
+    fun saveRecordDirectly(template: Template, startTime: Long, endTime: Long) {
+        targetTemplate.value = template
+        val folder = targetFolder.value
+        val record = makeRecordByTatgetTemplate(folder, startTime, endTime)
+        RecordManager.save(record)
+    }
+
+    private fun makeRecordByTatgetTemplate(targetFolder: Folder?, startTime: Long, endTime: Long) =
             RecordManager.makeNewRecord(startTime, endTime).apply {
                 targetTemplate.value?.let {
                     symbol = it.symbol

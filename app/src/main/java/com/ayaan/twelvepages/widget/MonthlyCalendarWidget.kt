@@ -7,6 +7,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.RemoteViews
@@ -65,8 +66,26 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             arrayOf(R.layout.widget_block_full)
     )
 
+    companion object {
+        private var monthPos = 0
+    }
+
     override fun onReceive(context: Context?, intent: Intent?) {
         context?.let { ctx ->
+            intent?.data?.let {
+                val data = it.toString()
+                when (data) {
+                    "moveMonth:left" -> {
+                        monthPos--
+                    }
+                    "moveMonth:right" -> {
+                        monthPos++
+                    }
+                    else -> {
+                        monthPos = 0
+                    }
+                }
+            }
             val appWidgetManager = AppWidgetManager.getInstance(ctx)
             val thisAppWidget = ComponentName(ctx.packageName, MonthlyCalendarWidget::class.java.name)
             val appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget)
@@ -98,8 +117,14 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             val maxHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
         }
         val alpha = Prefs.getInt("monthlyWidgetTransparency", 100) * 255 / 100
+        textColor = Prefs.getInt("monthlyWidgetTextColor", AppTheme.secondaryText)
         rv.setOnClickPendingIntent(R.id.rootLy, makeAppStartPendingIntent(context))
         rv.setOnClickPendingIntent(R.id.settingBtn, buildSettingPendingIntent(context))
+        rv.setOnClickPendingIntent(R.id.leftBtn, buildMoveMonthPendingIntent(context, "left"))
+        rv.setOnClickPendingIntent(R.id.rightBtn, buildMoveMonthPendingIntent(context, "right"))
+        rv.setInt(R.id.settingBtn, "setColorFilter", textColor)
+        rv.setInt(R.id.leftBtn, "setColorFilter", textColor)
+        rv.setInt(R.id.rightBtn, "setColorFilter", textColor)
         rv.setInt(R.id.backgroundView, "setAlpha", alpha)
         setCalendarView(rv)
         setRecordView(rv)
@@ -121,11 +146,13 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
     private var saturdayPos = 6
     private val dateInfos = Array(42){ DateInfoManager.DateInfo()}
     private var dotCount = Array(42){ 0 }
+    private var textColor = AppTheme.secondaryText
 
     private fun setCalendarView(rv: RemoteViews) {
         todayCal.timeInMillis = System.currentTimeMillis()
         tempCal.timeInMillis = System.currentTimeMillis()
         tempCal.set(Calendar.DATE, 1)
+        tempCal.add(Calendar.MONTH, monthPos)
         monthCal.set(tempCal.get(Calendar.YEAR), tempCal.get(Calendar.MONTH), tempCal.get(Calendar.DATE))
         setCalendarTime0(tempCal)
 
@@ -146,6 +173,8 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
 
         rv.setTextViewText(R.id.monthlyText, AppDateFormat.month.format(monthCal.time))
         rv.setTextViewText(R.id.yearText, monthCal.get(Calendar.YEAR).toString())
+        rv.setTextColor(R.id.monthlyText, textColor)
+        rv.setTextColor(R.id.yearText, textColor)
 
         for(i in 0..5) {
             if(i < rows) {
@@ -213,9 +242,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                     }catch (e: Exception){ e.printStackTrace() }
                 }
 
-                OsCalendarManager.getInstances(context, "",
-                        calStartTime,
-                        calEndTime).forEach { makeRecordViewHolder(it) }
+                OsCalendarManager.getInstances(context, "", calStartTime, calEndTime).forEach { makeRecordViewHolder(it) }
                 viewHolderList.sortWith(RecordCalendarComparator())
                 viewHolderList.forEach { holder ->
                     var lastAlpha = if(holder.record.isDone() &&
@@ -266,13 +293,13 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                                         if(view.shape.fontColor) {
                                             recordRv.setTextColor(R.id.valid_text, color and 0x00FFFFFF or -0x80000000)
                                         }else {
-                                            recordRv.setTextColor(R.id.valid_text, AppTheme.primaryText and 0x00FFFFFF or -0x80000000)
+                                            recordRv.setTextColor(R.id.valid_text, textColor and 0x00FFFFFF or -0x80000000)
                                         }
                                     }else {
                                         if(view.shape.fontColor) {
                                             recordRv.setTextColor(R.id.valid_text, color)
                                         }else {
-                                            recordRv.setTextColor(R.id.valid_text, AppTheme.primaryText)
+                                            recordRv.setTextColor(R.id.valid_text, textColor)
                                         }
                                     }
                                     recordRv.setInt(R.id.valid_img, "setAlpha", (lastAlpha * 0.05f).toInt())
@@ -385,16 +412,16 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             || cellNum + length - 1 in startCellNum..endCellNum
 
     private fun getDateTextColor(cellNum: Int, isHoli: Boolean, isSelected: Boolean) : Int {
-        val color =  if(isHoli || cellNum % columns == sundayPos) {
+        val color =  if((isHoli || cellNum % columns == sundayPos) && CalendarManager.sundayColor != CalendarManager.dateColor) {
             CalendarManager.sundayColor
-        }else if(cellNum % columns == saturdayPos) {
+        }else if(cellNum % columns == saturdayPos && CalendarManager.saturdayColor != CalendarManager.dateColor) {
             CalendarManager.saturdayColor
         }else {
-            CalendarManager.dateColor
+            textColor
         }
 
         return if(color == CalendarManager.dateColor && isSelected) {
-            CalendarManager.selectedDateColor
+            textColor
         }else {
             color
         }
@@ -449,11 +476,16 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
         return null
     }
 
-
     private fun buildSettingPendingIntent(context: Context): PendingIntent? {
         val intent = Intent(context, WidgetSettingActivity::class.java)
         //intent.data = Uri.parse(WidgetSettingsActivity.Companion.getKEY_WIDGET_MONTHLY())
         return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+
+    private fun buildMoveMonthPendingIntent(context: Context, direction: String): PendingIntent? {
+        val intent = Intent(context, MonthlyCalendarWidget::class.java)
+        intent.data = Uri.parse("moveMonth:$direction")
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 }
 

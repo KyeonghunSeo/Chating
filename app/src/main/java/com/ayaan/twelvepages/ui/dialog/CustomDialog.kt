@@ -3,6 +3,7 @@ package com.ayaan.twelvepages.ui.dialog
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
@@ -96,5 +97,9 @@ class CustomDialog(activity: Activity, private val title: String, private val su
 
     fun hideCancelBtn() {
         cancelBtn.visibility = View.GONE
+    }
+
+    fun setSubTextSize(dp: Float) {
+        subText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dp)
     }
 }

@@ -45,8 +45,7 @@
         android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="30dp">
+        android:layout_marginTop="50dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -57,7 +56,7 @@
             android:gravity="center"
             android:paddingRight="30dp"
             android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
+            android:paddingBottom="50dp"
             android:paddingTop="5dp">
 
             <ImageView
@@ -263,26 +262,67 @@
                 android:fontFamily="@font/bold_s"
                 android:text="@string/vote_to_new_feature"/>
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:src="@drawable/calendar"
+                    android:tint="@color/semiPrimaryText"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="10dp"
+                    android:textColor="@color/semiPrimaryText"
+                    android:fontFamily="@font/thin_s"
+                    android:text="@string/suggestion_instagram"/>
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/goInstaBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="5dp"
+                app:cornerRadius="1.0dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:textSize="12dp"
+                android:gravity="center"
+                android:fontFamily="@font/bold_s"
+                android:text="@string/go_insta"
+                android:visibility="gone"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/dashed_line"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textSize="9dp"
+                android:textColor="@color/semiPrimaryText"
+                android:fontFamily="@font/thin_s"
+                android:text="Copyright © 2020 Moon Records Diary inc.\nAll rights reserved."/>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-    <com.ayaan.twelvepages.ui.view.base.Line
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginBottom="30dp"
-        android:layout_gravity="bottom"
-        app:colorFlag="light_line"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:textSize="9dp"
-        android:textColor="@color/semiPrimaryText"
-        android:fontFamily="@font/thin_s"
-        android:text="Copyright © 2020 Moon Records Diary inc. All rights reserved."/>
 
     <com.ayaan.twelvepages.ui.view.LeafFallFrameLayout
         android:id="@+id/leafFallView"

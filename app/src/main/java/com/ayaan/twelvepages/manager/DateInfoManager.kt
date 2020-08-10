@@ -1,9 +1,6 @@
 package com.ayaan.twelvepages.manager
 
-import com.ayaan.twelvepages.App
-import com.ayaan.twelvepages.AppStatus
-import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.getDiffToday
+import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.model.KoreanLunarCalendar
 import java.lang.StringBuilder
 import java.util.*
@@ -12,6 +9,7 @@ import kotlin.math.abs
 object DateInfoManager {
     private val solarHolidays = HashMap<String, Holiday>()
     private val lunarHolidays = HashMap<String, Holiday>()
+    private val exHolidays = HashMap<String, Holiday>()
     private val lunarCalendar = KoreanLunarCalendar.getInstance()
     private val todayString = App.resource.getString(R.string.today)
     private val tomorrowString = App.resource.getString(R.string.tomorrow)
@@ -71,6 +69,7 @@ object DateInfoManager {
     private fun setHolidaysKR() {
         solarHolidays.clear()
         lunarHolidays.clear()
+        exHolidays.clear()
         solarHolidays["0101"] = Holiday("새해첫날", true)
         solarHolidays["0301"] = Holiday("3.1절", true)
         solarHolidays["0505"] = Holiday("어린이날", true)
@@ -122,6 +121,8 @@ object DateInfoManager {
         lunarHolidays["0814"] = Holiday("추석 연휴", true)
         lunarHolidays["0815"] = Holiday("추석", true)
         lunarHolidays["0816"] = Holiday("추석 연휴", true)
+
+        exHolidays["20200817"] = Holiday("대체공휴일", true)
     }
 
     fun getHoliday(dateInfo: DateInfo, targetCal: Calendar) {
@@ -129,11 +130,13 @@ object DateInfoManager {
                 targetCal.get(Calendar.MONTH) + 1,
                 targetCal.get(Calendar.DATE))
         val solarKey = String.format("%02d%02d", targetCal.get(Calendar.MONTH) + 1, targetCal.get(Calendar.DATE))
+        val exKey = String.format("%d%02d%02d", targetCal.get(Calendar.YEAR), targetCal.get(Calendar.MONTH) + 1, targetCal.get(Calendar.DATE))
         val lunarKey = lunarCalendar.lunarKey
         dateInfo.holiday = if(AppStatus.holidayDisplay == 0) null
         else when {
             solarHolidays.containsKey(solarKey) -> solarHolidays[solarKey]
             lunarHolidays.containsKey(lunarKey) -> lunarHolidays[lunarKey]
+            exHolidays.containsKey(exKey) -> exHolidays[exKey]
             else -> null
         }
         dateInfo.diffDate = getDiffToday(targetCal)

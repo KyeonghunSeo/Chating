@@ -54,7 +54,7 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
     private val photoSideMargin = dpToPx(30)
     private val photoSize: Int = AppStatus.screenWidth / 2
     private val photoPagerMargin = -(AppStatus.screenWidth - photoSize) + dpToPx(10)
-    private val normalScale = 0.97f
+    private val normalScale = 0.99f
 
     init {
         val callback = SimpleItemTouchHelperCallback(this)
@@ -448,12 +448,21 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
             val end = start + urlStr.length
             highlightMap[start] = end
         }
-        val sb = SpannableStringBuilder()
-        sb.append(text)
-        for (start in highlightMap.keys) {
-            sb.setSpan(BackgroundColorSpan(Color.parseColor("#50f9d073")), start, highlightMap[start]!!, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        try{
+            val sb = SpannableStringBuilder()
+            sb.append(text)
+            for (start in highlightMap.keys) {
+                sb.setSpan(BackgroundColorSpan(
+                        Color.parseColor("#50f9d073")),
+                        start, highlightMap[start]!!,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            textView.text = sb
+        }catch (e: Exception){
+            e.printStackTrace()
+            textView.text = text
         }
-        textView.text = sb
+
     }
 
     fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {

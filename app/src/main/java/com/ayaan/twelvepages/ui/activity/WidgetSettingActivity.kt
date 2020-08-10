@@ -1,9 +1,12 @@
 package com.ayaan.twelvepages.ui.activity
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.SeekBar
+import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.ui.view.InkView
 import com.ayaan.twelvepages.widget.MonthlyCalendarWidget
 import com.pixplicity.easyprefs.library.Prefs
@@ -25,6 +28,21 @@ class WidgetSettingActivity : BaseActivity() {
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {}
         })
+
+        initTextColor()
+    }
+
+    private fun initTextColor() {
+        val textColor = Prefs.getInt("monthlyWidgetTextColor", AppTheme.secondaryText)
+        textColorImg.setCardBackgroundColor(textColor)
+        textColorBtn.setOnClickListener {
+            if(textColor == AppTheme.secondaryText) {
+                Prefs.putInt("monthlyWidgetTextColor", Color.WHITE)
+            }else {
+                Prefs.putInt("monthlyWidgetTextColor", AppTheme.secondaryText)
+            }
+            initTextColor()
+        }
     }
 
     override fun onStop() {

@@ -50,29 +50,44 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="35dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/add"
-                android:scaleType="centerInside"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:padding="8dp"
-                android:tint="@color/iconTint"
-                android:visibility="gone"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical">
 
-            <ImageButton
-                android:id="@+id/settingBtn"
-                android:layout_gravity="right|center_vertical"
-                android:scaleType="centerInside"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/setting"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="7dp"
-                android:tint="@color/iconTint"
-                android:visibility="visible"/>
+                <ImageView
+                    android:id="@+id/leftBtn"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/arrow_left"
+                    android:scaleType="centerInside"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="7dp"
+                    android:tint="@color/iconTint"/>
+
+                <ImageView
+                    android:id="@+id/rightBtn"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/arrow_right"
+                    android:scaleType="centerInside"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="7dp"
+                    android:tint="@color/iconTint"/>
+
+                <ImageButton
+                    android:id="@+id/settingBtn"
+                    android:scaleType="centerInside"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/setting"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="7dp"
+                    android:tint="@color/iconTint"
+                    android:visibility="visible"/>
+
+            </LinearLayout>
 
         </FrameLayout>
 

@@ -22,6 +22,7 @@ import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.activity.TemplateActivity
 import com.ayaan.twelvepages.ui.dialog.BottomSheetDialog
+import com.ayaan.twelvepages.ui.dialog.ColorPickerDialog
 import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.google.android.gms.ads.AdRequest
@@ -36,21 +37,27 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
     private val startCal = Calendar.getInstance()
     private val endCal = Calendar.getInstance()
     private val items = ArrayList<Template>()
-    private var selectedPosition = 0
     private var layoutMode = 0
     private lateinit var adapter : TemplateAdapter
 
-    private fun makeTemplateAdapter(layout: Int) = TemplateAdapter(App.context, items, layout) { template, mode ->
+    private fun makeTemplateAdapter(layout: Int) = TemplateAdapter(App.context, items, layout) { template, action  ->
         if(template != null) {
-            if(mode == 0) {
-                selectItem(template)
-                MainActivity.getViewModel()?.makeNewTimeObject(startCal.timeInMillis, endCal.timeInMillis)
-                dismiss()
-            }else {
-                MainActivity.instance?.let {
-                    val intent = Intent(it, TemplateActivity::class.java)
-                    intent.putExtra("id", template.id)
-                    it.startActivity(intent)
+            when (action) {
+                0 -> {
+                    MainActivity.getViewModel()?.startNewRecordSheet(template, startCal.timeInMillis, endCal.timeInMillis)
+                    dismiss()
+                }
+                1 -> {
+                    MainActivity.instance?.let {
+                        val intent = Intent(it, TemplateActivity::class.java)
+                        intent.putExtra("id", template.id)
+                        it.startActivity(intent)
+                    }
+                }
+                else -> {
+                    MainActivity.getViewModel()?.saveRecordDirectly(template, startCal.timeInMillis, endCal.timeInMillis)
+                    dismiss()
+                    toast(R.string.saved)
                 }
             }
         }else {
@@ -133,6 +140,19 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
 
     private fun addDatePoint() {
         MainActivity.instance?.let {
+            ColorPickerDialog(0){
+                val record = RecordManager.makeNewRecord(getCalendarTime0(startCal), getCalendarTime23(endCal)).apply {
+                    id = "bg_${UUID.randomUUID()}"
+                    dtCreated = System.currentTimeMillis()
+                    setFormula(RecordCalendarAdapter.Formula.BACKGROUND)
+                    setBg(0)
+                    colorKey = it
+                }
+                RecordManager.save(record)
+                toast(R.string.saved, R.drawable.done)
+                dismiss()
+            }.show(it.supportFragmentManager, null)
+            /*
             val record = RecordManager.makeNewRecord(getCalendarTime0(startCal), getCalendarTime23(endCal)).apply {
                 id = "bg_${UUID.randomUUID()}"
                 dtCreated = System.currentTimeMillis()
@@ -144,6 +164,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
                 toast(R.string.saved, R.drawable.done)
                 dismiss()
             }.show(it.supportFragmentManager, null)
+             */
         }
     }
 
@@ -178,11 +199,6 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         MainActivity.instance?.clearCalendarHighlight()
-    }
-
-    private fun selectItem(template: Template) {
-        selectedPosition = items.indexOf(template)
-        MainActivity.getViewModel()?.targetTemplate?.value = template
     }
 
     var isInit = true

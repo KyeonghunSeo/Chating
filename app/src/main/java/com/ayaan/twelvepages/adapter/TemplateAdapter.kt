@@ -91,6 +91,7 @@ class TemplateAdapter(val context: Context, val items: ArrayList<Template>,
             v.setOnClickListener { adapterInterface.invoke(template, mode) }
             v.setOnLongClickListener {
                 if(mode == 0) {
+                    adapterInterface.invoke(template, 2)
                 }else {
                     itemTouchHelper?.startDrag(holder)
                 }

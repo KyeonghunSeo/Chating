@@ -657,17 +657,20 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         if(cellY >= 0) {
             val currentCell = cellY * columns + cellX
-            drag.currentTime = dateCellHolders[currentCell].time
-
-            when(event.action) {
-                DragEvent.ACTION_DRAG_STARTED -> {
-                    drag.startTime = dateCellHolders[currentCell].time
-                    highlightCells(currentCell, currentCell)
-                    targetDateHolder?.v?.bar?.visibility = View.GONE
+            try{
+                drag.currentTime = dateCellHolders[currentCell].time
+                when(event.action) {
+                    DragEvent.ACTION_DRAG_STARTED -> {
+                        drag.startTime = dateCellHolders[currentCell].time
+                        highlightCells(currentCell, currentCell)
+                        targetDateHolder?.v?.bar?.visibility = View.GONE
+                    }
+                    DragEvent.ACTION_DRAG_LOCATION -> {
+                        highlightCells(getCellNumByTime(drag.startTime), currentCell)
+                    }
                 }
-                DragEvent.ACTION_DRAG_LOCATION -> {
-                    highlightCells(getCellNumByTime(drag.startTime), currentCell)
-                }
+            }catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

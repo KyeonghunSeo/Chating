@@ -58,6 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
             android:paddingTop="25dp"
@@ -130,6 +132,44 @@
                     android:layout_margin="10dp"/>
 
             </FrameLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:clipChildren="false">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/text_color"
+                    android:textSize="15dp"
+                    android:textColor="@color/secondaryText"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/bold_s"/>
+
+                <FrameLayout
+                    android:id="@+id/textColorBtn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/textColorImg"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        app:cardCornerRadius="1dp"
+                        app:cardElevation="2dp">
+                    </androidx.cardview.widget.CardView>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
