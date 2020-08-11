@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.text.DateTimePatternGenerator
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Environment
@@ -80,6 +81,20 @@ class SettingsActivity : BaseActivity() {
                 setResult(RESULT_DAYVIEW_SETTING)
                 finish()
             }
+        }
+
+        instaBtn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://www.instagram.com/moon_records_diary")
+            startActivity(intent)
+        }
+
+        shareBtn.setOnClickListener {
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.putExtra(Intent.EXTRA_TEXT, str(R.string.app_share_text))
+            shareIntent.type = "text/plain"
+            val chooser = Intent.createChooser(shareIntent, str(R.string.app_name))
+            startActivityForResult(chooser, RC_APP_SHARE)
         }
     }
 

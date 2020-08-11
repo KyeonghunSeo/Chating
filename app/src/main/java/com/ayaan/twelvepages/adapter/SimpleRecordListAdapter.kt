@@ -6,12 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ayaan.twelvepages.AppDateFormat
-import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.getDiffTodayText
+import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.model.AppUser
 import com.ayaan.twelvepages.model.Record
-import com.ayaan.twelvepages.setGlobalTheme
 import kotlinx.android.synthetic.main.list_item_simple_record.view.*
 import java.util.*
 
@@ -38,6 +35,6 @@ class SimpleRecordListAdapter(val context: Context, val items: List<Record>, pri
         v.checkBox.setColorFilter(record.getColor())
         v.titleText.text = record.getTitleInCalendar()
         v.memoText.text = "${AppDateFormat.ymde.format(Date(record.dtEnd))} [${getDiffTodayText(record.dtStart)}]"
-        v.setOnClickListener { adapterInterface.invoke(record) }
+        v.setSafeOnClickListener { adapterInterface.invoke(record) }
     }
 }

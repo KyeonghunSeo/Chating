@@ -12,6 +12,7 @@ import android.database.Cursor
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
+import android.os.SystemClock
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.provider.MediaStore
@@ -699,6 +700,27 @@ fun removeDimStatusBar(window: Window) {
 //    window.navigationBarColor = manipulateColor(Color.WHITE, factor)
     window.peekDecorView().systemUiVisibility = flags
     window.statusBarColor = AppTheme.background
+}
+
+class SafeClickListener(
+        private var defaultInterval: Int = 250,
+        private val onSafeCLick: (View) -> Unit
+) : View.OnClickListener {
+    private var lastTimeClicked: Long = 0
+    override fun onClick(v: View) {
+        if (SystemClock.elapsedRealtime() - lastTimeClicked < defaultInterval) {
+            return
+        }
+        lastTimeClicked = SystemClock.elapsedRealtime()
+        onSafeCLick(v)
+    }
+}
+
+fun View.setSafeOnClickListener(onSafeClick: (View) -> Unit) {
+    val safeClickListener = SafeClickListener {
+        onSafeClick(it)
+    }
+    setOnClickListener(safeClickListener)
 }
 
 /* 코드

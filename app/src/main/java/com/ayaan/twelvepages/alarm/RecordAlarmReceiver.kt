@@ -60,7 +60,6 @@ class RecordAlarmReceiver : BroadcastReceiver() {
         intent.putExtra("dtStart", record.dtStart)
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
         val mCompatBuilder = NotificationCompat.Builder(context, context.getString(R.string.notification_default_channel))
         mCompatBuilder.setSmallIcon(R.mipmap.ic_launcher_round)
         mCompatBuilder.setTicker(record.getTitleInCalendar())

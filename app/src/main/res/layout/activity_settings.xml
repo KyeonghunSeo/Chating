@@ -527,6 +527,65 @@
 
             </FrameLayout>
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/etc"
+                    android:textColor="@color/disableText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="12dp"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/instaBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/instagram"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:src="@drawable/arrow_right"
+                    android:tint="@color/iconTint"
+                    android:padding="5dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/shareBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/share_app"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+            </FrameLayout>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

@@ -475,6 +475,9 @@
     <string name="suggestion_instagram">Instagram에서 다양한 정보를 얻고 소통해보세요</string>
     <string name="go_insta">Instagram 둘러보기</string>
     <string name="s_medical">의료</string>
+    <string name="instagram">Instagram</string>
+    <string name="etc">기타</string>
+    <string name="share_app">앱 공유하기</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

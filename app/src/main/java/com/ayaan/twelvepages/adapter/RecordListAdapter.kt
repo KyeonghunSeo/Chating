@@ -124,7 +124,7 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
             v.updatedText.typeface = Typeface.DEFAULT
         }
 
-        v.setOnClickListener { onItemClick(record) }
+        v.setSafeOnClickListener { onItemClick(record) }
         v.setOnLongClickListener {
             itemTouchHelper?.startDrag(holder)
             return@setOnLongClickListener false
