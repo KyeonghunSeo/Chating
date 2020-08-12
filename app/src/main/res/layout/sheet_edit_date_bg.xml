@@ -56,15 +56,14 @@
             </LinearLayout>
 
             <FrameLayout
-                android:layout_width="270dp"
+                android:layout_width="300dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="25dp">
 
                 <com.ayaan.twelvepages.ui.view.base.DateBgSample
                     android:id="@+id/dateBgSample"
-                    android:layout_marginLeft="60dp"
-                    android:layout_width="180dp"
+                    android:layout_width="match_parent"
                     android:layout_height="120dp"/>
 
                 <FrameLayout
@@ -313,15 +312,13 @@
                 android:layout_height="2dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/dashed_line"
                 android:layerType="software"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
                 android:layout_gravity="center_vertical"
                 android:textSize="12dp"
                 android:textColor="@color/primaryText"
@@ -331,12 +328,52 @@
             <com.ayaan.twelvepages.ui.view.DateBgStylePicker
                 android:id="@+id/dateBgStylePicker"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <FrameLayout
+                android:id="@+id/alphaLy"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="12dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold_s"
+                        android:text="@string/background_weight"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/backgroundWeightText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:text="@string/thin"
+                    android:fontFamily="@font/bold_s"
+                    android:textColor="@color/secondaryText"
+                    android:paddingLeft="11dp"
+                    android:layout_marginRight="11dp"
+                    android:textSize="11dp"
+                    android:foreground="?android:attr/selectableItemBackground">
+                </TextView>
+
+            </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/colorLy"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="40dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -371,6 +408,7 @@
                 android:id="@+id/bottomBtnsLy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:layout_gravity="bottom">
 
                 <LinearLayout

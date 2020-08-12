@@ -140,6 +140,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
 
     private fun addDatePoint() {
         MainActivity.instance?.let {
+            /*
             ColorPickerDialog(0){
                 val record = RecordManager.makeNewRecord(getCalendarTime0(startCal), getCalendarTime23(endCal)).apply {
                     id = "bg_${UUID.randomUUID()}"
@@ -152,7 +153,9 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
                 toast(R.string.saved, R.drawable.done)
                 dismiss()
             }.show(it.supportFragmentManager, null)
-            /*
+
+
+             */
             val record = RecordManager.makeNewRecord(getCalendarTime0(startCal), getCalendarTime23(endCal)).apply {
                 id = "bg_${UUID.randomUUID()}"
                 dtCreated = System.currentTimeMillis()
@@ -164,7 +167,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
                 toast(R.string.saved, R.drawable.done)
                 dismiss()
             }.show(it.supportFragmentManager, null)
-             */
+
         }
     }
 

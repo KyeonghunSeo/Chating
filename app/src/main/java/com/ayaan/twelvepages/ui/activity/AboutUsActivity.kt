@@ -79,7 +79,12 @@ class AboutUsActivity : BaseActivity() {
                     """
             }
             else -> {
-                """
+                """With regret
+about the things that
+have disappeared without recording
+
+Make a diary
+to write down the daily life.
                 """
             }
         }

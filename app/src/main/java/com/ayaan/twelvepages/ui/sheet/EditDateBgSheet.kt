@@ -24,6 +24,7 @@ class EditDateBgSheet(private val record: Record, private val onResult: (Boolean
     }
 
     private fun setLayout() {
+        root.setOnClickListener {}
         val cal = Calendar.getInstance()
         root.dateText.text = cal.get(Calendar.DATE).toString()
         root.dowText.text = AppDateFormat.dow.format(cal.time)

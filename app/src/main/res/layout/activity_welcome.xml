@@ -69,8 +69,8 @@
         android:alpha="0">
 
         <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:src="@drawable/logo"

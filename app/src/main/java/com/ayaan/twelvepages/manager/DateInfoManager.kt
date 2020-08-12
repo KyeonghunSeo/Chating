@@ -57,6 +57,21 @@ object DateInfoManager {
                 }
             }
         }
+
+        fun getSimpleDiffDateString(): String {
+            return when (diffDate) {
+                0 -> todayString
+                1 -> tomorrowString
+                -1 -> yesterdayString
+                else -> {
+                    when{
+                        diffDate > 0 -> "+${abs(diffDate)}"
+                        diffDate < 0 -> "-${abs(diffDate)}"
+                        else -> todayString
+                    }
+                }
+            }
+        }
     }
 
     fun init() {

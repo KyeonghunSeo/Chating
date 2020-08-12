@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:layout_width="wrap_content"
+<FrameLayout android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?android:attr/selectableItemBackground"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -10,5 +10,22 @@
        android:layout_width="35dp"
        android:layout_height="35dp"
        android:layout_margin="5dp"/>
+
+   <androidx.cardview.widget.CardView
+       android:id="@+id/datebgView"
+       android:layout_width="35dp"
+       android:layout_height="35dp"
+       android:layout_margin="5dp"
+       app:cardCornerRadius="1.0dp"
+       app:cardElevation="0dp"
+       android:visibility="gone">
+
+      <com.ayaan.twelvepages.ui.view.base.DateBgSample
+          android:id="@+id/dateBgSample"
+          android:layout_width="35dp"
+          android:layout_height="35dp">
+      </com.ayaan.twelvepages.ui.view.base.DateBgSample>
+
+   </androidx.cardview.widget.CardView>
 
 </FrameLayout>

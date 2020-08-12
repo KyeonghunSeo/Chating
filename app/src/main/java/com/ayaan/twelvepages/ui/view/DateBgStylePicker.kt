@@ -10,7 +10,10 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.*
-import kotlinx.android.synthetic.main.list_item_chip.view.*
+import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
+import com.ayaan.twelvepages.manager.RecordManager
+import kotlinx.android.synthetic.main.list_item_date_decoration.view.*
+import java.util.*
 
 class DateBgStylePicker @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : RecyclerView(context, attrs, defStyleAttr) {
@@ -39,23 +42,23 @@ class DateBgStylePicker @JvmOverloads constructor(context: Context, attrs: Attri
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int)
-                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_chip, parent, false))
+                = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_date_decoration, parent, false))
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val v = holder.itemView
             val item = items[position]
-            v.titleText.text = item
+            val record = RecordManager.makeNewRecord(0, 0).apply {
+                setFormula(RecordCalendarAdapter.Formula.BACKGROUND)
+                setBg(position)
+            }
+            v.iconImg.visibility = View.GONE
+            v.datebgView.visibility = View.VISIBLE
+            v.dateBgSample.setDateBg(record)
 
             if(position == selectedPos) {
-                v.titleText.setTextColor(Color.WHITE)
-                v.titleText.typeface = AppTheme.boldFont
-                v.contentLy.setBackgroundColor(AppTheme.secondaryText)
-                v.contentLy.alpha = 1f
+                v.datebgView.alpha = 1f
             }else {
-                v.titleText.setTextColor(AppTheme.secondaryText)
-                v.titleText.typeface = AppTheme.regularFont
-                v.contentLy.setBackgroundColor(AppTheme.lightLine)
-                v.contentLy.alpha = 0.4f
+                v.datebgView.alpha = 0.4f
             }
 
             v.setOnClickListener {

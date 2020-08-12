@@ -154,7 +154,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="15dp"
@@ -205,7 +206,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="15dp"
@@ -247,7 +249,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="15dp"
@@ -270,9 +273,12 @@
                     android:id="@+id/recordViewStyleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="150dp"
                     android:layout_gravity="right|center_vertical"
                     android:textSize="12dp"
                     android:textColor="@color/secondaryText"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
@@ -288,7 +294,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="15dp"
@@ -383,7 +390,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="15dp"
@@ -478,7 +486,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="15dp"
@@ -520,7 +529,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="15dp"
@@ -562,7 +572,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="15dp"
@@ -605,7 +616,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="15dp"

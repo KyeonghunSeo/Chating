@@ -279,7 +279,10 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             targetDateHolder?.unTarget()
             targetDateHolder = this
             v.holiText.text = dateInfo.getSelectedString()
-            v.diffText.text = dateInfo.getDiffDateString()
+            v.diffText.text = when(Locale.getDefault().language) {
+                "ko" -> dateInfo.getDiffDateString()
+                else -> dateInfo.getSimpleDiffDateString()
+            }
 
             color = getDateTextColor(cellNum, dateInfo.holiday?.isHoli == true, true)
             v.dateText.setTextColor(color)

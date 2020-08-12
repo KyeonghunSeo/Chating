@@ -38,56 +38,71 @@ class DateBgSample @JvmOverloads constructor(context: Context, attrs: AttributeS
     companion object {
         fun draw(canvas: Canvas?, paint: Paint, record: Record, width: Float, height: Float) {
             record.getBgLink()?.let { link ->
-                when(link.intParam0) {
+                val alpha = when(link.intParam1){ // 진하기
+                    0 -> 90
+                    else -> 255
+                }
+                when(link.intParam0) { // 무늬
                     0 -> {
                         paint.style = Paint.Style.FILL
                         paint.color = record.getColor()
-                        paint.alpha = 100
-                        canvas?.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 0f, 0f, paint)
+                        paint.alpha = alpha
+                        canvas?.drawRoundRect(0f, 0f, width, height, 0f, 0f, paint)
                     }
                     1 -> { // 사선
                         val dashWidth = RecordView.strokeWidth * 4
                         paint.style = Paint.Style.STROKE
                         paint.color = record.getColor()
                         paint.strokeWidth = RecordView.strokeWidth * 1.5f
-                        paint.alpha = 100
+                        paint.alpha = alpha
                         var x = 0f
-                        paint.alpha = 50
                         while (x < width + height) {
                             canvas?.drawLine(x, -RecordView.defaulMargin, x - height, height + RecordView.defaulMargin, paint)
                             x += dashWidth * 2
                         }
                     }
-                    2 -> { // 굵은사선
-                        val dashWidth = RecordView.strokeWidth * 12
+                    2 -> { // 체크
+                        paint.style = Paint.Style.FILL
+                        paint.color = record.getColor()
+                        paint.alpha = alpha
+                        //canvas?.drawRoundRect(0f, 0f, width, height, 0f, 0f, paint)
+
+                        val h = height - (RecordView.blockTypeSize + dpToPx(10f))
+                        val lineWidth = RecordView.strokeWidth * 4
+                        val gap = RecordView.strokeWidth * 5
                         paint.style = Paint.Style.STROKE
                         paint.color = record.getColor()
-                        paint.strokeWidth = RecordView.strokeWidth * 5
-                        paint.alpha = 100
+                        paint.strokeWidth = lineWidth
+                        paint.alpha = alpha
                         var x = 0f
                         while (x < width + height) {
-                            canvas?.drawLine(x, -RecordView.defaulMargin, x - height, height + RecordView.defaulMargin, paint)
-                            x += dashWidth * 2
+                            canvas?.drawLine(x, h, x, height, paint)
+                            x += gap * 2
                         }
-                        paint.color = ColorManager.getFontColor(record.getColor())
+
+                        var y = height - (RecordView.blockTypeSize + dpToPx(10f)) + lineWidth
+                        while (y < height) {
+                            canvas?.drawLine(0f, y, width, y, paint)
+                            y += gap * 2
+                        }
                     }
                     3 -> { // 땡땡이 무늬
                         paint.isAntiAlias = true
                         paint.style = Paint.Style.FILL
                         paint.color = record.getColor()
-                        val circleSize = dpToPx(2.5f)
+                        val circleSize = dpToPx(3.5f)
                         val gap = dpToPx(6f)
                         var cross = true
-                        var x = 0f
-                        var y = gap
-                        paint.alpha = 100
-                        while (y < height - circleSize) {
-                            while (x < width - circleSize) {
-                                canvas?.drawCircle(x + circleSize/2, y + circleSize/2, circleSize/2, paint)
+                        var x = -circleSize/2
+                        var y = circleSize/2
+                        paint.alpha = alpha
+                        while (y < height) {
+                            while (x < width) {
+                                canvas?.drawCircle(x, y, circleSize/2, paint)
                                 x += circleSize + gap
                             }
                             cross = !cross
-                            x = 0f + if(cross) 0f else gap
+                            x = -circleSize/2 + if(cross) 0f else (circleSize + gap) / 2
                             y += circleSize + gap
                         }
                     }
