@@ -158,7 +158,7 @@
                             <ImageView
                                 android:layout_width="13dp"
                                 android:layout_height="13dp"
-                                android:src="@drawable/calendar_check"
+                                android:src="@drawable/background"
                                 android:tint="@color/iconTint"/>
 
                             <TextView

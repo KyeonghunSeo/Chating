@@ -40,7 +40,7 @@
                     android:id="@+id/titleIcon"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/calendar_check"
+                    android:src="@drawable/background"
                     android:layout_marginRight="7dp"
                     android:tint="@color/secondaryText"/>
 
@@ -70,10 +70,7 @@
                     android:id="@+id/previewContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleX="1.0"
-                    android:scaleY="1.0"
-                    android:transformPivotX="0dp"
-                    android:transformPivotY="0dp">
+                    android:background="@drawable/edit_mode_background_dash_light">
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -103,187 +100,6 @@
 
                                         <TextView
                                             android:id="@+id/dateText"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="13dp"
-                                            android:layout_marginTop="0.8dp"
-                                            android:includeFontPadding="false"
-                                            android:textSize="12dp"
-                                            android:textColor="@color/primaryText"
-                                            android:fontFamily="@font/date"
-                                            android:text="27"/>
-
-                                        <TextView
-                                            android:id="@+id/dowText"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="13dp"
-                                            android:includeFontPadding="false"
-                                            android:layout_marginTop="0.5dp"
-                                            android:layout_marginLeft="2dp"
-                                            android:textSize="9dp"
-                                            android:maxLines="1"
-                                            android:textColor="@color/primaryText"
-                                            android:fontFamily="@font/regular_s"
-                                            android:text="WED"/>
-
-                                    </LinearLayout>
-
-                                    <TextView
-                                        android:id="@+id/holiText"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginRight="3dp"
-                                        android:textSize="8dp"
-                                        android:singleLine="true"
-                                        android:ellipsize="end"
-                                        android:text="@string/today"
-                                        android:textColor="@color/primaryText"
-                                        android:fontFamily="@font/thin"/>
-
-                                </LinearLayout>
-
-                            </FrameLayout>
-
-                        </FrameLayout>
-
-                        <FrameLayout
-                            android:layout_width="60dp"
-                            android:layout_height="120dp">
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <LinearLayout
-                                    android:orientation="vertical"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:layout_marginLeft="2.5dp">
-
-                                    <LinearLayout
-                                        android:orientation="horizontal"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="15dp">
-
-                                        <TextView
-                                            android:id="@+id/dateText2"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="13dp"
-                                            android:layout_marginTop="0.8dp"
-                                            android:includeFontPadding="false"
-                                            android:textSize="12dp"
-                                            android:textColor="@color/primaryText"
-                                            android:fontFamily="@font/date"
-                                            android:text="27"/>
-
-                                    </LinearLayout>
-
-                                </LinearLayout>
-
-                            </FrameLayout>
-
-                        </FrameLayout>
-
-                        <FrameLayout
-                            android:layout_width="60dp"
-                            android:layout_height="120dp">
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <LinearLayout
-                                    android:orientation="vertical"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:layout_marginLeft="2.5dp">
-
-                                    <LinearLayout
-                                        android:orientation="horizontal"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="15dp">
-
-                                        <TextView
-                                            android:id="@+id/dateText3"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="13dp"
-                                            android:layout_marginTop="0.8dp"
-                                            android:includeFontPadding="false"
-                                            android:textSize="12dp"
-                                            android:textColor="@color/primaryText"
-                                            android:fontFamily="@font/date"
-                                            android:text="27"/>
-
-                                    </LinearLayout>
-
-                                </LinearLayout>
-
-                            </FrameLayout>
-
-                        </FrameLayout>
-
-                        <FrameLayout
-                            android:layout_width="60dp"
-                            android:layout_height="120dp">
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <LinearLayout
-                                    android:orientation="vertical"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:layout_marginLeft="2.5dp">
-
-                                    <LinearLayout
-                                        android:orientation="horizontal"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="15dp">
-
-                                        <TextView
-                                            android:id="@+id/dateText4"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="13dp"
-                                            android:layout_marginTop="0.8dp"
-                                            android:includeFontPadding="false"
-                                            android:textSize="12dp"
-                                            android:textColor="@color/primaryText"
-                                            android:fontFamily="@font/date"
-                                            android:text="27"/>
-
-                                    </LinearLayout>
-
-                                </LinearLayout>
-
-                            </FrameLayout>
-
-                        </FrameLayout>
-
-                        <FrameLayout
-                            android:layout_width="60dp"
-                            android:layout_height="120dp">
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <LinearLayout
-                                    android:orientation="vertical"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:layout_marginLeft="2.5dp">
-
-                                    <LinearLayout
-                                        android:orientation="horizontal"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="15dp">
-
-                                        <TextView
-                                            android:id="@+id/dateText5"
                                             android:layout_width="wrap_content"
                                             android:layout_height="13dp"
                                             android:layout_marginTop="0.8dp"
@@ -335,7 +151,8 @@
             <FrameLayout
                 android:id="@+id/alphaLy"
                 android:layout_width="match_parent"
-                android:layout_height="40dp">
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -358,14 +175,14 @@
                     android:id="@+id/backgroundWeightText"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_gravity="right|center_vertical"
+                    android:layout_gravity="right"
+                    android:gravity="center_vertical"
                     android:text="@string/thin"
                     android:fontFamily="@font/bold_s"
                     android:textColor="@color/secondaryText"
                     android:paddingLeft="11dp"
-                    android:layout_marginRight="11dp"
-                    android:textSize="11dp"
-                    android:foreground="?android:attr/selectableItemBackground">
+                    android:paddingRight="11dp"
+                    android:textSize="11dp">
                 </TextView>
 
             </FrameLayout>
@@ -373,7 +190,8 @@
             <FrameLayout
                 android:id="@+id/colorLy"
                 android:layout_width="match_parent"
-                android:layout_height="40dp">
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -398,9 +216,47 @@
                     android:layout_height="40dp"
                     android:layout_gravity="right|center_vertical"
                     android:padding="11dp"
-                    android:src="@drawable/color_bg"
-                    android:foreground="?android:attr/selectableItemBackground">
+                    android:src="@drawable/color_bg">
                 </ImageView>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/dateLy"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="12dp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="@font/bold_s"
+                        android:text="@string/date"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/dateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="right"
+                    android:gravity="center_vertical"
+                    android:text="@string/date"
+                    android:fontFamily="@font/bold_s"
+                    android:textColor="@color/secondaryText"
+                    android:paddingLeft="11dp"
+                    android:paddingRight="11dp"
+                    android:textSize="11dp">
+                </TextView>
 
             </FrameLayout>
 
