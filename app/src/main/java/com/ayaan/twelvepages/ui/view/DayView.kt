@@ -129,17 +129,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                                 toast(R.string.saved, R.drawable.done)
                             }.show(activity.supportFragmentManager, null)
                         }else {
-                            ColorPickerDialog(0){
-                                record.colorKey = it
-                                RecordManager.save(record)
-                                toast(R.string.saved, R.drawable.done)
-                            }.show(activity.supportFragmentManager, null)
-                            /*
                             EditDateBgSheet(record) { result ->
                                 RecordManager.save(record)
                                 toast(R.string.saved, R.drawable.done)
                             }.show(activity.supportFragmentManager, null)
-                             */
                         }
                     }
                     1 -> {

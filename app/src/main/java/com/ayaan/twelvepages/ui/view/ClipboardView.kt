@@ -1,6 +1,5 @@
 package com.ayaan.twelvepages.ui.view
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
@@ -8,20 +7,18 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
-import com.ayaan.twelvepages.*
+import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
+import com.ayaan.twelvepages.removeDimStatusBar
+import com.ayaan.twelvepages.toast
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.view_clipboard.view.*
-import java.util.*
 
 @SuppressLint("ClickableViewAccessibility")
 class ClipboardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
-    private val startCal = Calendar.getInstance()
-    private val endCal = Calendar.getInstance()
-    private val panelElevation = dpToPx(30f)
     private var behavior: BottomSheetBehavior<View>
 
     init {

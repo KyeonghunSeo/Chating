@@ -28,12 +28,17 @@ class DecorationItemsAdapter(val context: Context, val items: List<Record>,
         val v = holder.itemView
 
         if(record.isSticker()) {
+            v.iconImg.visibility = View.VISIBLE
+            v.datebgView.visibility = View.GONE
             v.iconImg.setPadding(0, 0, 0, 0)
             v.iconImg.clearColorFilter()
             record.getSticker()?.let {
                 Glide.with(context).load(it.resId).into(v.iconImg)
             }
         }else {
+            v.iconImg.visibility = View.GONE
+            v.datebgView.visibility = View.VISIBLE
+            v.dateBgSample.setDateBg(record)
             v.iconImg.setPadding(bgMargin, bgMargin, bgMargin, bgMargin)
             v.iconImg.setImageResource(R.drawable.grey_rect_fill_radius_2)
             v.iconImg.setColorFilter(record.getColor())

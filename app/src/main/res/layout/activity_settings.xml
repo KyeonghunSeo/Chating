@@ -146,6 +146,51 @@
 
             </FrameLayout>
 
+            <FrameLayout
+                android:id="@+id/dayViewAnimationBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dayview_animation"
+                        android:textColor="@color/secondaryText"
+                        android:textSize="13dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/dayview_animation_sub"
+                        android:textColor="@color/secondaryText"
+                        android:fontFamily="@font/thin_s"
+                        android:textSize="8dp"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/dayViewAnimationText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/check_option_0"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="13dp"/>
+
+
+            </FrameLayout>
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"

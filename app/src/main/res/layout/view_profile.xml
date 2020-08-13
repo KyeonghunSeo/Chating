@@ -292,6 +292,17 @@
             android:tint="@color/iconTint"/>
 
         <ImageView
+            android:id="@+id/instaBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="16dp"
+            android:layout_marginLeft="-5dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/insta"
+            android:tint="@color/iconTint"
+            android:visibility="gone"/>
+
+        <ImageView
             android:id="@+id/syncBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"

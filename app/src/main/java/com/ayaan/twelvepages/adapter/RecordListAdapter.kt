@@ -26,6 +26,7 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.ColorManager
 import com.ayaan.twelvepages.manager.RepeatManager
 import com.ayaan.twelvepages.manager.RecordManager
+import com.ayaan.twelvepages.manager.SymbolManager
 import com.ayaan.twelvepages.model.Link
 import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
@@ -140,23 +141,6 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
             v.moreImg.setOnClickListener { adapterInterface.invoke(v.moreImg, record, 0) }
         }
 
-        val color = record.getColor()
-        val fontColor = ColorManager.getFontColor(color)
-        val formular = record.getFormula()
-        val shape = record.getShape()
-        v.colorImg.setImageResource(R.drawable.color_bg)
-        v.colorImg.setColorFilter(color)
-        v.symbolImg.setColorFilter(fontColor)
-        v.symbolImg.setImageResource(R.drawable.blank)
-
-//        if(formular == RecordCalendarAdapter.Formula.DOT) {
-//            v.symbolImg.setImageResource(R.drawable.dot)
-//        }else if(formular == RecordCalendarAdapter.Formula.MULTI_TEXT) {
-//            v.symbolImg.setImageResource(R.drawable.menu)
-//        }else if(shape.isRange) {
-//            v.symbolImg.setImageResource(R.drawable.range)
-//        }
-
         if(AppStatus.isDisplayUpdateTime) {
             v.updatedText.visibility = View.VISIBLE
             v.updatedText.text = AppDateFormat.simpleYmdDateTime.format(Date(record.dtUpdated))
@@ -171,29 +155,18 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
             v.recordViewStyleText.visibility = View.GONE
         }
 
-        if(record.title.isNullOrBlank()) {
-            v.titleText.visibility = View.GONE
-            v.memoText.setPadding(0, memoTopPadding, 0, 0)
-        }else {
-            v.titleText.visibility = View.VISIBLE
-            v.memoText.setPadding(0, 0, 0, 0)
-            if(!query.isNullOrEmpty()){
-                highlightQuery(v.titleText, record.title?.trim() ?: "")
-            }else {
-                v.titleText.text = record.title?.trim() ?: ""
-            }
-        }
+        val color = record.getColor()
+        val fontColor = ColorManager.getFontColor(color)
+        val symbolResId = SymbolManager.getSymbolResId(record.symbol)
 
-        if(record.description.isNullOrBlank()) {
-            v.memoText.visibility = View.GONE
-        }else {
-            v.memoText.visibility = View.VISIBLE
-            if(!query.isNullOrEmpty()){
-                highlightQuery(v.memoText, record.description!!)
-            }else {
-                v.memoText.text = record.description?.trim()
-            }
-        }
+//        if(formular == RecordCalendarAdapter.Formula.DOT) {
+//            v.symbolImg.setImageResource(R.drawable.dot)
+//        }else if(formular == RecordCalendarAdapter.Formula.MULTI_TEXT) {
+//            v.symbolImg.setImageResource(R.drawable.menu)
+//        }else if(shape.isRange) {
+//            v.symbolImg.setImageResource(R.drawable.range)
+//        }
+        v.colorImg.setColorFilter(color)
 
         if(record.isSetCheckBox) {
             v.colorImg.scaleX = 1f
@@ -225,11 +198,36 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
                 RecordManager.done(record)
             }
         }else {
+            v.colorImg.setImageResource(R.drawable.color_bg)
             v.colorImg.scaleX = normalScale
             v.colorImg.scaleY = normalScale
             v.checkArea.visibility = View.GONE
             v.titleText.alpha = 1f
             v.titleText.paintFlags = v.titleText.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG.inv())
+        }
+
+        if(record.title.isNullOrBlank()) {
+            v.titleText.visibility = View.GONE
+            v.memoText.setPadding(0, memoTopPadding, 0, 0)
+        }else {
+            v.titleText.visibility = View.VISIBLE
+            v.memoText.setPadding(0, 0, 0, 0)
+            if(!query.isNullOrEmpty()){
+                highlightQuery(v.titleText, record.title?.trim() ?: "")
+            }else {
+                v.titleText.text = record.title?.trim() ?: ""
+            }
+        }
+
+        if(record.description.isNullOrBlank()) {
+            v.memoText.visibility = View.GONE
+        }else {
+            v.memoText.visibility = View.VISIBLE
+            if(!query.isNullOrEmpty()){
+                highlightQuery(v.memoText, record.description!!)
+            }else {
+                v.memoText.text = record.description?.trim()
+            }
         }
 
         if(record.tags.isNotEmpty()) {

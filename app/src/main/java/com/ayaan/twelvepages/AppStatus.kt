@@ -28,6 +28,7 @@ object AppStatus {
     var calRecordFontWidth = 0
     var calFont = 0
     var recordListFont = 0
+    var isDayViewAnimation = true
 
     var screenWidth = 0
     var screenHeight = 0
@@ -54,6 +55,7 @@ object AppStatus {
         calRecordFontWidth = Prefs.getInt("calRecordFontWidth", 0)
         calFont = Prefs.getInt("calFont", 0)
         recordListFont = Prefs.getInt("recordListFont", 0)
+        isDayViewAnimation = Prefs.getBoolean("isDayViewAnimation", true)
 
         val screenSize = getScreenSize(context)
         screenWidth = screenSize[0]

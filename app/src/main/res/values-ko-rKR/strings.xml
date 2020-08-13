@@ -116,7 +116,7 @@
     <string name="edit_folder">폴더 편집</string>
     <string name="delete_folder">서랍 삭제</string>
     <string name="delete_folder_sub">이 서랍에 보관된 모든 기록(총 %1$s개)이 삭제됩니다.\n정말 삭제하시겠습니까?</string>
-    <string name="search_title_location_memo">제목, 장소, 메모 검색하기</string>
+    <string name="search_title_location_memo">제목, 장소, 본문 검색하기</string>
     <string name="startdow">시작 요일</string>
     <string name="startdow_sub">한 주가 시작되는 요일을 선택해주세요</string>
     <string name="week_display">공휴일, 주말 색상</string>
@@ -476,6 +476,13 @@
     <string name="etc">기타</string>
     <string name="share_app">앱 공유하기</string>
     <string name="background_weight">진하기</string>
+    <string name="background_area">영역</string>
+    <string name="background_area_all">전체</string>
+    <string name="background_area_bottom_ribbon">하단</string>
+    <string name="pattern">무늬</string>
+    <string name="background_area_top_date">상단</string>
+    <string name="dayview_animation">일간화면 전환 애니메이션</string>
+    <string name="dayview_animation_sub">일간화면 표시에 문제가 있다면 이 옵션을 끄기 권장</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

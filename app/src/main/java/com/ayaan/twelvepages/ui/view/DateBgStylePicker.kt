@@ -21,7 +21,12 @@ class DateBgStylePicker @JvmOverloads constructor(context: Context, attrs: Attri
             context.getString(R.string.date_bg_color),
             context.getString(R.string.date_bg_hatched),
             context.getString(R.string.date_bg_bold_hatched),
-            context.getString(R.string.date_bg_circle_dot_pattern)
+            context.getString(R.string.date_bg_circle_dot_pattern),
+            "/",
+            "\\",
+            "x",
+            "ㅁ",
+            "ㅁ점선"
     )
     var onSelected : ((Int) -> Unit)? = null
     var selectedPos = 0

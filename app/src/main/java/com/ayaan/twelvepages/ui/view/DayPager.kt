@@ -139,97 +139,133 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     fun show() {
-        viewMode = ViewMode.ANIMATING
-        visibility = View.VISIBLE
-        initTime(MainActivity.getTargetCal()?.timeInMillis ?: System.currentTimeMillis())
-        MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
-            val dataSize = MainActivity.getTargetCalendarView()?.getSelectedViewHolders()?.size ?: 0
-            val location = IntArray(2)
-            dateCell.getLocationInWindow(location)
-            layoutParams = LayoutParams(dateCell.width, dateCell.height).apply {
-                val xPos = location[0] + if(MainActivity.isFolderOpen()) -MainActivity.tabSize else 0
-                val yPos = location[1] - AppStatus.statusBarHeight
-                setMargins(xPos, yPos, 0, 0)
-            }
-            val animSet = AnimatorSet()
-            animSet.playTogether(ObjectAnimator.ofFloat(this@DayPager, "elevation", 0f, startZ),
-                    ObjectAnimator.ofFloat(this@DayPager, "alpha", 0f, 1f),
-                    ObjectAnimator.ofFloat(targetDayView.getPreviewDataImg(), "alpha", 0f, 1f))
-            animSet.duration = 200L
-            animSet.addListener(object : AnimatorListenerAdapter(){
-                override fun onAnimationEnd(p0: Animator?) {
-                    val transiion = makeChangeBounceTransition()
-                    transiion.duration = 250L
-                    transiion.addListener(object : TransitionListenerAdapter(){
-                        override fun onTransitionEnd(transition: Transition) {
-                            dayViews.forEach { it.setDateOpenedStyle() }
-                            targetDayView.targeted()
-                            viewMode = ViewMode.OPENED
-                            viewPager.setPagingEnabled(true)
-                            onVisibility?.invoke(true)
-                        }
-                        override fun onTransitionStart(transition: Transition) {
-                            notifyDateChanged()
-                            targetDayView.show(dataSize)
-                        }
-                    })
-                    TransitionManager.beginDelayedTransition(this@DayPager, transiion)
-                    (layoutParams as LayoutParams).let {
-                        it.width = MATCH_PARENT
-                        it.height = MATCH_PARENT
-                        it.setMargins(0, 0, 0, 0)
-                    }
-                    MainActivity.getFakeDateText()?.visibility = View.VISIBLE
-                    requestLayout()
+        if(AppStatus.isDayViewAnimation) {
+            viewMode = ViewMode.ANIMATING
+            visibility = View.VISIBLE
+            initTime(MainActivity.getTargetCal()?.timeInMillis ?: System.currentTimeMillis())
+            MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
+                val dataSize = MainActivity.getTargetCalendarView()?.getSelectedViewHolders()?.size ?: 0
+                val location = IntArray(2)
+                dateCell.getLocationInWindow(location)
+                layoutParams = LayoutParams(dateCell.width, dateCell.height).apply {
+                    val xPos = location[0] + if(MainActivity.isFolderOpen()) -MainActivity.tabSize else 0
+                    val yPos = location[1] - AppStatus.statusBarHeight
+                    setMargins(xPos, yPos, 0, 0)
                 }
-            })
-            animSet.start()
+                val animSet = AnimatorSet()
+                animSet.playTogether(ObjectAnimator.ofFloat(this@DayPager, "elevation", 0f, startZ),
+                        ObjectAnimator.ofFloat(this@DayPager, "alpha", 0f, 1f),
+                        ObjectAnimator.ofFloat(targetDayView.getPreviewDataImg(), "alpha", 0f, 1f))
+                animSet.duration = 200L
+                animSet.addListener(object : AnimatorListenerAdapter(){
+                    override fun onAnimationEnd(p0: Animator?) {
+                        val transiion = makeChangeBounceTransition()
+                        transiion.duration = 250L
+                        transiion.addListener(object : TransitionListenerAdapter(){
+                            override fun onTransitionEnd(transition: Transition) {
+                                dayViews.forEach { it.setDateOpenedStyle() }
+                                targetDayView.targeted()
+                                viewMode = ViewMode.OPENED
+                                viewPager.setPagingEnabled(true)
+                                onVisibility?.invoke(true)
+                            }
+                            override fun onTransitionStart(transition: Transition) {
+                                notifyDateChanged()
+                                targetDayView.show(dataSize)
+                            }
+                        })
+                        TransitionManager.beginDelayedTransition(this@DayPager, transiion)
+                        (layoutParams as LayoutParams).let {
+                            it.width = MATCH_PARENT
+                            it.height = MATCH_PARENT
+                            it.setMargins(0, 0, 0, 0)
+                        }
+                        MainActivity.getFakeDateText()?.visibility = View.VISIBLE
+                        requestLayout()
+                    }
+                })
+                animSet.start()
+            }
+        }else {
+            visibility = View.VISIBLE
+            initTime(MainActivity.getTargetCal()?.timeInMillis ?: System.currentTimeMillis())
+            alpha = 1f
+            elevation = startZ
+            notifyDateChanged()
+            targetDayView.show(0)
+            dayViews.forEach { it.setDateOpenedStyle() }
+            targetDayView.targeted()
+            viewMode = ViewMode.OPENED
+            viewPager.setPagingEnabled(true)
+            onVisibility?.invoke(true)
+            (layoutParams as LayoutParams).let {
+                it.width = MATCH_PARENT
+                it.height = MATCH_PARENT
+                it.setMargins(0, 0, 0, 0)
+            }
+            MainActivity.getFakeDateText()?.visibility = View.VISIBLE
+            requestLayout()
         }
     }
 
     fun hide() {
-        MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
-            val dataSize = MainActivity.getTargetCalendarView()?.getSelectedViewHolders()?.size ?: 0
-            elevation = startZ
-            viewMode = ViewMode.ANIMATING
-            viewPager.setPagingEnabled(false)
-            val location = IntArray(2)
-            dateCell.getLocationInWindow(location)
-            val transiion = makeChangeBounceTransition()
-            transiion.duration = 250L
-            transiion.addListener(object : TransitionListenerAdapter(){
-                override fun onTransitionEnd(transition: Transition) {
-                    val animSet = AnimatorSet()
-                    animSet.playTogether(ObjectAnimator.ofFloat(this@DayPager, "elevation", startZ, 0f),
-                            ObjectAnimator.ofFloat(this@DayPager, "alpha", 1f, 0f),
-                            ObjectAnimator.ofFloat(targetDayView.getPreviewDataImg(), "alpha", 1f, 0f))
-                    animSet.duration = 200L
-                    animSet.addListener(object : AnimatorListenerAdapter(){
-                        override fun onAnimationEnd(p0: Animator?) {
-                            viewMode = ViewMode.CLOSED
-                            visibility = View.GONE
-                            clear()
-                        }
-                    })
-                    animSet.start()
+        if(AppStatus.isDayViewAnimation) {
+            MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
+                val dataSize = MainActivity.getTargetCalendarView()?.getSelectedViewHolders()?.size ?: 0
+                elevation = startZ
+                viewMode = ViewMode.ANIMATING
+                viewPager.setPagingEnabled(false)
+                val location = IntArray(2)
+                dateCell.getLocationInWindow(location)
+                val transiion = makeChangeBounceTransition()
+                transiion.duration = 250L
+                transiion.addListener(object : TransitionListenerAdapter(){
+                    override fun onTransitionEnd(transition: Transition) {
+                        val animSet = AnimatorSet()
+                        animSet.playTogether(ObjectAnimator.ofFloat(this@DayPager, "elevation", startZ, 0f),
+                                ObjectAnimator.ofFloat(this@DayPager, "alpha", 1f, 0f),
+                                ObjectAnimator.ofFloat(targetDayView.getPreviewDataImg(), "alpha", 1f, 0f))
+                        animSet.duration = 200L
+                        animSet.addListener(object : AnimatorListenerAdapter(){
+                            override fun onAnimationEnd(p0: Animator?) {
+                                viewMode = ViewMode.CLOSED
+                                visibility = View.GONE
+                                clear()
+                            }
+                        })
+                        animSet.start()
+                    }
+                    override fun onTransitionStart(transition: Transition) {
+                        onVisibility?.invoke(false)
+                        restoreViews()
+                        targetDayView.unTargeted()
+                        targetDayView.hide(dataSize)
+                    }
+                })
+                TransitionManager.beginDelayedTransition(this, transiion)
+                (layoutParams as LayoutParams).let {
+                    it.width = dateCell.width
+                    it.height = dateCell.height
+                    val xPos = location[0] + if(MainActivity.isFolderOpen()) -MainActivity.tabSize else 0
+                    val yPos = location[1] - AppStatus.statusBarHeight
+                    it.setMargins(xPos, yPos, 0, 0)
                 }
-                override fun onTransitionStart(transition: Transition) {
-                    onVisibility?.invoke(false)
-                    restoreViews()
-                    targetDayView.unTargeted()
-                    targetDayView.hide(dataSize)
-                }
-            })
-            TransitionManager.beginDelayedTransition(this, transiion)
-            (layoutParams as LayoutParams).let {
-                it.width = dateCell.width
-                it.height = dateCell.height
-                val xPos = location[0] + if(MainActivity.isFolderOpen()) -MainActivity.tabSize else 0
-                val yPos = location[1] - AppStatus.statusBarHeight
-                it.setMargins(xPos, yPos, 0, 0)
+                MainActivity.getFakeDateText()?.visibility = View.GONE
+                requestLayout()
             }
+        }else {
+            alpha = 0f
+            elevation = 0f
+            viewPager.setPagingEnabled(false)
             MainActivity.getFakeDateText()?.visibility = View.GONE
             requestLayout()
+            onVisibility?.invoke(false)
+            restoreViews()
+            targetDayView.unTargeted()
+            targetDayView.hide(0)
+            viewMode = ViewMode.CLOSED
+            visibility = View.GONE
+            clear()
         }
     }
 

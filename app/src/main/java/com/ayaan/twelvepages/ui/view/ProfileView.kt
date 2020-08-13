@@ -264,6 +264,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private fun setGift() {
         if(!Prefs.getBoolean("isTakeShareGift", false)) {
+            instaBtn.visibility = View.GONE
             giftLy.visibility = View.VISIBLE
             giftLy.setOnClickListener {
                 MainActivity.instance?.let {
@@ -275,7 +276,15 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 }
             }
         }else {
+            instaBtn.visibility = View.VISIBLE
             giftLy.visibility = View.GONE
+            instaBtn.setOnClickListener {
+                MainActivity.instance?.let {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse("https://www.instagram.com/moon_records_diary")
+                    it.startActivity(intent)
+                }
+            }
         }
     }
 

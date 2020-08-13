@@ -32,7 +32,7 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="25dp"
                 android:gravity="center_vertical">
 
@@ -56,215 +56,235 @@
             </LinearLayout>
 
             <FrameLayout
-                android:layout_width="300dp"
-                android:layout_height="120dp"
+                android:layout_width="90dp"
+                android:layout_height="180dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="25dp">
 
                 <com.ayaan.twelvepages.ui.view.base.DateBgSample
                     android:id="@+id/dateBgSample"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"/>
+                    android:layout_width="60dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:scaleX="1.5"
+                    android:scaleY="1.5"/>
 
                 <FrameLayout
                     android:id="@+id/previewContainer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edit_mode_background_dash_light">
+                    android:layout_width="60dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:scaleX="1.5"
+                    android:scaleY="1.5">
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                        <FrameLayout
-                            android:layout_width="60dp"
-                            android:layout_height="120dp">
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <LinearLayout
-                                    android:id="@+id/dateLy"
-                                    android:orientation="vertical"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:layout_marginLeft="2.5dp">
-
-                                    <LinearLayout
-                                        android:orientation="horizontal"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="15dp">
-
-                                        <TextView
-                                            android:id="@+id/dateText"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="13dp"
-                                            android:layout_marginTop="0.8dp"
-                                            android:includeFontPadding="false"
-                                            android:textSize="12dp"
-                                            android:textColor="@color/primaryText"
-                                            android:fontFamily="@font/date"
-                                            android:text="27"/>
-
-                                    </LinearLayout>
-
-                                </LinearLayout>
-
-                            </FrameLayout>
-
-                        </FrameLayout>
+                        <TextView
+                            android:id="@+id/previewDateText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="13dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:includeFontPadding="false"
+                            android:textSize="12dp"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="@font/date"
+                            android:text="27"/>
 
                     </LinearLayout>
 
                 </FrameLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
             </FrameLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/dashed_line"
-                android:layerType="software"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textSize="12dp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/bold_s"
-                android:text="@string/type"/>
-
-            <com.ayaan.twelvepages.ui.view.DateBgStylePicker
-                android:id="@+id/dateBgStylePicker"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
-
-            <FrameLayout
-                android:id="@+id/alphaLy"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:textSize="12dp"
-                        android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold_s"
-                        android:text="@string/background_weight"/>
-
-                </LinearLayout>
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp">
 
                 <TextView
-                    android:id="@+id/backgroundWeightText"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="right"
-                    android:gravity="center_vertical"
-                    android:text="@string/thin"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="12dp"
+                    android:textColor="@color/primaryText"
                     android:fontFamily="@font/bold_s"
-                    android:textColor="@color/secondaryText"
-                    android:paddingLeft="11dp"
-                    android:paddingRight="11dp"
-                    android:textSize="11dp">
-                </TextView>
+                    android:text="@string/pattern"/>
 
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/colorLy"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <LinearLayout
-                    android:orientation="horizontal"
+                <com.ayaan.twelvepages.ui.view.DateBgStylePicker
+                    android:id="@+id/dateBgStylePicker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:textSize="12dp"
-                        android:textColor="@color/primaryText"
-                        android:fontFamily="@font/bold_s"
-                        android:text="@string/color"/>
-
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/colorImg"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:padding="11dp"
-                    android:src="@drawable/color_bg">
-                </ImageView>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/dateLy"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <LinearLayout
-                    android:orientation="horizontal"
+                <FrameLayout
+                    android:id="@+id/areaLy"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_height="40dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="12dp"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="@font/bold_s"
+                            android:text="@string/background_area"/>
+
+                    </LinearLayout>
 
                     <TextView
+                        android:id="@+id/areaText"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:textSize="12dp"
-                        android:textColor="@color/primaryText"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right"
+                        android:gravity="center_vertical"
+                        android:text="@string/background_area_bottom_ribbon"
                         android:fontFamily="@font/bold_s"
-                        android:text="@string/date"/>
+                        android:textColor="@color/secondaryText"
+                        android:paddingLeft="11dp"
+                        android:paddingRight="11dp"
+                        android:textSize="11dp">
+                    </TextView>
 
-                </LinearLayout>
+                </FrameLayout>
 
-                <TextView
-                    android:id="@+id/dateText"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:id="@+id/alphaLy"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_gravity="right"
-                    android:gravity="center_vertical"
-                    android:text="@string/date"
-                    android:fontFamily="@font/bold_s"
-                    android:textColor="@color/secondaryText"
-                    android:paddingLeft="11dp"
-                    android:paddingRight="11dp"
-                    android:textSize="11dp">
-                </TextView>
+                    android:background="?android:attr/selectableItemBackground">
 
-            </FrameLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="12dp"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="@font/bold_s"
+                            android:text="@string/background_weight"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/alphaText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right"
+                        android:gravity="center_vertical"
+                        android:text="@string/thin"
+                        android:fontFamily="@font/bold_s"
+                        android:textColor="@color/secondaryText"
+                        android:paddingLeft="11dp"
+                        android:paddingRight="11dp"
+                        android:textSize="11dp">
+                    </TextView>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/colorLy"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="12dp"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="@font/bold_s"
+                            android:text="@string/color"/>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/colorImg"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:padding="11dp"
+                        android:src="@drawable/color_bg">
+                    </ImageView>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/dateLy"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="12dp"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="@font/bold_s"
+                            android:text="@string/date"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/dateText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right"
+                        android:gravity="center_vertical"
+                        android:text="@string/date"
+                        android:fontFamily="@font/bold_s"
+                        android:textColor="@color/secondaryText"
+                        android:paddingLeft="11dp"
+                        android:paddingRight="11dp"
+                        android:textSize="11dp">
+                    </TextView>
+
+                </FrameLayout>
+
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/bottomBtnsLy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="25dp"
                 android:layout_gravity="bottom">
 
                 <LinearLayout
