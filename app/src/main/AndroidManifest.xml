@@ -49,7 +49,6 @@
             android:windowSoftInputMode="adjustResize">
         </activity>
         <activity android:name="com.ayaan.twelvepages.ui.activity.MapActivity" />
-        <activity android:name="com.ayaan.twelvepages.ui.activity.DrawActivity" />
         <activity android:name="com.ayaan.twelvepages.ui.activity.TrashActivity" />
         <activity android:name="com.ayaan.twelvepages.ui.activity.TemplateActivity" />
         <activity android:name="com.ayaan.twelvepages.ui.activity.SettingsActivity" />

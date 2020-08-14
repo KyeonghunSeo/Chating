@@ -52,7 +52,14 @@ object ColorManager {
                 resource.getStringArray(R.array.colors_flood_night).map { Color.parseColor(it) }.toTypedArray())
     }
 
-    fun getColor(colorKey: Int) = ColorPack.values()[colorKey / colorPaletteSize].items[colorKey % colorPaletteSize]
+    fun getColor(colorKey: Int): Int  {
+        return try {
+            ColorPack.values()[colorKey / colorPaletteSize].items[colorKey % colorPaletteSize]
+        }catch (e: Exception) {
+            e.printStackTrace()
+            AppTheme.primary
+        }
+    }
     fun getFontColor(color: Int) = if(ColorUtils.calculateLuminance(color) < 0.6f) AppTheme.background else AppTheme.secondaryText
     fun getColorKey(color: Int): Int {
         val colors = primaryColorPack.items

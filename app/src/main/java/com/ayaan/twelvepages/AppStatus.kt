@@ -60,6 +60,10 @@ object AppStatus {
         val screenSize = getScreenSize(context)
         screenWidth = screenSize[0]
         screenHeight = screenSize[1]
+        val resourceId: Int = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            statusBarHeight = context.resources.getDimensionPixelSize(resourceId)
+        }
     }
 
     fun isPremium() = premiumTime > System.currentTimeMillis()

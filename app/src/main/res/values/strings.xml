@@ -478,14 +478,14 @@
     <string name="instagram">Instagram</string>
     <string name="etc">Etc</string>
     <string name="share_app">Share the app</string>
-    <string name="background_weight">진하기</string>
-    <string name="background_area">영역</string>
-    <string name="background_area_all">전체영역</string>
-    <string name="background_area_bottom_ribbon">하단띠</string>
-    <string name="pattern">무늬</string>
-    <string name="background_area_top_date">상단날짜</string>
-    <string name="dayview_animation">일간화면 전환 애니메이션</string>
-    <string name="dayview_animation_sub">일간화면 표시에 문제가 있다면 이 옵션을 해제하세요.</string>
+    <string name="background_weight">Thick</string>
+    <string name="background_area">Area</string>
+    <string name="background_area_all">Whole area</string>
+    <string name="background_area_bottom_ribbon">Bottom</string>
+    <string name="pattern">pattern</string>
+    <string name="background_area_top_date">Top</string>
+    <string name="dayview_animation">Daily screen transition animation</string>
+    <string name="dayview_animation_sub">If you are having trouble displaying the daily screen, please disable this option.</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

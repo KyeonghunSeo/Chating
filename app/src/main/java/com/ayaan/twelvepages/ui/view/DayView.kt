@@ -1,13 +1,10 @@
 package com.ayaan.twelvepages.ui.view
 
-import android.Manifest
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.pm.PackageManager
-import android.graphics.Paint
 import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
@@ -17,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import androidx.core.app.ActivityCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,7 +28,10 @@ import com.ayaan.twelvepages.manager.*
 import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.MainActivity
-import com.ayaan.twelvepages.ui.dialog.*
+import com.ayaan.twelvepages.ui.dialog.DatePickerDialog
+import com.ayaan.twelvepages.ui.dialog.PopupOptionDialog
+import com.ayaan.twelvepages.ui.dialog.SchedulingDialog
+import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import com.ayaan.twelvepages.ui.sheet.EditDateBgSheet
 import io.realm.OrderedCollectionChangeSet
 import io.realm.Realm
@@ -431,7 +430,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                 ObjectAnimator.ofFloat(holiText, "translationY", 0f, holiPosY),
                 ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "scaleX", 1f, mainMonthTextScale),
                 ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "scaleY", 1f, mainMonthTextScale),
-                ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "translationY", 1f, mainMonthTextY),
+                ObjectAnimator.ofFloat(MainActivity.getMainMonthText(), "translationY", 0f, mainMonthTextY),
                 ObjectAnimator.ofFloat(dowText, "alpha", 0f, 1f),
                 ObjectAnimator.ofFloat(holiText, "alpha", 1f, 0f),
                 ObjectAnimator.ofFloat(diffText, "alpha", 1f, 0f))
@@ -490,8 +489,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.translationY = dowPosY
         holiText.translationX = holiPosX
         holiText.translationY = holiPosY
-        MainActivity.getMainMonthText()?.let {
-        }
+        MainActivity.getMainMonthText()?.let {}
         previewDataImg.alpha = 0f
         previewDataImg.translationY = dpToPx(120f)
         bar.alpha = 0f
@@ -514,8 +512,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         dowText.translationY = 0f
         holiText.translationX = 0f
         holiText.translationY = 0f
-        MainActivity.getMainMonthText()?.let {
-        }
+        MainActivity.getMainMonthText()?.let {}
         previewDataImg.alpha = 0f
         previewDataImg.translationY = 0f
         bar.alpha = 1f
@@ -536,8 +533,13 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
     companion object {
         const val headerTextScale = 4.0f
         const val mainMonthTextScale = 0.75f
-        private val dp = dpToPx(1f)
-        val mainMonthTextY = if(dp == 3.5f) dpToPx(0.0f) else dpToPx(2.5f)
+
+        val dp = dpToPx(1f)
+        val mainMonthTextY = when{
+            dp <= 2.625f -> dpToPx(1f)
+            dp >= 2.75f -> -dpToPx(1f)
+            else -> 0f
+        }
 
         val datePosX = dpToPx(2.0f)
         val datePosY = -dpToPx(10.0f)

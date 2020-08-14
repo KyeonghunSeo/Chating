@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.widget.SeekBar
 import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
-import com.ayaan.twelvepages.manager.CalendarManager
-import com.ayaan.twelvepages.ui.view.InkView
 import com.ayaan.twelvepages.widget.MonthlyCalendarWidget
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_widget_setting.*

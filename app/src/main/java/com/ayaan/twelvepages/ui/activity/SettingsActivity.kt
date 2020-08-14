@@ -99,6 +99,22 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
+    private fun setDayViewAniamtion() {
+        if(AppStatus.isDayViewAnimation) {
+            dayViewAnimationText.setTextColor(AppTheme.secondaryText)
+            dayViewAnimationText.text = getString(R.string.show)
+        } else {
+            dayViewAnimationText.setTextColor(AppTheme.disableText)
+            dayViewAnimationText.text = getString(R.string.hide)
+        }
+        dayViewAnimationBtn.setOnClickListener {
+            AppStatus.isDayViewAnimation = !AppStatus.isDayViewAnimation
+            Prefs.putBoolean("isDayViewAnimation", AppStatus.isDayViewAnimation)
+            setDayViewAniamtion()
+        }
+    }
+
+
     private fun setExport() {
         exportBtn.setOnClickListener {
             if (ActivityCompat.checkSelfPermission(this,
@@ -170,21 +186,6 @@ class SettingsActivity : BaseActivity() {
     private fun setBackupTimeText() {
         val lastBackupTime = Prefs.getLong("last_backup_time", 0L)
         backupText.text = AppDateFormat.ymd.format(Date(lastBackupTime)) + " " + AppDateFormat.time.format(Date(lastBackupTime))
-    }
-
-    private fun setDayViewAniamtion() {
-        if(AppStatus.isDayViewAnimation) {
-            dayViewAnimationText.setTextColor(AppTheme.secondaryText)
-            dayViewAnimationText.text = getString(R.string.show)
-        } else {
-            dayViewAnimationText.setTextColor(AppTheme.disableText)
-            dayViewAnimationText.text = getString(R.string.hide)
-        }
-        dayViewAnimationBtn.setOnClickListener {
-            AppStatus.isDayViewAnimation = !AppStatus.isDayViewAnimation
-            Prefs.putBoolean("isDayViewAnimation", AppStatus.isDayViewAnimation)
-            setDayViewAniamtion()
-        }
     }
 
     private fun setDefaultAlarmTime() {

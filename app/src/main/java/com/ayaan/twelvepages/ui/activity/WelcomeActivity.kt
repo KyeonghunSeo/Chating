@@ -44,26 +44,16 @@ class WelcomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
-        initTheme(rootLy)
-        callAfterViewDrawed(rootLy, Runnable{
-            val rectangle = Rect()
-            window.decorView.getWindowVisibleDisplayFrame(rectangle)
-            val statusBarHeight = rectangle.top
-            val contentViewTop = window.findViewById<View>(Window.ID_ANDROID_CONTENT).top
-            val titleBarHeight = contentViewTop - statusBarHeight
-            val location = IntArray(2)
-            rootLy.getLocationInWindow(location)
-            AppStatus.statusBarHeight = location[1]
-            //l("StatusBar Height= " + statusBarHeight + " , TitleBar Height = " + titleBarHeight + " , AppStatus.statusBarHeight = " + AppStatus.statusBarHeight)
-
-            if(FirebaseAuth.getInstance().currentUser == null) {
+        if(FirebaseAuth.getInstance().currentUser == null) {
+            initTheme(rootLy)
+            callAfterViewDrawed(rootLy, Runnable{
                 startShow()
-            }else {
-                startMainActivity()
-                //startCustomSettings()
-                //startShow()
-            }
-        })
+            })
+        }else {
+            startMainActivity()
+            //startCustomSettings()
+            //startShow()
+        }
     }
 
     private fun startShow() {

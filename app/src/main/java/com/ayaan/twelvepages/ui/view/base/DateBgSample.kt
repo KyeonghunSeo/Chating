@@ -51,19 +51,21 @@ class DateBgSample @JvmOverloads constructor(context: Context, attrs: AttributeS
                     else -> CalendarView.dataStartYOffset
                 }
                 val bottom = top + h
+
+                paint.pathEffect = null
+                paint.color = record.getColor()
+                paint.alpha = alpha
+                paint.isAntiAlias = false
+
                 when(link.intParam0) { // 무늬
                     0 -> {
                         paint.style = Paint.Style.FILL
-                        paint.color = record.getColor()
-                        paint.alpha = alpha
                         canvas?.drawRoundRect(0f, top, width, bottom, 0f, 0f, paint)
                     }
                     1 -> { // 사선
-                        val dashWidth = RecordView.strokeWidth * 4
                         paint.style = Paint.Style.STROKE
-                        paint.color = record.getColor()
                         paint.strokeWidth = RecordView.strokeWidth * 1.5f
-                        paint.alpha = alpha
+                        val dashWidth = RecordView.strokeWidth * 4
                         var x = 0f
                         while (x < width + bottom) {
                             canvas?.drawLine(x, top -RecordView.defaulMargin, x - h, bottom + RecordView.defaulMargin, paint)
@@ -71,19 +73,16 @@ class DateBgSample @JvmOverloads constructor(context: Context, attrs: AttributeS
                         }
                     }
                     2 -> { // 체크
-                        val lineWidth = RecordView.strokeWidth * 4
                         val gap = RecordView.strokeWidth * 5
                         paint.style = Paint.Style.STROKE
-                        paint.color = record.getColor()
-                        paint.strokeWidth = lineWidth
-                        paint.alpha = alpha
+                        paint.strokeWidth = RecordView.strokeWidth * 4
                         var x = 0f
                         while (x < width) {
                             canvas?.drawLine(x, top, x, bottom, paint)
                             x += gap * 2
                         }
 
-                        var y = top + lineWidth
+                        var y = top + paint.strokeWidth
                         while (y < bottom) {
                             canvas?.drawLine(0f, y, width, y, paint)
                             y += gap * 2
@@ -92,13 +91,11 @@ class DateBgSample @JvmOverloads constructor(context: Context, attrs: AttributeS
                     3 -> { // 땡땡이 무늬
                         paint.isAntiAlias = true
                         paint.style = Paint.Style.FILL
-                        paint.color = record.getColor()
                         val circleSize = dpToPx(3.5f)
                         val gap = dpToPx(6f)
                         var cross = true
                         var x = circleSize/2
                         var y = top + circleSize
-                        paint.alpha = alpha
                         while (y < h + top) {
                             while (x < width) {
                                 canvas?.drawCircle(x, y, circleSize/2, paint)
@@ -111,20 +108,15 @@ class DateBgSample @JvmOverloads constructor(context: Context, attrs: AttributeS
                     }
                     4, 5, 6 -> { // 왼쪽 사선
                         paint.style = Paint.Style.STROKE
-                        paint.color = record.getColor()
                         paint.strokeWidth = RecordView.strokeWidth * 2.0f
-                        paint.alpha = alpha
                         if(link.intParam0 == 4 || link.intParam0 == 6) canvas?.drawLine(0f, top, width, bottom, paint)
                         if(link.intParam0 == 5 || link.intParam0 == 6) canvas?.drawLine(width, top, 0f, bottom, paint)
                         return@let
                     }
                     7, 8 -> { // 테두리
                         paint.style = Paint.Style.STROKE
-                        paint.color = record.getColor()
                         paint.strokeWidth = RecordView.strokeWidth * 3.0f
                         if(link.intParam0 == 8) paint.pathEffect = DashPathEffect(floatArrayOf(dpToPx(4.0f), dpToPx(2.0f)), 2f)
-                        else paint.pathEffect = null
-                        paint.alpha = alpha
                         canvas?.drawRoundRect(0f, top, width, bottom, 0f, 0f, paint)
                     }
                     else -> {}
