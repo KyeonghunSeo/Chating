@@ -277,6 +277,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        android:clipChildren="false"
         android:alpha="0">
 
         <ProgressBar
@@ -305,13 +306,15 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:clipChildren="false">
 
             <HorizontalScrollView
                 android:id="@+id/diaryLy"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
+                android:clipChildren="false"
                 android:scrollbars="none">
 
                 <LinearLayout
@@ -320,9 +323,10 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="50dp"
                     android:paddingRight="50dp"
-                    android:paddingTop="70dp"
-                    android:paddingBottom="70dp"
+                    android:paddingTop="50dp"
+                    android:paddingBottom="50dp"
                     android:clipToPadding="false"
+                    android:clipChildren="false"
                     android:gravity="center">
 
                     <androidx.cardview.widget.CardView
@@ -403,7 +407,7 @@
                                 android:layout_marginLeft="25dp"
                                 android:textColor="@color/secondaryText"
                                 android:lineSpacingExtra="3dp"
-                                android:textSize="12dp"
+                                android:textSize="10dp"
                                 android:text="@string/diary_set_1_sub"
                                 android:fontFamily="@font/regular_s"/>
 

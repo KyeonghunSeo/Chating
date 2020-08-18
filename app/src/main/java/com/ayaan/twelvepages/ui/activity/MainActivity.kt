@@ -119,14 +119,13 @@ class MainActivity : BaseActivity() {
                         1. 환경설정에서 자신의 라이프 스타일에 맞게 아침, 점심, 저녁 기본알림 시간을 설정 해 놓으시고 편하게 알림을 등록해 보세요. 
                         
                         * 일간화면이 안보이는 사용자 분들은 메뉴 > 설정으로 가셔서 일간화면 전환 애니메이션 효과를 꺼보시길 바랍니다.
-                        
-                        * 메뉴면화 좌측 인스타 아이콘을 탭하시면 달의기록 인스타그램에 방문 할 수 있습니다. 인스타그램을 팔로우하고 다양한 정보를 얻고 소통해보세요.
                     """.trimIndent(), null, R.drawable.info) { result, _, _ ->
             }
             showDialog(dialog, true, true, true, false)
             dialog.hideCancelBtn()
             dialog.setSubTextSize(12f)
             Prefs.putString("last_patch_note_ver", ver)
+            //* 메뉴면화 좌측 인스타 아이콘을 탭하시면 달의기록 인스타그램에 방문 할 수 있습니다. 인스타그램을 팔로우하고 다양한 정보를 얻고 소통해보세요.
         }
     }
 

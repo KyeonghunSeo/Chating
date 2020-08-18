@@ -276,7 +276,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 }
             }
         }else {
-            instaBtn.visibility = View.VISIBLE
+            instaBtn.visibility = View.GONE
             giftLy.visibility = View.GONE
             instaBtn.setOnClickListener {
                 MainActivity.instance?.let {
