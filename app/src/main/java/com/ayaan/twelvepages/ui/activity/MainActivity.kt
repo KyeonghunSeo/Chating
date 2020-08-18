@@ -31,6 +31,7 @@ import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.manager.StickerManager
 import com.ayaan.twelvepages.model.Folder
+import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.dialog.CountdownListDialog
 import com.ayaan.twelvepages.ui.dialog.CustomDialog
@@ -611,8 +612,12 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    fun showTemplateSheet(dtStart: Long, dtEnd: Long) {
-        TemplateSheet(dtStart, dtEnd).show(supportFragmentManager, null)
+    fun showTemplateSheet(dtStart: Long, dtEnd: Long, photo: Photo? = null) {
+        TemplateSheet(dtStart, dtEnd, photo).show(supportFragmentManager, null)
+    }
+
+    fun showTemplateSheetWithPhoto(photo: Photo) {
+        viewModel.targetTime.value?.let { showTemplateSheet(it, it, photo) }
     }
 
     override fun onBackPressed() {

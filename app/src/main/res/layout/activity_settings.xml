@@ -25,8 +25,8 @@
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/arrow_left"
                 android:padding="16dp"
-                android:tint="@color/secondaryText"
-                android:background="?android:attr/selectableItemBackground"/>
+                android:background="?android:attr/selectableItemBackground"
+                app:tint="@color/secondaryText" />
 
             <TextView
                 android:id="@+id/titleText"
@@ -160,8 +160,8 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical|right"
                     android:src="@drawable/arrow_right"
-                    android:tint="@color/iconTint"
-                    android:padding="5dp"/>
+                    android:padding="5dp"
+                    app:tint="@color/iconTint" />
 
             </FrameLayout>
 
@@ -189,10 +189,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="@string/dayview_animation_sub"
-                        android:textColor="@color/secondaryText"
+                        android:textColor="@color/disableText"
                         android:fontFamily="@font/thin_s"
                         android:textSize="8dp"
-                        android:visibility="gone"/>
+                        android:visibility="visible"/>
 
                 </LinearLayout>
 

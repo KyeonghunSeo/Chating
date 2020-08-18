@@ -661,7 +661,9 @@ class RecordActivity : BaseActivity() {
 
     private fun confirm() {
         if(record.id.isNullOrEmpty() || originalData != record) {
-            if(record.id.isNullOrEmpty() && record.isBlankText()) {
+            if(record.id.isNullOrEmpty()
+                    && record.isBlankText()
+                    && !record.isSetOtherOptions()) {
                 toast(R.string.discard_blank_record, R.drawable.delete)
                 finish()
             }else if(originalData?.isRepeat() == true) {
@@ -813,7 +815,9 @@ class RecordActivity : BaseActivity() {
                                     hideProgressDialog()
                                 }
                             })
-                }catch (e: Exception){}
+                }catch (e: Exception){
+                    e.printStackTrace()
+                }
             }
         }
     }

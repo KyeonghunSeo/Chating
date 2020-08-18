@@ -369,6 +369,7 @@ open class Record(@PrimaryKey var id: String? = null,
     fun isSetTitle() = title != null
     fun isSetSymbol() = symbol != null
     fun isBlankText(): Boolean = title.isNullOrBlank() && description.isNullOrBlank()
+    fun isSetOtherOptions(): Boolean = isSetSymbol() || isSetLink() || isSetPhoto() || isSetPercentage() || isSetCheckList() || isSetCountdown()
     fun isSticker(): Boolean = id?.startsWith("sticker_") == true
     fun isBg(): Boolean = id?.startsWith("bg_") == true
     fun isDecoraion(): Boolean = isSticker() || isBg()

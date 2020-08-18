@@ -486,6 +486,8 @@
     <string name="background_area_top_date">Top</string>
     <string name="dayview_animation">Daily screen transition animation</string>
     <string name="dayview_animation_sub">If you are having trouble displaying the daily screen, please disable this option.</string>
+    <string name="view">열람하기</string>
+    <string name="record_with_this_photo">이 사진을 첨부하여 기록하기</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -17,35 +20,46 @@ import com.ayaan.twelvepages.adapter.RecordCalendarAdapter
 import com.ayaan.twelvepages.adapter.TemplateAdapter
 import com.ayaan.twelvepages.adapter.util.TemplateDiffCallback
 import com.ayaan.twelvepages.manager.RecordManager
+import com.ayaan.twelvepages.model.Link
+import com.ayaan.twelvepages.model.Photo
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.model.Template
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.activity.TemplateActivity
 import com.ayaan.twelvepages.ui.dialog.BottomSheetDialog
-import com.ayaan.twelvepages.ui.dialog.ColorPickerDialog
 import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
 import com.google.android.gms.ads.AdRequest
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.sheet_template.view.*
+import java.io.ByteArrayOutputStream
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
+class TemplateSheet(dtStart: Long, dtEnd: Long, val photo: Photo? = null) : BottomSheetDialog() {
     private val startCal = Calendar.getInstance()
     private val endCal = Calendar.getInstance()
     private val items = ArrayList<Template>()
     private var layoutMode = 0
-    private lateinit var adapter : TemplateAdapter
+    private lateinit var adapter: TemplateAdapter
 
-    private fun makeTemplateAdapter(layout: Int) = TemplateAdapter(App.context, items, layout) { template, action  ->
-        if(template != null) {
+    private fun makeTemplateAdapter(layout: Int) = TemplateAdapter(App.context, items, layout) { template, action ->
+        if (template != null) {
             when (action) {
                 0 -> {
-                    MainActivity.getViewModel()?.startNewRecordSheet(template, startCal.timeInMillis, endCal.timeInMillis)
-                    dismiss()
+                    if(photo != null) {
+                        saveRecordWithPhoto(template, action, photo)
+                    }else {
+                        MainActivity.getViewModel()?.startNewRecordSheet(template, startCal.timeInMillis, endCal.timeInMillis)
+                        dismiss()   
+                    }
                 }
                 1 -> {
                     MainActivity.instance?.let {
@@ -55,15 +69,19 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
                     }
                 }
                 else -> {
-                    MainActivity.getViewModel()?.saveRecordDirectly(template, startCal.timeInMillis, endCal.timeInMillis)
-                    dismiss()
-                    toast(R.string.saved)
+                    if(photo != null) {
+                        saveRecordWithPhoto(template, action, photo)
+                    }else {
+                        MainActivity.getViewModel()?.saveRecordDirectly(template, startCal.timeInMillis, endCal.timeInMillis)
+                        dismiss()
+                        toast(R.string.saved)
+                    }
                 }
             }
-        }else {
-            if(items.size >= 6 && !AppStatus.isPremium()) {
+        } else {
+            if (items.size >= 6 && !AppStatus.isPremium()) {
                 showPremiumDialog(MainActivity.instance!!)
-            }else {
+            } else {
                 MainActivity.instance?.let { it.startActivity(Intent(it, TemplateActivity::class.java)) }
             }
         }
@@ -86,14 +104,27 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
 
     private fun setLayout() {
         setTemplateListView()
+
+        if (photo != null) {
+            root.decoTitleText.visibility = View.GONE
+            root.decoBtns.visibility = View.GONE
+            root.photoLy.visibility = View.VISIBLE
+            Glide.with(context!!).load(photo.url).into(root.photoView)
+        } else {
+            root.decoTitleText.visibility = View.VISIBLE
+            root.decoBtns.visibility = View.VISIBLE
+            root.photoLy.visibility = View.GONE
+        }
+
         root.stickerBtn.setOnClickListener { addSticker() }
         root.dateBgBtn.setOnClickListener { addDatePoint() }
         root.layoutBtn.setOnClickListener { changeLayout() }
         setDate()
         initViews()
-        if(true) {
+
+        if (true) {
             root.adView.visibility = View.GONE
-        }else {
+        } else {
             root.adView.visibility = View.VISIBLE
             val adRequest = AdRequest.Builder().build()
             root.adView.loadAd(adRequest)
@@ -101,15 +132,15 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
     }
 
     private fun changeLayout() {
-        layoutMode = if(layoutMode == 0) 1 else 0
+        layoutMode = if (layoutMode == 0) 1 else 0
         Prefs.putInt("templateLayoutMode", layoutMode)
         setTemplateListView()
     }
 
     private fun setTemplateListView() {
-        root.layoutBtn.setImageResource(if(layoutMode == 0) R.drawable.module else R.drawable.column)
-        adapter = makeTemplateAdapter(if(layoutMode == 0) R.layout.list_item_template else R.layout.grid_list_item_template)
-        root.recyclerView.layoutManager = if(layoutMode == 0) LinearLayoutManager(context, HORIZONTAL, false)
+        root.layoutBtn.setImageResource(if (layoutMode == 0) R.drawable.module else R.drawable.column)
+        adapter = makeTemplateAdapter(if (layoutMode == 0) R.layout.list_item_template else R.layout.grid_list_item_template)
+        root.recyclerView.layoutManager = if (layoutMode == 0) LinearLayoutManager(context, HORIZONTAL, false)
         else GridLayoutManager(context, 3)
         root.recyclerView.adapter = adapter
         root.recyclerView.post { root.recyclerView.scrollToPosition(0) }
@@ -118,7 +149,7 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
 
     private fun addSticker() {
         MainActivity.instance?.let {
-            StickerPickerDialog{ sticker, position ->
+            StickerPickerDialog { sticker, position ->
                 val records = ArrayList<Record>()
                 while (startCal <= endCal) {
                     val dtStart = getCalendarTime0(startCal)
@@ -153,8 +184,6 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
                 toast(R.string.saved, R.drawable.done)
                 dismiss()
             }.show(it.supportFragmentManager, null)
-
-
              */
             val record = RecordManager.makeNewRecord(getCalendarTime0(startCal), getCalendarTime23(endCal)).apply {
                 id = "bg_${UUID.randomUUID()}"
@@ -174,26 +203,17 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
     @SuppressLint("SetTextI18n")
     private fun setDate() {
         val folder = MainActivity.getTargetFolder()
-        if(folder.isCalendar()) {
+        if (folder.isCalendar()) {
             root.templateDateText.text = makeSheduleText(startCal.timeInMillis, endCal.timeInMillis,
                     false, false, false, true)
-        }else {
+        } else {
             root.templateDateText.text = folder.name
         }
     }
 
     private fun initViews() {
-        if(MainActivity.getTargetFolder().id == "calendar") {
-            if(adapter.mode == 0) {
-                root.decoBtns.visibility = View.VISIBLE
-            }else {
-                root.decoBtns.visibility = View.GONE
-            }
-        }else {
-            root.decoBtns.visibility = View.GONE
-        }
         root.contentLy.setOnClickListener {
-            if(adapter.mode == 1) {
+            if (adapter.mode == 1) {
                 adapter.endEditMode()
             }
         }
@@ -209,15 +229,15 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
     private fun notifyListChanged() {
         val newItems = ArrayList<Template>()
         filterCurrentFolder(newItems)
-        if(isInit) {
+        if (isInit) {
             items.clear()
             items.addAll(newItems)
             adapter.notifyDataSetChanged()
             isInit = false
-        }else {
+        } else {
             Thread {
                 val diffResult = DiffUtil.calculateDiff(TemplateDiffCallback(items, newItems))
-                Handler(Looper.getMainLooper()).post{
+                Handler(Looper.getMainLooper()).post {
                     items.clear()
                     items.addAll(newItems)
                     diffResult.dispatchUpdatesTo(adapter)
@@ -237,4 +257,40 @@ class TemplateSheet(dtStart: Long, dtEnd: Long) : BottomSheetDialog() {
         }
     }
 
+    private fun saveRecordWithPhoto(template: Template, action: Int, photo: Photo) {
+        try {
+            MainActivity.instance?.let { mainActivity ->
+                mainActivity.showProgressDialog(null)
+                val resource = BitmapFactory.decodeFile(photo.url)
+                l("원본 크기 : ${resource.rowBytes} 바이트")
+                val imageId = UUID.randomUUID().toString()
+                val ref = FirebaseStorage.getInstance().reference
+                        .child("${FirebaseAuth.getInstance().uid}/$imageId.jpg")
+                val baos = ByteArrayOutputStream()
+                resource.compress(Bitmap.CompressFormat.JPEG, 50, baos)
+                val uploadTask = ref.putBytes(baos.toByteArray())
+                uploadTask.addOnFailureListener {
+                    mainActivity.hideProgressDialog()
+                }.addOnSuccessListener {
+                    ref.downloadUrl.addOnCompleteListener {
+                        l("다운로드 url : ${it.result.toString()}")
+                        val photoLink = Link(imageId, Link.Type.IMAGE.ordinal, strParam0 = it.result.toString())
+                        mainActivity.hideProgressDialog()
+                        if(action == 0) {
+                            MainActivity.getViewModel()?.startNewRecordSheet(template,
+                                    startCal.timeInMillis, endCal.timeInMillis, photoLink)
+                            dismiss()
+                        }else {
+                            MainActivity.getViewModel()?.saveRecordDirectly(template,
+                                    startCal.timeInMillis, endCal.timeInMillis, photoLink)
+                            dismiss()
+                            toast(R.string.saved)
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 }

@@ -305,7 +305,7 @@
     <string name="thin">흐리게</string>
     <string name="bold">진하게</string>
     <string name="formula_date_point">날짜강조</string>
-    <string name="undone_records">미완료기록</string>
+    <string name="undone_records">미완료 : </string>
     <string name="import_external_data">외부 데이터</string>
     <string name="import_naver_calendar">네이버 캘린더 가져오기</string>
     <string name="this_is_os_instance">외부 데이터는 앱 내에서 편집할수 없습니다</string>
@@ -483,6 +483,8 @@
     <string name="background_area_top_date">상단</string>
     <string name="dayview_animation">일간화면 전환 애니메이션</string>
     <string name="dayview_animation_sub">일간화면 표시에 문제가 있다면 이 옵션을 끄기 권장</string>
+    <string name="view">열람하기</string>
+    <string name="record_with_this_photo">이 사진을 첨부하여 기록하기</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

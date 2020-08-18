@@ -7,9 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ayaan.twelvepages.R
+import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.model.Photo
-import com.ayaan.twelvepages.setGlobalTheme
+import com.ayaan.twelvepages.ui.activity.MainActivity
+import com.ayaan.twelvepages.ui.dialog.CustomListDialog
 import com.bumptech.glide.Glide
 import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.list_item_photo.view.*
@@ -46,10 +47,25 @@ class OsPhotoListView @JvmOverloads constructor(context: Context, attrs: Attribu
             val photo = items[position]
             Glide.with(context).load(photo.url).into(v.imageView)
             v.imageView.setOnClickListener {
-                ImageViewer.Builder(context, items.map { "file://${it.url}" })
-                        .hideStatusBar(false)
-                        .setStartPosition(position)
-                        .show()
+                MainActivity.instance?.let { mainActivity ->
+                    val dialog = CustomListDialog(mainActivity, context.getString(R.string.photo), null, null, false,
+                            listOf(context.getString(R.string.view),
+                                    context.getString(R.string.record_with_this_photo))) { action ->
+                        if(action == 0) {
+                            ImageViewer.Builder(context, items.map { "file://${it.url}" })
+                                    .hideStatusBar(false)
+                                    .setStartPosition(position)
+                                    .show()
+                        }else {
+                            if(AppStatus.isPremium()) {
+                                mainActivity.showTemplateSheetWithPhoto(photo)
+                            }else {
+                                showPremiumDialog(mainActivity)
+                            }
+                        }
+                    }
+                    showDialog(dialog, true, true, true, false)
+                }
             }
         }
     }

@@ -214,16 +214,23 @@ class MainViewModel : ViewModel() {
         targetRecord.value = null
     }
 
-    fun startNewRecordSheet(template: Template, startTime: Long, endTime: Long) {
-        targetTemplate.value = template
-        val folder = targetFolder.value
-        targetRecord.value = makeRecordByTatgetTemplate(folder, startTime, endTime)
-    }
-
-    fun saveRecordDirectly(template: Template, startTime: Long, endTime: Long) {
+    fun startNewRecordSheet(template: Template, startTime: Long, endTime: Long, photoLink: Link? = null) {
         targetTemplate.value = template
         val folder = targetFolder.value
         val record = makeRecordByTatgetTemplate(folder, startTime, endTime)
+        if(photoLink != null) {
+            record.links.add(photoLink)
+        }
+        targetRecord.value = record
+    }
+
+    fun saveRecordDirectly(template: Template, startTime: Long, endTime: Long, photoLink: Link? = null) {
+        targetTemplate.value = template
+        val folder = targetFolder.value
+        val record = makeRecordByTatgetTemplate(folder, startTime, endTime)
+        if(photoLink != null) {
+            record.links.add(photoLink)
+        }
         RecordManager.save(record)
     }
 
