@@ -617,7 +617,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -632,8 +632,8 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical|right"
                     android:src="@drawable/arrow_right"
-                    android:tint="@color/iconTint"
-                    android:padding="5dp"/>
+                    android:padding="5dp"
+                    app:tint="@color/iconTint" />
 
             </FrameLayout>
 

@@ -47,6 +47,7 @@ class CalendarSettingsSheet(private val activity: Activity) : BottomSheetDialog(
         setDayDivider()
         setCheckedRecordDisplay()
     }
+
     private fun setStartDow() {
         val dowList = resources.getStringArray(R.array.day_of_weeks).toList()
         root.startdowText.text = dowList[AppStatus.startDayOfWeek - 1]

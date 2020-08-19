@@ -23,8 +23,8 @@
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/arrow_left"
                 android:padding="16dp"
-                android:tint="@color/secondaryText"
-                android:background="?android:attr/selectableItemBackground"/>
+                android:background="?android:attr/selectableItemBackground"
+                app:tint="@color/secondaryText" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
             android:paddingTop="25dp"
             android:paddingBottom="60dp">
 
-            <LinearLayout
+            <FrameLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -74,9 +74,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/transparency"
-                    android:textSize="15dp"
+                    android:textSize="14dp"
                     android:textColor="@color/secondaryText"
-                    android:gravity="center_vertical"
                     android:fontFamily="@font/bold_s"/>
 
                 <TextView
@@ -84,13 +83,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/transparency"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="15dp"
+                    android:layout_marginRight="5dp"
+                    android:textSize="14dp"
                     android:textColor="@color/secondaryText"
-                    android:gravity="center_vertical"
-                    android:fontFamily="@font/bold_s" />
+                    android:layout_gravity="right"/>
 
-            </LinearLayout>
+            </FrameLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -101,7 +99,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0%"
+                    android:text="100%"
                     android:textSize="12dp"
                     android:textColor="@color/disableText"
                     android:layout_margin="5dp" />
@@ -119,7 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="100%"
+                    android:text="0%"
                     android:textSize="12dp"
                     android:textColor="@color/disableText"
                     android:layout_margin="5dp"  />
@@ -134,28 +132,29 @@
             </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/textColorBtn"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center_vertical"
-                android:clipChildren="false">
+                android:clipChildren="false"
+                android:background="?android:attr/selectableItemBackground">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/text_color"
-                    android:textSize="15dp"
+                    android:textSize="14dp"
                     android:textColor="@color/secondaryText"
                     android:gravity="center_vertical"
                     android:fontFamily="@font/bold_s"/>
 
                 <FrameLayout
-                    android:id="@+id/textColorBtn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="?android:attr/selectableItemBackground">
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/textColorImg"
@@ -170,6 +169,38 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/textSizeBtn"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:clipChildren="false"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/cal_text_size"
+                    android:textSize="14dp"
+                    android:textColor="@color/secondaryText"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/bold_s"/>
+
+                <TextView
+                    android:id="@+id/textSizeText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/cal_text_size"
+                    android:textSize="14dp"
+                    android:textColor="@color/secondaryText"
+                    android:gravity="center_vertical|right"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

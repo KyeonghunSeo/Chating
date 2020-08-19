@@ -263,27 +263,13 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     private fun setGift() {
-        if(!Prefs.getBoolean("isTakeShareGift", false)) {
-            instaBtn.visibility = View.GONE
-            giftLy.visibility = View.VISIBLE
-            giftLy.setOnClickListener {
-                MainActivity.instance?.let {
-                    val shareIntent = Intent(Intent.ACTION_SEND)
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, str(R.string.app_share_text))
-                    shareIntent.type = "text/plain"
-                    val chooser = Intent.createChooser(shareIntent, str(R.string.app_name))
-                    it.startActivityForResult(chooser, RC_APP_SHARE)
-                }
-            }
-        }else {
-            instaBtn.visibility = View.GONE
-            giftLy.visibility = View.GONE
-            instaBtn.setOnClickListener {
-                MainActivity.instance?.let {
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse("https://www.instagram.com/moon_records_diary")
-                    it.startActivity(intent)
-                }
+        instaBtn.visibility = View.VISIBLE
+        giftLy.visibility = View.GONE
+        instaBtn.setOnClickListener {
+            MainActivity.instance?.let {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse("https://www.instagram.com/moon_records_diary")
+                it.startActivity(intent)
             }
         }
     }

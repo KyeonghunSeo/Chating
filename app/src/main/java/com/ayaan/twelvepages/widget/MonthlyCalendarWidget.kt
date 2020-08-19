@@ -9,6 +9,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import android.widget.RemoteViews
 import com.ayaan.twelvepages.*
@@ -118,6 +119,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
         }
         val alpha = Prefs.getInt("monthlyWidgetTransparency", 100) * 255 / 100
         textColor = Prefs.getInt("monthlyWidgetTextColor", AppTheme.secondaryText)
+        textSize = Prefs.getFloat("monthlyWidgetTextSize", 8f)
         rv.setOnClickPendingIntent(R.id.rootLy, makeAppStartPendingIntent(context))
         rv.setOnClickPendingIntent(R.id.settingBtn, buildSettingPendingIntent(context))
         rv.setOnClickPendingIntent(R.id.leftBtn, buildMoveMonthPendingIntent(context, "left"))
@@ -147,6 +149,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
     private val dateInfos = Array(42){ DateInfoManager.DateInfo()}
     private var dotCount = Array(42){ 0 }
     private var textColor = AppTheme.secondaryText
+    private var textSize = 8f
 
     private fun setCalendarView(rv: RemoteViews) {
         todayCal.timeInMillis = System.currentTimeMillis()
@@ -304,6 +307,9 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                                     }
                                     recordRv.setInt(R.id.valid_img, "setAlpha", (lastAlpha * 0.05f).toInt())
                                 }
+
+                                recordRv.setTextViewTextSize(R.id.valid_text, TypedValue.COMPLEX_UNIT_DIP, textSize)
+
                                 rv.addView(recordRows[view.cellNum / columns * 5 + order], recordRv)
                             }
                         }else if(formula == RecordCalendarAdapter.Formula.STICKER) {

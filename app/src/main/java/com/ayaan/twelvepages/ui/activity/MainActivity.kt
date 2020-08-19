@@ -111,13 +111,11 @@ class MainActivity : BaseActivity() {
             val dialog = CustomDialog(this@MainActivity, "$ver 패치노트",
                     """
                         [새로운 기능]
-                        1. 이제 날짜배경을 다양한 모양으로 꾸밀수 있습니다.
+                        1. 이제 위젯에서 글씨 크기를 변경 할 수 있습니다.
+                        2. 이제 이 날의 사진을 바로 첨부하여 기록 할 수 있습니다.
                         
                         [버그수정]
                         1. 기타 버그 수정.
-                        
-                        [가이드]
-                        1. 환경설정에서 자신의 라이프 스타일에 맞게 아침, 점심, 저녁 기본알림 시간을 설정 해 놓으시고 편하게 알림을 등록해 보세요. 
                         
                         * 일간화면이 안보이는 사용자 분들은 메뉴 > 설정으로 가셔서 일간화면 전환 애니메이션 효과를 꺼보시길 바랍니다.
                     """.trimIndent(), null, R.drawable.info) { result, _, _ ->
@@ -126,7 +124,7 @@ class MainActivity : BaseActivity() {
             dialog.hideCancelBtn()
             dialog.setSubTextSize(12f)
             Prefs.putString("last_patch_note_ver", ver)
-            //* 메뉴면화 좌측 인스타 아이콘을 탭하시면 달의기록 인스타그램에 방문 할 수 있습니다. 인스타그램을 팔로우하고 다양한 정보를 얻고 소통해보세요.
+            //* 메뉴화면 좌측 인스타그램 아이콘이 추가되었습니다. 인스타그램을 팔로우하고 다양한 정보를 얻고 소통해보세요.
         }
     }
 
@@ -276,25 +274,7 @@ class MainActivity : BaseActivity() {
 //            list.add(RecordManager.makeNewRecord(s+DAY_MILL*22, s+DAY_MILL*23).apply {
 //                title = "오후미팅"
 //                type = 1
-//                colorKey = c + Random().nextInt(10)val dialog = CustomDialog(this@MainActivity, "$ver 패치노트",
-//                    """
-//                        1. 날짜에 배경색을 지정 할 수 있습니다.
-//
-//                        2. 친구에게 달의기록 앱을 공유하고 스티커 팩을 받아보세요! 좌측 하단 메뉴버튼을 클릭하시면 공유가 가능합니다.
-//
-//                        가이드
-//
-//                        1. 많은 분들이 일간 -> 월간 전환하는 방법에 대해서 문의를 주셨습니다.
-//                        버튼을 넣어볼까 했지만 아무래도 최소한의 버튼만 메인에 두는것이 좋다는 판단하에
-//                        하단 메뉴바의 빈 공간을 탭하는 방식으로 가능하도록 해두었습니다.
-//
-//                        2. 설정 -> 일간화면 및 목록 스타일 설정에서 이 날의 사진을 끌 수 있습니다.
-//
-//                        3. 날짜를 길게 눌러 드래그하면 긴 구간을 한번에 입력 할 수 있습니다.
-//                    """.trimIndent(), null, R.drawable.info) { result, _, _ ->
-//            }
-//            showDialog(dialog, true, true, true, false)
-//            dialog.hideCancelBtn()
+//                colorKey = c + Random().nextInt(10)
 //            })
 //            list.add(RecordManager.makeNewRecord(s+DAY_MILL*27, s+DAY_MILL*30).apply {
 //                title = "헬스장"
