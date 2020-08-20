@@ -14,7 +14,7 @@ android {
         applicationId "com.ayaan.twelvepages"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 13
+        versionCode 14
         versionName "1.5.1"
     }
     buildTypes {

@@ -118,13 +118,14 @@ class MainActivity : BaseActivity() {
                         1. 기타 버그 수정.
                         
                         * 일간화면이 안보이는 사용자 분들은 메뉴 > 설정으로 가셔서 일간화면 전환 애니메이션 효과를 꺼보시길 바랍니다.
+                        
+                        * 메뉴화면 좌측 인스타그램 아이콘이 추가되었습니다. 인스타그램을 팔로우하고 다양한 정보를 얻고 소통해보세요.
                     """.trimIndent(), null, R.drawable.info) { result, _, _ ->
             }
             showDialog(dialog, true, true, true, false)
             dialog.hideCancelBtn()
             dialog.setSubTextSize(12f)
             Prefs.putString("last_patch_note_ver", ver)
-            //* 메뉴화면 좌측 인스타그램 아이콘이 추가되었습니다. 인스타그램을 팔로우하고 다양한 정보를 얻고 소통해보세요.
         }
     }
 
