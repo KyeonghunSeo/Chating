@@ -5,6 +5,7 @@ import com.ayaan.twelvepages.getCalendarTime0
 import com.ayaan.twelvepages.tempCal
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import java.util.*
 
 open class Alarm(@PrimaryKey var id: String? = null,
                  var dtAlarm: Long = Long.MIN_VALUE,
@@ -22,5 +23,9 @@ open class Alarm(@PrimaryKey var id: String? = null,
 
     override fun toString(): String {
         return "Alarm(id=$id, dtAlarm=$dtAlarm, dayOffset=$dayOffset, time=$time, action=$action)"
+    }
+
+    fun copy(): Alarm {
+        return Alarm(UUID.randomUUID().toString(), dtAlarm, dayOffset, time, action)
     }
 }

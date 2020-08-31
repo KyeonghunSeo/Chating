@@ -123,9 +123,13 @@ open class Record(@PrimaryKey var id: String? = null,
         tags.clear()
         data.tags.forEach { tags.add(Tag(it)) }
         alarms.clear()
-        data.alarms.forEach { alarms.add(Alarm(it)) }
+        data.alarms.forEach {
+            alarms.add(it.copy())
+        }
         links.clear()
-        data.links.forEach { links.add(Link(it)) }
+        data.links.forEach {
+            links.add(it.copy())
+        }
         latitude = data.latitude
         longitude = data.longitude
         ordering = data.ordering

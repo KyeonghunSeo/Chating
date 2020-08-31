@@ -56,13 +56,15 @@ class WidgetSettingActivity : BaseActivity() {
             8f -> textSizeText.text = str(R.string.normal)
             9f -> textSizeText.text = str(R.string.big)
             10f -> textSizeText.text = str(R.string.very_big)
+            12f -> textSizeText.text = str(R.string.super_big)
         }
         textSizeBtn.setOnClickListener {
             val newSize = when(textSize) {
                 7f -> 8f
                 8f -> 9f
                 9f -> 10f
-                10f -> 7f
+                10f -> 12f
+                12f -> 7f
                 else -> 8f
             }
             Prefs.putFloat("monthlyWidgetTextSize", newSize)

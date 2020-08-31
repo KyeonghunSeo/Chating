@@ -35,6 +35,7 @@ import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.view.base.CalendarBackground
 import kotlinx.android.synthetic.main.view_date_cell_header.view.*
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.fragment_calendar.view.*
 import java.util.*
 
 class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
@@ -488,7 +489,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun selectDate() {
-        dateCellHolders.firstOrNull { it.isInMonth && it.isToday }?.let {
+        dateCellHolders.firstOrNull { it.isToday && it.cellNum in startCellNum..endCellNum }?.let {
             selectDate(it, true)
             return
         }

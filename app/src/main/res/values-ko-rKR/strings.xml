@@ -485,6 +485,7 @@
     <string name="dayview_animation_sub">일간화면 표시에 문제가 있다면 이 옵션을 끄기 권장</string>
     <string name="view">열람하기</string>
     <string name="record_with_this_photo">이 사진을 첨부하여 기록하기</string>
+    <string name="super_big">매우매우크게</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

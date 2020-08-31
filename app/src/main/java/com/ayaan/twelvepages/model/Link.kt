@@ -23,4 +23,9 @@ open class Link(@PrimaryKey var id: String? = UUID.randomUUID().toString(),
         return "Link(id=$id, type=$type, title=$title, properties=$properties, intParam1=$intParam1)"
     }
 
+    fun copy(): Link {
+        return Link(UUID.randomUUID().toString(), type, title, strParam0, strParam1,
+                strParam2, intParam0, intParam1, intParam2, properties)
+    }
+
 }
