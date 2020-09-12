@@ -40,10 +40,10 @@
             android:id="@+id/settingBtn"
             android:layout_width="45dp"
             android:layout_height="40dp"
-            android:src="@drawable/setting"
-            android:tint="@color/secondaryText"
+            android:src="@drawable/pin"
             android:background="?android:attr/selectableItemBackground"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            app:tint="@color/disableText" />
 
         <com.ayaan.twelvepages.ui.view.base.Line
             android:layout_width="0.5dp"

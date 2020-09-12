@@ -486,6 +486,7 @@
     <string name="view">열람하기</string>
     <string name="record_with_this_photo">이 사진을 첨부하여 기록하기</string>
     <string name="super_big">매우매우크게</string>
+    <string name="long_tab_to_view">아이템을 길게 탭하면 미리볼수 있습니다</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

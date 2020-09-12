@@ -316,7 +316,7 @@ class StickerPickerDialog(private val record: Record? = null,
                     currentPack?.let { root.viewPager.setCurrentItem(StickerManager.packs.indexOf(it) + 1, false) }
                     isDeleted = false
                     dragPack = null
-                    root.settingBtn.setImageResource(R.drawable.setting)
+                    root.settingBtn.setImageResource(R.drawable.pin)
                     root.settingBtn.setBackgroundResource(AppTheme.selectableItemBackground)
                     root.settingBtn.setColorFilter(AppTheme.disableText)
                 }

@@ -31,7 +31,7 @@ object ColorManager {
         }
     }
 
-    enum class ColorPack(val titleId: Int, val coverImgId: Int, val items: Array<Int>){
+    enum class ColorPack(val titleId: Int, val coverImgId: Int, val items: Array<Int>, val isPremium: Boolean = false){
         BASIC(R.string.default_color_palette_name, R.drawable.color_palette_0,
                 resource.getStringArray(R.array.colors).map { Color.parseColor(it) }.toTypedArray()),
         SPRING(R.string.apring, R.drawable.color_palette_1,

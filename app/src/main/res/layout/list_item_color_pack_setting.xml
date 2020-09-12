@@ -1,92 +1,161 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ayaan.twelvepages.ui.view.base.SquareLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground">
+    android:layout_height="match_parent"
+    android:clipChildren="false">
 
-   <LinearLayout
-       android:id="@+id/contentLy"
-       android:orientation="horizontal"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginLeft="10dp"
-       android:layout_marginRight="10dp">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:outlineAmbientShadowColor="@color/semiPrimaryText"
+        android:outlineSpotShadowColor="@color/semiPrimaryText"
+        app:cardBackgroundColor="@color/background"
+        app:cardCornerRadius="1.0dp"
+        app:cardElevation="10dp">
 
-      <LinearLayout
-          android:id="@+id/colorSampleView"
-          android:orientation="vertical"
-          android:layout_width="40dp"
-          android:layout_height="40dp"
-          android:layout_gravity="center_vertical"
-          android:gravity="center">
+        <LinearLayout
+            android:id="@+id/contentLy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="15dp">
 
-         <LinearLayout
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center">
 
-            <ImageView
-                android:id="@+id/sample0"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/color_bg"/>
+               <ImageView
+                   android:id="@+id/coverImg"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:scaleType="centerCrop"/>
 
-            <ImageView
-                android:id="@+id/sample1"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/color_bg"/>
+               <LinearLayout
+                   android:id="@+id/colorSampleView"
+                   android:orientation="vertical"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center"
+                   android:gravity="center">
 
-         </LinearLayout>
+                  <LinearLayout
+                      android:orientation="horizontal"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content">
 
-         <LinearLayout
-             android:orientation="horizontal"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content">
+                     <ImageView
+                         android:id="@+id/sample0"
+                         android:layout_width="12dp"
+                         android:layout_height="12dp"
+                         android:src="@drawable/color_bg"/>
 
-            <ImageView
-                android:id="@+id/sample2"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/color_bg"/>
+                     <ImageView
+                         android:id="@+id/sample1"
+                         android:layout_width="12dp"
+                         android:layout_height="12dp"
+                         android:src="@drawable/color_bg"/>
 
-            <ImageView
-                android:id="@+id/sample3"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/color_bg"/>
+                     <ImageView
+                         android:id="@+id/sample2"
+                         android:layout_width="12dp"
+                         android:layout_height="12dp"
+                         android:src="@drawable/color_bg"/>
 
-         </LinearLayout>
+                     <ImageView
+                         android:id="@+id/sample3"
+                         android:layout_width="12dp"
+                         android:layout_height="12dp"
+                         android:src="@drawable/color_bg"/>
 
-      </LinearLayout>
+                     <ImageView
+                         android:id="@+id/sample4"
+                         android:layout_width="12dp"
+                         android:layout_height="12dp"
+                         android:src="@drawable/color_bg"/>
 
-      <LinearLayout
-          android:orientation="vertical"
-          android:layout_width="0dp"
-          android:layout_height="55dp"
-          android:layout_weight="1"
-          android:layout_marginLeft="5dp"
-          android:gravity="center_vertical">
+                  </LinearLayout>
 
-         <TextView
-             android:id="@+id/titleText"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textSize="16dp"
-             android:textColor="@color/primaryText"
-             android:text="title"/>
+                  <LinearLayout
+                      android:orientation="horizontal"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content">
 
-      </LinearLayout>
+                     <ImageView
+                         android:id="@+id/sample5"
+                         android:layout_width="12dp"
+                         android:layout_height="12dp"
+                         android:src="@drawable/color_bg"/>
 
-      <ImageView
-          android:id="@+id/checkImg"
-          android:layout_width="40dp"
-          android:layout_height="40dp"
-          android:padding="8dp"
-          android:background="?android:attr/selectableItemBackground"
-          android:layout_gravity="center_vertical"
-          android:tint="@color/secondaryText"/>
+                     <ImageView
+                         android:id="@+id/sample6"
+                         android:layout_width="12dp"
+                         android:layout_height="12dp"
+                         android:src="@drawable/color_bg"/>
 
-   </LinearLayout>
+                     <ImageView
+                         android:id="@+id/sample7"
+                         android:layout_width="12dp"
+                         android:layout_height="12dp"
+                         android:src="@drawable/color_bg"/>
 
-</FrameLayout>
+                     <ImageView
+                         android:id="@+id/sample8"
+                         android:layout_width="12dp"
+                         android:layout_height="12dp"
+                         android:src="@drawable/color_bg"/>
+
+                     <ImageView
+                         android:id="@+id/sample9"
+                         android:layout_width="12dp"
+                         android:layout_height="12dp"
+                         android:src="@drawable/color_bg"/>
+
+                  </LinearLayout>
+
+               </LinearLayout>
+
+            </FrameLayout>
+
+           <TextView
+               android:id="@+id/titleText"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="10dp"
+               android:ellipsize="end"
+               android:fontFamily="@font/bold_s"
+               android:maxLines="3"
+               android:text="컬러팩이름"
+               android:textColor="@color/secondaryText"
+               android:textSize="10dp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/selectedBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/secondary_rect_stroke" />
+
+        <ImageView
+            android:id="@+id/premiumImg"
+            android:layout_width="12dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="-2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/bookmark_fill"
+            app:tint="@color/disableText" />
+
+    </androidx.cardview.widget.CardView>
+
+</com.ayaan.twelvepages.ui.view.base.SquareLayout>

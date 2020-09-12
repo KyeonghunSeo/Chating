@@ -23,8 +23,16 @@ import com.ayaan.twelvepages.manager.ColorManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.dialog_color_picker.view.*
+import kotlinx.android.synthetic.main.dialog_color_picker.view.recyclerView
+import kotlinx.android.synthetic.main.dialog_color_picker.view.rootLy
+import kotlinx.android.synthetic.main.dialog_color_picker.view.settingBtn
+import kotlinx.android.synthetic.main.dialog_color_picker.view.viewPager
 import kotlinx.android.synthetic.main.list_item_color_picker_tab.view.*
+import kotlinx.android.synthetic.main.list_item_color_picker_tab.view.iconImg
+import kotlinx.android.synthetic.main.list_item_sticker_picker_tab.view.*
 import kotlinx.android.synthetic.main.pager_item_color_picker.view.*
+import kotlinx.android.synthetic.main.pager_item_color_picker.view.coverImg
+import kotlinx.android.synthetic.main.pager_item_color_picker.view.titleText
 import java.util.*
 
 
@@ -202,19 +210,16 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
             val v = holder.itemView
 
             if(position == 0) {
-                v.iconImg.visibility = View.VISIBLE
-                v.colorSampleView.visibility = View.GONE
+                val p = dpToPx(10)
+                v.iconImg.setPadding(p,p,p,p)
                 v.iconImg.setImageResource(R.drawable.recent)
-                v.setOnClickListener { root.viewPager.currentItem = position }
+                v.setOnClickListener { root.viewPager.currentItem = 0 }
                 v.setOnLongClickListener(null)
             }else {
-                v.iconImg.visibility = View.GONE
-                v.colorSampleView.visibility = View.VISIBLE
                 val colorPack = ColorManager.packs[position - 1]
-                v.sample0.setColorFilter(colorPack.items[0])
-                v.sample1.setColorFilter(colorPack.items[2])
-                v.sample2.setColorFilter(colorPack.items[4])
-                v.sample3.setColorFilter(colorPack.items[6])
+                val p = dpToPx(7)
+                v.iconImg.setPadding(p,p,p,p)
+                Glide.with(this@ColorPickerDialog).load(colorPack.coverImgId).into(v.iconImg)
                 v.setOnClickListener { root.viewPager.currentItem = ColorManager.packs.indexOf(colorPack) + 1 }
                 v.setOnLongClickListener {
                     root.settingBtn.setImageResource(R.drawable.delete)
@@ -231,8 +236,8 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
                     v.iconImg.setColorFilter(AppTheme.blue)
                     v.iconImg.alpha = 1f
                 }else {
-                    v.colorSampleView.setBackgroundColor(AppTheme.lightLine)
-                    v.colorSampleView.alpha = 1f
+                    removeImageViewFilter(v.iconImg)
+                    v.iconImg.alpha = 1f
                 }
             }else {
                 if(position == 0) {
@@ -240,8 +245,8 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
                     v.iconImg.setColorFilter(AppTheme.disableText)
                     v.iconImg.alpha = 1f
                 }else {
-                    v.colorSampleView.setBackgroundColor(Color.TRANSPARENT)
-                    v.colorSampleView.alpha = 1f
+                    setImageViewGrayFilter(v.iconImg)
+                    v.iconImg.alpha = 0.5f
                 }
             }
         }
@@ -295,7 +300,7 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
                     currentPack?.let { root.viewPager.setCurrentItem(ColorManager.packs.indexOf(it) + 1, false) }
                     isDeleted = false
                     dragPack = null
-                    root.settingBtn.setImageResource(R.drawable.setting)
+                    root.settingBtn.setImageResource(R.drawable.pin)
                     root.settingBtn.setBackgroundResource(AppTheme.selectableItemBackground)
                     root.settingBtn.setColorFilter(AppTheme.disableText)
                 }

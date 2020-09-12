@@ -1,52 +1,95 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ayaan.twelvepages.ui.view.base.SquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground">
+    android:layout_height="match_parent"
+    android:clipChildren="false">
 
-   <LinearLayout
-       android:id="@+id/contentLy"
-       android:orientation="horizontal"
+   <androidx.cardview.widget.CardView
+       android:id="@+id/cardView"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginLeft="10dp"
-       android:layout_marginRight="10dp">
-
-      <ImageView
-          android:id="@+id/imageView"
-          android:orientation="vertical"
-          android:layout_width="40dp"
-          android:layout_height="40dp"
-          android:layout_gravity="center_vertical">
-      </ImageView>
+       android:layout_height="match_parent"
+       android:layout_margin="5dp"
+       android:foreground="?android:attr/selectableItemBackground"
+       android:outlineSpotShadowColor="@color/semiPrimaryText"
+       android:outlineAmbientShadowColor="@color/semiPrimaryText"
+       app:cardCornerRadius="1.0dp"
+       app:cardBackgroundColor="@color/background"
+       app:cardElevation="10dp">
 
       <LinearLayout
+          android:id="@+id/contentLy"
           android:orientation="vertical"
-          android:layout_width="0dp"
-          android:layout_height="55dp"
-          android:layout_weight="1"
-          android:layout_marginLeft="15dp"
-          android:gravity="center_vertical">
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="15dp"
+          android:layout_gravity="center"
+          android:gravity="center"
+          android:clipToPadding="false"
+          android:clipChildren="false">
 
-         <TextView
-             android:id="@+id/titleText"
+         <FrameLayout
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:textSize="14dp"
-             android:textColor="@color/primaryText"
-             android:text="title"/>
+             android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="30dp"
+                android:layout_height="30dp"/>
+
+         </FrameLayout>
+
+         <LinearLayout
+             android:orientation="horizontal"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:gravity="center_vertical"
+             android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10dp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/bold_s"
+                android:text="스티커이름"/>
+
+         </LinearLayout>
+
+         <TextView
+             android:id="@+id/authorText"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="2dp"
+             android:textSize="6dp"
+             android:padding="1dp"
+             android:maxLines="2"
+             android:ellipsize="end"
+             android:textColor="@color/secondaryText"
+             android:fontFamily="@font/regular_s"
+             android:text="designed by 쑥싹"/>
 
       </LinearLayout>
 
       <ImageView
-          android:id="@+id/checkImg"
-          android:layout_width="40dp"
-          android:layout_height="40dp"
-          android:padding="8dp"
-          android:background="?android:attr/selectableItemBackground"
-          android:layout_gravity="center_vertical"
-          android:tint="@color/secondaryText"/>
+          android:id="@+id/selectedBox"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@drawable/secondary_rect_stroke"/>
 
-   </LinearLayout>
+      <ImageView
+          android:id="@+id/premiumImg"
+          android:layout_width="12dp"
+          android:layout_height="15dp"
+          android:layout_marginTop="-2dp"
+          android:layout_marginLeft="2dp"
+          android:src="@drawable/bookmark_fill"
+          android:scaleType="fitXY"
+          app:tint="@color/disableText" />
 
-</FrameLayout>
+   </androidx.cardview.widget.CardView>
+
+</com.ayaan.twelvepages.ui.view.base.SquareLayout>

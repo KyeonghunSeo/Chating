@@ -38,7 +38,7 @@ object StickerManager {
         }
     }
 
-    enum class StickerPack(val titleId: Int, val isPremium: Boolean, val items: Array<Sticker>) {
+    enum class StickerPack(val titleId: Int, val isPremium: Boolean, val items: Array<Sticker>, val author: String? = null) {
         BASIC(R.string.s_basic, false, Array(100) { i -> Sticker(resource.getIdentifier("s_basic_$i", "drawable", packageName), 0) } ),
         SCHOOL(R.string.s_school, false, Array(36) { i -> Sticker(resource.getIdentifier("s_school_$i", "drawable", packageName), 1) } ),
         WORK(R.string.s_work, false, Array(50){ i -> Sticker(resource.getIdentifier("s_buisiness_$i", "drawable", packageName), 2) } ),
@@ -59,7 +59,8 @@ object StickerManager {
         WHEATHER2(R.string.s_weather_2, false, Array(18) { i -> Sticker(resource.getIdentifier("s_weather2_$i", "drawable", packageName), 17) } ),
         FOODWATER(R.string.s_food_water, false, Array(100) { i -> Sticker(resource.getIdentifier("s_food_water_$i", "drawable", packageName), 18) }),
         EMOJI2(R.string.s_emoji, true, Array(100) { i -> Sticker(resource.getIdentifier("s_emo_$i", "drawable", packageName), 19) } ),
-        MEDICAL(R.string.s_medical, false, Array(20) { i -> Sticker(resource.getIdentifier("s_medical_$i", "drawable", packageName), 20) } )
+        MEDICAL(R.string.s_medical, false, Array(20) { i -> Sticker(resource.getIdentifier("s_medical_$i", "drawable", packageName), 20) }),
+        SUK(R.string.s_medical, false, Array(20) { i -> Sticker(resource.getIdentifier("s_medical_$i", "drawable", packageName), 20) }, "쑥싹"),
     }
 
     fun getSticker(stickerKey: Int) = try {
