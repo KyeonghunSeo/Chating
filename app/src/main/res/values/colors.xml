@@ -195,4 +195,30 @@
         <item>#95b2ff</item>
         <item>#add1fb</item>
     </string-array>
+
+    <string-array name="colors_forest_1">
+        <item>#d9e3db</item>
+        <item>#98a69f</item>
+        <item>#89a39e</item>
+        <item>#aabfa2</item>
+        <item>#85a371</item>
+        <item>#548452</item>
+        <item>#496552</item>
+        <item>#2b5f43</item>
+        <item>#193810</item>
+        <item>#05120d</item>
+    </string-array>
+
+    <string-array name="colors_forest_2">
+        <item>#ccc0a8</item>
+        <item>#db9f5a</item>
+        <item>#b66f3d</item>
+        <item>#895c25</item>
+        <item>#80450f</item>
+        <item>#b5b272</item>
+        <item>#a7934d</item>
+        <item>#818139</item>
+        <item>#4d6438</item>
+        <item>#323620</item>
+    </string-array>
 </resources>

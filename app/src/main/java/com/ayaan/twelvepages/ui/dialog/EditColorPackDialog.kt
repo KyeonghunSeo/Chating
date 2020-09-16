@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.ColorManager
+import com.ayaan.twelvepages.ui.activity.BaseActivity
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.container_edit_pack_dlg.*
 import kotlinx.android.synthetic.main.dialog_base.*
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.list_item_color_pack_setting.view.selected
 import kotlinx.android.synthetic.main.list_item_color_pack_setting.view.titleText
 
 
-class EditColorPackDialog(val activity: Activity, val onResult: (Boolean) -> Unit) : BaseDialog(activity) {
+class EditColorPackDialog(val activity: BaseActivity, val onResult: (Boolean) -> Unit) : BaseDialog(activity) {
     private val selectedItems = ColorManager.packs
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,15 +88,13 @@ class EditColorPackDialog(val activity: Activity, val onResult: (Boolean) -> Uni
                 if(selectedItems.contains(colorPack)) {
                     selectedItems.remove(colorPack)
                 }else {
-                    selectedItems.add(colorPack)
+                    if(colorPack.isPremium && !AppStatus.isPremium()){
+                        showPremiumDialog(activity)
+                    }else {
+                        selectedItems.add(colorPack)
+                    }
                 }
                 notifyItemChanged(position)
-            }
-
-            v.setOnLongClickListener {
-                showDialog(ColorSampleDialog(activity, colorPack),
-                        true, true, true, false)
-                return@setOnLongClickListener true
             }
         }
     }

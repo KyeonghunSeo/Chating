@@ -111,16 +111,20 @@ class MainActivity : BaseActivity() {
             val dialog = CustomDialog(this@MainActivity, "$ver 패치노트",
                     """
                         [변경사항]
-                        1. 스티커팩 2종(일상, 꽃)이 추가되었습니다.
-                        2. 새로운 컬러팩 1종(숲)이 추가되었습니다.
+                        1. 새로운 스티커팩 2종(일상, 꽃)이 추가되었습니다.
+                        
+                        2. 새로운 컬러팩 2종(울창한 숲, 초가을 숲)이 추가되었습니다.
+                        
                         3. 스티커팩과 컬러팩 설정 화면이 개선되었습니다.
+                        
+                        4. 이제 위젯에서 다양한 모양을 표시할수 있습니다. (아직 앱 내 모양과 100% 일치하지는 않습니다. 이 부분은 지속적으로 개선 할 예정입니다.)
                         
                         * 메뉴화면 좌측 인스타그램 아이콘이 추가되었습니다. 인스타그램을 팔로우하고 다양한 정보를 얻고 소통해보세요.
                     """.trimIndent(), null, R.drawable.info) { result, _, _ ->
             }
             showDialog(dialog, true, true, true, false)
             dialog.hideCancelBtn()
-            dialog.setSubTextSize(12f)
+            dialog.setSubTextSize(14f)
             Prefs.putString("last_patch_note_ver", ver)
         }
     }

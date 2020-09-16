@@ -20,6 +20,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.ColorManager
+import com.ayaan.twelvepages.ui.activity.BaseActivity
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.dialog_color_picker.view.*
@@ -54,7 +55,7 @@ class ColorPickerDialog(private val selectedColorKey: Int, private val onResult:
         root.viewPager.setCurrentItem(ColorManager.getPackIndex(selectedColorKey), false)
         root.rootLy.setOnClickListener { dismiss() }
         root.settingBtn.setOnClickListener {
-            showDialog(EditColorPackDialog(activity as Activity) { result ->
+            showDialog(EditColorPackDialog(activity as BaseActivity) { result ->
                 if(result) {
                     ColorManager.saveCurrentPack()
                     setLayout()

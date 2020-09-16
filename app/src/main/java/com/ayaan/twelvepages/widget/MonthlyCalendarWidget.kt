@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.widget.RemoteViews
 import com.ayaan.twelvepages.*
@@ -284,8 +285,38 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                                     recordRv.setTextViewText(R.id.valid_text, " $title")
                                 }
 
-                                recordRv.setImageViewResource(R.id.valid_img, R.drawable.normal_rect_fill)
-                                recordRv.setInt(R.id.valid_img, "setColorFilter", color)
+                                var isTempAlpha = false
+
+                                when(view.shape) {
+                                    RecordView.Shape.COLOR_PEN -> {
+                                        if(view.length > 1) {
+                                            recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_rect_fill)
+                                            isTempAlpha = true
+                                        }
+                                    }
+                                    RecordView.Shape.RECT_FILL -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_rect_fill)
+                                    RecordView.Shape.RECT_STROKE -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_rect_stroke)
+                                    RecordView.Shape.ROUND_FILL -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_round_rect_fill)
+                                    RecordView.Shape.ROUND_STROKE -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_round_rect_stroke)
+                                    RecordView.Shape.UPPER_LINE -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_top_line)
+                                    RecordView.Shape.UNDER_LINE -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_under_line)
+                                    RecordView.Shape.RANGE -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_range)
+                                    RecordView.Shape.DASH_RANGE -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_range_dash)
+                                    RecordView.Shape.ARROW -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_range)
+                                    RecordView.Shape.DASH_ARROW -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_range_dash)
+                                    else -> {
+                                        recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_rect_fill)
+                                        isTempAlpha = true
+                                    }
+                                }
+
+                                if(isTempAlpha) {
+                                    recordRv.setInt(R.id.valid_img, "setColorFilter", color and 0x00FFFFFF or 0x20000000)
+                                }else {
+                                    recordRv.setInt(R.id.valid_img, "setColorFilter", color)
+                                }
+
+
                                 if(view.shape.isFillColor) {
                                     recordRv.setTextColor(R.id.valid_text, fontColor)
                                     recordRv.setInt(R.id.valid_img, "setAlpha", lastAlpha)
@@ -305,12 +336,17 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                                             recordRv.setTextColor(R.id.valid_text, textColor)
                                         }
                                     }
-                                    recordRv.setInt(R.id.valid_img, "setAlpha", (lastAlpha * 0.05f).toInt())
                                 }
 
                                 recordRv.setTextViewTextSize(R.id.valid_text, TypedValue.COMPLEX_UNIT_DIP, textSize)
 
                                 rv.addView(recordRows[view.cellNum / columns * 5 + order], recordRv)
+                            }else {
+                                if(view.length > 0) {
+                                    (view.cellNum until view.cellNum + view.length).forEach {
+                                        dotCount[it] = dotCount[it] + 1
+                                    }
+                                }
                             }
                         }else if(formula == RecordCalendarAdapter.Formula.STICKER) {
                             rv.setViewVisibility(stickers[view.cellNum], View.VISIBLE)

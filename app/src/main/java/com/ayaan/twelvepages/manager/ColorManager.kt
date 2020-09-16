@@ -49,7 +49,11 @@ object ColorManager {
         MIRRORED_SEA(R.string.mirror_sea, R.drawable.color_palette_mirro_sea,
                 resource.getStringArray(R.array.colors_mirror_sea).map { Color.parseColor(it) }.toTypedArray()),
         FLOOD_NIGHT(R.string.flood_night, R.drawable.color_palette_pastel,
-                resource.getStringArray(R.array.colors_flood_night).map { Color.parseColor(it) }.toTypedArray())
+                resource.getStringArray(R.array.colors_flood_night).map { Color.parseColor(it) }.toTypedArray()),
+        FOREST_1(R.string.forest_1, R.drawable.forest1,
+                resource.getStringArray(R.array.colors_forest_1).map { Color.parseColor(it) }.toTypedArray(), isPremium = true),
+        FOREST_2(R.string.forest_2, R.drawable.forest2,
+                resource.getStringArray(R.array.colors_forest_2).map { Color.parseColor(it) }.toTypedArray())
     }
 
     fun getColor(colorKey: Int): Int  {
