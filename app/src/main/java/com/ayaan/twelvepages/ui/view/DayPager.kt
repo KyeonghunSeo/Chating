@@ -20,6 +20,7 @@ import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.CalendarManager
 import com.ayaan.twelvepages.ui.activity.MainActivity
 import com.ayaan.twelvepages.ui.view.base.PagingControlableViewPager
+import com.pixplicity.easyprefs.library.Prefs
 import java.util.*
 
 
@@ -173,6 +174,10 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                                 notifyDateChanged()
                                 targetDayView.show(dataSize)
                             }
+                            override fun onTransitionCancel(transition: Transition) {
+                                offAnimationAndHide()
+                                super.onTransitionCancel(transition)
+                            }
                         })
                         TransitionManager.beginDelayedTransition(this@DayPager, transiion)
                         (layoutParams as LayoutParams).let {
@@ -182,6 +187,11 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                         }
                         MainActivity.getFakeDateText()?.visibility = View.VISIBLE
                         requestLayout()
+                    }
+
+                    override fun onAnimationCancel(animation: Animator?) {
+                        offAnimationAndHide()
+                        super.onAnimationCancel(animation)
                     }
                 })
                 animSet.start()
@@ -232,6 +242,10 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                                 visibility = View.GONE
                                 clear()
                             }
+                            override fun onAnimationCancel(animation: Animator?) {
+                                offAnimationAndHide()
+                                super.onAnimationCancel(animation)
+                            }
                         })
                         animSet.start()
                     }
@@ -240,6 +254,10 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                         restoreViews()
                         targetDayView.unTargeted()
                         targetDayView.hide(dataSize)
+                    }
+                    override fun onTransitionCancel(transition: Transition) {
+                        offAnimationAndHide()
+                        super.onTransitionCancel(transition)
                     }
                 })
                 TransitionManager.beginDelayedTransition(this, transiion)
@@ -281,6 +299,13 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 it.unTargeted()
             }
         }
+    }
+
+    private fun offAnimationAndHide() {
+        AppStatus.isDayViewAnimation = false
+        Prefs.putBoolean("isDayViewAnimation", AppStatus.isDayViewAnimation)
+        toast(R.string.try_again)
+        hide()
     }
 
 }

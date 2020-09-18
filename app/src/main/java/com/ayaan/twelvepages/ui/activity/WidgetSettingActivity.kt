@@ -9,6 +9,7 @@ import com.ayaan.twelvepages.AppStatus
 import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.str
+import com.ayaan.twelvepages.ui.dialog.ColorPickerDialog
 import com.ayaan.twelvepages.widget.MonthlyCalendarWidget
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_widget_setting.*

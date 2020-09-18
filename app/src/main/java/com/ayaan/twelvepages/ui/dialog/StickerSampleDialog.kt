@@ -2,9 +2,11 @@ package com.ayaan.twelvepages.ui.dialog
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ayaan.twelvepages.R
@@ -28,6 +30,8 @@ class StickerSampleDialog(val activity: Activity, private val stickerPack: Stick
     private fun setLayout() {
         recyclerView.layoutManager = GridLayoutManager(context, 5)
         recyclerView.adapter = StickerAdapter(stickerPack.items)
+        recyclerView.setPadding(dpToPx(20), 0, dpToPx(20), dpToPx(20))
+        titleText.setPadding(dpToPx(15), 0,0, 0)
         titleText.text = str(stickerPack.titleId)
         titleIcon.visibility = View.GONE
         subText.visibility = View.GONE

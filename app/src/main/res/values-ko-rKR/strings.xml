@@ -491,6 +491,7 @@
     <string name="forest_2">초가을 숲</string>
     <string name="s_daily">일상</string>
     <string name="s_flower">꽃</string>
+    <string name="try_again">문제가 발생했습니다. 다시 시도 해주세요.</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

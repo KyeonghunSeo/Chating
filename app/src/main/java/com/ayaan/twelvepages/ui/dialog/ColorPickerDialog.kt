@@ -1,8 +1,6 @@
 package com.ayaan.twelvepages.ui.dialog
 
-import android.app.Activity
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -24,16 +22,8 @@ import com.ayaan.twelvepages.ui.activity.BaseActivity
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.dialog_color_picker.view.*
-import kotlinx.android.synthetic.main.dialog_color_picker.view.recyclerView
-import kotlinx.android.synthetic.main.dialog_color_picker.view.rootLy
-import kotlinx.android.synthetic.main.dialog_color_picker.view.settingBtn
-import kotlinx.android.synthetic.main.dialog_color_picker.view.viewPager
 import kotlinx.android.synthetic.main.list_item_color_picker_tab.view.*
-import kotlinx.android.synthetic.main.list_item_color_picker_tab.view.iconImg
-import kotlinx.android.synthetic.main.list_item_sticker_picker_tab.view.*
 import kotlinx.android.synthetic.main.pager_item_color_picker.view.*
-import kotlinx.android.synthetic.main.pager_item_color_picker.view.coverImg
-import kotlinx.android.synthetic.main.pager_item_color_picker.view.titleText
 import java.util.*
 
 

@@ -24,6 +24,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
+import com.anjlab.android.iab.v3.BillingProcessor
+import com.anjlab.android.iab.v3.TransactionDetails
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.adapter.FolderAdapter
 import com.ayaan.twelvepages.listener.MainDragAndDropListener
@@ -100,6 +102,7 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         initTheme(rootLy)
         initMain()
+        checkPremium()
         if (FirebaseAuth.getInstance().currentUser == null) {
 
         } else {
@@ -126,6 +129,31 @@ class MainActivity : BaseActivity() {
             dialog.hideCancelBtn()
             dialog.setSubTextSize(14f)
             Prefs.putString("last_patch_note_ver", ver)
+        }
+    }
+
+    var bp: BillingProcessor? = null
+    private fun checkPremium() {
+        if(AppStatus.isPremium() && System.currentTimeMillis() > AppStatus.lastPremiumCheckTime + WEEK_MILL * 4) {
+            l("[프리미엄 체크]")
+            bp = BillingProcessor(this, str(R.string.in_app_license), object : BillingProcessor.IBillingHandler {
+                override fun onBillingInitialized() {
+                    val isPremium = bp?.isSubscribed("premium") ?: false
+                    l("[프리미엄 상태] : $isPremium")
+                    if(isPremium) {
+                        AppStatus.premiumTime = System.currentTimeMillis() + YEAR_MILL
+                        Prefs.putLong("premiumTime", AppStatus.premiumTime) 
+                    }else {
+                        AppStatus.premiumTime = Long.MIN_VALUE
+                        Prefs.putLong("premiumTime", AppStatus.premiumTime)
+                    }
+                    AppStatus.lastPremiumCheckTime = System.currentTimeMillis()
+                    Prefs.putLong("lastPremiumCheckTime", AppStatus.lastPremiumCheckTime)
+                }
+                override fun onPurchaseHistoryRestored() {}
+                override fun onProductPurchased(productId: String, details: TransactionDetails?) {}
+                override fun onBillingError(errorCode: Int, error: Throwable?) {}
+            })
         }
     }
 
