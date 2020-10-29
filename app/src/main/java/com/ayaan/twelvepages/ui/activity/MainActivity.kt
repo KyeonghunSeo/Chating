@@ -111,18 +111,18 @@ class MainActivity : BaseActivity() {
 
         val ver = packageManager.getPackageInfo(App.context.packageName, 0).versionName
         if (Prefs.getString("last_patch_note_ver", "") != ver) {
+            Prefs.putBoolean("first_dayview_hide_success", true)
             val dialog = CustomDialog(this@MainActivity, "$ver 패치노트",
                     """
                         [변경사항]
-                        1. 새로운 스티커팩 2종(일상, 꽃)이 추가되었습니다.
                         
-                        2. 새로운 컬러팩 2종(울창한 숲, 초가을 숲)이 추가되었습니다.
+                        1. 이제 월간 위젯을 더 작은 사이즈로 조정이 가능합니다.
                         
-                        3. 스티커팩과 컬러팩 설정 화면이 개선되었습니다.
+                        [버그수정]
                         
-                        4. 이제 위젯에서 다양한 모양을 표시할수 있습니다. (아직 앱 내 모양과 100% 일치하지는 않습니다. 이 부분은 지속적으로 개선 할 예정입니다.)
+                        1. 주간반복 시 체크박스를 설정하면 올바르게 작동하지 않는 버그 수정.  
                         
-                        * 메뉴화면 좌측 인스타그램 아이콘이 추가되었습니다. 인스타그램을 팔로우하고 다양한 정보를 얻고 소통해보세요.
+                        2. 체크리스트 편집 시 제목이 없는 체크리스트는 자동 삭제되도록 수정. (체크리스트 항목을 길게 탭하면 바로 삭제도 가능합니다.)
                     """.trimIndent(), null, R.drawable.info) { result, _, _ ->
             }
             showDialog(dialog, true, true, true, false)

@@ -149,7 +149,6 @@ object RecordManager {
         realm.close()
     }
 
-
     fun save(records: List<Record>) {
         isChanged = true
         val realm = Realm.getDefaultInstance()

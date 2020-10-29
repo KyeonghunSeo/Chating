@@ -126,9 +126,9 @@ object RepeatManager {
         }
 
         while (instanceCal.timeInMillis <= endTime) {
-            val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
             when(freq) {
                 0 -> {
+                    val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
                     saveValidInstance(result, record, instanceCal.timeInMillis, ymdKey, startTime, endTime, duration)
                     instanceCal.add(Calendar.DATE, interval)
                 }
@@ -138,17 +138,20 @@ object RepeatManager {
                             if(c == '1') {
                                 instanceCal.set(Calendar.DAY_OF_WEEK, index + 1)
                                 if(instanceCal.timeInMillis >= record.dtStart) {
+                                    val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
                                     saveValidInstance(result, record, instanceCal.timeInMillis, ymdKey, startTime, endTime, duration)
                                 }
                             }
                         }
                         instanceCal.set(Calendar.DAY_OF_WEEK, 1)
                     }else {
+                        val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
                         saveValidInstance(result, record, instanceCal.timeInMillis, ymdKey, startTime, endTime, duration)
                     }
                     instanceCal.add(Calendar.DATE, 7 * interval)
                 }
                 2 -> {
+                    val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
                     saveValidInstance(result, record, instanceCal.timeInMillis, ymdKey, startTime, endTime, duration)
                     val weekOfMonth = instanceCal.get(Calendar.WEEK_OF_MONTH)
                     val dayOfWeek = instanceCal.get(Calendar.DAY_OF_WEEK)
@@ -163,10 +166,12 @@ object RepeatManager {
                     }
                 }
                 3 -> {
+                    val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
                     saveValidInstance(result, record, instanceCal.timeInMillis, ymdKey, startTime, endTime, duration)
                     instanceCal.add(Calendar.YEAR, 1)
                 }
                 4 -> {
+                    val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
                     saveValidInstance(result, record, instanceCal.timeInMillis, ymdKey, startTime, endTime, duration)
                     lunarCal.setLunarDate(lunarCal.lunarYear + 1, lunarCal.lunarMonth, lunarCal.lunarDay, lunarCal.isIntercalation)
                     instanceCal.set(lunarCal.solarYear, lunarCal.solarMonth - 1, lunarCal.solarDay)
@@ -212,9 +217,9 @@ object RepeatManager {
         }
 
         while (instanceCal.timeInMillis <= endTime) {
-            val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
             when(freq) {
                 0 -> {
+                    val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
                     if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmTimeOffset >= currentTime) {
                         return makeInstance(record, instanceCal.timeInMillis, duration, ymdKey)
                     }
@@ -226,6 +231,7 @@ object RepeatManager {
                             if(c == '1') {
                                 instanceCal.set(Calendar.DAY_OF_WEEK, index + 1)
                                 if(instanceCal.timeInMillis >= record.dtStart) {
+                                    val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
                                     if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmTimeOffset >= currentTime) {
                                         return makeInstance(record, instanceCal.timeInMillis, duration, ymdKey)
                                     }
@@ -234,6 +240,7 @@ object RepeatManager {
                         }
                         instanceCal.set(Calendar.DAY_OF_WEEK, 1)
                     }else {
+                        val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
                         if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmTimeOffset >= currentTime) {
                             return makeInstance(record, instanceCal.timeInMillis, duration, ymdKey)
                         }
@@ -241,6 +248,7 @@ object RepeatManager {
                     instanceCal.add(Calendar.DATE, 7 * interval)
                 }
                 2 -> {
+                    val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
                     if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmTimeOffset >= currentTime) {
                         return makeInstance(record, instanceCal.timeInMillis, duration, ymdKey)
                     }
@@ -257,12 +265,14 @@ object RepeatManager {
                     }
                 }
                 3 -> {
+                    val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
                     if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmTimeOffset >= currentTime) {
                         return makeInstance(record, instanceCal.timeInMillis, duration, ymdKey)
                     }
                     instanceCal.add(Calendar.YEAR, 1)
                 }
                 4 -> {
+                    val ymdKey = AppDateFormat.ymdkey.format(instanceCal.time)
                     if(!record.exDates.contains(ymdKey) && instanceCal.timeInMillis + alarmTimeOffset >= currentTime) {
                         return makeInstance(record, instanceCal.timeInMillis, duration, ymdKey)
                     }

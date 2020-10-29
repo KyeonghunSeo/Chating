@@ -58,12 +58,6 @@ class AboutUsActivity : BaseActivity() {
             startActivity(intent)
         }
 
-        goInstaBtn.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://www.instagram.com/moon_records_diary")
-            startActivity(intent)
-        }
-
         aboutUsText.typeface = ResourcesCompat.getFont(this, R.font.regular_s)
         aboutUsText.text = when(Locale.getDefault().language) {
             "ko" -> {

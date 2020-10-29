@@ -57,6 +57,10 @@ class WelcomeActivity : BaseActivity() {
     }
 
     private fun startShow() {
+        try{
+            Prefs.putString("last_patch_note_ver", packageManager.getPackageInfo(App.context.packageName, 0).versionName)
+        }catch (e: Exception) {e.printStackTrace()}
+
         loginBtn.setOnClickListener { signInWithGoogle() }
         val handler =  Handler()
         handler.postDelayed({

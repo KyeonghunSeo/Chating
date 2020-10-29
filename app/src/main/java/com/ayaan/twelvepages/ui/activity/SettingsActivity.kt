@@ -54,7 +54,7 @@ class SettingsActivity : BaseActivity() {
         setExport()
         setBackup()
 
-        emailText.text = FirebaseAuth.getInstance().currentUser?.email
+        emailText.text = "(${FirebaseAuth.getInstance().currentUser?.email})"
         premiumBtn.setOnClickListener { startActivity(Intent(this, PremiumActivity::class.java)) }
         supportBtn.setOnClickListener { startActivity(Intent(this, AboutUsActivity::class.java)) }
         logoutBtn.setOnClickListener {
@@ -179,6 +179,56 @@ class SettingsActivity : BaseActivity() {
             }else {
                 toast(R.string.try_again_after_min, R.drawable.info)
             }
+        }
+
+        leaveBtn.setOnClickListener {
+            showDialog(CustomDialog(this@SettingsActivity, getString(R.string.leave),
+                    getString(R.string.ask_leave), null) { result, _, _ ->
+                if(result) {
+                    Realm.getDefaultInstance().use {
+                        it.executeTransaction {
+                            it.deleteAll()
+                        }
+                    }
+
+                    backupDB(this, Runnable{
+                        FirebaseAuth.getInstance().signOut()
+                        setResult(RC_LOGOUT)
+                        finish()
+                    })
+                }
+            }, true, true, true, false)
+        }
+    }
+
+    private fun sync() {
+        MainActivity.instance?.let { activity ->
+            activity.showProgressDialog()
+            val mAuth = FirebaseAuth.getInstance()
+            val user = mAuth.currentUser
+            val ref = FirebaseStorage.getInstance().reference
+                    .child("${user?.uid}/db")
+//        val realm = Realm.getDefaultInstance()
+            ref.metadata.addOnSuccessListener {
+                activity.hideProgressDialog()
+                val dialog = CustomDialog(activity, activity.getString(R.string.sync),
+                        AppDateFormat.ymdkey.format(Date(it.updatedTimeMillis)), null,
+                        R.drawable.download_cloud) { result, _, _ ->
+                    if(result) {
+
+                    }
+                }
+                showDialog(dialog, true, true, true, false)
+            }.addOnFailureListener {
+                activity.hideProgressDialog()
+                toast(R.string.no_cloud_data)
+            }
+//        ref.getFile(File(realm.path)).addOnSuccessListener {
+//            realm.close()
+//        }.addOnFailureListener {
+//            MainActivity.instance?.hideProgressDialog()
+//            realm.close()
+//        }
         }
     }
 

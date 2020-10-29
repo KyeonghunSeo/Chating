@@ -18,7 +18,9 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.ayaan.twelvepages.*
 import com.ayaan.twelvepages.manager.CalendarManager
+import com.ayaan.twelvepages.manager.RecordManager
 import com.ayaan.twelvepages.ui.activity.MainActivity
+import com.ayaan.twelvepages.ui.dialog.CustomDialog
 import com.ayaan.twelvepages.ui.view.base.PagingControlableViewPager
 import com.pixplicity.easyprefs.library.Prefs
 import java.util.*
@@ -174,10 +176,6 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                                 notifyDateChanged()
                                 targetDayView.show(dataSize)
                             }
-                            override fun onTransitionCancel(transition: Transition) {
-                                offAnimationAndHide()
-                                super.onTransitionCancel(transition)
-                            }
                         })
                         TransitionManager.beginDelayedTransition(this@DayPager, transiion)
                         (layoutParams as LayoutParams).let {
@@ -187,11 +185,6 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                         }
                         MainActivity.getFakeDateText()?.visibility = View.VISIBLE
                         requestLayout()
-                    }
-
-                    override fun onAnimationCancel(animation: Animator?) {
-                        offAnimationAndHide()
-                        super.onAnimationCancel(animation)
                     }
                 })
                 animSet.start()
@@ -218,7 +211,20 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         }
     }
 
-    fun hide() {
+    fun hide(isCheckFirst: Boolean = true) {
+        if(isCheckFirst && !Prefs.getBoolean("first_dayview_hide_success", false)) {
+            MainActivity.instance?.let {
+                val dialog = CustomDialog(it,
+                        it.getString(R.string.first_dayview_hide_title),
+                        it.getString(R.string.first_dayview_hide_sub), null) { result, option, _ ->
+                    hide(isCheckFirst = false)
+                }
+                showDialog(dialog, true, true, true, false)
+                dialog.hideCancelBtn()
+            }
+            return
+        }
+
         if(AppStatus.isDayViewAnimation) {
             MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
                 val dataSize = MainActivity.getTargetCalendarView()?.getSelectedViewHolders()?.size ?: 0
@@ -241,10 +247,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                                 viewMode = ViewMode.CLOSED
                                 visibility = View.GONE
                                 clear()
-                            }
-                            override fun onAnimationCancel(animation: Animator?) {
-                                offAnimationAndHide()
-                                super.onAnimationCancel(animation)
+                                Prefs.putBoolean("first_dayview_hide_success", true)
                             }
                         })
                         animSet.start()
@@ -254,10 +257,6 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                         restoreViews()
                         targetDayView.unTargeted()
                         targetDayView.hide(dataSize)
-                    }
-                    override fun onTransitionCancel(transition: Transition) {
-                        offAnimationAndHide()
-                        super.onTransitionCancel(transition)
                     }
                 })
                 TransitionManager.beginDelayedTransition(this, transiion)
@@ -283,6 +282,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             targetDayView.hide(0)
             viewMode = ViewMode.CLOSED
             visibility = View.GONE
+            Prefs.putBoolean("first_dayview_hide_success", true)
             clear()
         }
     }
@@ -300,12 +300,4 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             }
         }
     }
-
-    private fun offAnimationAndHide() {
-        AppStatus.isDayViewAnimation = false
-        Prefs.putBoolean("isDayViewAnimation", AppStatus.isDayViewAnimation)
-        toast(R.string.try_again)
-        hide()
-    }
-
 }

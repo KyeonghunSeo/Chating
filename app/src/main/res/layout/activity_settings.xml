@@ -360,13 +360,6 @@
             </LinearLayout>
 
             <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="0dp">
-            </FrameLayout>
-
-            <FrameLayout
                 android:id="@+id/osCalendarBtn"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
@@ -423,6 +416,7 @@
 
             </FrameLayout>
 
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
@@ -435,43 +429,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/advanced_setting"
+                    android:text="@string/account_settings"
                     android:textColor="@color/disableText"
                     android:fontFamily="@font/bold_s"
                     android:textSize="12dp"/>
 
-            </LinearLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="0dp">
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/exportBtn"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="?android:attr/selectableItemBackground">
-
                 <TextView
+                    android:id="@+id/emailText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/export"
-                    android:textColor="@color/secondaryText"
-                    android:textSize="13dp"/>
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_gravity="center_vertical|right"
-                    android:src="@drawable/arrow_right"
-                    android:tint="@color/iconTint"
-                    android:padding="5dp"/>
+                    android:textColor="@color/disableText"
+                    android:fontFamily="@font/regular_s"
+                    android:textSize="12dp"/>
 
-            </FrameLayout>
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/backupBtn"
@@ -500,6 +473,106 @@
 
             </FrameLayout>
 
+            <FrameLayout
+                android:id="@+id/loadBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/load"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:src="@drawable/arrow_right"
+                    android:padding="5dp"
+                    app:tint="@color/iconTint" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/exportBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/export"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:src="@drawable/arrow_right"
+                    android:padding="5dp"
+                    app:tint="@color/iconTint" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/logoutBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/logout"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:src="@drawable/arrow_right"
+                    android:padding="5dp"
+                    app:tint="@color/iconTint" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/leaveBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/leave"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:src="@drawable/arrow_right"
+                    android:padding="5dp"
+                    app:tint="@color/iconTint" />
+
+            </FrameLayout>
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
@@ -512,12 +585,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/account_settings"
+                    android:text="@string/etc"
                     android:textColor="@color/disableText"
                     android:fontFamily="@font/bold_s"
                     android:textSize="12dp"/>
 
             </LinearLayout>
+
 
             <FrameLayout
                 android:id="@+id/supportBtn"
@@ -538,8 +612,8 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical|right"
                     android:src="@drawable/arrow_right"
-                    android:tint="@color/iconTint"
-                    android:padding="5dp"/>
+                    android:padding="5dp"
+                    app:tint="@color/iconTint" />
 
             </FrameLayout>
 
@@ -562,55 +636,11 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical|right"
                     android:src="@drawable/arrow_right"
-                    android:tint="@color/iconTint"
-                    android:padding="5dp"/>
+                    android:padding="5dp"
+                    app:tint="@color/iconTint" />
 
             </FrameLayout>
 
-            <FrameLayout
-                android:id="@+id/logoutBtn"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="?android:attr/selectableItemBackground">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/logout"
-                    android:textColor="@color/secondaryText"
-                    android:textSize="13dp"/>
-
-                <TextView
-                    android:id="@+id/emailText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:textColor="@color/secondaryText"
-                    android:fontFamily="@font/bold_s"
-                    android:textSize="13dp"/>
-
-            </FrameLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/etc"
-                    android:textColor="@color/disableText"
-                    android:fontFamily="@font/bold_s"
-                    android:textSize="12dp"/>
-
-            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/instaBtn"
@@ -650,6 +680,15 @@
                     android:text="@string/share_app"
                     android:textColor="@color/secondaryText"
                     android:textSize="13dp"/>
+
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:src="@drawable/arrow_right"
+                    android:padding="5dp"
+                    app:tint="@color/iconTint" />
 
             </FrameLayout>
 

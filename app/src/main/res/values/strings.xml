@@ -495,6 +495,11 @@
     <string name="s_daily">일상</string>
     <string name="s_flower">꽃</string>
     <string name="try_again">문제가 발생했습니다. 다시 시도 해주세요.</string>
+    <string name="first_dayview_hide_title">도움말</string>
+    <string name="first_dayview_hide_sub"><![CDATA[혹시 일간화면이 닫힐때 앱이 강제로 종료되는 현상이 발생하나요? 그렇다면 메뉴 > 설정으로 가셔서 일간화면 전환 애니메이션을 끔으로 설정해주시기 바랍니다.]]></string>
+    <string name="leave">Delete Account</string>
+    <string name="load">Load data</string>
+    <string name="ask_leave">정말 계정을 삭제하시겠습니까? 여태까지 기록한 모든 기록이 소멸됩니다.</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

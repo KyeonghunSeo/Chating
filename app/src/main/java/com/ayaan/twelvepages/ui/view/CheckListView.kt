@@ -104,22 +104,23 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
                             context.getString(R.string.edit_item), null, null,
                             v.titleText.text.toString(), true) { result, text ->
                         if(result) {
-                            item.put("title", text)
-                            notifyItemChanged(position)
-                            save()
+                            if(text.isBlank()) {
+                                deleteItem(item, position)
+                            }else {
+                                item.put("title", text)
+                                notifyItemChanged(position)
+                                save()
+                            }
                         }
                     }
                     showDialog(dialog, true, true, true, false)
                 }
 
-                v.titleText.setOnLongClickListener {
+                v.setOnLongClickListener {
                     showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_item),
                             v.titleText.text.toString(), null) { result, _, text ->
                         if(result) {
-                            jsonArray?.remove(items.indexOf(item))
-                            items.remove(item)
-                            notifyItemRemoved(position)
-                            save()
+                            deleteItem(item, position)
                         }
                     }, true, true, true, false)
                     return@setOnLongClickListener true
@@ -144,6 +145,13 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
                     return@setOnEditorActionListener true
                 }
             }
+        }
+
+        private fun deleteItem(item: JSONObject, position: Int) {
+            jsonArray?.remove(items.indexOf(item))
+            items.remove(item)
+            notifyItemRemoved(position)
+            save()
         }
     }
 

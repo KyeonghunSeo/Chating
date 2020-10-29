@@ -246,7 +246,8 @@
                 android:textColor="@color/semiPrimaryText"
                 android:gravity="center"
                 android:fontFamily="@font/thin_s"
-                android:text="@string/vote_text"/>
+                android:text="@string/vote_text"
+                android:visibility="gone"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/voteBtn"
@@ -260,7 +261,8 @@
                 android:textSize="12dp"
                 android:gravity="center"
                 android:fontFamily="@font/bold_s"
-                android:text="@string/vote_to_new_feature"/>
+                android:text="@string/vote_to_new_feature"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -287,25 +289,10 @@
 
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/goInstaBtn"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="5dp"
-                app:cornerRadius="1.0dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:textSize="12dp"
-                android:gravity="center"
-                android:fontFamily="@font/bold_s"
-                android:text="@string/go_insta"
-                android:visibility="gone"/>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="70dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/dashed_line"/>
