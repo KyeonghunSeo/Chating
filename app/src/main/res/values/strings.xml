@@ -135,7 +135,7 @@
     <string name="kr">Korea</string>
     <string name="jp">Japan</string>
     <string name="holi_display_sub">Set the country to display public holidays</string>
-    <string name="cal_text_size">Font size</string>
+    <string name="cal_text_size">Record font size</string>
     <string name="outside_month">Display previous, next month</string>
     <string name="connect_os_calendar">OS calendar reference</string>
     <string name="countdown">Countdown</string>
@@ -500,6 +500,7 @@
     <string name="leave">Delete Account</string>
     <string name="load">Load data</string>
     <string name="ask_leave">정말 계정을 삭제하시겠습니까? 여태까지 기록한 모든 기록이 소멸됩니다.</string>
+    <string name="cal_date_text_size">Date font size</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

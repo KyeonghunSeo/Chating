@@ -170,6 +170,38 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/dateTextSizeBtn"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:clipChildren="false"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/cal_date_text_size"
+                    android:textSize="14dp"
+                    android:textColor="@color/secondaryText"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/bold_s"/>
+
+                <TextView
+                    android:id="@+id/dateTextSizeText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:textSize="14dp"
+                    android:textColor="@color/secondaryText"
+                    android:gravity="center_vertical|right"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/textSizeBtn"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -195,7 +227,38 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
-                    android:text="@string/cal_text_size"
+                    android:textSize="14dp"
+                    android:textColor="@color/secondaryText"
+                    android:gravity="center_vertical|right"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/weekLineBtn"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:clipChildren="false"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/weekline_display"
+                    android:textSize="14dp"
+                    android:textColor="@color/secondaryText"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/bold_s"/>
+
+                <TextView
+                    android:id="@+id/weekLineText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
                     android:textSize="14dp"
                     android:textColor="@color/secondaryText"
                     android:gravity="center_vertical|right"/>

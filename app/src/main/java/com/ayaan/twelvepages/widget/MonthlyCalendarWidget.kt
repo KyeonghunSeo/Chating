@@ -34,6 +34,8 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             R.id.row0, R.id.row1, R.id.row2, R.id.row3, R.id.row4, R.id.row5)
     private val dowIds = arrayOf(
             R.id.dowText0, R.id.dowText1, R.id.dowText2, R.id.dowText3, R.id.dowText4, R.id.dowText5, R.id.dowText6)
+    private val lineIds = arrayOf(
+            R.id.line0, R.id.line1, R.id.line2, R.id.line3, R.id.line4, R.id.line5)
     private val dateIds = arrayOf(
             R.id.dateText0, R.id.dateText1, R.id.dateText2, R.id.dateText3, R.id.dateText4, R.id.dateText5, R.id.dateText6,
             R.id.dateText7, R.id.dateText8, R.id.dateText9, R.id.dateText10, R.id.dateText11, R.id.dateText12, R.id.dateText13,
@@ -120,7 +122,9 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
         }
         val alpha = Prefs.getInt("monthlyWidgetTransparency", 100) * 255 / 100
         textColor = Prefs.getInt("monthlyWidgetTextColor", AppTheme.secondaryText)
-        textSize = Prefs.getFloat("monthlyWidgetTextSize", 8f)
+        textSize = Prefs.getFloat("monthlyWidgetTextSize", 8f) + 1
+        dateTextSize = Prefs.getFloat("monthlyWidgetDateTextSize", 12f)
+        weekLineVisibility = Prefs.getInt("monthlyWidgetWeekLine", View.VISIBLE)
         rv.setOnClickPendingIntent(R.id.rootLy, makeAppStartPendingIntent(context))
         rv.setOnClickPendingIntent(R.id.settingBtn, buildSettingPendingIntent(context))
         rv.setOnClickPendingIntent(R.id.leftBtn, buildMoveMonthPendingIntent(context, "left"))
@@ -151,6 +155,8 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
     private var dotCount = Array(42){ 0 }
     private var textColor = AppTheme.secondaryText
     private var textSize = 8f
+    private var dateTextSize = 12f
+    private var weekLineVisibility = View.VISIBLE
 
     private fun setCalendarView(rv: RemoteViews) {
         todayCal.timeInMillis = System.currentTimeMillis()
@@ -175,10 +181,20 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
 
         tempCal.add(Calendar.DATE, -startCellNum)
 
-        rv.setTextViewText(R.id.monthlyText, AppDateFormat.month.format(monthCal.time))
-        rv.setTextViewText(R.id.yearText, monthCal.get(Calendar.YEAR).toString())
         rv.setTextColor(R.id.monthlyText, textColor)
-        rv.setTextColor(R.id.yearText, textColor)
+        if(monthCal.get(Calendar.YEAR) == todayCal.get(Calendar.YEAR)) {
+            rv.setTextViewText(R.id.monthlyText, AppDateFormat.month.format(monthCal.time))
+        }else {
+            rv.setTextViewText(R.id.monthlyText, AppDateFormat.ym.format(monthCal.time))
+        }
+
+        lineIds.forEach {
+            if(weekLineVisibility == View.VISIBLE) {
+                rv.setViewVisibility(it, View.VISIBLE)
+            }else {
+                rv.setViewVisibility(it, View.INVISIBLE)
+            }
+        }
 
         for(i in 0..5) {
             if(i < rows) {
@@ -198,9 +214,11 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                     if(i == 0) {
                         rv.setTextViewText(dowIds[cellNum], AppDateFormat.simpleDow.format(tempCal.time))
                         rv.setTextColor(dowIds[cellNum], color)
+                        rv.setTextViewTextSize(dowIds[cellNum], TypedValue.COMPLEX_UNIT_DIP, dateTextSize - 1)
                     }
 
                     rv.setTextViewText(dateIds[cellNum], String.format("%02d", tempCal.get(Calendar.DATE)))
+                    rv.setTextViewTextSize(dateIds[cellNum], TypedValue.COMPLEX_UNIT_DIP, dateTextSize)
                     if(!isDateInMonth(cellNum, 1) && AppStatus.outsideMonthAlpha == 0f) {
                         rv.setTextColor(dateIds[cellNum], Color.TRANSPARENT)
                     }else {

@@ -132,7 +132,7 @@
     <string name="kr">대한민국</string>
     <string name="jp">일본</string>
     <string name="holi_display_sub">공휴일을 표시 할 국가를 설정합니다</string>
-    <string name="cal_text_size">폰트크기</string>
+    <string name="cal_text_size">기록 폰트크기</string>
     <string name="outside_month">이전, 다음달 표시</string>
     <string name="connect_os_calendar">OS 캘린더 참조</string>
     <string name="countdown">카운트다운</string>
@@ -497,6 +497,7 @@
     <string name="leave">탈퇴하기</string>
     <string name="load">데이터 불러오기</string>
     <string name="ask_leave">정말 계정을 삭제하시겠습니까?\n지금까지 기록한 모든 기록이 소멸됩니다.</string>
+    <string name="cal_date_text_size">날짜 및 요일 폰트크기</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>
