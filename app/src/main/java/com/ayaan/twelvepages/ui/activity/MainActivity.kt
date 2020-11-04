@@ -704,6 +704,8 @@ class MainActivity : BaseActivity() {
             profileView.hide()
             DayViewSettingsSheet(this).show(supportFragmentManager, null)
         } else if (requestCode == RC_SETTING && resultCode == RC_LOGOUT) {
+            Prefs.putLong("last_app_close_time", Long.MIN_VALUE)
+            isLogout = true
             finish()
             startActivity(Intent(this, WelcomeActivity::class.java))
         } else if (requestCode == RC_APP_SHARE) {
@@ -743,13 +745,19 @@ class MainActivity : BaseActivity() {
         sendBroadcast(intent)
     }
 
+    var isLogout = false
+
     override fun onDestroy() {
-        super.onDestroy()
+        if(!isLogout) {
+            Prefs.putLong("last_app_close_time", System.currentTimeMillis())
+        }
+
         val lastBackupTime = Prefs.getLong("last_backup_time", 0L)
         if (RecordManager.isChanged && (AppStatus.isPremium() || lastBackupTime < System.currentTimeMillis() - DAY_MILL * 7)) {
             RecordManager.isChanged = false
             backupDB(null, null)
         }
+        super.onDestroy()
     }
 
     fun setPremium() {

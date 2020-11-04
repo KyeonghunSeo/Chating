@@ -584,19 +584,23 @@ class WelcomeActivity : BaseActivity() {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         l("signInWithCredential:success")
-                        Prefs.putLong("last_backup_time", System.currentTimeMillis())
                         val user = mAuth.currentUser
                         val ref = FirebaseStorage.getInstance().reference
                                 .child("${user?.uid}/db")
                         val realm = Realm.getDefaultInstance()
-                        ref.getFile(File(realm.path)).addOnSuccessListener {
-                            hideProgressDialog()
-                            realm.close()
+
+                        if(Prefs.getLong("last_app_close_time", Long.MIN_VALUE) == Long.MIN_VALUE) {
+                            ref.getFile(File(realm.path)).addOnSuccessListener {
+                                hideProgressDialog()
+                                realm.close()
+                                startMainActivity()
+                            }.addOnFailureListener {
+                                hideProgressDialog()
+                                realm.close()
+                                startCustomSettings()
+                            }
+                        }else {
                             startMainActivity()
-                        }.addOnFailureListener {
-                            hideProgressDialog()
-                            realm.close()
-                            startCustomSettings()
                         }
                     } else {
                         // If sign in fails, display a message to the user.

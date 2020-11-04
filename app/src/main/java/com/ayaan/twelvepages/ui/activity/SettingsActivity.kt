@@ -136,7 +136,6 @@ class SettingsActivity : BaseActivity() {
                     saveFile.mkdir()
                 }
                 try {
-
                     val buf = BufferedWriter(FileWriter(saveFile.path + "/EXPORT_${AppDateFormat.ymdtkey.format(Date())}.txt", true))
                     val realm = Realm.getDefaultInstance()
                     realm.where(Record::class.java).sort("dtStart").findAll()?.forEach { record ->
