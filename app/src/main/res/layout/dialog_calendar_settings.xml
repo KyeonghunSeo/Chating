@@ -61,7 +61,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/sun"
                     android:textColor="@color/secondaryText"
-                    android:textSize="13.0dp"
+                    android:textSize="12.0dp"
                     android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
@@ -89,7 +89,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/sun"
                     android:textColor="@color/secondaryText"
-                    android:textSize="13.0dp"
+                    android:textSize="12.0dp"
                     android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
@@ -117,7 +117,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/visible"
                     android:textColor="@color/secondaryText"
-                    android:textSize="13.0dp"
+                    android:textSize="12.0dp"
                     android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
@@ -151,7 +151,7 @@
                         android:layout_marginRight="10dp"
                         android:text="@string/sat"
                         android:textColor="@color/secondaryText"
-                        android:textSize="13.0dp"
+                        android:textSize="12.0dp"
                         android:fontFamily="@font/bold_s"/>
 
                     <TextView
@@ -160,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/sun"
                         android:textColor="@color/secondaryText"
-                        android:textSize="13.0dp"
+                        android:textSize="12.0dp"
                         android:fontFamily="@font/bold_s"/>
 
                 </LinearLayout>
@@ -190,7 +190,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/kr"
                     android:textColor="@color/secondaryText"
-                    android:textSize="13.0dp"
+                    android:textSize="12.0dp"
                     android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
@@ -218,7 +218,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/sun"
                     android:textColor="@color/secondaryText"
-                    android:textSize="13.0dp"
+                    android:textSize="12.0dp"
                     android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
@@ -246,7 +246,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/unvisible"
                     android:textColor="@color/secondaryText"
-                    android:textSize="13.0dp"
+                    android:textSize="12.0dp"
                     android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
@@ -274,7 +274,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/moon_record_font"
                     android:textColor="@color/secondaryText"
-                    android:textSize="13.0dp"
+                    android:textSize="12.0dp"
                     android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
@@ -302,7 +302,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/big"
                     android:textColor="@color/secondaryText"
-                    android:textSize="13.0dp"
+                    android:textSize="12.0dp"
                     android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
@@ -330,7 +330,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/bold"
                     android:textColor="@color/secondaryText"
-                    android:textSize="13.0dp"
+                    android:textSize="12.0dp"
                     android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
@@ -358,7 +358,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/unvisible"
                     android:textColor="@color/secondaryText"
-                    android:textSize="13.0dp"
+                    android:textSize="12.0dp"
                     android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
@@ -386,7 +386,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/unvisible"
                     android:textColor="@color/secondaryText"
-                    android:textSize="13.0dp"
+                    android:textSize="12.0dp"
                     android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>
@@ -414,7 +414,7 @@
                     android:layout_gravity="center_vertical|right"
                     android:text="@string/unvisible"
                     android:textColor="@color/secondaryText"
-                    android:textSize="13.0dp"
+                    android:textSize="12.0dp"
                     android:fontFamily="@font/bold_s"/>
 
             </FrameLayout>

@@ -94,7 +94,7 @@ object DateInfoManager {
         solarHolidays["1009"] = Holiday("한글날", true)
         solarHolidays["1225"] = Holiday("크리스마스", true)
 
-        solarHolidays["0106"] = Holiday("소한", false)
+        solarHolidays["0105"] = Holiday("소한", false)
         solarHolidays["0120"] = Holiday("대한", false)
         solarHolidays["0214"] = Holiday("발런타인데이", false)
         solarHolidays["0219"] = Holiday("우수", false)
@@ -124,7 +124,7 @@ object DateInfoManager {
         solarHolidays["0923"] = Holiday("추분", false)
         solarHolidays["1008"] = Holiday("한로", false)
         solarHolidays["1024"] = Holiday("상강", false)
-        solarHolidays["1108"] = Holiday("입동", false)
+        solarHolidays["1107"] = Holiday("입동", false)
         solarHolidays["1122"] = Holiday("소설", false)
         solarHolidays["1207"] = Holiday("대설", false)
         solarHolidays["1222"] = Holiday("동지", false)

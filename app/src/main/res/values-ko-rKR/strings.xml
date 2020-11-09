@@ -498,6 +498,10 @@
     <string name="load">데이터 불러오기</string>
     <string name="ask_leave">정말 계정을 삭제하시겠습니까?\n지금까지 기록한 모든 기록이 소멸됩니다.</string>
     <string name="cal_date_text_size">날짜 및 요일 폰트크기</string>
+    <string name="m">달</string>
+    <string name="o">의</string>
+    <string name="oo">기</string>
+    <string name="n">기</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

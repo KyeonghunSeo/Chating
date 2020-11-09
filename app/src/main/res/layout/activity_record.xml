@@ -501,9 +501,13 @@
                     <TextView
                         android:id="@+id/dueText"
                         android:layout_width="0dp"
-                        android:layout_height="25dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginRight="15dp"
+                        android:minHeight="25dp"
                         android:gravity="center_vertical"
+                        android:paddingTop="4dp"
+                        android:lineSpacingExtra="3dp"
                         android:textColor="@color/secondaryText"
                         android:textSize="14.0dp" />
 

@@ -257,7 +257,7 @@ class RecordCalendarAdapter(private val calendarView: CalendarView) {
         }
 
         viewHolderList.forEach { holder ->
-            var lastAlpha = if(holder.record.isDone() &&
+            var lastAlpha = if(holder.record.isDone() && holder.formula != DOT &&
                     (AppStatus.checkedRecordDisplay == 1 || AppStatus.checkedRecordDisplay == 3)) 0.5f else 1f
             if(calendarView.lastUpdatedItem?.isValid == true && calendarView.lastUpdatedItem?.id == holder.record.id) { // 마지막 업데이트 오브젝트
                 calendarView.lastUpdatedItem = null

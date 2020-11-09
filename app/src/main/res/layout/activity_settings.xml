@@ -205,7 +205,7 @@
                     android:text="@string/check_option_0"
                     android:textColor="@color/secondaryText"
                     android:fontFamily="@font/bold_s"
-                    android:textSize="13dp"/>
+                    android:textSize="12.0dp"/>
 
             </FrameLayout>
 
@@ -252,7 +252,7 @@
                     android:text="@string/check_option_0"
                     android:textColor="@color/secondaryText"
                     android:fontFamily="@font/bold_s"
-                    android:textSize="13dp"/>
+                    android:textSize="12.0dp"/>
 
             </FrameLayout>
 
@@ -280,7 +280,7 @@
                     android:text="@string/check_option_0"
                     android:textColor="@color/secondaryText"
                     android:fontFamily="@font/bold_s"
-                    android:textSize="13dp"/>
+                    android:textSize="12.0dp"/>
 
             </FrameLayout>
 
@@ -308,7 +308,7 @@
                     android:text="@string/check_option_0"
                     android:textColor="@color/secondaryText"
                     android:fontFamily="@font/bold_s"
-                    android:textSize="13dp"/>
+                    android:textSize="12.0dp"/>
 
             </FrameLayout>
 
@@ -336,7 +336,7 @@
                     android:text="@string/check_option_0"
                     android:textColor="@color/secondaryText"
                     android:fontFamily="@font/bold_s"
-                    android:textSize="13dp"/>
+                    android:textSize="12.0dp"/>
 
             </FrameLayout>
 
@@ -375,14 +375,15 @@
 
                 <TextView
                     android:id="@+id/osCalendarText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
+                    android:gravity="right"
                     android:text="@string/check_option_0"
                     android:textColor="@color/secondaryText"
                     android:fontFamily="@font/bold_s"
-                    android:textSize="13dp"/>
+                    android:textSize="12.0dp"/>
 
             </FrameLayout>
 
@@ -402,17 +403,17 @@
 
                 <TextView
                     android:id="@+id/osCalendarStyleText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="150dp"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical|right"
+                    android:gravity="right"
                     android:text="@string/check_option_0"
                     android:textColor="@color/secondaryText"
                     android:fontFamily="@font/bold_s"
-                    android:maxLines="1"
                     android:ellipsize="end"
-                    android:textSize="13dp"/>
+                    android:textSize="12.0dp"/>
 
             </FrameLayout>
 
@@ -469,7 +470,7 @@
                     android:text="@string/last_backup_time"
                     android:textColor="@color/secondaryText"
                     android:fontFamily="@font/bold_s"
-                    android:textSize="13dp"/>
+                    android:textSize="12.0dp"/>
 
             </FrameLayout>
 

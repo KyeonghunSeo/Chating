@@ -120,46 +120,6 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/symbolBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="1dp"
-                    app:cardElevation="0dp"
-                    android:visibility="invisible">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginLeft="2dp"
-                            android:src="@drawable/star"
-                            android:tint="@color/primaryText"
-                            android:padding="8dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="12dp"
-                            android:maxLines="1"
-                            android:ellipsize="end"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="12dp"
-                            android:textColor="@color/secondaryText"
-                            android:text="@string/symbol"
-                            android:fontFamily="@font/regular_s"/>
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
             </LinearLayout>
 
             <TextView
@@ -257,11 +217,20 @@
 
                 </androidx.cardview.widget.CardView>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/repeatBtn"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
+                    android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
                     app:cardCornerRadius="1dp"
@@ -295,14 +264,6 @@
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/lunarRepeatBtn"
@@ -343,6 +304,14 @@
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/ddayBtn"
@@ -388,11 +357,12 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:visibility="invisible"
+                    android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
                     app:cardCornerRadius="1dp"
-                    app:cardElevation="0dp">
+                    app:cardElevation="0dp"
+                    android:visibility="invisible">
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -403,7 +373,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="2dp"
-                            android:src="@drawable/title"
+                            android:src="@drawable/lunar"
                             android:tint="@color/primaryText"
                             android:padding="8dp"/>
 
@@ -416,7 +386,7 @@
                             android:layout_gravity="center_vertical"
                             android:textSize="12dp"
                             android:textColor="@color/secondaryText"
-                            android:text="@string/title"
+                            android:text="@string/lunar_repeat"
                             android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>
@@ -520,45 +490,6 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:visibility="invisible"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="1dp"
-                    app:cardElevation="0dp">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginLeft="2dp"
-                            android:src="@drawable/repeat"
-                            android:tint="@color/primaryText"
-                            android:padding="8dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="12dp"
-                            android:maxLines="1"
-                            android:ellipsize="end"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="12dp"
-                            android:textColor="@color/secondaryText"
-                            android:text="@string/repeat"
-                            android:fontFamily="@font/regular_s"/>
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
             </LinearLayout>
 
             <TextView
@@ -656,11 +587,20 @@
 
                 </androidx.cardview.widget.CardView>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/photoBtn"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
+                    android:layout_marginRight="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/light_line"
                     app:cardCornerRadius="1dp"
@@ -694,14 +634,6 @@
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/webLinkBtn"
@@ -737,85 +669,6 @@
                             android:textSize="12dp"
                             android:textColor="@color/secondaryText"
                             android:text="@string/weblink"
-                            android:fontFamily="@font/regular_s"/>
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:layout_marginRight="10dp"
-                    android:visibility="invisible"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="1dp"
-                    app:cardElevation="0dp">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginLeft="2dp"
-                            android:src="@drawable/location"
-                            android:tint="@color/primaryText"
-                            android:padding="8dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="12dp"
-                            android:maxLines="1"
-                            android:ellipsize="end"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="12dp"
-                            android:textColor="@color/secondaryText"
-                            android:text="@string/location"
-                            android:fontFamily="@font/regular_s"/>
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:visibility="invisible"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardBackgroundColor="@color/light_line"
-                    app:cardCornerRadius="1dp"
-                    app:cardElevation="0dp">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginLeft="2dp"
-                            android:src="@drawable/photo"
-                            android:tint="@color/primaryText"
-                            android:padding="8dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="12dp"
-                            android:maxLines="1"
-                            android:ellipsize="end"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="12dp"
-                            android:textColor="@color/secondaryText"
-                            android:text="@string/photo"
                             android:fontFamily="@font/regular_s"/>
 
                     </LinearLayout>

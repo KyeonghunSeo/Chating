@@ -534,6 +534,7 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
         childList?.sortWith(RecordListComparator())
         childList?.forEach { child ->
             paint.color = child.getColor()
+            paint.alpha = if(child.isDone() && (AppStatus.checkedRecordDisplay == 1 || AppStatus.checkedRecordDisplay == 3)) 125 else 255
             canvas.drawRect(left, top, left + size, top + size, paint)
             //canvas.drawCircle(left + size/2, top + size/2, (size/2).toFloat(), paint)
             left += size + margin

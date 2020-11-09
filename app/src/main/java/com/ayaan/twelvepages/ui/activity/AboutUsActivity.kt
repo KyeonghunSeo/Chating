@@ -73,12 +73,13 @@ class AboutUsActivity : BaseActivity() {
                     """
             }
             else -> {
-                """With regret
-about the things that
-have disappeared without recording
+                """Have you ever felt frustrated that you couldn’t remember a memorable line from a book?
+Have you ever wished that you had written down a brilliant idea that popped in your head?
 
-Make a diary
-to write down the daily life.
+Use Moon Diary to save all your ideas, emotions, and private moments.
+Discover the pleasures of keeping a unique and personal diary using Moon Diary’s convenient features.
+
+Moon Diary will help you treasure precious memories to keep you stay inspired and motivated for growth.
                 """
             }
         }

@@ -305,7 +305,7 @@
                 android:textSize="9dp"
                 android:textColor="@color/semiPrimaryText"
                 android:fontFamily="@font/thin_s"
-                android:text="Copyright © 2020 Moon Records Diary inc.\nAll rights reserved."/>
+                android:text="Copyright © 2020 Moon Diary inc.\nAll rights reserved."/>
 
         </LinearLayout>
 

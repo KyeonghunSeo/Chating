@@ -109,39 +109,31 @@ class MainActivity : BaseActivity() {
             viewModel.initRealm(SyncUser.current())
         }
 
-        val ver = packageManager.getPackageInfo(App.context.packageName, 0).versionName
-        if (Prefs.getString("last_patch_note_ver", "") != ver) {
-            Prefs.putBoolean("first_dayview_hide_success", true)
-            val dialog = CustomDialog(this@MainActivity, "$ver 패치노트",
-                    """
-                        [변경사항]
-                        
-                        1. 위젯에서 날짜와 요일의 폰트크기를 변경 할 수 있습니다.
-                        2. 위젯에서 주간 경계선을 안보이게 설정 할 수 있습니다.
-                        2. 위젯 가독성 향상을 위해 전체적인 폰트크기를 약간 조정하였습니다.
-                        3. 위젯에서 오늘을 표시하는 방식이 변경되었습니다.
-                        4. 위젯의 기본 폰트는 핸드폰 기본폰트로 표시되도록 변경하였습니다. (위젯은 앱 외부 영역이므로 핸드폰 기본폰트로 표시하는것이 맞다고 판단하였고 달력의 월을 표시하는 부분만 달의기록 폰트로 고정하였습니다.)
-                        
-                        [기타]
-                        
-                        1. 업데이트 이후 위젯이 표시되지 않는 경우 위젯을 삭제하신 후 다시 열어보시기 바랍니다.
-                        2. 기존에 위젯 폰트 컬러를 하얀색으로 변경하신 경우 간혹 위젯 설정 버튼이 안보이는 현상이 생기는데 이때 위젯 우측상단을 탭하여 위젯설정화면을 열고 투명도를 재설정 해 주시기 바랍니다.
-                    """.trimIndent(), null, R.drawable.info) { result, _, _ ->
-            }
-            showDialog(dialog, true, true, true, false)
-            dialog.hideCancelBtn()
-            dialog.setSubTextSize(12f)
-            Prefs.putString("last_patch_note_ver", ver)
-        }
+//        val ver = packageManager.getPackageInfo(App.context.packageName, 0).versionName
+//        if (Prefs.getString("last_patch_note_ver", "") != ver) {
+//            Prefs.putBoolean("first_dayview_hide_success", true)
+//            val dialog = CustomDialog(this@MainActivity, "$ver 패치노트",
+//                    """
+//                    """.trimIndent(), null, R.drawable.info) { result, _, _ ->
+//            }
+//            showDialog(dialog, true, true, true, false)
+//            dialog.hideCancelBtn()
+//            dialog.setSubTextSize(12f)
+//            Prefs.putString("last_patch_note_ver", ver)
+//        }
     }
 
     var bp: BillingProcessor? = null
     private fun checkPremium() {
-        if(AppStatus.isPremium() && System.currentTimeMillis() > AppStatus.lastPremiumCheckTime + WEEK_MILL * 4) {
+        if(true) {
+        //if(AppStatus.isPremium() && System.currentTimeMillis() > AppStatus.lastPremiumCheckTime + WEEK_MILL * 4) {
             l("[프리미엄 체크]")
             bp = BillingProcessor(this, str(R.string.in_app_license), object : BillingProcessor.IBillingHandler {
                 override fun onBillingInitialized() {
                     val isPremium = bp?.isSubscribed("premium") ?: false
+                    bp?.getSubscriptionTransactionDetails("premium")?.let {
+                        l("???"+it.purchaseInfo?.purchaseData?.purchaseState?.name)
+                    }
                     l("[프리미엄 상태] : $isPremium")
                     if(isPremium) {
                         AppStatus.premiumTime = System.currentTimeMillis() + YEAR_MILL
