@@ -37,7 +37,8 @@ object AppStatus {
     fun init(context: Context) {
         startDayOfWeek = Prefs.getInt("startDayOfWeek", Calendar.SUNDAY)
         isDowDisplay = Prefs.getBoolean("isDowDisplay", true)
-        holidayDisplay = Prefs.getInt("holidayDisplay", 1)
+        val defaultHoli = if(Locale.getDefault().language == "ko") 1 else 0
+        holidayDisplay = Prefs.getInt("holidayDisplay", defaultHoli)
         isLunarDisplay = Prefs.getBoolean("isLunarDisplay", false)
         outsideMonthAlpha = Prefs.getFloat("outsideMonthAlpha", 0f)
         calTextSize = Prefs.getInt("calTextSize", 0)

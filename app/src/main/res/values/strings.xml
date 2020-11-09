@@ -89,7 +89,7 @@
     <string name="delete_tag_sub">Deleting this tag will remove it from every memo. (%1$s Total)</string>
     <string name="keep">Draft Box</string>
     <string name="attachment">Attachment</string>
-    <string name="edit_template">Edit</string>
+    <string name="edit_template">Edit Template</string>
     <string name="show_in_calendar">Show in calendar</string>
     <string name="delete_template">Delete this template?</string>
     <string name="delete_something">Delete %1$s</string>
