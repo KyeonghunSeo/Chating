@@ -28,28 +28,20 @@ import kotlin.collections.ArrayList
 import kotlin.math.min
 
 
-class MonthlyCalendarWidget : AppWidgetProvider() {
+class WeeklyCalendarWidget : AppWidgetProvider() {
     private var context = App.context
     private val rowIds = arrayOf(
-            R.id.row0, R.id.row1, R.id.row2, R.id.row3, R.id.row4, R.id.row5)
+            R.id.row0, R.id.row1)
     private val dowIds = arrayOf(
             R.id.dowText0, R.id.dowText1, R.id.dowText2, R.id.dowText3, R.id.dowText4, R.id.dowText5, R.id.dowText6)
     private val lineIds = arrayOf(
-            R.id.line0, R.id.line1, R.id.line2, R.id.line3, R.id.line4, R.id.line5)
+            R.id.line0, R.id.line1)
     private val dateIds = arrayOf(
             R.id.dateText0, R.id.dateText1, R.id.dateText2, R.id.dateText3, R.id.dateText4, R.id.dateText5, R.id.dateText6,
-            R.id.dateText7, R.id.dateText8, R.id.dateText9, R.id.dateText10, R.id.dateText11, R.id.dateText12, R.id.dateText13,
-            R.id.dateText14, R.id.dateText15, R.id.dateText16, R.id.dateText17, R.id.dateText18, R.id.dateText19, R.id.dateText20,
-            R.id.dateText21, R.id.dateText22, R.id.dateText23, R.id.dateText24, R.id.dateText25, R.id.dateText26, R.id.dateText27,
-            R.id.dateText28, R.id.dateText29, R.id.dateText30, R.id.dateText31, R.id.dateText32, R.id.dateText33, R.id.dateText34,
-            R.id.dateText35, R.id.dateText36, R.id.dateText37, R.id.dateText38, R.id.dateText39, R.id.dateText40, R.id.dateText41)
+            R.id.dateText7, R.id.dateText8, R.id.dateText9, R.id.dateText10, R.id.dateText11, R.id.dateText12, R.id.dateText13)
     private val stickers = arrayOf(
             R.id.sticker0, R.id.sticker1, R.id.sticker2, R.id.sticker3, R.id.sticker4, R.id.sticker5, R.id.sticker6,
-            R.id.sticker7, R.id.sticker8, R.id.sticker9, R.id.sticker10, R.id.sticker11, R.id.sticker12, R.id.sticker13,
-            R.id.sticker14, R.id.sticker15, R.id.sticker16, R.id.sticker17, R.id.sticker18, R.id.sticker19, R.id.sticker20,
-            R.id.sticker21, R.id.sticker22, R.id.sticker23, R.id.sticker24, R.id.sticker25, R.id.sticker26, R.id.sticker27,
-            R.id.sticker28, R.id.sticker29, R.id.sticker30, R.id.sticker31, R.id.sticker32, R.id.sticker33, R.id.sticker34,
-            R.id.sticker35, R.id.sticker36, R.id.sticker37, R.id.sticker38, R.id.sticker39, R.id.sticker40, R.id.sticker41)
+            R.id.sticker7, R.id.sticker8, R.id.sticker9, R.id.sticker10, R.id.sticker11, R.id.sticker12, R.id.sticker13)
     private val recordRows = arrayOf(
             R.id.recordRow0, R.id.recordRow1, R.id.recordRow2, R.id.recordRow3, R.id.recordRow4,
             R.id.recordRow5, R.id.recordRow6, R.id.recordRow7, R.id.recordRow8, R.id.recordRow9,
@@ -71,7 +63,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
     )
 
     companion object {
-        private var monthPos = 0
+        private var weekPos = 0
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -79,19 +71,19 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             intent?.data?.let {
                 val data = it.toString()
                 when (data) {
-                    "moveMonth:left" -> {
-                        monthPos--
+                    "moveWeek:left" -> {
+                        weekPos--
                     }
-                    "moveMonth:right" -> {
-                        monthPos++
+                    "moveWeek:right" -> {
+                        weekPos++
                     }
                     else -> {
-                        monthPos = 0
+                        weekPos = 0
                     }
                 }
             }
             val appWidgetManager = AppWidgetManager.getInstance(ctx)
-            val thisAppWidget = ComponentName(ctx.packageName, MonthlyCalendarWidget::class.java.name)
+            val thisAppWidget = ComponentName(ctx.packageName, WeeklyCalendarWidget::class.java.name)
             val appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget)
             super.onReceive(ctx, intent)
             onUpdate(ctx, appWidgetManager, appWidgetIds)
@@ -113,7 +105,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
 
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         this.context = context
-        val rv = RemoteViews(context.packageName, R.layout.widget_monthly_calendar)
+        val rv = RemoteViews(context.packageName, R.layout.widget_weekly_calendar)
         appWidgetManager.getAppWidgetOptions(appWidgetId)?.let {
 //            val minWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
 //            val maxWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
@@ -141,14 +133,12 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
     private val viewHolderList = ArrayList<RecordCalendarAdapter.RecordViewHolder>()
     private val viewLevelStatus = ViewLevelStatus()
     private val columns = 7
-    private var rows = 0
+    private var rows = 1
     private var calStartTime = 0L
     private var calEndTime = 0L
-    private var startCellNum = 0
-    private var endCellNum = 0
     private val todayCal: Calendar = Calendar.getInstance()
     private val tempCal: Calendar = Calendar.getInstance()
-    private val monthCal: Calendar = Calendar.getInstance()
+    private val weekCal: Calendar = Calendar.getInstance()
     private var sundayPos = 0
     private var saturdayPos = 6
     private val dateInfos = Array(42){ DateInfoManager.DateInfo()}
@@ -157,20 +147,17 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
     private var textSize = 8f
     private var dateTextSize = 12f
     private var weekLineVisibility = View.VISIBLE
-    private val maxRowItem = 5
+    private val maxRowItem = 15
 
     private fun setCalendarView(rv: RemoteViews) {
         todayCal.timeInMillis = System.currentTimeMillis()
         tempCal.timeInMillis = System.currentTimeMillis()
-        tempCal.set(Calendar.DATE, 1)
-        tempCal.add(Calendar.MONTH, monthPos)
-        monthCal.set(tempCal.get(Calendar.YEAR), tempCal.get(Calendar.MONTH), tempCal.get(Calendar.DATE))
+        tempCal.add(Calendar.DATE, 7 * weekPos)
+        weekCal.set(tempCal.get(Calendar.YEAR), tempCal.get(Calendar.MONTH), tempCal.get(Calendar.DATE))
         setCalendarTime0(tempCal)
-
-        startCellNum = tempCal.get(Calendar.DAY_OF_WEEK) - AppStatus.startDayOfWeek
-        if (startCellNum < 0) { startCellNum += 7 }
-        endCellNum = startCellNum + tempCal.getActualMaximum(Calendar.DATE) - 1
-        rows = (endCellNum + 1) / 7 + if ((endCellNum + 1) % 7 > 0) 1 else 0
+        var todayPos = tempCal.get(Calendar.DAY_OF_WEEK) - AppStatus.startDayOfWeek
+        if (todayPos < 0) { todayPos += 7 }
+        rows = 2
 
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {
             sundayPos = 0
@@ -180,13 +167,15 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             saturdayPos = 7 - AppStatus.startDayOfWeek
         }
 
-        tempCal.add(Calendar.DATE, -startCellNum)
+        tempCal.add(Calendar.DATE, -todayPos)
 
         rv.setTextColor(R.id.monthlyText, textColor)
-        if(monthCal.get(Calendar.YEAR) == todayCal.get(Calendar.YEAR)) {
-            rv.setTextViewText(R.id.monthlyText, AppDateFormat.month.format(monthCal.time))
+        if(weekCal.get(Calendar.YEAR) == todayCal.get(Calendar.YEAR)) {
+            rv.setTextViewText(R.id.monthlyText, AppDateFormat.month.format(weekCal.time)
+                    + " " + String.format(context.getString(R.string.weekNum), weekCal.get(Calendar.WEEK_OF_YEAR)))
         }else {
-            rv.setTextViewText(R.id.monthlyText, AppDateFormat.ym.format(monthCal.time))
+            rv.setTextViewText(R.id.monthlyText, AppDateFormat.ym.format(weekCal.time)
+                    + " " + String.format(context.getString(R.string.weekNum), weekCal.get(Calendar.WEEK_OF_YEAR)))
         }
 
         lineIds.forEach {
@@ -197,7 +186,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             }
         }
 
-        for(i in 0..5) {
+        for(i in 0..1) {
             if(i < rows) {
                 rv.setViewVisibility(rowIds[i], View.VISIBLE)
                 for (j in 0..6){
@@ -220,11 +209,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
 
                     rv.setTextViewText(dateIds[cellNum], String.format("%02d", tempCal.get(Calendar.DATE)))
                     rv.setTextViewTextSize(dateIds[cellNum], TypedValue.COMPLEX_UNIT_DIP, dateTextSize)
-                    if(!isDateInMonth(cellNum, 1) && AppStatus.outsideMonthAlpha == 0f) {
-                        rv.setTextColor(dateIds[cellNum], Color.TRANSPARENT)
-                    }else {
-                        rv.setTextColor(dateIds[cellNum], color)
-                    }
+                    rv.setTextColor(dateIds[cellNum], color)
 
                     if(isToday(tempCal)) {
                         rv.setInt(dateIds[cellNum], "setBackgroundResource", R.drawable.today_indi)
@@ -243,8 +228,8 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
 
     private fun setRecordView(rv: RemoteViews) {
         viewHolderList.clear()
-        viewLevelStatus.status = Array(42){ "0" }
-        dotCount = Array(42){ 0 }
+        viewLevelStatus.status = Array(14){ "0" }
+        dotCount = Array(14){ 0 }
         recordRows.forEach { rv.removeAllViews(it) }
         stickers.forEach { rv.setViewVisibility(it, View.GONE) }
 
@@ -274,7 +259,6 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                     val formula = holder.formula
 
                     holder.items.forEach { view ->
-                        lastAlpha = if(isDateInMonth(view.cellNum, view.length)) lastAlpha else (AppStatus.outsideMonthAlpha * 255).toInt()
                         if((formula == RecordCalendarAdapter.Formula.SINGLE_TEXT
                                 || formula == RecordCalendarAdapter.Formula.MULTI_TEXT
                                 || formula == RecordCalendarAdapter.Formula.BOTTOM_SINGLE_TEXT)
@@ -470,9 +454,6 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
         }
     }
 
-    private fun isDateInMonth(cellNum: Int, length: Int) = cellNum in startCellNum..endCellNum
-            || cellNum + length - 1 in startCellNum..endCellNum
-
     private fun getDateTextColor(cellNum: Int, isHoli: Boolean, isSelected: Boolean) : Int {
         val color =  if((isHoli || cellNum % columns == sundayPos) && CalendarManager.sundayColor != CalendarManager.dateColor) {
             CalendarManager.sundayColor
@@ -526,7 +507,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
     }
 
     inner class ViewLevelStatus {
-        var status = Array(42){ "0" }
+        var status = Array(14){ "0" }
     }
 
     private fun makeAppStartPendingIntent(context: Context): PendingIntent? {
@@ -545,8 +526,8 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
     }
 
     private fun buildMoveMonthPendingIntent(context: Context, direction: String): PendingIntent? {
-        val intent = Intent(context, MonthlyCalendarWidget::class.java)
-        intent.data = Uri.parse("moveMonth:$direction")
+        val intent = Intent(context, WeeklyCalendarWidget::class.java)
+        intent.data = Uri.parse("moveWeek:$direction")
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 }

@@ -502,6 +502,7 @@
     <string name="o">의</string>
     <string name="oo">기</string>
     <string name="n">기</string>
+    <string name="us">미국</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

@@ -10,6 +10,7 @@ object DateInfoManager {
     private val solarHolidays = HashMap<String, Holiday>()
     private val lunarHolidays = HashMap<String, Holiday>()
     private val exHolidays = HashMap<String, Holiday>()
+    private val weekDowHolidays = HashMap<String, Holiday>()
     private val lunarCalendar = KoreanLunarCalendar.getInstance()
     private val todayString = App.resource.getString(R.string.today)
     private val tomorrowString = App.resource.getString(R.string.tomorrow)
@@ -76,7 +77,7 @@ object DateInfoManager {
 
     fun init() {
         when(AppStatus.holidayDisplay) {
-            2 -> setHolidaysKR()
+            2 -> setHolidaysUS()
             else -> setHolidaysKR()
         }
     }
@@ -85,6 +86,7 @@ object DateInfoManager {
         solarHolidays.clear()
         lunarHolidays.clear()
         exHolidays.clear()
+        weekDowHolidays.clear()
         solarHolidays["0101"] = Holiday("새해첫날", true)
         solarHolidays["0301"] = Holiday("3.1절", true)
         solarHolidays["0505"] = Holiday("어린이날", true)
@@ -96,13 +98,16 @@ object DateInfoManager {
 
         solarHolidays["0105"] = Holiday("소한", false)
         solarHolidays["0120"] = Holiday("대한", false)
+        solarHolidays["0203"] = Holiday("입춘", false)
         solarHolidays["0214"] = Holiday("발런타인데이", false)
         solarHolidays["0219"] = Holiday("우수", false)
         solarHolidays["0314"] = Holiday("화이트데이", false)
-        solarHolidays["0321"] = Holiday("춘분", false)
+        solarHolidays["0305"] = Holiday("경칩", false)
+        solarHolidays["0320"] = Holiday("춘분", false)
         solarHolidays["0403"] = Holiday("4.3희생자 추념일", false)
         solarHolidays["0405"] = Holiday("식목일", false)
-        solarHolidays["0406"] = Holiday("한식", false)
+        solarHolidays["0404"] = Holiday("청명", false)
+        solarHolidays["0405"] = Holiday("한식", false)
         solarHolidays["0420"] = Holiday("곡우", false)
         solarHolidays["0501"] = Holiday("근로자의날", false)
         solarHolidays["0508"] = Holiday("어버이날", false)
@@ -140,17 +145,44 @@ object DateInfoManager {
         exHolidays["20200817"] = Holiday("대체공휴일", true)
     }
 
+    private fun setHolidaysUS() {
+        solarHolidays.clear()
+        lunarHolidays.clear()
+        exHolidays.clear()
+        weekDowHolidays.clear()
+        solarHolidays["0101"] = Holiday("New Year's Day", true)
+        weekDowHolidays["01032"] = Holiday("Martin Luther King, Jr. Day", true)
+        weekDowHolidays["02032"] = Holiday("Washington's Birthday", true)
+        weekDowHolidays["05ls2"] = Holiday("Memorial Day", true)
+        solarHolidays["0505"] = Holiday("어린이날", true)
+        solarHolidays["0606"] = Holiday("현충일", true)
+        solarHolidays["0815"] = Holiday("광복절", true)
+        solarHolidays["1003"] = Holiday("개천절", true)
+        solarHolidays["1009"] = Holiday("한글날", true)
+        solarHolidays["1225"] = Holiday("크리스마스", true)
+
+    }
+
     fun getHoliday(dateInfo: DateInfo, targetCal: Calendar) {
         lunarCalendar.setSolarDate(targetCal.get(Calendar.YEAR),
                 targetCal.get(Calendar.MONTH) + 1,
                 targetCal.get(Calendar.DATE))
-        val solarKey = String.format("%02d%02d", targetCal.get(Calendar.MONTH) + 1, targetCal.get(Calendar.DATE))
-        val exKey = String.format("%d%02d%02d", targetCal.get(Calendar.YEAR), targetCal.get(Calendar.MONTH) + 1, targetCal.get(Calendar.DATE))
+        val solarYear = String.format("%d", targetCal.get(Calendar.YEAR))
+        val solarMonth = String.format("%02d", targetCal.get(Calendar.MONTH) + 1)
+        val solarDate = String.format("%02d", targetCal.get(Calendar.DATE))
+        val lastWeek = targetCal.getActualMaximum(targetCal.get(Calendar.WEEK_OF_MONTH))
+        val week = targetCal.get(Calendar.WEEK_OF_MONTH)
+        val solarWeek = if(week == lastWeek) "ls" else String.format("%02d", targetCal.get(Calendar.WEEK_OF_MONTH))
+        val solarDow = String.format("%d", targetCal.get(Calendar.DAY_OF_WEEK))
+        val solarKey = "$solarMonth$solarDate"
+        val exKey = "$solarYear$solarMonth$solarDate"
+        val weekDowKey = "$solarMonth$solarWeek$solarDow"
         val lunarKey = lunarCalendar.lunarKey
         dateInfo.holiday = if(AppStatus.holidayDisplay == 0) null
         else when {
             solarHolidays.containsKey(solarKey) -> solarHolidays[solarKey]
             lunarHolidays.containsKey(lunarKey) -> lunarHolidays[lunarKey]
+            weekDowHolidays.containsKey(weekDowKey) -> weekDowHolidays[weekDowKey]
             exHolidays.containsKey(exKey) -> exHolidays[exKey]
             else -> null
         }

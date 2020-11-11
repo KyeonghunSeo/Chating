@@ -125,15 +125,11 @@ class MainActivity : BaseActivity() {
 
     var bp: BillingProcessor? = null
     private fun checkPremium() {
-        if(true) {
-        //if(AppStatus.isPremium() && System.currentTimeMillis() > AppStatus.lastPremiumCheckTime + WEEK_MILL * 4) {
+        if(AppStatus.isPremium() && System.currentTimeMillis() > AppStatus.lastPremiumCheckTime + WEEK_MILL * 4) {
             l("[프리미엄 체크]")
             bp = BillingProcessor(this, str(R.string.in_app_license), object : BillingProcessor.IBillingHandler {
                 override fun onBillingInitialized() {
                     val isPremium = bp?.isSubscribed("premium") ?: false
-                    bp?.getSubscriptionTransactionDetails("premium")?.let {
-                        l("???"+it.purchaseInfo?.purchaseData?.purchaseState?.name)
-                    }
                     l("[프리미엄 상태] : $isPremium")
                     if(isPremium) {
                         AppStatus.premiumTime = System.currentTimeMillis() + YEAR_MILL
