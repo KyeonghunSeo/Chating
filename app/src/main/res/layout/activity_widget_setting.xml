@@ -27,6 +27,7 @@
                 app:tint="@color/secondaryText" />
 
             <TextView
+                android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -170,6 +171,38 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/fontBtn"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:clipChildren="false"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/font"
+                    android:textSize="13.0dp"
+                    android:textColor="@color/secondaryText"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/bold_s"/>
+
+                <TextView
+                    android:id="@+id/fontText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:textSize="13.0dp"
+                    android:textColor="@color/secondaryText"
+                    android:gravity="center_vertical|right"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/dateTextSizeBtn"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -255,6 +288,38 @@
 
                 <TextView
                     android:id="@+id/weekLineText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:textSize="13.0dp"
+                    android:textColor="@color/secondaryText"
+                    android:gravity="center_vertical|right"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nextWeekBtn"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:clipChildren="false"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/showNextWeek"
+                    android:textSize="13.0dp"
+                    android:textColor="@color/secondaryText"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/bold_s"/>
+
+                <TextView
+                    android:id="@+id/nextWeekText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

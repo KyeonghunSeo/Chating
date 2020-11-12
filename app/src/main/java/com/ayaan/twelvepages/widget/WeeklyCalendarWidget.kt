@@ -29,13 +29,11 @@ import kotlin.math.min
 
 
 class WeeklyCalendarWidget : AppWidgetProvider() {
+    private val widgetName = "weeklyWidget"
     private var context = App.context
-    private val rowIds = arrayOf(
-            R.id.row0, R.id.row1)
-    private val dowIds = arrayOf(
-            R.id.dowText0, R.id.dowText1, R.id.dowText2, R.id.dowText3, R.id.dowText4, R.id.dowText5, R.id.dowText6)
-    private val lineIds = arrayOf(
-            R.id.line0, R.id.line1)
+    private val rowIds = arrayOf(R.id.row0, R.id.row1)
+    private val dowIds = arrayOf(R.id.dowText0, R.id.dowText1, R.id.dowText2, R.id.dowText3, R.id.dowText4, R.id.dowText5, R.id.dowText6)
+    private val lineIds = arrayOf(R.id.line0, R.id.line1)
     private val dateIds = arrayOf(
             R.id.dateText0, R.id.dateText1, R.id.dateText2, R.id.dateText3, R.id.dateText4, R.id.dateText5, R.id.dateText6,
             R.id.dateText7, R.id.dateText8, R.id.dateText9, R.id.dateText10, R.id.dateText11, R.id.dateText12, R.id.dateText13)
@@ -50,17 +48,20 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
             R.id.recordRow20, R.id.recordRow21, R.id.recordRow22, R.id.recordRow23, R.id.recordRow24,
             R.id.recordRow25, R.id.recordRow26, R.id.recordRow27, R.id.recordRow28, R.id.recordRow29)
     private val recordRvs = arrayOf(
-            arrayOf(R.layout.widget_block_7_1_1, R.layout.widget_block_7_1_2, R.layout.widget_block_7_1_3, R.layout.widget_block_7_1_4,
-                    R.layout.widget_block_7_1_5, R.layout.widget_block_7_1_6, R.layout.widget_block_7_1_7),
-            arrayOf(R.layout.widget_block_7_2_1, R.layout.widget_block_7_2_2, R.layout.widget_block_7_2_3, R.layout.widget_block_7_2_4,
-                    R.layout.widget_block_7_2_5, R.layout.widget_block_7_2_6),
-            arrayOf(R.layout.widget_block_7_3_1, R.layout.widget_block_7_3_2, R.layout.widget_block_7_3_3, R.layout.widget_block_7_3_4,
-                    R.layout.widget_block_7_3_5),
-            arrayOf(R.layout.widget_block_7_4_1, R.layout.widget_block_7_4_2, R.layout.widget_block_7_4_3, R.layout.widget_block_7_4_4),
-            arrayOf(R.layout.widget_block_7_5_1, R.layout.widget_block_7_5_2, R.layout.widget_block_7_5_3),
-            arrayOf(R.layout.widget_block_7_6_1, R.layout.widget_block_7_6_2),
-            arrayOf(R.layout.widget_block_full)
-    )
+            R.layout.widget_block_valid,
+            R.layout.widget_block_valid_2,
+            R.layout.widget_block_valid_3,
+            R.layout.widget_block_valid_4,
+            R.layout.widget_block_valid_5,
+            R.layout.widget_block_valid_6,
+            R.layout.widget_block_valid_7,
+            R.layout.widget_block_valid_s,
+            R.layout.widget_block_valid_2_s,
+            R.layout.widget_block_valid_3_s,
+            R.layout.widget_block_valid_4_s,
+            R.layout.widget_block_valid_5_s,
+            R.layout.widget_block_valid_6_s,
+            R.layout.widget_block_valid_7_s)
 
     companion object {
         private var weekPos = 0
@@ -105,18 +106,19 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
 
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         this.context = context
-        val rv = RemoteViews(context.packageName, R.layout.widget_weekly_calendar)
+        font = Prefs.getInt("${widgetName}Font", 0)
+        val rv = RemoteViews(context.packageName, if(font == 0) R.layout.widget_weekly_calendar else R.layout.widget_weekly_calendar_s)
         appWidgetManager.getAppWidgetOptions(appWidgetId)?.let {
 //            val minWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
 //            val maxWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
             val minHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
             val maxHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
         }
-        val alpha = Prefs.getInt("monthlyWidgetTransparency", 100) * 255 / 100
-        textColor = Prefs.getInt("monthlyWidgetTextColor", AppTheme.secondaryText)
-        textSize = Prefs.getFloat("monthlyWidgetTextSize", 8f) + 1
-        dateTextSize = Prefs.getFloat("monthlyWidgetDateTextSize", 12f)
-        weekLineVisibility = Prefs.getInt("monthlyWidgetWeekLine", View.VISIBLE)
+        val alpha = Prefs.getInt("${widgetName}Transparency", 100) * 255 / 100
+        textColor = Prefs.getInt("${widgetName}TextColor", AppTheme.secondaryText)
+        textSize = Prefs.getFloat("${widgetName}TextSize", 8f) + 1
+        dateTextSize = Prefs.getFloat("${widgetName}DateTextSize", 12f)
+        weekLineVisibility = Prefs.getInt("${widgetName}WeekLine", View.VISIBLE)
         rv.setOnClickPendingIntent(R.id.rootLy, makeAppStartPendingIntent(context))
         rv.setOnClickPendingIntent(R.id.settingBtn, buildSettingPendingIntent(context))
         rv.setOnClickPendingIntent(R.id.leftBtn, buildMoveMonthPendingIntent(context, "left"))
@@ -141,13 +143,14 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
     private val weekCal: Calendar = Calendar.getInstance()
     private var sundayPos = 0
     private var saturdayPos = 6
-    private val dateInfos = Array(42){ DateInfoManager.DateInfo()}
-    private var dotCount = Array(42){ 0 }
+    private val dateInfos = Array(14){ DateInfoManager.DateInfo()}
+    private var dotCount = Array(14){ 0 }
     private var textColor = AppTheme.secondaryText
     private var textSize = 8f
-    private var dateTextSize = 12f
+    private var dateTextSize = 13f
     private var weekLineVisibility = View.VISIBLE
     private val maxRowItem = 15
+    private var font = 0
 
     private fun setCalendarView(rv: RemoteViews) {
         todayCal.timeInMillis = System.currentTimeMillis()
@@ -157,7 +160,8 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
         setCalendarTime0(tempCal)
         var todayPos = tempCal.get(Calendar.DAY_OF_WEEK) - AppStatus.startDayOfWeek
         if (todayPos < 0) { todayPos += 7 }
-        rows = 2
+        val showNextWeek = Prefs.getInt("${widgetName}ShowNextWeek", 0)
+        rows = 1 + showNextWeek
 
         if(AppStatus.startDayOfWeek == Calendar.SUNDAY) {
             sundayPos = 0
@@ -169,13 +173,16 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
 
         tempCal.add(Calendar.DATE, -todayPos)
 
+        weekCal.firstDayOfWeek = Calendar.SUNDAY
+        weekCal.minimalDaysInFirstWeek = 4
+
         rv.setTextColor(R.id.monthlyText, textColor)
         if(weekCal.get(Calendar.YEAR) == todayCal.get(Calendar.YEAR)) {
             rv.setTextViewText(R.id.monthlyText, AppDateFormat.month.format(weekCal.time)
-                    + " " + String.format(context.getString(R.string.weekNum), weekCal.get(Calendar.WEEK_OF_YEAR)))
+                    + " " + String.format(context.getString(R.string.weekNum), weekCal.get(Calendar.WEEK_OF_MONTH)))
         }else {
             rv.setTextViewText(R.id.monthlyText, AppDateFormat.ym.format(weekCal.time)
-                    + " " + String.format(context.getString(R.string.weekNum), weekCal.get(Calendar.WEEK_OF_YEAR)))
+                    + " " + String.format(context.getString(R.string.weekNum), weekCal.get(Calendar.WEEK_OF_MONTH)))
         }
 
         lineIds.forEach {
@@ -230,7 +237,10 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
         viewHolderList.clear()
         viewLevelStatus.status = Array(14){ "0" }
         dotCount = Array(14){ 0 }
-        recordRows.forEach { rv.removeAllViews(it) }
+        recordRows.forEach {
+            rv.setViewVisibility(it, View.GONE)
+            rv.removeAllViews(it)
+        }
         stickers.forEach { rv.setViewVisibility(it, View.GONE) }
 
         val realm = Realm.getDefaultInstance()
@@ -253,7 +263,7 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
                 OsCalendarManager.getInstances(context, "", calStartTime, calEndTime).forEach { makeRecordViewHolder(it) }
                 viewHolderList.sortWith(RecordCalendarComparator())
                 viewHolderList.forEach { holder ->
-                    var lastAlpha = if(holder.record.isDone() &&
+                    val lastAlpha = if(holder.record.isDone() &&
                             (AppStatus.checkedRecordDisplay == 1 || AppStatus.checkedRecordDisplay == 3)) 70 else 255
 
                     val formula = holder.formula
@@ -269,7 +279,8 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
                                 val color = ColorManager.getColor(colorKey)
                                 val fontColor = ColorManager.getFontColor(color)
                                 val title = view.record.getTitleInCalendar()
-                                val recordRv = RemoteViews(context.packageName, recordRvs[view.length - 1][view.cellNum % columns])
+                                val recordRv = getRecordRemoteView(view.length, view.cellNum)
+
                                 if (view.record.isSetCheckBox) {
                                     recordRv.setInt(R.id.checkImg, "setAlpha", lastAlpha)
                                     if(view.shape.fontColor) {
@@ -278,7 +289,7 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
                                         recordRv.setInt(R.id.checkImg, "setColorFilter", AppTheme.primaryText)
                                     }
                                     if (view.record.isDone()) {
-                                        recordRv.setImageViewResource(R.id.checkImg, R.drawable.check)
+                                        recordRv.setImageViewResource(R.id.checkImg, R.drawable.checked_fill)
                                         recordRv.setTextViewText(R.id.valid_text, "     $title")
                                     } else {
                                         recordRv.setImageViewResource(R.id.checkImg, R.drawable.uncheck)
@@ -343,7 +354,9 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
 
                                 recordRv.setTextViewTextSize(R.id.valid_text, TypedValue.COMPLEX_UNIT_DIP, textSize)
 
-                                rv.addView(recordRows[view.cellNum / columns * maxRowItem + order], recordRv)
+                                val recordRowId = recordRows[view.cellNum / columns * maxRowItem + order]
+                                rv.addView(recordRowId, recordRv)
+                                rv.setViewVisibility(recordRowId, View.VISIBLE)
                             }else {
                                 if(view.length > 0) {
                                     (view.cellNum until view.cellNum + view.length).forEach {
@@ -374,15 +387,30 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
                 dotCount.forEachIndexed { cellNum, count ->
                     if(count > 0) {
                         val order = computeOrder(cellNum, 1, viewLevelStatus)
-                        val recordRv = RemoteViews(context.packageName, recordRvs[0][cellNum % columns])
+                        val recordRv = getRecordRemoteView(1, cellNum)
                         recordRv.setTextViewText(R.id.valid_text, " +$count")
                         recordRv.setTextColor(R.id.valid_text, AppTheme.secondaryText)
-                        rv.addView(recordRows[cellNum / columns * maxRowItem + min(order, maxRowItem - 1)], recordRv)
+
+                        val recordRowId = recordRows[cellNum / columns * maxRowItem + min(order, maxRowItem - 1)]
+                        rv.addView(recordRowId, recordRv)
+                        rv.setViewVisibility(recordRowId, View.VISIBLE)
                     }
                 }
             }
         }
         realm.close()
+    }
+
+    private fun getRecordRemoteView(length: Int, cellNum: Int): RemoteViews {
+        val recordRv = RemoteViews(context.packageName, R.layout.widget_block)
+        (0 until 7 - length + 1).forEach {
+            if(it == cellNum % columns) {
+                recordRv.addView(R.id.widgetBlock, RemoteViews(context.packageName, recordRvs[font * 7 + length - 1]))
+            }else {
+                recordRv.addView(R.id.widgetBlock, RemoteViews(context.packageName, R.layout.widget_block_blank))
+            }
+        }
+        return recordRv
     }
 
     private fun makeRecordViewHolder(record: Record) {
@@ -521,7 +549,7 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
 
     private fun buildSettingPendingIntent(context: Context): PendingIntent? {
         val intent = Intent(context, WidgetSettingActivity::class.java)
-        //intent.data = Uri.parse(WidgetSettingsActivity.Companion.getKEY_WIDGET_MONTHLY())
+        intent.data = Uri.parse(widgetName)
         return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 

@@ -44,6 +44,7 @@ import com.ayaan.twelvepages.ui.sheet.DayViewSettingsSheet
 import com.ayaan.twelvepages.ui.sheet.TemplateSheet
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.ayaan.twelvepages.widget.MonthlyCalendarWidget
+import com.ayaan.twelvepages.widget.WeeklyCalendarWidget
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
@@ -728,9 +729,12 @@ class MainActivity : BaseActivity() {
     override fun onStop() {
         super.onStop()
         isShowing = false
-        val intent = Intent(this, MonthlyCalendarWidget::class.java)
-        intent.action = "android.appwidget.action.APPWIDGET_UPDATE"
-        sendBroadcast(intent)
+        sendBroadcast(Intent(this, MonthlyCalendarWidget::class.java).apply {
+            action = "android.appwidget.action.APPWIDGET_UPDATE"
+        })
+        sendBroadcast(Intent(this, WeeklyCalendarWidget::class.java).apply {
+            action = "android.appwidget.action.APPWIDGET_UPDATE"
+        })
     }
 
     var isLogout = false

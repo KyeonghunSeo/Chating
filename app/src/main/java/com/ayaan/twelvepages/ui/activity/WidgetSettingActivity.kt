@@ -11,17 +11,38 @@ import com.ayaan.twelvepages.AppTheme
 import com.ayaan.twelvepages.R
 import com.ayaan.twelvepages.str
 import com.ayaan.twelvepages.widget.MonthlyCalendarWidget
+import com.ayaan.twelvepages.widget.WeeklyCalendarWidget
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_widget_setting.*
 
 class WidgetSettingActivity : BaseActivity() {
+    lateinit var widgetName: String
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_widget_setting)
         initTheme(rootLy)
         backBtn.setOnClickListener { finish() }
-        val progress = Prefs.getInt("monthlyWidgetTransparency", 100)
+        widgetName = intent?.data?.toString() ?: "monthlyWidget"
+        initTransparency()
+        initTextColor()
+        initFont()
+        initDateTextSize()
+        initTextSize()
+        initWeekLine()
+        initShowNextWeek()
+    }
+
+    private fun getWidgetTitle(): String {
+        return when(widgetName) {
+            "weeklyWidget" -> getString(R.string.weekly_widget)
+            else -> getString(R.string.monthly_widget)
+        }
+    }
+
+    private fun initTransparency() {
+        val progress = Prefs.getInt("${widgetName}Transparency", 100)
         transparencySeekBar.progress = progress
         transparencyText.text = "${100 - progress}%"
         transparencySeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -31,28 +52,39 @@ class WidgetSettingActivity : BaseActivity() {
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {}
         })
-
-        initTextColor()
-        initDateTextSize()
-        initTextSize()
-        initWeekLine()
     }
 
     private fun initTextColor() {
-        val textColor = Prefs.getInt("monthlyWidgetTextColor", AppTheme.secondaryText)
+        val textColor = Prefs.getInt("${widgetName}TextColor", AppTheme.secondaryText)
         textColorImg.setCardBackgroundColor(textColor)
         textColorBtn.setOnClickListener {
             if(textColor == AppTheme.secondaryText) {
-                Prefs.putInt("monthlyWidgetTextColor", Color.WHITE)
+                Prefs.putInt("${widgetName}TextColor", Color.WHITE)
             }else {
-                Prefs.putInt("monthlyWidgetTextColor", AppTheme.secondaryText)
+                Prefs.putInt("${widgetName}TextColor", AppTheme.secondaryText)
             }
             initTextColor()
         }
     }
 
+    private fun initFont() {
+        val font = Prefs.getInt("${widgetName}Font", 0)
+        when(font) {
+            1 -> fontText.text = str(R.string.moon_record_font)
+            else -> fontText.text = str(R.string.os_font)
+        }
+        fontBtn.setOnClickListener {
+            if(font == 0) {
+                Prefs.putInt("${widgetName}Font", 1)
+            }else {
+                Prefs.putInt("${widgetName}Font", 0)
+            }
+            initFont()
+        }
+    }
+
     private fun initDateTextSize() {
-        val textSize = Prefs.getFloat("monthlyWidgetDateTextSize", 12f)
+        val textSize = Prefs.getFloat("${widgetName}DateTextSize", 12f)
         when(textSize) {
             12f -> dateTextSizeText.text = str(R.string.small)
             13f -> dateTextSizeText.text = str(R.string.normal)
@@ -64,13 +96,13 @@ class WidgetSettingActivity : BaseActivity() {
                 13f -> 14f
                 else -> 12f
             }
-            Prefs.putFloat("monthlyWidgetDateTextSize", newSize)
+            Prefs.putFloat("${widgetName}DateTextSize", newSize)
             initDateTextSize()
         }
     }
 
     private fun initTextSize() {
-        val textSize = Prefs.getFloat("monthlyWidgetTextSize", 8f)
+        val textSize = Prefs.getFloat("${widgetName}TextSize", 8f)
         when(textSize) {
             7f -> textSizeText.text = str(R.string.small)
             8f -> textSizeText.text = str(R.string.normal)
@@ -87,13 +119,13 @@ class WidgetSettingActivity : BaseActivity() {
                 10f -> 11f
                 else -> 7f
             }
-            Prefs.putFloat("monthlyWidgetTextSize", newSize)
+            Prefs.putFloat("${widgetName}TextSize", newSize)
             initTextSize()
         }
     }
 
     private fun initWeekLine() {
-        val lineVisibility = Prefs.getInt("monthlyWidgetWeekLine", View.VISIBLE)
+        val lineVisibility = Prefs.getInt("${widgetName}WeekLine", View.VISIBLE)
         when(lineVisibility) {
             View.VISIBLE -> weekLineText.text = str(R.string.show)
             else -> weekLineText.text = str(R.string.hide)
@@ -103,16 +135,40 @@ class WidgetSettingActivity : BaseActivity() {
                 View.VISIBLE -> View.GONE
                 else -> View.VISIBLE
             }
-            Prefs.putInt("monthlyWidgetWeekLine", newVisibility)
+            Prefs.putInt("${widgetName}WeekLine", newVisibility)
             initWeekLine()
+        }
+    }
+
+    private fun initShowNextWeek() {
+        if(widgetName == "weeklyWidget") {
+            nextWeekBtn.visibility = View.VISIBLE
+        }else {
+            nextWeekBtn.visibility = View.GONE
+        }
+        val showNextWeek = Prefs.getInt("${widgetName}ShowNextWeek", 0)
+        when(showNextWeek) {
+            1 -> nextWeekText.text = str(R.string.show)
+            else -> nextWeekText.text = str(R.string.hide)
+        }
+        nextWeekBtn.setOnClickListener {
+            if(showNextWeek == 0) {
+                Prefs.putInt("${widgetName}ShowNextWeek", 1)
+            }else {
+                Prefs.putInt("${widgetName}ShowNextWeek", 0)
+            }
+            initShowNextWeek()
         }
     }
 
     override fun onStop() {
         super.onStop()
-        Prefs.putInt("monthlyWidgetTransparency", transparencySeekBar.progress)
-        val intent = Intent(this, MonthlyCalendarWidget::class.java)
-        intent.action = "android.appwidget.action.APPWIDGET_UPDATE"
-        sendBroadcast(intent)
+        Prefs.putInt("${widgetName}Transparency", transparencySeekBar.progress)
+        sendBroadcast(Intent(this, MonthlyCalendarWidget::class.java).apply {
+            action = "android.appwidget.action.APPWIDGET_UPDATE"
+        })
+        sendBroadcast(Intent(this, WeeklyCalendarWidget::class.java).apply {
+            action = "android.appwidget.action.APPWIDGET_UPDATE"
+        })
     }
 }

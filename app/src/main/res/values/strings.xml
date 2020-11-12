@@ -506,6 +506,9 @@
     <string name="oo">기</string>
     <string name="n">록</string>
     <string name="us">United States</string>
+    <string name="monthly_widget">Moon Diary Monthly</string>
+    <string name="weekly_widget">Moon Diary Weekly</string>
+    <string name="showNextWeek">Show Next Week</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

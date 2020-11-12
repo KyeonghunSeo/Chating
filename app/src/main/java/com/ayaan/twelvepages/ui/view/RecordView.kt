@@ -408,8 +408,6 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
     }
 
     private fun drawCheckBox(canvas: Canvas, xOffset: Int) {
-        paint.style = Paint.Style.STROKE
-        paint.color = fontColor
         paint.strokeWidth = strokeWidth * 0.9f
         val startX = xOffset + baseSize * 3
         val boxSize = checkboxSize - baseSize * 6
@@ -421,17 +419,23 @@ class RecordView constructor(context: Context, val record: Record, var formula: 
             if(AppStatus.checkedRecordDisplay in 2..3) {
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
+            paint.style = Paint.Style.FILL
+            paint.color = fontColor
             canvas.drawRect(
                     startX,
                     centerY - radius,
                     startX + boxSize,
                     centerY + radius,
                     paint)
+
+            paint.style = Paint.Style.STROKE
+            paint.color = paintColor
             canvas.drawLine(centerX - checkSize/2, centerY,
                     centerX - checkSize/8, centerY + checkSize/2 - baseSize, paint)
             canvas.drawLine(centerX - checkSize/8, centerY + checkSize/2 - baseSize,
                     centerX + checkSize/2, centerY - checkSize/2 + baseSize, paint)
         }else {
+            paint.style = Paint.Style.STROKE
             canvas.drawRect(
                     startX,
                     centerY - radius,

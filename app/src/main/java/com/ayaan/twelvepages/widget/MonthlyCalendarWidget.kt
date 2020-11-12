@@ -29,6 +29,7 @@ import kotlin.math.min
 
 
 class MonthlyCalendarWidget : AppWidgetProvider() {
+    private val widgetName = "monthlyWidget"
     private var context = App.context
     private val rowIds = arrayOf(
             R.id.row0, R.id.row1, R.id.row2, R.id.row3, R.id.row4, R.id.row5)
@@ -58,17 +59,20 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             R.id.recordRow20, R.id.recordRow21, R.id.recordRow22, R.id.recordRow23, R.id.recordRow24,
             R.id.recordRow25, R.id.recordRow26, R.id.recordRow27, R.id.recordRow28, R.id.recordRow29)
     private val recordRvs = arrayOf(
-            arrayOf(R.layout.widget_block_7_1_1, R.layout.widget_block_7_1_2, R.layout.widget_block_7_1_3, R.layout.widget_block_7_1_4,
-                    R.layout.widget_block_7_1_5, R.layout.widget_block_7_1_6, R.layout.widget_block_7_1_7),
-            arrayOf(R.layout.widget_block_7_2_1, R.layout.widget_block_7_2_2, R.layout.widget_block_7_2_3, R.layout.widget_block_7_2_4,
-                    R.layout.widget_block_7_2_5, R.layout.widget_block_7_2_6),
-            arrayOf(R.layout.widget_block_7_3_1, R.layout.widget_block_7_3_2, R.layout.widget_block_7_3_3, R.layout.widget_block_7_3_4,
-                    R.layout.widget_block_7_3_5),
-            arrayOf(R.layout.widget_block_7_4_1, R.layout.widget_block_7_4_2, R.layout.widget_block_7_4_3, R.layout.widget_block_7_4_4),
-            arrayOf(R.layout.widget_block_7_5_1, R.layout.widget_block_7_5_2, R.layout.widget_block_7_5_3),
-            arrayOf(R.layout.widget_block_7_6_1, R.layout.widget_block_7_6_2),
-            arrayOf(R.layout.widget_block_full)
-    )
+            R.layout.widget_block_valid,
+            R.layout.widget_block_valid_2,
+            R.layout.widget_block_valid_3,
+            R.layout.widget_block_valid_4,
+            R.layout.widget_block_valid_5,
+            R.layout.widget_block_valid_6,
+            R.layout.widget_block_valid_7,
+            R.layout.widget_block_valid_s,
+            R.layout.widget_block_valid_2_s,
+            R.layout.widget_block_valid_3_s,
+            R.layout.widget_block_valid_4_s,
+            R.layout.widget_block_valid_5_s,
+            R.layout.widget_block_valid_6_s,
+            R.layout.widget_block_valid_7_s)
 
     companion object {
         private var monthPos = 0
@@ -113,18 +117,19 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
 
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         this.context = context
-        val rv = RemoteViews(context.packageName, R.layout.widget_monthly_calendar)
+        font = Prefs.getInt("${widgetName}Font", 0)
+        val rv = RemoteViews(context.packageName, if(font == 0) R.layout.widget_monthly_calendar else R.layout.widget_monthly_calendar_s)
         appWidgetManager.getAppWidgetOptions(appWidgetId)?.let {
 //            val minWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
 //            val maxWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
             val minHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
             val maxHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
         }
-        val alpha = Prefs.getInt("monthlyWidgetTransparency", 100) * 255 / 100
-        textColor = Prefs.getInt("monthlyWidgetTextColor", AppTheme.secondaryText)
-        textSize = Prefs.getFloat("monthlyWidgetTextSize", 8f) + 1
-        dateTextSize = Prefs.getFloat("monthlyWidgetDateTextSize", 12f)
-        weekLineVisibility = Prefs.getInt("monthlyWidgetWeekLine", View.VISIBLE)
+        val alpha = Prefs.getInt("${widgetName}Transparency", 100) * 255 / 100
+        textColor = Prefs.getInt("${widgetName}TextColor", AppTheme.secondaryText)
+        textSize = Prefs.getFloat("${widgetName}TextSize", 8f) + 1
+        dateTextSize = Prefs.getFloat("${widgetName}DateTextSize", 12f)
+        weekLineVisibility = Prefs.getInt("${widgetName}WeekLine", View.VISIBLE)
         rv.setOnClickPendingIntent(R.id.rootLy, makeAppStartPendingIntent(context))
         rv.setOnClickPendingIntent(R.id.settingBtn, buildSettingPendingIntent(context))
         rv.setOnClickPendingIntent(R.id.leftBtn, buildMoveMonthPendingIntent(context, "left"))
@@ -155,9 +160,10 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
     private var dotCount = Array(42){ 0 }
     private var textColor = AppTheme.secondaryText
     private var textSize = 8f
-    private var dateTextSize = 12f
+    private var dateTextSize = 13f
     private var weekLineVisibility = View.VISIBLE
     private val maxRowItem = 5
+    private var font = 0
 
     private fun setCalendarView(rv: RemoteViews) {
         todayCal.timeInMillis = System.currentTimeMillis()
@@ -285,7 +291,8 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                                 val color = ColorManager.getColor(colorKey)
                                 val fontColor = ColorManager.getFontColor(color)
                                 val title = view.record.getTitleInCalendar()
-                                val recordRv = RemoteViews(context.packageName, recordRvs[view.length - 1][view.cellNum % columns])
+                                val recordRv = getRecordRemoteView(view.length, view.cellNum)
+
                                 if (view.record.isSetCheckBox) {
                                     recordRv.setInt(R.id.checkImg, "setAlpha", lastAlpha)
                                     if(view.shape.fontColor) {
@@ -294,7 +301,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                                         recordRv.setInt(R.id.checkImg, "setColorFilter", AppTheme.primaryText)
                                     }
                                     if (view.record.isDone()) {
-                                        recordRv.setImageViewResource(R.id.checkImg, R.drawable.check)
+                                        recordRv.setImageViewResource(R.id.checkImg, R.drawable.checked_fill)
                                         recordRv.setTextViewText(R.id.valid_text, "     $title")
                                     } else {
                                         recordRv.setImageViewResource(R.id.checkImg, R.drawable.uncheck)
@@ -390,7 +397,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                 dotCount.forEachIndexed { cellNum, count ->
                     if(count > 0) {
                         val order = computeOrder(cellNum, 1, viewLevelStatus)
-                        val recordRv = RemoteViews(context.packageName, recordRvs[0][cellNum % columns])
+                        val recordRv = getRecordRemoteView(1, cellNum)
                         recordRv.setTextViewText(R.id.valid_text, " +$count")
                         recordRv.setTextColor(R.id.valid_text, AppTheme.secondaryText)
                         rv.addView(recordRows[cellNum / columns * maxRowItem + min(order, maxRowItem - 1)], recordRv)
@@ -399,6 +406,18 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
             }
         }
         realm.close()
+    }
+
+    private fun getRecordRemoteView(length: Int, cellNum: Int): RemoteViews {
+        val recordRv = RemoteViews(context.packageName, R.layout.widget_block)
+        (0 until 7 - length + 1).forEach {
+            if(it == cellNum % columns) {
+                recordRv.addView(R.id.widgetBlock, RemoteViews(context.packageName, recordRvs[font * 7 + length - 1]))
+            }else {
+                recordRv.addView(R.id.widgetBlock, RemoteViews(context.packageName, R.layout.widget_block_blank))
+            }
+        }
+        return recordRv
     }
 
     private fun makeRecordViewHolder(record: Record) {
@@ -540,7 +559,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
 
     private fun buildSettingPendingIntent(context: Context): PendingIntent? {
         val intent = Intent(context, WidgetSettingActivity::class.java)
-        //intent.data = Uri.parse(WidgetSettingsActivity.Companion.getKEY_WIDGET_MONTHLY())
+        intent.data = Uri.parse(widgetName)
         return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 

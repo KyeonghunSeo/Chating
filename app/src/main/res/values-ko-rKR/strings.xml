@@ -260,7 +260,7 @@
     <string name="shape_thin_hatched">사선</string>
     <string name="shape_upper_line">윗줄</string>
     <string name="shape_under_line">밑줄</string>
-    <string name="shape_neon_pen">형광팬</string>
+    <string name="shape_neon_pen">형광펜</string>
     <string name="shape_line">구간선</string>
     <string name="shape_dash">구간점선</string>
     <string name="shape_arrow">구간화살표</string>
@@ -503,6 +503,9 @@
     <string name="oo">기</string>
     <string name="n">기</string>
     <string name="us">미국</string>
+    <string name="monthly_widget">달의기록 월간</string>
+    <string name="weekly_widget">달의기록 주간</string>
+    <string name="showNextWeek">다음주 표시</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

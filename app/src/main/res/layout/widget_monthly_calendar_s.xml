@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:text="12"
                     android:textColor="@color/primaryText"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/bold_s"
                     android:textSize="18dp" />
 
             </LinearLayout>
@@ -97,6 +97,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12.00dp"
+                android:fontFamily="@font/regular_s"
                 android:layout_weight="1"/>
 
             <TextView
@@ -106,6 +107,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12.00dp"
+                android:fontFamily="@font/regular_s"
                 android:layout_weight="1"/>
 
             <TextView
@@ -115,6 +117,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12.00dp"
+                android:fontFamily="@font/regular_s"
                 android:layout_weight="1"/>
 
             <TextView
@@ -124,6 +127,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12.00dp"
+                android:fontFamily="@font/regular_s"
                 android:layout_weight="1"/>
 
             <TextView
@@ -133,6 +137,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12.00dp"
+                android:fontFamily="@font/regular_s"
                 android:layout_weight="1"/>
 
             <TextView
@@ -142,6 +147,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12.00dp"
+                android:fontFamily="@font/regular_s"
                 android:layout_weight="1"/>
 
             <TextView
@@ -151,6 +157,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="12.00dp"
+                android:fontFamily="@font/regular_s"
                 android:layout_weight="1"/>
         </LinearLayout>
 
@@ -169,7 +176,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
-                    android:paddingBottom="0dp" >
+                    android:paddingBottom="5dp" >
 
                     <ImageView
                         android:id="@+id/line0"
@@ -197,7 +204,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -213,7 +221,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -229,7 +238,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -245,7 +255,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -261,7 +272,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -277,7 +289,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -293,7 +306,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -454,7 +468,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
-                    android:paddingBottom="0dp" >
+                    android:paddingBottom="5dp" >
 
                     <ImageView
                         android:id="@+id/line1"
@@ -482,7 +496,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -498,7 +513,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -514,7 +530,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -530,7 +547,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -546,7 +564,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -562,7 +581,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -578,7 +598,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -738,7 +759,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
-                    android:paddingBottom="0dp" >
+                    android:paddingBottom="5dp" >
 
                     <ImageView
                         android:id="@+id/line2"
@@ -766,7 +787,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -782,7 +804,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -798,7 +821,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -814,7 +838,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -830,7 +855,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -846,7 +872,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -862,7 +889,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1022,7 +1050,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
-                    android:paddingBottom="0dp" >
+                    android:paddingBottom="5dp" >
 
                     <ImageView
                         android:id="@+id/line3"
@@ -1050,7 +1078,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1066,7 +1095,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1082,7 +1112,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1098,7 +1129,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1114,7 +1146,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1130,7 +1163,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1146,7 +1180,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1306,7 +1341,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
-                    android:paddingBottom="0dp" >
+                    android:paddingBottom="5dp" >
 
                     <ImageView
                         android:id="@+id/line4"
@@ -1334,7 +1369,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1350,7 +1386,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1366,7 +1403,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1382,7 +1420,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1398,7 +1437,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1414,7 +1454,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1430,7 +1471,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1590,7 +1632,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
-                    android:paddingBottom="0dp" >
+                    android:paddingBottom="5dp" >
 
                     <ImageView
                         android:id="@+id/line5"
@@ -1618,7 +1660,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1634,7 +1677,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1650,7 +1694,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1666,7 +1711,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1682,7 +1728,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1698,7 +1745,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
@@ -1714,7 +1762,8 @@
                                 android:layout_height="20.0dp"
                                 android:lines="1"
                                 android:singleLine="true"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/date"/>
 
                         </FrameLayout>
 
