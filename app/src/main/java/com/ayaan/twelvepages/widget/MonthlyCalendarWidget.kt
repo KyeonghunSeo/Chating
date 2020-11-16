@@ -215,14 +215,14 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                         calEndTime = tempCal.timeInMillis
                     }
 
-                    DateInfoManager.getHoliday(dateInfos[cellNum], tempCal)
-                    val color = getDateTextColor(cellNum, dateInfos[cellNum].holiday?.isHoli == true, false)
-
                     if(i == 0) {
                         rv.setTextViewText(dowIds[cellNum], AppDateFormat.simpleDow.format(tempCal.time))
-                        rv.setTextColor(dowIds[cellNum], color)
+                        rv.setTextColor(dowIds[cellNum], getDateTextColor(cellNum, false, false))
                         rv.setTextViewTextSize(dowIds[cellNum], TypedValue.COMPLEX_UNIT_DIP, dateTextSize - 1)
                     }
+
+                    DateInfoManager.getHoliday(dateInfos[cellNum], tempCal)
+                    val color = getDateTextColor(cellNum, dateInfos[cellNum].holiday?.isHoli == true, false)
 
                     rv.setTextViewText(dateIds[cellNum], String.format("%02d", tempCal.get(Calendar.DATE)))
                     rv.setTextViewTextSize(dateIds[cellNum], TypedValue.COMPLEX_UNIT_DIP, dateTextSize)
@@ -294,6 +294,7 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                                 val recordRv = getRecordRemoteView(view.length, view.cellNum)
 
                                 if (view.record.isSetCheckBox) {
+                                    recordRv.setViewVisibility(R.id.checkImg, View.VISIBLE)
                                     recordRv.setInt(R.id.checkImg, "setAlpha", lastAlpha)
                                     if(view.shape.fontColor) {
                                         recordRv.setInt(R.id.checkImg, "setColorFilter", color)
@@ -301,13 +302,14 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                                         recordRv.setInt(R.id.checkImg, "setColorFilter", AppTheme.primaryText)
                                     }
                                     if (view.record.isDone()) {
-                                        recordRv.setImageViewResource(R.id.checkImg, R.drawable.checked_fill)
-                                        recordRv.setTextViewText(R.id.valid_text, "     $title")
+                                        recordRv.setImageViewResource(R.id.checkImg, R.drawable.checked_small)
+                                        recordRv.setTextViewText(R.id.valid_text, "$title")
                                     } else {
-                                        recordRv.setImageViewResource(R.id.checkImg, R.drawable.uncheck)
-                                        recordRv.setTextViewText(R.id.valid_text, "     $title")
+                                        recordRv.setImageViewResource(R.id.checkImg, R.drawable.uncheck_small)
+                                        recordRv.setTextViewText(R.id.valid_text, "$title")
                                     }
                                 }else{
+                                    recordRv.setViewVisibility(R.id.checkImg, View.GONE)
                                     recordRv.setTextViewText(R.id.valid_text, " $title")
                                 }
 
@@ -342,30 +344,30 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                                     recordRv.setInt(R.id.valid_img, "setColorFilter", color)
                                 }
 
+                                if(lastAlpha == 0) {
 
-                                if(view.shape.isFillColor) {
-                                    recordRv.setTextColor(R.id.valid_text, fontColor)
-                                    recordRv.setInt(R.id.valid_img, "setAlpha", lastAlpha)
                                 }else {
-                                    if(lastAlpha == 0) {
-                                        recordRv.setTextColor(R.id.valid_text, Color.TRANSPARENT)
-                                    }else if(lastAlpha in 0..100){
-                                        if(view.shape.fontColor) {
-                                            recordRv.setTextColor(R.id.valid_text, color and 0x00FFFFFF or -0x80000000)
-                                        }else {
-                                            recordRv.setTextColor(R.id.valid_text, textColor and 0x00FFFFFF or -0x80000000)
-                                        }
+                                    if(view.shape.isFillColor) {
+                                        recordRv.setTextColor(R.id.valid_text, fontColor)
+                                        recordRv.setInt(R.id.valid_img, "setAlpha", lastAlpha)
                                     }else {
-                                        if(view.shape.fontColor) {
-                                            recordRv.setTextColor(R.id.valid_text, color)
+                                        if(lastAlpha in 0..100){
+                                            if(view.shape.fontColor) {
+                                                recordRv.setTextColor(R.id.valid_text, color and 0x00FFFFFF or -0x80000000)
+                                            }else {
+                                                recordRv.setTextColor(R.id.valid_text, textColor and 0x00FFFFFF or -0x80000000)
+                                            }
                                         }else {
-                                            recordRv.setTextColor(R.id.valid_text, textColor)
+                                            if(view.shape.fontColor) {
+                                                recordRv.setTextColor(R.id.valid_text, color)
+                                            }else {
+                                                recordRv.setTextColor(R.id.valid_text, textColor)
+                                            }
                                         }
                                     }
                                 }
 
                                 recordRv.setTextViewTextSize(R.id.valid_text, TypedValue.COMPLEX_UNIT_DIP, textSize)
-
                                 rv.addView(recordRows[view.cellNum / columns * maxRowItem + order], recordRv)
                             }else {
                                 if(view.length > 0) {

@@ -1,16 +1,19 @@
 package com.ayaan.twelvepages.widget
 
+import android.R.attr.bitmap
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.Gravity
 import android.view.View
 import android.widget.RemoteViews
 import com.ayaan.twelvepages.*
@@ -21,6 +24,7 @@ import com.ayaan.twelvepages.model.Folder
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.activity.WidgetSettingActivity
 import com.ayaan.twelvepages.ui.view.RecordView
+import com.ayaan.twelvepages.ui.view.base.DateBgSample
 import com.pixplicity.easyprefs.library.Prefs
 import io.realm.Realm
 import java.util.*
@@ -62,6 +66,9 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
             R.layout.widget_block_valid_5_s,
             R.layout.widget_block_valid_6_s,
             R.layout.widget_block_valid_7_s)
+    private val backgroudIds = arrayOf(
+            R.id.background0, R.id.background1, R.id.background2, R.id.background3, R.id.background4, R.id.background5, R.id.background6,
+            R.id.background7, R.id.background8, R.id.background9, R.id.background10, R.id.background11, R.id.background12, R.id.background13)
 
     companion object {
         private var weekPos = 0
@@ -109,11 +116,13 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
         font = Prefs.getInt("${widgetName}Font", 0)
         val rv = RemoteViews(context.packageName, if(font == 0) R.layout.widget_weekly_calendar else R.layout.widget_weekly_calendar_s)
         appWidgetManager.getAppWidgetOptions(appWidgetId)?.let {
-//            val minWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
-//            val maxWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
+            val minWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
+            val maxWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
             val minHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
             val maxHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
+            l("$maxWidth/$maxHeight")
         }
+        l("?")
         val alpha = Prefs.getInt("${widgetName}Transparency", 100) * 255 / 100
         textColor = Prefs.getInt("${widgetName}TextColor", AppTheme.secondaryText)
         textSize = Prefs.getFloat("${widgetName}TextSize", 8f) + 1
@@ -237,11 +246,14 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
         viewHolderList.clear()
         viewLevelStatus.status = Array(14){ "0" }
         dotCount = Array(14){ 0 }
-        recordRows.forEach {
-            rv.setViewVisibility(it, View.GONE)
-            rv.removeAllViews(it)
+        recordRows.forEachIndexed { index, id ->
+            rv.removeAllViews(id)
+            if(index % maxRowItem > 5) {
+                rv.setViewVisibility(id, View.GONE)
+            }
         }
         stickers.forEach { rv.setViewVisibility(it, View.GONE) }
+        //backgroudIds.forEach { rv.setImageViewBitmap(it, null) }
 
         val realm = Realm.getDefaultInstance()
         val folder = realm.where(Folder::class.java).equalTo("id", "calendar").findFirst()
@@ -282,6 +294,7 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
                                 val recordRv = getRecordRemoteView(view.length, view.cellNum)
 
                                 if (view.record.isSetCheckBox) {
+                                    recordRv.setViewVisibility(R.id.checkImg, View.VISIBLE)
                                     recordRv.setInt(R.id.checkImg, "setAlpha", lastAlpha)
                                     if(view.shape.fontColor) {
                                         recordRv.setInt(R.id.checkImg, "setColorFilter", color)
@@ -289,13 +302,14 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
                                         recordRv.setInt(R.id.checkImg, "setColorFilter", AppTheme.primaryText)
                                     }
                                     if (view.record.isDone()) {
-                                        recordRv.setImageViewResource(R.id.checkImg, R.drawable.checked_fill)
-                                        recordRv.setTextViewText(R.id.valid_text, "     $title")
+                                        recordRv.setImageViewResource(R.id.checkImg, R.drawable.checked_small)
+                                        recordRv.setTextViewText(R.id.valid_text, title)
                                     } else {
-                                        recordRv.setImageViewResource(R.id.checkImg, R.drawable.uncheck)
-                                        recordRv.setTextViewText(R.id.valid_text, "     $title")
+                                        recordRv.setImageViewResource(R.id.checkImg, R.drawable.uncheck_small)
+                                        recordRv.setTextViewText(R.id.valid_text, title)
                                     }
                                 }else{
+                                    recordRv.setViewVisibility(R.id.checkImg, View.GONE)
                                     recordRv.setTextViewText(R.id.valid_text, " $title")
                                 }
 
@@ -370,6 +384,10 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
                             rv.setInt(stickers[view.cellNum], "setAlpha", lastAlpha)
                             rv.setViewPadding(stickers[view.cellNum], 0, 0, dpToPx(5), 0)
                         }else if(formula == RecordCalendarAdapter.Formula.BACKGROUND) {
+//                            val proxy = Bitmap.createBitmap(dpToPx(30f).toInt(), dpToPx(100f).toInt(), Bitmap.Config.ARGB_8888)
+//                            val c = Canvas(proxy)
+//                            DateBgSample.draw(c, Paint(), view.record, dpToPx(30f), dpToPx(100f))
+//                            rv.setImageViewBitmap(backgroudIds[view.cellNum], proxy)
                         }else {
                             if(formula == RecordCalendarAdapter.Formula.DOT) {
                                 dotCount[view.cellNum] = dotCount[view.cellNum] + (view.childList?.size ?: 0)

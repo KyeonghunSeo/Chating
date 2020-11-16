@@ -177,7 +177,7 @@ class RecordListAdapter(val context: Context, val items: ArrayList<Record>, val 
             }
 
             if(record.isDone()) {
-                v.colorImg.setImageResource(R.drawable.checked_fill)
+                v.colorImg.setImageResource(R.drawable.check)
                 if(AppStatus.checkedRecordDisplay == 2 || AppStatus.checkedRecordDisplay == 3) {
                     v.titleText.paintFlags = v.titleText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }else {

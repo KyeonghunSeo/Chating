@@ -34,13 +34,6 @@ class WidgetSettingActivity : BaseActivity() {
         initShowNextWeek()
     }
 
-    private fun getWidgetTitle(): String {
-        return when(widgetName) {
-            "weeklyWidget" -> getString(R.string.weekly_widget)
-            else -> getString(R.string.monthly_widget)
-        }
-    }
-
     private fun initTransparency() {
         val progress = Prefs.getInt("${widgetName}Transparency", 100)
         transparencySeekBar.progress = progress
@@ -116,7 +109,7 @@ class WidgetSettingActivity : BaseActivity() {
                 7f -> 8f
                 8f -> 9f
                 9f -> 10f
-                10f -> 11f
+                10f -> 7f
                 else -> 7f
             }
             Prefs.putFloat("${widgetName}TextSize", newSize)

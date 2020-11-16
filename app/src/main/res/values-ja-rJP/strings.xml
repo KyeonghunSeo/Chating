@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">メモリアル</string>
+    <string name="cancel">キャンセル</string>
+    <string name="plz_wait">少々お待ちください…</string>
+    <string name="confirm">確認</string>
+    <string name="prev">前</string>
+    <string name="next">次</string>
+    <string name="title">タイトル</string>
+    <string name="empty">空いている</string>
+    <string name="untitle">タイトル無し</string>
+    <string name="mon">月</string>
+    <string name="tue">火</string>
+    <string name="wed">水</string>
+    <string name="thu">木</string>
+    <string name="fri">金</string>
+    <string name="sat">土</string>
+    <string name="sun">日</string>
+    <string name="type">タイプ</string>
+    <string name="style">スタイル</string>
+    <string name="color">カラー</string>
+    <string name="visible">表示</string>
+    <string name="unvisible">表示しない</string>
+    <string name="delete">削除</string>
+    <string name="start">スタート</string>
+    <string name="end">終了</string>
+    <string name="weekNum">%1$s週目</string>
+    <string name="setting">設定</string>
+    <string name="add_option">追加情報</string>
+    <string name="detail_info">その他</string>
+    <string name="memo">メモ</string>
+    <string name="main_text">本文</string>
+    <string name="location">場所</string>
+    <string name="set_time">時間設定</string>
+    <string name="alarm">お知らせ</string>
+    <string name="enter_memo">ここに内容を入力してください。</string>
+    <string name="set_alarm">お知らせ設定</string>
+    <string name="and_others">他%1$s個</string>
+    <string name="counts">%1$s個</string>
+    <string name="basic_info">基本情報</string>
+    <string name="alarm_at_time">当日</string>
+    <string name="alarm_at_9h">当日 午前 9時</string>
+    <string name="alarm_at_12h">当日 12時</string>
+    <string name="alarm_at_18h">当日 午後 6時</string>
+    <string name="alarm_at_b30m">30分前</string>
+    <string name="alarm_at_b1h">1時間前</string>
+    <string name="alarm_at_b1d">一日前</string>
+    <string name="alarm_at_b1w">一週間前</string>
+    <string name="delete_alarm">お知らせ削除</string>
+    <string name="no_repeat">繰り返しない</string>
+    <string name="daily">毎日</string>
+    <string name="weekly">毎週</string>
+    <string name="monthly">毎月</string>
+    <string name="yearly">毎年</string>
+    <string name="some_min">%1$s分</string>
+    <string name="some_hour">%1$s時間</string>
+    <string name="some_date">%1$s日</string>
+    <string name="some_week">%1$s週</string>
+    <string name="some_month">%1$s月</string>
+    <string name="some_year">%1$s年</string>
+    <string name="daily_interval">%1$s日ことに 繰り返し</string>
+    <string name="weekly_interval">%1$s週ことに%2$s 繰り返し</string>
+    <string name="monthly_interval">毎月 %1$s日 繰り返し</string>
+    <string name="monthly_w_interval">毎月 %1$s %2$s 繰り返し</string>
+    <string name="advanced_setting">詳細設定</string>
+    <string name="until">%1$sまで</string>
+    <string name="from">%1$sから</string>
+    <string name="to">%1$sまで</string>
+    <string name="passed_alarm">過ぎたお知らせ</string>
+    <string name="ring_alarm_at_time">%1$s お知らせ</string>
+    <string name="repeat">繰り返し</string>
+    <string name="set_until_date">終了日設定</string>
+    <string name="repeat_save">繰り返し %1$s 修正</string>
+    <string name="repeat_delete">繰り返し %1$s 削除</string>
+    <string name="how_apply">どんな風に適用しますか。</string>
+    <string name="apply_only">この %1$sだけ適用</string>
+    <string name="apply_after">この %1$s 含めて今後の全て%1$sに適用</string>
+    <string name="apply_all">全部適用</string>
+    <string name="date_of_total">%1$s日目</string>
+    <string name="drawing">手書き</string>
+    <string name="calendar_settings">カレンダースタイル設定</string>
+    <string name="add">追加</string>
+    <string name="tag">タグ</string>
+    <string name="enter_tag">タグ名前</string>
+    <string name="no_tag">タグなし</string>
+    <string name="total_count">総%1$s個</string>
+    <string name="delete_tag_sub">このタグが付いているすべての記録(総%1$s個)の中で該当されるタグが削除されます。</string>
+    <string name="keep">保管ボックス</string>
+    <string name="attachment">添付</string>
+    <string name="edit_template">テンプレート編集</string>
+    <string name="show_in_calendar">カレンダーに掲示</string>
+    <string name="delete_template">このテンプレートを削除しますか。</string>
+    <string name="delete_something">%1$s削除</string>
+    <string name="template_title">テンプレートの名前</string>
+    <string name="show">表示</string>
+    <string name="hide">隠す</string>
+    <string name="contents_example">Title</string>
+    <string name="add_new">新しく入力</string>
+    <string name="create_folder">フォルダ追加</string>
+    <string name="enter_folder_name">フォルダの名前を入力してください。</string>
+    <string name="select_date">日付の選択</string>
+    <string name="invalid_info">間違っている情報です。</string>
+    <string name="saved">保存されました。</string>
+    <string name="today">今日</string>
+    <string name="schedule">日付と時間</string>
+    <string name="first_text_1">ぼんやりした記録は</string>
+    <string name="first_text_2">はっきりした記憶よりも</string>
+    <string name="first_text_3">もっと価値がある。</string>
+    <string name="sign_in_with_google">スタート</string>
+    <string name="logo_text">ダイアリー</string>
+    <string name="logo_text_2">記\n録\n す\nる\nた\nの\nし\nさ</string>
+    <string name="logo_text_3">ダ\nイ\nア\nリ\nー</string>
+    <string name="logo_text_w">記録する楽しさ</string>
+    <string name="init_setting_script_0">お会いて来てうれしいです。%1$s様\nどんなダイアリータイプが要りますか。\n欲しいダイアリータイプの構成を選択してください。</string>
+    <string name="select_os_calendar">外部カレンダー持って来る</string>
+    <string name="search_tag">タグ選択</string>
+    <string name="edit_folder">フォルダ編集</string>
+    <string name="delete_folder">引き出し削除</string>
+    <string name="delete_folder_sub">この 引き出しに保管されたすべてのデータ(総%1$s個)がを削除されます。\n本当に削除しますか</string>
+    <string name="search_title_location_memo">タイトル, 場所,本文　検索する</string>
+    <string name="startdow">始まる曜日</string>
+    <string name="startdow_sub">週の開始曜日を選択してください</string>
+    <string name="week_display">公休日, 週末カラー</string>
+    <string name="lunar_display">陰暦表示</string>
+    <string name="account_settings">アカウント設定</string>
+    <string name="logout">ログアウト</string>
+    <string name="ask_logout">ログアウトしますか。</string>
+    <string name="small">小さく</string>
+    <string name="normal">基本</string>
+    <string name="big">大きく</string>
+    <string name="export">txtファイルで送る[ベータ]</string>
+    <string name="holi_display"> 公休日, 記念日 表示</string>
+    <string name="kr">大韓民国</string>
+    <string name="jp">日本</string>
+    <string name="holi_display_sub">公休日を表示する国を設定します。</string>
+    <string name="cal_text_size">記録 フォントのサイズ</string>
+    <string name="outside_month">前, 翌月表示</string>
+    <string name="connect_os_calendar">OS カレンダー参考</string>
+    <string name="countdown">カウントダウン</string>
+    <string name="planning">計画する</string>
+    <string name="write_everything">何を記録しますか</string>
+    <string name="clear_time">時間設定の解除</string>
+    <string name="one_day">一日</string>
+    <string name="duration_day">総%1$s日</string>
+    <string name="duration_min">総%1$s分</string>
+    <string name="duration_hour">総%1$s時間</string>
+    <string name="duration_min_hour">総%1$s時間 %2$s分</string>
+    <string name="edit">編集</string>
+    <string name="tasking">することを作る</string>
+    <string name="checkbox">チェックボックス</string>
+    <string name="checklist">チェックリスト</string>
+    <string name="percentage">達成パーセント</string>
+    <string name="long_click_to_show_explain">長くタップすると説明を見られます。</string>
+    <string name="deadline">期限</string>
+    <string name="photo">写真</string>
+    <string name="weblink">ウェブリンク</string>
+    <string name="shedule">スケジュール</string>
+    <string name="delete_shedule_sub">スケジュールの情報を排除します。</string>
+    <string name="weblink_sub">ウェブサイトのアドレスを入力してください。</string>
+    <string name="motto">一言</string>
+    <string name="motto_sample">知恵とは,\n考えが浮かぶ度に\nすぐ記録することだ</string>
+    <string name="about_us">ABOUT US</string>
+    <string name="search">検索</string>
+    <string name="evaluation">アプリ評価</string>
+    <string name="send_email">開発者にメールを送る</string>
+    <string name="vote_to_new_feature">新しい機能に投票する</string>
+    <string name="evaluate_text">開発者への関心や応援はいつも大きい力になります。:)</string>
+    <string name="email_text">トラブルがありましたらこちらへメールを送ってください。</string>
+    <string name="vote_text">\'メモリアル\'はユーザーと一緒に作るアプリです。\n投票数が多かった機能から優先的に開発されます。 </string>
+    <string name="help">問い合わせ</string>
+    <string name="no_records">この日の記録はないです。</string>
+    <string name="no_records_in_this_folder">保管ボックスに記録はないです。</string>
+    <string name="delete_checkbox_sub">チェックボックスの情報を排除しますか。</string>
+    <string name="delete_deadline_sub">期限を解除しますか。</string>
+    <string name="delete_percentage_sub">達成パーセントを削除しますか。</string>
+    <string name="premium">プレミアム</string>
+    <string name="premium_function">該当の機能はプレミアムの機能です。</string>
+    <string name="premium_sub">プレミアム エディション</string>
+    <string name="premium_dlg_sub">プレミアム エディションの色々な機能を見てから購読してください。</string>
+    <string name="add_checklist">チェックリスト追加</string>
+    <string name="edit_item">アイテム編集</string>
+    <string name="edit_title">アイテム名前</string>
+    <string name="delete_item">アイテム削除</string>
+    <string name="lunar_repeat">陰暦繰り返し</string>
+    <string name="dow_display">曜日の表示</string>
+    <string name="weekline_display">週間線表示</string>
+    <string name="enter_here">ここに入力してください</string>
+    <string name="delete_sub">本当に削除しますか。</string>
+    <string name="calendar">カレンダー</string>
+    <string name="folder">フォルダ</string>
+    <string name="check_option">完了した記録の表示</string>
+    <string name="check_option_0">基本</string>
+    <string name="check_option_1">ぼやかす</string>
+    <string name="check_option_2">削除線</string>
+    <string name="check_option_3">削除線及びぼやかす</string>
+    <string name="display_settings">インターフェース </string>
+    <string name="hide_in_calendar">カレンダーから隠す</string>
+    <string name="record">記録</string>
+    <string name="deleted">削除されました。</string>
+    <string name="move_record">記録移動</string>
+    <string name="to_calendar">カレンダーへ移動</string>
+    <string name="change_folder">保管ボックスの変更</string>
+    <string name="change_date">日付変更</string>
+    <string name="set_date">日付指定</string>
+    <string name="to_folder"> 保管ボックスへ移動</string>
+    <string name="tomorrow">明日</string>
+    <string name="yesterday">昨日</string>
+    <string name="min_before">%1$s分前</string>
+    <string name="hour_before">%1$s時間前</string>
+    <string name="date_before">%1$s日前</string>
+    <string name="min_after">%1$s分過ぎ</string>
+    <string name="hour_after">%1$s時間過ぎ</string>
+    <string name="hour_min_after">%1$s時間%2$s分過ぎ</string>
+    <string name="hour_min_before">%1$s時間%2$s分前</string>
+    <string name="date_over">%1$s日過ぎ</string>
+    <string name="date_after">%1$s日後</string>
+    <string name="new_template">ニューテンプレート</string>
+    <string name="new_tag">ニュータグ</string>
+    <string name="close">閉じる</string>
+    <string name="new_tag_sub">記録にタグをつけると早めに検索ができるし、有用な統計データを作れます。</string>
+    <string name="enter_tag_name">ここにタグの名前を入力</string>
+    <string name="plz_enter_tag_name">タグの名前を入力してください。</string>
+    <string name="edit_tag">タグ編集</string>
+    <string name="already_exist_tag">すでに存在するタグの名前です。</string>
+    <string name="init_text">前もって入力</string>
+    <string name="init_text_hint">ここに前もって内容を書いてからカーソルの位置を決めれます。</string>
+    <string name="cursor_pos">カーソル位置 : %1$s</string>
+    <string name="use">使用</string>
+    <string name="unuse">使用しない。</string>
+    <string name="calendarBlockStyle">カレンダーに表示方法</string>
+    <string name="image">絵</string>
+    <string name="shape">形</string>
+    <string name="preview">プレビュー</string>
+    <string name="edit_done">編集完了</string>
+    <string name="apply_textcolor">文字にも適用</string>
+    <string name="custom_time">指定された時間</string>
+    <string name="folder_type">フォルダパタン</string>
+    <string name="note">ノート</string>
+    <string name="default_color_palette_name">基本</string>
+    <string name="apring">春</string>
+    <string name="summer">夏</string>
+    <string name="fall">秋</string>
+    <string name="winter">冬</string>
+    <string name="now">今</string>
+    <string name="select_tag">タグ選択</string>
+    <string name="formula_background">背景</string>
+    <string name="formula_single_text">一行テキスト</string>
+    <string name="formula_multi_line_text">長いテキスト</string>
+    <string name="formula_symbol">シンボル</string>
+    <string name="formula_dot">点</string>
+    <string name="formula_bottom_single_text">下段一行テキスト</string>
+    <string name="formula_sticker">ステッカー</string>
+    <string name="formula_background_text">背景テキスト</string>
+    <string name="shape_blank">空白</string>
+    <string name="shape_text">文字</string>
+    <string name="shape_rect_fill">背景色</string>
+    <string name="shape_rect_stroke">枠</string>
+    <string name="shape_round_fill">丸い枠背景色</string>
+    <string name="shape_round_stroke">丸い枠</string>
+    <string name="shape_bold_hatched">太い斜線</string>
+    <string name="shape_thin_hatched">斜線</string>
+    <string name="shape_upper_line">オーバーライン</string>
+    <string name="shape_under_line">アンダーライン</string>
+    <string name="shape_neon_pen">蛍光ペン</string>
+    <string name="shape_line">区間線</string>
+    <string name="shape_dash">区間点線</string>
+    <string name="shape_arrow">区間矢印</string>
+    <string name="shape_dash_arrow">区間点線矢印</string>
+    <string name="weekNumDisplay">週目を表示</string>
+    <string name="s_basic">基本</string>
+    <string name="s_work">ビジネス</string>
+    <string name="recent_sticker_empty">最近使ったステッカーがないです。</string>
+    <string name="alarm_setting">お知らせ設定</string>
+    <string name="default_alarm_time">基本のお知らせ時間</string>
+    <string name="morningAlarmTime">朝</string>
+    <string name="afternoonAlarmTime">昼</string>
+    <string name="eveningAlarmTime">夕方</string>
+    <string name="nightAlarmTime">夜</string>
+    <string name="device_calendar">OSカレンダー</string>
+    <string name="task_setting">完了された記録</string>
+    <string name="os_calendar_style">OSカレンダー表示　スタイル</string>
+    <string name="reference_os_calendar">OSカレンダー 参照する</string>
+    <string name="no_reference">参照しない</string>
+    <string name="referencing">%1$s個　カレンダー参照中</string>
+    <string name="share">送り出し</string>
+    <string name="date_time">日時</string>
+    <string name="time">時間</string>
+    <string name="copy">コピー</string>
+    <string name="move_date">日付移動</string>
+    <string name="moved">移動されました。</string>
+    <string name="paste">選択された日に\n貼り付ける</string>
+    <string name="copied">コピーされました。</string>
+    <string name="cut">切り取り</string>
+    <string name="recent_color_empty">最近使ったカラーがないです。</string>
+    <string name="recent_color_pack"> 最近使ったカラー</string>
+    <string name="cant_deleted_last_one">最後のアイテムは削除できません</string>
+    <string name="color_pack_setting">カラーパック設定</string>
+    <string name="not_found_web">お探しのページは見つからないです。</string>
+    <string name="go_today">今日へ移動</string>
+    <string name="no_alarm">お知らせなし</string>
+    <string name="galaxy">銀河</string>
+    <string name="export_done">[メモリアル] フォルダに送り出すのが完了されました。</string>
+    <string name="template">テンプレート</string>
+    <string name="calendar_settings_sub">カレンダーに表示する情報やスタイル設定</string>
+    <string name="template_use">テンプレート使用</string>
+    <string name="thin">ぼんやり</string>
+    <string name="bold">濃く</string>
+    <string name="formula_date_point">日付強調</string>
+    <string name="undone_records">未完了: </string>
+    <string name="import_external_data">外部データ</string>
+    <string name="import_naver_calendar">ネイバーカレンダーを持って来る</string>
+    <string name="this_is_os_instance"> 外部データはApp内でが編集できません。</string>
+    <string name="backup">バックアップ</string>
+    <string name="last_backup_time">最後のバックアップ:</string>
+    <string name="success_backup">バックアップ完了</string>
+    <string name="diary_set_0_title">基本</string>
+    <string name="diary_set_0_sub">日程とする事を管理し\n重要なことをメモします。\n初めの構成で始めるのによいです。</string>
+    <string name="diary_set_1_title">プランナー</string>
+    <string name="diary_set_1_sub">日程を時間別で管理し\nする事の重要度によって異に表示します。\n長い日程やプロジェクトは別に区分し\n強調して表示します。\n忙しいスケジュール管理が必要な方々に\n優れた構成です。</string>
+    <string name="diary_set_2_title">日記帳</string>
+    <string name="diary_set_2_sub">些細な日常, 浮かぶことを記録して,\nその日その日の感情をステッカーで表示します。\n日記帳や日付ノートが必要な方々に\n優れた構成です。</string>
+    <string name="diary_set_3_title">自分だけのダイアリー</string>
+    <string name="diary_set_3_sub">完全な白紙から始まります。\n少し難しく感じられますが\n初めから自分だけの方式で\nダイアリーの構成ができます。</string>
+    <string name="init_setting_info">初めに構成されたダイアリーは使うたびに自由に変更できます</string>
+    <string name="init_setting_script_1">すでに使っているOSカレンダーがありますか。\n必要であればカレンダー接近権限を獲得した後に\n参照するカレンダーを選択してください。</string>
+    <string name="last_setting_script">もう、最後です。\n心に刻む言葉や目標はあれば書いてみたら</string>
+    <string name="init_loading_text">ダイアリーを構成中です。\n少々お待ちください。</string>
+    <string name="upgrade_premium">購読する</string>
+    <string name="total_records">今までの記録: 総%1$s個</string>
+    <string name="symbol">シンボル</string>
+    <string name="very_big">とても大きく</string>
+    <string name="move_to_keep">保管ボックスへ移動</string>
+    <string name="move_to_calendar">カレンダーへ移動</string>
+    <string name="date">日付</string>
+    <string name="doned">完了される</string>
+    <string name="done">完了</string>
+    <string name="done_when">完了日: %1$s</string>
+    <string name="due">%1$s残り</string>
+    <string name="overdue">%1$s過ぎ</string>
+    <string name="all_done">全て完了</string>
+    <string name="all_doned">全て完了される</string>
+    <string name="add_photo">写真追加</string>
+    <string name="add_web_link">ウェーブリンク追加</string>
+    <string name="schedule_info">スケジュール情報</string>
+    <string name="task_info">する事の情報</string>
+    <string name="already_active_info">すでに活性化された情報です。</string>
+    <string name="delete_checklist_sub">チェックボックスの情報を削除しますか</string>
+    <string name="shape_range">区間</string>
+    <string name="shape_dash_range">点線区間</string>
+    <string name="photos_this_day">この日の写真</string>
+    <string name="no_show_this_day">今日,一日見ない</string>
+    <string name="very_small">とても小さく</string>
+    <string name="premium_item_0_title">広告排除</string>
+    <string name="premium_item_0_sub">広告なしでもっと快適に記録してみてください。</string>
+    <string name="premium_item_1_title">写真添付</string>
+    <string name="premium_item_1_sub">記録に写真を添付してください\n記録がもっと豊かになります。</string>
+    <string name="premium_item_2_title">データ自動バックアップ</string>
+    <string name="premium_item_2_sub">自動でデータをバックアップして\nもっと安全にデータ管理ができます。</string>
+    <string name="premium_item_3_title">無制限テンプレート</string>
+    <string name="premium_item_3_sub">テンプレートを自由に作り\n自分だけのダイアリーを作ってみてください</string>
+    <string name="premium_item_4_title">プレミアム　ステッカー</string>
+    <string name="premium_item_4_sub">500個を超える様々なステッカーで\nもっと格好良くデコレーションしてみてください。\nプレミアム　ステッカーでは続けて追加されます。</string>
+    <string name="premium_item_5_title">その他の全て機能の解除</string>
+    <string name="premium_item_5_sub">様々な形でカレンダーを飾り\nディーデーを設定して記念日を記念できます。\nすべての機能を活用して自分だけのダイアリーを完成してください。</string>
+    <string name="login_backup_text">すべての記録は選択したアカウントに安全に保管されます。</string>
+    <string name="long_tab_to_move">長く押すと順番が変更できます。</string>
+    <string name="version_is">バージョン%1$s</string>
+    <string name="latest_ver">最新</string>
+    <string name="need_update">アップデート可能</string>
+    <string name="history">ヒストリー</string>
+    <string name="s_finance">金融, 財務</string>
+    <string name="first_record_is">初めの記録 : </string>
+    <string name="last_record_is">最後の記録 : </string>
+    <string name="email">メール</string>
+    <string name="request">申し込む</string>
+    <string name="support">問い合わせ</string>
+    <string name="show_more">もっと見る</string>
+    <string name="empty_records">この日の記録はないです。</string>
+    <string name="rememer_this_day">思い出</string>
+    <string name="before_month_records">一か月前のこの日の記録</string>
+    <string name="before_year_records">1年前のこの日の記録</string>
+    <string name="todo">する事</string>
+    <string name="select_color">カラー選択</string>
+    <string name="filter_checkbox">チェックボックス可否</string>
+    <string name="filter_photo">写真可否</string>
+    <string name="no_keyword">キーワードなし</string>
+    <string name="whole_range">全体の期間</string>
+    <string name="dayview_settings">日刊画面及びリストのスタイル設定</string>
+    <string name="show_updated_time">最後の修正時間の表示</string>
+    <string name="rc_photo_this_day">この日に撮った写真を\n一緒に表示してください。</string>
+    <string name="record_list">記録リスト</string>
+    <string name="dayview">日刊画面</string>
+    <string name="display_record_divider">リスト区分線表示</string>
+    <string name="record_about_this_tag">このタグが付いた記録</string>
+    <string name="show_all">すべて見る</string>
+    <string name="total_tag">タグ: 総%1$s個</string>
+    <string name="s_fantasy">ファンタジー</string>
+    <string name="s_body">健康, ジム</string>
+    <string name="sticker_pack_setting">ステッカーパック設定</string>
+    <string name="s_food">食べ物</string>
+    <string name="s_peaple">人々</string>
+    <string name="s_caligraphy">カリグラフィー</string>
+    <string name="s_weather">天気</string>
+    <string name="sticker_position">ステッカー位置</string>
+    <string name="s_dogs">子犬</string>
+    <string name="s_pet">ペット</string>
+    <string name="s_agri">農業</string>
+    <string name="shape_color_pen">色鉛筆</string>
+    <string name="shape_rect_fill_blur">ぼかした背景色</string>
+    <string name="s_office">オフィス</string>
+    <string name="s_bakery">ベーカリ</string>
+    <string name="s_mental">メンタル</string>
+    <string name="s_school">学校</string>
+    <string name="s_operation">経営</string>
+    <string name="s_cloth">衣服</string>
+    <string name="try_again_after_min">1分後にもう一度トライしてください。</string>
+    <string name="show_now">今見る</string>
+    <string name="later">後で</string>
+    <string name="event">日程</string>
+    <string name="important_event">大事な日程</string>
+    <string name="important">重要</string>
+    <string name="new_record">新しい記録</string>
+    <string name="emergency">急ぐ事</string>
+    <string name="important_todo">急ぐ事</string>
+    <string name="plan">計画</string>
+    <string name="diary">日記</string>
+    <string name="discard_blank_record">何も記録されていないので捨てます。</string>
+    <string name="scrap_and_open">スクラップ後に開く</string>
+    <string name="scrap">スクラップする</string>
+    <string name="cal_font_width">フォントの太さ</string>
+    <string name="ocean">オーシャン</string>
+    <string name="scrap_web_page">ウェーブページのスクラップ</string>
+    <string name="scrap_text">テキストのスクラップ</string>
+    <string name="mirror_sea">海の鏡</string>
+    <string name="flood_night">パステル</string>
+    <string name="to_dot">点で表示</string>
+    <string name="you_are_premium">プレミアム　エディションを購読中</string>
+    <string name="thank_you_subscribe">プレミアム　エディションの購読完了</string>
+    <string name="thank_you_subscribe_sub">プレミアムを購読していただきありがとうございます。\n今からは様々なプレミアムの機能で\nもっと価値ある記録を残して下さい。\n\n購読キャンセルはGoogle Playを通じていつでも可能です。\n</string>
+    <string name="upgrade_premium_sub">初月は無料（free）ですが以後は月々１０００円[年間請求]</string>
+    <string name="upgrade_premium_sub_sub">購読はいつでもキャンセルできます。<font fgcolor='#47b2f7'>[キャンセル方法]</font></string>
+    <string name="show_record_view_style">形表示</string>
+    <string name="s_emoji">絵文字</string>
+    <string name="delete_countdown">カウントダウン排除</string>
+    <string name="countdown_type">カウントダウン タイプ</string>
+    <string name="countdown_fun">前の日付カウントする</string>
+    <string name="anniversary">記念日</string>
+    <string name="dday">ディーデー</string>
+    <string name="dday_sub">当日はD-dayで表示</string>
+    <string name="anniversary_sub">当日を1日で表示</string>
+    <string name="count">カウント</string>
+    <string name="no_count">カウントしない</string>
+    <string name="widget_setting">ウェジェット設定</string>
+    <string name="transparency">透明度</string>
+    <string name="no_cloud_data">同期されるデータがないです。</string>
+    <string name="sync">同期</string>
+    <string name="font">フォント</string>
+    <string name="os_font">携帯の基本フォント</string>
+    <string name="moon_record_font">メモリアル フォント</string>
+    <string name="app_share_text">メモリアル –日常を記録する 楽しさ\n\nhttp://play.google.com/store/apps/details?id=com.ayaan.twelvepages</string>
+    <string name="app_share_btn">共有して可愛いステッカーをもらう</string>
+    <string name="daydivider_display">日刊線表示</string>
+    <string name="s_weather_2">天気(手描き)</string>
+    <string name="s_food_water">食べ物と飲み物</string>
+    <string name="formula_date_bg">日付背景</string>
+    <string name="decoration">デコレーション</string>
+    <string name="recording">記録する</string>
+    <string name="date_bg_color">背景色</string>
+    <string name="date_bg_hatched">斜線</string>
+    <string name="date_bg_bold_hatched">太い斜線</string>
+    <string name="date_bg_circle_dot_pattern">ドット柄</string>
+    <string name="text_color">文字のカラー</string>
+    <string name="suggestion_instagram">Instagramをフォローして色々な情報を得ながらコミュニケーションをしてみてください。</string>
+    <string name="go_insta">Instagram 見回す</string>
+    <string name="s_medical">医療</string>
+    <string name="instagram">Instagram</string>
+    <string name="etc">その他</string>
+    <string name="share_app">アプリ共有する</string>
+    <string name="background_weight">濃い</string>
+    <string name="background_area">エリア</string>
+    <string name="background_area_all">全体</string>
+    <string name="background_area_bottom_ribbon">下段</string>
+    <string name="pattern">柄</string>
+    <string name="background_area_top_date">上段</string>
+    <string name="dayview_animation">日刊画面の転換効果</string>
+    <string name="dayview_animation_sub">日刊画面の表示にトラブルがありましたらこのオプションを消すのをお勧め</string>
+    <string name="view">閲覧する</string>
+    <string name="record_with_this_photo">この写真を添付して記録する</string>
+    <string name="super_big">とても大きく</string>
+    <string name="long_tab_to_view">アイテムを長くタブするとプレビューできます</string>
+    <string name="forest_1">こんもりとした森</string>
+    <string name="forest_2">初秋の森</string>
+    <string name="s_daily">日常</string>
+    <string name="s_flower">花</string>
+    <string name="try_again">トラブルがありました。もう一度やり直してください</string>
+    <string name="first_dayview_hide_title">ヘルプ</string>
+    <string name="first_dayview_hide_sub">もし、日刊画面が閉じれた際にはアプリが強制に終了する現状が発生しますか。\nそうでしたらメニュー > 設定に行って日刊画面の転換効果をオフで設定をお願いします。</string>
+    <string name="leave">脱退する</string>
+    <string name="load">データを取り寄せる</string>
+    <string name="ask_leave">本当にアカウントを削除しますか。\n今まで記録したすべての記録がなくなります。</string>
+    <string name="cal_date_text_size">日付及び曜日のフォントのサイズ</string>
+    <string name="m">달</string>
+    <string name="o">의</string>
+    <string name="oo">기</string>
+    <string name="n"> 록 </string>
+
+    <string-array name="holidays">
+        <item>@string/unvisible</item>
+       <item>@string/kr</item>
+    </string-array>
+
+    <string-array name="day_of_weeks">
+        <item>@string/sun</item>
+        <item>@string/mon</item>
+        <item>@string/tue</item>
+        <item>@string/wed</item>
+        <item>@string/thu</item>
+        <item>@string/fri</item>
+        <item>@string/sat</item>
+    </string-array>
+
+    <string-array name="day_of_weeks_eng">
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
+
+    <string-array name="alarms">
+        <item>@string/alarm_at_time</item>
+        <item>@string/alarm_at_9h</item>
+        <item>@string/alarm_at_12h</item>
+        <item>@string/alarm_at_18h</item>
+        <item>@string/alarm_at_b30m</item>
+        <item>@string/alarm_at_b1h</item>
+        <item>@string/alarm_at_b1d</item>
+        <item>@string/alarm_at_b1w</item>
+    </string-array>
+
+    <string-array name="singleline_texts">
+        <item>夜の約束</item>
+        <item>宅配</item>
+        <item>誕生日パーティー</item>
+        <item>ジム</item>
+        <item>ヨーガ</item>
+        <item>2時打合せ</item>
+        <item>4時打合せ</item>
+    </string-array>
+
+    <string-array name="range_texts">
+        <item>夏休み</item>
+        <item>中間テスト</item>
+        <item>ダイエット</item>
+        <item>プロジェクト </item>
+        <item>海外旅行</item>
+    </string-array>
+
+    <string-array name="multiline_texts">
+        <item>いい気分~ 公園の散歩!</item>
+        <item>諦めないでゆっくりゆうっくり!</item>
+        <item>知恵とは,\n考えが浮かぶ度に\nすぐ記録することだ</item>
+        <item>星を歌う心で死んでいく全てのものを恋をせよ。 </item>
+    </string-array>
+
+</resources>

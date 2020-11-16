@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.ayaan.twelvepages.dpToPx
+import com.ayaan.twelvepages.l
 import com.ayaan.twelvepages.model.Record
 import com.ayaan.twelvepages.ui.view.CalendarView
 import com.ayaan.twelvepages.ui.view.RecordView

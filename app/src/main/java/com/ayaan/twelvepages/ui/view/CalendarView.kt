@@ -281,7 +281,7 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
             targetDateHolder = this
             v.holiText.text = dateInfo.getSelectedString()
             v.diffText.text = when(Locale.getDefault().language) {
-                "ko" -> dateInfo.getDiffDateString()
+                "ko", "ja" -> dateInfo.getDiffDateString()
                 else -> dateInfo.getSimpleDiffDateString()
             }
 
