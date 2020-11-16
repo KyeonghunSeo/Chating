@@ -175,8 +175,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingBottom="5dp" >
+                    android:orientation="vertical" >
 
                     <ImageView
                         android:id="@+id/line0"
@@ -467,8 +466,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingBottom="5dp" >
+                    android:orientation="vertical" >
 
                     <ImageView
                         android:id="@+id/line1"
@@ -758,8 +756,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingBottom="5dp" >
+                    android:orientation="vertical" >
 
                     <ImageView
                         android:id="@+id/line2"
@@ -1049,8 +1046,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingBottom="5dp" >
+                    android:orientation="vertical" >
 
                     <ImageView
                         android:id="@+id/line3"
@@ -1340,8 +1336,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingBottom="5dp" >
+                    android:orientation="vertical" >
 
                     <ImageView
                         android:id="@+id/line4"
@@ -1631,8 +1626,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingBottom="5dp" >
+                    android:orientation="vertical" >
 
                     <ImageView
                         android:id="@+id/line5"

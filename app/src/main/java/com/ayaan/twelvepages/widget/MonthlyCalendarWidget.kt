@@ -345,7 +345,8 @@ class MonthlyCalendarWidget : AppWidgetProvider() {
                                 }
 
                                 if(lastAlpha == 0) {
-
+                                    recordRv.setTextColor(R.id.valid_text, Color.TRANSPARENT)
+                                    recordRv.setInt(R.id.valid_img, "setAlpha", 0)
                                 }else {
                                     if(view.shape.isFillColor) {
                                         recordRv.setTextColor(R.id.valid_text, fontColor)
