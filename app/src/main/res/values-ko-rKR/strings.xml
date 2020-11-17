@@ -493,7 +493,7 @@
     <string name="s_flower">꽃</string>
     <string name="try_again">문제가 발생했습니다. 다시 시도 해주세요.</string>
     <string name="first_dayview_hide_title">도움말</string>
-    <string name="first_dayview_hide_sub"><![CDATA[혹시 일간화면이 닫힐때 앱이 강제로 종료되는 현상이 발생하나요?\n그렇다면 메뉴 > 설정으로 가셔서 일간화면 전환 애니메이션을 끔으로 설정해주시기 바랍니다.]]></string>
+    <string name="first_dayview_hide_sub">이곳은 일간화면 입니다.\n일간화면에서는 기록, 스티커, 날짜배경등을 수정 할 수 있습니다.\n\n혹시 일간화면에 아무것도 표시되지 않는다면\n메뉴 > 설정으로 가셔서 일간화면 전환 애니메이션을 끔으로 설정해주시기 바랍니다.</string>
     <string name="leave">탈퇴하기</string>
     <string name="load">데이터 불러오기</string>
     <string name="ask_leave">정말 계정을 삭제하시겠습니까?\n지금까지 기록한 모든 기록이 소멸됩니다.</string>

@@ -18,6 +18,8 @@ import kotlinx.android.synthetic.main.list_item_checklist.view.*
 import kotlinx.android.synthetic.main.list_item_checklist_add.view.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CheckListView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : RecyclerView(context, attrs, defStyleAttr) {
@@ -116,6 +118,26 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
                     showDialog(dialog, true, true, true, false)
                 }
 
+                v.upBtn.setOnClickListener {
+                    val index = items.indexOf(item)
+                    if(index > 0) {
+                        Collections.swap(items, index, index-1)
+                        notifyItemMoved(index, index-1)
+                    }
+                    setNewJsonArray()
+                    save()
+                }
+
+                v.downBtn.setOnClickListener {
+                    val index = items.indexOf(item)
+                    if(index < items.size - 1) {
+                        Collections.swap(items, index, index+1)
+                        notifyItemMoved(index, index+1)
+                    }
+                    setNewJsonArray()
+                    save()
+                }
+
                 v.setOnLongClickListener {
                     showDialog(CustomDialog(context as Activity, context.getString(R.string.delete_item),
                             v.titleText.text.toString(), null) { result, _, text ->
@@ -152,6 +174,14 @@ class CheckListView @JvmOverloads constructor(context: Context, attrs: Attribute
             items.remove(item)
             notifyItemRemoved(position)
             save()
+        }
+    }
+
+    private fun setNewJsonArray() {
+        jsonArray = JSONArray().apply {
+            items.forEach {
+                put(it)
+            }
         }
     }
 

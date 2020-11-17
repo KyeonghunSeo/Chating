@@ -143,6 +143,17 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     fun show() {
         if(AppStatus.isDayViewAnimation) {
+            if(!Prefs.getBoolean("first_dayview_hide_success", false)) {
+                MainActivity.instance?.let {
+                    val dialog = CustomDialog(it,
+                            it.getString(R.string.first_dayview_hide_title),
+                            it.getString(R.string.first_dayview_hide_sub), null) { result, option, _ ->
+                    }
+                    showDialog(dialog, true, true, true, false)
+                    dialog.hideCancelBtn()
+                }
+            }
+
             viewMode = ViewMode.ANIMATING
             visibility = View.VISIBLE
             initTime(MainActivity.getTargetCal()?.timeInMillis ?: System.currentTimeMillis())
@@ -211,20 +222,7 @@ class DayPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         }
     }
 
-    fun hide(isCheckFirst: Boolean = true) {
-        if(isCheckFirst && !Prefs.getBoolean("first_dayview_hide_success", false)) {
-            MainActivity.instance?.let {
-                val dialog = CustomDialog(it,
-                        it.getString(R.string.first_dayview_hide_title),
-                        it.getString(R.string.first_dayview_hide_sub), null) { result, option, _ ->
-                    hide(isCheckFirst = false)
-                }
-                showDialog(dialog, true, true, true, false)
-                dialog.hideCancelBtn()
-            }
-            return
-        }
-
+    fun hide() {
         if(AppStatus.isDayViewAnimation) {
             MainActivity.getTargetCalendarView()?.getSelectedView()?.let { dateCell ->
                 val dataSize = MainActivity.getTargetCalendarView()?.getSelectedViewHolders()?.size ?: 0

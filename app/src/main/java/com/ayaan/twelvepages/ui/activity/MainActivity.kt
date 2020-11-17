@@ -86,13 +86,6 @@ class MainActivity : BaseActivity() {
 
     lateinit var viewModel: MainViewModel
     private var reservedIntentAction: Runnable? = null
-    private val briefingHander = @SuppressLint("HandlerLeak")
-    object : Handler() {
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-            sendEmptyMessageDelayed(0, 5000)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,6 +112,7 @@ class MainActivity : BaseActivity() {
                         2. 이제 위젯에서 핸드폰 <-> 달의기록 폰트 변경이 가능합니다.
                         3. 영어 버전을 지원합니다.
                         4. 일본어 버전을 지원합니다.
+                        5. 체크리스트 순서조정이 가능합니다.
                         
                         * 다음 업데이트에서는 위젯에서 날짜배경이 보일수 있도록 작업중입니다. 조금만 기다려주세요!
                     """.trimIndent(), null, R.drawable.info) { result, _, _ ->

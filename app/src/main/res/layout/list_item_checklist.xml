@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -11,18 +12,41 @@
        android:padding="5dp"
        android:layout_marginRight="5dp"
        android:layout_gravity="center_vertical"
-       android:tint="@color/secondaryText"
        android:src="@drawable/check"
-       android:background="?android:attr/selectableItemBackground"/>
+       android:background="?android:attr/selectableItemBackground"
+       app:tint="@color/secondaryText" />
 
    <TextView
        android:id="@+id/titleText"
-       android:layout_width="wrap_content"
+       android:layout_width="0dp"
        android:layout_height="30dp"
+       android:layout_weight="1"
        android:gravity="center_vertical"
        android:textSize="14dp"
        android:textColor="@color/secondaryText"
        android:text="title"
        android:background="?android:attr/selectableItemBackground"/>
+
+   <ImageView
+       android:id="@+id/upBtn"
+       android:layout_width="30dp"
+       android:layout_height="30dp"
+       android:paddingTop="8dp"
+       android:paddingBottom="6dp"
+       android:layout_gravity="center_vertical"
+       android:src="@drawable/arrow_up"
+       android:background="?android:attr/selectableItemBackground"
+       app:tint="@color/disableText" />
+
+   <ImageView
+       android:id="@+id/downBtn"
+       android:layout_width="30dp"
+       android:layout_height="30dp"
+       android:paddingTop="6dp"
+       android:paddingBottom="8dp"
+       android:layout_gravity="center_vertical"
+       android:src="@drawable/arrow_down"
+       android:background="?android:attr/selectableItemBackground"
+       app:tint="@color/disableText" />
 
 </LinearLayout>
