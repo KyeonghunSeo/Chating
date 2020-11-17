@@ -437,7 +437,7 @@
     <string name="you_are_premium">プレミアム　エディションを購読中</string>
     <string name="thank_you_subscribe">プレミアム　エディションの購読完了</string>
     <string name="thank_you_subscribe_sub">プレミアムを購読していただきありがとうございます。\n今からは様々なプレミアムの機能で\nもっと価値ある記録を残して下さい。\n\n購読キャンセルはGoogle Playを通じていつでも可能です。\n</string>
-    <string name="upgrade_premium_sub">初月は無料ですが以後は月々１０００円[年間請求]</string>
+    <string name="upgrade_premium_sub">初月は無料ですが以後は月々１００円[年間請求]</string>
     <string name="upgrade_premium_sub_sub">購読はいつでもキャンセルできます。<font fgcolor='#47b2f7'>[キャンセル方法]</font></string>
     <string name="show_record_view_style">形表示</string>
     <string name="s_emoji">絵文字</string>
