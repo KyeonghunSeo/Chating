@@ -120,9 +120,7 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
             val maxWidth = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
             val minHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
             val maxHeight = it.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
-            l("$maxWidth/$maxHeight")
         }
-        l("?")
         val alpha = Prefs.getInt("${widgetName}Transparency", 100) * 255 / 100
         textColor = Prefs.getInt("${widgetName}TextColor", AppTheme.secondaryText)
         textSize = Prefs.getFloat("${widgetName}TextSize", 8f) + 1

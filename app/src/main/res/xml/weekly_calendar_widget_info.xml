@@ -5,7 +5,7 @@
     android:initialLayout="@layout/widget_monthly_calendar"
     android:minWidth="250dp"
     android:minHeight="110dp"
-    android:previewImage="@drawable/widget_example"
+    android:previewImage="@drawable/weekly_widget_sample"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="3600000"
     android:widgetCategory="home_screen" />

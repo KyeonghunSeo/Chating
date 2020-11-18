@@ -105,7 +105,6 @@ class MainActivity : BaseActivity() {
 
         val ver = packageManager.getPackageInfo(App.context.packageName, 0).versionName
         if (Prefs.getString("last_patch_note_ver", "") != ver) {
-            Prefs.putBoolean("first_dayview_hide_success", true)
             val dialog = CustomDialog(this@MainActivity, "$ver 패치노트",
                     """
                         1. 이제 주간 위젯을 사용 할 수 있습니다. 일정이 많아 월간 위젯에서 일정이 잘리셨던 분들은 주간 위젯을 사용해보세요.
@@ -121,6 +120,7 @@ class MainActivity : BaseActivity() {
             dialog.hideCancelBtn()
             dialog.setSubTextSize(12f)
             Prefs.putString("last_patch_note_ver", ver)
+            Prefs.putBoolean("first_dayview_hide_success", true)
         }
     }
 

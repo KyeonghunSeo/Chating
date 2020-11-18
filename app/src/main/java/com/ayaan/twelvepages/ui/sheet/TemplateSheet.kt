@@ -6,8 +6,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
-import android.media.ExifInterface
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -31,14 +29,18 @@ import com.ayaan.twelvepages.ui.dialog.BottomSheetDialog
 import com.ayaan.twelvepages.ui.dialog.StickerPickerDialog
 import com.ayaan.twelvepages.viewmodel.MainViewModel
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
 import com.google.android.gms.ads.AdRequest
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.sheet_template.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -54,11 +56,11 @@ class TemplateSheet(dtStart: Long, dtEnd: Long, val photo: Photo? = null) : Bott
         if (template != null) {
             when (action) {
                 0 -> {
-                    if(photo != null) {
+                    if (photo != null) {
                         saveRecordWithPhoto(template, action, photo)
-                    }else {
+                    } else {
                         MainActivity.getViewModel()?.startNewRecordSheet(template, startCal.timeInMillis, endCal.timeInMillis)
-                        dismiss()   
+                        dismiss()
                     }
                 }
                 1 -> {
@@ -69,9 +71,9 @@ class TemplateSheet(dtStart: Long, dtEnd: Long, val photo: Photo? = null) : Bott
                     }
                 }
                 else -> {
-                    if(photo != null) {
+                    if (photo != null) {
                         saveRecordWithPhoto(template, action, photo)
-                    }else {
+                    } else {
                         MainActivity.getViewModel()?.saveRecordDirectly(template, startCal.timeInMillis, endCal.timeInMillis)
                         dismiss()
                         toast(R.string.saved)
@@ -261,42 +263,38 @@ class TemplateSheet(dtStart: Long, dtEnd: Long, val photo: Photo? = null) : Bott
         try {
             MainActivity.instance?.let { mainActivity ->
                 mainActivity.showProgressDialog(null)
-                Glide.with(mainActivity).asBitmap().load(photo.url)
-                        .into(object : SimpleTarget<Bitmap>(){
-                            override fun onResourceReady(resource: Bitmap,
-                                                         transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?) {
-                                l("사진 크기 : ${resource.rowBytes} 바이트")
-                                val imageId = UUID.randomUUID().toString()
-                                val ref = FirebaseStorage.getInstance().reference
-                                        .child("${FirebaseAuth.getInstance().uid}/$imageId.jpg")
-                                val baos = ByteArrayOutputStream()
-                                resource.compress(Bitmap.CompressFormat.JPEG, 50, baos)
-                                val uploadTask = ref.putBytes(baos.toByteArray())
-                                uploadTask.addOnFailureListener {
-                                    mainActivity.hideProgressDialog()
-                                }.addOnSuccessListener {
-                                    ref.downloadUrl.addOnCompleteListener {
-                                        l("다운로드 url : ${it.result.toString()}")
-                                        val photoLink = Link(imageId, Link.Type.IMAGE.ordinal, strParam0 = it.result.toString())
-                                        mainActivity.hideProgressDialog()
-                                        if(action == 0) {
-                                            MainActivity.getViewModel()?.startNewRecordSheet(template,
-                                                    startCal.timeInMillis, endCal.timeInMillis, photoLink)
-                                            dismiss()
-                                        }else {
-                                            MainActivity.getViewModel()?.saveRecordDirectly(template,
-                                                    startCal.timeInMillis, endCal.timeInMillis, photoLink)
-                                            dismiss()
-                                            toast(R.string.saved)
-                                        }
-                                    }
+                CoroutineScope(Dispatchers.IO).launch {
+                    val bitmap = BitmapFactory.decodeFile(photo.url)
+                    l("사진 크기 : ${bitmap.rowBytes} 바이트")
+                    val imageId = UUID.randomUUID().toString()
+                    val ref = FirebaseStorage.getInstance().reference
+                            .child("${FirebaseAuth.getInstance().uid}/$imageId.jpg")
+                    val baos = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                    val uploadTask = ref.putBytes(baos.toByteArray())
+
+                    withContext(Dispatchers.Main) {
+                        uploadTask.addOnFailureListener {
+                            mainActivity.hideProgressDialog()
+                        }.addOnSuccessListener {
+                            ref.downloadUrl.addOnCompleteListener {
+                                l("다운로드 url : ${it.result}")
+                                val photoLink = Link(imageId, Link.Type.IMAGE.ordinal, strParam0 = it.result.toString())
+                                mainActivity.hideProgressDialog()
+                                if (action == 0) {
+                                    MainActivity.getViewModel()?.startNewRecordSheet(template,
+                                            startCal.timeInMillis, endCal.timeInMillis, photoLink)
+                                    dismiss()
+                                } else {
+                                    MainActivity.getViewModel()?.saveRecordDirectly(template,
+                                            startCal.timeInMillis, endCal.timeInMillis, photoLink)
+                                    dismiss()
+                                    toast(R.string.saved)
                                 }
                             }
-                            override fun onLoadFailed(errorDrawable: Drawable?) {
-                                super.onLoadFailed(errorDrawable)
-                                mainActivity.hideProgressDialog()
-                            }
-                        })
+                        }
+                    }
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
