@@ -42,7 +42,7 @@ class App : Application() {
                 .apply()
     }
 
-    private fun initRealm() {
+    fun initRealm() {
         Realm.init(this)
         val config = RealmConfiguration.Builder()
                 .schemaVersion(3)

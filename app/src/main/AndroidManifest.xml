@@ -55,6 +55,7 @@
         <activity android:name="com.ayaan.twelvepages.ui.activity.AboutUsActivity" />
         <activity android:name="com.ayaan.twelvepages.ui.activity.PremiumActivity" />
         <activity android:name="com.ayaan.twelvepages.ui.activity.WidgetSettingActivity" />
+        <activity android:name="com.ayaan.twelvepages.ui.activity.InitTemplateActivity" />
         <activity
             android:theme="@style/TranTheme"
             android:name="com.ayaan.twelvepages.ui.activity.ScrapActivity">

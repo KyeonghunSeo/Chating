@@ -585,8 +585,7 @@ class WelcomeActivity : BaseActivity() {
                         // Sign in success, update UI with the signed-in user's information
                         l("signInWithCredential:success")
                         val user = mAuth.currentUser
-                        val ref = FirebaseStorage.getInstance().reference
-                                .child("${user?.uid}/db")
+                        val ref = FirebaseStorage.getInstance().reference.child("${user?.uid}/db")
                         val realm = Realm.getDefaultInstance()
 
                         if(Prefs.getLong("last_app_close_time", Long.MIN_VALUE) == Long.MIN_VALUE) {

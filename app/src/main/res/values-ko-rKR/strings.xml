@@ -503,6 +503,8 @@
     <string name="oo">기</string>
     <string name="n">록</string>
     <string name="showNextWeek">다음주 표시</string>
+    <string name="init_template">템플릿 초기화</string>
+    <string name="ask_init">정말 초기화 하시겠습니까?</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>

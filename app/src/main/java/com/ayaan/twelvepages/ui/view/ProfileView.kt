@@ -67,6 +67,7 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             it.startActivityForResult(Intent(it, SettingsActivity::class.java), RC_SETTING) } }
         premiumTag.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, PremiumActivity::class.java)) } }
         aboutUsBtn.setOnClickListener { MainActivity.instance?.let { it.startActivity(Intent(it, AboutUsActivity::class.java)) } }
+        //syncBtn.setOnClickListener { sync() }
     }
 
     fun updateUserUI(appUser: AppUser) {
@@ -279,4 +280,38 @@ class ProfileView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     fun isOpened(): Boolean = viewMode == ViewMode.OPENED
+
+    private fun sync() {
+        MainActivity.instance?.let { activity ->
+            activity.showProgressDialog()
+            val mAuth = FirebaseAuth.getInstance()
+            val user = mAuth.currentUser
+            val ref = FirebaseStorage.getInstance().reference.child("${user?.uid}/db")
+            ref.metadata.addOnSuccessListener {
+                activity.hideProgressDialog()
+                val dialog = CustomDialog(activity, activity.getString(R.string.sync),
+                        "${activity.getString(R.string.last_backup_time)} ${AppDateFormat.simpleYmdDateTime.format(Date(it.updatedTimeMillis))}",
+                        null,
+                        R.drawable.download_cloud) { result, _, _ ->
+                    if(result) {
+                        activity.showProgressDialog()
+                        val realm = Realm.getDefaultInstance()
+                        ref.getFile(File(realm.path)).addOnSuccessListener {
+                            App().initRealm()
+                            realm.close()
+                            activity.viewModel.initRealm(null)
+                            activity.hideProgressDialog()
+                        }.addOnFailureListener {
+                            activity.hideProgressDialog()
+                            realm.close()
+                        }
+                    }
+                }
+                showDialog(dialog, true, true, true, false)
+            }.addOnFailureListener {
+                activity.hideProgressDialog()
+                toast(R.string.no_cloud_data)
+            }
+        }
+    }
 }

@@ -221,6 +221,50 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:text="@string/template"
+                    android:textColor="@color/disableText"
+                    android:fontFamily="@font/bold_s"
+                    android:textSize="12dp"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/initTemplateBtn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/init_template"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="13dp"/>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:src="@drawable/arrow_right"
+                    android:padding="5dp"
+                    app:tint="@color/iconTint" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="@string/default_alarm_time"
                     android:textColor="@color/disableText"
                     android:fontFamily="@font/bold_s"

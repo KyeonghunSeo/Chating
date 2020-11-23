@@ -37,11 +37,11 @@
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:src="@drawable/photo"
-                    android:tint="@color/background"
                     android:layout_marginBottom="30dp"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="bottom|right"
-                    android:alpha="0.5"/>
+                    android:alpha="0.5"
+                    app:tint="@color/background" />
 
             </androidx.cardview.widget.CardView>
 
@@ -94,8 +94,8 @@
                     android:layout_height="17dp"
                     android:src="@drawable/crown"
                     android:layout_gravity="right|center_vertical"
-                    android:tint="@color/secondaryText"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    app:tint="@color/secondaryText" />
 
             </FrameLayout>
 
@@ -103,14 +103,14 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:clipChildren="false">
@@ -156,7 +156,7 @@
                             android:layout_height="10dp"
                             android:layout_marginLeft="7dp"
                             android:src="@drawable/history"
-                            android:tint="@color/secondaryText"/>
+                            app:tint="@color/secondaryText" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -245,6 +245,37 @@
 
         </ScrollView>
 
+        <LinearLayout
+            android:id="@+id/giftLy"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_marginLeft="-10dp">
+
+            <ImageView
+                android:id="@+id/giftBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="16dp"
+                android:src="@drawable/gift"
+                app:tint="@color/iconTint" />
+
+            <TextView
+                android:id="@+id/giftText"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="-5dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="bottom|right"
+                android:textColor="@color/secondaryText"
+                android:textSize="9dp"
+                android:text="@string/app_share_btn"
+                android:fontFamily="@font/regular_s"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -289,60 +320,29 @@
             android:padding="16dp"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/setting"
-            android:tint="@color/iconTint"/>
-
-        <ImageView
-            android:id="@+id/instaBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="16dp"
-            android:layout_marginLeft="-5dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/insta"
-            android:tint="@color/iconTint"
-            android:visibility="gone"/>
+            app:tint="@color/iconTint" />
 
         <ImageView
             android:id="@+id/syncBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="16dp"
-            android:layout_marginLeft="-5dp"
+            android:layout_marginLeft="-8dp"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/download_cloud"
-            android:tint="@color/iconTint"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            app:tint="@color/iconTint" />
 
-        <LinearLayout
-            android:id="@+id/giftLy"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/instaBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="16dp"
+            android:layout_marginLeft="-8dp"
             android:background="?android:attr/selectableItemBackground"
-            android:layout_marginLeft="-10dp">
-
-            <ImageView
-                android:id="@+id/giftBtn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:padding="16dp"
-                android:src="@drawable/gift"
-                android:tint="@color/iconTint"/>
-
-            <TextView
-                android:id="@+id/giftText"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginLeft="-5dp"
-                android:layout_marginRight="10dp"
-                android:gravity="center_vertical"
-                android:layout_gravity="bottom|right"
-                android:textColor="@color/secondaryText"
-                android:textSize="9dp"
-                android:text="@string/app_share_btn"
-                android:fontFamily="@font/regular_s"/>
-
-        </LinearLayout>
+            android:src="@drawable/insta"
+            android:visibility="gone"
+            app:tint="@color/iconTint" />
 
     </LinearLayout>
 

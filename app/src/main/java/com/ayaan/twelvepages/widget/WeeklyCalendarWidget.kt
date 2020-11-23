@@ -322,6 +322,7 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
                                     }
                                     RecordView.Shape.RECT_FILL -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_rect_fill)
                                     RecordView.Shape.RECT_STROKE -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_rect_stroke)
+                                    RecordView.Shape.BOLD_HATCHED -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_rect_fill)
                                     RecordView.Shape.ROUND_FILL -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_round_rect_fill)
                                     RecordView.Shape.ROUND_STROKE -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_round_rect_stroke)
                                     RecordView.Shape.UPPER_LINE -> recordRv.setImageViewResource(R.id.valid_img, R.drawable.wg_rv_top_line)
@@ -342,14 +343,11 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
                                     recordRv.setInt(R.id.valid_img, "setColorFilter", color)
                                 }
 
-
                                 if(view.shape.isFillColor) {
                                     recordRv.setTextColor(R.id.valid_text, fontColor)
                                     recordRv.setInt(R.id.valid_img, "setAlpha", lastAlpha)
                                 }else {
-                                    if(lastAlpha == 0) {
-                                        recordRv.setTextColor(R.id.valid_text, Color.TRANSPARENT)
-                                    }else if(lastAlpha in 0..100){
+                                    if(lastAlpha in 0..100){
                                         if(view.shape.fontColor) {
                                             recordRv.setTextColor(R.id.valid_text, color and 0x00FFFFFF or -0x80000000)
                                         }else {
@@ -404,6 +402,7 @@ class WeeklyCalendarWidget : AppWidgetProvider() {
                     if(count > 0) {
                         val order = computeOrder(cellNum, 1, viewLevelStatus)
                         val recordRv = getRecordRemoteView(1, cellNum)
+                        recordRv.setViewVisibility(R.id.checkImg, View.GONE)
                         recordRv.setTextViewText(R.id.valid_text, " +$count")
                         recordRv.setTextColor(R.id.valid_text, AppTheme.secondaryText)
 

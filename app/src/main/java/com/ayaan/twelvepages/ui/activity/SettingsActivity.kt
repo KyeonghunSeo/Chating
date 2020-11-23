@@ -97,6 +97,11 @@ class SettingsActivity : BaseActivity() {
             val chooser = Intent.createChooser(shareIntent, str(R.string.app_name))
             startActivityForResult(chooser, RC_APP_SHARE)
         }
+
+        initTemplateBtn.setOnClickListener {
+            val intent = Intent(this, InitTemplateActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun setDayViewAniamtion() {
@@ -197,37 +202,6 @@ class SettingsActivity : BaseActivity() {
                     })
                 }
             }, true, true, true, false)
-        }
-    }
-
-    private fun sync() {
-        MainActivity.instance?.let { activity ->
-            activity.showProgressDialog()
-            val mAuth = FirebaseAuth.getInstance()
-            val user = mAuth.currentUser
-            val ref = FirebaseStorage.getInstance().reference
-                    .child("${user?.uid}/db")
-//        val realm = Realm.getDefaultInstance()
-            ref.metadata.addOnSuccessListener {
-                activity.hideProgressDialog()
-                val dialog = CustomDialog(activity, activity.getString(R.string.sync),
-                        AppDateFormat.ymdkey.format(Date(it.updatedTimeMillis)), null,
-                        R.drawable.download_cloud) { result, _, _ ->
-                    if(result) {
-
-                    }
-                }
-                showDialog(dialog, true, true, true, false)
-            }.addOnFailureListener {
-                activity.hideProgressDialog()
-                toast(R.string.no_cloud_data)
-            }
-//        ref.getFile(File(realm.path)).addOnSuccessListener {
-//            realm.close()
-//        }.addOnFailureListener {
-//            MainActivity.instance?.hideProgressDialog()
-//            realm.close()
-//        }
         }
     }
 

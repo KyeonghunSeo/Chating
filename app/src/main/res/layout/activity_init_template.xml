@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLy"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/backBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/arrow_left"
+                android:padding="16dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:tint="@color/secondaryText" />
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/bold_s"
+                android:textSize="18dp"
+                android:text="@string/init_template"/>
+
+        </LinearLayout>
+
+        <com.ayaan.twelvepages.ui.view.base.Line
+            android:id="@+id/topShadow"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_gravity="bottom"
+            app:colorFlag="light_line"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <TextView
+            android:id="@+id/optionTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/secondaryText"
+            android:textSize="15dp"
+            android:text="@string/app_name"
+            android:fontFamily="@font/bold_s"/>
+
+        <HorizontalScrollView
+            android:id="@+id/diaryLy"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:gravity="center">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/diaryBtn0"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="30dp"
+                    app:cardCornerRadius="2dp">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="25dp"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="18dp"
+                            android:text="@string/diary_set_0_title"
+                            android:fontFamily="@font/bold_s"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:textColor="@color/secondaryText"
+                            android:lineSpacingExtra="3dp"
+                            android:textSize="12dp"
+                            android:text="@string/diary_set_0_sub"
+                            android:fontFamily="@font/regular_s"/>
+
+                        <ImageView
+                            android:id="@+id/diarySelector0"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/big_card_selector"
+                            android:layout_gravity="bottom"
+                            android:alpha="0.9"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_marginTop="10dp"
+                            android:visibility="visible"/>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/diaryBtn1"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="1dp"
+                    app:cardCornerRadius="2dp"
+                    android:alpha="0.5">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="25dp"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="18dp"
+                            android:text="@string/diary_set_1_title"
+                            android:fontFamily="@font/bold_s"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:textColor="@color/secondaryText"
+                            android:lineSpacingExtra="3dp"
+                            android:textSize="10dp"
+                            android:text="@string/diary_set_1_sub"
+                            android:fontFamily="@font/regular_s"/>
+
+                        <ImageView
+                            android:id="@+id/diarySelector1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/big_card_selector"
+                            android:layout_gravity="bottom"
+                            android:alpha="0.9"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_marginTop="10dp"
+                            android:visibility="visible"/>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/diaryBtn2"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="1dp"
+                    app:cardCornerRadius="2dp"
+                    android:alpha="0.5">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="25dp"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="18dp"
+                            android:text="@string/diary_set_2_title"
+                            android:fontFamily="@font/bold_s"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:textColor="@color/secondaryText"
+                            android:lineSpacingExtra="3dp"
+                            android:textSize="12dp"
+                            android:text="@string/diary_set_2_sub"
+                            android:fontFamily="@font/regular_s"/>
+
+                        <ImageView
+                            android:id="@+id/diarySelector2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/big_card_selector"
+                            android:layout_gravity="bottom"
+                            android:alpha="0.9"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_marginTop="10dp"
+                            android:visibility="visible"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/diaryBtn3"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="1dp"
+                    app:cardCornerRadius="2dp"
+                    android:alpha="0.5">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="25dp"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="18dp"
+                            android:text="@string/diary_set_3_title"
+                            android:fontFamily="@font/bold_s"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:textColor="@color/secondaryText"
+                            android:lineSpacingExtra="3dp"
+                            android:textSize="12dp"
+                            android:text="@string/diary_set_3_sub"
+                            android:fontFamily="@font/regular_s"/>
+
+                        <ImageView
+                            android:id="@+id/diarySelector3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/big_card_selector"
+                            android:layout_gravity="bottom"
+                            android:alpha="0.9"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_marginTop="10dp"
+                            android:visibility="visible"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/confirmBtn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="30dp"
+            app:cornerRadius="1.0dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:textSize="14dp"
+            android:gravity="center"
+            android:fontFamily="@font/bold_s"
+            android:text="@string/confirm"/>
+
+    </LinearLayout>
+
+</FrameLayout>

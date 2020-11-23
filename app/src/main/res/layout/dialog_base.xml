@@ -108,6 +108,7 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="3dp"
                 android:paddingBottom="15dp"
                 android:paddingRight="13dp"
                 android:clipToPadding="false"
@@ -118,11 +119,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="44dp"
                     app:cornerRadius="1.0dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:background="?android:attr/selectableItemBackground"
                     android:textSize="11dp"
                     android:gravity="center"
+                    android:backgroundTint="@color/backgroundDark"
                     android:textColor="@color/secondaryText"
                     android:fontFamily="@font/bold_s"
                     android:text="@string/cancel"/>
@@ -137,7 +139,8 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:textSize="11dp"
                     android:gravity="center"
-                    android:backgroundTint="@color/secondaryText"
+                    android:backgroundTint="@color/backgroundDark"
+                    android:textColor="@color/secondaryText"
                     android:fontFamily="@font/bold_s"
                     android:text="@string/confirm"/>
 

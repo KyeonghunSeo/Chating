@@ -105,20 +105,20 @@ class MainActivity : BaseActivity() {
 
         val ver = packageManager.getPackageInfo(App.context.packageName, 0).versionName
         if (Prefs.getString("last_patch_note_ver", "") != ver) {
-            val dialog = CustomDialog(this@MainActivity, "$ver 패치노트",
-                    """
-                        1. 이제 주간 위젯을 사용 할 수 있습니다. 일정이 많아 월간 위젯에서 일정이 잘리셨던 분들은 주간 위젯을 사용해보세요.
-                        2. 이제 위젯에서 핸드폰 <-> 달의기록 폰트 변경이 가능합니다.
-                        3. 영어 버전을 지원합니다.
-                        4. 일본어 버전을 지원합니다.
-                        5. 체크리스트 순서조정이 가능합니다.
-                        
-                        * 다음 업데이트에서는 위젯에서 날짜배경이 보일수 있도록 작업중입니다. 조금만 기다려주세요!
+            if(Locale.getDefault().language == "ko") {
+                val dialog = CustomDialog(this@MainActivity, "$ver 패치노트",
+                        """
+                        [새로운 기능]
+                        1. 이제 메뉴 > 설정 > 템플릿 초기화 화면에서 템플릿을 초기화 할 수 있습니다.
+                            
+                        [버그수정]
+                        1. 굵은사선이 위젯에서 안보이는 버그가 수정되었습니다.
                     """.trimIndent(), null, R.drawable.info) { result, _, _ ->
+                }
+                showDialog(dialog, true, true, true, false)
+                dialog.hideCancelBtn()
+                dialog.setSubTextSize(12f)
             }
-            showDialog(dialog, true, true, true, false)
-            dialog.hideCancelBtn()
-            dialog.setSubTextSize(12f)
             Prefs.putString("last_patch_note_ver", ver)
             Prefs.putBoolean("first_dayview_hide_success", true)
         }

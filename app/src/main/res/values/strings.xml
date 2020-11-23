@@ -506,6 +506,8 @@
     <string name="oo">기</string>
     <string name="n">록</string>
     <string name="showNextWeek">Show Next Week</string>
+    <string name="init_template">Template initialization</string>
+    <string name="ask_init">Do you really want to reset it?</string>
 
     <string-array name="holidays">
         <item>@string/unvisible</item>
